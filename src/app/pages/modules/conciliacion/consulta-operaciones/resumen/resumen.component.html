@@ -1,0 +1,36 @@
+<!--Tabla Descripción de archivos cargados-->
+<div class="divTabla">
+    <div class="divTituloTablas">
+        <h1 class="tituloTabla">Resumen de Operaciones</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <table mat-table [dataSource]="dataSourceInfoArchivo" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="nombreOperacion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE OPERACIÓN</th>
+            <td mat-cell *matCellDef="let element"> {{element.fechaInicioCargue | date: 'medium'}} </td>
+            <!--medium'yyyy-MM-dd'-->
+        </ng-container>
+
+        <ng-container matColumnDef="fechaOperacion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA OPERACIÓN</th>
+            <td mat-cell *matCellDef="let element"> {{element.nombreArchivo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="numeroOperaciones">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> N. OPERCIONES</th>
+            <td mat-cell *matCellDef="let element"> {{element.numeroRegistros}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO</th>
+            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoArchivo"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoArchivo;"></tr>
+    </table>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+        (page)="mostrarMas($event)">
+    </mat-paginator>
+
+</div>

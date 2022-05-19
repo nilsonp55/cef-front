@@ -1,0 +1,15 @@
+
+.example-app-name {
+    margin-left: 1cm;
+    color: #fff
+}
+/*Estilo para la linea separadora de options */
+.line-spacer {
+    flex: 1 1 auto;
+}
+.enlinea {
+    display: flex;
+}
+.color {
+    color: #fff
+}

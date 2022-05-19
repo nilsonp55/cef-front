@@ -1,0 +1,68 @@
+<div class="menu-container">
+    <!--Banner superior-->
+    <app-banner-supeior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-supeior>
+
+    <!--Componente barra lateral y area de ejecución-->
+    <mat-sidenav-container class="sidenav-container">
+        <!--Barra izquierda de opciones (Apodo id = sidenav)-->
+        <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 21%" mode="side">
+            <br><br>
+            <!--opciones de menu-->
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['operaciones-conciliadas-consulta']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <mat-icon>person_search</mat-icon>
+                <span>Consultas de operaciones conciliadas</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['operaciones-programadas-no-conciliadas-consulta']"
+                style="cursor: pointer" routerLinkActive="seleccion-activa">
+                <mat-icon>person_search</mat-icon>
+                <span>Consultas de operaciones programadas no conciadas</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['operaciones-certificadas-no-conciliadas-consulta']"
+                style="cursor: pointer" routerLinkActive="seleccion-activa">
+                <mat-icon>person_search</mat-icon>
+                <span>Consultas de operaciones certificadas no conciadas</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['operaciones-conciliadas-fallidas-consulta']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <mat-icon>person_search</mat-icon>
+                <span>Consultas de operaciones fallidas</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['operaciones-conciliadas']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <mat-icon>settings_suggest</mat-icon>
+                <span>Operaciones conciliadas ajustes</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['operaciones-programadas-no-conciliadas']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <mat-icon>settings_suggest</mat-icon>
+                <span>Operaciones no conciliadas ajustes</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['operaciones-sin-conciliar']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <mat-icon>settings_suggest</mat-icon>
+                <span>Operaciones fallidas ajustes</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['resumen-operaciones']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <mat-icon>insert_drive_file</mat-icon>
+                <span>Resumen operaciones</span>
+            </button>
+            <mat-divider></mat-divider>
+        </mat-sidenav>
+
+        <!--Barra derecha de ejecución-->
+        <mat-sidenav-content class="background-page">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+
+    </mat-sidenav-container>
+</div>

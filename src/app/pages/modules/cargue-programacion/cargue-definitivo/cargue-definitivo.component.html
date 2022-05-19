@@ -1,0 +1,13 @@
+<mat-stepper [linear]="isLinear" #stepper>
+    <mat-step>
+        <ng-template matStepLabel>CARGUE DEFINITIVO</ng-template>
+        <app-archivos-cargados-definitivo></app-archivos-cargados-definitivo>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>LOG DE CARGUE</ng-template>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>HISTORIAL DE CARGUE</ng-template>
+        <app-historico-archivos-cargados-definitivo></app-historico-archivos-cargados-definitivo>
+    </mat-step>
+</mat-stepper>

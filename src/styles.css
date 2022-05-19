@@ -1,0 +1,197 @@
+/************************************************************************************************************************
+You can add global styles to this file, and also import other style files 
+*************************************************************************************************************************/
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/*Estilo para la linea objetos de esquina a esquina */
+.line-spacer {
+    flex: 1 1 auto;
+}
+
+/************************************************************************************************************************
+Estilo para botones en el aplicativo 
+*************************************************************************************************************************/
+.bottonAceptarCenter {
+    color: #fff;
+    background-color: #eee23e;
+    border-color: #bbb231;
+    display:block; 
+    margin:auto;
+    padding:2%;
+    border-radius: 0.25rem;
+    line-height: 0.7;
+    font-size: 20px;
+}
+
+.bottonCancelarCenter {
+    color: #fff;
+    background-color: #da5b34;
+    border-color: #b44a2a;
+    display:block; 
+    margin:auto;
+    padding:2%;
+    border-radius: 0.25rem;
+    line-height: 0.7;
+    font-size: 20px;
+}
+
+.bottonCargue {
+    color: #fff;
+    background-color: #0b9416;
+    border-color: #07680f;
+    display:block; 
+    margin:auto;
+    padding:2%;
+    border-radius: 0.25rem;
+    line-height: 0.7;
+    font-size: 20px;
+}
+
+
+/*Estilo para los botones del home */
+.bottonHome {
+    color: #fff;
+    background-color: #da5b34;
+    border-color: #da5b34;
+    margin:auto;
+    padding:2%;
+    border-radius: 0.25rem;
+    line-height: 2.7;
+    width: 25%;
+    font-size: 22px;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+
+/************************************************************************************************************************
+* Estilos para los componentes sidenav 
+*************************************************************************************************************************/
+
+/*Estilo para la pagina maestro detalle*/
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.sidenav-container {
+    flex: 1;
+}
+
+
+/************************************************************************************************************************
+* Estilos para las tablas de información 
+*************************************************************************************************************************/
+/*Tamaño general de las tablas*/
+table.mat-table {
+    border-spacing: 0;
+    width: 100%;
+}
+
+/*Estilo para la pocicion de las tablas */
+.divTabla {
+    background-color: rgb(226, 229, 229);
+    padding: 1%;
+    margin-top: 2%;
+    margin-left: 4%;
+    margin-right: 5%
+}
+.divTituloTablas {
+    background-color: #f0f0f0;
+    display: flex;
+}
+
+/************************************************************************************************************************
+* Esilos para las ventanas emergentes 
+*************************************************************************************************************************/
+
+.titulo {
+    padding: 1em;
+    text-align: center;
+    font-weight: 600;
+    background-color: #332c52;
+    color: #f0f0f0;
+}
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/************************************************************************************************************************
+* Esilos para los formularios 
+*************************************************************************************************************************/
+
+/*Estilo para campo invalido o requerido*/
+.invalido {
+    color: red;
+}
+
+/*Estilo para separacion del cada campo*/
+.divSectionsFormEditar {
+    text-align: center;
+    width: 100%;
+}
+
+form {
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid;
+    border-color: rgb(112, 187, 116);
+}
+
+mat-form-field {
+    margin-right: 8%;
+    margin-left: 8%;
+}
+
+.buttonsSaveOremove {
+    background-color: #da5b34;
+    text-align: center;
+    margin-right: 2%;
+    margin-left: 2%;
+}
+
+/************************************************************************************************************************
+* Esilos para Stepper
+*************************************************************************************************************************/
+.mat-stepper-horizontal {
+    margin-top: 2%;
+}
+  
+.mat-form-field {
+    margin-top: 6%;
+
+}
+
+.mat-step-header {  
+    overflow: hidden;
+    outline: none;
+    cursor: pointer;
+    box-sizing: content-box;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #d4d3d3;
+    border-radius: 34px;
+    margin-right: 8%;
+    margin-left: 7%;
+}
+
+.mat-horizontal-stepper-header {
+    height: 72px;
+    overflow: hidden;
+    align-items: center;
+    padding: 0 14px; 
+}
+
+
+/************************************************************************************************************************
+* Esilos para color de la pestaña seleccionada
+*************************************************************************************************************************/
+.seleccion-activa {
+    color: #f0f1f5 !important; /* Note: You could also use a custom theme */
+    background-color: rgb(230, 160, 56);
+  }

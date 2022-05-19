@@ -1,0 +1,17 @@
+table {
+    width: 2200px;
+}
+
+.configScroll {
+    height: auto;
+    overflow-x: scroll;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: proximity;
+}
+
+.tituloTabla {
+    padding-top: 2%;
+    text-align: center;
+    margin-left: 38%;
+}
+

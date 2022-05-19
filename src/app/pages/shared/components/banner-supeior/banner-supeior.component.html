@@ -1,0 +1,33 @@
+<mat-toolbar style="background-color: #26213d; padding: 0% 1px">
+    <!--Icono zona izquierda-->
+    <button mat-icon-button (click)="eventoMenu($event)">
+        <mat-icon class="color">menu</mat-icon>
+    </button>
+    <img src="assets/img/titulo_banner.png" width="240">
+    <h1 class="example-app-name">ADMINISTRACIÓN DE EFECTIVO</h1>
+    <!--Separar de esquina a esquina los 2 objetos-->
+    <span class="line-spacer"></span>
+    <div class="enlinea">
+        <p style="font-size: 14px; color: rgb(255, 255, 255);">Bayron Andres Perez uñoz</p>
+        <!--Icono zona derecha (Menu descplegable)-->
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/perfil">
+                <mat-icon>account_box</mat-icon>
+                <span>Option1</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Opcion2</span>
+            </button>
+        </mat-menu>
+        <span class="line-spacer"></span>
+    </div>    
+</mat-toolbar>
+<!--Div complmenario para info de sesion-->
+<div style="background-color: #26213d; height: 20px; display: flex">
+    <p style="font-size:11px; margin-left: 3%; color:rgb(255, 255, 255)">Proyecto de gestión de efectivo </p>
+    <p style="margin-left: 73%; color:rgb(255, 255, 255)">07 de Marzo de 2020  - 10:00pm</p>
+</div>

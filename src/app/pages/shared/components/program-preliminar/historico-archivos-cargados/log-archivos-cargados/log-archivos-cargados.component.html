@@ -1,0 +1,35 @@
+<div class="divTabla">
+    <div class="divLogCargue">
+        <!--<p class="barraEstadoCargueOK">fkjnrejkfnrejk</p>-->
+        <p class="barraEstadoCargueErr">Archivo NO fue cargado por errores. </p>
+        <div class="formLogCargue">
+            <div class="row">
+                <label class="form-group col-md-3">Fecha de archivo</label>
+                <input class="form-group col-md-4" value="22-Junio del 2022" type="text">
+            </div><br>
+            <div class="row">
+                <label class="form-group col-md-3">Nombre de archivo</label>
+                <input class="form-group col-md-6" value="{{data.data.nombreArchivo}}" type="text">
+            </div><br>
+            <div class="row">
+                <label class="form-group col-md-3">Usuario</label>
+                <input class="form-group col-md-4" value="baironperez112" type="text">
+            </div><br>
+            <div class="row">
+                <label class="form-group col-md-3">Fecha/hora cargue</label>
+                <input class="form-group col-md-3" value="22-Junio del 2022 10-43 PM" type="text">
+            </div><br>
+            <div class="row">
+                <label class="form-group col-md-3">Lineas del archivo</label>
+                <input class="form-group col-md-2" value="{{data.data.numeroRegistros}}" type="text">
+                <button class="form-group offset-md-1 col-md-1">
+                    <mat-icon style="color: green">assignment_turned_in</mat-icon>
+                </button>
+            </div><br>
+            <div class="row">
+                <label class="form-group col-md-3">Lineas con error</label>
+                <input class="form-group col-md-2" value="12" type="text">
+            </div>
+        </div>
+    </div>
+</div>

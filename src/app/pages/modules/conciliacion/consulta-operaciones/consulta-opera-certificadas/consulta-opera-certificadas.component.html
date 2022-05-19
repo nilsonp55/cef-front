@@ -1,0 +1,132 @@
+<p>consulta-opera-certificadas works!</p>
+<div class="division-busqueda">
+    <div>
+        <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Filtrar por banco</mat-label>
+                <input type="text" matInput [formControl]="bancosForm" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let bancoOptions of filteredOptionsBancos | async" [value]="bancoOptions">
+                        {{bancoOptions.nombreBanco}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+    </div>
+    <section>
+        <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Filtrar por transportadora</mat-label>
+                <input type="text" matInput [formControl]="transportadoraForm" [matAutocomplete]="auto2">
+                <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFnTrans">
+                    <mat-option *ngFor="let tranportadoraOptions of filteredOptionsTranportadora | async"
+                        [value]="tranportadoraOptions">
+                        {{tranportadoraOptions.nombreTransportadora}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+    </section>
+    <section>
+        <div class="ubicacionBotonFiltrar">
+            <button mat-raised-button color="primary">FILTRAR</button>
+        </div>
+    </section>
+</div>
+
+<div class="divTablaCerti">
+    <div class="divTituloTablas">
+        <h1 class="tituloTabla">Operaciones certificadas no conciliadas </h1>
+        <span class="line-spacer"></span>
+    </div>
+    <div class="configScroll">
+        <table mat-table [dataSource]="dataSourceOperacionesCertificadas" matSort>
+            <tr>
+                <ng-container matColumnDef="codigoFondoTDV" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>COD. FONDO TDV</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigoFondoTDV}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigoBanco" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO BANCO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigoBanco}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigoCiudad" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO CIUDAD</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigoCiudad}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigoPuntoOrigen" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>COD PUNTO ORIGEN</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigoPuntoOrigen}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigoPuntoDestino">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO DESTINO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigoPuntoDestino}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoPuntoOrigen" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO PUNTO ORIGEN</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoPuntoOrigen}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoPuntoDestino" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO DESTINO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoPuntoDestino}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fechaEjecucion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EJECUCION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaEjecucion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO OPERACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoServicio" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO SERVICIO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoServicio}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="conciliable" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CONCILIABLE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.conciliable}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valorTotal" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR TOTAL</th>
+                    <td mat-cell *matCellDef="let element"> {{element.valorTotal}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valorFaltante" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR FALTANTE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.valorFaltante}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valorSobrante" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR SOBRANTE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.valorSobrante}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fallidaOficina" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>FALLIDO OFICINA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fallidaOficina}} </td>
+                </ng-container>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsOperacionesCertificadas"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesCertificadas;"></tr>
+        </table>
+    </div>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+        (page)="mostrarMas($event)">
+    </mat-paginator>
+</div>
