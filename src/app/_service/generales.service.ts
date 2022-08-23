@@ -35,10 +35,26 @@ export class GeneralesService {
 
     /**
     * Servicio para listar todos los bancos
-    * @JuanMazo
+    * @BayronPerez
     */
-    listarBancos(): Observable<any> {
+     listarBancos(): Observable<any> {
         return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}`);
+    }
+
+    /** 
+    * Servicio para listar las ciudades
+    * @BayronPerez
+    */
+      listarCiudades(): Observable<any> {
+        return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`);
+    }
+
+    /** 
+    * Servicio para listar los bancos del grupo aval
+    * @BayronPerez
+    */
+     listarDominioByDominio(dominio: any): Observable<any> {
+        return this.http.get(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}/${dominio}`);
     }
 
 }

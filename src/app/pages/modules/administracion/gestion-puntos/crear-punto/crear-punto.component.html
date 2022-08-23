@@ -1,0 +1,85 @@
+<div class="titulo-tabla">
+    <h1>Crear punto</h1>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Nombre</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Ciudad</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Codigo de compensación</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Identificación (NIT)</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Abreviatura</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div>
+    <mat-checkbox class="margen-checkbox" color="primary" [(ngModel)]="esGrupoAval">Es del Grupo Aval</mat-checkbox>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Estado</h2>
+    </div>
+    <div>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+            [(ngModel)]="estado">
+            <mat-radio-button class="example-radio-button" *ngFor="let season of tipoEstado" [value]="season">
+                {{season}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+</div>
+
+<div class="division-btn-ident">
+    <div>
+        <button mat-raised-button color="primary">Guardar</button>
+    </div>
+    <div>
+        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+    </div>
+</div>

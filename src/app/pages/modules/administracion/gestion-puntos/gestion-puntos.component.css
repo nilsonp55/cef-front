@@ -1,0 +1,108 @@
+.card-limites {
+    margin: 1%;
+    height: 96%;
+}
+
+.margen-checkbox {
+  margin: 0 12px;
+  margin-top: 2%;
+  margin-left: 5%;
+}
+
+.limit-select {
+  margin-left: 25%;
+  margin-top: 2%;
+}
+
+.division-btn {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: auto;
+}
+
+.div-search {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: auto;
+}
+
+.division-btn-ident {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: auto;
+  margin-top: 3%;
+  text-align: center;
+}
+
+.division-tablas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: auto;
+}
+
+
+.ubicacion-btn-dominio {
+    margin-left: 50%;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+  font-weight: bold;
+}
+
+.div-tabla-dominio {
+  background: rgb(226, 229, 229);
+  padding: 3%;
+  margin-top: 2%;
+  margin-left: 2%;
+  margin-right: 10%;
+  margin-bottom: auto;
+  height: 1%;
+  width: auto;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.div-tabla-identificadores {
+  background: rgb(226, 229, 229);
+  padding: 1.5%;
+  height: 60%;
+}
+
+.configScroll {
+  height: auto;
+  overflow-y: scroll;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: proximity;
+}
+
+.ubicacionTablas {
+  text-align: left;
+  float:left;
+  margin-top: 1%;
+}
+
+table {
+ height: 400px !important;
+}
+
+.mat-column-codigo_punto{
+  width: 20%;
+}
+
+.mat-column-descripcion{
+  width: 55%
+}
+
+.mat-column-ciudad {
+  width: 25%;
+}

@@ -7,7 +7,6 @@ import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/c
 import { CargueInicialComponent } from './pages/modules/cargue-programacion/cargue-inicial/cargue-inicial.component';
 import { CarguePreliminarComponent } from './pages/modules/cargue-programacion/cargue-preliminar/cargue-preliminar.component';
 import { CargueProgramacionComponent } from './pages/modules/cargue-programacion/cargue-programacion.component';
-import { CierreFechaComponent } from './pages/modules/cierre-fecha/cierre-fecha.component';
 import { ConciliacionComponent } from './pages/modules/conciliacion/conciliacion.component';
 import { OpearcionesConciliadasComponent } from './pages/modules/conciliacion/opearciones-conciliadas/opearciones-conciliadas.component';
 import { OpearcionesFallidasComponent } from './pages/modules/conciliacion/opearciones-fallidas/opearciones-fallidas.component';
@@ -15,6 +14,17 @@ import { OpearcionesNoConciliadasComponent } from './pages/modules/conciliacion/
 import { ResumenComponent } from './pages/modules/conciliacion/consulta-operaciones/resumen/resumen.component';
 import { CargueCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-certificacion.component';
 import { CargueDefinitivoCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-definitivo-certificacion/cargue-definitivo-certificacion.component';
+import { MenuContabilidadComponent } from './pages/modules/contabilizacion/menu-contabilidad/menu-contabilidad.component';
+import { CierreFechaComponent } from './pages/modules/administracion/cierre-fecha/cierre-fecha.component';
+import { AdministracionContabilidadComponent } from './pages/modules/administracion/administracion-contabilidad/administracion-contabilidad.component';
+import { AdministradorCuentasPucComponent } from './pages/modules/administracion/administrador-cuentas-puc/administrador-cuentas-puc.component';
+import { AdministradorTipoCentroCostosComponent } from './pages/modules/administracion/administrador-tipo-centro-costos/administrador-tipo-centro-costos.component';
+import { AdministracionCentroCiudadesComponent } from './pages/modules/administracion/administracion-centro-ciudades/administracion-centro-ciudades.component';
+import { ContabilidadAmComponent } from './pages/modules/contabilizacion/contabilidad-am/contabilidad-am.component';
+import { ContabilizacionComponent } from './pages/modules/contabilizacion/contabilizacion.component';
+import { ContabilidadPmComponent } from './pages/modules/contabilizacion/contabilidad-pm/contabilidad-pm.component';
+import { AdministracionDominiosComponent } from './pages/modules/administracion/administracion-dominios/administracion-dominios.component';
+import { GestionPuntosComponent } from './pages/modules/administracion/gestion-puntos/gestion-puntos.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -40,8 +50,26 @@ const routes: Routes = [
       { path: 'resumen-operaciones', component: ResumenComponent }
     ]
   },
-  { path: 'administracion', component: AdministracionComponent },
-  { path: 'cierre-fecha', component: CierreFechaComponent }
+  {
+    path: 'contabilidad', component: ContabilizacionComponent, children: [
+      { path: 'contabilidad-pm', component: ContabilidadPmComponent },
+      { path: 'contabilidad-am', component: ContabilidadAmComponent },
+    ]
+  },
+  {
+    path: 'liquidacion', component: MenuContabilidadComponent
+  },
+  {
+    path: 'administracion', component: AdministracionComponent, children: [
+      { path: 'administracion-dominios', component: AdministracionDominiosComponent },
+      { path: 'administracion-puntos', component: GestionPuntosComponent },
+      { path: 'administracion-cierre-fecha', component: CierreFechaComponent },
+      { path: 'administracion-tipo-cuentas', component: AdministracionContabilidadComponent },
+      { path: 'administracion-cuentas-puc', component: AdministradorCuentasPucComponent },
+      { path: 'administracion-tipo-centro-costos', component: AdministradorTipoCentroCostosComponent },
+      { path: 'administracion-centro-ciudad', component: AdministracionCentroCiudadesComponent },
+    ]
+  }
   
 ];
 

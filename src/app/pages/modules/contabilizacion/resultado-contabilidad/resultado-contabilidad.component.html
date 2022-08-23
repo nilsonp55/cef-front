@@ -1,0 +1,92 @@
+<!--Tabla Descripción de archivos cargados-->
+<div class="divTabl">
+    <div class="divTituloTabl">
+        <h1 class="tituloTabla">{{titulo}}</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <div class="mat-elevation-z8 disenio-tabla">
+        <table mat-table [dataSource]="dataSourceInfoProcesos" matSort>
+            <ng-container matColumnDef="codigoNaturaleza">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cod Naturaleza</th>
+                <td mat-cell *matCellDef="let element"> {{element.idLogProceso | date: 'medium'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cuentaContableMayor">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Contable Mayor</th>
+                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cuentaAuxiliar">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cuentable Contable Aux</th>
+                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipoCambioMonedaPeso">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cambio Moneda Peso</th>
+                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipoCambioMonedaDolar">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cambio Moneda Dolar</th>
+                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="valorOperacion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Operacion</th>
+                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="centroCostoBeneficio">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Centro Cost Benefi</th>
+                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="indicador">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Indicador</th>
+                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="descTransacContable">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Desc Transac Contable</th>
+                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipoIdentificacion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Identi</th>
+                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="terceroGL">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tercero GL</th>
+                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombreTerceroGL">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Tercero GL</th>
+                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="claveReferencia1">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Ref 1</th>
+                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="claveReferencia2">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Ref 2</th>
+                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+        </table>
+
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+        (page)="mostrarMas($event)">
+    </mat-paginator>
+    </div>
+
+    <div style="margin-top: 0%; text-align: center;">
+        <button style="display:inline; margin: 2%;" class="bottonVerArchivo" (click)="verArchivoExcel()" cdkFocusInitial>Visualizar Excel</button>
+        <button style="display:inline; margin: 2%;" class="bottonSolicitar" (click)="solicitarAutorizacion()">Solicitar Validacion</button>
+    </div>
+</div>

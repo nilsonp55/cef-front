@@ -1,1 +1,38 @@
-<p>contabilizacion works!</p>
+<div class="menu-container">
+    <!--Banner superior-->
+    <app-banner-supeior></app-banner-supeior>
+
+    <!--Componente barra lateral y area de ejecución-->
+    <mat-sidenav-container class="sidenav-container">
+        <!--Barra izquierda de opciones (Apodo id = sidenav)-->
+        <mat-sidenav #sidenav opened="true" style="width: 17%" mode="side">
+            <!--Imagen de menu
+            <img src="assets/img/menu.png" width="215" style="display:block; margin:auto; margin-top: 10%">-->
+            <br><br>
+            <!--opciones de menu-->
+            <button mat-menu-item routerLink="/buscar" style="cursor: pointer" routerLinkActive="seleccion-activa">
+                <mat-icon>search</mat-icon>
+                <span>Buscar</span>
+            </button>
+            <mat-divider></mat-divider>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['contabilidad-pm']" style="cursor: pointer" routerLinkActive="seleccion-activa">
+                <mat-icon>insert_drive_file</mat-icon>
+                <span>Gestión contabilidad PM</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['contabilidad-am']" style="cursor: pointer" routerLinkActive="seleccion-activa">
+                <mat-icon>insert_drive_file</mat-icon>
+                <span>Gestión contabilidad AM</span>
+            </button>
+            <mat-divider></mat-divider>
+        </mat-sidenav>
+
+        <!--Barra derecha de ejecución-->
+        <mat-sidenav-content class="background-page">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+
+    </mat-sidenav-container>
+
+</div>

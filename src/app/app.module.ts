@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -30,6 +32,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
+import {MatSelectModule} from '@angular/material/select';
 import { FooterComponent } from './pages/shared/components/footer/footer.component';
 import { MatStepperModule} from '@angular/material/stepper';
 import { DialogResultValidacionComponent } from './pages/shared/components/program-preliminar/archivos-cargados/dialog-result-validacion/dialog-result-validacion.component';
@@ -44,7 +47,6 @@ import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/c
 import { OpearcionesConciliadasComponent } from './pages/modules/conciliacion/opearciones-conciliadas/opearciones-conciliadas.component';
 import { OpearcionesNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/opearciones-no-conciliadas.component';
 import { OpearcionesFallidasComponent } from './pages/modules/conciliacion/opearciones-fallidas/opearciones-fallidas.component';
-import { CierreFechaComponent } from './pages/modules/cierre-fecha/cierre-fecha.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import { DialogDesconciliarComponent } from './pages/modules/conciliacion/opearciones-conciliadas/dialog-desconciliar/dialog-desconciliar.component';
@@ -69,6 +71,25 @@ import { LogArchivosCargadosCertificacionComponent } from './pages/modules/cargu
 import { DialogResultValidacionCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-definitivo-certificacion/archi-carga-certificacion/result-validacion-certificacion/result-validacion.component';
 import { HistoriArchiCargaCertifiComponent } from './pages/modules/cargue-certificacion/cargue-definitivo-certificacion/histori-archi-carga-certifi/histori-archi-carga-certifi.component';
 import { ArchiCargaCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-definitivo-certificacion/archi-carga-certificacion/archi-carga-certificacion.component';
+import { AdministracionContabilidadComponent } from './pages/modules/administracion/administracion-contabilidad/administracion-contabilidad.component';
+import { AdministradorCuentasPucComponent } from './pages/modules/administracion/administrador-cuentas-puc/administrador-cuentas-puc.component';
+import { AdministradorTipoCentroCostosComponent } from './pages/modules/administracion/administrador-tipo-centro-costos/administrador-tipo-centro-costos.component';
+import { AdministracionCentroCiudadesComponent } from './pages/modules/administracion/administracion-centro-ciudades/administracion-centro-ciudades.component';
+import { AdministracionConfContableEntidadComponent } from './pages/modules/administracion/administracion-conf-contable-entidad/administracion-conf-contable-entidad.component';
+import { CierreFechaComponent } from './pages/modules/administracion/cierre-fecha/cierre-fecha.component';import { ResultadoContabilidadComponent } from './pages/modules/contabilizacion/resultado-contabilidad/resultado-contabilidad.component';
+import { MenuContabilidadComponent } from './pages/modules/contabilizacion/menu-contabilidad/menu-contabilidad.component';
+import { DialogConfirmEjecutarComponentComponent } from './pages/modules/contabilizacion/dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
+import { ContabilidadPmComponent } from './pages/modules/contabilizacion/contabilidad-pm/contabilidad-pm.component';
+import { ContabilidadAmComponent } from './pages/modules/contabilizacion/contabilidad-am/contabilidad-am.component';
+import { AdministracionDominiosComponent } from './pages/modules/administracion/administracion-dominios/administracion-dominios.component';
+import { DialogEliminarIdentificadorComponent } from './pages/modules/administracion/administracion-dominios/dialog-eliminar-identificador/dialog-eliminar-identificador.component';
+import { DialogIdentificadorDominioComponent } from './pages/modules/administracion/administracion-dominios/dialog-identificador-dominio/dialog-identificador-dominio.component';
+import { DialogTablaDominioComponent } from './pages/modules/administracion/administracion-dominios/dialog-tabla-dominio/dialog-tabla-dominio.component';
+import { GestionPuntosComponent } from './pages/modules/administracion/gestion-puntos/gestion-puntos.component';
+import { ModificarPuntoComponent } from './pages/modules/administracion/gestion-puntos/modificar-punto/modificar-punto.component';
+import { CrearPuntoComponent } from './pages/modules/administracion/gestion-puntos/crear-punto/crear-punto.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -95,7 +116,6 @@ import { ArchiCargaCertificacionComponent } from './pages/modules/cargue-certifi
     OpearcionesConciliadasComponent,
     OpearcionesNoConciliadasComponent,
     OpearcionesFallidasComponent,
-    CierreFechaComponent,
     DialogDesconciliarComponent,
     SpinnerComponent,
     ArchivosCargadosDefinitivoComponent,
@@ -116,6 +136,24 @@ import { ArchiCargaCertificacionComponent } from './pages/modules/cargue-certifi
     DialogResultValidacionCertificacionComponent,
     HistoriArchiCargaCertifiComponent,
     ArchiCargaCertificacionComponent,
+    AdministracionContabilidadComponent,
+    AdministradorCuentasPucComponent,
+    AdministradorTipoCentroCostosComponent,
+    AdministracionCentroCiudadesComponent,
+    AdministracionConfContableEntidadComponent,
+    CierreFechaComponent,
+    ResultadoContabilidadComponent,
+    MenuContabilidadComponent,
+    DialogConfirmEjecutarComponentComponent,
+    ContabilidadPmComponent,
+    ContabilidadAmComponent,
+    AdministracionDominiosComponent,
+    DialogEliminarIdentificadorComponent,
+    DialogIdentificadorDominioComponent,
+    DialogTablaDominioComponent,
+    GestionPuntosComponent,
+    ModificarPuntoComponent,
+    CrearPuntoComponent
   ],
 
   imports: [
@@ -123,10 +161,12 @@ import { ArchiCargaCertificacionComponent } from './pages/modules/cargue-certifi
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
+    MatSelectModule,
     MatMenuModule,
     MatIconModule,
     MatSidenavModule,
     MatDividerModule,
+    CommonModule,
     MatButtonModule,
     MatTableModule,
     HttpClientModule,
@@ -134,6 +174,7 @@ import { ArchiCargaCertificacionComponent } from './pages/modules/cargue-certifi
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
+    FormsModule,
     MatSnackBarModule,
     MatPaginatorModule,
     MatSortModule,
@@ -144,7 +185,9 @@ import { ArchiCargaCertificacionComponent } from './pages/modules/cargue-certifi
     MatCardModule,
     MatAutocompleteModule,
     MatGridListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatCheckboxModule
   ],
   providers: [DatePipe, MatDatepickerModule, SpinnerComponent],
   bootstrap: [AppComponent]

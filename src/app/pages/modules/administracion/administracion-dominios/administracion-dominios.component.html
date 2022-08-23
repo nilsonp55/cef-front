@@ -1,0 +1,65 @@
+<mat-card class="card-limites">
+    <mat-card-title>Adminsitración de dominios</mat-card-title>
+    <div class="division-btn">
+        <div>
+            <mat-checkbox class="margen-checkbox" color="primary" [(ngModel)]="isDominioChecked">Incluir dominios
+                inactivos</mat-checkbox>
+        </div>
+        <div>
+            <button mat-raised-button class="ubicacion-btn-dominio" color="primary" (click)="crearTablaDominio()">Crear
+                Dominio</button>
+        </div>
+        <div>
+            <button mat-raised-button color="accent" (click)="actualizarTablaDominio()">Actualizar
+                Dominio</button>
+        </div>
+    </div>
+
+    <div style="width: 30%" class="ubicacionTablas">
+        <div class="div-tabla-dominio">
+            <table mat-table [dataSource]="dataSource" matSort class="configScroll">
+                <tr>
+                    <ng-container matColumnDef="name" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Dominios</th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+    <div style="width: 70%" class="ubicacionTablas">
+        <mat-checkbox class="margen-checkbox" color="primary" [(ngModel)]="isIdentChecked">Incluir identificadores
+            inactivos</mat-checkbox>
+        <div class="div-tabla-identificadores">
+            <table mat-table [dataSource]="dataSourceEdent" matSort class="configScroll">
+                <tr>
+                    <ng-container matColumnDef="identificador" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador</th>
+                        <td mat-cell *matCellDef="let element"> {{element.identificador}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="descripcion" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</th>
+                        <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsIdent"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsIdent;"></tr>
+            </table>
+        </div>
+        <div class="division-btn-ident">
+            <div>
+                <button mat-raised-button color="primary" (click)="crearIdentificador()">Nuevo Identificador</button>
+            </div>
+            <div>
+                <button mat-raised-button color="accent" (click)="modificarIdentificador()">Modificar
+                    Descripción</button>
+            </div>
+            <div>
+                <button mat-raised-button color="warn" (click)="eliminarIdentificador()">Eliminar Identificador</button>
+            </div>
+        </div>
+
+    </div>
+</mat-card>

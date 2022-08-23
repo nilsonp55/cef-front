@@ -1,1 +1,71 @@
-<p>administracion works!</p>
+<div class="menu-container">
+    <!--Banner superior-->
+    <app-banner-supeior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-supeior>
+
+    <!--Componente barra lateral y area de ejecución-->
+    <mat-sidenav-container class="sidenav-container">
+        <!--Barra izquierda de opciones (Apodo id = sidenav)-->
+        <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 21%" mode="side">
+            <!--opciones de menu-->
+            <p style="color: rgb(71, 124, 240); margin-top: 2%">Parametrización</p>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['administracion-dominios']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <span class="material-icons">admin_panel_settings</span>
+                <span>Administración de dominios</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['administracion-puntos']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <span class="material-icons">admin_panel_settings</span>
+                <span>Administración de puntos</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['administracion-cierre-fecha']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <span class="material-icons">admin_panel_settings</span>
+                <span>Cierre de Fecha</span>
+            </button>
+            
+            <mat-divider></mat-divider>
+            <br>
+            <p style="color: rgb(71, 124, 240); margin-top: 2%">Tablas contables</p>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['administracion-tipo-cuentas']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <span class="material-icons">admin_panel_settings</span>
+                <span>Administración para Tipo Cuentas</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['administracion-cuentas-puc']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <span class="material-icons">admin_panel_settings</span>
+                <span>Administración Cuentas Contables</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['administracion-tipo-centro-costos']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <span class="material-icons">admin_panel_settings</span>
+                <span>Administración Tipos Centro Costo</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['administracion-centro-ciudad']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <span class="material-icons">admin_panel_settings</span>
+                <span>Administración Centro Ciudad</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['administracion-cuentas-contables']" style="cursor: pointer"
+                routerLinkActive="seleccion-activa">
+                <span class="material-icons">admin_panel_settings</span>
+                <span>Administración Conf Contable por Entidad</span>
+            </button>
+            <mat-divider></mat-divider>
+        </mat-sidenav>
+
+        <!--Barra derecha de ejecución-->
+        <mat-sidenav-content class="background-page">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
