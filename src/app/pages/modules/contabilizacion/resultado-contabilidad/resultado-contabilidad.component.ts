@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
-import { ContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 
 /**
@@ -40,7 +39,6 @@ export class ResultadoContabilidadComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private contabilidadService: ContabilidadService,
     private logProcesoDiarioService: LogProcesoDiarioService,
     private dialogRef: MatDialogRef<ResultadoContabilidadComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any}

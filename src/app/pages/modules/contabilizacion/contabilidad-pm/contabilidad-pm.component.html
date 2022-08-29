@@ -1,7 +1,7 @@
 <!--Tabla Descripción de archivos cargados-->
 <div class="divTabla">
     <div class="divTituloTablas">
-        <h1 class="tituloTabla">Cerrar Contabilidad PM</h1>
+        <h1 class="tituloTabla">Cierre Contabilidad PM</h1>
         <span class="line-spacer"></span>
     </div>
     <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
@@ -22,9 +22,9 @@
 
         <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef> Acciones</th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-button (click)="ejecutar(element.idArchivo)">Ejecutar
-                </button>
+            <td mat-cell *matCellDef="let element" disabled = "codigoProceso">
+                <button mat-raised-button color="primary" *ngIf="element.codigoProceso == 'CONTABILIDAD_PM'" 
+                (click)="ejecutar()">Ejecutar </button>
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>

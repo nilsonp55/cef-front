@@ -57,4 +57,12 @@ export class GeneralesService {
         return this.http.get(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}/${dominio}`);
     }
 
+    /** 
+    * Servicio para obtener parametros por filtro
+    * @BayronPerez
+    */
+     listarParametroByFiltro(param: any): Observable<any> {
+        return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param });
+    }
+
 }

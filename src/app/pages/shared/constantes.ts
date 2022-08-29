@@ -198,6 +198,10 @@ export const URLs = {
   DOMINIO: '/dominio-funcional',
   DOMINIO_CONSULTA: '/consultar',
 
+  //Consultar parametro
+  PARAMETRO: '/parametro',
+  PARAMETRO_CONSULTA: '/consultar',
+
   //Listar ciudades
   CIUDADES: '/ciudad',
   CIUDADES_CONSULTA: '/consultar',

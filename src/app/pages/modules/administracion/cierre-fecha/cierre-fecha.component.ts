@@ -30,9 +30,11 @@ export class CierreFechaComponent implements OnInit {
     this.consultaDatos();
   }
 
-  async consultaDatos(){debugger
-    const _fecha = await this.generalServices.listarDominioByDominio("FECHA_DIA_PROCESO").toPromise();
-    //this.fechaSistema = _fecha
+  async consultaDatos(){
+    const _fecha = await this.generalServices.listarParametroByFiltro({
+      codigo: "FECHA_DIA_PROCESO"
+    }).toPromise();
+    this.fechaSistema = _fecha.data[0].valor;
   }
 
   /**
@@ -50,6 +52,16 @@ export class CierreFechaComponent implements OnInit {
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
         }
       }); setTimeout(() => { alert.close() }, 3500);
+    },
+    (err: any) => {
+      this.spinnerActive = false;
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: err.error.response.description,
+          codigo: GENERALES.CODE_EMERGENT.ERROR
+        }
+      }); setTimeout(() => { alert.close() }, 6000);
     });
   }
 

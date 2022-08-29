@@ -9,6 +9,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 })
 export class DialogConfirmEjecutarComponentComponent implements OnInit {
 
+  tipoContabilidad: any;
   bancos: any;
   fechaSistemaSelect: any;
   bancoSelect: any;
@@ -22,6 +23,7 @@ export class DialogConfirmEjecutarComponentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.tipoContabilidad = this.data.tipoContabilidad;
     this.cargarDatosDesplegables();
   }
 

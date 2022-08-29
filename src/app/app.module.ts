@@ -90,6 +90,8 @@ import { ModificarPuntoComponent } from './pages/modules/administracion/gestion-
 import { CrearPuntoComponent } from './pages/modules/administracion/gestion-puntos/crear-punto/crear-punto.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { GenerarContabilidadAmComponent } from './pages/modules/contabilizacion/generar-contabilidad-am/generar-contabilidad-am.component';
+import { GenerarContabilidadPmComponent } from './pages/modules/contabilizacion/generar-contabilidad-pm/generar-contabilidad-pm.component';
 
 @NgModule({
   declarations: [
@@ -153,7 +155,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     DialogTablaDominioComponent,
     GestionPuntosComponent,
     ModificarPuntoComponent,
-    CrearPuntoComponent
+    CrearPuntoComponent,
+    GenerarContabilidadAmComponent,
+    GenerarContabilidadPmComponent
   ],
 
   imports: [

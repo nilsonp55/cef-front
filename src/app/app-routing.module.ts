@@ -25,6 +25,8 @@ import { ContabilizacionComponent } from './pages/modules/contabilizacion/contab
 import { ContabilidadPmComponent } from './pages/modules/contabilizacion/contabilidad-pm/contabilidad-pm.component';
 import { AdministracionDominiosComponent } from './pages/modules/administracion/administracion-dominios/administracion-dominios.component';
 import { GestionPuntosComponent } from './pages/modules/administracion/gestion-puntos/gestion-puntos.component';
+import { GenerarContabilidadAmComponent } from './pages/modules/contabilizacion/generar-contabilidad-am/generar-contabilidad-am.component';
+import { GenerarContabilidadPmComponent } from './pages/modules/contabilizacion/generar-contabilidad-pm/generar-contabilidad-pm.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -52,8 +54,10 @@ const routes: Routes = [
   },
   {
     path: 'contabilidad', component: ContabilizacionComponent, children: [
-      { path: 'contabilidad-pm', component: ContabilidadPmComponent },
-      { path: 'contabilidad-am', component: ContabilidadAmComponent },
+      { path: 'cierre-contabilidad-pm', component: ContabilidadPmComponent },
+      { path: 'generar-contabilidad-pm', component: GenerarContabilidadPmComponent },
+      { path: 'cierre-contabilidad-am', component: ContabilidadAmComponent },
+      { path: 'generar-contabilidad-am', component: GenerarContabilidadAmComponent },
     ]
   },
   {

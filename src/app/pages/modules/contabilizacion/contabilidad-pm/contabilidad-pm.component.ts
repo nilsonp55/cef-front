@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
-import { ContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
+import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
@@ -38,7 +38,7 @@ export class ContabilidadPmComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private contabilidadService: ContabilidadService,
+    private cierrecontabilidadService: CierreContabilidadService,
     private logProcesoDiarioService: LogProcesoDiarioService
   ) { }
 
@@ -75,7 +75,7 @@ export class ContabilidadPmComponent implements OnInit {
    * procesos activos
    * @BaironPerez
    */
-  ejecutar(param: any) {
+  ejecutar() {
     let data;
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogConfirmEjecutarComponentComponent, {
@@ -89,11 +89,20 @@ export class ContabilidadPmComponent implements OnInit {
       //Si presiona click en aceptar
       if (result.data.check) {
         this.spinnerActive = true;
-        let tipoContabilidad = "PM"
-        let numeroBancos = result.data.banco.nombreBanco === "Todos"? "TODOS": null;
-        let codBanco = result.data.banco.nombreBanco != "Todos"? result.data.banco.codigoPunto: null;
-        let fase;
-        this.contabilidadService.generarContabilidadPM(result.data.fechaSistema, tipoContabilidad, numeroBancos, codBanco, fase).subscribe(data => {
+        let tipoContabilida = "PM"
+        let numeroBanco = result.data.banco.nombreBanco === "Todos"? "TODOS": null;
+        let codBanc = result.data.banco.nombreBanco != "Todos"? result.data.banco.codigoPunto: null;
+        let nfase;
+
+        //Body request
+        const cierreContabilidadRequest = {
+          fechaSistema: result.data.fechaSistema,
+          tipoContabilidad: tipoContabilida,
+          numeroBancos: numeroBanco,
+          codBanco: codBanc,
+          fase: nfase
+        }
+        this.cierrecontabilidadService.cierreContabilidad(cierreContabilidadRequest).subscribe(data => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {

@@ -6,22 +6,22 @@ import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
-import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
+import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
 
 @Component({
-  selector: 'app-contabilidad-am',
-  templateUrl: './contabilidad-am.component.html',
-  styleUrls: ['./contabilidad-am.component.css']
+  selector: 'app-generar-contabilidad-pm',
+  templateUrl: './generar-contabilidad-pm.component.html',
+  styleUrls: ['./generar-contabilidad-pm.component.css']
 })
 
 /**
  * Componente para gestionar el menu de contabilidad PM
  * @BaironPerez
 */
-export class ContabilidadAmComponent implements OnInit {
+export class GenerarContabilidadPmComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -38,7 +38,7 @@ export class ContabilidadAmComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private cierreContabilidadService: CierreContabilidadService,
+    private generarContabilidadService: GenerarContabilidadService,
     private logProcesoDiarioService: LogProcesoDiarioService
   ) { }
 
@@ -81,28 +81,22 @@ export class ContabilidadAmComponent implements OnInit {
     const validateArchivo = this.dialog.open(DialogConfirmEjecutarComponentComponent, {
       width: '750px',
       data: {
-        tipoContabilidad: "AM"
+        tipoContabilidad: "PM"
       }
     });
 
-    validateArchivo.afterClosed().subscribe(result => {debugger
+    validateArchivo.afterClosed().subscribe(result => {
       //Si presiona click en aceptar
       if (result.data.check) {
         this.spinnerActive = true;
-        let tipoContabilida = "AM"
-        let numeroBanco = result.data.banco.nombreBanco === "Todos"? "TODOS": null;
-        let codBanc = result.data.banco.nombreBanco != "Todos"? result.data.banco.codigoPunto: null;
-        let nfase = null;
+        let tipoContabilidad = "PM"
+        let numeroBancos = result.data.banco.nombreBanco === "Todos"? "TODOS": null;
+        let codBanco = result.data.banco.nombreBanco != "Todos"? result.data.banco.codigoPunto: null;
+        let fase;
 
-        //Body request
-        const cierreContabilidadRequest = {
-          fechaSistema: result.data.fechaSistema,
-          tipoContabilidad: tipoContabilida,
-          numeroBancos: numeroBanco,
-          codBanco: codBanc,
-          fase: nfase
+        const generarContabilidadRequest = {
         }
-        this.cierreContabilidadService.cierreContabilidad(cierreContabilidadRequest).subscribe(data => {
+        this.generarContabilidadService.generarContabilidad(generarContabilidadRequest).subscribe(data => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -116,7 +110,7 @@ export class ContabilidadAmComponent implements OnInit {
             const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_AM.ERROR__GENERATE_AM,
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_PM.ERROR__GENERATE_PM,
                 codigo: GENERALES.CODE_EMERGENT.ERROR
               }
             }); setTimeout(() => { alert.close() }, 3500);
@@ -125,7 +119,7 @@ export class ContabilidadAmComponent implements OnInit {
               width: '100%',
               data: {
                 respuesta: "respuesta preuba",
-                titulo: "Generar Contabilidad AM - Resultado",
+                titulo: "Generar Contabilidad PM - Resultado",
               }
             });
 

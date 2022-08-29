@@ -9,19 +9,19 @@ import { URLs } from '../../pages/shared/constantes';
 })
 
 /**
- * Clase service para consumir los servicios de generar contabilidades
+ * Clase service para consumir los servicios de cierre contabilidades
  * @BaironPerez
  */
- export class GenerarContabilidadService {
+ export class CierreContabilidadService {
 
     private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.ADMIN_CUENTAS_PUC}`;
 
     constructor(private http: HttpClient) { }
 
     /** 
-     * Servicio para general contabilidad PM
+     * Servicio para cierre de contabilidad AM o PM
     */
-    generarContabilidad(param): Observable<any> {
+     cierreContabilidad(param): Observable<any> {
         return this.http.get<any>(`${this.url}${URLs.ADMIN_CUENTAS_PUC_CONSULTAR}`, param);
     }
 
