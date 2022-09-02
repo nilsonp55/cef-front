@@ -6,74 +6,102 @@
     </div>
     <div class="mat-elevation-z8 disenio-tabla">
         <table mat-table [dataSource]="dataSourceInfoProcesos" matSort>
-            <ng-container matColumnDef="codigoNaturaleza">
+            <ng-container matColumnDef="naturalezaContable">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Cod Naturaleza</th>
-                <td mat-cell *matCellDef="let element"> {{element.idLogProceso | date: 'medium'}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.naturalezaContable | date: 'medium'}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="cuentaContableMayor">
+            <ng-container matColumnDef="cuentaMayor">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Contable Mayor</th>
-                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.cuentaMayor}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="cuentaAuxiliar">
+            <ng-container matColumnDef="subAuxiliar">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Cuentable Contable Aux</th>
-                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.subAuxiliar}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="tipoCambioMonedaPeso">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cambio Moneda Peso</th>
-                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+            <ng-container matColumnDef="tipoIdentificacion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Identificación</th>
+                <td mat-cell *matCellDef="let element"> {{element.tipoIdentificacion}} </td>
             </ng-container>
 
             <ng-container matColumnDef="tipoCambioMonedaDolar">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Cambio Moneda Dolar</th>
-                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.tipoCambioMonedaDolar}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="valorOperacion">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Operacion</th>
-                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+            <ng-container matColumnDef="tipoCambioMonedaPeso">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cambio Moneda Peso</th>
+                <td mat-cell *matCellDef="let element"> {{element.tipoCambioMonedaPeso}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="centroCostoBeneficio">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Centro Cost Benefi</th>
-                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            <ng-container matColumnDef="valorMoneda">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Moneda</th>
+                <td mat-cell *matCellDef="let element"> {{element.valorMoneda}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="indicador">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Indicador</th>
-                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+            <ng-container matColumnDef="valorPesos">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Pesos</th>
+                <td mat-cell *matCellDef="let element"> {{element.valorPesos}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="descTransacContable">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Desc Transac Contable</th>
-                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            <ng-container matColumnDef="valorUsd">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Usd</th>
+                <td mat-cell *matCellDef="let element"> {{element.valorUsd}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="tipoIdentificacion">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Identi</th>
-                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            <ng-container matColumnDef="centroCosto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Centro Costo</th>
+                <td mat-cell *matCellDef="let element"> {{element.centroCosto}} </td>
             </ng-container>
 
+            <ng-container matColumnDef="centroBeneficio">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Centro Beneficio</th>
+                <td mat-cell *matCellDef="let element"> {{element.centroBeneficio}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ordenCo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>OrdenCo</th>
+                <td mat-cell *matCellDef="let element"> {{element.ordenCo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="areaFuncional">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Área Funcional</th>
+                <td mat-cell *matCellDef="let element"> {{element.areaFuncional}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="identificador">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador</th>
+                <td mat-cell *matCellDef="let element"> {{element.identificador}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="descripcionTransaccion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador</th>
+                <td mat-cell *matCellDef="let element"> {{element.descripcionTransaccion}} </td>
+            </ng-container>
             <ng-container matColumnDef="terceroGL">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tercero GL</th>
-                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.terceroGL}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nombreTerceroGL">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre TerceroGL</th>
+                <td mat-cell *matCellDef="let element"> {{element.nombreTerceroGL}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="nombreTerceroGL">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Tercero GL</th>
-                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+            <ng-container matColumnDef="fechaConversion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Conversion</th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaConversion}} </td>
             </ng-container>
 
             <ng-container matColumnDef="claveReferencia1">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Ref 1</th>
-                <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Referencia 1</th>
+                <td mat-cell *matCellDef="let element"> {{element.claveReferencia1}} </td>
             </ng-container>
 
             <ng-container matColumnDef="claveReferencia2">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Ref 2</th>
-                <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Referencia 2</th>
+                <td mat-cell *matCellDef="let element"> {{element.claveReferencia2}} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>

@@ -244,7 +244,14 @@ export const URLs = {
   ADMIN_CENTRO_CIUDAD_CONSULTAR: '/consultar',
   ADMIN_CENTRO_CIUDAD_GUARDAR: '/guardar',
   ADMIN_CENTRO_CIUDAD_ACTUALIZAR: '/actualizar',
-  
+
+  //Cierre Contabilidad
+  CIERRE_CONTABILIDAD: '/CierreContabilidad',
+  CIERRE_CONTABILIDAD_CERRAR: '/cerrar',
+
+  //Generar Contabilidad
+  CONTABILIDAD: '/contabilidad',
+  CONTABILIDAD_GENERAL: '/generar',
 };
 
 export const ROLES = [

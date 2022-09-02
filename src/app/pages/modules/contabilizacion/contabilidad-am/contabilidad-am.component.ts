@@ -85,31 +85,27 @@ export class ContabilidadAmComponent implements OnInit {
       }
     });
 
-    validateArchivo.afterClosed().subscribe(result => {debugger
+    validateArchivo.afterClosed().subscribe(result => {
       //Si presiona click en aceptar
       if (result.data.check) {
         this.spinnerActive = true;
         let tipoContabilida = "AM"
-        let numeroBanco = result.data.banco.nombreBanco === "Todos"? "TODOS": null;
-        let codBanc = result.data.banco.nombreBanco != "Todos"? result.data.banco.codigoPunto: null;
-        let nfase = null;
+        let codBanco = result.data.banco.nombreBanco == "Todos" ? 0 : result.data.banco.codigoPunto;
 
-        //Body request
-        const cierreContabilidadRequest = {
-          fechaSistema: result.data.fechaSistema,
-          tipoContabilidad: tipoContabilida,
-          numeroBancos: numeroBanco,
-          codBanco: codBanc,
-          fase: nfase
-        }
-        this.cierreContabilidadService.cierreContabilidad(cierreContabilidadRequest).subscribe(data => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        this.cierreContabilidadService.cierreContabilidad({
+          'fechaSistema': result.data.fechaSistema,
+          'tipoContabilidad': tipoContabilida,
+          'codBanco': codBanco,
+          'false': "INICIAL"
+        }).subscribe(data => {
+          //Ensayo re respuesta
+          const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
+            width: '100%',
             data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_PM.SUCCESFULL_GENERATE_PM,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+              respuesta: data.data,
+              titulo: "Generar Contabilidad AM - Resultado",
             }
-          }); setTimeout(() => { alert.close() }, 3500);
+          });
         },
           (err: any) => {
             this.spinnerActive = false;
@@ -119,20 +115,11 @@ export class ContabilidadAmComponent implements OnInit {
                 msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_AM.ERROR__GENERATE_AM,
                 codigo: GENERALES.CODE_EMERGENT.ERROR
               }
-            }); setTimeout(() => { alert.close() }, 3500);
-            //Ensayo re respuesta
-            const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
-              width: '100%',
-              data: {
-                respuesta: "respuesta preuba",
-                titulo: "Generar Contabilidad AM - Resultado",
-              }
-            });
-
+            }); setTimeout(() => { alert.close() }, 4500);
           });
       }
       else {
-         //Si presiona click en cancelar
+        //Si presiona click en cancelar
       }
     })
   }

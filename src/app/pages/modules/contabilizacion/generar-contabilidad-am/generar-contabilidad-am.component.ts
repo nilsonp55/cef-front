@@ -7,9 +7,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
-import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
 
 @Component({
@@ -37,7 +35,9 @@ export class GenerarContabilidadAmComponent implements OnInit {
   dataSourceInfoProcesos: MatTableDataSource<any>;
   displayedColumnsInfoProcesos: string[] = ['subactividad', 'cantidad', 'estado'];
 
+  dataGenerateContabilidad: any;
   fechaSistemaSelect: any;
+  tieneErrores: any = false;
 
   constructor(
     private dialog: MatDialog,
@@ -50,10 +50,10 @@ export class GenerarContabilidadAmComponent implements OnInit {
     this.generarContabilidad();
   }
 
-   /**
-  * Se cargan datos para el inicio de la pantalla
-  * @BaironPerez
-  */
+  /**
+ * Se cargan datos para el inicio de la pantalla
+ * @BaironPerez
+ */
   async cargarDatosDesplegables() {
     const _fecha = await this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
@@ -66,16 +66,21 @@ export class GenerarContabilidadAmComponent implements OnInit {
   * @BaironPerez
   */
   generarContabilidad() {
-    const tabla = [ 
-      {nombre: "conteoInternasGeneradas", cantidad: 12, estado: true},
-      {nombre: "conteoContablesGeneradas", cantidad: 112, estado: false},
-      {nombre: "conteoErroresContables", cantidad: 0, estado: true},
-      {nombre: "conteoContablesCompletadas", cantidad: 42, estado: false},    
-    ];
-    this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
-
-    this.generarContabilidadService.generarContabilidad({tipoContabilidad: "AM"}).subscribe((page: any) => {
-      
+    this.spinnerActive = true;
+    this.generarContabilidadService.generarContabilidad({ tipoContabilidad: "AM" }).subscribe((data: any) => {
+      this.dataGenerateContabilidad = data.data;
+      let conteoContabilidadDto = data.data.conteoContabilidadDTO;
+      //Se construye tabla de info
+      const tabla = [
+        { nombre: "conteoInternasGeneradas", cantidad: conteoContabilidadDto.conteoInternasGeneradas, estado: conteoContabilidadDto.estadoInternasGeneradas },
+        { nombre: "conteoContablesGeneradas", cantidad: conteoContabilidadDto.conteoContablesGeneradas, estado: conteoContabilidadDto.estadoContablesGeneradas },
+        { nombre: "conteoErroresContables", cantidad: conteoContabilidadDto.conteoErroresContables, estado: conteoContabilidadDto.estadoErroresContables },
+        { nombre: "conteoContablesCompletadas", cantidad: conteoContabilidadDto.conteoContablesCompletables, estado: conteoContabilidadDto.estadoContablesCompletables },
+      ];
+      //Se realizan validaciones
+      this.tieneErrores = conteoContabilidadDto.conteoContabilidadDto.conteoErroresContables > 0 ? true : false;
+      this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
+      this.spinnerActive = false;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -88,65 +93,28 @@ export class GenerarContabilidadAmComponent implements OnInit {
       });
   }
 
+
   /**
-   * Metodo encargado de ejecutar el servicio de contabilidad para los 
-   * procesos activos
+   * Metodo encargado de ejecutar la vista de la tabla de transacciones 
+   * contables
    * @BaironPerez
    */
-  ejecutar() {
-    let data;
-    //ventana de confirmacion
-    const validateArchivo = this.dialog.open(DialogConfirmEjecutarComponentComponent, {
-      width: '750px',
+  verTransactContables() {
+    const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
+      width: '100%',
       data: {
-        tipoContabilidad: "PM"
+        respuesta: "respuesta preuba",
+        titulo: "Generar Contabilidad AM - Resultado",
       }
     });
-
-    validateArchivo.afterClosed().subscribe(result => {
-      //Si presiona click en aceptar
-      if (result.data.check) {
-        this.spinnerActive = true;
-        let tipoContabilidad = "AM"
-        let numeroBancos = result.data.banco.nombreBanco === "Todos"? "TODOS": null;
-        let codBanco = result.data.banco.nombreBanco != "Todos"? result.data.banco.codigoPunto: null;
-        let fase;
-
-        const generarContabilidadRequest = {
-        }
-        this.generarContabilidadService.generarContabilidad(generarContabilidadRequest).subscribe(data => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_PM.SUCCESFULL_GENERATE_PM,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-            }
-          }); setTimeout(() => { alert.close() }, 3500);
-        },
-          (err: any) => {
-            this.spinnerActive = false;
-            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-              data: {
-                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_AM.ERROR__GENERATE_AM,
-                codigo: GENERALES.CODE_EMERGENT.ERROR
-              }
-            }); setTimeout(() => { alert.close() }, 3500);
-            //Ensayo re respuesta
-            const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
-              width: '100%',
-              data: {
-                respuesta: "respuesta preuba",
-                titulo: "Generar Contabilidad AM - Resultado",
-              }
-            });
-
-          });
-      }
-      else {
-         //Si presiona click en cancelar
-      }
-    })
   }
 
+  /**
+  * Metodo encargado de ejecutar la vista de la tabla de transacciones 
+  * contables
+  * @BaironPerez
+  */
+  verErrores() {
+
+  }
 }

@@ -8,8 +8,9 @@
             <p>{{fechaSistemaSelect}}</p>
         </div>
     </div>
-
-    <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
+    <!--Sprinner-->
+    <app-spinner *ngIf="spinnerActive"></app-spinner>
+    <table *ngIf="spinnerActive == false" mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="subactividad">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBACTIVIDAD</th>
             <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
@@ -23,8 +24,8 @@
         <ng-container matColumnDef="estado">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO</th>
             <td mat-cell *matCellDef="let element">
-                <mat-icon *ngIf="element.estado == false" style="color: rgb(255, 0, 0)">error</mat-icon>
-                <mat-icon *ngIf="element.estado == true" style="color: rgb(39, 218, 3)">check</mat-icon>
+                <mat-icon *ngIf="tieneErrores == false" style="color: rgb(255, 0, 0)">error</mat-icon>
+                <mat-icon *ngIf="tieneErrores == true" style="color: rgb(39, 218, 3)">check</mat-icon>
             </td>
         </ng-container>
 
@@ -33,7 +34,7 @@
     </table>
 
     <div style="text-align: center; margin-top: 0%; margin-top: 1%">
-        <button style="display:inline; margin: 2%;" class="botton1">Ver Transac Contables</button>
-        <button style="display:inline; margin: 2%;" class="botton2">Ver Errores</button>
+        <button style="display:inline; margin: 2%;" class="botton1" (click)="verTransactContables">Ver Transac Contables</button>
+        <button style="display:inline; margin: 2%;" class="botton2" (click)="verErrores">Ver Errores</button>
     </div>
 </div>

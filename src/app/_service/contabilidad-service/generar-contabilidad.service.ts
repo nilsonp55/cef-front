@@ -14,15 +14,15 @@ import { URLs } from '../../pages/shared/constantes';
  */
  export class GenerarContabilidadService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.ADMIN_CUENTAS_PUC}`;
+    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.CONTABILIDAD}`;
 
     constructor(private http: HttpClient) { }
 
     /** 
-     * Servicio para general contabilidad PM
+     * Servicio para general contabilidad AM o PM
     */
     generarContabilidad(param): Observable<any> {
-        return this.http.get<any>(`${this.url}${URLs.ADMIN_CUENTAS_PUC_CONSULTAR}`, param);
+        return this.http.get<any>(`${this.url}${URLs.CONTABILIDAD_GENERAL}`, {params: param});
     }
 
 }

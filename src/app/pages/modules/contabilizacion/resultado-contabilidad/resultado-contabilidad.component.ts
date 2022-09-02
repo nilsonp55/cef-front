@@ -32,10 +32,11 @@ export class ResultadoContabilidadComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['codigoNaturaleza', 'cuentaContableMayor', 
-      'cuentaAuxiliar', 'tipoCambioMonedaPeso', 'tipoCambioMonedaDolar', 'valorOperacion', 
-      'centroCostoBeneficio', 'indicador', 'descTransacContable', 'tipoIdentificacion', 'terceroGL', 
-      'nombreTerceroGL', 'claveReferencia1', 'claveReferencia2'];
+  displayedColumnsInfoProcesos: string[] = ['bancoAval', 'naturalezaContable', 'cuentaMayor',
+      'subAuxiliar', 'tipoIdentificacion', 'tipoCambioMonedaDolar', 'tipoCambioMonedaPeso', 
+      'valorMoneda', 'valorPesos', 'valorUsd', 'centroCosto', 'centroBeneficio', 'ordenCo',
+      'areaFuncional', 'identificador', 'descripcionTransaccion', 'terceroGL', 'nombreTerceroGL',
+      'fechaConversion', 'claveReferencia1', 'claveReferencia2'];
 
   constructor(
     private dialog: MatDialog,

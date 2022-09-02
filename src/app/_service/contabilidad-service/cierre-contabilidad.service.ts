@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
  export class CierreContabilidadService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.ADMIN_CUENTAS_PUC}`;
+    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.CIERRE_CONTABILIDAD}`;
 
     constructor(private http: HttpClient) { }
 
@@ -22,7 +22,7 @@ import { URLs } from '../../pages/shared/constantes';
      * Servicio para cierre de contabilidad AM o PM
     */
      cierreContabilidad(param): Observable<any> {
-        return this.http.get<any>(`${this.url}${URLs.ADMIN_CUENTAS_PUC_CONSULTAR}`, param);
+        return this.http.get<any>(`${this.url}${URLs.CIERRE_CONTABILIDAD_CERRAR}`, {params: param});
     }
 
 }
