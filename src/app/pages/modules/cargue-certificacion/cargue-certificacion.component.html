@@ -7,22 +7,16 @@
         <!--Barra izquierda de opciones (Apodo id = sidenav)-->
         <mat-sidenav #sidenav opened="true" style="width: 17%" mode="side">
             <!--Imagen de menu
-            <img src="assets/img/menu.png" width="215" style="display:block; margin:auto; margin-top: 10%">-->
-            <br><br>
-            <!--opciones de menu-->
-            <button mat-menu-item routerLink="/buscar" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>search</mat-icon>
-                <span>Buscar</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['cargue-inicial']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>insert_drive_file</mat-icon>
-                <span>Cargue Archivos</span>
-            </button>
+            <img src="assets/img/menu.png" width="215" style="display:block; margin:auto; margin-top: 10%">-->  
             <mat-divider></mat-divider>
             <button mat-menu-item [routerLink]="['gestion-cargue-certificacion']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>insert_drive_file</mat-icon>
+                <mat-icon>settings_suggest</mat-icon>
                 <span>Gestión cargue certificación</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['administrador-cargue-certificacion']" style="cursor: pointer" routerLinkActive="seleccion-activa">
+                <mat-icon>menu</mat-icon>
+                <span>Cierre certificación</span>
             </button>
             <mat-divider></mat-divider>
         </mat-sidenav>

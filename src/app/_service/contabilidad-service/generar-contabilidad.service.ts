@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
  export class GenerarContabilidadService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.CONTABILIDAD}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.CONTABILIDAD}`;
 
     constructor(private http: HttpClient) { }
 

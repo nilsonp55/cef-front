@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
@@ -18,6 +18,11 @@ import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/cons
   templateUrl: './dialog-desconciliar.component.html',
   styleUrls: ['./dialog-desconciliar.component.css']
 })
+
+/**
+ * @JuanMazo
+ * Clase Mat Dialog que nos permite confirmar una desconciliacion
+ */
 export class DialogDesconciliarComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -27,6 +32,7 @@ export class DialogDesconciliarComponent implements OnInit {
   cantidadRegistros: number;
   objCErtificado: any;
   seleccionDescon: any;
+  idConciliacionList: any[];
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
   displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV', 'entradaSalida', 'tipoPuntoOrigen', 'codigoPuntoOrigen', 'tipoPuntoDestino', 'codigoPuntoDestino', 'fechaProgramacion', 'fechaOrigen', 'fechaDestino', 'tipoOperacion', 'tipoTransporte', 'valorTotal', 'estadoOperacion', 'idNegociacion', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
@@ -34,12 +40,12 @@ export class DialogDesconciliarComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
+    public dialogRef: MatDialogRef<DialogDesconciliarComponent>,
     private opConciliadasService: OpConciliadasService) {
     this.objCErtificado = data;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   /**
    * Función que nos permite consumir el servicio para desconciliar enrtregandole el "id" de la operación 
@@ -49,6 +55,7 @@ export class DialogDesconciliarComponent implements OnInit {
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.dialogRef.close({event:"load",data:{"event":"load"}});
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -59,6 +66,10 @@ export class DialogDesconciliarComponent implements OnInit {
           }
         }); setTimeout(() => { alert.close() }, 3000);
       });
+  }
+
+  close(){
+    this.dialogRef.close({event:'Cancel'})
   }
   
 }

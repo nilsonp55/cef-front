@@ -1,3 +1,6 @@
+@import "./assets/fonts_css/fonts.css";
+@import "./assets/fonts_css/icon.css";
+
 /************************************************************************************************************************
 You can add global styles to this file, and also import other style files 
 *************************************************************************************************************************/
@@ -140,7 +143,6 @@ table.mat-table {
 form {
     margin: 1em;
     padding: 1em;
-    border: 1px solid;
     border-color: rgb(112, 187, 116);
 }
 

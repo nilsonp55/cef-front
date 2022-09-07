@@ -35,7 +35,8 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   //Rgistros paginados
-  cantidadRegistros: number;
+  cantidadRegistrosOpProgramadasSinConciliar: number;
+  cantidadRegistrosOpCertificadasSinConciliar: number;
 
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
@@ -47,10 +48,10 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'origenDestindo', 'valorTotal', 'acciones', 'relacion'];
+  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'valorTotal', 'acciones', 'relacion'];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'fechaEjecucion', 'tipoOperacion', 'origenDestindo', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'fechaEjecucion', 'tipoOperacion', 'valorTotal', 'acciones'];
 
 
   constructor(
@@ -60,8 +61,6 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.listarBancos();
-    this.listarTransportadoras();
     this.listarOpProgramadasSinConciliar();
     this.listarOpCertificadasSinConciliar();
   }
@@ -80,26 +79,6 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
 
   displayFnTrans(transPortadora: any): string {
     return transPortadora && transPortadora.nombreTransportadora ? transPortadora.nombreTransportadora : '';
-  }
-
-  /**
-  * Filtra las TDV para poder pintar en el editext
-  * @param name 
-  * @JuanMazo
-  */
-  private _filter(name: string): TransportadoraModel[] {
-    const filterValue = name.toLowerCase();
-    return this.tranportadoraOptions.filter(option => option.nombreTransportadora.toLowerCase().includes(filterValue));
-  }
-
-  /**
-   * Filtra los bancos para poder pintar en el editext
-   * @param name 
-   * @JuanMazo
-   */
-  private filtroBanco(name: string): BancoModel[] {
-    const filterValue = name.toLowerCase();
-    return this.bancoOptions.filter(bancoOption => bancoOption.nombreBanco.toLowerCase().includes(filterValue));
   }
 
   /**
@@ -138,49 +117,24 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
     })
   }
 
-  /** 
-  * Se realiza consumo de servicio para listar los transportadoras
-  * @JuanMazo
-  */
-  listarTransportadoras() {
-    this.generalesService.listarTransportadoras().subscribe(data => {
-      this.tranportadoraOptions = data.data
-      this.filteredOptionsTranportadora = this.transportadoraForm.valueChanges.pipe(
-        startWith(''),
-        map(value => (typeof value === 'string' ? value : value.name)),
-        map(name => (name ? this._filter(name) : this.tranportadoraOptions.slice())),
-      );
+  /**
+   * Lista las operaciones programadas sin conciliar
+   * @JuanMazo
+   */
+  listarOpProgramadasSinConciliar(pagina = 0, tamanio = 5) {
+    this.opConciliadasService.obtenerOpProgramadasSinconciliar({
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
+      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
+      this.dataSourceOperacionesProgramadas.sort = this.sort;
+      this.cantidadRegistrosOpProgramadasSinConciliar = page.data.totalElements;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      });
-  }
-
-  /** 
-  * Se realiza consumo de servicio para listar los bancos
-  * @JuanMazo
-  */
-  listarBancos() {
-    this.generalesService.listarBancos().subscribe(data => {
-      this.bancoOptions = data.data
-      this.filteredOptionsBancos = this.bancosForm.valueChanges.pipe(
-        startWith(''),
-        map(value => (typeof value === 'string' ? value : value.name)),
-        map(name => (name ? this.filtroBanco(name) : this.bancoOptions.slice())),
-      );
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_PROGRAMADAS,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
@@ -188,48 +142,45 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
   }
 
   /**
-   * Lista las operaciones programadas sin conciliar
-   * @JuanMazo
-   */
-  listarOpProgramadasSinConciliar() {
-    this.opConciliadasService.obtenerOpProgramadasSinconciliar().subscribe((page: any) => {
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+   mostrarMasOpProgramadasSinConciliar(e: any) {
+    this.listarOpProgramadasSinConciliar(e.pageIndex, e.pageSize);
   }
 
   /**
    * Lista las operaciones certificadas sin conciliar
    * @JuanMazo
    */
-  listarOpCertificadasSinConciliar() {
+  listarOpCertificadasSinConciliar(pagina = 0, tamanio = 5) {
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-      'estadoConciliacion': GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO
+      'estadoConciliacion': GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO,
+      page: pagina,
+      size: tamanio,
     }).subscribe((page: any) => {
       this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
+      this.cantidadRegistrosOpCertificadasSinConciliar = page.data.totalElements;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_CERTIFICADAS,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
         setTimeout(() => { alert.close() }, 3000);
       });
+  }
+
+  /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+   mostrarMasOpCertificadasSinConciliar(e: any) {
+    this.listarOpCertificadasSinConciliar(e.pageIndex, e.pageSize);
   }
 
   /**
@@ -243,14 +194,6 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       opeProgramada.relacion = event.target.value
     }
 
-  }
-
-  /**
- * Función que permite capturar la seleccion de la transportadora para poder filtrar
- * @JuanMazo
- */
-  onSelectionTrasportadora(event: any) {
-    console.log(event.option.value)
   }
 
 }

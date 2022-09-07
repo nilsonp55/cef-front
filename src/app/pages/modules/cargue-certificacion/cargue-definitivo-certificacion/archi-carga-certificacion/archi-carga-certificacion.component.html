@@ -7,7 +7,7 @@
         <span class="line-spacer"></span>
     </div>
     <!--<P class="divMessageTableOK">Se encontraron "2" archivos pendientes de carga</P>-->
-    <P class="divMessageTableErr">No se encontraron archivos pendientes de carga</P>
+    <!--P class="divMessageTableErr">No se encontraron archivos pendientes de carga</P-->
     <table mat-table [dataSource]="dataSourceInfoArchivo" matSort class="mat-elevation-z8">
 
         <ng-container matColumnDef="nombreArchivo">
@@ -17,7 +17,7 @@
 
         <ng-container matColumnDef="fechaInicioCargue">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA INICIO</th>
-            <td mat-cell *matCellDef="let element"> {{element.fechaArchivo | date: 'medium'}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}} </td>
             <!--medium'yyyy-MM-dd'-->
         </ng-container>
 
@@ -38,7 +38,7 @@
                 <button mat-button color="primary" (click)="procesarArchivo(element)">
                     <mat-icon>assignment_returned</mat-icon>
                 </button>
-                <button mat-button (click)="eliminarArchivo(element.idArchivo)">
+                <button mat-button (click)="eliminarArchivo(element.nombreArchivo, element.idModeloArchivo)">
                     <mat-icon style="color: red">delete</mat-icon>
                 </button>
             </td>

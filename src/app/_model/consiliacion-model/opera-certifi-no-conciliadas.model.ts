@@ -12,7 +12,7 @@ export class ConciliacionesCertificadaNoConciliadasModel {
     codigoPuntoDestino: number;
     tipoPuntoOrigen: string;
     tipoPuntoDestino: string;
-    fechaEjecucion: Date;
+    fechaEjecucion: string;
     tipoOperacion: string;
     tipoServicio: string;
     estadoConciliacion: string;
@@ -23,6 +23,8 @@ export class ConciliacionesCertificadaNoConciliadasModel {
     fallidaOficina: string;
     usuarioCreacion: string;
     usuarioModificacion: string;
-    fechaCreacion: Date;
-    fechaModificacion: Date;
+    fechaCreacion: string;
+    fechaModificacion: string;
+    bancoAVAL: string;
+    tdv: string;
 }

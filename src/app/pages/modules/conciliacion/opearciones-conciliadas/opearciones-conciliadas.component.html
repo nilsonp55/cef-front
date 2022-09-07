@@ -1,10 +1,10 @@
 <div class="divTabla">
     <div class="divTituloTablas">
-        <h1 class="tituloTabla">Operaciones Conciliadas </h1>
+        <h1 class="tituloTabla">Ajustes de Operaciones Conciliadas</h1>
         <span class="line-spacer"></span>
     </div>
     <div class="configScroll">
-        <table mat-table [dataSource]="dataSourceInfoArchivo" matSort>
+        <table mat-table [dataSource]="dataSourceConciliadas" matSort>
             <tr>
                 <ng-container matColumnDef="banco" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> BANCO</th>
@@ -16,7 +16,7 @@
                     <td mat-cell *matCellDef="let element"> {{element.Transportadora}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="ciudad" class="mat-column-nombreCampo">
+                <ng-container matColumnDef="ciudad" class="mat-column-nombreCampo"> 
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> CIUDAD</th>
                     <td mat-cell *matCellDef="let element"> {{element.ciudadOrigen}} </td>
                 </ng-container>
@@ -58,20 +58,20 @@
 
                 <ng-container matColumnDef="fechaEjecucion">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DE EJECUCION</th>
-                    <td mat-cell *matCellDef="let element"> {{element.fechaEjecucion}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaEjecucion | date: 'dd/MM/YYYY'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef> Desconciliar</th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-button (click)="eventoDesconciliar()">
+                        <button mat-button (click)="eventoDesconciliar(element)">
                             <mat-icon style="color: red">broken_image</mat-icon>
                         </button>
                     </td>
                 </ng-container>
             </tr>
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoArchivo"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoArchivo;"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsConciliadas"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsConciliadas;"></tr>
         </table>
     </div>
     <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"

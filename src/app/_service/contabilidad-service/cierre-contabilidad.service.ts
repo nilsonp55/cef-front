@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
  export class CierreContabilidadService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.CIERRE_CONTABILIDAD}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.CIERRE_CONTABILIDAD}`;
 
     constructor(private http: HttpClient) { }
 

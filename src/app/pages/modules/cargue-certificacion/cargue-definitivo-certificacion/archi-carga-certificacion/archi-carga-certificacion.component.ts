@@ -13,8 +13,8 @@ import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinne
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { DialogValidarArchivoComponent } from 'src/app/pages/shared/components/program-preliminar/archivos-cargados/dialog-validar-archivo/dialog-validar-archivo.component';
-import { CargueProgramacionDefinitivaService } from 'src/app/_service/programacion-definitiva-service/programacion-definitiva-service';
 import { DialogResultValidacionCertificacionComponent } from './result-validacion-certificacion/result-validacion.component';
+import { CargueProgramacionCertificadaService } from 'src/app/_service/programacion-certificada.service/programacion-certificada-service';
 
 @Component({
   selector: 'app-archi-carga-certificacion',
@@ -44,14 +44,14 @@ export class ArchiCargaCertificacionComponent implements OnInit {
 
   constructor(private http: HttpClient,
     private dialog: MatDialog,
-    private cargueProgramacionDefinitivaService: CargueProgramacionDefinitivaService,
+    private cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
     private cargueArchivosService: CargueArchivosService,
     public spinnerComponent: SpinnerComponent
   ) { }
 
 
   //Ejecución inicial
-  ngOnInit(): void {debugger
+  ngOnInit(): void {
     this.listarArchivosCargados();
   }
 
@@ -60,8 +60,9 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   * @param: pagina, tamanio
   * @BaironPerez
   */
-  listarArchivosCargados(pagina = 0, tamanio = 5) {debugger
-    this.cargueProgramacionDefinitivaService.consultarArchivosCargaDefinitiva({
+  listarArchivosCargados(pagina = 0, tamanio = 5) {
+    this.cargueProgramacionCertificadaService.consultarArchivosCargaCertificacion({
+      'idMaestroDefinicion': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
       'estado': GENERALES.ESTADO_PENDIENTE
     }).subscribe((page: any) => {
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
@@ -94,8 +95,8 @@ export class ArchiCargaCertificacionComponent implements OnInit {
       if (result) {
         this.spinnerActive = true;
         this.spinnerComponent.dateToString(true);
-        this.cargueProgramacionDefinitivaService.validarArchivo({
-          'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
+        this.cargueProgramacionCertificadaService.validarArchivo({
+          'idMaestroDefinicion': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
           'nombreArchivo': archivo.nombreArchivo
         }).subscribe((data: ValidacionArchivo) => {
           this.spinnerActive = false;
@@ -124,8 +125,8 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   procesarArchivo(archivo: any) {
     this.spinnerActive = true;
     this.spinnerComponent.dateToString(true);
-    this.cargueProgramacionDefinitivaService.procesarArchivo({
-      'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
+    this.cargueProgramacionCertificadaService.procesarArchivo({
+      'idMaestroDefinicion': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
       'nombreArchivo': archivo.nombreArchivo
     }).subscribe((data: any) => {
       this.spinnerActive = false;
@@ -162,18 +163,26 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   * @BaironPerez
   */
   downloadFile(archivo: ArchivoCargadoModel): void {
-    this.cargueArchivosService.visializarArchivo1(archivo.idArchivo).subscribe(blob => {
-      saveAs(blob, archivo.nombreArchivo);
-    });
+    //this.cargueArchivosService.visializarArchivo1(archivo.idArchivo).subscribe(blob => {
+   //   saveAs(blob, archivo.nombreArchivo);
+      //
+      this.cargueArchivosService.visializarArchivo2({
+        'nombreArchivo': archivo.nombreArchivo,
+        'idMaestroArchivo': archivo.idModeloArchivo,
+      }).subscribe(blob => {
+        saveAs(blob, archivo.nombreArchivo);
+      });
+   // });
   }
 
   /** 
   * Metodo para eliminar un registro de archivo previamente cargado
   * @BaironPerez
   */
-  eliminarArchivo(param: any) {
-    this.cargueProgramacionDefinitivaService.deleteArchivo({
-      'id': param
+  eliminarArchivo(nombreArchivo: string, idModeloArchivo: string) {
+    this.cargueProgramacionCertificadaService.deleteArchivo({
+      'nombreArchivo': nombreArchivo,
+      'idModeloArchivo': idModeloArchivo
     }).subscribe(item => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

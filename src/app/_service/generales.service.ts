@@ -14,7 +14,8 @@ import { Injectable } from '@angular/core';
  */
 export class GeneralesService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION}`;
+    //private url: string = `${environment.HOST}${URLs.URI}`;
+    private url: string = `${environment.HOST}${URLs.STAGE}`;
 
     constructor(private http: HttpClient) { }
 
@@ -23,6 +24,10 @@ export class GeneralesService {
     */
     listarTransportadoras(): Observable<any> {
         return this.http.get(`${this.url}${URLs.TRANSPORTADORA}${URLs.TRANSPORTADORA_CONSULTA}`);
+    }
+
+    listarTransportadorasA(): Observable<any> {
+        return this.http.get(`${environment.HOST}`);
     }
 
     /** 
@@ -35,9 +40,9 @@ export class GeneralesService {
 
     /**
     * Servicio para listar todos los bancos
-    * @BayronPerez
+    * @JuanMazo
     */
-     listarBancos(): Observable<any> {
+    listarBancos(): Observable<any> {
         return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}`);
     }
 

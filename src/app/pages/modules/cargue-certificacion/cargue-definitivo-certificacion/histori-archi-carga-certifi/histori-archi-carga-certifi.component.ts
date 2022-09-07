@@ -50,7 +50,7 @@ export class HistoriArchiCargaCertifiComponent implements OnInit {
   */
   listarArchivosCargados(pagina = 0, tamanio = 5) {
     this.cargueArchivosService.obtenerArchivosCargados({
-      'estado': GENERALES.ESTADO_ACTIVO,
+      'agrupador': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {

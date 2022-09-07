@@ -30,8 +30,8 @@ export class OpearcionesConciliadasComponent implements OnInit {
 
 
   //DataSource para pintar tabla de conciliados
-  dataSourceInfoArchivo: MatTableDataSource<ConciliacionesModel>;
-  displayedColumnsInfoArchivo: string[] = ['banco', 'transPortadora', 'ciudad', 'tipoOperacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'ciudadPuntoOrigen', 'ciudadPuntoDestino', 'valor', 'tipoConciliacion', 'fechaEjecucion', 'acciones'];
+  dataSourceConciliadas: MatTableDataSource<ConciliacionesModel>;
+  displayedColumnsConciliadas: string[] = ['banco', 'transPortadora', 'ciudad', 'tipoOperacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'ciudadPuntoOrigen', 'ciudadPuntoDestino', 'valor', 'tipoConciliacion', 'fechaEjecucion', 'acciones'];
 
   constructor(
     private dialog: MatDialog,
@@ -41,47 +41,55 @@ export class OpearcionesConciliadasComponent implements OnInit {
     this.listarConciliados();
   }
 
-  /**
-  * Metodo para gestionar la paginación de la tabla
-  * @JuanMazo
-  */
-   mostrarMas(e: any) {
-    //this.listarArchivosCargados(e.pageIndex, e.pageSize);
-  }
-
    /** 
   * Se realiza consumo de servicio para listar los conciliaciones
   * @JuanMazo
   */
-    listarConciliados() {
-      this.opConciliadasService.obtenerConciliados().subscribe((page: any) => { debugger
-        this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
-        this.dataSourceInfoArchivo.sort = this.sort;
-        this.cantidadRegistros = page.data.totalElements;
+    listarConciliados(pagina = 0, tamanio = 5) {
+      this.opConciliadasService.obtenerConciliados({
+        page: pagina,
+        size: tamanio,
+      }).subscribe((page: any) => { 
+      this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
+      this.dataSourceConciliadas.sort = this.sort;
+      this.cantidadRegistros = page.data.totalElements;
       
     },
     (err: ErrorService) => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_CONCILIADOS,
           codigo: GENERALES.CODE_EMERGENT.ERROR
         }
-      }); setTimeout(() => { alert.close()}, 3000);      
+      });
+      setTimeout(() => { alert.close()}, 3000);      
     });
+  }
+
+  /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+   mostrarMas(e: any) {
+    this.listarConciliados(e.pageIndex, e.pageSize);
   }
 
   /**
    * Evento que levanta un openDialog para pasar a estado no conciliado los conciliados
    * @JuanMazo
    */
-  eventoDesconciliar() {
-    this.dialog.open(DialogDesconciliarComponent, {
+  eventoDesconciliar(event: any) {
+    const dialogRef =this.dialog.open(DialogDesconciliarComponent, {
       width: '400PX',
       data: {
         seleccionDescon: event
       }
     })
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.listarConciliados()
+    });
   }
   
 }

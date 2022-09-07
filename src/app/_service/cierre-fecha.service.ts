@@ -14,7 +14,7 @@ import { Injectable } from '@angular/core';
  */
 export class CierreFechaService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.CIERRE_FECHA}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.CIERRE_FECHA}`;
 
     constructor(private http: HttpClient) { }
 

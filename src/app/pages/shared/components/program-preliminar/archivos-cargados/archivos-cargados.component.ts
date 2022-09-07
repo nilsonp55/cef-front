@@ -15,6 +15,7 @@ import { CargueProgramacionPreliminarService } from 'src/app/_service/programaci
 import { ValidacionArchivo } from 'src/app/_model/cargue-preliminar-model/validacion-archivo.model';
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
 import { SpinnerComponent } from '../../spinner/spinner.component';
+import { DialogVerArchivoComponent } from './dialog-ver-archivo/dialog-ver-archivo.component';
 
 
 @Component({
@@ -34,6 +35,8 @@ export class ArchivosCargadosComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
+
+  fechaDatoIni: Date;
 
   //Variable para activar spinner
   spinnerActive: boolean = false;
@@ -63,9 +66,10 @@ export class ArchivosCargadosComponent implements OnInit {
   */
   listarArchivosCargados(pagina = 0, tamanio = 5) {
     this.cargueArchivosService.obtenerArchivosSubidosPendientesCarga({
-      'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
+      'idModeloArchivo': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP,
       'estado': GENERALES.ESTADO_PENDIENTE
     }).subscribe((page: any) => {
+      //this.fechaDatoIni = page.data.fechaInicioCargue
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
       this.dataSourceInfoArchivo.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
@@ -89,10 +93,9 @@ export class ArchivosCargadosComponent implements OnInit {
   validarArchivo(archivo: any) {
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogValidarArchivoComponent, {
-      width: '750px',
+      width: '750px', data: {nombreArchivo: archivo.nombreArchivo},
     });
     validateArchivo.afterClosed().subscribe(result => {
-      //Si presiona click en aceptar
       if (result) {
         this.spinnerActive = true;
         this.spinnerComponent.dateToString(true);
@@ -102,7 +105,7 @@ export class ArchivosCargadosComponent implements OnInit {
         }).subscribe((data: ValidacionArchivo) => {
           this.spinnerActive = false;
           this.dialog.open(DialogResultValidacionComponent, {
-            width: '750', height: '400', data: data
+            height: '80%', width: '950px', data: {id: archivo.idModeloArchivo, data}
           });
         },
           (err: any) => {
@@ -122,7 +125,7 @@ export class ArchivosCargadosComponent implements OnInit {
   * Metodo encargado de procesar un archivo seleccionado y visualizar su resultado
   * @param: Archivo seleccionado
   * @BaironPerez
-  */
+  */  
   procesarArchivo(archivo: any) {
     this.spinnerActive = true;
     this.spinnerComponent.dateToString(true);
@@ -130,6 +133,7 @@ export class ArchivosCargadosComponent implements OnInit {
       'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
       'nombreArchivo': archivo.nombreArchivo
     }).subscribe((data: any) => {
+      this.listarArchivosCargados();
       this.spinnerActive = false;
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -163,20 +167,24 @@ export class ArchivosCargadosComponent implements OnInit {
   * Metodo para descargar y visualizar un archivo
   * @BaironPerez
   */
-  downloadFile(archivo: ArchivoCargadoModel): void {
-    this.cargueArchivosService.visializarArchivo1(archivo.idArchivo).subscribe(blob => {
-      saveAs(blob, archivo.nombreArchivo);
-    });
+  downloadFile(archivo: any): void { 
+      const verArchivo = this.dialog.open(DialogVerArchivoComponent, {
+        height:'95%', width: '99%',
+        data: archivo
+      });
+    
   }
 
   /** 
   * Metodo para eliminar un registro de archivo previamente cargado
   * @BaironPerez
   */
-  eliminarArchivo(param: any) {
+  eliminarArchivo(nombreArchivo: string, idModeloArchivo: string) {
     this.cargueProgramacionPreliminarService.deleteArchivo({
-      'id': param
+      'nombreArchivo': nombreArchivo,
+      'idMaestroArchivo': idModeloArchivo
     }).subscribe(item => {
+      this.listarArchivosCargados();
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
@@ -187,5 +195,4 @@ export class ArchivosCargadosComponent implements OnInit {
       setTimeout(() => { alert.close() }, 3000);
     })
   }
-
 }

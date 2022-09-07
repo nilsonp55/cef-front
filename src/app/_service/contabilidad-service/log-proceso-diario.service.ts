@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class LogProcesoDiarioService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.PROCESO_DIARIO}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.PROCESO_DIARIO}`;
 
     constructor(private http: HttpClient) { }
 

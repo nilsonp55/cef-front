@@ -17,7 +17,7 @@ import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/cons
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
 import { DialogInfoProgramadasFallidasComponent } from './dialog-info-programadas-fallidas/dialog-info-programadas-fallidas.component';
-import { DialogInfoCertificadasNoConciliadasComponent } from '../opearciones-no-conciliadas/dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
+import { DialogActualizarOpCertificadasComponent } from './dialog-actualizar-op-certificadas/dialog-actualizar-op-certificadas.component';
 import { DialogConciliacionManualComponent } from '../opearciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 
 @Component({
@@ -37,7 +37,8 @@ export class OpearcionesFallidasComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   //Rgistros paginados
-  cantidadRegistros: number;
+  cantidadRegistrosOpProgramadasFallidas: number;
+  cantidadRegistrosOpCertificadasFallidas: number;
 
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
@@ -49,10 +50,10 @@ export class OpearcionesFallidasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'origenDestindo', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'valorTotal', 'acciones'];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'tipoOperacion', 'origenDestindo', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'tipoOperacion', 'valorTotal', 'acciones'];
 
   constructor(
     private dialog: MatDialog,
@@ -111,10 +112,17 @@ export class OpearcionesFallidasComponent implements OnInit {
    * @JuanMazo
    */
   infoOpProgramadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
-    this.dialog.open(DialogInfoProgramadasFallidasComponent, {
+    const dialogRef = this.dialog.open(DialogInfoProgramadasFallidasComponent, {
       width: 'auto',
       data: element
     })
+    dialogRef.afterClosed().subscribe(result => {
+      this.listarOpProgramadasFallidas();
+    });
+  }
+
+  close(){
+   // this.dialogRef.close({event:'Cancel'})
   }
 
   /**
@@ -122,10 +130,13 @@ export class OpearcionesFallidasComponent implements OnInit {
    * @JuanMazo
    */
   infoOpCertificadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
-    this.dialog.open(DialogInfoCertificadasNoConciliadasComponent, {
+    const dialogRef = this.dialog.open(DialogActualizarOpCertificadasComponent, {
       width: 'auto',
       data: element
     })
+    dialogRef.afterClosed().subscribe(result => {
+      this.listarOpCertificadasFallidas();
+    });
   }
 
   /**
@@ -159,7 +170,7 @@ export class OpearcionesFallidasComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_TRANSPORTE.ERROR_TRANSPORTE,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
@@ -186,7 +197,7 @@ export class OpearcionesFallidasComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_BANCO.ERROR_BANCO,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
@@ -198,17 +209,20 @@ export class OpearcionesFallidasComponent implements OnInit {
    * Lista las operaciones programadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpProgramadasFallidas() {
-    this.opConciliadasService.listarOpProgrmadasFallidas().subscribe((page: any) => {
+  listarOpProgramadasFallidas(pagina = 0, tamanio = 5) {
+    this.opConciliadasService.listarOpProgrmadasFallidas({
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
+      this.cantidadRegistrosOpProgramadasFallidas = page.data.totalElements;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_PROGRAMADAS,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
@@ -217,20 +231,31 @@ export class OpearcionesFallidasComponent implements OnInit {
   }
 
   /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+   mostrarMasOpProgramadasFallidas(e: any) {
+    this.listarOpProgramadasFallidas(e.pageIndex, e.pageSize);
+  }
+
+  /**
    * Lista las operaciones certificadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpCertificadasFallidas() {
-    this.opConciliadasService.listarOpCertificadasFallidas().subscribe((page: any) => {
+  listarOpCertificadasFallidas(pagina = 0, tamanio = 5) {
+    this.opConciliadasService.listarOpCertificadasFallidas({
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
       this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
+      this.cantidadRegistrosOpCertificadasFallidas = page.data.totalElements;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_CERTIFICADAS,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
@@ -238,6 +263,13 @@ export class OpearcionesFallidasComponent implements OnInit {
       });
   }
 
+  /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+   mostrarMasOpCertificadasFallidas(e: any) {
+    this.listarOpProgramadasFallidas(e.pageIndex, e.pageSize);
+  }
   /**
    * Captura del id para crear una relación
    * @JuanMazo

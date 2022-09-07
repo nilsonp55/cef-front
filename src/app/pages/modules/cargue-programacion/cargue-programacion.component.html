@@ -1,24 +1,14 @@
 <div class="menu-container">
     <!--Banner superior-->
-    <app-banner-supeior></app-banner-supeior>
-
+    <app-banner-supeior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-supeior>
     <!--Componente barra lateral y area de ejecución-->
     <mat-sidenav-container class="sidenav-container">
         <!--Barra izquierda de opciones (Apodo id = sidenav)-->
-        <mat-sidenav #sidenav opened="true" style="width: 17%" mode="side">
+        <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 17%" mode="side">
             <!--Imagen de menu
             <img src="assets/img/menu.png" width="215" style="display:block; margin:auto; margin-top: 10%">-->
-            <br><br>
             <!--opciones de menu-->
-            <button mat-menu-item routerLink="/buscar" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>search</mat-icon>
-                <span>Buscar</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['cargue-inicial']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>insert_drive_file</mat-icon>
-                <span>Cargue Archivos</span>
-            </button>
+            
             <mat-divider></mat-divider>
             <button mat-menu-item [routerLink]="['administrador-cargue-preliminar']" style="cursor: pointer" routerLinkActive="seleccion-activa">
                 <mat-icon>insert_drive_file</mat-icon>
@@ -30,24 +20,14 @@
                 <span>Gestión cargue definitivo</span>
             </button>
             <mat-divider></mat-divider>
-            <button mat-menu-item routerLink="/consulta-wizard" style="cursor: pointer" routerLinkActive="seleccion-activa">
+            <button mat-menu-item [routerLink]="['administrador-cierre-preliminar']" style="cursor: pointer" routerLinkActive="seleccion-activa">
                 <mat-icon>view_carousel</mat-icon>
-                <span>Opcion 3</span>
+                <span>Cierre program preliminar</span>
             </button>
             <mat-divider></mat-divider>
-            <button mat-menu-item routerLink="/especialidad" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>star_rate</mat-icon>
-                <span>Opcion 4</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item routerLink="/medico" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>healing</mat-icon>
-                <span>Opcion 5</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item (click)="sidenav.toggle()" routerLink="/reporte" style="cursor: pointer">
-                <mat-icon>assessment</mat-icon>
-                <span>Reportes</span>
+            <button mat-menu-item [routerLink]="['administrador-cierre-definitivo']" style="cursor: pointer" routerLinkActive="seleccion-activa">
+                <mat-icon>view_carousel</mat-icon>
+                <span>Cierre program definitiva</span>
             </button>
             <mat-divider></mat-divider>
         </mat-sidenav>

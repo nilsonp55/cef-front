@@ -4,7 +4,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { catchError, of } from 'rxjs';
+import { ErrorService } from 'src/app/_model/error.model';
 
 @Component({
   selector: 'app-dialog-conciliacion-manual',
@@ -19,7 +19,7 @@ import { catchError, of } from 'rxjs';
 export class DialogConciliacionManualComponent implements OnInit {
 
   dataSourceInfoOpProgramadas: MatTableDataSource<any>;
-  displayedColumnsInfoOpProgramadas: string[] = ['codigoFondoTDV', 'tipoPuntoOrigen', 'tipoPuntoDestino', 'tipoOperacion', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fecha', 'tipoServicio', 'valorTotal'];
+  displayedColumnsInfoOpProgramadas: string[] = ['codigoFondoTDV', 'tipoOperacion', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fecha', 'tipoServicio', 'valorTotal'];
 
   datosCoparados: any[] = new Array();
 
@@ -34,8 +34,6 @@ export class DialogConciliacionManualComponent implements OnInit {
         datosCoparados.push({
           tipoOperacion: element.tipoOperacion,
           valorTotal: element.valorTotal,
-          codigoFondoTDV: element.codigoFondoTDV,
-          tipoPuntoOrigen: element.tipoPuntoOrigen,
           tipoPuntoDestino: element.tipoPuntoDestino,
           codigoPuntoOrigen: element.codigoPuntoOrigen,
           codigoPuntoDestino: element.codigoPuntoDestino,
@@ -50,8 +48,6 @@ export class DialogConciliacionManualComponent implements OnInit {
           tipoOperacion: operacionCerfida[0].tipoOperacion,
           valorTotal: operacionCerfida[0].valorTotal,
           codigoFondoTDV: operacionCerfida[0].codigoFondoTDV,
-          tipoPuntoOrigen: operacionCerfida[0].tipoPuntoOrigen,
-          tipoPuntoDestino: operacionCerfida[0].tipoPuntoDestino,
           codigoPuntoOrigen: operacionCerfida[0].codigoPuntoOrigen,
           fechaEjecucion: operacionCerfida[0].fechaEjecucion ? operacionCerfida[0].fechaEjecucion : " ",
           codigoPuntoDestino: operacionCerfida[0].codigoPuntoDestino,
@@ -75,31 +71,18 @@ export class DialogConciliacionManualComponent implements OnInit {
   conciliacionManual() {
     var idOperacion = this.dataSourceInfoOpProgramadas.data[0].idOperacion
     var idCertificacion = this.dataSourceInfoOpProgramadas.data[1].idCertificacion
-    this.opConciliadasService.conciliacionManual(idOperacion, idCertificacion)
-      .pipe(
-        catchError(error => {
-          return of(error);
-        })
-      )
-      .subscribe(item => {
-        if (item.status === 400) {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_CONCILIATION,
-              codigo: GENERALES.CODE_EMERGENT.WARNING
-            }
-          });
-          setTimeout(() => { alert.close() }, 3000);
-        } else {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.SUCCESFULL_CONCILIATION,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
+    this.opConciliadasService.conciliacionManual(idOperacion, idCertificacion).subscribe((page: any) => {
+    },
+    (err: ErrorService) => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_CONCILIATION,
+          codigo: GENERALES.CODE_EMERGENT.ERROR
         }
-      })
+      });
+      setTimeout(() => { alert.close() }, 3000);
+    });
   }
+
 }

@@ -43,22 +43,22 @@
 
                     <ng-container matColumnDef="fechaProgramacion" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROGRAMACION</th>
-                        <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY' : '+00'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="fechaDestino" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROGRAMACION</th>
-                        <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY' : '+00'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="tasaNegociacion" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROGRAMACION</th>
-                        <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY' : '+00'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA ORIGEN</th>
-                        <td mat-cell *matCellDef="let element"> {{element.fechaOrigen}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">

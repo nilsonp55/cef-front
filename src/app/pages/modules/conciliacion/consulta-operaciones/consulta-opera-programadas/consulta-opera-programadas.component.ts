@@ -17,6 +17,7 @@ import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/cons
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
 import { DialogInfoProgramadasNoConciliadasComponent } from '../../opearciones-no-conciliadas/dialog-info-programadas-no-conciliadas/dialog-info-programadas-no-conciliadas.component';
 
+
 @Component({
   selector: 'app-consulta-opera-programadas',
   templateUrl: './consulta-opera-programadas.component.html',
@@ -35,6 +36,8 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
   //Rgistros paginados
   cantidadRegistros: number;
 
+  public load:boolean=false;
+
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
 
@@ -44,20 +47,19 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
   bancoOptions: BancoModel[]
   filteredOptionsBancos: Observable<BancoModel[]>;
 
+
   constructor(
     private dialog: MatDialog,
     private opConciliadasService: OpConciliadasService,
     private generalesService: GeneralesService) { }
 
   ngOnInit(): void {
-    this.listarBancos();
-    this.listarTransportadoras();
     this.listarOpProgramadasSinConciliar();
-
   }
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV','entradaSalida', 'tipoPuntoOrigen', 'codigoPuntoOrigen', 'tipoPuntoDestino', 'codigoPuntoDestino', 'fechaProgramacion','fechaOrigen','fechaDestino', 'tipoOperacion', 'tipoTransporte', 'valorTotal', 'estadoOperacion', 'idNegociacion', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
+  dataConcilicionesComplete:ConciliacionesProgramadasNoConciliadasModel[]
+  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV','entradaSalida', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fechaProgramacion','fechaOrigen','fechaDestino', 'tipoOperacion', 'tdv', 'valorTotal', 'estadoOperacion', 'bancoAVAL', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
 
   /**
 * Metodo para gestionar la paginación de la tabla
@@ -67,104 +69,17 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
     //this.listarArchivosCargados(e.pageIndex, e.pageSize);
   }
 
-  displayFn(banco: any): string {
-    return banco && banco.nombreBanco ? banco.nombreBanco : '';
-  }
-
-  displayFnTrans(transPortadora: any): string {
-    return transPortadora && transPortadora.nombreTransportadora ? transPortadora.nombreTransportadora : '';
-  }
-
-   /**
-   * Filtra las TDV para poder pintar en el editext
-   * @param name 
-   * @JuanMazo
-   */
-  private _filter(name: string): TransportadoraModel[] {
-    const filterValue = name.toLowerCase();
-
-    return this.tranportadoraOptions.filter(option => option.nombreTransportadora.toLowerCase().includes(filterValue));
-
-  }
-
-  /**
-   * Filtra los bancos para poder pintar en el editext
-   * @param name 
-   * @JuanMazo
-   */
-  private filtroBanco(name: string): BancoModel[] {
-    const filterValue = name.toLowerCase();
-    return this.bancoOptions.filter(bancoOption => bancoOption.nombreBanco.toLowerCase().includes(filterValue));
-  }
-
-  /**
-   * Metodo que llama al dialog de Info de op programadas
-   * @JuanMazo
-   */
-  infoOpProgramadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
-    this.dialog.open(DialogInfoProgramadasNoConciliadasComponent, {
-      width: 'auto',
-      data: element
-    })
-  }
-
-
-  /** 
-  * Se realiza consumo de servicio para listar los transportadoras
-  * @JuanMazo
-  */
-  listarTransportadoras() {
-    this.generalesService.listarTransportadoras().subscribe(data => {
-      this.tranportadoraOptions = data.data
-      this.filteredOptionsTranportadora = this.transportadoraForm.valueChanges.pipe(
-        startWith(''),
-        map(value => (typeof value === 'string' ? value : value.name)),
-        map(name => (name ? this._filter(name) : this.tranportadoraOptions.slice())),
-      );
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      });
-  }
-
-  /** 
-  * Se realiza consumo de servicio para listar los bancos
-  * @JuanMazo
-  */
-  listarBancos() {
-    this.generalesService.listarBancos().subscribe(data => {
-      this.bancoOptions = data.data
-      this.filteredOptionsBancos = this.bancosForm.valueChanges.pipe(
-        startWith(''),
-        map(value => (typeof value === 'string' ? value : value.name)),
-        map(name => (name ? this.filtroBanco(name) : this.bancoOptions.slice())),
-      );
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      });
-  }
-
   /**
    * Lista las operaciones programadas sin conciliar
    * @JuanMazo
    */
-  listarOpProgramadasSinConciliar() {
-    this.opConciliadasService.obtenerOpProgramadasSinconciliar().subscribe((page: any) => {
+  listarOpProgramadasSinConciliar(pagina = 0, tamanio = 5) {
+    this.opConciliadasService.obtenerOpProgramadasSinconciliar({
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
+      this.load=true;
+      this.dataConcilicionesComplete=page.data.content;
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
@@ -173,7 +88,7 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_PROGRAMADAS,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
@@ -181,4 +96,30 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
       });
   }
 
+  filter(event) {
+    if(event.banco !== undefined && event.trasportadora !== undefined){
+      var filterData=this.dataConcilicionesComplete.filter(conciliado=>conciliado.tdv===event.trasportadora && conciliado.bancoAVAL===event.banco);
+      this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
+      this.dataSourceOperacionesProgramadas.sort = this.sort;
+      this.cantidadRegistros =filterData.length;
+    }else if(event.banco == undefined && event.trasportadora !== undefined) {
+      var filterData=this.dataConcilicionesComplete.filter(conciliado=>conciliado.tdv===event.trasportadora);
+      this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
+      this.dataSourceOperacionesProgramadas.sort = this.sort;
+      this.cantidadRegistros =filterData.length;
+    }else if(event.trasportadora == undefined && event.banco !== undefined) {
+      var filterData=this.dataConcilicionesComplete.filter(conciliado=>conciliado.bancoAVAL===event.banco);
+      this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
+      this.dataSourceOperacionesProgramadas.sort = this.sort;
+      this.cantidadRegistros =filterData.length;
+    }
+  }
+  
+     /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+    mostrarMasOpProgramadasSinConciliar(e: any) {
+      this.listarOpProgramadasSinConciliar(e.pageIndex, e.pageSize);
+    }
 }

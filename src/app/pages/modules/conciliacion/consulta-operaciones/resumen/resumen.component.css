@@ -1,9 +1,33 @@
-/*
-* ESTILOS PARA LA TABLA DE HISORICO DE CARGUE ARCHIVOS STEPER #3
-*/
-.tituloTabla {
-    padding-top: 2%;
-    text-align: center;
-    margin-left: 40%;
-}
+.division-filtro {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 15%;
+  }
 
+  .ubicacionBotonFiltrar {
+    margin-top: 8%;
+  }
+
+  .mat-table {
+    text-align: center;
+  }
+
+  .disenio-titulo {
+    margin-left: 4%;
+    background-color: #332c52;
+    color: #fff;
+    height: 40px;
+    width: 300px;
+    text-align: center;
+  }
+
+  table {
+    width: 1380px;
+    margin-left: 4%;
+    margin-right: 6%;
+  }
+
+  .disenio-spinner{
+    margin-top: 5%;
+    margin-left: 40%;
+  }

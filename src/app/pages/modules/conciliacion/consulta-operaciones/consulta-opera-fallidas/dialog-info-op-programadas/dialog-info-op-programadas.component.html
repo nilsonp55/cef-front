@@ -1,0 +1,109 @@
+<div class="divTablaProg">
+    <div class="divTituloTablas">
+        <h1 class="tituloTabla">Información de operación programada no conciliada</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <div class="configScroll">
+        <table mat-table [dataSource]="dataSourceInfoOpProgramadasFallidas" matSort>
+            <tr>
+                <ng-container matColumnDef="idOperacion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                    <td mat-cell *matCellDef="let element"> {{element.idOperacion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigoFondoTDV" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>COD. FONDO TDV</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigoFondoTDV}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA SALIDA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoPuntoOrigen" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO PUNTO ORIGEN</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoPuntoOrigen}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigoPuntoOrigen" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>COD PUNTO ORIGEN</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigoPuntoOrigen}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoPuntoDestino" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO DESTINO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoPuntoDestino}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigoPuntoDestino">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO DESTINO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigoPuntoDestino}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fechaProgramacion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROGRAMACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fechaDestino" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROGRAMACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tasaNegociacion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROGRAMACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA ORIGEN</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO OPERACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoTransporte" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO TRANSPORTE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoTransporte}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valorTotal" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR</th>
+                    <td mat-cell *matCellDef="let element"> {{element.valorTotal}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="estadoOperacion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO OPERACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.estadoOperacion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="idNegociacion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID NEGOCIACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.idNegociacion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="idOperacionRelac" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID OPERACION RELACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.idOperacionRelac}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoServicio" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO SERVICIO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoServicio}} </td>
+                </ng-container>
+
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoOpProgramadas"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoOpProgramadas;"></tr>
+        </table>
+    </div>
+</div>

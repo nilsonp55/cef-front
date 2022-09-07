@@ -1,0 +1,27 @@
+<div class="division-busqueda">
+    <div class="ubicacionBanco">
+        <mat-form-field appearance="fill">
+            <mat-label>Bancos grupo aval</mat-label>
+            <mat-select (selectionChange)="selectBanco($event)">
+              <mat-option *ngFor="let bancoOption of bancoOptions" [value]="bancoOption.nombreBanco">
+                {{bancoOption.nombreBanco}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div class="ubicacionTdV">
+        <mat-form-field appearance="fill">
+            <mat-label>Transportadoras</mat-label>
+            <mat-select (selectionChange)="selectTrasportadora($event)">
+              <mat-option *ngFor="let tranportadoraOption of tranportadoraOptions" [value]="tranportadoraOption.nombreTransportadora">
+                {{tranportadoraOption.nombreTransportadora}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div>
+        <div class="ubicacionBotonFiltrar">
+            <button mat-raised-button color="primary" (click)="filter()">FILTRAR</button>
+        </div>
+    </div>
+</div>

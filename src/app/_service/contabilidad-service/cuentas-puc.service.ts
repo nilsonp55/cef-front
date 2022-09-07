@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class CuentasPucService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.ADMIN_CUENTAS_PUC}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_CUENTAS_PUC}`;
 
     constructor(private http: HttpClient) { }
 

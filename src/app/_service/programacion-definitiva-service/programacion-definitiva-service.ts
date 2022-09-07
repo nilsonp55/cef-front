@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class CargueProgramacionDefinitivaService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.PROGRAMACION_DEFINITIVA}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.PROGRAMACION_DEFINITIVA}`;
 
     constructor(private http: HttpClient) { }
 
@@ -33,8 +33,9 @@ export class CargueProgramacionDefinitivaService {
     /**
      * Servicio para ralizar la validación de un archivo 
      */
-     public consultarArchivosCargaDefinitiva(params: any): Observable<any> {debugger
+     public consultarArchivosCargaDefinitiva(params: any): Observable<any> {
         const formData: FormData = new FormData();
+        //return this.http.get<any>(`${environment.HOST+URLs.STAGE}${URLs.PROGRAMACION_CERTIFICACION+URLs.PROGRAMACION_CERTIFICACION_CONSULTAR}`, { params: params });
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_DEFINITIVA_CONSULTAR}`, { params: params });
     }
 

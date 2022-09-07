@@ -8,8 +8,24 @@
     flex: 1 1 auto;
 }
 .enlinea {
-    display: flex;
+    
+    grid-template-columns: 1fr;
+    
 }
 .color {
     color: #fff
+}
+
+.sesion {
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+}
+
+.sesion-name {
+    font-size: small;
+}
+
+.sesion-date {
+    font-size: small;
 }

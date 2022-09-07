@@ -30,6 +30,8 @@ export class HistoricoArchivosCargadosDefinitivoComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
+  idModeloArch: string;
+  idArchivo: any;
 
   //DataSource para pintar tabla de archivos cargados
   dataSourceInfoArchivo: MatTableDataSource<ArchivoCargadoModel>;
@@ -52,7 +54,7 @@ export class HistoricoArchivosCargadosDefinitivoComponent implements OnInit {
   */
   listarArchivosCargados(pagina = 0, tamanio = 5) {
     this.cargueArchivosService.obtenerArchivosCargados({
-      'estado': GENERALES.ESTADO_ACTIVO,
+      'agrupador': GENERALES.CARGUE_DEFINITIVO_PROGRAMACION_SERVICIOS,
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
@@ -75,12 +77,15 @@ export class HistoricoArchivosCargadosDefinitivoComponent implements OnInit {
    * Metodo encargado de mosrar la ventana emergente con el log de carga
    * @BaironPerez
    */
-  verLog(idArchivoCargado) {
+  verLog(idArchivoCargado, idModeloArchivo) {
     this.cargueProgramacionDefinitivoService.verDetalleArchivo({
       'idArchivoCargado': idArchivoCargado
     }).subscribe(data => {
+      this.idArchivo = idArchivoCargado;
+      this.idModeloArch = idModeloArchivo;
+      console.log(data)
       const validateArchivo = this.dialog.open(LogArchivoCargadoDefinitivoComponent, {
-        width: '950px', height: '400', data: data,
+        width: '950px', height: '400px', data: {id: this.idArchivo, idModArch: this.idModeloArch, data}
       });
     });
   }

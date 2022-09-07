@@ -12,6 +12,8 @@ export class ConciliacionesProgramadasNoConciliadasModel {
     tipoPuntoDestino: string;
     codigoPuntoDestino: number;
     fechaProgramacion: string;
+    tdv:string;
+    bancoAVAL:string;
     fechaOrigen: string;
     fechaDestino: string;
     tipoOperacion: string;

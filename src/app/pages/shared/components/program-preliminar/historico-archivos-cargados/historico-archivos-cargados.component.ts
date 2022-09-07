@@ -6,11 +6,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ArchivoCargadoModel } from 'src/app/_model/cargue-preliminar-model/archivo-cargado.model';
+import { ValidacionArchivo } from 'src/app/_model/cargue-preliminar-model/validacion-archivo.model';
 import { ErrorService } from 'src/app/_model/error.model';
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
 import { CargueProgramacionPreliminarService } from 'src/app/_service/programacion-preliminar-service/cargue-programacion-preliminar.service';
 import { GENERALES } from '../../../constantes';
 import { VentanaEmergenteResponseComponent } from '../../ventana-emergente-response/ventana-emergente-response.component';
+import { DialogResultValidacionComponent } from '../archivos-cargados/dialog-result-validacion/dialog-result-validacion.component';
+import { DialogValidarArchivoComponent } from '../archivos-cargados/dialog-validar-archivo/dialog-validar-archivo.component';
 import { LogArchivosCargadosComponent } from './log-archivos-cargados/log-archivos-cargados.component';
 
 @Component({
@@ -27,6 +30,8 @@ export class HistoricoArchivosCargadosComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  idArchivo: any;
 
   //Rgistros paginados
   cantidadRegistros: number;
@@ -53,7 +58,7 @@ export class HistoricoArchivosCargadosComponent implements OnInit {
   */
   listarArchivosCargados(pagina = 0, tamanio = 5) {
     this.cargueArchivosService.obtenerArchivosCargados({
-      'estado': GENERALES.ESTADO_ACTIVO,
+      'agrupador': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP,
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
@@ -76,12 +81,13 @@ export class HistoricoArchivosCargadosComponent implements OnInit {
    * Metodo encargado de mosrar la ventana emergente con el log de carga
    * @BaironPerez
    */
-  verLog(idArchivoCargado) {
+  verLog(idArchivoCargado, nombreArchivo) {
     this.cargueProgramacionPreliminarService.verDetalleArchivo({
       'idArchivoCargado': idArchivoCargado
     }).subscribe(data => {
+      this.idArchivo = idArchivoCargado
       const validateArchivo = this.dialog.open(LogArchivosCargadosComponent, {
-        width: '950px', height: '400', data: data,
+        width: '950px', height: '400px', data: {id: this.idArchivo, data},
       });
     });
   }

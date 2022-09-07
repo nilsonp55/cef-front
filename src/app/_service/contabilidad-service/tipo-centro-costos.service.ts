@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class CentroCostosService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.ADMIN_TIPO_CENTRO_COSTOS}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_TIPO_CENTRO_COSTOS}`;
 
     constructor(private http: HttpClient) { }
 

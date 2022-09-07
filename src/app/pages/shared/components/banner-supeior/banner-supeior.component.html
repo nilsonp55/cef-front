@@ -3,12 +3,23 @@
     <button mat-icon-button (click)="eventoMenu($event)">
         <mat-icon class="color">menu</mat-icon>
     </button>
-    <img src="assets/img/titulo_banner.png" width="240">
-    <h1 class="example-app-name">ADMINISTRACIÓN DE EFECTIVO</h1>
+    <div routerLink="active">
+        <a [routerLink]="['/home']">
+    <img src="assets/img/logo_CE-1.png" width="240">
+        </a>
+    </div>
+    <h1 class="example-app-name"></h1>
     <!--Separar de esquina a esquina los 2 objetos-->
     <span class="line-spacer"></span>
     <div class="enlinea">
-        <p style="font-size: 14px; color: rgb(255, 255, 255);">Bayron Andres Perez uñoz</p>
+        <div>
+        <p >Bayron Andres Perez Muñoz</p>
+    </div>
+    <br>
+    <div class="sesion">
+        <p class="sesion-name">Bayron Andres Perez Muñoz</p>
+        <p class="sesion-date">07 de Marzo de 2020  - 10:00pm</p>
+    </div>
         <!--Icono zona derecha (Menu descplegable)-->
         <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
@@ -28,6 +39,6 @@
 </mat-toolbar>
 <!--Div complmenario para info de sesion-->
 <div style="background-color: #26213d; height: 20px; display: flex">
-    <p style="font-size:11px; margin-left: 3%; color:rgb(255, 255, 255)">Proyecto de gestión de efectivo </p>
-    <p style="margin-left: 73%; color:rgb(255, 255, 255)">07 de Marzo de 2020  - 10:00pm</p>
+    <p style="font-size:11px; margin-left: 3%; color:rgb(255, 255, 255)"></p>
+    <p style="margin-left: 73%; color:rgb(255, 255, 255)"></p>
 </div>

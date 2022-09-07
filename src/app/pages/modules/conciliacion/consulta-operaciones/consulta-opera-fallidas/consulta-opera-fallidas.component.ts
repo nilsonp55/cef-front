@@ -17,7 +17,8 @@ import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/cons
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
 import { DialogInfoCertificadasNoConciliadasComponent } from '../../opearciones-no-conciliadas/dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
-import { DialogInfoProgramadasFallidasComponent } from '../../opearciones-fallidas/dialog-info-programadas-fallidas/dialog-info-programadas-fallidas.component';
+import * as moment from 'moment';
+import { DialogInfoOpProgramadasComponent } from './dialog-info-op-programadas/dialog-info-op-programadas.component';
 import { DialogConciliacionManualComponent } from '../../opearciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 
 
@@ -49,10 +50,10 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'origenDestindo', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'valorTotal', 'acciones'];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'tipoOperacion', 'origenDestindo', 'valorTotal','acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'tipoOperacion', 'valorTotal','acciones'];
 
 
   constructor(
@@ -67,14 +68,6 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     this.listarOpProgramadasFallidas();
     this.listarOpCertificadasFallidas();
 
-  }
-
-  /**
-* Metodo para gestionar la paginación de la tabla
-* @BaironPerez
-*/
-  mostrarMas(e: any) {
-    //this.listarArchivosCargados(e.pageIndex, e.pageSize);
   }
 
   displayFn(banco: any): string {
@@ -109,7 +102,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
    * @JuanMazo
    */
   infoOpProgramadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
-    this.dialog.open(DialogInfoProgramadasFallidasComponent, {
+    this.dialog.open(DialogInfoOpProgramadasComponent, {
       width: 'auto',
       data: element
     })
@@ -157,7 +150,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_TRANSPORTE.ERROR_TRANSPORTE,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
@@ -185,7 +178,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_BANCO.ERROR_BANCO,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
@@ -197,8 +190,11 @@ export class ConsultaOperaFallidasComponent implements OnInit {
    * Lista las operaciones programadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpProgramadasFallidas() {
-    this.opConciliadasService.listarOpProgrmadasFallidas().subscribe((page: any) => {
+  listarOpProgramadasFallidas(pagina = 0, tamanio = 5) {
+    this.opConciliadasService.listarOpProgrmadasFallidas({
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
@@ -216,11 +212,23 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   }
 
   /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+   mostrarMasOpProgramadasFallidas(e: any) {
+    this.listarOpProgramadasFallidas(e.pageIndex, e.pageSize);
+  }
+
+  /**
    * Lista las operaciones certificadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpCertificadasFallidas() {
-    this.opConciliadasService.listarOpCertificadasFallidas().subscribe((page: any) => {
+   listarOpCertificadasFallidas(pagina = 0, tamanio = 5) {
+    this.opConciliadasService.listarOpCertificadasFallidas({
+        page: pagina,
+        size: tamanio
+      }).subscribe((page: any) => {
+      page.fechaEjecucion = moment(page.data.content).format('DD/MM/YYYY')
       this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesCertificadas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
@@ -229,7 +237,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_CERTIFICADAS,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
@@ -237,4 +245,11 @@ export class ConsultaOperaFallidasComponent implements OnInit {
       });
   }
 
+  /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+     mostrarMasOpCertificadasFallidas(e: any) {
+      this.listarOpCertificadasFallidas(e.pageIndex, e.pageSize);
+    }
 }

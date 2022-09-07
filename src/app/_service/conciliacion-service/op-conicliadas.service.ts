@@ -14,7 +14,9 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class OpConciliadasService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.CONCILIACION}`;
+    private url: string = `${environment.HOST}${URLs.STAGE}${URLs.CONCILIACION}`;
+
+    //private url: string = `${environment.HOST}${URLs.API_VERSION}${URLs.CONCILIACION}`;
 
     constructor(private http: HttpClient) { }
 
@@ -26,16 +28,16 @@ export class OpConciliadasService {
     /** 
      * Servicio para listar conciliados
     */
-    obtenerConciliados() {
-        return this.http.post<any>(`${this.url}${URLs.CONCILIACION_CONSULTA}`, null);
+    obtenerConciliados(params: any) {
+        return this.http.post<any>(`${this.url}${URLs.CONCILIACION_CONSULTA}`, { params: params });
     }
 
     /**
      * Servicio para listar las operaciones progrmadas sin conciliar
      * @returns 
      */
-    obtenerOpProgramadasSinconciliar(): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR + '?estadoConciliacion=No Conciliado'}`, null);
+    obtenerOpProgramadasSinconciliar(params: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR + '?estadoConciliacion=No Conciliado'}`, { params: params });
     }
 
     /**
@@ -44,7 +46,7 @@ export class OpConciliadasService {
      * @returns 
      */
     obtenerOpCertificadasSinconciliar(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.OP_CERTIFICADAS_SIN_CONCILIAR + '?estadoConciliacion=No Conciliado'}`, null);
+        return this.http.post<any>(`${this.url}${URLs.OP_CERTIFICADAS_SIN_CONCILIAR}`, null);
     }
 
     /**
@@ -54,23 +56,23 @@ export class OpConciliadasService {
      * @JuanMazo
      */
     conciliacionManual(idOperacion: any, idCertificacion: any): Observable<any> {
-        return this.http.post<any>(`${environment.HOST}${URLs.API_VERSION}${URLs.CONCILIACION_MANUAL}`, { idOperacion, idCertificacion });
+        return this.http.post<any>(`${this.url}${URLs.CONCILIACION_MANUAL}`, [{ idOperacion, idCertificacion }]);
     }
 
     /**
      * Servicio que nos trae la lista de OP Programadas fallidas
      * @JuanMazo
      */
-    listarOpProgrmadasFallidas(): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR + '?estadoConciliacion=No Conciliado&estadoConciliacion=fallido&estadoConciliacion=canceladas&estadoConciliacion=pospuesta&estadoConciliacion=fuera de conciliacion'}`, null);
+    listarOpProgrmadasFallidas(params: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR + '?estadoConciliacion=No Conciliado&estadoConciliacion=fallido&estadoConciliacion=canceladas&estadoConciliacion=pospuesta&estadoConciliacion=fuera de conciliacion'}`, { params: params });
     }
 
     /**
      * Servicio que nos trae la lista de OP Certificadas fallidas
      * @JuanMazo
      */
-    listarOpCertificadasFallidas(): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.OP_CERTIFICADAS_SIN_CONCILIAR + '?estadoConciliacion=No Conciliado&estadoConciliacion=fallido&estadoConciliacion=canceladas&estadoConciliacion=pospuesta&estadoConciliacion=fuera de conciliacion'}`, null);
+    listarOpCertificadasFallidas(params: any): Observable<any> {
+        return this.http.post<any>(`${this.url + '/certificadas-no-conciliadas-estadoconciliacion-no_conciliada-estadoconciliacion-fallida-estadoconciliacion-cancelada-estadoconciliacion-pospuesta-estadoconciliacion-fuera_de_conciliacion'}`, { params: params });
     }
 
     /**
@@ -78,15 +80,39 @@ export class OpConciliadasService {
      * @param idConciliacion Recibe un parametro con el cual se hace la desociliación
      */
     desconciliar(idConciliacion: any) {
-        return this.http.post<any>(`${this.url}/${URLs.DESCONCILIAR}`, { idConciliacion })
+        return this.http.post<any>(`${this.url}/${URLs.DESCONCILIAR}`,idConciliacion)
     }
 
     /** 
     *Metodo encargado de optener el resumen de operaciones
     *@BaironPerez
     */
-    obtenerResumen(): Observable<any> {
-        return this.http.get(`${this.url}${URLs.OP_RESUMEN}`);
+    obtenerResumen(data: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.OP_RESUMEN}`,data);
+    }
+
+    /**
+     * Servicio que permite actualizar el estado de las operaciones programadas
+     * @JuanMazo
+     */
+    actualizarOpProgramadas(params: any): Observable<any> {
+        return this.http.post(`${this.url}${URLs.ACTUALIZAR_OP_PROGRAMADAS}`,  params );
+    }
+
+    /**
+     * Servicio que permite actualizar el estado de las operaciones certificadas
+     * @JuanMazo
+     */
+    actualizarOpCertificadas(params: any): Observable<any> {
+        return this.http.post(`${this.url}${URLs.ACTUALIZAR_OP_CERTIFICADAS}`,  params );
+    }
+
+    /**
+     * Servicio para cerrar el proceso de conciliación
+     */
+     public procesar(param: any): Observable<any> {
+        const formData: FormData = new FormData();
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_CIERRE}/${param}`);
     }
 
 }

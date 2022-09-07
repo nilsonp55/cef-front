@@ -5,16 +5,16 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ErrorService } from 'src/app/_model/error.model';
-import { saveAs } from 'file-saver';
 import { ArchivoCargadoModel } from 'src/app/_model/cargue-preliminar-model/archivo-cargado.model';
 import { ValidacionArchivo } from 'src/app/_model/cargue-preliminar-model/validacion-archivo.model';
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
 import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { DialogResultValidacionComponent } from './dialog-result-validacion/dialog-result-validacion.component';
 import { DialogValidarArchivoComponent } from 'src/app/pages/shared/components/program-preliminar/archivos-cargados/dialog-validar-archivo/dialog-validar-archivo.component';
 import { CargueProgramacionDefinitivaService } from 'src/app/_service/programacion-definitiva-service/programacion-definitiva-service';
+import { DialogVerArchivoComponent } from 'src/app/pages/shared/components/program-preliminar/archivos-cargados/dialog-ver-archivo/dialog-ver-archivo.component';
+import { DialogResulValidacionComponent } from './dialog-resul-validacion/dialog-resul-validacion.component';
 
 @Component({
   selector: 'app-archivos-cargados-definitivo',
@@ -46,7 +46,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
 
 
   //Ejecución inicial
-  ngOnInit(): void {debugger
+  ngOnInit(): void {
     this.listarArchivosCargados();
   }
 
@@ -55,9 +55,10 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   * @param: pagina, tamanio
   * @BaironPerez
   */
-  listarArchivosCargados(pagina = 0, tamanio = 5) {debugger
+  listarArchivosCargados(pagina = 0, tamanio = 5) {
     this.cargueProgramacionDefinitivaService.consultarArchivosCargaDefinitiva({
-      'estado': GENERALES.ESTADO_PENDIENTE
+      'estado': GENERALES.ESTADO_PENDIENTE,
+      'idModeloArchivo': GENERALES.CARGUE_DEFINITIVO_PROGRAMACION_SERVICIOS,
     }).subscribe((page: any) => {
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
       this.dataSourceInfoArchivo.sort = this.sort;
@@ -82,20 +83,19 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   validarArchivo(archivo: any) {
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogValidarArchivoComponent, {
-      width: '750px',
+      width: '750px', data: {nombreArchivo: archivo.nombreArchivo}
     });
     validateArchivo.afterClosed().subscribe(result => {
-      //Si presiona click en aceptar
       if (result) {
         this.spinnerActive = true;
         this.spinnerComponent.dateToString(true);
         this.cargueProgramacionDefinitivaService.validarArchivo({
-          'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
+          'idMaestroDefinicion': archivo.idModeloArchivo,
           'nombreArchivo': archivo.nombreArchivo
         }).subscribe((data: ValidacionArchivo) => {
           this.spinnerActive = false;
-          this.dialog.open(DialogResultValidacionComponent, {
-            width: '750', height: '400', data: data
+          this.dialog.open(DialogResulValidacionComponent, {
+            width: '950px', height: '60%', data: {id: archivo.idModeloArchivo, data},
           });
         },
           (err: any) => {
@@ -120,9 +120,10 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
     this.spinnerActive = true;
     this.spinnerComponent.dateToString(true);
     this.cargueProgramacionDefinitivaService.procesarArchivo({
-      'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
+      'idMaestroDefinicion': archivo.idModeloArchivo,
       'nombreArchivo': archivo.nombreArchivo
     }).subscribe((data: any) => {
+      this.listarArchivosCargados();
       this.spinnerActive = false;
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -157,8 +158,8 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   * @BaironPerez
   */
   downloadFile(archivo: ArchivoCargadoModel): void {
-    this.cargueArchivosService.visializarArchivo1(archivo.idArchivo).subscribe(blob => {
-      saveAs(blob, archivo.nombreArchivo);
+    const verArchivo = this.dialog.open(DialogVerArchivoComponent, {
+     height:'90%', width: '90%', data: archivo
     });
   }
 
@@ -166,10 +167,12 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   * Metodo para eliminar un registro de archivo previamente cargado
   * @BaironPerez
   */
-  eliminarArchivo(param: any) {
+  eliminarArchivo(nombreArchivo: string, idModeloArchivo: string) {
     this.cargueProgramacionDefinitivaService.deleteArchivo({
-      'id': param
+      'nombreArchivo': nombreArchivo,
+      'idModeloArchivo': idModeloArchivo
     }).subscribe(item => {
+      this.listarArchivosCargados();
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {

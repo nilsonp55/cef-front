@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -31,7 +31,6 @@ import { BannerSupeiorComponent } from './pages/shared/components/banner-supeior
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DatePipe } from '@angular/common';
 import {MatSelectModule} from '@angular/material/select';
 import { FooterComponent } from './pages/shared/components/footer/footer.component';
 import { MatStepperModule} from '@angular/material/stepper';
@@ -76,9 +75,11 @@ import { AdministradorCuentasPucComponent } from './pages/modules/administracion
 import { AdministradorTipoCentroCostosComponent } from './pages/modules/administracion/administrador-tipo-centro-costos/administrador-tipo-centro-costos.component';
 import { AdministracionCentroCiudadesComponent } from './pages/modules/administracion/administracion-centro-ciudades/administracion-centro-ciudades.component';
 import { AdministracionConfContableEntidadComponent } from './pages/modules/administracion/administracion-conf-contable-entidad/administracion-conf-contable-entidad.component';
-import { CierreFechaComponent } from './pages/modules/administracion/cierre-fecha/cierre-fecha.component';import { ResultadoContabilidadComponent } from './pages/modules/contabilizacion/resultado-contabilidad/resultado-contabilidad.component';
+import { CierreFechaComponent } from './pages/modules/administracion/cierre-fecha/cierre-fecha.component';
+import { ResultadoContabilidadComponent } from './pages/modules/contabilizacion/resultado-contabilidad/resultado-contabilidad.component';
 import { MenuContabilidadComponent } from './pages/modules/contabilizacion/menu-contabilidad/menu-contabilidad.component';
 import { DialogConfirmEjecutarComponentComponent } from './pages/modules/contabilizacion/dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
+import { CierreProgramacionPreliminarComponent } from './pages/modules/cargue-programacion/cierre-programacion-preliminar/cierre-programacion-preliminar.component';
 import { ContabilidadPmComponent } from './pages/modules/contabilizacion/contabilidad-pm/contabilidad-pm.component';
 import { ContabilidadAmComponent } from './pages/modules/contabilizacion/contabilidad-am/contabilidad-am.component';
 import { AdministracionDominiosComponent } from './pages/modules/administracion/administracion-dominios/administracion-dominios.component';
@@ -90,8 +91,16 @@ import { ModificarPuntoComponent } from './pages/modules/administracion/gestion-
 import { CrearPuntoComponent } from './pages/modules/administracion/gestion-puntos/crear-punto/crear-punto.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CierreProgramacionDefinitivaComponent } from './pages/modules/cargue-programacion/cierre-programacion-definitiva/cierre-programacion-definitiva.component';
+import { FiltroBancoTdvComponent } from './pages/shared/components/filtro-banco-tdv/filtro-banco-tdv.component';
 import { GenerarContabilidadAmComponent } from './pages/modules/contabilizacion/generar-contabilidad-am/generar-contabilidad-am.component';
 import { GenerarContabilidadPmComponent } from './pages/modules/contabilizacion/generar-contabilidad-pm/generar-contabilidad-pm.component';
+import { DialogInfoOpProgramadasComponent } from './pages/modules/conciliacion/consulta-operaciones/consulta-opera-fallidas/dialog-info-op-programadas/dialog-info-op-programadas.component';
+import { DialogActualizarOpCertificadasComponent } from './pages/modules/conciliacion/opearciones-fallidas/dialog-actualizar-op-certificadas/dialog-actualizar-op-certificadas.component';
+import { CierreConciliacionComponent } from './pages/modules/conciliacion/cierre-conciliacion/cierre-conciliacion.component';
+import { CierreCertificacionComponent } from './pages/modules/cargue-certificacion/cierre-certificacion/cierre-certificacion.component';
+import { DialogVerArchivoComponent } from './pages/shared/components/program-preliminar/archivos-cargados/dialog-ver-archivo/dialog-ver-archivo.component';
+import { DialogVerArchivoDefiComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/dialog-ver-archivo-defi/dialog-ver-archivo-defi.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +127,7 @@ import { GenerarContabilidadPmComponent } from './pages/modules/contabilizacion/
     OpearcionesConciliadasComponent,
     OpearcionesNoConciliadasComponent,
     OpearcionesFallidasComponent,
+    CierreFechaComponent,
     DialogDesconciliarComponent,
     SpinnerComponent,
     ArchivosCargadosDefinitivoComponent,
@@ -146,6 +156,7 @@ import { GenerarContabilidadPmComponent } from './pages/modules/contabilizacion/
     CierreFechaComponent,
     ResultadoContabilidadComponent,
     MenuContabilidadComponent,
+    CierreProgramacionPreliminarComponent,
     DialogConfirmEjecutarComponentComponent,
     ContabilidadPmComponent,
     ContabilidadAmComponent,
@@ -157,10 +168,24 @@ import { GenerarContabilidadPmComponent } from './pages/modules/contabilizacion/
     ModificarPuntoComponent,
     CrearPuntoComponent,
     GenerarContabilidadAmComponent,
-    GenerarContabilidadPmComponent
+    GenerarContabilidadPmComponent,
+    CierreProgramacionDefinitivaComponent,
+    DialogInfoOpProgramadasComponent,
+    DialogActualizarOpCertificadasComponent,
+    FiltroBancoTdvComponent,
+    DialogTablaDominioComponent,
+    DialogIdentificadorDominioComponent,
+    DialogEliminarIdentificadorComponent,
+    CierreConciliacionComponent,
+    DialogVerArchivoComponent,
+    CierreCertificacionComponent,
+    DialogVerArchivoDefiComponent,
+    DialogResultValidacionComponent
   ],
 
   imports: [
+    CommonModule,
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -191,9 +216,10 @@ import { GenerarContabilidadPmComponent } from './pages/modules/contabilizacion/
     MatGridListModule,
     MatProgressSpinnerModule,
     MatRadioModule,
-    MatCheckboxModule
-  ],
-  providers: [DatePipe, MatDatepickerModule, SpinnerComponent],
+    MatSelectModule,
+    MatCheckboxModule,
+    ],
+  providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

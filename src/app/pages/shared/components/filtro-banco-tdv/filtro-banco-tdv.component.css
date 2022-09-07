@@ -1,0 +1,16 @@
+  .division-busqueda {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+ 
+  .ubicacionBotonFiltrar {
+    margin-top: 8%;
+  }
+
+  .ubicacionBanco {
+    text-align: right;
+  }
+
+  .ubicacionTdV{
+    text-align: center;
+  }

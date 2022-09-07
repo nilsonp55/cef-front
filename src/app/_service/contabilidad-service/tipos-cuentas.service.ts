@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class TiposCuentasService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.ADMIN_TIPOS_CUENTAS}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_TIPOS_CUENTAS}`;
 
     constructor(private http: HttpClient) { }
 

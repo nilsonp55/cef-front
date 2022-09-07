@@ -1,0 +1,46 @@
+<!--Sprinner-->
+<app-spinner *ngIf="spinnerActive"></app-spinner>
+<!--Tabla Descripción de archivos cargados-->
+<div class="divTabla">
+    <div class="divTituloTablas">
+        <h1 class="tituloTabla">Cierre de Certificación</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="idLogProceso">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID PROCESO</th>
+            <td mat-cell *matCellDef="let element"> {{element.idLogProceso }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fechaProceso">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA PROCESO</th>
+            <td mat-cell *matCellDef="let element"> {{element.idLogProceso | date: 'medium'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actividad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ACTIVIDAD</th>
+            <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO</th>
+            <td mat-cell style="color: rgb(36, 162, 51);" *matCellDef="let element"> {{element.estadoProceso}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+            <td mat-cell *matCellDef="let element">
+                <button *ngIf="element.codigoProceso == 'CARG_CERTIFICACION'" mat-button color="primary" (click)="ejecutar(element.idArchivo)">
+                    Ejecutar
+                </button>
+
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+    </table>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+        (page)="mostrarMas($event)">
+    </mat-paginator>
+
+</div>

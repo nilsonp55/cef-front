@@ -1,0 +1,108 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
+import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
+import { GENERALES } from 'src/app/pages/shared/constantes';
+import { ErrorService } from 'src/app/_model/error.model';
+import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
+import { CargueProgramacionCertificadaService } from 'src/app/_service/programacion-certificada.service/programacion-certificada-service';
+
+@Component({
+  selector: 'app-cierre-certificacion',
+  templateUrl: './cierre-certificacion.component.html',
+  styleUrls: ['./cierre-certificacion.component.css']
+})
+export class CierreCertificacionComponent implements OnInit {
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  //Variable para activar spinner
+  spinnerActive: boolean = false;
+
+  //Rgistros paginados
+  cantidadRegistros: number;
+
+  //DataSource para pintar tabla de los procesos a ejecutar
+  dataSourceInfoProcesos: MatTableDataSource<any>;
+  displayedColumnsInfoProcesos: string[] = ['idLogProceso', 'fechaProceso', 'actividad', 'estado', 'acciones'];
+
+  constructor(
+    private dialog: MatDialog,
+    private logProcesoDiarioService: LogProcesoDiarioService,
+    private cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
+    public spinnerComponent: SpinnerComponent,
+  ) { }
+
+  ngOnInit(): void {
+    this.listarProcesos();
+  }
+
+  /**
+  * Se realiza consumo de servicio para listr los procesos a ejectar
+  * @BaironPerez
+  */
+  listarProcesos(pagina = 0, tamanio = 5) {
+    this.logProcesoDiarioService.obtenerProcesosDiarios({
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
+      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
+      this.dataSourceInfoProcesos.sort = this.sort;
+      this.cantidadRegistros = page.data.totalElements;
+    },
+      (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: 'Error al obtener los procesos de cierre a ejecutar',
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      });
+  }
+
+  /**
+   * Metodo encargado de ejecutar el servicio de contabilidad para los 
+   * procesos activos
+   * @BaironPerez
+   */
+  ejecutar(idArchivo) {
+    this.spinnerActive = true;
+    this.cargueProgramacionCertificadaService.procesar({
+        'modeloArchivo': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
+        'idArchivo': idArchivo
+      }).subscribe(data => {
+      this.spinnerActive = false;
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_CERTIFICACION.SUCCESFULL_CIERRE_CERTIFICACION,
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        }
+      }); setTimeout(() => { alert.close() }, 3500);
+    },
+      (err: any) => {
+        this.spinnerActive = false;
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_CERTIFICACION.ERROR_CIERRE_FECHA_CERTIFICACION,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3500);
+      });
+  }
+
+  /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+  mostrarMas(e: any) {
+    this.listarProcesos(e.pageIndex, e.pageSize);
+  }
+
+}

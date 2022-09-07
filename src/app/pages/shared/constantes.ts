@@ -10,7 +10,7 @@ export const GENERALES = {
       ERROR_UPDATE: 'Error al actualizar el registro',
       ERROR_CREATE: 'Error al crear el registro',
       ERROR_DELETE: 'Error al elminar el registro',
-      ERROR_DATA_FILE: 'Error ocurrido al obtener información de archivos',
+      ERROR_DATA_FILE: 'Error ocurrido al obtener la lista de información',
     },
     MESSAGE_LOAD_FILE: {
       SUCCESFULL_DOWNLOAD_FILE: 'El archivo se descargo satisfactoriamente',
@@ -128,6 +128,7 @@ export const GENERALES = {
 
   //Codigos para el envio de tipo de archivos a cargar
   CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS: 'IPPSV',
+  CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP: 'IPP',
   CARGUE_DEFINITIVO_PROGRAMACION_SERVICIOS: 'DEFIN',
   CARGUE_SERVICIOS_RECOLECCION_PROVICION: 'ISRPO',
   CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS: 'CERTI',
@@ -140,13 +141,19 @@ export const GENERALES = {
     CLIENTE: "CLIENTE",
     FONDO: "FONDO",
     OFICINA: "OFICINA"
-  },
+  }
 
 };
 
+//-----------------------------------------------------------------------------------------------------------------
+// End_Points para consumo de servicios
+//-----------------------------------------------------------------------------------------------------------------
+
 export const URLs = {
   //Api
-  API_VERSION: '/v1.0.1/ade',
+  //API_VERSION: '/v1.0.1/ade',
+
+  STAGE: '/ade',
 
   //Cargue Archivos
   CARGUE_FILE: '/archivos',
@@ -158,12 +165,16 @@ export const URLs = {
   CARGUE_ARCHIVO_GUARDAR: '/guardar',
   CARGUE_ARCHIVO_DESCARGAR: '/descargar-id',
   CARGUE_ARCHIVO_ELIMINAR: '/eliminar',
+  CONSULTAR_X_AGRUPADOR: '/consultar-agrupador',
+  CARGUE_ID_ARCHIVO_DESCARGAR: '/descargar-idarchivo',
 
   //Programacion preliminar
   PROGRAMACION_PRELIMINAR: '/cargue-preliminar',
   PROGRAMACION_PRELIMINAR_VALIDAR: '/validar',
   PROGRAMACION_PRELIMINAR_PROCESAR: '/procesar',
   PROGRAMACION_PRELIMINAR_HISTORICO: '/detalle',
+  PROGRAMACION_PRELIMINAR_CONSULTAR: '/consultar',
+  PROGRAMACION_PRELIMINAR_CERRAR: 'cierre-preliminar',
 
   //Programacion definitiva
   PROGRAMACION_DEFINITIVA: '/cargue-definitivo',
@@ -172,15 +183,29 @@ export const URLs = {
   PROGRAMACION_DEFINITIVA_PROCESAR: '/procesar',
   PROGRAMACION_DEFINITIVA_HISTORICO: '/detalle',
 
+  //Programacion certificación
+  PROGRAMACION_CERTIFICACION: '/cargue-certificacion',
+  PROGRAMACION_CERTIFICACION_VALIDAR: '/validar',
+  PROGRAMACION_CERTIFICACION_CONSULTAR: '/consultar',
+  PROGRAMACION_CERTIFICACION_PROCESAR: '/procesar',
+  PROGRAMACION_CERTIFICACION_HISTORICO: '/detalle',
+
+  //Operaciones programadas 
+  OPERACIONES_PROGRMADAS: '/operaciones-programadas',
+  OPERACIONES_PROGRMADAS_PROCESAR: '/procesar',
+
   //Conciliación
   CONCILIACION: '/conciliacion',
-  CONCILIACION_CONSULTA: '/consultas/conciliadas',
-  OP_PROGRAMADAS_SIN_CONCILIAR: '/consultas/programadas-no-conciliadas',
-  OP_CERTIFICADAS_SIN_CONCILIAR: '/consultas/certificadas-no-conciliadas',
-  OP_RESUMEN: '/consultas/resumen',
-  CONCILIACION_MANUAL: '/conciliacion/conciliacionmanual',
+  CONCILIACION_CONSULTA: '/consultar-conciliadas',
+  OP_PROGRAMADAS_SIN_CONCILIAR: '/programadas-no-conciliadas-estadoconciliacion-no_conciliada',
+  OP_CERTIFICADAS_SIN_CONCILIAR: '/certificadas-no-conciliadas-estadoconciliacion-no_conciliada',
+  OP_RESUMEN: '/consultar/resumen',
+  CONCILIACION_MANUAL: '/conciliacion-manual',
   CONCILIACION_RESUMEN: '/conciliacion/conciliacionmanual',
   DESCONCILIAR: 'desconciliaciones',
+  ACTUALIZAR_OP_PROGRAMADAS: '/update-programadas-fallidas',
+  ACTUALIZAR_OP_CERTIFICADAS: '/update-certificadas-fallidas',
+  CONCILIACION_CIERRE: 'procesar-cerrar',
 
   //Listar transportadoras
   TRANSPORTADORA: '/transportadoras',

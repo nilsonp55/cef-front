@@ -26,7 +26,7 @@ export class ConciliacionesInfoProgramadasNoConciliadasModel {
     tipoServicio: string;
     usuarioCreacion: string;
     usuarioModificacion: string;
-    fechaCreacion: Date;
-    fechaModificacion: Date;
+    fechaCreacion: string;
+    fechaModificacion: string;
  
 }

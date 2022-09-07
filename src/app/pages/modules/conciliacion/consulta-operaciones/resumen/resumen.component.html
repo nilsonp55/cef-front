@@ -1,36 +1,75 @@
 <!--Tabla Descripción de archivos cargados-->
-<div class="divTabla">
-    <div class="divTituloTablas">
-        <h1 class="tituloTabla">Resumen de Operaciones</h1>
-        <span class="line-spacer"></span>
+<div class="division-filtro">
+    <mat-form-field appearance="fill">
+        <mat-label></mat-label>
+        <input matInput [matDatepicker]="picker1" [formControl]="serializedDate" [(ngModel)]="fecha1" value="now">
+        <mat-hint>Fecha inicio conciliación</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label></mat-label>
+        <input matInput [matDatepicker]="picker2" [formControl]="serializedDate" [(ngModel)]="fecha2">
+        <mat-hint>Fecha final conciliación</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <div class="ubicacionBotonFiltrar">
+        <button mat-raised-button color="primary" (click)="filtroResumenOperacionesPorFecha()">FILTRAR</button>
     </div>
-    <table mat-table [dataSource]="dataSourceInfoArchivo" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="nombreOperacion">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE OPERACIÓN</th>
-            <td mat-cell *matCellDef="let element"> {{element.fechaInicioCargue | date: 'medium'}} </td>
-            <!--medium'yyyy-MM-dd'-->
-        </ng-container>
+</div>
 
-        <ng-container matColumnDef="fechaOperacion">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA OPERACIÓN</th>
-            <td mat-cell *matCellDef="let element"> {{element.nombreArchivo}} </td>
-        </ng-container>
+<div class="disenio-titulo">
+    <h4>Resumen de Operaciones</h4>
+</div>
+<div *ngIf="load">
+    <table mat-table [dataSource]="dataSourceResumenOp" class="mat-elevation-z8">
+        <tr>
+            <ng-container matColumnDef="conciliadas">
+                <th mat-header-cell *matHeaderCellDef>CONCILIADAS</th>
+                <td mat-cell *matCellDef="let element"> {{element.conciliadas}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="numeroOperaciones">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> N. OPERCIONES</th>
-            <td mat-cell *matCellDef="let element"> {{element.numeroRegistros}} </td>
-        </ng-container>
+            <ng-container matColumnDef="certificadasNoConciliadas">
+                <th mat-header-cell *matHeaderCellDef>CERTIFICADAS NO CONCILIADAS</th>
+                <td mat-cell *matCellDef="let element"> {{element.certificadasNoConciliadas}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO</th>
-            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
-        </ng-container>
+            <ng-container matColumnDef="programadasNoConciliadas">
+                <th mat-header-cell *matHeaderCellDef>PROGRAMADAS NO CONCILIADAS</th>
+                <td mat-cell *matCellDef="let element"> {{element.programadasNoConciliadas}} </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoArchivo"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoArchivo;"></tr>
+            <ng-container matColumnDef="conciliacionesFallidas">
+                <th mat-header-cell *matHeaderCellDef>CONCILIACIONES FALLIDAS</th>
+                <td mat-cell *matCellDef="let element"> {{element.conciliacionesFallidas}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="conciliacionesCanceladas">
+                <th mat-header-cell *matHeaderCellDef>CONCILIACIONES CANCELADAS</th>
+                <td mat-cell *matCellDef="let element"> {{element.conciliacionesCanceladas}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="conciliacionesPospuestas">
+                <th mat-header-cell *matHeaderCellDef>CONCILIACIONES POSPUESTAS</th>
+                <td mat-cell *matCellDef="let element"> {{element.conciliacionesPospuestas}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="conciliacionesFueraConciliacion">
+                <th mat-header-cell *matHeaderCellDef>CONCILIACIONES FUERA DE CONCILIACIÓN</th>
+                <td mat-cell *matCellDef="let element"> {{element.conciliacionesFueraConciliacion}} </td>
+            </ng-container>
+        </tr>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsResumenOp"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsResumenOp;"></tr>
     </table>
-    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
         (page)="mostrarMas($event)">
     </mat-paginator>
-
+</div>
+<div *ngIf="!load" class="disenio-spinner">
+    <mat-spinner></mat-spinner>
 </div>

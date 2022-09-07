@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class CargueProgramacionPreliminarService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.PROGRAMACION_PRELIMINAR}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.PROGRAMACION_PRELIMINAR}`;
 
     constructor(private http: HttpClient) { }
 
@@ -26,7 +26,7 @@ export class CargueProgramacionPreliminarService {
     /** 
      * Metodo para eliminar un registro de archivo previamente cargado
     */
-    deleteArchivo(param: any) {
+     public deleteArchivo(param: any) {
         return this.http.delete<any>(`${this.url}${URLs.CARGUE_ARCHIVO_ELIMINAR}`, { params: param });
     }
 
