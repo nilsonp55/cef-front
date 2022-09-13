@@ -101,6 +101,7 @@ import { CierreConciliacionComponent } from './pages/modules/conciliacion/cierre
 import { CierreCertificacionComponent } from './pages/modules/cargue-certificacion/cierre-certificacion/cierre-certificacion.component';
 import { DialogVerArchivoComponent } from './pages/shared/components/program-preliminar/archivos-cargados/dialog-ver-archivo/dialog-ver-archivo.component';
 import { DialogVerArchivoDefiComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/dialog-ver-archivo-defi/dialog-ver-archivo-defi.component';
+import { CostoServicioCharterComponent } from './pages/modules/liquidacion/costo-servicio-charter/costo-servicio-charter.component';
 
 @NgModule({
   declarations: [
@@ -180,7 +181,8 @@ import { DialogVerArchivoDefiComponent } from './pages/modules/cargue-programaci
     DialogVerArchivoComponent,
     CierreCertificacionComponent,
     DialogVerArchivoDefiComponent,
-    DialogResultValidacionComponent
+    DialogResultValidacionComponent,
+    CostoServicioCharterComponent
   ],
 
   imports: [

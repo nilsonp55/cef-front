@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
+import { GeneralesService } from 'src/app/_service/generales.service';
 import { ErrorService } from 'src/app/_model/error.model';
 import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
@@ -28,7 +29,7 @@ export class ContabilidadAmComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
-
+  fechaSistemaSelect: any;
   //Variable para activar spinner
   spinnerActive: boolean = false;
 
@@ -38,37 +39,45 @@ export class ContabilidadAmComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private generalServices: GeneralesService,
     private cierreContabilidadService: CierreContabilidadService,
     private logProcesoDiarioService: LogProcesoDiarioService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    const _fecha = await this.generalServices.listarParametroByFiltro({
+      codigo: "FECHA_DIA_PROCESO"
+    }).toPromise();
+    this.fechaSistemaSelect = _fecha.data[0].valor;
     this.listarProcesos();
   }
 
-  /**
+   /**
   * Se realiza consumo de servicio para listr los procesos a ejectar
   * @BaironPerez
   */
-  listarProcesos(pagina = 0, tamanio = 5) {
-    this.logProcesoDiarioService.obtenerProcesosDiarios({
-      page: pagina,
-      size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
-      this.dataSourceInfoProcesos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: 'Error al obtener los procesos de contabilidad a ejecutar',
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
-  }
+ listarProcesos(pagina = 0, tamanio = 5) {
+  this.logProcesoDiarioService.obtenerProcesosDiarios({
+    page: pagina,
+    size: tamanio,
+  }).subscribe((page: any) => {
+    const [day, month, year] = this.fechaSistemaSelect.split('/'); 
+    const fechaSistemaFormat = [year, month, day].join('-');
+    let result = page.data.filter(item => item.fechaFinalizacion === fechaSistemaFormat);
+    this.dataSourceInfoProcesos = new MatTableDataSource(result);
+    this.dataSourceInfoProcesos.sort = this.sort;
+    this.cantidadRegistros = page.data.totalElements;
+  },
+    (err: ErrorService) => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: 'Error al obtener los procesos de contabilidad a ejecutar',
+          codigo: GENERALES.CODE_EMERGENT.ERROR
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+    });
+}
 
   /**
    * Metodo encargado de ejecutar el servicio de contabilidad para los 
