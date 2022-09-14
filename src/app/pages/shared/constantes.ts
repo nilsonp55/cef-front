@@ -277,6 +277,11 @@ export const URLs = {
   //Generar Contabilidad
   CONTABILIDAD: '/contabilidad',
   CONTABILIDAD_GENERAL: '/generar',
+
+  //Coatos Flete Charter
+  COSTOS_FLETE_CHARTER: '/costos-flete-charter',
+  COSTOS_FLETE_CHARTER_CONSULTAR: '/consultar',
+  COSTOS_FLETE_CHARTER_GUARDAR: '/grabar'
 };
 
 export const ROLES = [
