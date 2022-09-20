@@ -123,7 +123,7 @@ export const GENERALES = {
 
   //Estados de conciliacion
   ESTADOS_CONCILIACION: {
-    ESTADO_NO_CONCILIADO: 'No Conciliado'
+    ESTADO_NO_CONCILIADO: 'NO_CONCILIADA'
   },
 
   //Codigos para el envio de tipo de archivos a cargar
@@ -197,15 +197,16 @@ export const URLs = {
   //Conciliación
   CONCILIACION: '/conciliacion',
   CONCILIACION_CONSULTA: '/consultar-conciliadas',
-  OP_PROGRAMADAS_SIN_CONCILIAR: '/programadas-no-conciliadas-estadoconciliacion-no_conciliada',
-  OP_CERTIFICADAS_SIN_CONCILIAR: '/certificadas-no-conciliadas-estadoconciliacion-no_conciliada',
+  OP_PROGRAMADAS_SIN_CONCILIAR: '/programadas-no-conciliadas',
+  OP_CERTIFICADAS_SIN_CONCILIAR: '/certificadas-no-conciliadas',
   OP_RESUMEN: '/consultar/resumen',
   CONCILIACION_MANUAL: '/conciliacion-manual',
   CONCILIACION_RESUMEN: '/conciliacion/conciliacionmanual',
   DESCONCILIAR: 'desconciliaciones',
   ACTUALIZAR_OP_PROGRAMADAS: '/update-programadas-fallidas',
   ACTUALIZAR_OP_CERTIFICADAS: '/update-certificadas-fallidas',
-  CONCILIACION_CIERRE: 'procesar-cerrar',
+  CONCILIACION_CIERRE: '/cierre',
+  OP_PROGRAMADAS_FALLIDAS: "?estadoConciliacion=FALLIDA&estadoConciliacion=CANCELADA&estadoConciliacion=POSPUESTA&estadoConciliacion=FUERA_DE_CONCILIACION",
 
   //Listar transportadoras
   TRANSPORTADORA: '/transportadoras',
@@ -222,6 +223,8 @@ export const URLs = {
   //Listar dominios
   DOMINIO: '/dominio-funcional',
   DOMINIO_CONSULTA: '/consultar',
+  DOMINIO_MAESTRO: '/dominios',
+  DOMINIO_OBTENER: '/obtener',
 
   //Consultar parametro
   PARAMETRO: '/parametro',
@@ -272,16 +275,12 @@ export const URLs = {
 
   //Cierre Contabilidad
   CIERRE_CONTABILIDAD: '/CierreContabilidad',
-  CIERRE_CONTABILIDAD_CERRAR: '/cerrar',
+  
+  CIERRE_CONTABILIDAD_CERRAR: '/cierre',
 
   //Generar Contabilidad
   CONTABILIDAD: '/contabilidad',
   CONTABILIDAD_GENERAL: '/generar',
-
-  //Coatos Flete Charter
-  COSTOS_FLETE_CHARTER: '/costos-flete-charter',
-  COSTOS_FLETE_CHARTER_CONSULTAR: '/consultar',
-  COSTOS_FLETE_CHARTER_GUARDAR: '/grabar'
 };
 
 export const ROLES = [

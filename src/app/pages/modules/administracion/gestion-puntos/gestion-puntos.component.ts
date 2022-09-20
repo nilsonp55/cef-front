@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CrearPuntoComponent } from './crear-punto/crear-punto.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { GestionPuntosService } from 'src/app/_service/gestion-puntos-service/gestionPuntos.service';
+import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 
 @Component({
   selector: 'app-gestion-puntos',
@@ -17,7 +17,7 @@ export class GestionPuntosComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   isPointChecked = false;
-  tipoPuntoSeleccionado;
+  tipoPuntoSeleccionado = "FONDO";
   puntoSeleccionado;
 
   //Rgistros paginados
@@ -45,7 +45,7 @@ export class GestionPuntosComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.listarPuntosCreados();
   }
 
   /**

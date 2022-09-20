@@ -73,7 +73,7 @@ export class CierreConciliacionComponent implements OnInit {
    */
   ejecutar() {
     this.spinnerActive = true;
-    this.opConciliadasService.procesar(GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS).subscribe(data => {
+    this.opConciliadasService.procesar().subscribe(data => {
       this.spinnerActive = false;
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

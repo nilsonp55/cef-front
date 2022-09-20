@@ -5,11 +5,11 @@ import { ValidacionLineaArchivo } from 'src/app/_model/cargue-preliminar-model/v
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
 
 @Component({
-  selector: 'app-dialog-resul-validacion',
-  templateUrl: './dialog-resul-validacion.component.html',
-  styleUrls: ['./dialog-resul-validacion.component.css']
+  selector: 'app-dialog-result-validacion-component',
+  templateUrl: './dialog-result-validacion-component.component.html',
+  styleUrls: ['./dialog-result-validacion-component.component.css']
 })
-export class DialogResulValidacionComponent implements OnInit {
+export class DialogResultValidacionComponentComponent implements OnInit {
 
   tablaValidacionError: any[] = [];
 
@@ -59,5 +59,5 @@ export class DialogResulValidacionComponent implements OnInit {
     }
     
   }
-
+  
 }

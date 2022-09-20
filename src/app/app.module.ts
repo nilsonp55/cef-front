@@ -101,7 +101,10 @@ import { CierreConciliacionComponent } from './pages/modules/conciliacion/cierre
 import { CierreCertificacionComponent } from './pages/modules/cargue-certificacion/cierre-certificacion/cierre-certificacion.component';
 import { DialogVerArchivoComponent } from './pages/shared/components/program-preliminar/archivos-cargados/dialog-ver-archivo/dialog-ver-archivo.component';
 import { DialogVerArchivoDefiComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/dialog-ver-archivo-defi/dialog-ver-archivo-defi.component';
-import { CostoServicioCharterComponent } from './pages/modules/liquidacion/costo-servicio-charter/costo-servicio-charter.component';
+import { DialogResultValidacionComponentComponent } from './pages/modules/cargue-programacion/cargue-definitivo/archivos-cargados-definitivo/dialog-result-validacion-component/dialog-result-validacion-component.component';
+import { DialogVerArchDefiComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/dialog-ver-arch-defi/dialog-ver-arch-defi.component';
+import { ErroresContabilidadComponent } from './pages/modules/contabilizacion/errores-contabilidad/errores-contabilidad.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 @NgModule({
   declarations: [
@@ -182,7 +185,9 @@ import { CostoServicioCharterComponent } from './pages/modules/liquidacion/costo
     CierreCertificacionComponent,
     DialogVerArchivoDefiComponent,
     DialogResultValidacionComponent,
-    CostoServicioCharterComponent
+    DialogResultValidacionComponentComponent,
+    DialogVerArchDefiComponent,
+    ErroresContabilidadComponent,
   ],
 
   imports: [
@@ -220,6 +225,7 @@ import { CostoServicioCharterComponent } from './pages/modules/liquidacion/costo
     MatRadioModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatTableExporterModule,
     ],
   providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent],
   bootstrap: [AppComponent]

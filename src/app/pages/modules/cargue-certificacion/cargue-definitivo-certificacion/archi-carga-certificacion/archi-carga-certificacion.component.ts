@@ -15,6 +15,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { DialogValidarArchivoComponent } from 'src/app/pages/shared/components/program-preliminar/archivos-cargados/dialog-validar-archivo/dialog-validar-archivo.component';
 import { DialogResultValidacionCertificacionComponent } from './result-validacion-certificacion/result-validacion.component';
 import { CargueProgramacionCertificadaService } from 'src/app/_service/programacion-certificada.service/programacion-certificada-service';
+import { DialogVerArchivoComponent } from 'src/app/pages/shared/components/program-preliminar/archivos-cargados/dialog-ver-archivo/dialog-ver-archivo.component';
 
 @Component({
   selector: 'app-archi-carga-certificacion',
@@ -63,7 +64,9 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   listarArchivosCargados(pagina = 0, tamanio = 5) {
     this.cargueProgramacionCertificadaService.consultarArchivosCargaCertificacion({
       'idMaestroDefinicion': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
-      'estado': GENERALES.ESTADO_PENDIENTE
+      'estado': GENERALES.ESTADO_PENDIENTE,
+      page: pagina,
+      size: tamanio,
     }).subscribe((page: any) => {
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
       this.dataSourceInfoArchivo.sort = this.sort;
@@ -89,6 +92,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogValidarArchivoComponent, {
       width: '750px',
+      data: {nombreArchivo: archivo.nombreArchivo}
     });
     validateArchivo.afterClosed().subscribe(result => {
       //Si presiona click en aceptar
@@ -96,7 +100,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
         this.spinnerActive = true;
         this.spinnerComponent.dateToString(true);
         this.cargueProgramacionCertificadaService.validarArchivo({
-          'idMaestroDefinicion': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
+          'idMaestroDefinicion': archivo.idModeloArchivo,
           'nombreArchivo': archivo.nombreArchivo
         }).subscribe((data: ValidacionArchivo) => {
           this.spinnerActive = false;
@@ -150,6 +154,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
       })
   }
 
+
   /** 
   * Metodo para gestionar la paginación de la tabla
   * @BaironPerez
@@ -158,21 +163,16 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     this.listarArchivosCargados(e.pageIndex, e.pageSize);
   }
 
+  
+
   /** 
   * Metodo para descargar y visualizar un archivo
   * @BaironPerez
   */
   downloadFile(archivo: ArchivoCargadoModel): void {
-    //this.cargueArchivosService.visializarArchivo1(archivo.idArchivo).subscribe(blob => {
-   //   saveAs(blob, archivo.nombreArchivo);
-      //
-      this.cargueArchivosService.visializarArchivo2({
-        'nombreArchivo': archivo.nombreArchivo,
-        'idMaestroArchivo': archivo.idModeloArchivo,
-      }).subscribe(blob => {
-        saveAs(blob, archivo.nombreArchivo);
-      });
-   // });
+    const verArchivo = this.dialog.open(DialogVerArchivoComponent, {
+      height:'90%', width: '90%', data: archivo
+     });
   }
 
   /** 

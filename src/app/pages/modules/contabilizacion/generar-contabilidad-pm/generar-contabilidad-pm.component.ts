@@ -10,6 +10,7 @@ import { GenerarContabilidadService } from 'src/app/_service/contabilidad-servic
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
+import { ErroresContabilidadComponent } from '../errores-contabilidad/errores-contabilidad.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
 
 @Component({
@@ -70,17 +71,18 @@ export class GenerarContabilidadPmComponent implements OnInit {
   generarContabilidad() {
     this.spinnerActive = true;
     this.generarContabilidadService.generarContabilidad({ tipoContabilidad: "PM" }).subscribe((data: any) => {
+      console.log(data.data.respuestasContablesDTO)
       this.dataGenerateContabilidad = data.data;
       let conteoContabilidadDto = data.data.conteoContabilidadDTO;
       //Se construye tabla de info
       const tabla = [
-        { nombre: "conteoInternasGeneradas", cantidad: conteoContabilidadDto.conteoInternasGeneradas, estado: conteoContabilidadDto.estadoInternasGeneradas },
-        { nombre: "conteoContablesGeneradas", cantidad: conteoContabilidadDto.conteoContablesGeneradas, estado: conteoContabilidadDto.estadoContablesGeneradas },
-        { nombre: "conteoErroresContables", cantidad: conteoContabilidadDto.conteoErroresContables, estado: conteoContabilidadDto.estadoErroresContables },
-        { nombre: "conteoContablesCompletadas", cantidad: conteoContabilidadDto.conteoContablesCompletables, estado: conteoContabilidadDto.estadoContablesCompletables },
+        { nombre: "Conteo Internas Generadas", cantidad: conteoContabilidadDto.conteoInternasGeneradas, estado: conteoContabilidadDto.estadoInternasGeneradas },
+        { nombre: "Conteo Contables Generadas", cantidad: conteoContabilidadDto.conteoContablesGeneradas, estado: conteoContabilidadDto.estadoContablesGeneradas },
+        { nombre: "Conteo Errores Contables", cantidad: conteoContabilidadDto.conteoErroresContables, estado: conteoContabilidadDto.estadoErroresContables },
+        { nombre: "Conteo Contables Completadas", cantidad: conteoContabilidadDto.conteoContablesCompletadas, estado: conteoContabilidadDto.conteoContablesCompletadas },
       ];
       //Se realizan validaciones
-      this.tieneErrores = conteoContabilidadDto.conteoContabilidadDto.conteoErroresContables > 0 ? true : false;
+      this.tieneErrores = conteoContabilidadDto.conteoErroresContables > 0 ? false : true;
       this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
       this.spinnerActive = false;
     },
@@ -105,7 +107,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
     const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
       width: '100%',
       data: {
-        respuesta: "respuesta preuba",
+        respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
         titulo: "Generar Contabilidad PM - Resultado",
       }
     });
@@ -117,6 +119,12 @@ export class GenerarContabilidadPmComponent implements OnInit {
   * @BaironPerez
   */
   verErrores() {
-
+    const respuesta = this.dialog.open(ErroresContabilidadComponent, {
+      width: '100%',
+      data: {
+        respuesta: this.dataGenerateContabilidad.erroresContablesDTO,
+        titulo: "Generar Contabilidad PM - Errores",
+      }
+    });
   }
 }

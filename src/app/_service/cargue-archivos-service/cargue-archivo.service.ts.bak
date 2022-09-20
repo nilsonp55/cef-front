@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { URLs } from '../../pages/shared/constantes';
 import { saveAs } from 'file-saver';
+import { ArchivoCargadoModel } from '../../_model/cargue-preliminar-model/archivo-cargado.model';
 
 
 @Injectable({
@@ -20,7 +21,7 @@ export class CargueArchivosService {
     private urlFiles: string = `${environment.HOST}${URLs.STAGE}`;
     private urlFile: string = `${environment.HOST}${URLs.STAGE + URLs.CARGUE_FILE}`;
     private urlFileLoad: string = `${environment.HOST}${URLs.STAGE + URLs.ARCHIVO_CARGADO}`;
-    private nombreArch: string;
+
 
     constructor(private http: HttpClient) { }
 
@@ -71,7 +72,7 @@ export class CargueArchivosService {
         return this.http.get(`${this.urlFile}${URLs.CARGUE_ID_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
         .pipe(
             tap(content => {
-                const blob = new Blob([content], { type: 'text/plain'});
+                const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
                 saveAs(blob, params.nombreArchivo);
             }),
             map(() => true)

@@ -31,8 +31,10 @@ export class DialogConfirmEjecutarComponentComponent implements OnInit {
     const _bancos = await this.generalServices.listarBancosAval().toPromise();
     this.bancos = _bancos.data;
 
-    const _fecha = await this.generalServices.listarDominioByDominio("FECHA_DIA_PROCESO").toPromise();
-    this.fechaSistemaSelect = _fecha
+    const _fecha = await this.generalServices.listarParametroByFiltro({
+      codigo: "FECHA_DIA_PROCESO"
+    }).toPromise();
+    this.fechaSistemaSelect = _fecha.data[0].valor;
   }
 
   confirm() {

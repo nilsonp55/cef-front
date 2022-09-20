@@ -4,11 +4,11 @@
         <h1 class="tituloTabla">{{titulo}}</h1>
         <span class="line-spacer"></span>
     </div>
-    <div class="mat-elevation-z8 disenio-tabla">
-        <table mat-table [dataSource]="dataSourceInfoProcesos" matSort>
+    <div class="mat-elevation-z8 disenio-tabla configScroll">
+        <mat-table [dataSource]="dataSourceInfoProcesos" class="tmanioTabla" matSort>
             <ng-container matColumnDef="naturalezaContable">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Cod Naturaleza</th>
-                <td mat-cell *matCellDef="let element"> {{element.naturalezaContable | date: 'medium'}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.naturalezaContable}} </td>
             </ng-container>
 
             <ng-container matColumnDef="cuentaMayor">
@@ -43,7 +43,7 @@
 
             <ng-container matColumnDef="valorPesos">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Pesos</th>
-                <td mat-cell *matCellDef="let element"> {{element.valorPesos}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
             </ng-container>
 
             <ng-container matColumnDef="valorUsd">
@@ -71,15 +71,11 @@
                 <td mat-cell *matCellDef="let element"> {{element.areaFuncional}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="identificador">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador</th>
-                <td mat-cell *matCellDef="let element"> {{element.identificador}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="descripcionTransaccion">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador</th>
+            <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
                 <td mat-cell *matCellDef="let element"> {{element.descripcionTransaccion}} </td>
             </ng-container>
+
             <ng-container matColumnDef="terceroGL">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tercero GL</th>
                 <td mat-cell *matCellDef="let element"> {{element.terceroGL}} </td>
@@ -91,7 +87,7 @@
 
             <ng-container matColumnDef="fechaConversion">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Conversion</th>
-                <td mat-cell *matCellDef="let element"> {{element.fechaConversion}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.fechaConversion | date: 'dd/MM/YYYY' : '+00'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="claveReferencia1">
@@ -106,15 +102,12 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
-        </table>
+        </mat-table>
 
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
-        (page)="mostrarMas($event)">
-    </mat-paginator>
-    </div>
+   </div>
+</div>
 
-    <div style="margin-top: 0%; text-align: center;">
-        <button style="display:inline; margin: 2%;" class="bottonVerArchivo" (click)="verArchivoExcel()" cdkFocusInitial>Visualizar Excel</button>
-        <button style="display:inline; margin: 2%;" class="bottonSolicitar" (click)="solicitarAutorizacion()">Solicitar Validacion</button>
-    </div>
+<div style="margin-top: 0%; text-align: center;">
+    <button style="display:inline; margin: 2%;" class="bottonVerArchivo" (click)="verArchivoExcel()" cdkFocusInitial>Visualizar Excel</button>
+    <button style="display:inline; margin: 2%;" class="bottonSolicitar" (click)="solicitarAutorizacion()">Solicitar Validacion</button>
 </div>

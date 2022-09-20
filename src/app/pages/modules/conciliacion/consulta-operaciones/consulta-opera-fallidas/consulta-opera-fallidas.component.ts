@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators'
 import { MatDialog } from '@angular/material/dialog';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -10,8 +7,6 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { BancoModel } from 'src/app/_model/banco.model';
-import { TransportadoraModel } from 'src/app/_model/transportadora.model';
 import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-program-no-conciliadas.model';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
@@ -38,16 +33,11 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   //Rgistros paginados
-  cantidadRegistros: number;
+  cantidadRegistrosProgram: number;
+  cantidadRegistrosCerti: number;
 
-  transportadoraForm = new FormControl();
-  bancosForm = new FormControl();
-
-  tranportadoraOptions: TransportadoraModel[]
-  filteredOptionsTranportadora: Observable<TransportadoraModel[]>;
-
-  bancoOptions: BancoModel[]
-  filteredOptionsBancos: Observable<BancoModel[]>;
+  dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
+  dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
   displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'valorTotal', 'acciones'];
@@ -63,38 +53,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.listarBancos();
-    this.listarTransportadoras();
     this.listarOpProgramadasFallidas();
     this.listarOpCertificadasFallidas();
-
-  }
-
-  displayFn(banco: any): string {
-    return banco && banco.nombreBanco ? banco.nombreBanco : '';
-  }
-
-  displayFnTrans(transPortadora: any): string {
-    return transPortadora && transPortadora.nombreTransportadora ? transPortadora.nombreTransportadora : '';
-  }
-
-   /**
-   * Filtra las TDV para poder pintar en el editext
-   * @param name 
-   * @JuanMazo
-   */
-  private _filter(name: string): TransportadoraModel[] {
-    const filterValue = name.toLowerCase();
-    return this.tranportadoraOptions.filter(option => option.nombreTransportadora.toLowerCase().includes(filterValue));
-  }
-
-  /**
-   * Filtra los bancos para poder pintar en el editext
-   * @JuanMazo
-   */
-  private filtroBanco(name: string): BancoModel[] {
-    const filterValue = name.toLowerCase();
-    return this.bancoOptions.filter(bancoOption => bancoOption.nombreBanco.toLowerCase().includes(filterValue));
   }
 
   /**
@@ -133,71 +93,21 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     })
   }
 
-  /** 
-  * Se realiza consumo de servicio para listar los transportadoras
-  * @JuanMazo
-  */
-  listarTransportadoras() {
-    this.generalesService.listarTransportadoras().subscribe(data => {
-      this.tranportadoraOptions = data.data
-      this.filteredOptionsTranportadora = this.transportadoraForm.valueChanges.pipe(
-        startWith(''),
-        map(value => (typeof value === 'string' ? value : value.name)),
-        map(name => (name ? this._filter(name) : this.tranportadoraOptions.slice())),
-      );
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_TRANSPORTE.ERROR_TRANSPORTE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      });
-  }
-
-  seleccion(filteredOptionsBancos: any) {
-  }
-
-  /** 
-  * Se realiza consumo de servicio para listar los bancos
-  * @JuanMazo
-  */
-  listarBancos() {
-    this.generalesService.listarBancos().subscribe(data => {
-      this.bancoOptions = data.data
-      this.filteredOptionsBancos = this.bancosForm.valueChanges.pipe(
-        startWith(''),
-        map(value => (typeof value === 'string' ? value : value.name)),
-        map(name => (name ? this.filtroBanco(name) : this.bancoOptions.slice())),
-      );
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_BANCO.ERROR_BANCO,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      });
-  }
 
   /**
    * Lista las operaciones programadas distintas al estado conciliadas
    * @JuanMazo
    */
   listarOpProgramadasFallidas(pagina = 0, tamanio = 5) {
-    this.opConciliadasService.listarOpProgrmadasFallidas({
+    this.opConciliadasService.obtenerOpProgramadasSinconciliar({
+      'estadoConciliacion':['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION','POSPUESTA', 'CANCELADA'],
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
+      this.dataSourceOperacionesProgramadasComplet=page.data.content;
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
+      this.cantidadRegistrosProgram = page.data.totalElements;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -224,14 +134,16 @@ export class ConsultaOperaFallidasComponent implements OnInit {
    * @JuanMazo
    */
    listarOpCertificadasFallidas(pagina = 0, tamanio = 5) {
-    this.opConciliadasService.listarOpCertificadasFallidas({
+    this.opConciliadasService.obtenerOpCertificadasSinconciliar({
+      'estadoConciliacion':['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION','POSPUESTA', 'CANCELADA'],
         page: pagina,
         size: tamanio
       }).subscribe((page: any) => {
       page.fechaEjecucion = moment(page.data.content).format('DD/MM/YYYY')
+      this.dataSourceOperacionesCertificadasComplet=page.data.content;
       this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
+      this.cantidadRegistrosCerti = page.data.totalElements;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -251,5 +163,55 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   */
      mostrarMasOpCertificadasFallidas(e: any) {
       this.listarOpCertificadasFallidas(e.pageIndex, e.pageSize);
+    }
+
+    filter(event) {
+      if(event.banco !== undefined && event.trasportadora !== undefined){
+        var filterData=this.dataSourceOperacionesProgramadasComplet.filter(conciliado=>conciliado.tdv===event.trasportadora && conciliado.bancoAVAL===event.banco);
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistrosProgram =filterData.length;
+        var filterData2=this.dataSourceOperacionesCertificadasComplet.filter(conciliado=>conciliado.tdv===event.trasportadora && conciliado.bancoAVAL===event.banco);
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData2);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosCerti =filterData.length;
+      }else if(event.banco == undefined && event.trasportadora !== undefined) {
+        var filterData=this.dataSourceOperacionesProgramadasComplet.filter(conciliado=>conciliado.tdv===event.trasportadora);
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistrosProgram =filterData.length;
+        var filterData2=this.dataSourceOperacionesCertificadasComplet.filter(programado=>programado.tdv===event.trasportadora);
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData2);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosCerti =filterData.length;
+      }else if(event.trasportadora == undefined && event.banco !== undefined) {
+        var filterData=this.dataSourceOperacionesProgramadasComplet.filter(conciliado=>conciliado.bancoAVAL===event.banco);
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistrosProgram =filterData.length;
+        var filterData2=this.dataSourceOperacionesCertificadasComplet.filter(certificado=>certificado.bancoAVAL===event.banco);
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData2);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosCerti =filterData.length;
+      }
+    }
+
+    filter2(event) {
+      if(event.banco !== undefined && event.trasportadora !== undefined){
+        var filterData=this.dataSourceOperacionesCertificadasComplet.filter(conciliado=>conciliado.tdv===event.trasportadora && conciliado.bancoAVAL===event.banco);
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosCerti =filterData.length;
+      }else if(event.banco == undefined && event.trasportadora !== undefined) {
+        var filterData=this.dataSourceOperacionesCertificadasComplet.filter(programado=>programado.tdv===event.trasportadora);
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosCerti =filterData.length;
+      }else if(event.trasportadora == undefined && event.banco !== undefined) {
+        var filterData=this.dataSourceOperacionesCertificadasComplet.filter(certificado=>certificado.bancoAVAL===event.banco);
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosCerti =filterData.length;
+      }
     }
 }

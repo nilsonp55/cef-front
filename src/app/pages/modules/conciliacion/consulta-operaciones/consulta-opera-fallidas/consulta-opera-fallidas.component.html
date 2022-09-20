@@ -1,4 +1,4 @@
-<app-filtro-banco-tdv></app-filtro-banco-tdv>
+<app-filtro-banco-tdv (filterData)="filter($event)"></app-filtro-banco-tdv>
 <div class="division">
     <div class="divTablaProg">
         <div class="divTituloTablas">
@@ -36,7 +36,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesProgramadas;"></tr>
             </table>
         </div>
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistrosProgram"
             (page)="mostrarMasOpProgramadasFallidas($event)">
         </mat-paginator>
     </div>
@@ -87,7 +87,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesCertificadas;"></tr>
             </table>
         </div>
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistrosCerti"
             (page)="mostrarMasOpCertificadasFallidas($event)">
         </mat-paginator>
     </div>

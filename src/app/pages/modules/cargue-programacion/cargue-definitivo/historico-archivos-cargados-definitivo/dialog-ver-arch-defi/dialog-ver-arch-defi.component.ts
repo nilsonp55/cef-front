@@ -5,12 +5,11 @@ import { ValidacionLineaArchivo } from 'src/app/_model/cargue-preliminar-model/v
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
 
 @Component({
-  selector: 'app-dialog-resul-validacion',
-  templateUrl: './dialog-resul-validacion.component.html',
-  styleUrls: ['./dialog-resul-validacion.component.css']
+  selector: 'app-dialog-ver-arch-defi',
+  templateUrl: './dialog-ver-arch-defi.component.html',
+  styleUrls: ['./dialog-ver-arch-defi.component.css']
 })
-export class DialogResulValidacionComponent implements OnInit {
-
+export class DialogVerArchDefiComponent implements OnInit {
   tablaValidacionError: any[] = [];
 
   constructor(
@@ -21,8 +20,6 @@ export class DialogResulValidacionComponent implements OnInit {
   
   ngOnInit(): void { 
     //Logica para convertir Json de respuesta y adaptarlo a la ventana emergent
-    console.log(this.data.data.data.validacionLineas)
-    console.log(this.data)
     if(this.data.data.data.numeroErrores != null || this.data.data.data.numeroErrores > 0) {
       this.data.data.data.validacionLineas.forEach((validacionLineasItem: ValidacionLineaArchivo) => {
         validacionLineasItem.campos.forEach((campItem: ErroresCampos) => {
@@ -32,7 +29,6 @@ export class DialogResulValidacionComponent implements OnInit {
             descripcion: campItem.mensajeError,
             contenido: campItem.contenido
           };
-          console.log(tablaValidacionError)
           this.tablaValidacionError.push(tablaValidacionError);
         });
       });

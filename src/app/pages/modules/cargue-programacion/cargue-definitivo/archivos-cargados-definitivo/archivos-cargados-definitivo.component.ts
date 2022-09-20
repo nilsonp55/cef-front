@@ -15,6 +15,7 @@ import { DialogValidarArchivoComponent } from 'src/app/pages/shared/components/p
 import { CargueProgramacionDefinitivaService } from 'src/app/_service/programacion-definitiva-service/programacion-definitiva-service';
 import { DialogVerArchivoComponent } from 'src/app/pages/shared/components/program-preliminar/archivos-cargados/dialog-ver-archivo/dialog-ver-archivo.component';
 import { DialogResulValidacionComponent } from './dialog-resul-validacion/dialog-resul-validacion.component';
+import { DialogResultValidacionComponent } from 'src/app/pages/shared/components/program-preliminar/archivos-cargados/dialog-result-validacion/dialog-result-validacion.component';
 
 @Component({
   selector: 'app-archivos-cargados-definitivo',
@@ -94,7 +95,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
           'nombreArchivo': archivo.nombreArchivo
         }).subscribe((data: ValidacionArchivo) => {
           this.spinnerActive = false;
-          this.dialog.open(DialogResulValidacionComponent, {
+          this.dialog.open(DialogResultValidacionComponent, {
             width: '950px', height: '60%', data: {id: archivo.idModeloArchivo, data},
           });
         },

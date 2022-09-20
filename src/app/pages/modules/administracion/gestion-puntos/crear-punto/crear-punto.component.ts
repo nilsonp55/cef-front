@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
-import { GestionPuntosService } from 'src/app/_service/gestion-puntos-service/gestionPuntos.service';
+import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 
 @Component({
   selector: 'app-crear-punto',

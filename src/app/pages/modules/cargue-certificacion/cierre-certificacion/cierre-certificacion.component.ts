@@ -73,8 +73,7 @@ export class CierreCertificacionComponent implements OnInit {
   ejecutar(idArchivo) {
     this.spinnerActive = true;
     this.cargueProgramacionCertificadaService.procesar({
-        'modeloArchivo': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
-        'idArchivo': idArchivo
+        'agrupador': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS
       }).subscribe(data => {
       this.spinnerActive = false;
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {

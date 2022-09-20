@@ -1,14 +1,15 @@
-import { Component, OnInit, IterableDiffers, ViewChild } from '@angular/core';
+import { Component, IterableDiffers, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import * as moment from 'moment';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
-import { GeneralesService } from 'src/app/_service/generales.service';
 import { ErrorService } from 'src/app/_model/error.model';
 import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
+import { GeneralesService } from 'src/app/_service/generales.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
 
@@ -32,8 +33,9 @@ export class ContabilidadPmComponent implements OnInit {
 
   //Variable para activar spinner
   spinnerActive: boolean = false;
-  fechaSistemaSelect: any;
+
   //DataSource para pintar tabla de los procesos a ejecutar
+  fechaSistemaSelect: any;
   dataSourceInfoProcesos: MatTableDataSource<any>;
   displayedColumnsInfoProcesos: string[] = ['fechaProceso', 'actividad', 'estado', 'acciones'];
 
@@ -56,28 +58,26 @@ export class ContabilidadPmComponent implements OnInit {
   * Se realiza consumo de servicio para listr los procesos a ejectar
   * @BaironPerez
   */
- listarProcesos(pagina = 0, tamanio = 5) {debugger
-  this.logProcesoDiarioService.obtenerProcesosDiarios({
-    page: pagina,
-    size: tamanio,
-  }).subscribe((page: any) => {
-    const [day, month, year] = this.fechaSistemaSelect.split('/'); 
-    const fechaSistemaFormat = [year, month, day].join('-');
-    let result = page.data.filter(item => item.fechaFinalizacion === fechaSistemaFormat);
-    this.dataSourceInfoProcesos = new MatTableDataSource(result);
-    this.dataSourceInfoProcesos.sort = this.sort;
-    this.cantidadRegistros = page.data.totalElements;
-  },
-    (err: ErrorService) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: 'Error al obtener los procesos de contabilidad a ejecutar',
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-    });
-}
+  listarProcesos(pagina = 0, tamanio = 5) {
+    this.logProcesoDiarioService.obtenerProcesosDiarios({
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
+      console.log(page.data)
+      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
+      this.dataSourceInfoProcesos.sort = this.sort;
+      this.cantidadRegistros = page.data.totalElements;
+    },
+      (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: 'Error al obtener los procesos de contabilidad a ejecutar',
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      });
+  }
 
   /**
    * Metodo encargado de ejecutar el servicio de contabilidad para los 
@@ -96,6 +96,8 @@ export class ContabilidadPmComponent implements OnInit {
 
     validateArchivo.afterClosed().subscribe(result => {
       //Si presiona click en aceptar
+      console.log(moment(result.data.fechaSistema).format('dd/MM/YYYY'));
+      console.log(result.data.fechaProceso);
       if (result.data.check) {
         this.spinnerActive = true;
         let tipoContabilida = "PM"
@@ -105,9 +107,10 @@ export class ContabilidadPmComponent implements OnInit {
           'fechaSistema': result.data.fechaSistema,
           'tipoContabilidad': tipoContabilida,
           'codBanco': codBanco,
-          'false': "INICIAL"
+          'fase': "INICIAL"
         }).subscribe(data => {
           //Ensayo re respuesta
+          console.log("ENtro aqui")
           const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
             width: '100%',
             data: {

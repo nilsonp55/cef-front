@@ -12,12 +12,13 @@ import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/l
  * Componente para gestionar el menu de contabilidad PM
  * @BaironPerez
 */
+
 @Component({
-  selector: 'app-resultado-contabilidad',
-  templateUrl: './resultado-contabilidad.component.html',
-  styleUrls: ['./resultado-contabilidad.component.css']
+  selector: 'app-errores-contabilidad',
+  templateUrl: './errores-contabilidad.component.html',
+  styleUrls: ['./errores-contabilidad.component.css']
 })
-export class ResultadoContabilidadComponent implements OnInit {
+export class ErroresContabilidadComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -32,17 +33,12 @@ export class ResultadoContabilidadComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = [
-    'naturalezaContable', 'cuentaMayor',
-      'subAuxiliar', 'tipoIdentificacion', 'tipoCambioMonedaDolar', 'tipoCambioMonedaPeso', 
-      'valorMoneda', 'valorPesos', 'valorUsd', 'centroCosto', 'centroBeneficio', 'ordenCo',
-      'areaFuncional', 'descripcion', 'terceroGL', 'nombreTerceroGL',
-      'fechaConversion', 'claveReferencia1', 'claveReferencia2'];
+  displayedColumnsInfoProcesos: string[] = ['idErroresContables', 'transaccionInterna', 'fecha', 'mensajeError'];
 
   constructor(
     private dialog: MatDialog,
     private logProcesoDiarioService: LogProcesoDiarioService,
-    private dialogRef: MatDialogRef<ResultadoContabilidadComponent>,
+    private dialogRef: MatDialogRef<ErroresContabilidadComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any}
   ) { }
 

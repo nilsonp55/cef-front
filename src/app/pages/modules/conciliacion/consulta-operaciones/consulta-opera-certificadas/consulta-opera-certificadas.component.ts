@@ -66,7 +66,7 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   * @JuanMazo
   */
   mostrarMas(e: any) {
-    //this.listarArchivosCargados(e.pageIndex, e.pageSize);
+    this.listarOpCertificadasSinConciliar(e.pageIndex, e.pageSize);
   }
 
   /**
@@ -75,7 +75,7 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
    */
   listarOpCertificadasSinConciliar(pagina = 0, tamanio = 5) {
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-      'estadoConciliacion': GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO,
+    'estadoConciliacion': GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO,
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {

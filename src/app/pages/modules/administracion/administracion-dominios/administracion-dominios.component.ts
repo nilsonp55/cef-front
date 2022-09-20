@@ -10,6 +10,7 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { DialogTablaDominioComponent } from './dialog-tabla-dominio/dialog-tabla-dominio.component';
 import { DialogIdentificadorDominioComponent } from './dialog-identificador-dominio/dialog-identificador-dominio.component';
 import { DialogEliminarIdentificadorComponent } from './dialog-eliminar-identificador/dialog-eliminar-identificador.component';
+import { DominioMaestroService } from 'src/app/_service/administracion-service/dominios-maestro.service';
 
 @Component({
   selector: 'app-administracion-dominios',
@@ -34,14 +35,14 @@ export class AdministracionDominiosComponent implements OnInit {
   clickedRowsIdent = new Set<Identificadores>();
 
   constructor(
-    private opConciliadasService: OpConciliadasService,
+    private dominioMaestroService: DominioMaestroService,
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
-
+    this.listarDominiosMaestro();
   }
 
-  dataSourceOperacionesDominios: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
+  dataSourceDominios: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
   displayedColumnsDominios: string[] = ['name'];
 
   /**
@@ -56,12 +57,11 @@ export class AdministracionDominiosComponent implements OnInit {
    * Lista los dominios
    * @JuanMazo
    */
-  listarDominios() {
-    this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-      'estadoConciliacion': GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesDominios = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesDominios.sort = this.sort;
+  listarDominiosMaestro() {
+    this.dominioMaestroService.listarDominios().subscribe((page: any) => {
+      console.log(page.data)
+      this.dataSourceDominios = new MatTableDataSource(page.data);
+      this.dataSourceDominios.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
       (err: ErrorService) => {
