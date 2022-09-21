@@ -109,6 +109,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
       data: {
         respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
         titulo: "Generar Contabilidad PM - Resultado",
+        tipoContabilidad: "PM"
       }
     });
   }

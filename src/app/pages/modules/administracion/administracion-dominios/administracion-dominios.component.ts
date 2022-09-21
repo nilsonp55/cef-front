@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
-import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { ErrorService } from 'src/app/_model/error.model';
@@ -40,6 +39,7 @@ export class AdministracionDominiosComponent implements OnInit {
 
   ngOnInit(): void {
     this.listarDominiosMaestro();
+    console.log(this.isDominioChecked)
   }
 
   dataSourceDominios: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
@@ -90,6 +90,7 @@ export class AdministracionDominiosComponent implements OnInit {
  * @JuanMazo
  */
   actualizarTablaDominio() {
+    console.log(this.isDominioChecked)
     this.dialog.open(DialogTablaDominioComponent, {
       width: '700PX'
     })

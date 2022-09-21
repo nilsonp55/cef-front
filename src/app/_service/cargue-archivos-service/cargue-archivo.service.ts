@@ -56,6 +56,11 @@ export class CargueArchivosService {
         return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'text' })
     }
 
+    /**
+     * Metodo que nos permite cosumir servicio que nos permite descargar archivo que se encuentra en el S3
+     * @param params 
+     * @returns 
+     */
     visializarArchivo3(params: any): Observable<any> {
         return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
         .pipe(
@@ -66,7 +71,11 @@ export class CargueArchivosService {
             map(() => true)
         );
     }
-
+/**
+ * Metodo que llama servicio que nos permite descargar arhcivio desde la base de datos
+ * @param params
+ * @returns 
+ */
     visializarArchivo4(params: any): Observable<any> {
         return this.http.get(`${this.urlFile}${URLs.CARGUE_ID_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
         .pipe(

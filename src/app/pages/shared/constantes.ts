@@ -281,6 +281,7 @@ export const URLs = {
   //Generar Contabilidad
   CONTABILIDAD: '/contabilidad',
   CONTABILIDAD_GENERAL: '/generar',
+  CONTABILIDAD_GENERAR_ARCHIVO: '/archivo-cierre',
 };
 
 export const ROLES = [

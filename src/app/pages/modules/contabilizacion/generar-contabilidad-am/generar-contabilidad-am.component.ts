@@ -69,7 +69,6 @@ export class GenerarContabilidadAmComponent implements OnInit {
   generarContabilidad() {
     this.spinnerActive = true;
     this.generarContabilidadService.generarContabilidad({ tipoContabilidad: "AM" }).subscribe((data: any) => {
-      console.log(data.data.respuestasContablesDTO)
       this.dataGenerateContabilidad = data.data;
       let conteoContabilidadDto = data.data.conteoContabilidadDTO;
       //Se construye tabla de info
@@ -107,6 +106,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
       data: {
         respuesta: this.dataGenerateContabilidad.repsuestasContableDTO,
         titulo: "Generar Contabilidad AM - Resultado",
+        tipoContabilidad: "AM"
       }
     });
   }

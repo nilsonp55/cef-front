@@ -6,7 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
+import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
+import { GeneralesService } from 'src/app/_service/generales.service';
 
 /**
  * Componente para gestionar el menu de contabilidad PM
@@ -25,6 +27,9 @@ export class ResultadoContabilidadComponent implements OnInit {
   //Rgistros paginados
   cantidadRegistros: number;
 
+  fechaSistemaSelect: any;
+  codigoBanco: any;
+
   //Variable para activar spinner
   spinnerActive: boolean = false;
 
@@ -41,15 +46,22 @@ export class ResultadoContabilidadComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private generalServices: GeneralesService,
     private logProcesoDiarioService: LogProcesoDiarioService,
+    private generarContabilidadService: GenerarContabilidadService,
     private dialogRef: MatDialogRef<ResultadoContabilidadComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any}
+    @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any, tipoContabilidad: any}
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.titulo = this.data.titulo
+    this.codigoBanco = this.data.respuesta[0].bancoAval
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);
     this.dataSourceInfoProcesos.sort = this.sort;
+    const fecha = await this.generalServices.listarParametroByFiltro({
+      codigo: "FECHA_DIA_PROCESO"
+    }).toPromise();
+    this.fechaSistemaSelect = fecha.data[0].valor;
   }
 
   /**
@@ -81,8 +93,28 @@ export class ResultadoContabilidadComponent implements OnInit {
    * Metodo encargado de ejecutar el servicio de visualizar archivo excel
    * @BaironPerez
    */
-  verArchivoExcel() {
-  
+  verArchivoExcel() {debugger
+    this.spinnerActive = true;
+    console.log("Entro a funcion")
+    this.generarContabilidadService.generarArchivoContabilidad({
+       'fecha': this.fechaSistemaSelect, 
+       'tipoContabilidad': this.data.tipoContabilidad,
+       'codBanco': this.codigoBanco
+       }).subscribe(data => {
+      console.log("Entro al suscribe")
+        console.log(data)
+      //data.saveFile();
+      this.spinnerActive = false;
+    },
+      (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: 'Error al generar el archivo',
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          } 
+        }); setTimeout(() => { alert.close() }, 3000);
+      });
   }
 
   /**

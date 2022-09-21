@@ -48,7 +48,7 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
   dataConcilicionesComplete:ConciliacionesProgramadasNoConciliadasModel[]
-  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV','entradaSalida', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fechaProgramacion','fechaOrigen','fechaDestino', 'tipoOperacion', 'tdv', 'valorTotal', 'estadoOperacion', 'bancoAVAL', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
+  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV', 'tipoOperacion','entradaSalida', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fechaProgramacion','fechaOrigen','fechaDestino', 'tdv', 'valorTotal', 'estadoOperacion', 'bancoAVAL', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
 
 
   constructor(
