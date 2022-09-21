@@ -29,7 +29,7 @@ export class OpConciliadasService {
      * Servicio para listar conciliados
     */
     obtenerConciliados(params: any) {
-        return this.http.post<any>(`${this.url}${URLs.CONCILIACION_CONSULTA}`, { params: params });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_CONSULTA}`, { params: params });
     }
 
     /**
@@ -37,7 +37,7 @@ export class OpConciliadasService {
      * @returns 
      */
     obtenerOpProgramadasSinconciliar(params: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR + '?estadoConciliacion=No Conciliado'}`, { params: params });
+        return this.http.get<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR}`, { params: params });
     }
 
     /**
@@ -45,8 +45,8 @@ export class OpConciliadasService {
      * @param param 
      * @returns 
      */
-    obtenerOpCertificadasSinconciliar(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.OP_CERTIFICADAS_SIN_CONCILIAR}`, null);
+    obtenerOpCertificadasSinconciliar(params: any): Observable<any> {
+        return this.http.get<any>(`${this.url}${URLs.OP_CERTIFICADAS_SIN_CONCILIAR}`, { params: params });
     }
 
     /**
@@ -64,7 +64,7 @@ export class OpConciliadasService {
      * @JuanMazo
      */
     listarOpProgrmadasFallidas(params: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR + '?estadoConciliacion=No Conciliado&estadoConciliacion=fallido&estadoConciliacion=canceladas&estadoConciliacion=pospuesta&estadoConciliacion=fuera de conciliacion'}`, { params: params });
+        return this.http.post<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR + '?estadoConciliacion=FALLIDA&estadoConciliacion=CANCELADA&estadoConciliacion=POSPUESTA&estadoConciliacion=FUERA_DE_CONCILIACION'}`, { params: params });
     }
 
     /**
@@ -110,9 +110,9 @@ export class OpConciliadasService {
     /**
      * Servicio para cerrar el proceso de conciliación
      */
-     public procesar(param: any): Observable<any> {
+     public procesar(): Observable<any> {
         const formData: FormData = new FormData();
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_CIERRE}/${param}`);
+        return this.http.post<any>(`${this.url}${URLs.CONCILIACION_CIERRE}`,null);
     }
 
 }

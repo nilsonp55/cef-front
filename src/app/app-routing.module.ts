@@ -35,8 +35,6 @@ import { ConsultaOperaCertificadasComponent } from './pages/modules/conciliacion
 import { ConsultaOperaFallidasComponent } from './pages/modules/conciliacion/consulta-operaciones/consulta-opera-fallidas/consulta-opera-fallidas.component';
 import { CierreConciliacionComponent } from './pages/modules/conciliacion/cierre-conciliacion/cierre-conciliacion.component';
 import { CierreCertificacionComponent } from './pages/modules/cargue-certificacion/cierre-certificacion/cierre-certificacion.component';
-import { LiquidacionComponent } from './pages/modules/liquidacion/liquidacion.component';
-import { CostoServicioCharterComponent } from './pages/modules/liquidacion/costo-servicio-charter/costo-servicio-charter.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -79,9 +77,10 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'liquidacion', component: LiquidacionComponent, children: [
-      { path: 'servicio-charter', component: CostoServicioCharterComponent },
-    ]
+    path: 'liquidacion', component: MenuContabilidadComponent
+  },
+  {
+    path: 'cierre-fecha', component: CierreFechaComponent
   },
   {
     path: 'administracion', component: AdministracionComponent, children: [

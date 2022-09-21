@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators'
 import { MatDialog } from '@angular/material/dialog';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -14,8 +13,6 @@ import { BancoModel } from 'src/app/_model/banco.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { TransportadoraModel } from 'src/app/_model/transportadora.model';
 import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-program-no-conciliadas.model';
-import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
-import { DialogInfoProgramadasNoConciliadasComponent } from '../../opearciones-no-conciliadas/dialog-info-programadas-no-conciliadas/dialog-info-programadas-no-conciliadas.component';
 
 
 @Component({
@@ -33,6 +30,8 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  //matTableExporter: any;
+
   //Rgistros paginados
   cantidadRegistros: number;
 
@@ -47,26 +46,28 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
   bancoOptions: BancoModel[]
   filteredOptionsBancos: Observable<BancoModel[]>;
 
+  dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
+  dataConcilicionesComplete:ConciliacionesProgramadasNoConciliadasModel[]
+  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV', 'tipoOperacion','entradaSalida', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fechaProgramacion','fechaOrigen','fechaDestino', 'tdv', 'valorTotal', 'estadoOperacion', 'bancoAVAL', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
+
 
   constructor(
     private dialog: MatDialog,
     private opConciliadasService: OpConciliadasService,
     private generalesService: GeneralesService) { }
-
+    
   ngOnInit(): void {
     this.listarOpProgramadasSinConciliar();
   }
 
-  dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  dataConcilicionesComplete:ConciliacionesProgramadasNoConciliadasModel[]
-  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV','entradaSalida', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fechaProgramacion','fechaOrigen','fechaDestino', 'tipoOperacion', 'tdv', 'valorTotal', 'estadoOperacion', 'bancoAVAL', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
+
 
   /**
 * Metodo para gestionar la paginación de la tabla
 * @BaironPerez
 */
   mostrarMas(e: any) {
-    //this.listarArchivosCargados(e.pageIndex, e.pageSize);
+    this.listarOpProgramadasSinConciliar(e.pageIndex, e.pageSize);
   }
 
   /**
@@ -114,12 +115,5 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
       this.cantidadRegistros =filterData.length;
     }
   }
-  
-     /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-    mostrarMasOpProgramadasSinConciliar(e: any) {
-      this.listarOpProgramadasSinConciliar(e.pageIndex, e.pageSize);
-    }
+
 }

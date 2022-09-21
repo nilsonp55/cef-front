@@ -3,7 +3,7 @@
 <!--Tabla Descripción de archivos cargados-->
 <div class="divTabla">
     <div class="divTituloTablas">
-        <h1 class="tituloTabla">Archivos Cargados </h1>
+        <h1 class="tituloTabla">Archivos pendientes de carga</h1>
         <span class="line-spacer"></span>
     </div>
     <!--<P class="divMessageTableOK">Se encontraron "2" archivos pendientes de carga</P>-->
@@ -46,7 +46,4 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoArchivo"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoArchivo;"></tr>
     </table>
-    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
-        (page)="mostrarMas($event)">
-    </mat-paginator>
 </div>

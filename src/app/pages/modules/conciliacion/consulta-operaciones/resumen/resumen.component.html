@@ -66,9 +66,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumnsResumenOp"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsResumenOp;"></tr>
     </table>
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
-        (page)="mostrarMas($event)">
-    </mat-paginator>
+
 </div>
 <div *ngIf="!load" class="disenio-spinner">
     <mat-spinner></mat-spinner>

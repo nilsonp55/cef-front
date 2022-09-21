@@ -5,7 +5,6 @@ import { Observable, Subject } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { URLs } from '../../pages/shared/constantes';
 import { saveAs } from 'file-saver';
-import { ArchivoCargadoModel } from '../../_model/cargue-preliminar-model/archivo-cargado.model';
 
 
 @Injectable({
@@ -21,7 +20,7 @@ export class CargueArchivosService {
     private urlFiles: string = `${environment.HOST}${URLs.STAGE}`;
     private urlFile: string = `${environment.HOST}${URLs.STAGE + URLs.CARGUE_FILE}`;
     private urlFileLoad: string = `${environment.HOST}${URLs.STAGE + URLs.ARCHIVO_CARGADO}`;
-
+    private nombreArch: string;
 
     constructor(private http: HttpClient) { }
 
@@ -57,6 +56,11 @@ export class CargueArchivosService {
         return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'text' })
     }
 
+    /**
+     * Metodo que nos permite cosumir servicio que nos permite descargar archivo que se encuentra en el S3
+     * @param params 
+     * @returns 
+     */
     visializarArchivo3(params: any): Observable<any> {
         return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
         .pipe(
@@ -67,12 +71,16 @@ export class CargueArchivosService {
             map(() => true)
         );
     }
-
+/**
+ * Metodo que llama servicio que nos permite descargar arhcivio desde la base de datos
+ * @param params
+ * @returns 
+ */
     visializarArchivo4(params: any): Observable<any> {
         return this.http.get(`${this.urlFile}${URLs.CARGUE_ID_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
         .pipe(
             tap(content => {
-                const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+                const blob = new Blob([content], { type: 'text/plain'});
                 saveAs(blob, params.nombreArchivo);
             }),
             map(() => true)

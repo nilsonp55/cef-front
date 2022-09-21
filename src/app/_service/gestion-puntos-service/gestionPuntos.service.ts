@@ -14,7 +14,7 @@ import { URLs } from 'src/app/pages/shared/constantes';
  */
 export class GestionPuntosService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS}`;
+    private url: string = `${environment.HOST}${URLs.API_VERSION}${URLs.GESTION_PUNTOS}`;
 
     constructor(private http: HttpClient) { }
 

@@ -38,6 +38,10 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
   cantidadRegistrosOpProgramadasSinConciliar: number;
   cantidadRegistrosOpCertificadasSinConciliar: number;
 
+      //Rgistros paginados
+      cantidadRegistrosProgram: number;
+      cantidadRegistrosCerti: number;
+
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
 
@@ -49,10 +53,11 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
   displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'valorTotal', 'acciones', 'relacion'];
-
+  dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
+  
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
   displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'fechaEjecucion', 'tipoOperacion', 'valorTotal', 'acciones'];
-
+  dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   constructor(
     private dialog: MatDialog,
@@ -63,14 +68,6 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
   ngOnInit(): void {
     this.listarOpProgramadasSinConciliar();
     this.listarOpCertificadasSinConciliar();
-  }
-
-  /**
-  * Metodo para gestionar la paginación de la tabla
-  * @JuanMazo
-  */
-  mostrarMas(e: any) {
-    //this.listarArchivosCargados(e.pageIndex, e.pageSize);
   }
 
   displayFn(banco: any): string {
@@ -126,6 +123,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
+      this.dataSourceOperacionesProgramadasComplet=page.data.content;
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
       this.cantidadRegistrosOpProgramadasSinConciliar = page.data.totalElements;
@@ -159,6 +157,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
+      this.dataSourceOperacionesCertificadasComplet=page.data.content;
       this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesCertificadas.sort = this.sort;
       this.cantidadRegistrosOpCertificadasSinConciliar = page.data.totalElements;
@@ -194,6 +193,56 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       opeProgramada.relacion = event.target.value
     }
 
+  }
+
+  filter(event) {
+    if(event.banco !== undefined && event.trasportadora !== undefined){
+      var filterData=this.dataSourceOperacionesProgramadasComplet.filter(conciliado=>conciliado.tdv===event.trasportadora && conciliado.bancoAVAL===event.banco);
+      this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
+      this.dataSourceOperacionesProgramadas.sort = this.sort;
+      this.cantidadRegistrosProgram =filterData.length;
+      var filterData2=this.dataSourceOperacionesCertificadasComplet.filter(conciliado=>conciliado.tdv===event.trasportadora && conciliado.bancoAVAL===event.banco);
+      this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData2);
+      this.dataSourceOperacionesCertificadas.sort = this.sort;
+      this.cantidadRegistrosCerti =filterData.length;
+    }else if(event.banco == undefined && event.trasportadora !== undefined) {
+      var filterData=this.dataSourceOperacionesProgramadasComplet.filter(conciliado=>conciliado.tdv===event.trasportadora);
+      this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
+      this.dataSourceOperacionesProgramadas.sort = this.sort;
+      this.cantidadRegistrosProgram =filterData.length;
+      var filterData2=this.dataSourceOperacionesCertificadasComplet.filter(programado=>programado.tdv===event.trasportadora);
+      this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData2);
+      this.dataSourceOperacionesCertificadas.sort = this.sort;
+      this.cantidadRegistrosCerti =filterData.length;
+    }else if(event.trasportadora == undefined && event.banco !== undefined) {
+      var filterData=this.dataSourceOperacionesProgramadasComplet.filter(conciliado=>conciliado.bancoAVAL===event.banco);
+      this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
+      this.dataSourceOperacionesProgramadas.sort = this.sort;
+      this.cantidadRegistrosProgram =filterData.length;
+      var filterData2=this.dataSourceOperacionesCertificadasComplet.filter(certificado=>certificado.bancoAVAL===event.banco);
+      this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData2);
+      this.dataSourceOperacionesCertificadas.sort = this.sort;
+      this.cantidadRegistrosCerti =filterData.length;
+    }
+  }
+
+  filter2(event) {
+    if(event.banco !== undefined && event.trasportadora !== undefined){
+      var filterData=this.dataSourceOperacionesCertificadasComplet.filter(conciliado=>conciliado.tdv===event.trasportadora && conciliado.bancoAVAL===event.banco);
+      this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData);
+      this.dataSourceOperacionesCertificadas.sort = this.sort;
+      this.cantidadRegistrosCerti =filterData.length;
+    }else if(event.banco == undefined && event.trasportadora !== undefined) {
+      var filterData=this.dataSourceOperacionesCertificadasComplet.filter(programado=>programado.tdv===event.trasportadora);
+      this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData);
+      this.dataSourceOperacionesCertificadas.sort = this.sort;
+      this.cantidadRegistrosCerti =filterData.length;
+    }else if(event.trasportadora == undefined && event.banco !== undefined) {
+      var filterData=this.dataSourceOperacionesCertificadasComplet.filter(certificado=>certificado.bancoAVAL===event.banco);
+      this.dataSourceOperacionesCertificadas = new MatTableDataSource(filterData);
+      this.dataSourceOperacionesCertificadas.sort = this.sort;
+      this.cantidadRegistrosCerti =filterData.length;
+    }
   }
 
 }

@@ -8,6 +8,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { ErroresContabilidadComponent } from '../errores-contabilidad/errores-contabilidad.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
 
 @Component({
@@ -72,13 +73,13 @@ export class GenerarContabilidadAmComponent implements OnInit {
       let conteoContabilidadDto = data.data.conteoContabilidadDTO;
       //Se construye tabla de info
       const tabla = [
-        { nombre: "conteoInternasGeneradas", cantidad: conteoContabilidadDto.conteoInternasGeneradas, estado: conteoContabilidadDto.estadoInternasGeneradas },
-        { nombre: "conteoContablesGeneradas", cantidad: conteoContabilidadDto.conteoContablesGeneradas, estado: conteoContabilidadDto.estadoContablesGeneradas },
-        { nombre: "conteoErroresContables", cantidad: conteoContabilidadDto.conteoErroresContables, estado: conteoContabilidadDto.estadoErroresContables },
-        { nombre: "conteoContablesCompletadas", cantidad: conteoContabilidadDto.conteoContablesCompletables, estado: conteoContabilidadDto.estadoContablesCompletables },
+        { nombre: "Conteo Internas Generadas", cantidad: conteoContabilidadDto.conteoInternasGeneradas, estado: conteoContabilidadDto.estadoInternasGeneradas },
+        { nombre: "Conteo Contables Generadas", cantidad: conteoContabilidadDto.conteoContablesGeneradas, estado: conteoContabilidadDto.estadoContablesGeneradas },
+        { nombre: "Conteo Errores Contables", cantidad: conteoContabilidadDto.conteoErroresContables, estado: conteoContabilidadDto.estadoErroresContables },
+        { nombre: "Conteo Contables Completadas", cantidad: conteoContabilidadDto.conteoContablesCompletadas, estado: conteoContabilidadDto.conteoContablesCompletadas },
       ];
       //Se realizan validaciones
-      this.tieneErrores = conteoContabilidadDto.conteoContabilidadDto.conteoErroresContables > 0 ? true : false;
+      this.tieneErrores = conteoContabilidadDto.conteoErroresContables > 0 ? false : true;
       this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
       this.spinnerActive = false;
     },
@@ -103,8 +104,9 @@ export class GenerarContabilidadAmComponent implements OnInit {
     const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
       width: '100%',
       data: {
-        respuesta: "respuesta preuba",
+        respuesta: this.dataGenerateContabilidad.repsuestasContableDTO,
         titulo: "Generar Contabilidad AM - Resultado",
+        tipoContabilidad: "AM"
       }
     });
   }
@@ -115,6 +117,12 @@ export class GenerarContabilidadAmComponent implements OnInit {
   * @BaironPerez
   */
   verErrores() {
-
+    const respuesta = this.dialog.open(ErroresContabilidadComponent, {
+      width: '100%',
+      data: {
+        respuesta: this.dataGenerateContabilidad.erroresContablesDTO,
+        titulo: "Generar Contabilidad AM - Errores",
+      }
+    });
   }
 }

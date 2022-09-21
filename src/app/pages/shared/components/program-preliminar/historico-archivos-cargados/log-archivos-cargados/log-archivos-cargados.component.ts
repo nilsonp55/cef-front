@@ -26,7 +26,6 @@ export class LogArchivosCargadosComponent implements OnInit {
 
   ngOnInit(): void { 
     this.data;
-    console.log("Esta dentro de Log Archivos Cargados")
   }
 
 

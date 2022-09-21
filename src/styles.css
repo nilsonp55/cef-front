@@ -191,9 +191,9 @@ mat-form-field {
 
 
 /************************************************************************************************************************
-* Esilos para color de la pestaña seleccionada
+* Estilos para color de la pestaña seleccionada
 *************************************************************************************************************************/
 .seleccion-activa {
-    color: #f0f1f5 !important; /* Note: You could also use a custom theme */
-    background-color: rgb(230, 160, 56);
+    color: #61b6e4 !important; /* Note: You could also use a custom theme */
+    background-color: rgb(255, 255, 255);
   }

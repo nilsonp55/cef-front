@@ -4,11 +4,11 @@ import { ErroresCampos } from 'src/app/_model/cargue-preliminar-model/error-camp
 import { ValidacionLineaArchivo } from 'src/app/_model/cargue-preliminar-model/validacion-linea-archivo.model';
 
 @Component({
-  selector: 'app-dialog-result-validacion',
-  templateUrl: './dialog-result-validacion.component.html',
-  styleUrls: ['./dialog-result-validacion.component.css']
+  selector: 'app-result-validacion-certificacion',
+  templateUrl: './result-validacion.component.html',
+  styleUrls: ['./result-validacion.component.css']
 })
-export class DialogResultValidacionComponent implements OnInit {
+export class DialogResultValidacionCertificacionComponent implements OnInit {
 
   tablaValidacionError: any[] = [];
 
@@ -31,5 +31,4 @@ export class DialogResultValidacionComponent implements OnInit {
       });
     }
   }
-
 }

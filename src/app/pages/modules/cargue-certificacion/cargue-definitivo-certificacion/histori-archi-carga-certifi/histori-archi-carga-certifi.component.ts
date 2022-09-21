@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { LogArchivosCargadosComponent } from 'src/app/pages/shared/components/program-preliminar/historico-archivos-cargados/log-archivos-cargados/log-archivos-cargados.component';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ArchivoCargadoModel } from 'src/app/_model/cargue-preliminar-model/archivo-cargado.model';
@@ -28,6 +29,8 @@ export class HistoriArchiCargaCertifiComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
+
+  idArchivo: any;
 
   //DataSource para pintar tabla de archivos cargados
   dataSourceInfoArchivo: MatTableDataSource<ArchivoCargadoModel>;
@@ -77,11 +80,12 @@ export class HistoriArchiCargaCertifiComponent implements OnInit {
     this.cargueProgramacionDefinitivoService.verDetalleArchivo({
       'idArchivoCargado': idArchivoCargado
     }).subscribe(data => {
-      const validateArchivo = this.dialog.open(LogArchivosCargadosCertificacionComponent, {
-        width: '950px', height: '400', data: data,
+      this.idArchivo = idArchivoCargado
+      const validateArchivo = this.dialog.open(LogArchivosCargadosComponent, {
+        width: '950px', height: '400', data: {id: this.idArchivo, data},
       });
     });
-  }
+  }//
 
   /**
   * Metodo para gestionar la paginación de la tabla
