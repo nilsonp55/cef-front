@@ -74,7 +74,7 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
    * Lista las operaciones programadas sin conciliar
    * @JuanMazo
    */
-  listarOpProgramadasSinConciliar(pagina = 0, tamanio = 5) {
+  listarOpProgramadasSinConciliar(pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       page: pagina,
       size: tamanio,

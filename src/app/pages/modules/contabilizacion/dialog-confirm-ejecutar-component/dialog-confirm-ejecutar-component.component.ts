@@ -1,5 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ErrorService } from 'src/app/_model/error.model';
+import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 
 @Component({
@@ -14,10 +16,13 @@ export class DialogConfirmEjecutarComponentComponent implements OnInit {
   fechaSistemaSelect: any;
   bancoSelect: any;
 
+  valorBanco: any = "0";
+
 
   constructor(
     private dialog: MatDialog,
     private generalServices: GeneralesService,
+    private generarContabilidadService: GenerarContabilidadService,
     private dialogRef: MatDialogRef<DialogConfirmEjecutarComponentComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { tipoContabilidad: string }
   ) { }
@@ -26,6 +31,8 @@ export class DialogConfirmEjecutarComponentComponent implements OnInit {
     this.tipoContabilidad = this.data.tipoContabilidad;
     this.cargarDatosDesplegables();
   }
+
+
 
   async cargarDatosDesplegables() {
     const _bancos = await this.generalServices.listarBancosAval().toPromise();
@@ -40,7 +47,7 @@ export class DialogConfirmEjecutarComponentComponent implements OnInit {
   confirm() {
     this.dialogRef.close({
       data: {
-        banco: this.bancoSelect,
+        banco: "0",
         fechaSistema: this.fechaSistemaSelect,
         check: true
       }
@@ -50,7 +57,7 @@ export class DialogConfirmEjecutarComponentComponent implements OnInit {
   cancel() {
     this.dialogRef.close({
       data: {
-        banco: this.bancoSelect,
+        banco: '0',
         fechaSistema: this.fechaSistemaSelect,
         check: true
       }

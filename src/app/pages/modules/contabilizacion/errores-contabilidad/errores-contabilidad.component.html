@@ -4,7 +4,7 @@
         <h1 class="tituloTabla">{{titulo}}</h1>
         <span class="line-spacer"></span>
     </div>
-    <div class="mat-elevation-z8 disenio-tabla">
+    <div class="mat-elevation-z8 disenio-tabla configScroll">
         <table mat-table [dataSource]="dataSourceInfoProcesos" matSort>
             <ng-container matColumnDef="idErroresContables">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
@@ -32,7 +32,7 @@
     </div>
 
     <div style="margin-top: 0%; text-align: center;">
-        <button style="display:inline; margin: 2%;" class="bottonVerArchivo" (click)="verArchivoExcel()" cdkFocusInitial>Visualizar Excel</button>
-        <button style="display:inline; margin: 2%;" class="bottonSolicitar" (click)="solicitarAutorizacion()">Solicitar Validacion</button>
+        <button  mat-raised-button mat-button style="display:inline; margin: 2%;" color="primary" (click)="verArchivoExcel()" cdkFocusInitial>Visualizar Excel</button>
+        <button mat-raised-button mat-button mat-dialog-close color="warn" (click)="close()">CERRAR</button>
     </div>
 </div>

@@ -88,4 +88,6 @@
   width: 2400px;
   margin-left: 4%;
   margin-right: 6%;
+  text-align: center !important;
+  justify-content: center;
 }

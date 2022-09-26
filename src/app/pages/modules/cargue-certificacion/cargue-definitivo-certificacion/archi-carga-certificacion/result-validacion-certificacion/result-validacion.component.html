@@ -6,34 +6,37 @@
         <!--Input informativo de cargue-->
         <div class="row">
             <label class="form-group col-md-3">Contenido</label>
-            <input class="form-group col-md-7" value="Cargue preliminar de programación de servicios" disabled type="text">
+            <input class="form-group col-md-7" value="Cargue certificación servicios de TDV" disabled type="text">
         </div><br>
         <!--Matríz de resusltados-->
         <div style="text-align: center; margin-top: 2%;">
             <div class="row">
-                <input style="font-weight: bold" class="form-group col-md-2" value="Linea" disabled type="text">
-                <input style="font-weight: bold"class="form-group col-md-3" value="Campo" disabled type="text">
-                <input style="font-weight: bold"class="form-group col-md-5" value="Descripción del error" disabled type="text">
+                <input style="font-weight: bold" class="column-linea" value="Linea" disabled type="text">
+                <input style="font-weight: bold"class="column-linea" value="Campo" disabled type="text">
+                <input style="font-weight: bold"class="column-des-error" value="Descripción del error" disabled type="text">
+                <input style="font-weight: bold"class="form-group col-md-4" value="Contenido del error" disabled type="text">
             </div>
 
             <div *ngFor="let error of tablaValidacionError" class="row">
-                <input type="number" class="form-group col-md-2" value= "{{error.linea}}" disabled>
-                <input type="text" class="form-group col-md-3" value= "{{error.campo}}" disabled>
-                <input type="text" class="form-group col-md-5" value= "{{error.descripcion}}" disabled>
+                <input type="number" class="column-linea" value= "{{error.linea}}" disabled>
+                <input type="text" class="column-linea" value= "{{error.campo}}" disabled>
+                <input type="text" class="column-des-error" value= "{{error.descripcion}}" disabled>
+                <input type="text" class="form-group col-md-4" value= "{{error.contenido}}" disabled>
             </div>
         </div>
+        <p>Hola</p>
         <!--Conclución de resusltados-->
         <div style="margin-right: 50%; margin-top: 2%;">
             <div class="row">
                 <label style="font-weight: bold" class="form-group col-md-3">Lineas</label>
-                <input class="form-group col-md-2" value="{{data.data.validacionLineas.length}}" type="text"disabled type="text">
+                <input class="form-group col-md-2" value="{{data.data.data.numeroRegistros}}" type="text"disabled type="text">
                 <label style="font-weight: bold" class="form-group col-md-3">Errores</label>
-                <input style="color: rgb(255, 255, 255);background-color: rgb(255, 0, 0)" class="form-group col-md-2" value="{{data.data.numeroErrores}}" disabled type="text">
+                <input style="color: rgb(255, 255, 255);background-color: rgb(255, 0, 0)" class="form-group col-md-2" value="{{data.data.data.numeroErrores}}" disabled type="text">
             </div>
         </div>
         
         <div style="margin-top: 5%;">
-            <button style="display:inline; margin: 2%;" class="bottonAceptarCenter">Aceptar</button>
+            <button mat-raised-button class="ubicacion-btn" color="primary" (click)="descargarArchivo()">Descargar</button>
         </div>
     </div>
 </div>

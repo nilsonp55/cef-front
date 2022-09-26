@@ -7,17 +7,17 @@
 
         <div class="example-full-width">
             <mat-form-field>
-                <input matInput [(ngModel)]="fechaSistemaSelect" placeholder="Fecha del sistema" required>
+                <input matInput [(ngModel)]="fechaSistemaSelect" placeholder="Fecha del sistema" disabled required>
             </mat-form-field>
     
-            <mat-form-field appearance="fill">
+            <!--mat-form-field appearance="fill">
                 <mat-label>Bancos Aval</mat-label>
                 <mat-select [(ngModel)]="bancoSelect">
                     <mat-option *ngFor="let item of bancos" [value]="item">
                         {{item.nombreBanco}}
                     </mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field-->
         </div>
 
         <div style="margin-top: 3%;">

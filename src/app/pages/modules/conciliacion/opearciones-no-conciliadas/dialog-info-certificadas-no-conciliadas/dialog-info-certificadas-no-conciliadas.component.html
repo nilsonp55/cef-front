@@ -73,17 +73,17 @@
 
                     <ng-container matColumnDef="valorTotal" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR TOTAL</th>
-                        <td mat-cell *matCellDef="let element"> {{element.valorTotal}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="valorFaltante" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR FALTANTE</th>
-                        <td mat-cell *matCellDef="let element"> {{element.valorFaltante}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.valorFaltante | currency}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="valorSobrante" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR SOBRANTE</th>
-                        <td mat-cell *matCellDef="let element"> {{element.valorSobrante}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.valorSobrante | currency}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="fallidaOficina" class="mat-column-nombreCampo">

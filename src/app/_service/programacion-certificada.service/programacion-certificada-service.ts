@@ -67,6 +67,6 @@ export class CargueProgramacionCertificadaService {
      */
      public procesar(param: any): Observable<any> {
         const formData: FormData = new FormData();
-        return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`,{ params: param });
+        return this.http.get<any>(`${environment.HOST}${URLs.STAGE+URLs.PROGRAMACION_CERTIFICACION_CERTIFICACIONES}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`,{ params: param });
     }
 }

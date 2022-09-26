@@ -96,13 +96,10 @@ export class ContabilidadPmComponent implements OnInit {
 
     validateArchivo.afterClosed().subscribe(result => {
       //Si presiona click en aceptar
-      console.log(moment(result.data.fechaSistema).format('dd/MM/YYYY'));
-      console.log(result.data.fechaProceso);
       if (result.data.check) {
         this.spinnerActive = true;
-        let tipoContabilida = "PM"
-        let codBanco = result.data.banco.nombreBanco == "Todos" ? 0 : result.data.banco.codigoPunto;
-
+        let tipoContabilida = "PM";
+        let codBanco = 0;
         this.cierrecontabilidadService.cierreContabilidad({
           'fechaSistema': result.data.fechaSistema,
           'tipoContabilidad': tipoContabilida,
@@ -111,6 +108,7 @@ export class ContabilidadPmComponent implements OnInit {
         }).subscribe(data => {
           //Ensayo re respuesta
           console.log("ENtro aqui")
+          console.log(data)
           const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
             width: '100%',
             data: {
