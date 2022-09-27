@@ -83,11 +83,11 @@ export class GenerarContabilidadAmComponent implements OnInit {
       this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
       this.spinnerActive = false;
     },
-      (err: ErrorService) => {
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: 'Error al generar contabilidad AM',
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
@@ -101,10 +101,12 @@ export class GenerarContabilidadAmComponent implements OnInit {
    * @BaironPerez
    */
   verTransactContables() {
-    const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
+    console.log(this.dataGenerateContabilidad)
+    console.log(this.dataGenerateContabilidad.respuestasContablesDTO)
+    const resp = this.dialog.open(ResultadoContabilidadComponent, {
       width: '100%',
       data: {
-        respuesta: this.dataGenerateContabilidad.repsuestasContableDTO,
+        respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
         titulo: "Generar Contabilidad AM - Resultado",
         tipoContabilidad: "AM"
       }

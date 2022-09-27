@@ -35,6 +35,8 @@ export class ResultadoContabilidadComponent implements OnInit {
 
   titulo: any;
 
+  tipo: any = this.data.tipoContabilidad;
+
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
   displayedColumnsInfoProcesos: string[] = [
@@ -54,6 +56,7 @@ export class ResultadoContabilidadComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    console.log(this.data)
     this.titulo = this.data.titulo
     this.codigoBanco = this.data.respuesta[0].bancoAval
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);

@@ -16,13 +16,9 @@ export class DialogConfirmEjecutarComponentComponent implements OnInit {
   fechaSistemaSelect: any;
   bancoSelect: any;
 
-  valorBanco: any = "0";
-
 
   constructor(
-    private dialog: MatDialog,
     private generalServices: GeneralesService,
-    private generarContabilidadService: GenerarContabilidadService,
     private dialogRef: MatDialogRef<DialogConfirmEjecutarComponentComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { tipoContabilidad: string }
   ) { }
