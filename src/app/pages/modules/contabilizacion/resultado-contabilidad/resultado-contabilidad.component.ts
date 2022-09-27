@@ -54,11 +54,6 @@ export class ResultadoContabilidadComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    console.log(this.data)
-    console.log(this.data.titulo)
-    console.log('Entro a mostrar')
-    console.log(this.data.respuesta)
-    console.log('No entra a respuesta')
     this.titulo = this.data.titulo
     this.codigoBanco = this.data.respuesta[0].bancoAval
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);
@@ -105,7 +100,6 @@ export class ResultadoContabilidadComponent implements OnInit {
        'tipoContabilidad': this.data.tipoContabilidad,
        'codBanco': this.codigoBanco
        }).subscribe(data => {
-        console.log(data)
       //data.saveFile();
       this.spinnerActive = false;
     },

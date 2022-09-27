@@ -18,10 +18,7 @@ export class DialogResultValidacionCertificacionComponent implements OnInit {
     private  cargueArchivosService: CargueArchivosService
   ) { }
 
-  ngOnInit(): void { 
-    console.log(this.data)
-    console.log(this.data.data.data.validacionLineas)
-    console.log(this.data)
+  ngOnInit(): void {
     //Logica para convertir Json de respuesta y adaptarlo a la ventana emergente
     if(this.data.data.data.numeroErrores != null || this.data.data.data.numeroErrores > 0) {
       this.data.data.data.validacionLineas.forEach((validacionLineasItem: ValidacionLineaArchivo) => {
@@ -29,11 +26,10 @@ export class DialogResultValidacionCertificacionComponent implements OnInit {
           const tablaValidacionError = { 
             linea: validacionLineasItem.numeroLinea,
             campo: campItem.numeroCampo,
-            descripcion: campItem.contenido,
+            descripcion: campItem.mensajeError,
             contenido: campItem.contenido
+            
           };
-          console.log("Errores")
-          console.log(tablaValidacionError)
           this.tablaValidacionError.push(tablaValidacionError);
         });
       });

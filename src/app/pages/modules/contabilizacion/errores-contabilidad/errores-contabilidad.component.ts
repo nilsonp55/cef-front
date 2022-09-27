@@ -95,8 +95,6 @@ export class ErroresContabilidadComponent implements OnInit {
        'tipoContabilidad': this.data.tipoContabilidad,
        'codBanco': this.codigoBanco
        }).subscribe(data => {
-      console.log("Entro al suscribe")
-        console.log(data)
       //data.saveFile();
       this.spinnerActive = false;
     },

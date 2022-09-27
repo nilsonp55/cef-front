@@ -71,7 +71,6 @@ export class GenerarContabilidadPmComponent implements OnInit {
   generarContabilidad() {
     this.spinnerActive = true;
     this.generarContabilidadService.generarContabilidad({ tipoContabilidad: "PM" }).subscribe((data: any) => {
-      console.log(data.data.respuestasContablesDTO)
       this.dataGenerateContabilidad = data.data;
       let conteoContabilidadDto = data.data.conteoContabilidadDTO;
       //Se construye tabla de info

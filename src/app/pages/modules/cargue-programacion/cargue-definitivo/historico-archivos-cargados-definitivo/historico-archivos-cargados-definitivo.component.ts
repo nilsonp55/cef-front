@@ -83,7 +83,6 @@ export class HistoricoArchivosCargadosDefinitivoComponent implements OnInit {
     }).subscribe(data => {
       this.idArchivo = idArchivoCargado;
       this.idModeloArch = idModeloArchivo;
-      console.log(data)
       const validateArchivo = this.dialog.open(LogArchivoCargadoDefinitivoComponent, {
         width: '950px', height: '400px', data: {id: this.idArchivo, idModArch: this.idModeloArch, data}
       });

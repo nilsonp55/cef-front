@@ -36,8 +36,6 @@ export class DialogVerArchDefiComponent implements OnInit {
   }
   
   descargarArchivo() {
-    console.log(this.data.idData)
-    console.log(this.data.idArch)
     if (this.data.idData==undefined){
       this.cargueArchivosService.visializarArchivo3({
         'nombreArchivo': this.data.data.data.nombreArchivo,

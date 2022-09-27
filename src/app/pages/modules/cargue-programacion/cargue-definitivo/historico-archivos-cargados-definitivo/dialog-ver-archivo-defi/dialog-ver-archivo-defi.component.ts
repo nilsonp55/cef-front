@@ -20,7 +20,6 @@ export class DialogVerArchivoDefiComponent implements OnInit {
 
   
   ngOnInit(): void { 
-    console.log("Cargo algo raro")
     //Logica para convertir Json de respuesta y adaptarlo a la ventana emergent
     if(this.data.data.data.numeroErrores != null || this.data.data.data.numeroErrores > 0) {
       this.data.data.data.validacionLineas.forEach((validacionLineasItem: ValidacionLineaArchivo) => {

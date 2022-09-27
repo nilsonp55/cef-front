@@ -21,8 +21,6 @@ export class DialogResultValidacionComponentComponent implements OnInit {
   
   ngOnInit(): void { 
     //Logica para convertir Json de respuesta y adaptarlo a la ventana emergent
-    console.log(this.data.data.data.validacionLineas)
-    console.log(this.data)
     if(this.data.data.data.numeroErrores != null || this.data.data.data.numeroErrores > 0) {
       this.data.data.data.validacionLineas.forEach((validacionLineasItem: ValidacionLineaArchivo) => {
         validacionLineasItem.campos.forEach((campItem: ErroresCampos) => {
@@ -32,7 +30,6 @@ export class DialogResultValidacionComponentComponent implements OnInit {
             descripcion: campItem.mensajeError,
             contenido: campItem.contenido
           };
-          console.log(tablaValidacionError)
           this.tablaValidacionError.push(tablaValidacionError);
         });
       });
@@ -40,8 +37,6 @@ export class DialogResultValidacionComponentComponent implements OnInit {
   }
   
   descargarArchivo() {
-    console.log(this.data.idData)
-    console.log(this.data.idArch)
     if (this.data.idData==undefined){
       this.cargueArchivosService.visializarArchivo3({
         'nombreArchivo': this.data.data.data.nombreArchivo,
