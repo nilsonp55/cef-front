@@ -5,7 +5,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ErrorService } from 'src/app/_model/error.model';
-import { saveAs } from 'file-saver';
 import { ArchivoCargadoModel } from 'src/app/_model/cargue-preliminar-model/archivo-cargado.model';
 import { ValidacionArchivo } from 'src/app/_model/cargue-preliminar-model/validacion-archivo.model';
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
@@ -105,7 +104,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
         }).subscribe((data: ValidacionArchivo) => {
           this.spinnerActive = false;
           this.dialog.open(DialogResultValidacionCertificacionComponent, {
-            width: '750', height: '400', data: data
+            width: '950px', height: '60%', data: {id: archivo.idModeloArchivo, data},
           });
         },
           (err: any) => {
@@ -130,7 +129,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     this.spinnerActive = true;
     this.spinnerComponent.dateToString(true);
     this.cargueProgramacionCertificadaService.procesarArchivo({
-      'idMaestroDefinicion': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
+      'idMaestroDefinicion': archivo.idModeloArchivo,
       'nombreArchivo': archivo.nombreArchivo
     }).subscribe((data: any) => {
       this.spinnerActive = false;

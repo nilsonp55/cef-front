@@ -71,7 +71,6 @@ export class GenerarContabilidadPmComponent implements OnInit {
   generarContabilidad() {
     this.spinnerActive = true;
     this.generarContabilidadService.generarContabilidad({ tipoContabilidad: "PM" }).subscribe((data: any) => {
-      console.log(data.data.respuestasContablesDTO)
       this.dataGenerateContabilidad = data.data;
       let conteoContabilidadDto = data.data.conteoContabilidadDTO;
       //Se construye tabla de info
@@ -103,9 +102,10 @@ export class GenerarContabilidadPmComponent implements OnInit {
    * contables
    * @BaironPerez
    */
-  verTransactContables() {
+  verTransactContables() {//
     const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
       width: '100%',
+      height: '90%',
       data: {
         respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
         titulo: "Generar Contabilidad PM - Resultado",
@@ -122,6 +122,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
   verErrores() {
     const respuesta = this.dialog.open(ErroresContabilidadComponent, {
       width: '100%',
+      height: '90%',
       data: {
         respuesta: this.dataGenerateContabilidad.erroresContablesDTO,
         titulo: "Generar Contabilidad PM - Errores",

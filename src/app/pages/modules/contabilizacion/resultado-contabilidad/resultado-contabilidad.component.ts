@@ -38,7 +38,7 @@ export class ResultadoContabilidadComponent implements OnInit {
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
   displayedColumnsInfoProcesos: string[] = [
-    'naturalezaContable', 'cuentaMayor',
+      'abreviaturaBancoAval','naturalezaContable', 'cuentaMayor',
       'subAuxiliar', 'tipoIdentificacion', 'tipoCambioMonedaDolar', 'tipoCambioMonedaPeso', 
       'valorMoneda', 'valorPesos', 'valorUsd', 'centroCosto', 'centroBeneficio', 'ordenCo',
       'areaFuncional', 'descripcion', 'terceroGL', 'nombreTerceroGL',
@@ -93,16 +93,13 @@ export class ResultadoContabilidadComponent implements OnInit {
    * Metodo encargado de ejecutar el servicio de visualizar archivo excel
    * @BaironPerez
    */
-  verArchivoExcel() {debugger
+  verArchivoExcel() {
     this.spinnerActive = true;
-    console.log("Entro a funcion")
     this.generarContabilidadService.generarArchivoContabilidad({
        'fecha': this.fechaSistemaSelect, 
        'tipoContabilidad': this.data.tipoContabilidad,
        'codBanco': this.codigoBanco
        }).subscribe(data => {
-      console.log("Entro al suscribe")
-        console.log(data)
       //data.saveFile();
       this.spinnerActive = false;
     },
@@ -117,12 +114,8 @@ export class ResultadoContabilidadComponent implements OnInit {
       });
   }
 
-  /**
-   * Metodo encargado de ejecutar el servicio de solicitar autorizacion
-  * @BaironPerez
-  */
-  solicitarAutorizacion() {
-
+  close(){
+    this.dialogRef.close({event:'Cancel'})
   }
 
 }

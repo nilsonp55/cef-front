@@ -58,7 +58,6 @@ export class CargaArchivosComponent implements OnInit {
         this.fileList.push(f);
       });
       this.cargueArchivosService.saveFile(this.fileList).subscribe(data => {
-        console.log('ya guardo perrrosssss!!!');
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: '480px',
           data: {

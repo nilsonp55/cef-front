@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import * as moment from 'moment';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
@@ -63,7 +62,6 @@ export class ContabilidadPmComponent implements OnInit {
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
-      console.log(page.data)
       this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
       this.dataSourceInfoProcesos.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
@@ -96,13 +94,10 @@ export class ContabilidadPmComponent implements OnInit {
 
     validateArchivo.afterClosed().subscribe(result => {
       //Si presiona click en aceptar
-      console.log(moment(result.data.fechaSistema).format('dd/MM/YYYY'));
-      console.log(result.data.fechaProceso);
       if (result.data.check) {
         this.spinnerActive = true;
-        let tipoContabilida = "PM"
-        let codBanco = result.data.banco.nombreBanco == "Todos" ? 0 : result.data.banco.codigoPunto;
-
+        let tipoContabilida = "PM";
+        let codBanco = 0;
         this.cierrecontabilidadService.cierreContabilidad({
           'fechaSistema': result.data.fechaSistema,
           'tipoContabilidad': tipoContabilida,
@@ -110,7 +105,6 @@ export class ContabilidadPmComponent implements OnInit {
           'fase': "INICIAL"
         }).subscribe(data => {
           //Ensayo re respuesta
-          console.log("ENtro aqui")
           const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
             width: '100%',
             data: {

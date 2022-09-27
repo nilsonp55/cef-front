@@ -118,7 +118,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
    * Lista las operaciones programadas sin conciliar
    * @JuanMazo
    */
-  listarOpProgramadasSinConciliar(pagina = 0, tamanio = 5) {
+  listarOpProgramadasSinConciliar(pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       page: pagina,
       size: tamanio,
@@ -151,7 +151,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
    * Lista las operaciones certificadas sin conciliar
    * @JuanMazo
    */
-  listarOpCertificadasSinConciliar(pagina = 0, tamanio = 5) {
+  listarOpCertificadasSinConciliar(pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
       'estadoConciliacion': GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO,
       page: pagina,

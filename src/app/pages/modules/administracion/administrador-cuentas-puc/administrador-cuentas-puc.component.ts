@@ -56,7 +56,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
    * Lista los Cuentas puc
    * @BayronPerez
    */
-  listarCuntasPuc(pagina = 0, tamanio = 5) {debugger
+  listarCuntasPuc(pagina = 0, tamanio = 5) {
     this.cuentasPucService.obtenerCuentasPuc({
       page: pagina,
       size: tamanio,

@@ -29,7 +29,7 @@ import { saveAs } from 'file-saver';
     /** 
     * Servicio para general contabilidad AM o PM
     */
-    generarArchivoContabilidad(params: any) {debugger
+    generarArchivoContabilidad(params: any) {
         return  this.http.get(`${this.url}${URLs.CONTABILIDAD_GENERAR_ARCHIVO}`, {params: params, responseType: 'blob'})
         .pipe(
             tap(data => {

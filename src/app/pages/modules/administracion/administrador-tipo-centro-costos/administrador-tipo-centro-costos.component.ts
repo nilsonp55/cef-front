@@ -66,7 +66,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
    * Lista los Tipos centros costos
    * @BayronPerez
    */
-  listarCentroCostos(pagina = 0, tamanio = 5) {debugger
+  listarCentroCostos(pagina = 0, tamanio = 5) {
     this.centroCostosService.obtenerCentroCostos({
       page: pagina,
       size: tamanio,

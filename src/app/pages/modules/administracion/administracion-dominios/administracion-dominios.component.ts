@@ -39,7 +39,6 @@ export class AdministracionDominiosComponent implements OnInit {
 
   ngOnInit(): void {
     this.listarDominiosMaestro();
-    console.log(this.isDominioChecked)
   }
 
   dataSourceDominios: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
@@ -59,7 +58,6 @@ export class AdministracionDominiosComponent implements OnInit {
    */
   listarDominiosMaestro() {
     this.dominioMaestroService.listarDominios().subscribe((page: any) => {
-      console.log(page.data)
       this.dataSourceDominios = new MatTableDataSource(page.data);
       this.dataSourceDominios.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
@@ -90,7 +88,6 @@ export class AdministracionDominiosComponent implements OnInit {
  * @JuanMazo
  */
   actualizarTablaDominio() {
-    console.log(this.isDominioChecked)
     this.dialog.open(DialogTablaDominioComponent, {
       width: '700PX'
     })

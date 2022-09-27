@@ -17,10 +17,9 @@
 }
 
 .configScroll {
-    height: auto;
-    overflow-x: scroll;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: proximity;
+  max-height: 500px;
+  max-width: 100%;
+  overflow: auto;
 }
 
 .tituloTabla {
@@ -60,3 +59,4 @@
     line-height: 0.7;
     font-size: 17px;
 }
+

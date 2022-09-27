@@ -60,7 +60,7 @@ export class AdministracionContabilidadComponent implements OnInit {
     this.tiposCuentasService.obtenerTiposCuentas({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {debugger
+    }).subscribe((page: any) => {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;

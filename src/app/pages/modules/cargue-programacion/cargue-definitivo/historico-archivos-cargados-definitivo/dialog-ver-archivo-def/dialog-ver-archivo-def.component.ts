@@ -27,36 +27,10 @@ export class DialogVerArchivoDefComponent implements OnInit {
     this.tablaValidacionError=data.tableData
     this.tableData=data.tableData
     this.prueba=this.tableData.length
-    console.log(data.tableData);
   }
 
 
-  ngOnInit(): void { 
-    //Logica para convertir Json de respuesta y adaptarlo a la ventana emergent
-    console.log(this.data)
-    console.log(this.data.idModArch)
-    console.log(this.data.data.data.nombreArchivo)
-    console.log(this.data.data.data.validacionLineas)
-   
-    /*if(this.data.data.data.numeroErrores != null || this.data.data.data.numeroErrores > 0) {
-      this.data.data.data.validacionLineas.forEach((validacionLineasItem: ValidacionLineaArchivo) => {
-        validacionLineasItem.campos.forEach((campItem: ErroresCampos) => {
-          console.log(validacionLineasItem)
-          console.log("------")
-          const tablaValidacionError = { 
-            linea: validacionLineasItem.numeroLinea,
-            campo: campItem.numeroCampo,
-            descripcion: campItem.mensajeError,
-            contenido: campItem.contenido
-          };
-          console.log(tablaValidacionError)
-          console.log(campItem.numeroCampo)
-          this.tablaValidacionError.push(tablaValidacionError);
-        });
-      });
-      console.log(this.tablaValidacionError)
-    }*/
-  }
+  ngOnInit(): void {  }
 
   descargarArchivo() {
     this.cargueArchivosService.visializarArchivo4({

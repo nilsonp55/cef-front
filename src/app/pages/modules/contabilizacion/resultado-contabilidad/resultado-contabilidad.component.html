@@ -4,8 +4,14 @@
         <h1 class="tituloTabla">{{titulo}}</h1>
         <span class="line-spacer"></span>
     </div>
-    <div class="mat-elevation-z8 disenio-tabla configScroll">
-        <mat-table [dataSource]="dataSourceInfoProcesos" class="tmanioTabla" matSort>
+    <div class="disenio-tabla configScroll">
+        <mat-table matTableExporter [dataSource]="dataSourceInfoProcesos" class="tmanioTabla" matSort #exporter="matTableExporter">
+
+            <ng-container matColumnDef="abreviaturaBancoAval">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
+                <td mat-cell *matCellDef="let element"> {{element.abreviaturaBancoAval}} </td>
+            </ng-container>
+
             <ng-container matColumnDef="naturalezaContable">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Cod Naturaleza</th>
                 <td mat-cell *matCellDef="let element"> {{element.naturalezaContable}} </td>
@@ -108,6 +114,8 @@
 </div>
 
 <div style="margin-top: 0%; text-align: center;">
-    <button style="display:inline; margin: 2%;" class="bottonVerArchivo" (click)="verArchivoExcel()" cdkFocusInitial>Visualizar Excel</button>
-    <button style="display:inline; margin: 2%;" class="bottonSolicitar" (click)="solicitarAutorizacion()">Solicitar Validacion</button>
+    <button mat-raised-button color="primary" style="display:inline; margin: 2%;"
+    (click)="exporter.exportTable('xlsx', {fileName:'Contabilidad'})">Descargar Excel</button>
+    <!--button  mat-raised-button mat-button style="display:inline; margin: 2%;" color="primary" (click)="verArchivoExcel()" cdkFocusInitial>Descargar Excel</button-->
+    <button mat-raised-button mat-button mat-dialog-close color="warn" (click)="close()">CERRAR</button>
 </div>

@@ -84,7 +84,6 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
     }
     if(this.estado){
       solicitud.estado = this.estado
-      console.log(solicitud)
       this.opConciliadasService.actualizarOpProgramadas(solicitud).subscribe((page: any) => {
         this.dialogRef.close({event:"load",data:{"event":"load"}});
       },
@@ -100,7 +99,6 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
       });
     }else if(this.valor) {
       solicitud.valor = this.valor
-      console.log(solicitud)
       this.opConciliadasService.actualizarOpCertificadas(solicitud).subscribe((page: any) => {
         this.dialogRef.close({event:"load",data:{"event":"load"}});
       },

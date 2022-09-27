@@ -98,7 +98,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
    * Lista las operaciones programadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpProgramadasFallidas(pagina = 0, tamanio = 5) {
+  listarOpProgramadasFallidas(pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       'estadoConciliacion':['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION','POSPUESTA', 'CANCELADA'],
       page: pagina,
@@ -133,7 +133,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
    * Lista las operaciones certificadas distintas al estado conciliadas
    * @JuanMazo
    */
-   listarOpCertificadasFallidas(pagina = 0, tamanio = 5) {
+   listarOpCertificadasFallidas(pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
       'estadoConciliacion':['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION','POSPUESTA', 'CANCELADA'],
         page: pagina,

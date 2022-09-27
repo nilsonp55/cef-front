@@ -90,7 +90,8 @@ export class ContabilidadAmComponent implements OnInit {
     const validateArchivo = this.dialog.open(DialogConfirmEjecutarComponentComponent, {
       width: '750px',
       data: {
-        tipoContabilidad: "AM"
+        tipoContabilidad: "AM",
+        
       }
     });
 
@@ -99,7 +100,7 @@ export class ContabilidadAmComponent implements OnInit {
       if (result.data.check) {
         this.spinnerActive = true;
         let tipoContabilida = "AM"
-        let codBanco = result.data.banco.nombreBanco == "Todos" ? 0 : result.data.banco.codigoPunto;
+        let codBanco = 0;
 
         this.cierreContabilidadService.cierreContabilidad({
           'fechaSistema': result.data.fechaSistema,
