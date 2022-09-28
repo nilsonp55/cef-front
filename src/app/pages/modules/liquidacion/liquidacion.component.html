@@ -8,17 +8,15 @@
         <mat-sidenav #sidenav opened="true" style="width: 17%" mode="side">
             <!--Imagen de menu
             <img src="assets/img/menu.png" width="215" style="display:block; margin:auto; margin-top: 10%">-->
-            <br><br>
-            <!--opciones de menu-->
-            <button mat-menu-item routerLink="/buscar" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>search</mat-icon>
-                <span>Buscar</span>
-            </button>
-            <mat-divider></mat-divider>
             <mat-divider></mat-divider>
             <button mat-menu-item [routerLink]="['servicio-charter']" style="cursor: pointer" routerLinkActive="seleccion-activa">
                 <mat-icon>assignment icon</mat-icon>
                 <span>Servicio Cherter</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [routerLink]="['liquidar-costos']" style="cursor: pointer" routerLinkActive="seleccion-activa">
+                <mat-icon>assignment icon</mat-icon>
+                <span>Liquidar Costos</span>
             </button>
             <mat-divider></mat-divider>
         </mat-sidenav>

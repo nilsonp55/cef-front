@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -9,15 +8,13 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { CostosFleteCharterService } from 'src/app/_service/liquidacion-service/costosFleteCharter.service';
 
 @Component({
-  selector: 'app-costo-servicio-charter',
-  templateUrl: './costo-servicio-charter.component.html',
-  styleUrls: ['./costo-servicio-charter.component.css']
+  selector: 'app-costos-servicio-charter',
+  templateUrl: './costos-servicio-charter.component.html',
+  styleUrls: ['./costos-servicio-charter.component.css']
 })
-export class CostoServicioCharterComponent implements OnInit {
+export class CostosServicioCharterComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
   //Rgistros paginados
   cantidadRegistros: number;
 
@@ -184,19 +181,8 @@ export class CostoServicioCharterComponent implements OnInit {
     })
   }
 
-  /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-  mostrarMas(e: any) {
-    this.listarCostosFleteCharter(e.pageIndex, e.pageSize);
-  }
+  changeCosto(data: any) {
 
-  /**
-    * Captura el valor enviado por el campo costo a editar
-    * @BaironPerez
-    */
-  changeCosto(event: any){debugger
-    this.costoaEditarSeleccionado = event
   }
+  
 }

@@ -283,6 +283,15 @@ export const URLs = {
   CONTABILIDAD: '/contabilidad',
   CONTABILIDAD_GENERAL: '/generar',
   CONTABILIDAD_GENERAR_ARCHIVO: '/archivo-cierre',
+
+  //Coatos Flete Charter
+  COSTOS_FLETE_CHARTER: '/costos-flete-charter',
+  COSTOS_FLETE_CHARTER_CONSULTAR: '/consultar',
+  COSTOS_FLETE_CHARTER_GUARDAR: '/grabar',
+  //Liuidar costos
+  LIQUIDACION: '/liquidar-costos',
+  LIQUIDACION_COSTOS: '/costos',
+  
 };
 
 export const ROLES = [
