@@ -1,4 +1,3 @@
-<p>resultado-valores-liquidados works!</p>
 <!--Tabla Descripción de archivos cargados-->
 <div class="divTabl">
     <div class="divTituloTabl">
@@ -6,7 +5,7 @@
         <span class="line-spacer"></span>
     </div>
     <div class="mat-elevation-z8 disenio-tabla">
-        <table mat-table [dataSource]="dataSourceInfoProcesos" matSort>
+        <table mat-table matTableExporter [dataSource]="dataSourceInfoProcesos" matSort #exporter="matTableExporter">
             <ng-container matColumnDef="clasificacionFajado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Clasif Fajado</th>
                 <td mat-cell *matCellDef="let element"> {{element.clasificacionFajado }} </td>
@@ -76,4 +75,9 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
         </table>
     </div>
+</div>
+<div style="margin-top: 0%; text-align: center;">
+    <button mat-raised-button color="primary" style="display:inline; margin: 2%;"
+    (click)="exporter.exportTable('xlsx', {fileName:'Liquidación-costos'})">Descargar Excel</button>
+    <button mat-raised-button mat-button mat-dialog-close color="warn" (click)="close()">CERRAR</button>
 </div>

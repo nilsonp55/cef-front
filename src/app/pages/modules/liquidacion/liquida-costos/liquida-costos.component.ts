@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
@@ -16,6 +18,9 @@ export class LiquidaCostosComponent implements OnInit {
 
 //Rgistros paginados
 cantidadRegistros: number;
+
+@ViewChild(MatPaginator) paginator: MatPaginator;
+@ViewChild(MatSort) sort: MatSort;
 
 //Variable para activar spinner
 spinnerActive: boolean = false;
@@ -54,14 +59,15 @@ async cargarDatosDesplegables() {
 * Se realiza consumo de servicio para generar la contabilidad AM
 * @BaironPerez
 */
-generarLiquidacionCostos() {
+generarLiquidacionCostos() {debugger
   this.spinnerActive = true;
   this.liquidarCostosService.liquidarCosots().subscribe((data: any) => {
     this.dataLiquidacionCosots = data.data;
+    console.log(data)
     //Se construye tabla de info
     const tabla = [
-      { nombre: "valo1", cantidad: this.dataLiquidacionCosots.cantidad1, estado: true },
-      { nombre: "valor2", cantidad: this.dataLiquidacionCosots.cantidad2, estado: true },
+      { nombre: "Cantidad operaciones liquidadas", cantidad: this.dataLiquidacionCosots.cantidadOperacionesLiquidadas, estado: true },
+      { nombre: "Registros con error", cantidad: this.dataLiquidacionCosots.registrosConError, estado: true },
       
     ];
     //Se realizan validaciones
@@ -87,6 +93,7 @@ generarLiquidacionCostos() {
  * @BaironPerez
  */
 verValoresLiquidados() {
+  console.log("Entro a resultado")
   const respuesta = this.dialog.open(ResultadoValoresLiquidadosComponent, {
     width: '100%',
     data: {

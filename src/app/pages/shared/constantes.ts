@@ -289,7 +289,7 @@ export const URLs = {
   COSTOS_FLETE_CHARTER_CONSULTAR: '/consultar',
   COSTOS_FLETE_CHARTER_GUARDAR: '/grabar',
   //Liuidar costos
-  LIQUIDACION: '/liquidar-costos',
+  LIQUIDACION: '/liquidar-valores',
   LIQUIDACION_COSTOS: '/costos',
   
 };

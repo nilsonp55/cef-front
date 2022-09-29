@@ -42,4 +42,8 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
     this.dataSourceInfoProcesos.sort = this.sort;
   }
 
+  close(){
+    this.dialogRef.close({event:'Cancel'})
+  }
+
 }
