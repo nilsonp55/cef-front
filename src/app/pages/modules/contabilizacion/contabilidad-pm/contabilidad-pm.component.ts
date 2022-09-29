@@ -92,7 +92,7 @@ export class ContabilidadPmComponent implements OnInit {
       }
     });
 
-    validateArchivo.afterClosed().subscribe(result => {
+    validateArchivo.afterClosed().subscribe(result => {debugger
       //Si presiona click en aceptar
       if (result.data.check) {
         this.spinnerActive = true;

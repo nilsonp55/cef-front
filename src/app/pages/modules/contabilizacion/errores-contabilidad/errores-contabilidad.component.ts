@@ -62,27 +62,6 @@ export class ErroresContabilidadComponent implements OnInit {
   /**
   * Se realiza consumo de servicio para listr los resultados de contabilidad
   * @BaironPerez
-  
-  listarProcesos(pagina = 0, tamanio = 5) {
-    this.logProcesoDiarioService.obtenerProcesosDiarios({
-      page: pagina,
-      size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
-      this.dataSourceInfoProcesos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: 'Error al obtener los procesos de contabilidad a ejecutar',
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
-  }
-*/
 
   /**
    * Metodo encargado de ejecutar el servicio de visualizar archivo excel

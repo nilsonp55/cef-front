@@ -1,0 +1,83 @@
+<!--Tabla Descripción de archivos cargados-->
+<div class="divTabl">
+    <div class="divTituloTabl">
+        <h1 class="tituloTabla">{{titulo}}</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <div class="mat-elevation-z8 disenio-tabla">
+        <table mat-table matTableExporter [dataSource]="dataSourceInfoProcesos" matSort #exporter="matTableExporter">
+            <ng-container matColumnDef="clasificacionFajado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clasif Fajado</th>
+                <td mat-cell *matCellDef="let element"> {{element.clasificacionFajado }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="clasificacionNoFajado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clasif No Fajado</th>
+                <td mat-cell *matCellDef="let element"> {{element.clasificacionNoFajado}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="costoCharter">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Charter</th>
+                <td mat-cell *matCellDef="let element"> {{element.costoCharter}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="costoEmisario">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Emisor</th>
+                <td mat-cell *matCellDef="let element"> {{element.costoEmisario}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="costoFijoParado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Fijo Parado</th>
+                <td mat-cell *matCellDef="let element"> {{element.costoFijoParado}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="costoMoneda">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Moneda</th>
+                <td mat-cell *matCellDef="let element"> {{element.costoMoneda}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="costoPaqueteo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Paqueteo</th>
+                <td mat-cell *matCellDef="let element"> {{element.costoPaqueteo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="idLiquidacion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Id Liquidación</th>
+                <td mat-cell *matCellDef="let element"> {{element.idLiquidacion}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="milajePorRuteo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Milaje Ruteo</th>
+                <td mat-cell *matCellDef="let element"> {{element.milajePorRuteo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="milajeVerificacion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Milaje Verifi</th>
+                <td mat-cell *matCellDef="let element"> {{element.milajeVerificacion}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="modenaResiduo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Moneda Residuo</th>
+                <td mat-cell *matCellDef="let element"> {{element.modenaResiduo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="tasaAeroportuaria">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>T Aeroportuaria</th>
+                <td mat-cell *matCellDef="let element"> {{element.tasaAeroportuaria}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="idSeqGrupo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Id Seq Grupo</th>
+                <td mat-cell *matCellDef="let element"> {{element.idSeqGrupo}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+        </table>
+    </div>
+</div>
+<div style="margin-top: 0%; text-align: center;">
+    <button mat-raised-button color="primary" style="display:inline; margin: 2%;"
+    (click)="exporter.exportTable('xlsx', {fileName:'Liquidación-costos'})">Descargar Excel</button>
+    <button mat-raised-button mat-button mat-dialog-close color="warn" (click)="close()">CERRAR</button>
+</div>

@@ -105,6 +105,9 @@ import { DialogResultValidacionComponentComponent } from './pages/modules/cargue
 import { DialogVerArchDefiComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/dialog-ver-arch-defi/dialog-ver-arch-defi.component';
 import { ErroresContabilidadComponent } from './pages/modules/contabilizacion/errores-contabilidad/errores-contabilidad.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { ResultadoValoresLiquidadosComponent } from './pages/modules/liquidacion/liquida-costos/resultado-valores-liquidados/resultado-valores-liquidados.component';
+import { LiquidaCostosComponent } from './pages/modules/liquidacion/liquida-costos/liquida-costos.component';
+import { CostosServicioCharterComponent } from './pages/modules/liquidacion/costos-servicio-charter/costos-servicio-charter.component';
 
 @NgModule({
   declarations: [
@@ -188,6 +191,10 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     DialogResultValidacionComponentComponent,
     DialogVerArchDefiComponent,
     ErroresContabilidadComponent,
+    LiquidacionComponent,
+    ResultadoValoresLiquidadosComponent,
+    LiquidaCostosComponent,
+    CostosServicioCharterComponent,
   ],
 
   imports: [

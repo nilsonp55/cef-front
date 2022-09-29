@@ -20,7 +20,6 @@ import { AdministradorCuentasPucComponent } from './pages/modules/administracion
 import { AdministradorTipoCentroCostosComponent } from './pages/modules/administracion/administrador-tipo-centro-costos/administrador-tipo-centro-costos.component';
 import { AdministracionCentroCiudadesComponent } from './pages/modules/administracion/administracion-centro-ciudades/administracion-centro-ciudades.component';
 import { ContabilizacionComponent } from './pages/modules/contabilizacion/contabilizacion.component';
-import { MenuContabilidadComponent } from './pages/modules/contabilizacion/menu-contabilidad/menu-contabilidad.component';
 import { CierreProgramacionPreliminarComponent } from './pages/modules/cargue-programacion/cierre-programacion-preliminar/cierre-programacion-preliminar.component';
 import { ContabilidadPmComponent } from './pages/modules/contabilizacion/contabilidad-pm/contabilidad-pm.component';
 import { AdministracionDominiosComponent } from './pages/modules/administracion/administracion-dominios/administracion-dominios.component';
@@ -35,6 +34,10 @@ import { ConsultaOperaCertificadasComponent } from './pages/modules/conciliacion
 import { ConsultaOperaFallidasComponent } from './pages/modules/conciliacion/consulta-operaciones/consulta-opera-fallidas/consulta-opera-fallidas.component';
 import { CierreConciliacionComponent } from './pages/modules/conciliacion/cierre-conciliacion/cierre-conciliacion.component';
 import { CierreCertificacionComponent } from './pages/modules/cargue-certificacion/cierre-certificacion/cierre-certificacion.component';
+import { LiquidacionComponent } from './pages/modules/liquidacion/liquidacion.component';
+import { LiquidaCostosComponent } from './pages/modules/liquidacion/liquida-costos/liquida-costos.component';
+import { CostosServicioCharterComponent } from './pages/modules/liquidacion/costos-servicio-charter/costos-servicio-charter.component';
+
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -77,7 +80,10 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'liquidacion', component: MenuContabilidadComponent
+    path: 'liquidacion', component: LiquidacionComponent, children: [
+      { path: 'servicio-charter', component: CostosServicioCharterComponent },
+      { path: 'liquidar-costos', component: LiquidaCostosComponent },
+    ]
   },
   {
     path: 'cierre-fecha', component: CierreFechaComponent

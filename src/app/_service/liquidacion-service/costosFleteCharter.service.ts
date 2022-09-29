@@ -14,7 +14,7 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class CostosFleteCharterService {
 
-    private url: string = `${environment.HOST}${URLs.API_VERSION + URLs.COSTOS_FLETE_CHARTER}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.COSTOS_FLETE_CHARTER}`;
 
     constructor(private http: HttpClient) { }
 

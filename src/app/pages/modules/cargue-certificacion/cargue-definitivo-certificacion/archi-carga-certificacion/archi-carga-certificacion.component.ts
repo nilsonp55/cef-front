@@ -132,6 +132,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
       'idMaestroDefinicion': archivo.idModeloArchivo,
       'nombreArchivo': archivo.nombreArchivo
     }).subscribe((data: any) => {
+      this.listarArchivosCargados();
       this.spinnerActive = false;
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -183,6 +184,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
       'nombreArchivo': nombreArchivo,
       'idModeloArchivo': idModeloArchivo
     }).subscribe(item => {
+      this.listarArchivosCargados();
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {

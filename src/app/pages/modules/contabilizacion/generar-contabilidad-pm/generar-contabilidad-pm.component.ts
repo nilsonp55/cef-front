@@ -85,11 +85,11 @@ export class GenerarContabilidadPmComponent implements OnInit {
       this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
       this.spinnerActive = false;
     },
-      (err: ErrorService) => {
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: 'Error al generar contabilidad PM',
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
