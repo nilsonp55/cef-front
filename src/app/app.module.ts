@@ -108,6 +108,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ResultadoValoresLiquidadosComponent } from './pages/modules/liquidacion/liquida-costos/resultado-valores-liquidados/resultado-valores-liquidados.component';
 import { LiquidaCostosComponent } from './pages/modules/liquidacion/liquida-costos/liquida-costos.component';
 import { CostosServicioCharterComponent } from './pages/modules/liquidacion/costos-servicio-charter/costos-servicio-charter.component';
+import { ErroresCostosComponent } from './pages/modules/liquidacion/liquida-costos/errores-costos/errores-costos.component';
 
 @NgModule({
   declarations: [
@@ -195,6 +196,7 @@ import { CostosServicioCharterComponent } from './pages/modules/liquidacion/cost
     ResultadoValoresLiquidadosComponent,
     LiquidaCostosComponent,
     CostosServicioCharterComponent,
+    ErroresCostosComponent,
   ],
 
   imports: [

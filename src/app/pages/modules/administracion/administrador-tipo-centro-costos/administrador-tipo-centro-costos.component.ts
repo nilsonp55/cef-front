@@ -30,13 +30,13 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
 
   constructor(
     private centroCostosService: CentroCostosService,
-    private generalServices: GeneralesService,
+    public generalServices: GeneralesService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this.listarCentroCostos();
     this.datosDesplegables();
+    this.listarCentroCostos();
   }
 
   /**
@@ -44,7 +44,9 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
     * @BayronPerez
     */
    async datosDesplegables() {
-    const _tablaCentros = await this.generalServices.listarDominioByDominio("TABLA_CENTRO").toPromise();
+    const _tablaCentros = await this.generalServices.listarDominioByDominio({
+      'dominio':"TABLA_CENTRO"
+    }).toPromise();
     this.tablCentros = _tablaCentros.data;
    }
 

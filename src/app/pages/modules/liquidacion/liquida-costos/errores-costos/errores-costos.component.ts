@@ -4,13 +4,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
+import { ResultadoValoresLiquidadosComponent } from '../resultado-valores-liquidados/resultado-valores-liquidados.component';
 
 @Component({
-  selector: 'app-resultado-valores-liquidados',
-  templateUrl: './resultado-valores-liquidados.component.html',
-  styleUrls: ['./resultado-valores-liquidados.component.css']
+  selector: 'app-errores-costos',
+  templateUrl: './errores-costos.component.html',
+  styleUrls: ['./errores-costos.component.css']
 })
-export class ResultadoValoresLiquidadosComponent implements OnInit {
+export class ErroresCostosComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -25,9 +26,8 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['clasificacionFajado', 'clasificacionNoFajado', 'costoCharter',
-      'costoEmisario', 'costoFijoParado', 'costoMoneda', 'costoPaqueteo', 'idLiquidacion',
-      'milajePorRuteo', 'milajeVerificacion', 'modenaResiduo', 'tasaAeroportuaria', 'idSeqGrupo'];
+  displayedColumnsInfoProcesos: string[] = ['fecha', 'menaje_error', 'seqGrupo',
+      'estado'];
 
   constructor(
     private dialog: MatDialog,
@@ -46,4 +46,5 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
     this.dialogRef.close({event:'Cancel'})
   }
 
+  
 }

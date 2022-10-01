@@ -59,7 +59,8 @@ export class GeneralesService {
     * @BayronPerez
     */
      listarDominioByDominio(dominio: any): Observable<any> {
-        return this.http.get(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}/${dominio}`);
+        console.log("Netro al servicio")
+        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio});
     }
 
     /** 

@@ -22,6 +22,16 @@
                         <td mat-cell *matCellDef="let element"> {{element.nombreCuenta}} </td>
                     </ng-container>
                 </tr>
+                <tr>
+                    <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-button (click)="editar(element)">
+                                <mat-icon style="color: green">edit</mat-icon>
+                            </button>    
+                        </td>
+                    </ng-container>
+                </tr>
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
             </table>
@@ -32,32 +42,48 @@
             (ngSubmit)="persistir()">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Id Cuenta Puc" minlength="3" required formControlName="idCuentasPuc">
+                    <input matInput placeholder="Id Cuenta Puc" formControlName="idCuentasPuc">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Cuenta Contable" required formControlName="cuentaContable">
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Banco Aval" required formControlName="bancoAval">
+                <mat-form-field appearance="fill">
+                    <mat-label>Bancos</mat-label>
+                    <mat-select formControlName="bancoAval">
+                        <mat-option *ngFor="let item of bancos" [value]="item">
+                            {{item.nombreBanco}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Nombre Cuenta" required formControlName="nombreCuenta">
                 </mat-form-field>
             </div>
+            
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="identificador" required formControlName="identificador">
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Tipos Centros Costos" required formControlName="tiposCentrosCostos">
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipos Centros Costos</mat-label>
+                    <mat-select formControlName="tiposCentrosCostos">
+                        <mat-option *ngFor="let item of tiposCostosCuentas" [value]="item">
+                            {{item.tipoCentro}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Tipo Cuenta" required formControlName="tiposCuentas">
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipo Cuenta</mat-label>
+                    <mat-select formControlName="tiposCuentas">
+                        <mat-option *ngFor="let cuenta of tipoCuentas" [value]="cuenta">
+                            {{cuenta.tipoCuenta}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">

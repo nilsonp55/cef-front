@@ -102,7 +102,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
    * contables
    * @BaironPerez
    */
-  verTransactContables() {//
+  verTransactContables() {
     const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
       width: '100%',
       height: '90%',

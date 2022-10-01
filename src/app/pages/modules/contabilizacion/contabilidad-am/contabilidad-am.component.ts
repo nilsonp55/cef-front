@@ -106,7 +106,7 @@ export class ContabilidadAmComponent implements OnInit {
           'fechaSistema': result.data.fechaSistema,
           'tipoContabilidad': tipoContabilida,
           'codBanco': codBanco,
-          'false': "INICIAL"
+          'fase': "INICIAL"
         }).subscribe(data => {
           //Ensayo re respuesta
           const respuesta = this.dialog.open(ResultadoContabilidadComponent, {

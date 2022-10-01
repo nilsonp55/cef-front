@@ -7,6 +7,9 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { ErrorService } from 'src/app/_model/error.model';
 import { CuentasPucService } from 'src/app/_service/contabilidad-service/cuentas-puc.service';
+import { GeneralesService } from 'src/app/_service/generales.service'
+import { CentroCostosService } from 'src/app/_service/contabilidad-service/tipo-centro-costos.service';
+import { TiposCuentasService } from 'src/app/_service/contabilidad-service/tipos-cuentas.service';
 
 @Component({
   selector: 'app-administrador-cuentas-puc',
@@ -17,9 +20,14 @@ export class AdministradorCuentasPucComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['identi','name'];
+  displayedColumnsTiposCuentas: string[] = ['identi','name', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
+  esEdicion: boolean;
+  idCuentaPuc: any;
+  bancos: any[] = [];
+  tiposCostosCuentas: any[] = [];
+  tipoCuentas: any[] = [];
 
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -27,10 +35,14 @@ export class AdministradorCuentasPucComponent implements OnInit {
 
   constructor(
     private cuentasPucService: CuentasPucService,
+    private generalesService: GeneralesService,
+    private tiposCuentasService: TiposCuentasService,
+    private centroCostosService: CentroCostosService,
     private dialog: MatDialog
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.iniciarDesplegables();
     this.listarCuntasPuc();
     this.initForm();
   }
@@ -43,13 +55,43 @@ export class AdministradorCuentasPucComponent implements OnInit {
       this.form = new FormGroup({
         'idCuentasPuc': new FormControl(param? param.idCuentasPuc : null),
         'cuentaContable': new FormControl(param? param.cuentaContable : null),
-        'bancoAval': new FormControl(param? param.bancoAval : null),
+        'bancoAval': new FormControl(param? this.selectBancoAval(param) : null),
         'nombreCuenta': new FormControl(param? param.nombreCuenta : null),
         'identificador': new FormControl(param? param.identificador : null),
-        'tiposCentrosCostos': new FormControl(param? param.tiposCentrosCostos : null),
-        'tiposCuentas': new FormControl(param? param.tiposCuentas : null),
+        'tiposCentrosCostos': new FormControl(param? this.selectTiposCostosCuentas(param) : null),
+        'tiposCuentas': new FormControl(param? this.selectTipoCuentas(param) : null),
         'estado': new FormControl(param? param.estado : null)
       });
+  }
+
+  selectBancoAval(param: any): any {
+    for (let i = 0; i < this.bancos.length; i++) {
+      const element = this.bancos[i];
+      if(element.codigoPunto == param.bancoAval.codigoPunto) {
+        return element;
+      }
+      
+    }
+  }
+
+  selectTipoCuentas(param: any): any {
+    for (let i = 0; i < this.tipoCuentas.length; i++) {
+      const element = this.tipoCuentas[i];
+      if(element.tipoCuenta == param.tiposCuentas.tipoCuenta) {
+        return element;
+      }
+      
+    }
+  }
+
+  selectTiposCostosCuentas(param: any): any {
+    for (let i = 0; i < this.tiposCostosCuentas.length; i++) {
+      const element = this.tiposCostosCuentas[i];
+      if(element.tipoCentro == param.tiposCentrosCostos.tipoCentro) {
+        return element;
+      }
+      
+    }
   }
 
   /**
@@ -80,47 +122,68 @@ export class AdministradorCuentasPucComponent implements OnInit {
     * Se realiza persistencia del formulario de cuentas puc
     * @BayronPerez
     */
-   persistir() {
-    const paciente = {
+   persistir() {debugger
+    const cuentaPuc = {
       idCuentasPuc: this.form.value['idCuentasPuc'],
-      cuentaContable: {
-        consecutivo: this.form.value['cuentaContable']
-      },
-      tipoId: this.form.value['tipoId'],
+      cuentaContable: this.form.value['cuentaContable'],
       bancoAval: {
-        codigoPunto: this.form.value['bancoAval']
+        codigoPunto: this.form.value['bancoAval'].codigoPunto
       },
       nombreCuenta: this.form.value['nombreCuenta'],
       identificador: this.form.value['identificador'],
       tiposCentrosCostos: {
-        tipoCentro: this.form.value['tiposCentrosCostos']
+        tipoCentro: this.form.value['tiposCentrosCostos'].tipoCentro
       },
       tiposCuentas: {
-        tipoCuenta: this.form.value['tiposCuentas']
+        tipoCuenta: this.form.value['tiposCuentas'].tipoCuenta
       },
       estado: this.form.value['estado']
     };
 
-    this.cuentasPucService.guardarCuentaPuc(paciente).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      this.listarCuntasPuc();
-      this.initForm();
-    },
-    (err: ErrorService) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-    });
+    if (this.esEdicion) {
+      cuentaPuc.idCuentasPuc = this.idCuentaPuc;
+      this.cuentasPucService.actualizarCuentaPuc(cuentaPuc).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.listarCuntasPuc()
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    } else {
+      this.cuentasPucService.guardarCuentaPuc(cuentaPuc).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.listarCuntasPuc()
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    }
    }
 
   /**
@@ -129,6 +192,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
     */
   crearCuentasPuc() {
     this.mostrarFormulario = true;
+    this.esEdicion = false;
   }
 
   /**
@@ -139,16 +203,31 @@ export class AdministradorCuentasPucComponent implements OnInit {
     this.mostrarFormulario = true;
   }
 
-}
+  editar(registro: any) {
+    this.initForm(registro);
+    this.mostrarFormulario = true;
+    this.idCuentaPuc = this.form.get('idCuentasPuc').value;
+    this.form.get('idCuentasPuc').disable();
+    this.esEdicion = true;
+  }
 
-const ELEMENT_DATA: any[] = [
-  { name: 'Bancos Aval' },
-  { name: 'Bancos del Pais' },
-  { name: 'Calidades Efectivo' },
-  { name: 'Ciudades' },
-  { name: 'Estado Operación' },
-  { name: 'Familias de Efectivo' },
-  { name: 'Monedas' },
-  { name: 'Tipos de Puntos' },
-  { name: 'Tipos de Efectivo' },
-];
+  async iniciarDesplegables() {
+
+    const _tipoCuentas = await this.tiposCuentasService.obtenerTiposCuentas({
+      page: 0,
+      size: 500,
+    }).toPromise();
+    this.tipoCuentas = _tipoCuentas.data;
+
+    const _tipoCostosCuentas = await this.centroCostosService.obtenerCentroCostos({
+      page: 0,
+      size: 500,
+    }).toPromise();
+    this.tiposCostosCuentas = _tipoCostosCuentas.data;
+
+    const _bancos = await this.generalesService.listarBancosAval().toPromise();
+    this.bancos = _bancos.data;
+
+  }
+
+}

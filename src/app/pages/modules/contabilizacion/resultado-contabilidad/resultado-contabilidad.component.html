@@ -49,12 +49,12 @@
 
             <ng-container matColumnDef="valorPesos">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Pesos</th>
-                <td mat-cell *matCellDef="let element"> {{element.valor | currency : 'COP'}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.valor | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="valorUsd">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Usd</th>
-                <td mat-cell *matCellDef="let element"> {{element.valorUsd | currency : 'COP'}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.valorUsd | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="centroCosto">
