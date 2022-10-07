@@ -6,7 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { ErroresCostosService } from 'src/app/_service/liquidacion-service/errores-costos.serfvice';
 import { LiquidarCostosService } from 'src/app/_service/liquidacion-service/liquidar-costos.service';
+import { ErroresCostosComponent } from './errores-costos/errores-costos.component';
 import { ResultadoValoresLiquidadosComponent } from './resultado-valores-liquidados/resultado-valores-liquidados.component';
 
 @Component({
@@ -36,6 +38,7 @@ tieneErrores: any = false;
 constructor(
   private dialog: MatDialog,
   private liquidarCostosService: LiquidarCostosService,
+  private erroresCostosService: ErroresCostosService,
   private generalServices: GeneralesService,
 ) { }
 
@@ -109,7 +112,28 @@ verValoresLiquidados() {
 * @BaironPerez
 */
 verErrores() {
+  this.erroresCostosService.erroresCostos({
+    'idSeqGrupo':this.dataLiquidacionCosots.valoresLiquidados[0].idSeqGrupo,
+  }).subscribe((data: any) => {    
+    this.spinnerActive = false;
+    const respuesta = this.dialog.open(ErroresCostosComponent, {
+      width: '100%',
+      data: {
+        respuesta: data.data,
+        titulo: "Errores liquidados",
+      }
+    });
 
+  },
+    (err: any) => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: err.error.response.description,
+          codigo: GENERALES.CODE_EMERGENT.ERROR
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+    });
 }
 
 }

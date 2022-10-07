@@ -49,7 +49,7 @@ export class CuentasPucService {
     /**
      * Servicio para gurdar una cuenta puc
      */
-     actualizarCuentaPuc(): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ADMIN_CUENTAS_PUC_ACTUALIZAR}`, null);
+     actualizarCuentaPuc(param: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.ADMIN_CUENTAS_PUC_ACTUALIZAR}`, param);
     }
 }

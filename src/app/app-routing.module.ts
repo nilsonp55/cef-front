@@ -37,10 +37,13 @@ import { CierreCertificacionComponent } from './pages/modules/cargue-certificaci
 import { LiquidacionComponent } from './pages/modules/liquidacion/liquidacion.component';
 import { LiquidaCostosComponent } from './pages/modules/liquidacion/liquida-costos/liquida-costos.component';
 import { CostosServicioCharterComponent } from './pages/modules/liquidacion/costos-servicio-charter/costos-servicio-charter.component';
+import { AdministracionConfContableEntidadComponent } from './pages/modules/administracion/administracion-conf-contable-entidad/administracion-conf-contable-entidad.component';
+import { InitAppComponent } from './pages/shared/components/init-app/init-app.component';
 
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  //{ path: '', component: LoginComponent },
+  { path: '', component: InitAppComponent },
   { path: 'home', component: HomeComponent },
   {
     path: 'cargue-programacion', component: CargueProgramacionComponent, children: [
@@ -97,6 +100,7 @@ const routes: Routes = [
       { path: 'administracion-cuentas-puc', component: AdministradorCuentasPucComponent },
       { path: 'administracion-tipo-centro-costos', component: AdministradorTipoCentroCostosComponent },
       { path: 'administracion-centro-ciudad', component: AdministracionCentroCiudadesComponent },
+      { path: 'administracion-conf-contable-entidad', component: AdministracionConfContableEntidadComponent },
     ]
   }
   

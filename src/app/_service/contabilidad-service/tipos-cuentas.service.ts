@@ -41,7 +41,9 @@ export class TiposCuentasService {
     /**
      * Servicio para gurdar un tipo cuenta
      */
-     actualizarTiposCuentas(): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_ACTUALIZAR}`, null);
+     actualizarTiposCuentas(param: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_ACTUALIZAR}`, param);
     }
+
+
 }

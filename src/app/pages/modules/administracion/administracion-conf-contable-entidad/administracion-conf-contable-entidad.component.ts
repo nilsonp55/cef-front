@@ -1,4 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { GENERALES } from 'src/app/pages/shared/constantes';
+import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
+import { ErrorService } from 'src/app/_model/error.model';
+import { CuentasPucService } from 'src/app/_service/contabilidad-service/cuentas-puc.service';
+import { GeneralesService } from 'src/app/_service/generales.service'
+import { CentroCostosService } from 'src/app/_service/contabilidad-service/tipo-centro-costos.service';
+import { TiposCuentasService } from 'src/app/_service/contabilidad-service/tipos-cuentas.service';
+import { ConfContablesEntidadesService } from 'src/app/_service/contabilidad-service/conf-contables-entidades.service';
 
 @Component({
   selector: 'app-administracion-conf-contable-entidad',
@@ -7,9 +19,261 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdministracionConfContableEntidadComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+  dataSourceTiposCuentas: MatTableDataSource<any>
+  displayedColumnsTiposCuentas: string[] = ['tipoTr','dc', 'tOpera', 'cuenta', 'acciones'];
+  isDominioChecked = false;
+  mostrarFormulario = false;
+  esEdicion: boolean;
+  idCuentaPuc: any;
+  selectNaturaleza: any;
+  idConfEntity: any;
+  bancos: any[] = [];
+  tiposCostosCuentas: any[] = [];
+  tipoCuentas: any[] = [];
+  tipoOperaciones: any[] = [];
+  codigosComiciones: any[] = [];
+  tiposImpuestos: any[] = [];
+  mediosPago: any[] = [];
+  bancosExternos: any [] = [];
+  transportadoras: any [] = [];
+  tipoTransaccion: any [] = [];
 
-  ngOnInit(): void {
+  //Rgistros paginados
+  @ViewChild(MatSort) sort: MatSort;
+  cantidadRegistros: number;
+
+  constructor(
+    private generalesService: GeneralesService,
+    private confContablesEntidadesService: ConfContablesEntidadesService,
+    private dialog: MatDialog
+  ) { }
+
+  async ngOnInit(): Promise<void> {
+    await this.iniciarDesplegables();
+    this.listarConfEntitis();
+    this.initForm();
+  }
+
+ /**
+   * Inicializaion formulario de creacion y edicion
+   * @BayronPerez
+   */
+  initForm(param?: any) { debugger
+    this.selectNaturaleza = param != undefined ? param.naturaleza: null
+      this.form = new FormGroup({
+        'consecutivo': new FormControl(param? param.consecutivo : null),
+        'bancoAval': new FormControl(param? this.selectBancoAval(param) : null),
+        'tipoTransaccion': new FormControl(param? param.tipoTransaccion : null),
+        'tipoOperacion': new FormControl(param? param.tipoOperacion : null),
+        'codigoComision': new FormControl(param? param.codigoComision : null),
+        'tipoImpuesto': new FormControl(param? param.tipoImpuesto : null),
+        'medioPago': new FormControl(param? param.medioPago : null),
+        'bancoExterno': new FormControl(param? this.selectBancoExterno(param) : null),
+        'transportadora': new FormControl(param? this.selectTransportadora(param) : null),
+        'naturaleza': new FormControl(param? this.selectNaturaleza : null),
+        'numeroCuenta': new FormControl(param? param.cuentaContable : null),
+      });
+  }
+
+  selectBancoAval(param: any): any {
+    for (let i = 0; i < this.bancos.length; i++) {
+      const element = this.bancos[i];
+      if(element.codigoPunto == param.bancoAval.codigoPunto) {
+        return element;
+      }
+    }
+  }
+
+  selectBancoExterno(param: any): any {
+    for (let i = 0; i < this.bancosExternos.length; i++) {
+      const element = this.bancosExternos[i];
+      if(element.codigoPunto == param.codigoPuntoBancoExt.codigoPunto) {
+        return element;
+      }
+    }
+  }
+
+  selectTransportadora(param: any): any {
+    for (let i = 0; i < this.transportadoras.length; i++) {
+      const element = this.transportadoras[i];
+      if(element.codigo == param.transportadora.codigo) {
+        return element;
+      }
+    }
+  }
+
+  selectTipoCuentas(param: any): any {
+    for (let i = 0; i < this.tipoCuentas.length; i++) {
+      const element = this.tipoCuentas[i];
+      if(element.tipoCuenta == param.tiposCuentas.tipoCuenta) {
+        return element;
+      }
+    }
+  }
+
+  selectTiposCostosCuentas(param: any): any {
+    for (let i = 0; i < this.tiposCostosCuentas.length; i++) {
+      const element = this.tiposCostosCuentas[i];
+      if(element.tipoCentro == param.tiposCentrosCostos.tipoCentro) {
+        return element;
+      }
+    }
+  }
+
+  /**
+   * Lista los Cuentas puc
+   * @BayronPerez
+   */
+   listarConfEntitis(pagina = 0, tamanio = 5) {
+    this.confContablesEntidadesService.obtenerConfContablesEntidades({
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
+      this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
+      this.dataSourceTiposCuentas.sort = this.sort;
+      this.cantidadRegistros = page.data.totalElements;
+    },
+      (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      });
+  }
+
+  /**
+    * Se realiza persistencia del formulario de cuentas puc
+    * @BayronPerez
+    */
+   persistir() {
+    const confEntity = {
+      consecutivo: this.form.value['consecutivo'],
+      bancoAval: {
+        codigoPunto: this.form.value['bancoAval'].codigoPunto
+      },
+      tipoTransaccion: Number(this.form.value['tipoTransaccion']),
+      tipoOperacion: this.form.value['tipoOperacion'],
+      codigoComision: Number(this.form.value['codigoComision']),
+      tipoImpuesto: Number(this.form.value['tipoImpuesto']),
+      medioPago: this.form.value['medioPago'],
+      codigoPuntoBancoExt: {
+        codigoPunto: this.form.value['bancoExterno'].codigoPunto
+      },
+      transportadora: {
+        codigo: this.form.value['transportadora'].codigo
+      },
+      naturaleza: this.selectNaturaleza,
+      cuentaContable: this.form.value['numeroCuenta'],
+    };
+
+    if (this.esEdicion) {
+      confEntity.consecutivo = this.idConfEntity;
+      this.confContablesEntidadesService.actualizarConfContablesEntidades(confEntity).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.listarConfEntitis()
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    } else {
+      this.confContablesEntidadesService.guardarConfContablesEntidades(confEntity).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.listarConfEntitis()
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    }
+   }
+
+  async iniciarDesplegables() {
+
+    const _bancos = await this.generalesService.listarBancosAval().toPromise();
+    this.bancos = _bancos.data;
+
+    const _tipoTransacciones = await this.generalesService.listarDominioByDominio({
+      'dominio':"TIPO_TRANSACCION"
+    }).toPromise();
+    this.tipoTransaccion = _tipoTransacciones.data;
+
+    const _tipoOperaciones = await this.generalesService.listarDominioByDominio({
+      'dominio':"TIPO_OPERACION"
+    }).toPromise();
+    this.tipoOperaciones = _tipoOperaciones.data;
+
+    const _comisiones = await this.generalesService.listarDominioByDominio({
+      'dominio':"COMISION"
+    }).toPromise();
+    this.codigosComiciones = _comisiones.data;
+
+    const _impuestos = await this.generalesService.listarDominioByDominio({
+      'dominio':"IMPUESTOS"
+    }).toPromise();
+    this.tiposImpuestos = _impuestos.data;
+
+    const _mediosPago = await this.generalesService.listarDominioByDominio({
+      'dominio':"MEDIOS_PAGO"
+    }).toPromise();
+    this.mediosPago = _mediosPago.data;
+
+    const _bancosTodos = await this.generalesService.listarBancos().toPromise(); 
+    const _bancosExterno1: any[] = _bancosTodos.data;
+    const _bancosExternos = _bancosExterno1.filter(item=>
+      item.codigoPunto != 297 && item.codigoPunto != 298 && item.codigoPunto != 299 && item.codigoPunto != 300
+    )
+    this.bancosExternos = _bancosExternos;
+
+    const _transportadoras = await this.generalesService.listarTransportadoras().toPromise();
+    this.transportadoras = _transportadoras.data;
+
+  }
+
+  crearConfEntity() {
+    this.mostrarFormulario = true;
+    this.esEdicion = false;
+    this.form.get('consecutivo').disable();
+  }
+
+  actualizarConfEntity() {
+    this.mostrarFormulario = true;
+  }
+
+  editar(registro: any) {
+    this.initForm(registro);
+    this.mostrarFormulario = true;
+    this.idConfEntity = this.form.get('consecutivo').value;
+    this.form.get('consecutivo').disable();
+    this.esEdicion = true;
   }
 
 }

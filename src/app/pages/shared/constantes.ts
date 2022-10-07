@@ -245,7 +245,7 @@ export const URLs = {
   GUARDAR_PUNTO: '/guardar',
 
   //Administración tipos cuentas 
-  ADMIN_TIPOS_CUENTAS: '/tipo-cuentas',
+  ADMIN_TIPOS_CUENTAS: '/tipos-cuentas',
   ADMIN_TIPOS_CUENTAS_CONSULTAR: '/consultar',
   ADMIN_TIPOS_CUENTAS_GUARDAR: '/guardar',
   ADMIN_TIPOS_CUENTAS_ACTUALIZAR: '/actualizar',
@@ -273,6 +273,13 @@ export const URLs = {
   ADMIN_CENTRO_CIUDAD_CONSULTAR: '/consultar',
   ADMIN_CENTRO_CIUDAD_GUARDAR: '/guardar',
   ADMIN_CENTRO_CIUDAD_ACTUALIZAR: '/actualizar',
+  ADMIN_CENTRO_CIUDAD_CONSULTAR_ID: '/consultar-id',
+
+  //Admin configuracion contable entiudades
+  ADMIN_CONF_CONTABLE_ENTIDADES: '/conf-contable-entidades',
+  ADMIN_CONF_CONTABLE_ENTIDADES_CONSULTAR: '/consultar',
+  ADMIN_CONF_CONTABLE_ENTIDADES_GUARDAR: '/guardar',
+  ADMIN_CONF_CONTABLE_ENTIDADES_ACTUALIZAR: '/actualizar',
 
   //Cierre Contabilidad
   CIERRE_CONTABILIDAD: '/CierreContabilidad',
@@ -291,6 +298,8 @@ export const URLs = {
   //Liuidar costos
   LIQUIDACION: '/liquidar-valores',
   LIQUIDACION_COSTOS: '/costos',
+  ERRORES_COSTOS: '/errores-costos',
+  ERRORES_COSTOS_CONSULTAR: '/consultar',
   
 };
 
@@ -301,5 +310,3 @@ export const ROLES = [
   { code: 'ROL_4', description: 'Descripcion Rol' },
   { code: 'ROL_5', description: 'Descripcion Rol' }
 ];
-
-

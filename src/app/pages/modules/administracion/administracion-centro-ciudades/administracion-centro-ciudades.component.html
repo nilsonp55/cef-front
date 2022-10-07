@@ -3,9 +3,7 @@
     <div>
         <div class="division-btn">
             <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearCuentasPuc()">Crear Centro Ciudad</button>
-            <button class="division-btn2" mat-raised-button color="accent" (click)="actualizarCuentasPuc()">Actualizar
-                Centro Ciudad</button>
+                (click)="crearCentroCiudad()">Crear Centro Ciudad</button>
         </div>
     </div>
 
@@ -17,9 +15,21 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
                         <td mat-cell *matCellDef="let element"> {{element.ciudadDane.nombreCiudad}} </td>
                     </ng-container>
+                </tr>
+                <tr>
                     <ng-container matColumnDef="codigoCentro" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>CodigoCentro</th>
                         <td mat-cell *matCellDef="let element"> {{element.codigoCentro}} </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-button (click)="editar(element)">
+                                <mat-icon style="color: green">edit</mat-icon>
+                            </button>
+                        </td>
                     </ng-container>
                 </tr>
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
@@ -31,10 +41,14 @@
         <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
             (ngSubmit)="persistir()">
             <div style="padding-left: 10%;">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Centro ciudad" required formControlName="idCentroCiudad">
+                </mat-form-field>
+
                 <mat-form-field appearance="fill">
                     <mat-label>Banco Aval</mat-label>
                     <mat-select formControlName="bancoAval">
-                        <mat-option *ngFor="let item of bancos" [value]="item.codigoPunto">
+                        <mat-option *ngFor="let item of bancos" [value]="item">
                             {{item.nombreBanco}}
                         </mat-option>
                     </mat-select>
@@ -43,7 +57,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Ciudad</mat-label>
                     <mat-select formControlName="codigoDane">
-                        <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad.codigoDANE">
+                        <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
                             {{ciudad.nombreCiudad}}
                         </mat-option>
                     </mat-select>

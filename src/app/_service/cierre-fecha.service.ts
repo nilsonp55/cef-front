@@ -23,7 +23,8 @@ export class CierreFechaService {
      * @returns 
      */
     realizarCierreFecha(): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.CIERRE_FECHA_CIERRE}`, null);
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.post<any>(`${this.url}${URLs.CIERRE_FECHA_CIERRE}`, null, {headers});
     }
     
 }

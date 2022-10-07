@@ -49,7 +49,7 @@ export class CentroCiudadesService {
     /**
      * Servicio para gurdar una Centro ciudades
      */
-     actualizarCentroCiudade(): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_ACTUALIZAR}`, null);
+     actualizarCentroCiudade(param: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_ACTUALIZAR}`, param);
     }
 }

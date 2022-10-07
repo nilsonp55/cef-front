@@ -18,11 +18,13 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['tipo','nombre'];
+  displayedColumnsTiposCuentas: string[] = ['tipo','nombre', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   tablCentros: any[] = [];
-
+  bancos: any[] = [];
+  esEdicion: boolean;
+  idTipoCentro: any;
 
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -30,13 +32,13 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
 
   constructor(
     private centroCostosService: CentroCostosService,
-    private generalServices: GeneralesService,
+    public generalServices: GeneralesService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this.listarCentroCostos();
     this.datosDesplegables();
+    this.listarCentroCostos();
   }
 
   /**
@@ -44,8 +46,13 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
     * @BayronPerez
     */
    async datosDesplegables() {
-    const _tablaCentros = await this.generalServices.listarDominioByDominio("TABLA_CENTRO").toPromise();
+    const _tablaCentros = await this.generalServices.listarDominioByDominio({
+      'dominio':"TABLA_CENTRO"
+    }).toPromise();
     this.tablCentros = _tablaCentros.data;
+
+    const _bancos = await this.generalServices.listarBancosAval().toPromise();
+    this.bancos = _bancos.data;
    }
 
   /**
@@ -55,11 +62,20 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
   initForm(param?: any) {
     this.form = new FormGroup({
       'tipoCentro': new FormControl(param ? param.tipoCentro : null),
-      'bancoAval': new FormControl(param ? param.bancoAval : null),
+      'bancoAval': new FormControl(param ? this.selectBancoAval(param) : null),
       'nombreCentro': new FormControl(param ? param.nombreCentro : null),
       'codigoCentro': new FormControl(param ? param.codigoCentro : null),
       'tablaCentros': new FormControl(param ? param.tablaCentros : null),
     });
+  }
+
+  selectBancoAval(param: any): any {
+    for (let i = 0; i < this.bancos.length; i++) {
+      const element = this.bancos[i];
+      if(element.codigoPunto == param.bancoAval.codigoPunto) {
+        return element;
+      }
+    }
   }
 
   /**
@@ -94,33 +110,57 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
     const tiposCentrosCostosDTO = {
       tipoCentro: this.form.value['tipoCentro'],
       bancoAval: {
-        codigoPunto: Number(this.form.value['bancoAval'])
+        codigoPunto: Number(this.form.value['bancoAval'].codigoPunto)
       },
       nombreCentro: this.form.value['nombreCentro'],
       codigoCentro: this.form.value['codigoCentro'],
       tablaCentros: this.form.value['tablaCentros'],
     };
 
-    this.centroCostosService.guardarCentroCostos(tiposCentrosCostosDTO).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      this.listarCentroCostos();
-      this.initForm();
-    },
-      (err: ErrorService) => {
+    if (this.esEdicion) {debugger
+      tiposCentrosCostosDTO.tipoCentro = this.idTipoCentro;
+      this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO).subscribe(response => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         }); setTimeout(() => { alert.close() }, 3000);
-      });
+        this.listarCentroCostos()
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    } else {
+      this.centroCostosService.guardarCentroCostos(tiposCentrosCostosDTO).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.listarCentroCostos()
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    }
   }
 
   /**
@@ -130,6 +170,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
   crearCentroCostos() {
     this.initForm();
     this.mostrarFormulario = true;
+    this.esEdicion = false;
   }
 
   /**
@@ -139,6 +180,14 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
   actualizarCentroCostos() {
     this.initForm();
     this.mostrarFormulario = true;
+  }
+
+  editar(registro: any) {
+    this.initForm(registro);
+    this.mostrarFormulario = true;
+    this.idTipoCentro = this.form.get('tipoCentro').value;
+    this.form.get('tipoCentro').disable();
+    this.esEdicion = true;
   }
 
 }

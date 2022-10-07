@@ -7,12 +7,17 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class BannerSupeiorComponent implements OnInit {
 
+  userName: String = "user@ath.com.co"
+  fechaActual : Date = new Date();
+
   @Output() checkMenuLateral = new EventEmitter<boolean>();
   estadoMenu = true;
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log("Usuario entro")
+    this.mostrarUsuario()
   }
 
   /**
@@ -22,6 +27,13 @@ export class BannerSupeiorComponent implements OnInit {
   eventoMenu(event: any) {
     this.estadoMenu = !this.estadoMenu;
     this.checkMenuLateral.emit(this.estadoMenu);
+  }
+
+  mostrarUsuario() {
+    this.userName = sessionStorage.getItem('user')
+
+    console.log(this.userName)
+
   }
 
 }
