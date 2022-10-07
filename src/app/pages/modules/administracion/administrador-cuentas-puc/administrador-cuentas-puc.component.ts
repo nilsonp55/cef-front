@@ -70,7 +70,6 @@ export class AdministradorCuentasPucComponent implements OnInit {
       if(element.codigoPunto == param.bancoAval.codigoPunto) {
         return element;
       }
-      
     }
   }
 
@@ -80,7 +79,6 @@ export class AdministradorCuentasPucComponent implements OnInit {
       if(element.tipoCuenta == param.tiposCuentas.tipoCuenta) {
         return element;
       }
-      
     }
   }
 
@@ -90,7 +88,6 @@ export class AdministradorCuentasPucComponent implements OnInit {
       if(element.tipoCentro == param.tiposCentrosCostos.tipoCentro) {
         return element;
       }
-      
     }
   }
 

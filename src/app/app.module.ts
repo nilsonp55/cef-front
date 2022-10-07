@@ -109,6 +109,7 @@ import { ResultadoValoresLiquidadosComponent } from './pages/modules/liquidacion
 import { LiquidaCostosComponent } from './pages/modules/liquidacion/liquida-costos/liquida-costos.component';
 import { CostosServicioCharterComponent } from './pages/modules/liquidacion/costos-servicio-charter/costos-servicio-charter.component';
 import { ErroresCostosComponent } from './pages/modules/liquidacion/liquida-costos/errores-costos/errores-costos.component';
+import { InitAppComponent } from './pages/shared/components/init-app/init-app.component';
 
 @NgModule({
   declarations: [
@@ -197,6 +198,7 @@ import { ErroresCostosComponent } from './pages/modules/liquidacion/liquida-cost
     LiquidaCostosComponent,
     CostosServicioCharterComponent,
     ErroresCostosComponent,
+    InitAppComponent,
   ],
 
   imports: [

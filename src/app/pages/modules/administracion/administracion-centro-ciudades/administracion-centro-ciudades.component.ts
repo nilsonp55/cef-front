@@ -18,11 +18,13 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['ciudad', 'codigoCentro'];
+  displayedColumnsTiposCuentas: string[] = ['ciudad', 'codigoCentro', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   bancos: any[] = [];
   ciudades: any[] = [];
+  idCentroCiudad: any;
+  esEdicion: boolean;
 
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -43,13 +45,13 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
     * Se consumen servicios para desplegables
     * @BayronPerez
     */
-   async datosDesplegables() {
+  async datosDesplegables() {
     const _bancos = await this.generalServices.listarBancosAval().toPromise();
     this.bancos = _bancos.data;
 
     const _ciudades = await this.generalServices.listarCiudades().toPromise();
     this.ciudades = _ciudades.data;
-   }
+  }
 
   /**
     * Inicializaion formulario de creacion y edicion
@@ -57,14 +59,24 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
     */
   initForm(param?: any) {
     this.form = new FormGroup({
-      'bancoAval': new FormControl(param ? param.bancoAval : null),
+      'idCentroCiudad': new FormControl(param ? param.idCentroCiudad : null),
+      'bancoAval': new FormControl(param ? this.selectBancoAval(param) : null),
       'codigoDane': new FormControl(param ? param.codigoDane : null),
       'codigoCentro': new FormControl(param ? param.codigoCentro : null),
     });
   }
 
+  selectBancoAval(param: any): any {
+    for (let i = 0; i < this.bancos.length; i++) {
+      const element = this.bancos[i];
+      if(element.codigoPunto == param.bancoAval.codigoPunto) {
+        return element;
+      }
+    }
+  }
+
   /**
-   * Lista los Cuentas puc
+   * Lista los Centros ciudades
    * @BayronPerez
    */
   listarCentrosCiudades(pagina = 0, tamanio = 5) {
@@ -88,58 +100,94 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
   }
 
   /**
-    * Se realiza persistencia del formulario de cuentas puc
+    * Se realiza persistencia del formulario de centros ciudades
     * @BayronPerez
     */
   persistir() {
     const centrociudad = {
+      idCentroCiudad: null,
       ciudadDane: {
-        codigoDANE: this.form.value['codigoDane']
+        codigoDANE: this.form.value['codigoDane'].codigoDANE
       },
       bancoAval: {
-        codigoPunto: this.form.value['bancoAval']
+        codigoPunto: this.form.value['bancoAval'].codigoPunto
       },
       codigoCentro: this.form.value['codigoCentro'],
     }
 
-    this.centroCiudadesService.guardarCentroCiudade(centrociudad).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      this.listarCentrosCiudades();
-      this.initForm();
-    },
-      (err: ErrorService) => {
+    if (this.esEdicion) {
+      centrociudad.idCentroCiudad = this.idCentroCiudad;
+      this.centroCiudadesService.actualizarCentroCiudade(centrociudad).subscribe(response => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         }); setTimeout(() => { alert.close() }, 3000);
-      });
+        this.listarCentrosCiudades()
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    } else {
+      this.centroCiudadesService.guardarCentroCiudade(centrociudad).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.listarCentrosCiudades()
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    }
+    
   }
 
   /**
-    * Se muestra el formulario para crear cuetnas puc
+    * Se muestra el formulario para crear centro ciudad
     * @BayronPerez
     */
-  crearCuentasPuc() {
+  crearCentroCiudad() {
+    this.initForm();
+    this.form.get('idCentroCiudad').disable();
+    this.mostrarFormulario = true;
+    this.esEdicion = true;
+  }
+
+  /**
+    * Se muestra el formulario para actualizar dentros ciudad
+    * @BayronPerez
+    */
+  actualizarCentroCiudad() {
     this.initForm();
     this.mostrarFormulario = true;
   }
 
-  /**
-    * Se muestra el formulario para actualizar cuetnas puc
-    * @BayronPerez
-    */
-  actualizarCuentasPuc() {
-    this.initForm();
+  editar(registro: any) {
+    this.initForm(registro);
     this.mostrarFormulario = true;
+    this.idCentroCiudad = this.form.get('idCentroCiudad').value;
+    this.form.get('idCentroCiudad').disable();
+    this.esEdicion = true;
   }
 
 }

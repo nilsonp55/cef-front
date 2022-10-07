@@ -49,7 +49,7 @@ export class CentroCostosService {
     /**
      * Servicio para gurdar un Tipo centro costos
      */
-     actualizarCentroCostos(): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPO_CENTRO_COSTOS_ACTUALIZAR}`, null);
+     actualizarCentroCostos(param: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPO_CENTRO_COSTOS_ACTUALIZAR}`, param);
     }
 }

@@ -112,7 +112,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
             const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: err.error.response.description, codigo: GENERALES.CODE_EMERGENT.ERROR
+                msn: err.error.response.description,
               }
             }); setTimeout(() => { alert.close() }, 3500);
           })
@@ -147,7 +147,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_PROCESS_FILE,
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3500);

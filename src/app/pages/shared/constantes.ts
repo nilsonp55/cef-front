@@ -275,6 +275,12 @@ export const URLs = {
   ADMIN_CENTRO_CIUDAD_ACTUALIZAR: '/actualizar',
   ADMIN_CENTRO_CIUDAD_CONSULTAR_ID: '/consultar-id',
 
+  //Admin configuracion contable entiudades
+  ADMIN_CONF_CONTABLE_ENTIDADES: '/conf-contable-entidades',
+  ADMIN_CONF_CONTABLE_ENTIDADES_CONSULTAR: '/consultar',
+  ADMIN_CONF_CONTABLE_ENTIDADES_GUARDAR: '/guardar',
+  ADMIN_CONF_CONTABLE_ENTIDADES_ACTUALIZAR: '/actualizar',
+
   //Cierre Contabilidad
   CIERRE_CONTABILIDAD: '/CierreContabilidad',
   
@@ -304,5 +310,3 @@ export const ROLES = [
   { code: 'ROL_4', description: 'Descripcion Rol' },
   { code: 'ROL_5', description: 'Descripcion Rol' }
 ];
-
-

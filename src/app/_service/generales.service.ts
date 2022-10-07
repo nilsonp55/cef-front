@@ -23,19 +23,20 @@ export class GeneralesService {
     * Servicio para listar las transpordadoras
     */
     listarTransportadoras(): Observable<any> {
-        return this.http.get(`${this.url}${URLs.TRANSPORTADORA}${URLs.TRANSPORTADORA_CONSULTA}`);
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.url}${URLs.TRANSPORTADORA}${URLs.TRANSPORTADORA_CONSULTA}`,{headers});
     }
 
-    listarTransportadorasA(): Observable<any> {
-        return this.http.get(`${environment.HOST}`);
-    }
 
     /** 
     * Servicio para listar los bancos del grupo aval
     * @JuanMazo
     */
     listarBancosAval(): Observable<any> {
-        return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}?esAVAL=true`);
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        console.log("HEADERS: "+headers)
+        return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}?esAVAL=true`,{headers});
+
     }
 
     /**
@@ -43,7 +44,8 @@ export class GeneralesService {
     * @JuanMazo
     */
     listarBancos(): Observable<any> {
-        return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}`);
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}`,{headers});
     }
 
     /** 
@@ -51,7 +53,8 @@ export class GeneralesService {
     * @BayronPerez
     */
       listarCiudades(): Observable<any> {
-        return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`);
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`,{headers});
     }
 
     /** 
@@ -59,8 +62,8 @@ export class GeneralesService {
     * @BayronPerez
     */
      listarDominioByDominio(dominio: any): Observable<any> {
-        console.log("Netro al servicio")
-        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio});
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio, headers},);
     }
 
     /** 
@@ -68,7 +71,8 @@ export class GeneralesService {
     * @BayronPerez
     */
      listarParametroByFiltro(param: any): Observable<any> {
-        return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param, headers });
     }
 
 }
