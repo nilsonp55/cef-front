@@ -62,10 +62,11 @@ async cargarDatosDesplegables() {
 * Se realiza consumo de servicio para generar la contabilidad AM
 * @BaironPerez
 */
-generarLiquidacionCostos() {
+generarLiquidacionCostos() {debugger
   this.spinnerActive = true;
   this.liquidarCostosService.liquidarCosots().subscribe((data: any) => {
     this.dataLiquidacionCosots = data.data;
+    console.log(data)
     //Se construye tabla de info
     const tabla = [
       { nombre: "Cantidad operaciones liquidadas", cantidad: this.dataLiquidacionCosots.cantidadOperacionesLiquidadas, estado: true },
@@ -95,6 +96,7 @@ generarLiquidacionCostos() {
  * @BaironPerez
  */
 verValoresLiquidados() {
+  console.log("Entro a resultado")
   const respuesta = this.dialog.open(ResultadoValoresLiquidadosComponent, {
     width: '100%',
     data: {
