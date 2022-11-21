@@ -104,12 +104,23 @@ import { DialogVerArchivoDefiComponent } from './pages/modules/cargue-programaci
 import { DialogResultValidacionComponentComponent } from './pages/modules/cargue-programacion/cargue-definitivo/archivos-cargados-definitivo/dialog-result-validacion-component/dialog-result-validacion-component.component';
 import { DialogVerArchDefiComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/dialog-ver-arch-defi/dialog-ver-arch-defi.component';
 import { ErroresContabilidadComponent } from './pages/modules/contabilizacion/errores-contabilidad/errores-contabilidad.component';
-import { MatTableExporterModule } from 'mat-table-exporter';
 import { ResultadoValoresLiquidadosComponent } from './pages/modules/liquidacion/liquida-costos/resultado-valores-liquidados/resultado-valores-liquidados.component';
+import { GestionRolesUsuariosComponent } from './pages/modules/administracion/gestion-roles-usuarios/gestion-roles-usuarios.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 import { LiquidaCostosComponent } from './pages/modules/liquidacion/liquida-costos/liquida-costos.component';
 import { CostosServicioCharterComponent } from './pages/modules/liquidacion/costos-servicio-charter/costos-servicio-charter.component';
 import { ErroresCostosComponent } from './pages/modules/liquidacion/liquida-costos/errores-costos/errores-costos.component';
 import { InitAppComponent } from './pages/shared/components/init-app/init-app.component';
+import { TarifasOperacionComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion.component';
+import { EscalasComponent } from './pages/modules/liquidacion/escalas/escalas.component';
+import { PuntosCodigoTdvComponent } from './pages/modules/liquidacion/puntos-codigo-tdv/puntos-codigo-tdv.component';
+import { LiquidacionMensualComponent } from './pages/modules/liquidacion/liquidacion-mensual/liquidacion-mensual.component';
+import { DetalleGuardarLiquidacionComponent } from './pages/modules/liquidacion/liquidacion-mensual/detalle-guardar-liquidacion/detalle-guardar-liquidacion.component';
+import { GuardarLiquidacionComponent } from './pages/modules/liquidacion/liquidacion-mensual/guardar-liquidacion/guardar-liquidacion.component';
+import { TdvDenominacionCantidadComponent } from './pages/modules/liquidacion/tdv-denominacion-cantidad/tdv-denominacion-cantidad.component';
+import { GestionUsuariosComponent } from './pages/modules/administracion/gestion-usuarios/gestion-usuarios.component';
+import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
+import { EjecutarProcedimientoComponent } from './pages/modules/administracion/gestion-procedimientos/ejecutar-procedimiento/ejecutar-procedimiento.component';
 
 @NgModule({
   declarations: [
@@ -195,11 +206,22 @@ import { InitAppComponent } from './pages/shared/components/init-app/init-app.co
     ErroresContabilidadComponent,
     LiquidacionComponent,
     ResultadoValoresLiquidadosComponent,
+    GestionRolesUsuariosComponent,
     LiquidaCostosComponent,
     CostosServicioCharterComponent,
     ErroresCostosComponent,
     InitAppComponent,
-  ],
+    TarifasOperacionComponent,
+    EscalasComponent,
+    PuntosCodigoTdvComponent,
+    LiquidacionMensualComponent,
+    DetalleGuardarLiquidacionComponent,
+    GuardarLiquidacionComponent,
+    TdvDenominacionCantidadComponent,
+    GestionUsuariosComponent,
+    GestionProcedimientosComponent,
+    EjecutarProcedimientoComponent
+    ],
 
   imports: [
     CommonModule,
@@ -234,10 +256,11 @@ import { InitAppComponent } from './pages/shared/components/init-app/init-app.co
     MatGridListModule,
     MatProgressSpinnerModule,
     MatRadioModule,
+    MatCheckboxModule,
     MatSelectModule,
     MatCheckboxModule,
     MatTableExporterModule,
-    ],
+  ],
   providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent],
   bootstrap: [AppComponent]
 })

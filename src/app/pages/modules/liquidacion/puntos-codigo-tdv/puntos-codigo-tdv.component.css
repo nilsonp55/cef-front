@@ -1,0 +1,35 @@
+.division-btn {
+    margin-left: 5%;
+}
+
+.division-btn2 {
+    margin-left: 2em;
+}
+
+.ubicacion-btn-dominio {
+    margin-left: 50%;
+}
+
+.ubicacion-btn {
+    width: 10%;
+    margin-left: 70%;
+
+}
+
+.ubicacionTablas {
+    width: 30%;
+    margin-top: 3%
+}
+
+.card-limites {
+    margin: 2%;
+}
+
+.divTablaCerti {
+    background-color: rgb(226, 229, 229);
+    padding: 1%;
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 10%;
+    margin-bottom: auto;
+  }

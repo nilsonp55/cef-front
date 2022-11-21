@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
+import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
@@ -50,6 +51,7 @@ export class ResultadoContabilidadComponent implements OnInit {
     private dialog: MatDialog,
     private generalServices: GeneralesService,
     private logProcesoDiarioService: LogProcesoDiarioService,
+    private cierreContabilidadService: CierreContabilidadService,
     private generarContabilidadService: GenerarContabilidadService,
     private dialogRef: MatDialogRef<ResultadoContabilidadComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any, tipoContabilidad: any}
@@ -117,8 +119,22 @@ export class ResultadoContabilidadComponent implements OnInit {
       });
   }
 
-  close(){
-    this.dialogRef.close({event:'Cancel'})
+  cerrarProceso(){
+    this.cierreContabilidadService.cierreContabilidadAutorizacion({
+      'fecha': this.fechaSistemaSelect, 
+      'tipoContabilidad': this.tipo,
+      'estado':'autorizacion1'
+    }).subscribe(data => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_CONTABILIDAD_PM.SUCCESFULL_GENERATE_PM,
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        }
+      }); setTimeout(() => { alert.close() }, 4000);
+    //this.dialogRef.close({event:'Cancel'})
+    })
+
   }
 
 }

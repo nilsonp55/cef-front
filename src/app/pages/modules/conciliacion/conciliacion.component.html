@@ -6,62 +6,16 @@
     <mat-sidenav-container class="sidenav-container">
         <!--Barra izquierda de opciones (Apodo id = sidenav)-->
         <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 21%" mode="side">
-            <br><br>
             <!--opciones de menu-->
             <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['resumen-operaciones']" style="cursor: pointer"
-                routerLinkActive="seleccion-activa">
-                <mat-icon>assignment</mat-icon>
-                <span>Resumen operaciones</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['operaciones-conciliadas-consulta']" style="cursor: pointer"
-                routerLinkActive="seleccion-activa">
-                <mat-icon>person_search</mat-icon>
-                <span>Conciliadas</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['operaciones-programadas-no-conciliadas-consulta']"
-                style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>person_search</mat-icon>
-                <span>Programadas no conciliadas</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['operaciones-certificadas-no-conciliadas-consulta']"
-                style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>person_search</mat-icon>
-                <span>Certificadas no conciliadas</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['operaciones-conciliadas-fallidas-consulta']" style="cursor: pointer"
-                routerLinkActive="seleccion-activa">
-                <mat-icon>person_search</mat-icon>
-                <span>Fallidas</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['operaciones-conciliadas']" style="cursor: pointer"
-                routerLinkActive="seleccion-activa">
-                <mat-icon>settings_suggest</mat-icon>
-                <span>Ajustes conciliadas</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['operaciones-programadas-no-conciliadas']" style="cursor: pointer"
-                routerLinkActive="seleccion-activa">
-                <mat-icon>settings_suggest</mat-icon>
-                <span>Ajustes no conciliadas</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['operaciones-sin-conciliar']" style="cursor: pointer"
-                routerLinkActive="seleccion-activa">
-                <mat-icon>settings_suggest</mat-icon>
-                <span>Ajustes fallidas</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['administrador-cargue-conciliacion']" style="cursor: pointer"
-                routerLinkActive="seleccion-activa">
-                <mat-icon>menu</mat-icon>
-                <span>Cierre de conciliación</span>
-            </button>
+            <div *ngFor="let item of menusConsiliacion">
+                <button mat-menu-item [routerLink]="[item.url]" style="cursor: pointer"
+                    routerLinkActive="seleccion-activa">
+                    <span class="material-icons">{{item.icono}}</span>
+                    <span>{{item.nombre}}</span>
+                </button>
+                <mat-divider></mat-divider>
+            </div>      
         </mat-sidenav>
 
         <!--Barra derecha de ejecución-->

@@ -29,7 +29,7 @@ export class CostosFleteCharterService {
      * Servicio para gurdar un registros de Costos flete charter
      */
     guardarCostosFleteCharter(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.COSTOS_FLETE_CHARTER_GUARDAR}`, param);
+        return this.http.get<any>(`${this.url}${URLs.COSTOS_FLETE_CHARTER_GUARDAR}`, param);
     }
 
 }

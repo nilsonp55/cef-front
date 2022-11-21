@@ -3,8 +3,30 @@
         <h1 class="tituloTabla">Costos Servicios Charter</h1>
         <span class="line-spacer"></span>
     </div>
-    <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
 
+    <div style="display: block;">
+        <mat-form-field appearance="fill">
+            <mat-label></mat-label>
+            <input matInput [matDatepicker]="picker1" [formControl]="serializedDate" [(ngModel)]="fecha1">
+            <mat-hint>Fecha Inicial</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label></mat-label>
+            <input matInput [matDatepicker]="picker2" [formControl]="serializedDate" [(ngModel)]="fecha2">
+            <mat-hint>Fecha final</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+        <button style="background-color: #C1DEAE" class="buttonsSaveOremove" mat-raised-button
+            (click)="buscar()">
+            <span>Buscar</span>
+        </button>
+    </div><br><br>
+
+    <table mat-table *ngIf="mostrarTabla" [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="bancoAval">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO AVAL</th>
             <td mat-cell *matCellDef="let element"> {{element.nombreBanco}} </td>
@@ -38,7 +60,7 @@
         <ng-container matColumnDef="costoCharter">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> COSTO CHARTER</th>
             <td mat-cell *matCellDef="let element">
-                <input type="number" [ngModel]="costoEditar" placeholder="$"  placeholder="$" (ngModelChange)="changeCosto($event)">
+                <input type="number" (change)="changeValor($event)" placeholder="$" placeholder="$">
             </td>
         </ng-container>
 
@@ -53,7 +75,7 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
-        
+
     </table>
 
 </div>

@@ -30,8 +30,8 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
   public load: boolean = false;
 
   //DataSource para pintar tabla de conciliados
-  dataSourceConciliadas: MatTableDataSource<ConciliacionesModel>;
-  displayedColumnsConciliadas: string[] = ['banco', 'transPortadora', 'ciudad', 'tipoOperacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'ciudadPuntoOrigen', 'ciudadPuntoDestino', 'valor', 'tipoConciliacion', 'fechaEjecucion'];
+  dataSourceConciliadas: MatTableDataSource<any>;
+  displayedColumnsConciliadas: string[] = ['banco', 'transPortadora','nombreFondo', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'valor', 'tipoConciliacion', 'fechaEjecucion'];
 
   constructor(
     private dialog: MatDialog,
@@ -57,11 +57,11 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
       this.cantidadRegistros = page.data.totalElements;
 
     },
-      (err: ErrorService) => {
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_CONCILIADOS,
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });

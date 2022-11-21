@@ -62,11 +62,11 @@ export class HistoricoArchivosCargadosDefinitivoComponent implements OnInit {
       this.dataSourceInfoArchivo.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: 'Error al obtener archivos de historial',
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close()}, 3000);    

@@ -48,6 +48,10 @@ export const GENERALES = {
       SUCCESFULL_CIERRE_PRELIMINAR: 'Se realizo el cierre de programación preliminar exitosamente',
       ERROR_CIERRE_FECHA_PRELIMINAR: 'No se puede realizar el cierre de programación preliminar correctamente'
     },
+    MESSAGE_CIERRE_PROG_DEFINITIVA: {
+      SUCCESFULL_CIERRE_DEFINITIVA: 'Se realizo el cierre de programación definitivo exitosamente',
+      ERROR_CIERRE_FECHA_DEFINITIVA: 'No se puede realizar el cierre de programación definitivo correctamente'
+    },
     MESSAGE_CIERRE_PROG_CERTIFICACION: {
       SUCCESFULL_CIERRE_CERTIFICACION: 'Se realizo el cierre de certificación exitosamente',
       ERROR_CIERRE_FECHA_CERTIFICACION: 'No se puede realizar el cierre de certificación correctamente'
@@ -79,6 +83,12 @@ export const GENERALES = {
     MESSAGE_CONTABILIDAD_AM: {
       SUCCESFULL_GENERATE_AM: 'Se realizo la contabilidad AM exitosamente',
       ERROR__GENERATE_AM: 'No se puedo realizar la contabilidad AM correctamente'
+    },
+    MESSAGE_CIERRE_CONTABILIDAD_PM: {
+      SUCCESFULL_GENERATE_PM: 'Se realizo el cierre de la contabilidad exitosamente',
+    },
+    MESSAGE_CIERRE_CONTABILIDAD_AM: {
+      SUCCESFULL_GENERATE_AM: 'Se realizo el cierre de la contabilidad AM exitosamente',
     },
     MESSAGE_GESTION_PUNTOS: {
 
@@ -165,6 +175,7 @@ export const URLs = {
   CARGUE_ARCHIVO_GUARDAR: '/guardar',
   CARGUE_ARCHIVO_DESCARGAR: '/descargar-id',
   CARGUE_ARCHIVO_ELIMINAR: '/eliminar',
+  CARGUE_ARCHIVO_REABRIR: '/reabrir',
   CONSULTAR_X_AGRUPADOR: '/consultar-agrupador',
   CARGUE_ID_ARCHIVO_DESCARGAR: '/descargar-idarchivo',
 
@@ -223,9 +234,14 @@ export const URLs = {
 
   //Listar dominios
   DOMINIO: '/dominio-funcional',
+  DOMINIOS: '/dominios',
   DOMINIO_CONSULTA: '/consultar',
   DOMINIO_MAESTRO: '/dominios',
   DOMINIO_OBTENER: '/obtener',
+  DOMINIOS_TODOS: '/obtener-todos',
+  DOMINIO_CREAR:'/guardar',
+  DOMINIO_ACTUALIZAR:'/actualizar',
+  DIMINIO_CONSULTAR:'/consultar-dominio',
 
   //Consultar parametro
   PARAMETRO: '/parametro',
@@ -286,6 +302,10 @@ export const URLs = {
   
   CIERRE_CONTABILIDAD_CERRAR: '/cierre',
 
+    //AUTORIZACION_CONTABILIDAD
+    AUTORIZACION_CIERRE_CONTABILIDAD: '/autorizacioncierre',
+    AUTORIZACION_CONTABILIDAD: '/autorizacion',
+    
   //Generar Contabilidad
   CONTABILIDAD: '/contabilidad',
   CONTABILIDAD_GENERAL: '/generar',
@@ -300,7 +320,61 @@ export const URLs = {
   LIQUIDACION_COSTOS: '/costos',
   ERRORES_COSTOS: '/errores-costos',
   ERRORES_COSTOS_CONSULTAR: '/consultar',
+
+  //Tarifas Operacion
+  TARIFAS_OPERACION: '/tarifas-operacion',
+  TARIFAS_OPERACION_GUARDAR: '/guardar',
+  TARIFAS_OPERACION_ACTUALIZAR: '/actualizar',
+  TARIFAS_OPERACION_ELIMINAR: '/eliminar',
+  TARIFAS_OPERACION_CONSULTAR: '/consultar',
   
+  //Administración menu-rol
+  ADMIN_MENU_ROL: '/menurol',
+  ADMIN_MENU_ROL_CONSULTAR: '/consultar',
+  ADMIN_MENU_ROL_GUARDAR: '/guardar',
+  ADMIN_MENU_ROL_ACTUALIZAR: '/actualizar',
+
+  //Administración usuario
+  ADMIN_USUARIO: '/usuario',
+  ADMIN_USUARIO_CONSULTAR: '/consultar',
+  ADMIN_USUARIO_GUARDAR: '/guardar',
+  ADMIN_USUARIO_ACTUALIZAR: '/actualizar',
+
+  //Administración rol
+  ADMIN_ROL: '/rol',
+  ADMIN_ROL_CONSULTAR: '/consultar',
+  ADMIN_ROL_GUARDAR: '/guardar',
+  ADMIN_ROL_ACTUALIZAR: '/actualizar',
+
+  //Escalas
+  ADMIN_ESCALAS: '/escalas',
+  ADMIN_ESCALAS_CONSULTAR: '/consultar',
+  ADMIN_ESCALAS_GUARDAR: '/guardar',
+  ADMIN_ESCALAS_ACTUALIZAR: '/actualizar',
+
+  //Puntos Codigos TDV
+  PUNTOS_CODIGO: '/puntos-codigo-tdv',
+  PUNTOS_CODIGO_CONSULTAR: '/consultar',
+  PUNTOS_CODIGO_GUARDAR: '/guardar',
+  PUNTOS_CODIGO_ACTUALIZAR: '/actualizar',
+  
+  //Liquidacion mensual
+  LIQUIDACION_MENSUAL: '/clasificacion-mensual',
+  LIQUIDACION_MENSUAL_CONSULTAR: '/consultar',
+  LIQUIDACION_MENSUAL_GUARDAR: '/guardar',
+  LIQUIDACION_MENSUAL_LIQUIDAR: '/liquidar',
+
+  //Denominacion Cantidad
+  DENOMINACION_CANTIDAD: '/tdv-denomin-cantidad',
+  DENOMINACION_CANTIDAD_CONSULTAR: '/consultar',
+  DENOMINACION_CANTIDAD_GUARDAR: '/guardar',
+  DENOMINACION_CANTIDAD_ACTUALIZAR: '/actualizar',
+
+  //funciones Dinamicas
+  FUNCIONES_DINAMICAS: '/funciones-dinamicas',
+  FUNCIONES_DINAMICAS_CONSULTAR: '/consultar',
+  FUNCIONES_DINAMICAS_EJECUTAR: '/ejecutar',
+  FUNCIONES_DINAMICAS_ACTUALIZAR: '/actualizar',
 };
 
 export const ROLES = [

@@ -6,26 +6,21 @@
     <mat-sidenav-container class="sidenav-container">
         <!--Barra izquierda de opciones (Apodo id = sidenav)-->
         <mat-sidenav #sidenav opened="true" style="width: 17%" mode="side">
-            <!--Imagen de menu
-            <img src="assets/img/menu.png" width="215" style="display:block; margin:auto; margin-top: 10%">-->  
+            <!--Secccion de Cargues certificacion-->
             <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['gestion-cargue-certificacion']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>settings_suggest</mat-icon>
-                <span>Gestión cargue certificación</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['administrador-cargue-certificacion']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>menu</mat-icon>
-                <span>Cierre certificación</span>
-            </button>
-            <mat-divider></mat-divider>
+            <div *ngFor="let item of menusCargueCertificacion">
+                <button mat-menu-item [routerLink]="[item.url]" style="cursor: pointer"
+                    routerLinkActive="seleccion-activa">
+                    <span class="material-icons">{{item.icono}}</span>
+                    <span>{{item.nombre}}</span>
+                </button>
+                <mat-divider></mat-divider>
+            </div>
         </mat-sidenav>
 
         <!--Barra derecha de ejecución-->
         <mat-sidenav-content class="background-page">
             <router-outlet></router-outlet>
         </mat-sidenav-content>
-
     </mat-sidenav-container>
-
 </div>

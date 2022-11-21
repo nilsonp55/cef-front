@@ -22,7 +22,15 @@ export class InitAppComponent implements OnInit {
   }
 
   goToUrl(): void {
-    this.document.location.href = 'https://awue1athcef-pt-admin.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=7lqfnlbaj4afqhq6c6rmbrde1b&redirect_uri=https://cefwebpt.aws.ath.com.co/home&scope=openid';
+    //PT
+    //this.document.location.href = 'https://awue1athcef-pt-admin.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=7lqfnlbaj4afqhq6c6rmbrde1b&redirect_uri=https://cefwebpt.aws.ath.com.co/home&scope=openid';
+  
+    //QA      
+    this.document.location.href = 'https://awue1athcef-qa-admin.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=6gm8bjpvvajuqhi2fiiqegckkv&redirect_uri=https://cefwebqa.aws.ath.com.co/home&scope=openid';
+    
+    //PRD
+    //this.document.location.href = 'https://awue1athcef-prd-admin.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=g9al6c9o6r12f3v1q00jjfhb&redirect_uri=https://cefwebprd.aws.ath.com.co/home&scope=openid';
+  
   }
 
   capturaToken() {

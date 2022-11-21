@@ -41,6 +41,9 @@
                 <button mat-button (click)="eliminarArchivo(element.nombreArchivo, element.idModeloArchivo)">
                     <mat-icon style="color: red">delete</mat-icon>
                 </button>
+                <button mat-button (click)="reabrirCargue(element.nombreArchivo, element.idModeloArchivo)">
+                    <mat-icon style="color: rgb(255, 217, 0)">cached icon</mat-icon>
+                </button>
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoArchivo"></tr>

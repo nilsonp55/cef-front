@@ -61,18 +61,15 @@ export class ContabilidadAmComponent implements OnInit {
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
-      const [day, month, year] = this.fechaSistemaSelect.split('/'); 
-      const fechaSistemaFormat = [year, month, day].join('-');
-      let result = page.data.filter(item => item.fechaFinalizacion === fechaSistemaFormat);
-      this.dataSourceInfoProcesos = new MatTableDataSource(result);
+      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
       this.dataSourceInfoProcesos.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: 'Error al obtener los procesos de contabilidad a ejecutar',
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
@@ -114,6 +111,7 @@ export class ContabilidadAmComponent implements OnInit {
             data: {
               respuesta: data.data,
               titulo: "Generar Contabilidad AM - Resultado",
+              tipoContabilidad: "AM"
             }
           });
         },
@@ -122,7 +120,7 @@ export class ContabilidadAmComponent implements OnInit {
             const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_AM.ERROR__GENERATE_AM,
+                msn: err.error.response.description,
                 codigo: GENERALES.CODE_EMERGENT.ERROR
               }
             }); setTimeout(() => { alert.close() }, 4500);

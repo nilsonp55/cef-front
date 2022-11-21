@@ -8,19 +8,19 @@
     <div class="configScroll">
         <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort #exporter="matTableExporter">
             <tr>
-                <ng-container matColumnDef="codigoFondoTDV" class="mat-column-nombreCampo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>COD. FONDO TDV</th>
-                    <td mat-cell *matCellDef="let element"> {{element.codigoFondoTDV}} </td>
+                <ng-container matColumnDef="nombreFondoTDV" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE FONDO TDV</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="codigoPuntoOrigen" class="mat-column-nombreCampo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>COD PUNTO ORIGEN</th>
-                    <td mat-cell *matCellDef="let element"> {{element.codigoPuntoOrigen}} </td>
+                <ng-container matColumnDef="nombrePuntoOrigen" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE P ORIGEN</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombrePuntoOrigen}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="codigoPuntoDestino">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO DESTINO</th>
-                    <td mat-cell *matCellDef="let element"> {{element.codigoPuntoDestino}} </td>
+                <ng-container matColumnDef="nombrePuntoDestino">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE P DESTINO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombrePuntoDestino}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="fechaEjecucion" class="mat-column-nombreCampo">
@@ -28,24 +28,14 @@
                     <td mat-cell *matCellDef="let element"> {{element.fechaEjecucion | date: 'dd/MM/YYYY'}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO OPERACION</th>
-                    <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="tipoServicio" class="mat-column-nombreCampo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO SERVICIO</th>
-                    <td mat-cell *matCellDef="let element"> {{element.tipoServicio}} </td>
+                <ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA-SALIDA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACION</th>
                     <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="conciliable" class="mat-column-nombreCampo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CONCILIABLE</th>
-                    <td mat-cell *matCellDef="let element"> {{element.conciliable}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="valorTotal" class="mat-column-nombreCampo">

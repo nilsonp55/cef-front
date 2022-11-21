@@ -4,39 +4,21 @@
     <!--Componente barra lateral y area de ejecución-->
     <mat-sidenav-container class="sidenav-container">
         <!--Barra izquierda de opciones (Apodo id = sidenav)-->
-        <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 17%" mode="side">
-            <!--Imagen de menu
-            <img src="assets/img/menu.png" width="215" style="display:block; margin:auto; margin-top: 10%">-->
-            <!--opciones de menu-->
-            
+        <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 17%" mode="side">   
             <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['administrador-cargue-preliminar']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>insert_drive_file</mat-icon>
-                <span>Gestión cargue preliminar</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['administrador-cargue-definitivo']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>insert_drive_file</mat-icon>
-                <span>Gestión cargue definitivo</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['administrador-cierre-preliminar']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>view_carousel</mat-icon>
-                <span>Cierre preliminar</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['administrador-cierre-definitivo']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>view_carousel</mat-icon>
-                <span>Cierre definitiva</span>
-            </button>
-            <mat-divider></mat-divider>
+            <div *ngFor="let item of menusCargueProgramacion">
+                <button mat-menu-item [routerLink]="[item.url]" style="cursor: pointer"
+                    routerLinkActive="seleccion-activa">
+                    <span class="material-icons">{{item.icono}}</span>
+                    <span>{{item.nombre}}</span>
+                </button>
+                <mat-divider></mat-divider>
+            </div>      
         </mat-sidenav>
 
         <!--Barra derecha de ejecución-->
         <mat-sidenav-content class="background-page">
             <router-outlet></router-outlet>
         </mat-sidenav-content>
-
     </mat-sidenav-container>
-
 </div>

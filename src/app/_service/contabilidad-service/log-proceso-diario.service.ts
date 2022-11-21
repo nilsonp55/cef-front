@@ -28,7 +28,8 @@ export class LogProcesoDiarioService {
      * Servicio para listar los procesos diarios
     */
     obtenerProcesosDiarios(params: any): Observable<any> {
-        return this.http.get<any>(`${this.url}${URLs.PROCESO_DIARIO_CONSULTAR}`, { params: params });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${this.url}${URLs.PROCESO_DIARIO_CONSULTAR}`, { params: params, headers });
     }
 
 }

@@ -13,20 +13,22 @@ export class DialogInfoOpProgramadasComponent implements OnInit {
 
   valor: number;
   estado: string;
-  dataSourceInfoOpProgramadasFallidas: MatTableDataSource<ConciliacionesInfoProgramadasNoConciliadasModel>;
-  displayedColumnsInfoOpProgramadas: string[] = ['idOperacion', 'codigoFondoTDV', 'entradaSalida', 'tipoPuntoOrigen', 'codigoPuntoOrigen', 'tipoPuntoDestino', 'codigoPuntoDestino', 'fechaProgramacion', 'fechaOrigen', 'fechaDestino', 'tipoOperacion', 'tipoTransporte', 'valorTotal', 'estadoOperacion', 'idNegociacion', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
+  dataSourceInfoOpProgramadasFallidas: MatTableDataSource<any>;
+  displayedColumnsInfoOpProgramadas: string[] = ['idOperacion', 'codigoFondoTDV', 'entradaSalida', 'nombreFondoTDV', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'codigoPuntoDestino', 'fechaProgramacion', 'fechaOrigen', 'fechaDestino', 'tipoOperacion', 'tipoTransporte', 'valorTotal', 'estadoOperacion', 'idNegociacion', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ConciliacionesInfoProgramadasNoConciliadasModel
     ) {
-    data.fechaProgramacion = moment(data.fechaProgramacion).format('DD/MM/YYYY')
-    data.fechaOrigen = moment(data.fechaOrigen).format('DD/MM/YYYY')
-    data.fechaCreacion = moment(data.fechaCreacion).format('DD/MM/YYYY')
-    data.fechaDestino =  moment(data.fechaDestino).format('DD/MM/YYYY')
-    data.fechaModificacion =  moment(data.fechaModificacion).format('DD/MM/YYYY')
+    //data.fechaProgramacion = moment(data.fechaProgramacion).format('DD/MM/YYYY')
+    //data.fechaOrigen = moment(data.fechaOrigen).format('DD/MM/YYYY')
+    //data.fechaCreacion = moment(data.fechaCreacion).format('DD/MM/YYYY')
+    //data.fechaDestino =  moment(data.fechaDestino).format('DD/MM/YYYY')
+    //data.fechaModificacion =  moment(data.fechaModificacion).format('DD/MM/YYYY')
     this.dataSourceInfoOpProgramadasFallidas = new MatTableDataSource([data]);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.data)
+  }
 
 }
