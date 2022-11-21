@@ -35,7 +35,7 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
   //Rgistros paginados
   cantidadRegistros: number;
 
-  public load:boolean=false;
+  public load: boolean = false;
 
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
@@ -47,15 +47,15 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  dataConcilicionesComplete:ConciliacionesProgramadasNoConciliadasModel[]
-  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV', 'tipoOperacion','entradaSalida', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fechaProgramacion','fechaOrigen','fechaDestino', 'tdv', 'valorTotal', 'estadoOperacion', 'bancoAVAL', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
+  dataConcilicionesComplete: ConciliacionesProgramadasNoConciliadasModel[]
+  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV', 'tipoOperacion', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaProgramacion', 'fechaOrigen', 'fechaDestino', 'tdv', 'valorTotal', 'estadoOperacion', 'bancoAVAL', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
 
 
   constructor(
     private dialog: MatDialog,
     private opConciliadasService: OpConciliadasService,
     private generalesService: GeneralesService) { }
-    
+
   ngOnInit(): void {
     this.listarOpProgramadasSinConciliar();
   }
@@ -76,20 +76,50 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
    */
   listarOpProgramadasSinConciliar(pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
+      estadoConciliacion: 'NO_CONCILIADA',
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
-      this.load=true;
-      this.dataConcilicionesComplete=page.data.content;
+      this.load = true;
+      this.dataConcilicionesComplete = page.data.content;
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_PROGRAMADAS,
+            msn: err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        setTimeout(() => { alert.close() }, 3000);
+      });
+  }
+
+  listarOpProgramadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, puntoDestino: string, pagina = 0, tamanio = 500) {
+    console.log({ banco, tdv, puntoOrigen, puntoDestino })
+    this.opConciliadasService.obtenerOpProgramadasSinconciliar({
+      estadoConciliacion: 'NO_CONCILIADA',
+      bancoAVAL: banco,
+      tdv: tdv,
+      tipoPuntoOrigen: puntoOrigen,
+      tipoPuntoDestino: puntoDestino,
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
+      this.load = true;
+      this.dataConcilicionesComplete = page.data.content;
+      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
+      this.dataSourceOperacionesProgramadas.sort = this.sort;
+      this.cantidadRegistros = page.data.totalElements;
+    },
+      (err: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
@@ -98,21 +128,69 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
   }
 
   filter(event) {
-    if(event.banco !== undefined && event.trasportadora !== undefined){
-      var filterData=this.dataConcilicionesComplete.filter(conciliado=>conciliado.tdv===event.trasportadora && conciliado.bancoAVAL===event.banco);
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistros =filterData.length;
-    }else if(event.banco == undefined && event.trasportadora !== undefined) {
-      var filterData=this.dataConcilicionesComplete.filter(conciliado=>conciliado.tdv===event.trasportadora);
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistros =filterData.length;
-    }else if(event.trasportadora == undefined && event.banco !== undefined) {
-      var filterData=this.dataConcilicionesComplete.filter(conciliado=>conciliado.bancoAVAL===event.banco);
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(filterData);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistros =filterData.length;
+    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino !== undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen, event.tipoPuntoDestino)
+      console.log("1")
+    }
+    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino == undefined) {
+      this.listarOpProgramadasSinConciliar()
+      console.log("2")
+    }
+    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino == undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, "", "", "")
+      console.log("3")
+    }
+    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino == undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV("", event.banco, "", "")
+      console.log("4")
+    }
+    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino == undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen, "")
+      console.log("5")
+    }
+    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino !== undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV("", "", "", event.tipoPuntoDestino)
+      console.log("6")
+    }
+    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino !== undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen, event.tipoPuntoDestino)
+      console.log("7")
+    }
+    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino !== undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen, event.tipoPuntoDestino)
+      console.log("8")
+    }
+    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino !== undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "", event.tipoPuntoDestino)
+      console.log("9")
+    }
+    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino == undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen, "")
+      console.log("10")
+    }
+    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino == undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "", "")
+      console.log("11")
+    }
+    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino == undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen, "")
+      console.log("12")
+    }
+    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino !== undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen, event.tipoPuntoDestino)
+      console.log("13")
+    }
+    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino !== undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, "", "", event.tipoPuntoDestino)
+      console.log("14")
+    }
+    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino == undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen, "")
+      console.log("15")
+    }
+    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino !== undefined) {
+      this.listarOpProgramadasSinConciliarXBancoOTDV("", event.banco, "", event.tipoPuntoDestino)
+      console.log("16")
     }
   }
 

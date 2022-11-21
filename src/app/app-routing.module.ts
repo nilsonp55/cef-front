@@ -14,6 +14,7 @@ import { OpearcionesNoConciliadasComponent } from './pages/modules/conciliacion/
 import { ResumenComponent } from './pages/modules/conciliacion/consulta-operaciones/resumen/resumen.component';
 import { CargueCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-certificacion.component';
 import { CargueDefinitivoCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-definitivo-certificacion/cargue-definitivo-certificacion.component';
+import { MenuContabilidadComponent } from './pages/modules/contabilizacion/menu-contabilidad/menu-contabilidad.component';
 import { CierreFechaComponent } from './pages/modules/administracion/cierre-fecha/cierre-fecha.component';
 import { AdministracionContabilidadComponent } from './pages/modules/administracion/administracion-contabilidad/administracion-contabilidad.component';
 import { AdministradorCuentasPucComponent } from './pages/modules/administracion/administrador-cuentas-puc/administrador-cuentas-puc.component';
@@ -35,11 +36,19 @@ import { ConsultaOperaFallidasComponent } from './pages/modules/conciliacion/con
 import { CierreConciliacionComponent } from './pages/modules/conciliacion/cierre-conciliacion/cierre-conciliacion.component';
 import { CierreCertificacionComponent } from './pages/modules/cargue-certificacion/cierre-certificacion/cierre-certificacion.component';
 import { LiquidacionComponent } from './pages/modules/liquidacion/liquidacion.component';
+import { GestionRolesUsuariosComponent } from './pages/modules/administracion/gestion-roles-usuarios/gestion-roles-usuarios.component';
 import { LiquidaCostosComponent } from './pages/modules/liquidacion/liquida-costos/liquida-costos.component';
 import { CostosServicioCharterComponent } from './pages/modules/liquidacion/costos-servicio-charter/costos-servicio-charter.component';
 import { AdministracionConfContableEntidadComponent } from './pages/modules/administracion/administracion-conf-contable-entidad/administracion-conf-contable-entidad.component';
 import { InitAppComponent } from './pages/shared/components/init-app/init-app.component';
-
+import { TarifasOperacionComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion.component';
+import { PuntosCodigoTdvComponent } from './pages/modules/liquidacion/puntos-codigo-tdv/puntos-codigo-tdv.component';
+import { EscalasComponent } from './pages/modules/liquidacion/escalas/escalas.component';
+import { LiquidacionMensualComponent } from './pages/modules/liquidacion/liquidacion-mensual/liquidacion-mensual.component';
+import { DetalleGuardarLiquidacionComponent } from './pages/modules/liquidacion/liquidacion-mensual/detalle-guardar-liquidacion/detalle-guardar-liquidacion.component';
+import { GestionUsuariosComponent } from './pages/modules/administracion/gestion-usuarios/gestion-usuarios.component';
+import { TdvDenominacionCantidadComponent } from './pages/modules/liquidacion/tdv-denominacion-cantidad/tdv-denominacion-cantidad.component';
+import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
 
 const routes: Routes = [
   //{ path: '', component: LoginComponent },
@@ -86,6 +95,12 @@ const routes: Routes = [
     path: 'liquidacion', component: LiquidacionComponent, children: [
       { path: 'servicio-charter', component: CostosServicioCharterComponent },
       { path: 'liquidar-costos', component: LiquidaCostosComponent },
+      { path: 'tarifas-operacion', component: TarifasOperacionComponent },
+      { path: 'escala', component: EscalasComponent },
+      { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent },
+      { path: 'liquidacion-mensual', component: LiquidacionMensualComponent },
+      { path: 'guardar-detalle-liquidacion/:fechaSistema/:codTransportadora', component: DetalleGuardarLiquidacionComponent },
+      { path: 'tdv-denominacion-cantidad', component: TdvDenominacionCantidadComponent },
     ]
   },
   {
@@ -101,6 +116,9 @@ const routes: Routes = [
       { path: 'administracion-tipo-centro-costos', component: AdministradorTipoCentroCostosComponent },
       { path: 'administracion-centro-ciudad', component: AdministracionCentroCiudadesComponent },
       { path: 'administracion-conf-contable-entidad', component: AdministracionConfContableEntidadComponent },
+      { path: 'administracion-roles', component: GestionRolesUsuariosComponent },
+      { path: 'administracion-usuarios', component: GestionUsuariosComponent },
+      { path: 'administracion-procedimientos', component: GestionProcedimientosComponent },
     ]
   }
   

@@ -66,11 +66,11 @@ export class ContabilidadPmComponent implements OnInit {
       this.dataSourceInfoProcesos.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: 'Error al obtener los procesos de contabilidad a ejecutar',
+            msn: err.error.response.descripcion,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
@@ -110,6 +110,7 @@ export class ContabilidadPmComponent implements OnInit {
             data: {
               respuesta: data.data,
               titulo: "Generar Contabilidad PM - Resultado",
+              tipoContabilidad: "PM"
             }
           });
         },
@@ -118,7 +119,7 @@ export class ContabilidadPmComponent implements OnInit {
             const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_PM.ERROR__GENERATE_PM,
+                msn: err.error.response.description,
                 codigo: GENERALES.CODE_EMERGENT.ERROR
               }
             }); setTimeout(() => { alert.close() }, 3500);

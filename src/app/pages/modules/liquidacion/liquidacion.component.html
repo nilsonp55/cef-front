@@ -6,26 +6,21 @@
     <mat-sidenav-container class="sidenav-container">
         <!--Barra izquierda de opciones (Apodo id = sidenav)-->
         <mat-sidenav #sidenav opened="true" style="width: 17%" mode="side">
-            <!--Imagen de menu
-            <img src="assets/img/menu.png" width="215" style="display:block; margin:auto; margin-top: 10%">-->
+            <!--opciones de menu-->
             <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['servicio-charter']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>assignment icon</mat-icon>
-                <span>Servicio Cherter</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['liquidar-costos']" style="cursor: pointer" routerLinkActive="seleccion-activa">
-                <mat-icon>assignment icon</mat-icon>
-                <span>Liquidar Costos</span>
-            </button>
-            <mat-divider></mat-divider>
+            <div *ngFor="let item of menusLiquidacion">
+                <button mat-menu-item [routerLink]="[item.url]" style="cursor: pointer"
+                    routerLinkActive="seleccion-activa">
+                    <span class="material-icons">{{item.icono}}</span>
+                    <span>{{item.nombre}}</span>
+                </button>
+                <mat-divider></mat-divider>
+            </div> 
         </mat-sidenav>
 
         <!--Barra derecha de ejecución-->
         <mat-sidenav-content class="background-page">
             <router-outlet></router-outlet>
         </mat-sidenav-content>
-
     </mat-sidenav-container>
-
 </div>

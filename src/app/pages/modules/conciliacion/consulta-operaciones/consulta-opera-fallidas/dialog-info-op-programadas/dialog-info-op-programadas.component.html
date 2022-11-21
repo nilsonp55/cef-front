@@ -21,19 +21,19 @@
                     <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="tipoPuntoOrigen" class="mat-column-nombreCampo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO PUNTO ORIGEN</th>
-                    <td mat-cell *matCellDef="let element"> {{element.tipoPuntoOrigen}} </td>
+                <ng-container matColumnDef="nombreFondoTDV" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE FONDO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="codigoPuntoOrigen" class="mat-column-nombreCampo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>COD PUNTO ORIGEN</th>
-                    <td mat-cell *matCellDef="let element"> {{element.codigoPuntoOrigen}} </td>
+                <ng-container matColumnDef="nombrePuntoOrigen" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE P ORIGEN</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombrePuntoOrigen}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="tipoPuntoDestino" class="mat-column-nombreCampo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO DESTINO</th>
-                    <td mat-cell *matCellDef="let element"> {{element.tipoPuntoDestino}} </td>
+                <ng-container matColumnDef="nombrePuntoDestino" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE P DESTINO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombrePuntoDestino}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="codigoPuntoDestino">
@@ -43,22 +43,22 @@
 
                 <ng-container matColumnDef="fechaProgramacion" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROGRAMACION</th>
-                    <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY'}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY' : '+00'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="fechaDestino" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROGRAMACION</th>
-                    <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY'}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY' : '+00'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tasaNegociacion" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROGRAMACION</th>
-                    <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY'}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/YYYY' : '+00'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA ORIGEN</th>
-                    <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY'}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">

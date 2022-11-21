@@ -34,7 +34,6 @@ export class GeneralesService {
     */
     listarBancosAval(): Observable<any> {
         const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
-        console.log("HEADERS: "+headers)
         return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}?esAVAL=true`,{headers});
 
     }
@@ -62,8 +61,8 @@ export class GeneralesService {
     * @BayronPerez
     */
      listarDominioByDominio(dominio: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
-        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio, headers},);
+        //const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio},);
     }
 
     /** 
@@ -71,8 +70,12 @@ export class GeneralesService {
     * @BayronPerez
     */
      listarParametroByFiltro(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
-        return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param, headers });
+        //const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param });
+    }
+
+    listarDominioXDominio(dominio: any): Observable<any> {
+        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DIMINIO_CONSULTAR}`,{params:dominio},);
     }
 
 }

@@ -28,8 +28,8 @@ export class OperacionesProgramadasService {
      * Servicio para cerrar el proceso de carga preliminar
      */
     public procesar(param: any): Observable<any> {
-        //const formData: FormData = new FormData();
-        return this.http.get<any>(`${this.url}${URLs.OPERACIONES_PROGRMADAS_PROCESAR}`,{ params: param });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${this.url}${URLs.OPERACIONES_PROGRMADAS_PROCESAR}`,{ params: param, headers });
     }
 
 }

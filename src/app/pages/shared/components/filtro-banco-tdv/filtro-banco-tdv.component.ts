@@ -21,10 +21,14 @@ export class FiltroBancoTdvComponent implements OnInit {
 
   tranportadoraOptions: TransportadoraModel[]
   bancoOptions: BancoModel[]
-  @Output() 
-  filterData = new EventEmitter<any>();
   banco:string;
   trasportadora:string;
+  selectedOrigen = '';
+  selectedDestino = '';
+
+  
+  @Output() 
+  filterData = new EventEmitter<any>();
 
 
   constructor(
@@ -78,7 +82,11 @@ export class FiltroBancoTdvComponent implements OnInit {
   }
 
   filter(){
-    this.filterData.emit({banco:this.banco,trasportadora:this.trasportadora})
+    this.filterData.emit({banco:this.banco,trasportadora:this.trasportadora,tipoPuntoOrigen:this.selectedOrigen,tipoPuntoDestino:this.selectedDestino})
+  }
+
+  filter2(){
+    this.filterData.emit({banco:this.banco,trasportadora:this.trasportadora,tipoPuntoOrigen:this.selectedOrigen,tipoPuntoDestino:this.selectedDestino})
   }
 
   selectBanco(event){

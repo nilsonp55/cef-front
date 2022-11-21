@@ -1,0 +1,107 @@
+<mat-card class="card-limites">
+    <mat-card-title>TDV Denominacion Cantidad</mat-card-title>
+    <div *ngIf="mostrarTabla">
+        <div class="division-btn">
+            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+                (click)="crearDenominacionCantidad()">Crear TDV-Denominacion Cantidad</button>
+        </div>
+    </div>
+    <div *ngIf="mostrarTabla == false">
+        <div class="division-btn">
+            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+                (click)="irAtras()">Atras</button>
+        </div>
+    </div>
+
+    <div *ngIf="mostrarTabla" class="divTablaCerti">
+        <div class="configScroll">
+            <table mat-table [dataSource]="dataSourceDenominacion" matSort class="mat-elevation-z8">
+                <tr>
+                    <ng-container matColumnDef="idTdvDenCant" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                        <td mat-cell *matCellDef="let element"> {{element.idTdvDenCant}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="transportadora" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSPORTADORA</th>
+                        <td mat-cell *matCellDef="let element"> {{element.transportadoraDTO.nombreTransportadora}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="moneda" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>MONEDA</th>
+                        <td mat-cell *matCellDef="let element"> {{element.moneda}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="denominacion" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>DENOMINACIÓN</th>
+                        <td mat-cell *matCellDef="let element"> {{element.denominacion}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="familia" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>FAMILIA</th>
+                        <td mat-cell *matCellDef="let element"> {{element.familia}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cantidadDenom" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CANT DENOM</th>
+                        <td mat-cell *matCellDef="let element"> {{element.cantidad_por_denom}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="estado" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-button (click)="actualizarDenominacionCantidad(element)">
+                                <mat-icon style="color: green">edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsDenominacion"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsDenominacion;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+        </div>
+        <br>
+    </div>
+
+    <div class="ubicacionTablaCrear">
+        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
+            (ngSubmit)="persistir()">
+            <div style="padding-left: 10%;">
+                <mat-form-field class="example-full-width">
+                    <input type="number" matInput placeholder="Id" formControlName="idTdvDenCant">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Transportadora</mat-label>
+                    <mat-select formControlName="transportadora">
+                        <mat-option *ngFor="let item of transportadoras" [value]="item">
+                            {{item.nombreTransportadora}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input type="text" matInput placeholder="Moneda" formControlName="moneda">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input type="number" matInput placeholder="Denominacion" formControlName="denominacion">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input type="text" matInput placeholder="Familia" formControlName="familia">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input type="number" matInput placeholder="Cantidad Denominacion" formControlName="cantidadDenom">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Estado" required formControlName="estado">
+                </mat-form-field>
+
+            </div>
+            <button mat-raised-button type="submit" class="ubicacion-btn" color="primary"
+                [disabled]="form.invalid">Aceptar</button>
+        </form>
+    </div>
+</mat-card>

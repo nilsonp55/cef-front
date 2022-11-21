@@ -54,11 +54,11 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
       this.dataSourceInfoProcesos.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: 'Error al obtener los procesos de cierre definitivo a ejecutar',
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
@@ -79,7 +79,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.SUCCESFULL_CIERRE_PRELIMINAR,
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.SUCCESFULL_CIERRE_DEFINITIVA,
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
         }
       }); setTimeout(() => { alert.close() }, 3500);

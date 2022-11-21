@@ -27,46 +27,55 @@ export class CargueProgramacionCertificadaService {
      * Metodo para eliminar un registro de archivo previamente cargado
     */
     deleteArchivo(param: any) {
-        return this.http.delete<any>(`${this.url}${URLs.CARGUE_ARCHIVO_ELIMINAR}`, { params: param });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.delete<any>(`${this.url}${URLs.CARGUE_ARCHIVO_ELIMINAR}`, { params: param, headers });
+    }
+
+    /** 
+     * Metodo para eliminar un registro de archivo previamente cargado
+    */
+     reabrirArchivo(param: any) {
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.post<any>(`${this.url}${URLs.CARGUE_ARCHIVO_REABRIR}`, { params: param, headers });
     }
 
     /**
      * Servicio para ralizar la validación de un archivo 
      */
      public consultarArchivosCargaCertificacion(params: any): Observable<any> {
-        const formData: FormData = new FormData();
-        return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_CONSULTAR}`, { params: params });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_CONSULTAR}`, { params: params, headers });
     }
 
     /**
      * Servicio para ralizar la validación de un archivo 
      */
     public validarArchivo(params: any): Observable<any> {
-        const formData: FormData = new FormData();
-        return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_VALIDAR}`, { params: params });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_VALIDAR}`, { params: params, headers });
     }
 
     /**
      * Servicio para ralizar el procesamiento de un archivo 
      */
     public procesarArchivo(params: any): Observable<any> {
-        const formData: FormData = new FormData();
-        return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`, { params: params });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`, { params: params, headers });
     }
 
     /**
      * Servicio para visualizar el detalle de un archivo cargado
      */
      public verDetalleArchivo(param: any): Observable<any> {
-        const formData: FormData = new FormData();
-        return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_HISTORICO}`, { params: param });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_HISTORICO}`, { params: param, headers });
     }
 
     /**
      * Servicio para cerrar el proceso de certificación
      */
      public procesar(param: any): Observable<any> {
-        const formData: FormData = new FormData();
-        return this.http.get<any>(`${environment.HOST}${URLs.STAGE+URLs.PROGRAMACION_CERTIFICACION_CERTIFICACIONES}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`,{ params: param });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${environment.HOST}${URLs.STAGE+URLs.PROGRAMACION_CERTIFICACION_CERTIFICACIONES}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`,{ params: param, headers });
     }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -22,6 +23,11 @@ export class CostosServicioCharterComponent implements OnInit {
   spinnerActive: boolean = false;
   costoEditar: any;
   costoaEditarSeleccionado: any;
+  serializedDate: any;
+  fecha1: any;
+  fecha2: any;
+  mostrarTabla: any = false;
+
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
   displayedColumnsInfoProcesos: string[] = ['bancoAval', 'tdv', 'puntoOrigen', 'puntoDestino', 'tipoServicioProvision', 'valor', 'costoCharter', 'acciones'];
@@ -32,7 +38,7 @@ export class CostosServicioCharterComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.listarCostosFleteCharter(null, null);
+    this.serializedDate = new FormControl(new Date().toISOString());
   }
 
   /**
@@ -40,98 +46,6 @@ export class CostosServicioCharterComponent implements OnInit {
   * @BaironPerez
   */
   listarCostosFleteCharter(fecha_inicial, fecha_final) {
-    const data = [
-      {
-        "idLiquidacion": 1,
-        "billetes": "XXX",
-        "codigoBanco": 297,
-        "codigoTdv": "THO",
-        "escala": "CHARTER",
-        "fajado": "XXX",
-        "fechaEjecucion": "2022-09-02T05:00:00.000+00:00",
-        "monedas": "XXX",
-        "numeroBolsas": 1,
-        "numeroFajos": 1,
-        "numeroParadas": 1,
-        "puntoDestino": 1,
-        "puntoOrigen": 2,
-        "residuoBilletes": 1,
-        "residuoMonedas": 1,
-        "seqGrupo": 1,
-        "tipoOperacion": "VENTA",
-        "tipoPunto": "FONDO",
-        "tipoServicio": "PROGRAMADA",
-        "valorBilletes": 1.0,
-        "valorMonedas": 1.0,
-        "valorTotal": 100.0,
-        "valoresLiquidados": {
-          "idValoresLiq": 1,
-          "clasificacionFajado": 1.0,
-          "clasificacionNoFajado": 1.0,
-          "costoCharter": 15000.0,
-          "costoEmisario": 1.0,
-          "costoFijoParada": 1.0,
-          "costoMoneda": 1.0,
-          "costoPaqueteo": 1.0,
-          "idLiquidacion": 1,
-          "milajePorRuteo": 1.0,
-          "milajeVerificacion": 1.0,
-          "modenaResiduo": 1.0,
-          "tasaAeroportuaria": 1.0
-        },
-        "nombreBanco": "BBOG",
-        "nombreTdv": "PROSEGUR",
-        "nombrePuntoOrigen": "BBOG-SAN ANDRES-ATLAS",
-        "nombrePuntoDestino": "BAVV-SAN ANDRES-ATLAS"
-      },
-      {
-        "idLiquidacion": 2,
-        "billetes": "XXX",
-        "codigoBanco": 297,
-        "codigoTdv": "THO",
-        "escala": "CHARTER",
-        "fajado": "XXX",
-        "fechaEjecucion": "2022-09-02T05:00:00.000+00:00",
-        "monedas": "XXX",
-        "numeroBolsas": 1,
-        "numeroFajos": 1,
-        "numeroParadas": 1,
-        "puntoDestino": 1,
-        "puntoOrigen": 2,
-        "residuoBilletes": 1,
-        "residuoMonedas": 1,
-        "seqGrupo": 1,
-        "tipoOperacion": "VENTA",
-        "tipoPunto": "FONDO",
-        "tipoServicio": "PROGRAMADA",
-        "valorBilletes": 1.0,
-        "valorMonedas": 1.0,
-        "valorTotal": 450.0,
-        "valoresLiquidados": {
-          "idValoresLiq": 1,
-          "clasificacionFajado": 1.0,
-          "clasificacionNoFajado": 1.0,
-          "costoCharter": 15000.0,
-          "costoEmisario": 1.0,
-          "costoFijoParada": 1.0,
-          "costoMoneda": 1.0,
-          "costoPaqueteo": 1.0,
-          "idLiquidacion": 1,
-          "milajePorRuteo": 1.0,
-          "milajeVerificacion": 1.0,
-          "modenaResiduo": 1.0,
-          "tasaAeroportuaria": 1.0
-        },
-        "nombreBanco": "OCCI",
-        "nombreTdv": "OMEGA",
-        "nombrePuntoOrigen": "BBOG-SAN ANDRES-ATLAS",
-        "nombrePuntoDestino": "BAVV-SAN ANDRES-ATLAS"
-      }
-    ]
-
-    this.dataSourceInfoProcesos = new MatTableDataSource(data);
-    this.dataSourceInfoProcesos.sort = this.sort;
-    this.cantidadRegistros = data.length;
     this.costosFleteCharterService.obtenerCostosFleteCharter({
       'fechaInicial': fecha_inicial,
       'fechaFinal': fecha_final
@@ -139,6 +53,7 @@ export class CostosServicioCharterComponent implements OnInit {
       this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
       this.dataSourceInfoProcesos.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.mostrarTabla = true
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -157,10 +72,9 @@ export class CostosServicioCharterComponent implements OnInit {
    * @BaironPerez
    */
   guardar(param: any) {
-    debugger
     const object = {
       idLiquidacion: param.idLiquidacion,
-      costoCharter: this.costoaEditarSeleccionado
+      costoCharter: this.costoEditar
     };
     this.costosFleteCharterService.guardarCostosFleteCharter(object).subscribe(result => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -181,8 +95,27 @@ export class CostosServicioCharterComponent implements OnInit {
     })
   }
 
-  changeCosto(data: any) {
+  /**
+   * Metodo encargado de ejecutar el servicio de buscar por las fechas
+   * seleccionadas
+   * @BaironPerez
+   */
+  buscar() {
+    if(this.fecha1 !== undefined && this.fecha1 !== null && this.fecha2 !== undefined && this.fecha2 !== null) {
+      this.listarCostosFleteCharter(this.fecha1, this.fecha2);
+    } else {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: 'Seleccione ambas fechas',
+          codigo: GENERALES.CODE_EMERGENT.WARNING
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+    }
+  }
 
+  changeValor(param: any) {debugger
+    this.costoEditar += param.target.value;;
   }
   
 }

@@ -71,11 +71,11 @@ export class ArchiCargaCertificacionComponent implements OnInit {
       this.dataSourceInfoArchivo.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
@@ -196,4 +196,33 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     })
   }
 
+  /** 
+  * Metodo para reabrir un registro de archivo previamente cargado
+  * @BaironPerez
+  */
+  reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
+    this.cargueProgramacionCertificadaService.reabrirArchivo({
+      'nombreArchivo': nombreArchivo,
+      'idModeloArchivo': idModeloArchivo
+    }).subscribe(item => {
+      this.listarArchivosCargados();
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.SUCCESFULL_DELETE_FILE,
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        }
+      });
+      setTimeout(() => { alert.close() }, 3000);
+    },
+    (err: any) => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: err.error.response.description,
+          codigo: GENERALES.CODE_EMERGENT.ERROR
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+    })
+  }
 }

@@ -28,14 +28,16 @@ export class CargueArchivosService {
      * Servicio para listar los archivos cargados para el historial paginados
     */
      obtenerArchivosCargados(params: any): Observable<any> {
-        return this.http.get(`${this.urlFileLoad}${URLs.CONSULTAR_X_AGRUPADOR}`, { params: params });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.urlFileLoad}${URLs.CONSULTAR_X_AGRUPADOR}`, { params: params, headers });
     }
 
     /** 
      * Servicio para listar los archivos subidos para listar los arhivos pendientes de carga
     */
      obtenerArchivosSubidosPendientesCarga(params: any): Observable<any> {
-        return this.http.get(`${this.urlFiles}${URLs.PROGRAMACION_PRELIMINAR}${URLs.PROGRAMACION_PRELIMINAR_CONSULTAR}`, { params: params });
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.urlFiles}${URLs.PROGRAMACION_PRELIMINAR}${URLs.PROGRAMACION_PRELIMINAR_CONSULTAR}`, { params: params, headers });
     }
 
     /** 
@@ -53,7 +55,8 @@ export class CargueArchivosService {
     }
 
     visializarArchivo2(params: any): Observable<any> {
-        return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'text' })
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'text', headers })
     }
 
     /**
@@ -62,7 +65,8 @@ export class CargueArchivosService {
      * @returns 
      */
     visializarArchivo3(params: any): Observable<any> {
-        return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob', headers })
         .pipe(
             tap(content => {
                 const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
@@ -77,7 +81,8 @@ export class CargueArchivosService {
  * @returns 
  */
     visializarArchivo4(params: any): Observable<any> {
-        return this.http.get(`${this.urlFile}${URLs.CARGUE_ID_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get(`${this.urlFile}${URLs.CARGUE_ID_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob', headers })
         .pipe(
             tap(content => {
                 const blob = new Blob([content], { type: 'text/plain'});

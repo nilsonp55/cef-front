@@ -1,6 +1,6 @@
 .card-limites {
     margin: 1%;
-    height: 96%;
+    height: 100%;
 }
 
 .margen-checkbox {
@@ -84,6 +84,8 @@
   margin-top: 1%;
 }
 
-table {
-height: 400px !important;
+.dimension-dominio {
+  width: 30%;
 }
+
+

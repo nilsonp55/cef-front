@@ -16,14 +16,17 @@ import * as moment from 'moment';
 export class DialogInfoCertificadasNoConciliadasComponent implements OnInit {
 
   dataSourceInfoOpCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>;
-  displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion','codigoFondoTDV','codigoBanco', 'codigoCiudad', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'tipoPuntoOrigen','tipoPuntoDestino','fechaEjecucion', 'tipoOperacion', 'tipoServicio', 'estadoConciliacion', 'conciliable', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fallidaOficina'];
+  displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion','nombreFondoTDV','codigoBanco', 'codigoCiudad', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'tipoPuntoOrigen','tipoPuntoDestino','fechaEjecucion', 'entradaSalida', 'tipoServicio', 'estadoConciliacion', 'conciliable', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fallidaOficina'];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ConciliacionesCertificadaNoConciliadasModel) { 
-    data.fechaEjecucion = moment(data.fechaEjecucion).format('DD/MM/YYYY')
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: ConciliacionesCertificadaNoConciliadasModel,
+    ) { 
+    //data.fechaEjecucion = moment(data.fechaEjecucion).format('DD/MM/YYYY')
     this.dataSourceInfoOpCertificadas = new MatTableDataSource([data]);
   }
 
   ngOnInit(): void {
+    console.log(this.data)
   }
 
 }

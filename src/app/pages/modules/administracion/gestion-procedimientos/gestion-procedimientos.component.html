@@ -1,0 +1,43 @@
+<!--Tabla Descripción de archivos cargados-->
+<div class="divTabla">
+    <div class="divTituloTablas">
+        <h1 class="tituloTablaProcedimientos">Gestión de Procedimientos Almacenados</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="nombreFuncion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE</th>
+            <td mat-cell *matCellDef="let element"> {{element.nombreFuncion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="descripcionFuncion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>DESCRIPCIÓN</th>
+            <td mat-cell *matCellDef="let element"> {{element.descripcionFuncion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadParametros">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CANT PARAM</th>
+            <td mat-cell *matCellDef="let element"> {{element.cantidadParametros}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+            <td mat-cell *matCellDef="let element" disabled = "codigoProceso">
+                <button mat-button (click)="ejecutar(element)">
+                    <mat-icon style="color: green">assignment_turned_in</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+    </table>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+        (page)="mostrarMas($event)">
+    </mat-paginator>
+
+</div>

@@ -15,7 +15,8 @@ import { URLs } from '../../pages/shared/constantes';
  export class CierreContabilidadService {
 
     private url: string = `${environment.HOST}${URLs.STAGE + URLs.CONTABILIDAD}`;
-
+    private url2: string =  `${environment.HOST}${URLs.STAGE + URLs.AUTORIZACION_CIERRE_CONTABILIDAD}`;
+    
     constructor(private http: HttpClient) { }
 
     /** 
@@ -24,5 +25,9 @@ import { URLs } from '../../pages/shared/constantes';
      cierreContabilidad(param): Observable<any> {
         return this.http.get<any>(`${this.url}${URLs.CIERRE_CONTABILIDAD_CERRAR}`, {params: param});
     }
+
+    cierreContabilidadAutorizacion(param): Observable<any> {
+        return this.http.get<any>(`${this.url2}${URLs.AUTORIZACION_CONTABILIDAD}`, {params: param});
+    } 
 
 }

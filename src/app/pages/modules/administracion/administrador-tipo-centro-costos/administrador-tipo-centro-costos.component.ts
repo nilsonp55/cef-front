@@ -117,7 +117,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
       tablaCentros: this.form.value['tablaCentros'],
     };
 
-    if (this.esEdicion) {debugger
+    if (this.esEdicion) {
       tiposCentrosCostosDTO.tipoCentro = this.idTipoCentro;
       this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO).subscribe(response => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {

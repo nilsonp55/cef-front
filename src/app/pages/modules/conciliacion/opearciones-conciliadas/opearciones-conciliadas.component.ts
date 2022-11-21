@@ -55,11 +55,11 @@ export class OpearcionesConciliadasComponent implements OnInit {
       this.cantidadRegistros = page.data.totalElements;
       
     },
-    (err: ErrorService) => {
+    (err: any) => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_OBTENER_CONCILIADOS,
+          msn: err.error.response.description,
           codigo: GENERALES.CODE_EMERGENT.ERROR
         }
       });
