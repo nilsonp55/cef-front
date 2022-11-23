@@ -57,16 +57,36 @@
               ],
               "outputHashing": "all"
             },
-            "development": {
+            "pruebastecnicas": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": false,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.pt.ts"
+                }
+              ]
+            },
+            "qualiti": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": false,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "pruebastecnicas"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -74,11 +94,14 @@
             "production": {
               "browserTarget": "adminEfectivo:build:production"
             },
-            "development": {
-              "browserTarget": "adminEfectivo:build:development"
+            "qualiti": {
+              "browserTarget": "adminEfectivo:build:qualiti"
+            },
+            "pruebastecnicas": {
+              "browserTarget": "adminEfectivo:build:pruebastecnicas"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "pruebastecnicas"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

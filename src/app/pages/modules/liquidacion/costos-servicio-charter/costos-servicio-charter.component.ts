@@ -24,8 +24,8 @@ export class CostosServicioCharterComponent implements OnInit {
   costoEditar: any;
   costoaEditarSeleccionado: any;
   serializedDate: any;
-  fecha1: any;
-  fecha2: any;
+  fecha1: Date;
+  fecha2: Date;
   mostrarTabla: any = false;
 
   //DataSource para pintar tabla de los procesos a ejecutar
