@@ -37,6 +37,7 @@ export class TarifasOperacionComponent implements OnInit {
   escalas: any[] = [];
   transportadoras: any [] = [];
   idTarifasOperacion: any;
+  valorEstado = "";
   
   date: any;
   serializedDate: any;
@@ -65,7 +66,7 @@ export class TarifasOperacionComponent implements OnInit {
    * Inicializaion formulario de creacion y edicion
    * @BayronPerez
    */
-  initForm(param?: any) {
+  initForm(param?: any) {debugger
       this.form = new FormGroup({
         'idTarifasOperacion': new FormControl(param? param.idTarifasOperacion : null),
         'bancoAval': new FormControl(param? this.selectBancoAval(param) : null),
@@ -76,9 +77,9 @@ export class TarifasOperacionComponent implements OnInit {
         'valorTarifa': new FormControl(param? param.valorTarifa : null),
         'billetes': new FormControl(param? param.billetes : null),
         'monedas': new FormControl(param? param.monedas : null),
-        'fajos': new FormControl(param? param.fajos : null),
+        'fajado': new FormControl(param? param.fajado : null),
         'transportadora': new FormControl(param? this.selectTransportadora(param) : null),
-        'estado': new FormControl(param? param.estado : null),
+        'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
         'fechaVigenciaIni': new FormControl(param? param.fechaVigenciaIni : null),
         'fechaVigenciaFin': new FormControl(param? param.fechaVigenciaFin : null),
       });
@@ -165,7 +166,8 @@ export class TarifasOperacionComponent implements OnInit {
         codigo: this.form.value['transportadora'].codigo
       },
       valorTarifa: Number(this.form.value['valorTarifa']),
-      estado: Number(this.form.value['estado']),
+
+      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
       billetes: this.form.value['billetes'],
       monedas: this.form.value['monedas'],
       fajado: this.form.value['fajado'],
@@ -243,7 +245,8 @@ export class TarifasOperacionComponent implements OnInit {
     this.comisionesAplicar = _comisionAplicar.data;
 
     const _escalas = await this.escalasService.obtenerEscalas().toPromise();
-    this.escalas = _escalas.data;
+    console.log({_escalas})
+    this.escalas = _escalas.data.content;
 
     const _transportadoras = await this.generalesService.listarTransportadoras().toPromise();
     this.transportadoras = _transportadoras.data;
@@ -277,6 +280,26 @@ export class TarifasOperacionComponent implements OnInit {
 
   mostrarMas(e: any) {
     this.listarTarifaOperacion(e.pageIndex, e.pageSize);
+  }
+
+  changeEstado(event) {debugger
+    console.log("lo toco")
+  }
+
+  formatearEstadoPersistir(param: boolean): any {debugger
+    if(param==true){
+      return 1
+    }else {
+      return 2
+    }
+  }
+
+  formatearEstadoListar(param: any): any {debugger
+    if(param==1){
+      return true
+    }else {
+      return false
+    }
   }
 
 }

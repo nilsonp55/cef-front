@@ -51,7 +51,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
    * Inicializaion formulario de creacion y edicion
    * @BayronPerez
    */
-  initForm(param?: any) { 
+  initForm(param?: any) {debugger
       this.form = new FormGroup({
         'idCuentasPuc': new FormControl(param? param.idCuentasPuc : null),
         'cuentaContable': new FormControl(param? param.cuentaContable : null),
@@ -134,7 +134,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
       tiposCuentas: {
         tipoCuenta: this.form.value['tiposCuentas'].tipoCuenta
       },
-      estado: this.form.value['estado']
+      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
     };
 
     if (this.esEdicion) {
@@ -225,6 +225,22 @@ export class AdministradorCuentasPucComponent implements OnInit {
     const _bancos = await this.generalesService.listarBancosAval().toPromise();
     this.bancos = _bancos.data;
 
+  }
+
+  formatearEstadoPersistir(param: boolean): any {debugger
+    if(param==true){
+      return true
+    }else {
+      return false
+    }
+  }
+
+  formatearEstadoListar(param: any): any {debugger
+    if(param==true){
+      return true
+    }else {
+      return false
+    }
   }
 
 }

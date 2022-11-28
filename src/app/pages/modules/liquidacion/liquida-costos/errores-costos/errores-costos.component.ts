@@ -36,7 +36,7 @@ export class ErroresCostosComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any}
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {debugger
     this.titulo = this.data.titulo
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);
     this.dataSourceInfoProcesos.sort = this.sort;

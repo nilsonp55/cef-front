@@ -9,6 +9,7 @@
         </div>
     </div>
     <!--Sprinner-->
+    <app-spinner *ngIf="spinnerActive"></app-spinner>
     <table mat-table *ngIf="spinnerActive == false" [dataSource]="dataSourceInfoProcesos"  matSort class="mat-elevation-z8">
         <ng-container matColumnDef="subactividad">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBACTIVIDAD</th>

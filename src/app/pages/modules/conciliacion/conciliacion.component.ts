@@ -32,6 +32,10 @@ export class ConciliacionComponent implements OnInit {
         'estado': "1",
         'menu.idMenuPadre': "conciliacion"
       }).subscribe(menusrol => {
+        var menuOrdenado = menusrol.data
+        menuOrdenado.sort((a,b) => {
+          return a.menu.idMenu - b.menu.idMenu
+        })
         menusrol.data.forEach(itm => {
           this.menusConsiliacion.push(itm.menu);
         });

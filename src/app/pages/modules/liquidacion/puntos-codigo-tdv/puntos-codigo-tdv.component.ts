@@ -60,7 +60,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
       'punto': new FormControl(param ? this.selectPunto(param) : null),
       'banco': new FormControl(param ? this.selectBanco(param) : null),
-      'estado': new FormControl(param ? param.estado : null)
+      'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
     });
   }
 
@@ -119,7 +119,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     * Se realiza persistencia del formulario de punto codigo
     * @BayronPerez
     */
-  persistir() {
+  persistir(param?: any) {
     const puntoCpdigo = {
       idPuntoCodigoTdv: null,
       codigoTDV: this.form.value['codigoTdv'].codigo,
@@ -131,7 +131,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       puntosDTO: {
         codigoPunto: Number(this.form.value['punto'].codigoPunto)
       },
-      estado: Number(this.form.value['estado']),
+      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
 
     };
 
@@ -233,6 +233,22 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
     changePunto(event) {
       this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
+    }
+
+    formatearEstadoPersistir(param: boolean): any {debugger
+      if(param==true){
+        return 1
+      }else {
+        return 2
+      }
+    }
+  
+    formatearEstadoListar(param: any): any {debugger
+      if(param==1){
+        return true
+      }else {
+        return false
+      }
     }
 
 }

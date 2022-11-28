@@ -15,7 +15,7 @@
 
     <div *ngIf="mostrarTabla" class="divTablaCerti">
         <div class="configScroll">
-            <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort #exporter="matTableExporter">
+            <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort matSortDirection="desc" matSortActive="idEscala" #exporter="matTableExporter">
                 <tr>
                     <ng-container matColumnDef="idEscala" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID ESCALA</th>
@@ -125,10 +125,12 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Estado" required formControlName="estado">
-                </mat-form-field>
+                
+                <label class="switch">
+                    <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                    <span class="switch-label" data-on="On" data-off="Off"></span> 
+                    <span class="switch-handle"></span> 
+                </label>
             </div>
             <button mat-raised-button type="submit" class="ubicacion-btn" color="primary"
                 [disabled]="frmPaciente.invalid">Aceptar</button>

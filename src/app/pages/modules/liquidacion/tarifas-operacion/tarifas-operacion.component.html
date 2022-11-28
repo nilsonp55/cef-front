@@ -105,8 +105,8 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
             </table>
             <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
-            (page)="mostrarMas($event)">
-        </mat-paginator>
+                (page)="mostrarMas($event)">
+            </mat-paginator>
         </div>
         <br>
         <button mat-raised-button color="primary"
@@ -169,7 +169,7 @@
                 </mat-form-field>
 
 
-                <mat-form-field appearance="fill">
+                <mat-form-field class="example-full-width">
                     <mat-label>Comision Aplicar</mat-label>
                     <mat-select formControlName="comisionAplicar">
                         <mat-option *ngFor="let item of comisionesAplicar" [value]="item">
@@ -178,7 +178,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field appearance="fill">
+                <mat-form-field class="example-full-width">
                     <mat-label>Fecha Inicial</mat-label>
                     <input matInput [matDatepicker]="picker1" formControlName="fechaVigenciaIni" value="now">
 
@@ -186,7 +186,7 @@
                     <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field appearance="fill">
+                <mat-form-field class="example-full-width">
                     <mat-label>Fecha final</mat-label>
                     <input matInput [matDatepicker]="picker2" formControlName="fechaVigenciaFin">
 
@@ -194,26 +194,46 @@
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
+                <mat-form-field appearance="fill">
                     <input type="number" matInput placeholder="Valor tarifa" formControlName="valorTarifa">
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input type="text" matInput placeholder="Billetes" formControlName="billetes">
+                <mat-form-field appearance="fill">
+                    <mat-label>Billetes</mat-label>
+                    <select matNativeControl required formControlName="billetes">
+                        <option value="si">SI</option>
+                        <option value="no">NO</option>
+                        <option value="null">NINGUNO</option>
+                    </select>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input type="text" matInput placeholder="Monedas" formControlName="monedas">
+                <mat-form-field appearance="fill">
+                    <mat-label>Monedas</mat-label>
+                    <select matNativeControl required formControlName="monedas">
+                        <option value="si">SI</option>
+                        <option value="no">NO</option>
+                        <option value="null">NINGUNO</option>
+                    </select>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input type="text" matInput placeholder="Fajado" formControlName="fajos">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fajado</mat-label>
+                    <select matNativeControl required formControlName="fajado">
+                        <option value="si">SI</option>
+                        <option value="no">NO</option>
+                        <option value="null">NINGUNO</option>
+                        <option value="mixto">MIXTO</option>
+                    </select>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input type="number" matInput placeholder="Estado" formControlName="estado">
-                </mat-form-field>
+                <label class="switch">
+                    <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                    <span class="switch-label" data-on="On" data-off="Off"></span> 
+                    <span class="switch-handle"></span> 
+                </label>
+
             </div>
+
 
             <!--button style="background-color: #C1DEAE" class="buttonsSaveOremove" mat-raised-button type="submit" [disabled]="frmPaciente.invalid">
                 <span>Aceptar</span>
