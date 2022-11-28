@@ -18,46 +18,51 @@ import { ErrorService } from 'src/app/_model/error.model';
  */
 export class DialogConciliacionManualComponent implements OnInit {
 
+  operacionCerfida : any[] = [];
   dataSourceInfoOpProgramadas: MatTableDataSource<any>;
-  displayedColumnsInfoOpProgramadas: string[] = ['codigoFondoTDV', 'tipoOperacion', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fecha', 'tipoServicio', 'valorTotal'];
+  displayedColumnsInfoOpProgramadas: string[] = ['nombreFondoTDV', 'tipoOperacion', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fecha', 'entradaSalida', 'valorTotal'];
 
-  datosCoparados: any[] = new Array();
+  datosCoparados: any[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private opConciliadasService: OpConciliadasService,
-    private dialog: MatDialog,) {
-    var datosCoparados = new Array()
+    private dialog: MatDialog,) {debugger
+      
+
+     this.datosCoparados = []
     data.origen.forEach(element => {
-      var operacionCerfida = data.destino.filter(operacionProgramada => operacionProgramada.idCertificacion === parseInt(element.relacion))
-      if (operacionCerfida.length > 0) {
-        datosCoparados.push({
+      this.operacionCerfida = null;
+      this.operacionCerfida = data.destino.filter(operacionProgramada => operacionProgramada.idCertificacion === parseInt(element.relacion))
+      if (this.operacionCerfida.length > 0) {
+        this.datosCoparados.push({
           tipoOperacion: element.tipoOperacion,
           valorTotal: element.valorTotal,
+          nombreFondoTDV: element.nombreFondoTDV,
           tipoPuntoDestino: element.tipoPuntoDestino,
-          codigoPuntoOrigen: element.codigoPuntoOrigen,
-          codigoPuntoDestino: element.codigoPuntoDestino,
+          nombrePuntoOrigen: element.nombrePuntoOrigen,
+          nombrePuntoDestino: element.nombrePuntoDestino,
           fechaProgramacion: element.fechaProgramacion,
           fechaOrigen: element.fechaOrigen ? element.fechaOrigen : "",
           fechaDestino: element.fechaDestino,
-          tipoServicio: element.tipoServicio,
+          entradaSalida: element.entradaSalida,
           idOperacion: element.idOperacion
 
         })
-        datosCoparados.push({
-          tipoOperacion: operacionCerfida[0].tipoOperacion,
-          valorTotal: operacionCerfida[0].valorTotal,
-          codigoFondoTDV: operacionCerfida[0].codigoFondoTDV,
-          codigoPuntoOrigen: operacionCerfida[0].codigoPuntoOrigen,
-          fechaEjecucion: operacionCerfida[0].fechaEjecucion ? operacionCerfida[0].fechaEjecucion : " ",
-          codigoPuntoDestino: operacionCerfida[0].codigoPuntoDestino,
-          fechaProgramacion: operacionCerfida[0].fechaProgramacion,
-          tipoServicio: operacionCerfida[0].tipoServicio,
-          idCertificacion: operacionCerfida[0].idCertificacion
+        this.datosCoparados.push({
+          tipoOperacion: this.operacionCerfida[0].tipoOperacion,
+          valorTotal: this.operacionCerfida[0].valorTotal,
+          nombreFondoTDV: this.operacionCerfida[0].nombreFondoTDV,
+          nombrePuntoOrigen: this.operacionCerfida[0].nombrePuntoOrigen,
+          fechaEjecucion: this.operacionCerfida[0].fechaEjecucion ? this.operacionCerfida[0].fechaEjecucion : " ",
+          nombrePuntoDestino: this.operacionCerfida[0].nombrePuntoDestino,
+          fechaProgramacion: this.operacionCerfida[0].fechaProgramacion,
+          entradaSalida: this.operacionCerfida[0].entradaSalida,
+          idCertificacion: this.operacionCerfida[0].idCertificacion
         })
       }
     });
-    this.dataSourceInfoOpProgramadas = new MatTableDataSource(datosCoparados)
+    this.dataSourceInfoOpProgramadas = new MatTableDataSource(this.datosCoparados)
   }
 
   ngOnInit(): void {

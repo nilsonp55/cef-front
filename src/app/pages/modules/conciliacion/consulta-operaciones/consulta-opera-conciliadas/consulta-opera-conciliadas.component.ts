@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+
 import { MatTableDataSource } from '@angular/material/table';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
 import { ErrorService } from 'src/app/_model/error.model';
@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ConciliacionesModel } from 'src/app/_model/consiliacion-model/conciliacion.model';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-consulta-opera-conciliadas',
@@ -21,9 +22,6 @@ import { ConciliacionesModel } from 'src/app/_model/consiliacion-model/conciliac
  */
 export class ConsultaOperaConciliadasComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
   //Rgistros paginados
   cantidadRegistros: number;
 
@@ -33,9 +31,13 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
   dataSourceConciliadas: MatTableDataSource<any>;
   displayedColumnsConciliadas: string[] = ['banco', 'transPortadora','nombreFondo', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'valor', 'tipoConciliacion', 'fechaEjecucion'];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  
   constructor(
-    private dialog: MatDialog,
-    private opConciliadasService: OpConciliadasService) { }
+    private opConciliadasService: OpConciliadasService,
+    private dialog: MatDialog
+    ) { }
 
     
   ngOnInit(): void {

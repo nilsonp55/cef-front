@@ -16,8 +16,7 @@ import * as moment from 'moment';
 export class DialogInfoCertificadasNoConciliadasComponent implements OnInit {
 
   dataSourceInfoOpCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>;
-  displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion','nombreFondoTDV','codigoBanco', 'codigoCiudad', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'tipoPuntoOrigen','tipoPuntoDestino','fechaEjecucion', 'entradaSalida', 'tipoServicio', 'estadoConciliacion', 'conciliable', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fallidaOficina'];
-
+  displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion','nombreFondoTDV','nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'valorFaltante', 'valorSobrante'];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ConciliacionesCertificadaNoConciliadasModel,
     ) { 

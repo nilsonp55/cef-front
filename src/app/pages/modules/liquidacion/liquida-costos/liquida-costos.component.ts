@@ -100,7 +100,7 @@ verValoresLiquidados() {
   const respuesta = this.dialog.open(ResultadoValoresLiquidadosComponent, {
     width: '100%',
     data: {
-      respuesta: this.dataLiquidacionCosots.valoresLiquidados,
+      respuesta: this.dataLiquidacionCosots.respuestaLiquidarCostos,
       titulo: "Valores Liquidados",
     }
   });
@@ -113,7 +113,7 @@ verValoresLiquidados() {
 */
 verErrores() {
   this.erroresCostosService.erroresCostos({
-    'idSeqGrupo':this.dataLiquidacionCosots.valoresLiquidados[0].idSeqGrupo,
+    'idSeqGrupo':this.dataLiquidacionCosots.respuestaLiquidarCostos[0].idSeqGrupo,
   }).subscribe((data: any) => {    
     this.spinnerActive = false;
     const respuesta = this.dialog.open(ErroresCostosComponent, {

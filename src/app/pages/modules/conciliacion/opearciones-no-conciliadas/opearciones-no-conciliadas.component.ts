@@ -42,6 +42,8 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       cantidadRegistrosProgram: number;
       cantidadRegistrosCerti: number;
 
+      idsValue: string;
+
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
 
@@ -52,11 +54,11 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
+  displayedColumnsOperacionesProgramadas: string[] = ['nombreFondoTDV','fechaOrigen', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
   
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'nombreFondoTDV', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   constructor(
@@ -104,13 +106,17 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
    * Metodo que llama al dialog de conciliacion manual
    * @JuanMazo
    */
-  conciliacionManual() {
-    this.dialog.open(DialogConciliacionManualComponent, {
+  conciliacionManual() {debugger
+    this.reset()
+    const valorConciliacion =  this.dialog.open(DialogConciliacionManualComponent, {
       width: 'auto',
       data: {
         origen: this.dataSourceOperacionesProgramadas.data,
         destino: this.dataSourceOperacionesCertificadas.data
       }
+    })
+    valorConciliacion.afterClosed().subscribe(result => {
+    //  opeProgramada.relacion = null; 
     })
   }
 
@@ -190,11 +196,13 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
    * @param opeProgramada 
    * @JuanMazo
    */
-  getIdCompare(event: any, opeProgramada: any) {
+  getIdCompare(event: any, opeProgramada: any) {debugger
     if (event.target.value != '') {
       opeProgramada.relacion = event.target.value
     }
-
+    if (event.target.value == '') {
+      opeProgramada.relacion = undefined
+    }
   }
 
   listarOpProgramadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, puntoDestino: string, pagina = 0, tamanio = 500) {
@@ -252,6 +260,16 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
         });
         setTimeout(() => { alert.close() }, 3000);
       });
+  }
+
+  eventoEnter(event: any, opeProgramada: any) {debugger
+    if (event.target.value != '') {
+      opeProgramada.relacion = event.target.value
+      this.conciliacionManual()
+    }
+    if (event.target.value == '') {
+      opeProgramada.relacion = undefined
+    }
   }
 
   filter(event) {
@@ -335,6 +353,10 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, "", event.tipoPuntoDestino)
       console.log("16")
     }
+  }
+
+  reset() {
+    this.idsValue = "";
   }
 
 }
