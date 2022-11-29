@@ -9,6 +9,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { CargueProgramacionCertificadaService } from 'src/app/_service/programacion-certificada.service/programacion-certificada-service';
+import { CargueProgramacionPreliminarService } from 'src/app/_service/programacion-preliminar-service/cargue-programacion-preliminar.service';
 
 @Component({
   selector: 'app-cierre-certificacion',
@@ -33,6 +34,7 @@ export class CierreCertificacionComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private logProcesoDiarioService: LogProcesoDiarioService,
+    private cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
     private cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
     public spinnerComponent: SpinnerComponent,
   ) { }
@@ -103,5 +105,34 @@ export class CierreCertificacionComponent implements OnInit {
   mostrarMas(e: any) {
     this.listarProcesos(e.pageIndex, e.pageSize);
   }
+
+  /** 
+  * Metodo para reabrir un registro de archivo previamente cargado
+  * @BaironPerez
+  */
+ reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
+  this.cargueProgramacionPreliminarService.reabrirArchivo({
+    'agrupador': "CERTI",
+  }).subscribe(item => {
+    this.listarProcesos();
+    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.SUCCESFULL_DELETE_FILE,
+        codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+      }
+    });
+    setTimeout(() => { alert.close() }, 3000);
+  },
+  (err: any) => {
+    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: err.error.response.description,
+        codigo: GENERALES.CODE_EMERGENT.ERROR
+      }
+    }); setTimeout(() => { alert.close() }, 3000);
+  })
+}
 
 }

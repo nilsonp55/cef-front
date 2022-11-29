@@ -205,6 +205,8 @@ export const URLs = {
   //Operaciones programadas 
   OPERACIONES_PROGRMADAS: '/operaciones-programadas',
   OPERACIONES_PROGRMADAS_PROCESAR: '/procesar',
+  OPERACIONES_PROGRMADAS_REABRIR: '/reabrir',
+
 
   //Conciliación
   CONCILIACION: '/conciliacion',
