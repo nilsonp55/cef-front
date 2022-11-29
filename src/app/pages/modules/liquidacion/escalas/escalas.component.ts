@@ -20,7 +20,7 @@ export class EscalasComponent implements OnInit {
 
   form: FormGroup;
   dataSourceEscalas: MatTableDataSource<any>
-  displayedColumnsEscalas: string[] = ['banco', 'transportadoraOrigen', 'transportadoraDestino', 'escala', 'estado', 'acciones'];
+  displayedColumnsEscalas: string[] = ['idEscala', 'banco', 'transportadoraOrigen', 'transportadoraDestino', 'escala', 'estado', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   mostrarTabla = true;
@@ -32,9 +32,7 @@ export class EscalasComponent implements OnInit {
   escalas: any[] = [];
 
   //Rgistros paginados
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  cantidadRegistros: number;
+
 
   constructor(
     private escalasService: EscalasService,
@@ -49,11 +47,14 @@ export class EscalasComponent implements OnInit {
     this.initForm();
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  cantidadRegistros: number;
   /**
     * Inicializaion formulario de creacion y edicion
     * @BayronPerez
     */
-  initForm(param?: any) {
+  initForm(param?: any) {debugger
     this.form = new FormGroup({
       'idEscala': new FormControl(param ? param.idEscala : null),
       'banco': new FormControl(param ? this.selectBanco(param) : null),
@@ -62,7 +63,7 @@ export class EscalasComponent implements OnInit {
       'ciudadOrigen': new FormControl(param ? this.selectCiudadOrigen(param) : null),
       'ciudadDestino': new FormControl(param ? this.selectCiudadDestino(param) : null),
       'escala': new FormControl(param ? param.escala : null),
-      'estado': new FormControl(param ? param.estado : null)
+      'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
     });
   }
 
@@ -158,7 +159,7 @@ export class EscalasComponent implements OnInit {
         codigoDANE: this.form.value['ciudadDestino'].codigoDANE
       },
       escala: this.form.value['escala'],
-      estado: Number(this.form.value['estado']),
+      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
 
     };
 
@@ -255,6 +256,22 @@ export class EscalasComponent implements OnInit {
     }).toPromise();
     this.escalas = _escalas.data;
 
+  }
+
+  formatearEstadoPersistir(param: boolean): any {
+    if(param==true){
+      return 1
+    }else {
+      return 2
+    }
+  }
+
+  formatearEstadoListar(param: any): any {
+    if(param==1){
+      return true
+    }else {
+      return false
+    }
   }
 
   mostrarMas(e: any) {

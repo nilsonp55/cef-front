@@ -121,6 +121,7 @@ import { TdvDenominacionCantidadComponent } from './pages/modules/liquidacion/td
 import { GestionUsuariosComponent } from './pages/modules/administracion/gestion-usuarios/gestion-usuarios.component';
 import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
 import { EjecutarProcedimientoComponent } from './pages/modules/administracion/gestion-procedimientos/ejecutar-procedimiento/ejecutar-procedimiento.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -260,6 +261,7 @@ import { EjecutarProcedimientoComponent } from './pages/modules/administracion/g
     MatSelectModule,
     MatCheckboxModule,
     MatTableExporterModule,
+    MatSlideToggleModule
   ],
   providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent],
   bootstrap: [AppComponent]

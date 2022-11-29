@@ -71,7 +71,7 @@ export class CostosServicioCharterComponent implements OnInit {
    * procesos activos
    * @BaironPerez
    */
-  guardar(param: any) {
+  guardar(param: any) {debugger
     const object = {
       idLiquidacion: param.idLiquidacion,
       costoCharter: this.costoEditar
@@ -84,6 +84,7 @@ export class CostosServicioCharterComponent implements OnInit {
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
         }
       }); setTimeout(() => { alert.close() }, 5000);
+      this.costoEditar = undefined;
     }, (err: ErrorService) => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -115,7 +116,7 @@ export class CostosServicioCharterComponent implements OnInit {
   }
 
   changeValor(param: any) {debugger
-    this.costoEditar += param.target.value;;
+    this.costoEditar = param.target.value;;
   }
   
 }

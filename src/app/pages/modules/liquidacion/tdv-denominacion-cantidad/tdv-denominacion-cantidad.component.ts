@@ -28,6 +28,9 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   bancos: any[] = [];
   transportadoras: any[] = [];
   ciudades: any[] = [];
+  monedas: any[] = [];
+  denominaciones: any[] = [];
+  familias: any[] = [];
 
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -52,7 +55,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
     * Inicializaion formulario de creacion y edicion
     * @BayronPerez
     */
-  initForm(param?: any) {
+  initForm(param?: any) {debugger
     this.form = new FormGroup({
       'idTdvDenCant': new FormControl(param ? param.idTdvDenCant : null),
       'transportadora': new FormControl(param ? this.selectTransportadorasOrigen(param) : null),
@@ -60,7 +63,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       'denominacion': new FormControl(param ? param.denominacion : null),
       'familia': new FormControl(param ? param.familia : null),
       'cantidadDenom': new FormControl(param ? param.cantidad_por_denom : null),
-      'estado': new FormControl(param ? param.estado : null)
+      'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
     });
   }
 
@@ -102,14 +105,14 @@ export class TdvDenominacionCantidadComponent implements OnInit {
     * Se realiza persistencia del formulario de tdv denominacion
     * @BayronPerez
     */
-  persistir() {
+  persistir(param?: any) {
     let denominacionCantidad = {
       idTdvDenCant: 0,
       transportadoraDTO: {
         codigo: this.form.value['transportadora'].codigo
       },
       moneda: this.form.value['moneda'],
-      denominacion: this.form.value['denominacion'],
+      denominacion: Number(this.form.value['denominacion']),
       familia: this.form.value['familia'],
       cantidad_por_denom: this.form.value['cantidadDenom'],
       estado: Number(this.form.value['estado']),
@@ -184,7 +187,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
     * Se muestra el formulario para actualizar escala
     * @BayronPerez
     */
-  actualizarDenominacionCantidad(element) {debugger
+  actualizarDenominacionCantidad(element) {
     this.initForm(element)
     this.mostrarFormulario = true;
     this.idTdvDenCant = this.form.get('idTdvDenCant').value;
@@ -202,6 +205,22 @@ export class TdvDenominacionCantidadComponent implements OnInit {
 
     const _ciudades = await this.generalesService.listarCiudades().toPromise();
     this.ciudades = _ciudades.data;
+
+    const _monedas = await this.generalesService.listarDominioByDominio({
+      'dominio':"TIPO_MONEDA"
+    }).toPromise();
+    this.monedas = _monedas.data;
+
+    const _denominaciones = await this.generalesService.listarDominioByDominio({
+      'dominio':"DENOMINACION"
+    }).toPromise();
+    this.denominaciones = _denominaciones.data;
+
+    const _familias = await this.generalesService.listarDominioByDominio({
+      'dominio':"FAMILIAS"
+    }).toPromise();
+    this.familias = _familias.data;
+
   }
 
   irAtras() {
@@ -214,5 +233,21 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   */
    mostrarMas(e: any) {
     this.listarDenominacion(e.pageIndex, e.pageSize);
+  }
+
+  formatearEstadoPersistir(param: boolean): any {debugger
+    if(param==true){
+      return 1
+    }else {
+      return 2
+    }
+  }
+
+  formatearEstadoListar(param: any): any {debugger
+    if(param==1){
+      return true
+    }else {
+      return false
+    }
   }
 }

@@ -26,6 +26,6 @@ export class DialogInfoProgramadasNoConciliadasComponent implements OnInit {
 
   }
 
-  displayedColumnsInfoOpProgramadas: string[] = ['nombreFondoTDV','codigoFondoTDV','entradaSalida', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fechaProgramacion','fechaOrigen','fechaDestino', 'tipoOperacion', 'tipoTransporte', 'valorTotal', 'estadoOperacion', 'idNegociacion', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio' ];
+  displayedColumnsInfoOpProgramadas: string[] = ['nombreFondoTDV', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaProgramacion','fechaOrigen','fechaDestino', 'tipoOperacion', 'valorTotal' ];
 
 }

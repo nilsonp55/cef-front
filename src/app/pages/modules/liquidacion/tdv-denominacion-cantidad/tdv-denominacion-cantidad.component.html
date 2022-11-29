@@ -79,25 +79,42 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input type="text" matInput placeholder="Moneda" formControlName="moneda">
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipo de moneda</mat-label>
+                    <mat-select formControlName="moneda">
+                        <mat-option *ngFor="let item of monedas" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input type="number" matInput placeholder="Denominacion" formControlName="denominacion">
+                <mat-form-field appearance="fill">
+                    <mat-label>Denominacion</mat-label>
+                    <mat-select formControlName="denominacion">
+                        <mat-option *ngFor="let item of denominaciones" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input type="text" matInput placeholder="Familia" formControlName="familia">
+                <mat-form-field appearance="fill">
+                    <mat-label>Familia</mat-label>
+                    <mat-select formControlName="familia">
+                        <mat-option *ngFor="let item of familias" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
                     <input type="number" matInput placeholder="Cantidad Denominacion" formControlName="cantidadDenom">
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Estado" required formControlName="estado">
-                </mat-form-field>
+                <label class="switch">
+                    <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                    <span class="switch-label" data-on="On" data-off="Off"></span> 
+                    <span class="switch-handle"></span> 
+                </label>
 
             </div>
             <button mat-raised-button type="submit" class="ubicacion-btn" color="primary"

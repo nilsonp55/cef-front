@@ -74,7 +74,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumnsConciliadas;"></tr>
         </table>
     </div>
-    <mat-paginator [pageSize]="500" [pageSizeOptions]="[500]" [length]="cantidadRegistros"
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
         (page)="mostrarMas($event)">
     </mat-paginator>
     <button mat-raised-button color="primary" 
