@@ -32,8 +32,12 @@
     margin-left: 2%;
     margin-right: 10%;
     margin-bottom: auto;
-  }
+}
 
+.division-estado {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
   .switch {
 	position: relative;
 	display: block;
