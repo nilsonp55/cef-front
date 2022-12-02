@@ -14,7 +14,6 @@ import { AppComponent } from './app.component';
 import { MatCardModule} from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './pages/login/login.component';
 import { CargueProgramacionComponent } from './pages/modules/cargue-programacion/cargue-programacion.component';
 import { ConciliacionComponent } from './pages/modules/conciliacion/conciliacion.component';
 import { ContabilizacionComponent } from './pages/modules/contabilizacion/contabilizacion.component';
@@ -127,7 +126,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent,
     CargueProgramacionComponent,
     ConciliacionComponent,
     ContabilizacionComponent,
