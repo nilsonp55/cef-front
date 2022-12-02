@@ -39,7 +39,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
     console.log();
   }
 
-  confirmValor(idCampo, idBoton, valordefectoParam) {
+  confirmValor(idCampo, idBoton, valordefectoParam) {debugger
     //this.concatString += this.valorDefecto + ',';
     let valor = document.getElementById(idCampo);
     if(this.valorDefecto !== ""){
@@ -54,7 +54,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
   }
   
 
-  changeValor(param) {
+  changeValor(param) {debugger
     this.valorDefecto = ""; 
     this.valorDefecto += param.target.value;
   }

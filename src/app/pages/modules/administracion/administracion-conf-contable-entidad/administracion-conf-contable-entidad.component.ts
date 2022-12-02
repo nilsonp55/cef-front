@@ -21,7 +21,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['tipoTr','dc', 'tOpera', 'cuenta', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['banco','tipoTr','dc', 'tOpera', 'cuenta', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   esEdicion: boolean;

@@ -27,3 +27,8 @@
   .example-margin {
     margin: 0 10px;
   }
+
+  .tamanio-btn {
+    width: auto !important;
+    text-align: center;
+  }

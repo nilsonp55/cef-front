@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './pages/login/login.component';
 import { AdministracionComponent } from './pages/modules/administracion/administracion.component';
 import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/cargue-definitivo.component';
 import { CargueInicialComponent } from './pages/modules/cargue-programacion/cargue-inicial/cargue-inicial.component';
@@ -51,7 +50,6 @@ import { TdvDenominacionCantidadComponent } from './pages/modules/liquidacion/td
 import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
 
 const routes: Routes = [
-  //{ path: '', component: LoginComponent },
   { path: '', component: InitAppComponent },
   { path: 'home', component: HomeComponent },
   {

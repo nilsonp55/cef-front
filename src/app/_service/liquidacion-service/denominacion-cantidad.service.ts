@@ -37,6 +37,6 @@ export class DenominacionCantidadService {
      * Servicio para gurdar una Denominacion cantidad
      */
     actualizarDenominacionCantidad(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.DENOMINACION_CANTIDAD_ACTUALIZAR}`, param);
+        return this.http.put<any>(`${this.url}${URLs.DENOMINACION_CANTIDAD_ACTUALIZAR}`, param);
     }
 }
