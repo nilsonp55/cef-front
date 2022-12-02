@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ProcedimientosAlmacenadosService } from 'src/app/_service/administracion-service/procedimientos-almacenados.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-ejecutar-procedimiento',
@@ -21,7 +22,9 @@ export class EjecutarProcedimientoComponent implements OnInit {
   public parametrosFuncionesDinamicasDTO: any[] = [];
   public idFuncion: any;
   spinnerActive: boolean = false;
-
+  dataSourceResponse: MatTableDataSource<any>;
+  displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3'];
+  mostrarTabla: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {funcion:any, data: any},
     private procedimientosAlmacenadosService: ProcedimientosAlmacenadosService,
@@ -40,15 +43,16 @@ export class EjecutarProcedimientoComponent implements OnInit {
     //this.concatString += this.valorDefecto + ',';
     let valor = document.getElementById(idCampo);
     if(this.valorDefecto !== ""){
-      this.concatString += "'"+ this.valorDefecto +"'"+ ',';
+      this.concatString += this.valorDefecto + ',';
     } else {
-      this.concatString += "'"+ valordefectoParam +"'"+ ',';
+      this.concatString += valordefectoParam + ',';
     }
     valor.setAttribute('disabled', '');
     const boton = document.getElementById(idBoton);
     boton.setAttribute('disabled', '');
     boton.innerHTML = 'Confirmado';
   }
+  
 
   changeValor(param) {
     this.valorDefecto = ""; 
@@ -59,7 +63,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
    * Metodo encargado de ejecutar el procedimiento almacenado
    * BayronPerez
    */
-  ejecutar() {debugger
+  ejecutar() {
     let formato = this.concatString.substr(0,this.concatString.length -1)
     const body ={
       "idFuncion": this.idFuncion,
@@ -67,14 +71,32 @@ export class EjecutarProcedimientoComponent implements OnInit {
     }
     this.procedimientosAlmacenadosService.guardarProcedimientos(body).subscribe(data => {
       this.spinnerActive = false;
+      let listResponse: any[]= [];
+      data.data.forEach(item => {
+        let c1;
+        let c2;
+        let c3;
+        if(item !== null){
+          let resp = item.split(',');
+          const object = {
+            campo1:  resp[0],
+            campo2: resp[1],
+            campo3: resp[2]
+          }
+          listResponse.push(object);
+        }
+        
+      });
+      this.dataSourceResponse = new MatTableDataSource(listResponse);
+      this.mostrarTabla = true;
+
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
-          msn: 'Error al ejecutar el procedimiento almacenado',
+          msn: 'Se ejecuto el procedimiento almacenado',
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
         }
       }); setTimeout(() => { alert.close() }, 3000);
-      this.dialogRef.close();
     },
       (err: any) => {
         this.spinnerActive = false;
