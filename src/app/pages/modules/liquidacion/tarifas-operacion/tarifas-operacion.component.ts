@@ -66,7 +66,7 @@ export class TarifasOperacionComponent implements OnInit {
    * Inicializaion formulario de creacion y edicion
    * @BayronPerez
    */
-  initForm(param?: any) {debugger
+  initForm(param?: any) {
       this.form = new FormGroup({
         'idTarifasOperacion': new FormControl(param? param.idTarifasOperacion : null),
         'bancoAval': new FormControl(param? this.selectBancoAval(param) : null),
@@ -158,7 +158,7 @@ export class TarifasOperacionComponent implements OnInit {
       },
       tipoOperacion: this.form.value['tipoOperacion'],
       tipoServicio: this.form.value['tipoServicio'],
-      escala: this.form.value['escala'].escala,
+      escala: this.form.value['escala'],
       comisionAplicar: this.form.value['comisionAplicar'],
       tipoImpuesto: Number(this.form.value['tipoImpuesto']),
       medioPago: this.form.value['medioPago'],
@@ -244,9 +244,10 @@ export class TarifasOperacionComponent implements OnInit {
     }).toPromise();
     this.comisionesAplicar = _comisionAplicar.data;
 
-    const _escalas = await this.escalasService.obtenerEscalas().toPromise();
-    console.log({_escalas})
-    this.escalas = _escalas.data.content;
+    const _escalas = await this.generalesService.listarDominioByDominio({
+      'dominio':"ESCALA"
+    }).toPromise();
+    this.escalas = _escalas.data;
 
     const _transportadoras = await this.generalesService.listarTransportadoras().toPromise();
     this.transportadoras = _transportadoras.data;
@@ -282,11 +283,11 @@ export class TarifasOperacionComponent implements OnInit {
     this.listarTarifaOperacion(e.pageIndex, e.pageSize);
   }
 
-  changeEstado(event) {debugger
+  changeEstado(event) {
     console.log("lo toco")
   }
 
-  formatearEstadoPersistir(param: boolean): any {debugger
+  formatearEstadoPersistir(param: boolean): any {
     if(param==true){
       return 1
     }else {
@@ -294,7 +295,7 @@ export class TarifasOperacionComponent implements OnInit {
     }
   }
 
-  formatearEstadoListar(param: any): any {debugger
+  formatearEstadoListar(param: any): any {
     if(param==1){
       return true
     }else {

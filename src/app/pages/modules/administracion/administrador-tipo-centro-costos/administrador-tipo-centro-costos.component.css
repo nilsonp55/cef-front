@@ -14,4 +14,9 @@
     text-align: left;
     float:left;
     margin-top: 1%;
+}
+
+.tamanio-btn {
+    width: auto !important;
+    text-align: center;
   }

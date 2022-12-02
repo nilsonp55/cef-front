@@ -36,13 +36,13 @@ export class EjecutarProcedimientoComponent implements OnInit {
     console.log();
   }
 
-  confirmValor(idCampo, idBoton, valordefectoParam) {
+  confirmValor(idCampo, idBoton, valordefectoParam) {debugger
     //this.concatString += this.valorDefecto + ',';
     let valor = document.getElementById(idCampo);
     if(this.valorDefecto !== ""){
-      this.concatString += "'"+ this.valorDefecto +"'"+ ',';
+      this.concatString += valordefectoParam + ',';
     } else {
-      this.concatString += "'"+ valordefectoParam +"'"+ ',';
+      this.concatString += valordefectoParam + ',';
     }
     valor.setAttribute('disabled', '');
     const boton = document.getElementById(idBoton);
@@ -50,7 +50,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
     boton.innerHTML = 'Confirmado';
   }
 
-  changeValor(param) {
+  changeValor(param) {debugger
     this.valorDefecto = ""; 
     this.valorDefecto += param.target.value;
   }

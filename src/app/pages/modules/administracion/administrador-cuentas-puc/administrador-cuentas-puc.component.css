@@ -16,6 +16,11 @@
     margin-top: 1%;
 }
 
+.tamanio-btn {
+    width: auto !important;
+    text-align: center;
+}
+
 .switch {
 	position: relative;
 	display: block;

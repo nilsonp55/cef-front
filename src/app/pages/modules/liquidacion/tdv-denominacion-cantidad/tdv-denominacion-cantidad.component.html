@@ -72,7 +72,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>Transportadora</mat-label>
-                    <mat-select formControlName="transportadora">
+                    <mat-select required formControlName="transportadora">
                         <mat-option *ngFor="let item of transportadoras" [value]="item">
                             {{item.nombreTransportadora}}
                         </mat-option>
@@ -81,7 +81,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>Tipo de moneda</mat-label>
-                    <mat-select formControlName="moneda">
+                    <mat-select required formControlName="moneda">
                         <mat-option *ngFor="let item of monedas" [value]="item">
                             {{item}}
                         </mat-option>
@@ -90,7 +90,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>Denominacion</mat-label>
-                    <mat-select formControlName="denominacion">
+                    <mat-select required formControlName="denominacion">
                         <mat-option *ngFor="let item of denominaciones" [value]="item">
                             {{item}}
                         </mat-option>
@@ -99,7 +99,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>Familia</mat-label>
-                    <mat-select formControlName="familia">
+                    <mat-select required formControlName="familia">
                         <mat-option *ngFor="let item of familias" [value]="item">
                             {{item}}
                         </mat-option>
@@ -107,14 +107,17 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input type="number" matInput placeholder="Cantidad Denominacion" formControlName="cantidadDenom">
+                    <input required type="text" min="0" pattern="[0-9]+" matInput placeholder="Cantidad Denominacion" formControlName="cantidadDenom">
                 </mat-form-field>
 
-                <label class="switch">
-                    <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
-                    <span class="switch-label" data-on="On" data-off="Off"></span> 
-                    <span class="switch-handle"></span> 
-                </label>
+                <div class="division-estado">
+                    <label class="switch" >
+                        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                    <p>ESTADO</p>
+                </div>
 
             </div>
             <button mat-raised-button type="submit" class="ubicacion-btn" color="primary"
