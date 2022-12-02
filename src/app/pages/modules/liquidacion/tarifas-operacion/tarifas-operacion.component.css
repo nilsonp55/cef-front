@@ -49,6 +49,10 @@
     margin-bottom: auto;
   }
 
+  .division-estado {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
 
 
 .switch {

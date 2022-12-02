@@ -60,7 +60,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       'idTdvDenCant': new FormControl(param ? param.idTdvDenCant : null),
       'transportadora': new FormControl(param ? this.selectTransportadorasOrigen(param) : null),
       'moneda': new FormControl(param ? param.moneda : null),
-      'denominacion': new FormControl(param ? param.denominacion : null),
+      'denominacion': new FormControl(param ? String(param.denominacion) : null),
       'familia': new FormControl(param ? param.familia : null),
       'cantidadDenom': new FormControl(param ? param.cantidad_por_denom : null),
       'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
@@ -80,7 +80,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
    * Lista los Escalas
    * @BayronPerez
    */
-  listarDenominacion(pagina = 0, tamanio = 5) {debugger
+  listarDenominacion(pagina = 0, tamanio = 5) {
     this.eenominacionCantidadService.obtenerDenominacionCantidad({
       page: pagina,
       size: tamanio,

@@ -67,10 +67,11 @@
                     <input matInput placeholder="Codigo Centro" required formControlName="codigoCentro">
                 </mat-form-field>
             </div>
-            <button style="background-color: #C1DEAE" class="buttonsSaveOremove" mat-raised-button type="submit"
-                [disabled]="frmPaciente.invalid">
-                <span>Aceptar</span>
-            </button>
+            <div  class="tamanio-btn">
+                <button mat-raised-button color="primary" type="submit" [disabled]="frmPaciente.invalid">
+                    Aceptar
+                </button>
+                </div>
         </form>
     </div>
 </mat-card>

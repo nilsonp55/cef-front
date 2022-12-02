@@ -66,7 +66,6 @@ generarLiquidacionCostos() {debugger
   this.spinnerActive = true;
   this.liquidarCostosService.liquidarCosots().subscribe((data: any) => {
     this.dataLiquidacionCosots = data.data;
-    console.log(data)
     //Se construye tabla de info
     const tabla = [
       { nombre: "Cantidad operaciones liquidadas", cantidad: this.dataLiquidacionCosots.cantidadOperacionesLiquidadas, estado: true },
@@ -85,7 +84,7 @@ generarLiquidacionCostos() {debugger
           msn: err.error.response.description,
           codigo: GENERALES.CODE_EMERGENT.ERROR
         }
-      }); setTimeout(() => { alert.close() }, 3000);
+      }); setTimeout(() => { alert.close() }, 10000);
     });
 }
 
@@ -96,7 +95,6 @@ generarLiquidacionCostos() {debugger
  * @BaironPerez
  */
 verValoresLiquidados() {
-  console.log("Entro a resultado")
   const respuesta = this.dialog.open(ResultadoValoresLiquidadosComponent, {
     width: '100%',
     data: {

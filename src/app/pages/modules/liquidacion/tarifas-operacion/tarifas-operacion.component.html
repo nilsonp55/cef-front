@@ -125,7 +125,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>Bancos</mat-label>
-                    <mat-select formControlName="bancoAval">
+                    <mat-select required formControlName="bancoAval">
                         <mat-option *ngFor="let item of bancos" [value]="item">
                             {{item.nombreBanco}}
                         </mat-option>
@@ -154,14 +154,14 @@
                     <mat-label>Escala</mat-label>
                     <mat-select formControlName="escala">
                         <mat-option *ngFor="let item of escalas" [value]="item">
-                            {{item.escala}}
+                            {{item}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
                     <mat-label>Transportadoras</mat-label>
-                    <mat-select formControlName="transportadora">
+                    <mat-select required formControlName="transportadora">
                         <mat-option *ngFor="let item of transportadoras" [value]="item">
                             {{item.nombreTransportadora}}
                         </mat-option>
@@ -171,7 +171,7 @@
 
                 <mat-form-field class="example-full-width">
                     <mat-label>Comision Aplicar</mat-label>
-                    <mat-select formControlName="comisionAplicar">
+                    <mat-select required formControlName="comisionAplicar">
                         <mat-option *ngFor="let item of comisionesAplicar" [value]="item">
                             {{item}}
                         </mat-option>
@@ -180,7 +180,7 @@
 
                 <mat-form-field class="example-full-width">
                     <mat-label>Fecha Inicial</mat-label>
-                    <input matInput [matDatepicker]="picker1" formControlName="fechaVigenciaIni" value="now">
+                    <input required matInput [matDatepicker]="picker1" readonly="true" formControlName="fechaVigenciaIni" value="now">
 
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
@@ -188,14 +188,14 @@
 
                 <mat-form-field class="example-full-width">
                     <mat-label>Fecha final</mat-label>
-                    <input matInput [matDatepicker]="picker2" formControlName="fechaVigenciaFin">
+                    <input required matInput [matDatepicker]="picker2" readonly="true" formControlName="fechaVigenciaFin">
 
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
-                    <input type="number" matInput placeholder="Valor tarifa" formControlName="valorTarifa">
+                    <input type="text" min="0" pattern="[0-9]+" matInput placeholder="Valor tarifa" formControlName="valorTarifa">
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -226,11 +226,14 @@
                     </select>
                 </mat-form-field>
 
-                <label class="switch">
-                    <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
-                    <span class="switch-label" data-on="On" data-off="Off"></span> 
-                    <span class="switch-handle"></span> 
-                </label>
+                <div class="division-estado">
+                    <label class="switch" >
+                        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                    <p>ESTADO</p>
+                </div>
 
             </div>
 

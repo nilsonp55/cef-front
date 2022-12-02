@@ -126,11 +126,14 @@
                     </mat-select>
                 </mat-form-field>
                 
-                <label class="switch">
-                    <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
-                    <span class="switch-label" data-on="On" data-off="Off"></span> 
-                    <span class="switch-handle"></span> 
-                </label>
+                <div class="division-estado">
+                    <label class="switch" >
+                        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                    <p>ESTADO</p>
+                </div>
             </div>
             <button mat-raised-button type="submit" class="ubicacion-btn" color="primary"
                 [disabled]="frmPaciente.invalid">Aceptar</button>
