@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
@@ -15,7 +15,8 @@ import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/
  * @BaironPerez
 */
 export class CargueInicialComponent implements OnInit {
-
+  
+  @Input() tipoCargue: any;
   public fileList: File[] = [];
 
   @ViewChild('inputFile', { static: false }) public inputFile: ElementRef;
@@ -32,7 +33,7 @@ export class CargueInicialComponent implements OnInit {
    * Metodo encargado de procesar y guarda el archivo en una dirección especifica
    * @BaironPerez
    */
-  public fileChange(target: EventTarget): void {
+  public fileChange(target: EventTarget): void {debugger
     let validSize = true;
     let validName = true;
     let files: File[] = target['files'];
@@ -54,7 +55,12 @@ export class CargueInicialComponent implements OnInit {
         this.fileList = this.fileList.filter(temp => temp.name !== f.name);
         this.fileList.push(f);
       });
-      this.cargueArchivosService.saveFile(this.fileList).subscribe(data => {
+
+      const formData: FormData = new FormData();
+        for (const file of this.fileList) {
+            formData.append('file', file, file.name);
+        }
+      this.cargueArchivosService.saveFile(this.fileList, this.tipoCargue).subscribe(data => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
