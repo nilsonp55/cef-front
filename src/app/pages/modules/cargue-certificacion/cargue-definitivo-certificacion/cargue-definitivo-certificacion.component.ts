@@ -14,7 +14,8 @@ export class CargueDefinitivoCertificacionComponent implements OnInit {
 
   //Stepper
   isLinear = false;
-  
+  tipoCargue= "DEFIN"
+
   constructor() { }
 
   ngOnInit(): void {
