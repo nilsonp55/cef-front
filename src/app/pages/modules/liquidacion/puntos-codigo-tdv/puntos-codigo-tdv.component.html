@@ -78,7 +78,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>Punto</mat-label>
-                    <mat-select formControlName="punto" (selectionChange)="changePunto($event)">
+                    <mat-select required formControlName="punto" (selectionChange)="changePunto($event)">
                         <mat-option *ngFor="let item of puntos" [value]="item">
                             {{item.nombrePunto}}
                         </mat-option>
@@ -91,7 +91,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>TDV</mat-label>
-                    <mat-select formControlName="codigoTdv">
+                    <mat-select required formControlName="codigoTdv">
                         <mat-option *ngFor="let item of transportadoras" [value]="item">
                             {{item.nombreTransportadora}}
                         </mat-option>
@@ -104,7 +104,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>Banco</mat-label>
-                    <mat-select formControlName="banco">
+                    <mat-select required formControlName="banco">
                         <mat-option *ngFor="let item of bancos" [value]="item">
                             {{item.nombreBanco}}
                         </mat-option>
