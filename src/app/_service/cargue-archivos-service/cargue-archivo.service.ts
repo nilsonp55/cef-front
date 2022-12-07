@@ -106,7 +106,8 @@ export class CargueArchivosService {
             typeCargue: tipoCargue
         }
         
-        return this.http.post<any>(`'http:localhost:8080'${URLs.API_VERSION}${URLs.CARGUE_ARCHIVO_GUARDAR}`, formData);
+        return this.http.post<any>(`${this.urlFile}${URLs.CARGUE_ARCHIVO_GUARDAR}`, formData);
+        
     }
 
 }
