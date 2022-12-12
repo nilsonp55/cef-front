@@ -103,7 +103,7 @@ export class CargueArchivosService {
         }
         const object = {
             file: formData,
-            typeCargue: tipoCargue
+            tipoCargue: tipoCargue
         }
         
         return this.http.post<any>(`${this.urlFile}${URLs.CARGUE_ARCHIVO_GUARDAR}`, formData);
