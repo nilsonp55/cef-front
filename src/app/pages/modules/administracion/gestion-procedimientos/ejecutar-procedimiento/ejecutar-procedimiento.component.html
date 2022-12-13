@@ -38,18 +38,48 @@
         <div>
             <table mat-table matTableExporter [dataSource]="dataSourceResponse" #exporter="matTableExporter" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="campo1">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO1</th>
                     <td mat-cell *matCellDef="let element"> {{element.campo1}} </td>
                 </ng-container>
         
                 <ng-container matColumnDef="campo2">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CANTIDAD ESTIMADA</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO2</th>
                     <td mat-cell *matCellDef="let element"> {{element.campo2}} </td>
                 </ng-container>
         
                 <ng-container matColumnDef="campo3">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CANTIDAD ESTIMADA</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO3</th>
                     <td mat-cell *matCellDef="let element"> {{element.campo3}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="campo4">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO4</th>
+                    <td mat-cell *matCellDef="let element"> {{element.campo4}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="campo5">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO5</th>
+                    <td mat-cell *matCellDef="let element"> {{element.campo5}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="campo6">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO6</th>
+                    <td mat-cell *matCellDef="let element"> {{element.campo6}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="campo7">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO7</th>
+                    <td mat-cell *matCellDef="let element"> {{element.campo7}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="campo8">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO8</th>
+                    <td mat-cell *matCellDef="let element"> {{element.campo8}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="campo9">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO9</th>
+                    <td mat-cell *matCellDef="let element"> {{element.campo9}} </td>
                 </ng-container>
         
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
