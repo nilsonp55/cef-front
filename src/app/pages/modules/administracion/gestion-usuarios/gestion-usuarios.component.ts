@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -45,7 +45,7 @@ export class GestionUsuariosComponent implements OnInit {
    */
   initForm(param?: any) { 
       this.form = new FormGroup({
-        'idUsuario': new FormControl(param? param.idUsuario : null),
+        'idUsuario': new FormControl(param? param.idUsuario : null, Validators.email),
         'nombres': new FormControl(param? param.nombres : null),
         'apellidos': new FormControl(param? param.apellidos : null),
         'tipoUsario': new FormControl(param? param.tipoUsario : null),
@@ -90,6 +90,21 @@ export class GestionUsuariosComponent implements OnInit {
     * @BayronPerez
     */
    persistir() {
+     /*
+    let mailValido = false;
+      'use strict';
+
+      var EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      let email = this.form.value['idUsuario']
+      if (email.match(EMAIL_REGEX)){
+        mailValido = true;
+      }
+     if(!mailValido){
+      let lasa;
+     } else {
+       let loso;
+     }
+     */
     const usuarioDTO = {
       idUsuario: this.form.value['idUsuario'],
       nombres: this.form.value['nombres'],

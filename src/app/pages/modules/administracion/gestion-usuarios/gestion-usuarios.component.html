@@ -51,21 +51,21 @@
             (ngSubmit)="persistir()">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Id" formControlName="idUsuario">
+                    <input type="email" matInput placeholder="Id Usuario" formControlName="idUsuario">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Nombres" required formControlName="nombres">
+                    <input matInput placeholder="Nombres" onkeydown="return /[a-z ]/i.test(event.key)" required formControlName="nombres">
                 </mat-form-field>
             </div>
             
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Apellidos" required formControlName="apellidos">
+                    <input matInput placeholder="Apellidos" onkeydown="return /[a-z ]/i.test(event.key)" required formControlName="apellidos">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Tipo Usuario" required formControlName="tipoUsario">
+                    <input matInput placeholder="Tipo Usuario" onkeydown="return /[a-z ]/i.test(event.key)" required formControlName="tipoUsario">
                 </mat-form-field>
             </div>
             <div style="padding-left: 10%;">
@@ -78,9 +78,14 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Estado" required formControlName="estado">
-                </mat-form-field>
+                <div class="division-estado">
+                    <label class="switch" >
+                        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                    <p>ESTADO</p>
+                </div>
             </div>
             <div  class="tamanio-btn">
             <button mat-raised-button color="primary" type="submit" [disabled]="frmPaciente.invalid">

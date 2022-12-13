@@ -23,8 +23,9 @@ export class EjecutarProcedimientoComponent implements OnInit {
   public idFuncion: any;
   spinnerActive: boolean = false;
   dataSourceResponse: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3'];
+  displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7', 'campo8'];
   mostrarTabla: boolean = false;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {funcion:any, data: any},
     private procedimientosAlmacenadosService: ProcedimientosAlmacenadosService,
@@ -76,14 +77,105 @@ export class EjecutarProcedimientoComponent implements OnInit {
         let c1;
         let c2;
         let c3;
+        let c4;
+        let c5;
+        let c6;
+        let c7;
+        let c8;
+
         if(item !== null){
           let resp = item.split(',');
-          const object = {
-            campo1:  resp[0],
-            campo2: resp[1],
-            campo3: resp[2]
+          if(resp.length == 1){
+            const object = {
+              campo1: resp[0],
+            }
+            listResponse.push(object);
           }
-          listResponse.push(object);
+          if(resp.length == 2){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+            }
+            listResponse.push(object);
+          }
+          if(resp.length == 3){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2]
+            }
+            listResponse.push(object);
+          }
+          if(resp.length == 4){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2],
+              campo4: resp[3]
+            }
+            listResponse.push(object);
+          }
+          if(resp.length == 5){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2],
+              campo4: resp[3],
+              campo5: resp[4]
+            }
+            listResponse.push(object);
+          }
+          if(resp.length == 6){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2],
+              campo4: resp[3],
+              campo5: resp[4],
+              campo6: resp[5]
+            }
+            listResponse.push(object);
+          }
+          if(resp.length == 7){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2],
+              campo4: resp[3],
+              campo5: resp[4],
+              campo6: resp[5],
+              campo7: resp[6]
+            }
+            listResponse.push(object);
+          }
+          if(resp.length == 8){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2],
+              campo4: resp[3],
+              campo5: resp[4],
+              campo6: resp[5],
+              campo7: resp[6],
+              campo8: resp[7],
+            }
+            listResponse.push(object);
+          }
+          if(resp.length == 9){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2],
+              campo4: resp[3],
+              campo5: resp[4],
+              campo6: resp[5],
+              campo7: resp[6],
+              campo8: resp[7],
+              campo9: resp[8]
+            }
+            listResponse.push(object);
+          }
+
         }
         
       });
