@@ -9,7 +9,8 @@ export class CargueDefinitivoComponent implements OnInit {
 
   //Stepper
   isLinear = false;
-  
+  tipoCargue= "DEFIN"
+
   constructor() { }
 
   ngOnInit(): void {

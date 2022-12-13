@@ -190,20 +190,34 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   * Metodo para reabrir un registro de archivo previamente cargado
   * @BaironPerez
   */
-   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
+   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {debugger
     this.cargueProgramacionDefinitivaService.reabrirArchivo({
       'nombreArchivo': nombreArchivo,
       'idModeloArchivo': idModeloArchivo
     }).subscribe(item => {
       this.listarArchivosCargados();
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.SUCCESFULL_DELETE_FILE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      });
-      setTimeout(() => { alert.close() }, 3000);
+      let messageResponse: string = item.data
+      let messageValidate = messageResponse.indexOf('Error')
+      if(messageValidate == 1) {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        });
+        setTimeout(() => { alert.close() }, 3000);
+      }else {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: messageResponse,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        setTimeout(() => { alert.close() }, 3000);
+      }
+      
     },
     (err: any) => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {

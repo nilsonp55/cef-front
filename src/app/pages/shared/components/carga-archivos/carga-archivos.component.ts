@@ -57,7 +57,7 @@ export class CargaArchivosComponent implements OnInit {
         this.fileList = this.fileList.filter(temp => temp.name !== f.name);
         this.fileList.push(f);
       });
-      this.cargueArchivosService.saveFile(this.fileList).subscribe(data => {
+      this.cargueArchivosService.saveFile(this.fileList, null).subscribe(data => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: '480px',
           data: {

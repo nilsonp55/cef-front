@@ -95,12 +95,19 @@ export class CargueArchivosService {
     /**
      * Servicio para descargar y visualizar un archivo por su id
      */
-     public saveFile(files: File[]): Observable<any> {
+     public saveFile(files: File[], tipoCargue): Observable<any> {
         const formData: FormData = new FormData();
         for (const file of files) {
             formData.append('file', file, file.name);
+            formData.append('tipoCargue', tipoCargue);
         }
+        const object = {
+            file: formData,
+            typeCargue: tipoCargue
+        }
+        
         return this.http.post<any>(`${this.urlFile}${URLs.CARGUE_ARCHIVO_GUARDAR}`, formData);
+        
     }
 
 }

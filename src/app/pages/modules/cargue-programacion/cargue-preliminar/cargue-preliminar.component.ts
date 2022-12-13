@@ -14,6 +14,7 @@ export class CarguePreliminarComponent implements OnInit {
 
   //Stepper
   isLinear = false;
+  tipoCargue= "IPP"
 
   constructor() { }
 

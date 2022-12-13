@@ -22,7 +22,7 @@ export class LiquidarCostosService {
      * Servicio para gurdar un registros de Costos flete charter
      */
     liquidarCosots(): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.LIQUIDACION_COSTOS}`, null);
+        return this.http.get<any>(`${this.url}${URLs.LIQUIDACION_COSTOS}`, null);
     }
 
 }

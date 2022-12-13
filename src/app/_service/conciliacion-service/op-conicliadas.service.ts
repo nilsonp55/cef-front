@@ -15,6 +15,7 @@ import { URLs } from '../../pages/shared/constantes';
 export class OpConciliadasService {
 
     private url: string = `${environment.HOST}${URLs.STAGE}${URLs.CONCILIACION}`;
+    private urlReabrir: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRMADAS}`;
 
     //private url: string = `${environment.HOST}${URLs.API_VERSION}${URLs.CONCILIACION}`;
 
@@ -125,4 +126,12 @@ export class OpConciliadasService {
         return this.http.post<any>(`${this.url}${URLs.CONCILIACION_CIERRE}`,null);
     }
 
+        /** 
+     * Metodo para eliminar un registro de archivo previamente cargado
+    */
+         reabrirArchivo(param: any) {
+            const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+            return this.http.get<any>(`${this.urlReabrir}${URLs.OPERACIONES_PROGRMADAS_REABRIR}`, { params: param,  headers });
+        }
+        
 }
