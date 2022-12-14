@@ -133,7 +133,8 @@ export const GENERALES = {
   CODE_EMERGENT: {
     ERROR: 1,
     WARNING: 2,
-    SUCCESFULL: 3
+    SUCCESFULL: 3,
+    ESPERAR: 4
   },
 
   //Estados de conciliacion
@@ -325,6 +326,7 @@ export const URLs = {
   //Liuidar costos
   LIQUIDACION: '/liquidar-valores',
   LIQUIDACION_COSTOS: '/costos',
+  CONSULTAR_COSTOS: '/consultar',
   ERRORES_COSTOS: '/errores-costos',
   ERRORES_COSTOS_CONSULTAR: '/consultar',
 
