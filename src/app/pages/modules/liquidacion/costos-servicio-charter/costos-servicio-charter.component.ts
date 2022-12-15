@@ -115,8 +115,12 @@ export class CostosServicioCharterComponent implements OnInit {
     }
   }
 
-  changeValor(param: any) {debugger
+  changeValor(param: any) {
     this.costoEditar = param.target.value;;
+  }
+
+  onKeypressEvent(event: any):  any {
+      if(event.charCode < 48 || event.charCode > 57) return false;
   }
   
 }

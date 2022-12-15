@@ -68,7 +68,7 @@ generarLiquidacionCostos() {
   const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
     width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
     data: {
-      msn: "El proceso se esta ejecutando porfavor espere por lo menos 2 minutos",
+      msn: "El proceso se esta ejecutando porfavor espere por lo menos 2 minutos y seguido esto click en consultar costos",
       codigo: GENERALES.CODE_EMERGENT.ESPERAR
     }
    }); setTimeout(() => { alert.close() }, 30000);
@@ -118,7 +118,7 @@ consultarCostos() {
  */
 verValoresLiquidados() {
   const respuesta = this.dialog.open(ResultadoValoresLiquidadosComponent, {
-    width: '100%',
+    height:'90%', width: '90%',
     data: {
       respuesta: this.dataLiquidacionCosots.respuestaLiquidarCostos,
       titulo: "Valores Liquidados",
@@ -131,7 +131,7 @@ verValoresLiquidados() {
 * contables
 * @BaironPerez
 */
-verErrores() {
+verErrores() {//
   this.erroresCostosService.erroresCostos({
     'idSeqGrupo':this.dataLiquidacionCosots.respuestaLiquidarCostos[0].idSeqGrupo,
   }).subscribe((data: any) => {    

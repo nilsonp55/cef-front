@@ -29,6 +29,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   bancos: any[] = [];
   puntos: any[] = [];
   transportadoras: any[] = [];
+  habilitarBTN: boolean;
 
   //Rgistros paginados
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -43,6 +44,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.habilitarBTN = false;
     this.iniciarDesplegables();
     this.listarPuntosCodigo();
     this.initForm();
@@ -103,6 +105,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.dataSourceCodigoPuntoTdv = new MatTableDataSource(page.data.content);
       this.dataSourceCodigoPuntoTdv.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.habilitarBTN = true;
     },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {

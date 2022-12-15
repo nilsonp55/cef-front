@@ -2,7 +2,7 @@
     <mat-card-title>Puntos Codigo TDV</mat-card-title>
     <div *ngIf="mostrarTabla">
         <div class="division-btn">
-            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+            <button *ngIf="habilitarBTN" class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
                 (click)="crearPuntoCodigo()">Crear Puntos Codigo TDV</button>
         </div>
     </div>
@@ -63,7 +63,7 @@
             </mat-paginator>
         </div>
         <br>
-        <button mat-raised-button color="primary"
+        <button *ngIf="habilitarBTN" mat-raised-button color="primary"
             (click)="exporter.exportTable('xlsx', {fileName:'puntos-codigo-tdv'})">Exportar tabla</button>
     </div>
 

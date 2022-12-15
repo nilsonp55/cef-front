@@ -30,6 +30,7 @@ export class EscalasComponent implements OnInit {
   transportadoras: any[] = [];
   ciudades: any[] = [];
   escalas: any[] = [];
+  habilitarBTN: boolean;
 
   //Rgistros paginados
 
@@ -42,6 +43,7 @@ export class EscalasComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.habilitarBTN = false;
     this.iniciarDesplegables();
     this.listarEscalas();
     this.initForm();
@@ -124,6 +126,7 @@ export class EscalasComponent implements OnInit {
       this.dataSourceEscalas = new MatTableDataSource(page.data.content);
       this.dataSourceEscalas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.habilitarBTN = true;
     },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
