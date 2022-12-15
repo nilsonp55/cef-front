@@ -8,7 +8,7 @@
     </div>
     <div *ngIf="mostrarTabla == false">
         <div class="division-btn">
-            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+            <button *ngIf="habilitarBTN" class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
                 (click)="irAtras()">Atras</button>
         </div>
     </div>
@@ -107,7 +107,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input required  type="number" step="0.01" pattern="^[0-9]+" onkeypress="return event.charCode >= 48" min="1" matInput placeholder="Cantidad Denominacion" formControlName="cantidadDenom">
+                    <input required  type="number" step="0.01" pattern="^[0-9]+" matInput placeholder="Cantidad Denominacion" formControlName="cantidadDenom" (keypress)="onKeypressEvent($event)">
                 </mat-form-field>
 
                 <div class="division-estado">

@@ -38,7 +38,8 @@ export class TarifasOperacionComponent implements OnInit {
   transportadoras: any [] = [];
   idTarifasOperacion: any;
   valorEstado = "";
-  
+  habilitarBTN: boolean;
+
   date: any;
   serializedDate: any;
 
@@ -57,6 +58,7 @@ export class TarifasOperacionComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.habilitarBTN = false;
     await this.iniciarDesplegables();
     this.listarTarifaOperacion();
     this.initForm();
@@ -134,6 +136,7 @@ export class TarifasOperacionComponent implements OnInit {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.habilitarBTN = true;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -321,6 +324,10 @@ export class TarifasOperacionComponent implements OnInit {
     else {
       return false;
     }
+  }
+
+  onKeypressEvent(event: any):  any {
+    if(event.charCode < 48 || event.charCode > 57) return false;
   }
 
 }

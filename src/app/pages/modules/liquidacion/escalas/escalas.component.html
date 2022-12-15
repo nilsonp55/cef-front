@@ -2,7 +2,7 @@
     <mat-card-title>Escalas</mat-card-title>
     <div *ngIf="mostrarTabla">
         <div class="division-btn">
-            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+            <button *ngIf="habilitarBTN" class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
                 (click)="crearEscala()">Crear Escala</button>
         </div>
     </div>
@@ -60,7 +60,7 @@
             </mat-paginator>
         </div>
         <br>
-        <button mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'escalas'})">Exportar
+        <button *ngIf="habilitarBTN" mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'escalas'})">Exportar
             tabla</button>
     </div>
 

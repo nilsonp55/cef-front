@@ -31,6 +31,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   monedas: any[] = [];
   denominaciones: any[] = [];
   familias: any[] = [];
+  habilitarBTN: boolean;
 
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -46,6 +47,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.habilitarBTN = false;
     this.iniciarDesplegables();
     this.listarDenominacion();
     this.initForm();
@@ -55,7 +57,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
     * Inicializaion formulario de creacion y edicion
     * @BayronPerez
     */
-  initForm(param?: any) {debugger
+  initForm(param?: any) {
     this.form = new FormGroup({
       'idTdvDenCant': new FormControl(param ? param.idTdvDenCant : null),
       'transportadora': new FormControl(param ? this.selectTransportadorasOrigen(param) : null),
@@ -89,6 +91,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       this.dataSourceDenominacion.paginator = this.paginator;
       this.dataSourceDenominacion.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.habilitarBTN = true;
     },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -249,5 +252,9 @@ export class TdvDenominacionCantidadComponent implements OnInit {
     }else {
       return false
     }
+  }
+
+  onKeypressEvent(event: any):  any {
+    if(event.charCode < 48 || event.charCode > 57) return false;
   }
 }
