@@ -132,6 +132,7 @@ export class AdministracionDominiosComponent implements OnInit {
   }
 
   listarDominios() {
+    console.log()
     if (this.isDominioChecked == true) {
       this.listarDominiosMaestroTrue()
     } else {
