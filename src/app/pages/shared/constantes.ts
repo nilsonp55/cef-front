@@ -244,6 +244,7 @@ export const URLs = {
   DOMINIO: '/dominio-funcional',
   DOMINIOS: '/dominios',
   DOMINIO_CONSULTA: '/consultar',
+  DOMINIO_CONSULTA_X_DOMINIO: '/consultarXDominio',
   DOMINIO_MAESTRO: '/dominios',
   DOMINIO_OBTENER: '/obtener',
   DOMINIOS_TODOS: '/obtener-todos',
