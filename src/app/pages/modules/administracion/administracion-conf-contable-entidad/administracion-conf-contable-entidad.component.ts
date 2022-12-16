@@ -21,7 +21,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['banco','tipoTr','dc', 'tOpera', 'cuenta', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['banco', ' ', 'tipoTr', ' ','dc', ' ', 'tOpera', ' ', 'cuenta', ' ', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   esEdicion: boolean;
@@ -42,6 +42,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
   cantidadRegistros: number;
+  mostrarTabla: boolean = true;
 
   constructor(
     private generalesService: GeneralesService,
@@ -133,6 +134,8 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.mostrarTabla = true;
+      this.mostrarFormulario = false;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -214,6 +217,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
           }); setTimeout(() => { alert.close() }, 3000);
         });
     }
+    this.ngOnInit();
    }
 
   async iniciarDesplegables() {
@@ -259,6 +263,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   }
 
   crearConfEntity() {
+    this.mostrarTabla = false;
     this.mostrarFormulario = true;
     this.esEdicion = false;
     this.form.get('consecutivo').disable();
