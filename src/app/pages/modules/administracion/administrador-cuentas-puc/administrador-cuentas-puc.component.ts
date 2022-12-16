@@ -119,7 +119,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
     * Se realiza persistencia del formulario de cuentas puc
     * @BayronPerez
     */
-   persistir() {debugger
+   persistir() {
     const cuentaPuc = {
       idCuentasPuc: this.form.value['idCuentasPuc'],
       cuentaContable: this.form.value['cuentaContable'],
