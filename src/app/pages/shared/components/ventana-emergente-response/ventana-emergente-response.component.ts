@@ -16,6 +16,7 @@ export class VentanaEmergenteResponseComponent implements OnInit {
   imgError: string = 'assets/img/error.jpg';
   imgAlerta: string = 'assets/img/waring.jpg';
   imgExistoso: string = 'assets/img/succesfull.png';
+  imgEsperar: string = 'assets/img/esperar.png';
 
   ngOnInit(): void {
   }

@@ -50,7 +50,9 @@ export const GENERALES = {
     },
     MESSAGE_CIERRE_PROG_DEFINITIVA: {
       SUCCESFULL_CIERRE_DEFINITIVA: 'Se realizo el cierre de programación definitivo exitosamente',
-      ERROR_CIERRE_FECHA_DEFINITIVA: 'No se puede realizar el cierre de programación definitivo correctamente'
+      REABRIR_CIERRE: 'Se reabrio exitosamente',
+      ERROR_CIERRE_FECHA_DEFINITIVA: 'No se puede realizar el cierre de programación definitivo correctamente',
+      ERROR_REABRIR_CIERRE: ''
     },
     MESSAGE_CIERRE_PROG_CERTIFICACION: {
       SUCCESFULL_CIERRE_CERTIFICACION: 'Se realizo el cierre de certificación exitosamente',
@@ -92,6 +94,9 @@ export const GENERALES = {
     },
     MESSAGE_GESTION_PUNTOS: {
 
+    },
+    MESSAGE_VLIDACION_FECHAS: {
+      ERROR_DATE: 'La fecha inicial debe de ser menor a la fecha final',
     }
   },
 
@@ -128,7 +133,8 @@ export const GENERALES = {
   CODE_EMERGENT: {
     ERROR: 1,
     WARNING: 2,
-    SUCCESFULL: 3
+    SUCCESFULL: 3,
+    ESPERAR: 4
   },
 
   //Estados de conciliacion
@@ -320,6 +326,7 @@ export const URLs = {
   //Liuidar costos
   LIQUIDACION: '/liquidar-valores',
   LIQUIDACION_COSTOS: '/costos',
+  CONSULTAR_COSTOS: '/consultar',
   ERRORES_COSTOS: '/errores-costos',
   ERRORES_COSTOS_CONSULTAR: '/consultar',
 

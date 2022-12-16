@@ -38,7 +38,8 @@ export class TarifasOperacionComponent implements OnInit {
   transportadoras: any [] = [];
   idTarifasOperacion: any;
   valorEstado = "";
-  
+  habilitarBTN: boolean;
+
   date: any;
   serializedDate: any;
 
@@ -57,6 +58,7 @@ export class TarifasOperacionComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.habilitarBTN = false;
     await this.iniciarDesplegables();
     this.listarTarifaOperacion();
     this.initForm();
@@ -134,6 +136,7 @@ export class TarifasOperacionComponent implements OnInit {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.habilitarBTN = true;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -150,7 +153,7 @@ export class TarifasOperacionComponent implements OnInit {
     * Se realiza persistencia del formulario de cuentas puc
     * @BayronPerez
     */
-   persistir() {
+   persistir() {debugger
     const tarifa = {
       idTarifasOperacion: this.form.value['idTarifasOperacion'],
       bancoDTO: {
@@ -168,60 +171,71 @@ export class TarifasOperacionComponent implements OnInit {
       valorTarifa: Number(this.form.value['valorTarifa']),
 
       estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
-      billetes: this.form.value['billetes'],
-      monedas: this.form.value['monedas'],
-      fajado: this.form.value['fajado'],
+      billetes: this.form.value['billetes'] == "null" ? null: this.form.value['billetes'],
+      monedas: this.form.value['monedas'] == "null" ? null: this.form.value['monedas'],
+      fajado: this.form.value['fajado'] == "null" ? null: this.form.value['fajado'],
       fechaVigenciaIni: this.form.value['fechaVigenciaIni'],
       fechaVigenciaFin: this.form.value['fechaVigenciaFin'],
-      usuarioCreacion: "User",
+      usuarioCreacion: sessionStorage.getItem('user'),
       fechaModificacion: new Date(),
       fechaCreacion: new Date()
     };
-
-    if (this.esEdicion) {
-      tarifa.idTarifasOperacion = this.idTarifasOperacion;
-      this.tarifasOperacionService.actualizarTarifasOperacion(tarifa).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-        this.listarTarifaOperacion()
-        this.initForm();
-      },
-        (err: any) => {
+    if(this.comparaFechas(this.form.value['fechaVigenciaIni'],this.form.value['fechaVigenciaFin'])) {
+      if (this.esEdicion) {debugger
+        tarifa.idTarifasOperacion = this.idTarifasOperacion;
+        this.tarifasOperacionService.actualizarTarifasOperacion(tarifa).subscribe(response => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           }); setTimeout(() => { alert.close() }, 3000);
-        });
-    } else {
-      this.tarifasOperacionService.guardarTarifasOperacion(tarifa).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-        this.listarTarifaOperacion()
-        this.initForm();
-      },
-        (err: any) => {
+          this.listarTarifaOperacion()
+          this.initForm();
+        },
+          (err: any) => {
+            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+              data: {
+                msn: err.error.response.description,
+                codigo: GENERALES.CODE_EMERGENT.ERROR
+              }
+            }); setTimeout(() => { alert.close() }, 3000);
+          });
+      } else {
+        this.tarifasOperacionService.guardarTarifasOperacion(tarifa).subscribe(response => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           }); setTimeout(() => { alert.close() }, 3000);
-        });
+          this.listarTarifaOperacion()
+          this.initForm();
+        },
+          (err: any) => {
+            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+              data: {
+                msn: err.error.response.description,
+                codigo: GENERALES.CODE_EMERGENT.ERROR
+              }
+            }); setTimeout(() => { alert.close() }, 3000);
+          });
+      }
+    }else {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_VLIDACION_FECHAS.ERROR_DATE,
+          codigo: GENERALES.CODE_EMERGENT.WARNING
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
     }
+    
+    
    }
 
   async iniciarDesplegables() {
@@ -301,6 +315,19 @@ export class TarifasOperacionComponent implements OnInit {
     }else {
       return false
     }
+  }
+
+  comparaFechas(fInicial: any, fFinal: any): boolean {
+    if(fInicial  < fFinal){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  onKeypressEvent(event: any):  any {
+    if(event.charCode < 48 || event.charCode > 57) return false;
   }
 
 }

@@ -26,7 +26,8 @@ cantidadRegistros: number;
 
 //Variable para activar spinner
 spinnerActive: boolean = false;
-
+estadoTabla: boolean;
+estadoBTN: boolean;
 //DataSource para pintar tabla de los procesos a ejecutar
 dataSourceInfoProcesos: MatTableDataSource<any>;
 displayedColumnsInfoProcesos: string[] = ['subactividad', 'cantidad', 'estado'];
@@ -43,8 +44,9 @@ constructor(
 ) { }
 
 ngOnInit(): void {
+  this.estadoTabla = false;
+  this.estadoBTN = true;
   this.cargarDatosDesplegables();
-  this.generarLiquidacionCostos();
 }
 
 /**
@@ -62,20 +64,16 @@ async cargarDatosDesplegables() {
 * Se realiza consumo de servicio para generar la contabilidad AM
 * @BaironPerez
 */
-generarLiquidacionCostos() {debugger
-  this.spinnerActive = true;
+generarLiquidacionCostos() {
+  const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+    data: {
+      msn: "El proceso se esta ejecutando porfavor espere por lo menos 2 minutos y seguido esto click en consultar costos",
+      codigo: GENERALES.CODE_EMERGENT.ESPERAR
+    }
+   }); setTimeout(() => { alert.close() }, 30000);
   this.liquidarCostosService.liquidarCosots().subscribe((data: any) => {
-    this.dataLiquidacionCosots = data.data;
-    //Se construye tabla de info
-    const tabla = [
-      { nombre: "Cantidad operaciones liquidadas", cantidad: this.dataLiquidacionCosots.cantidadOperacionesLiquidadas, estado: true },
-      { nombre: "Registros con error", cantidad: this.dataLiquidacionCosots.registrosConError, estado: true },
-      
-    ];
-    //Se realizan validaciones
-    this.tieneErrores = false;//conteoContabilidadDto.conteoContabilidadDto.conteoErroresContables > 0 ? true : false;
-    this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
-    this.spinnerActive = false;
+
   },
     (err: any) => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -88,7 +86,31 @@ generarLiquidacionCostos() {debugger
     });
 }
 
+consultarCostos() {
+  this.liquidarCostosService.consultarCostos().subscribe((data: any) => {
+    this.estadoBTN = false;
+   this.estadoTabla = true;
+   this.dataLiquidacionCosots = data.data;
+   //Se construye tabla de info
+   const tabla = [
+     { nombre: "Cantidad operaciones liquidadas", cantidad: this.dataLiquidacionCosots.cantidadOperacionesLiquidadas, estado: true },
+     { nombre: "Registros con error", cantidad: this.dataLiquidacionCosots.registrosConError, estado: true }, 
+   ];
+   //Se realizan validaciones
+   this.tieneErrores = false;//conteoContabilidadDto.conteoContabilidadDto.conteoErroresContables > 0 ? true : false;
+   this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
 
+ },
+   (err: any) => {
+     const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+       width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+       data: {
+         msn: err.error.response.description,
+         codigo: GENERALES.CODE_EMERGENT.ERROR
+       }
+     }); setTimeout(() => { alert.close() }, 10000);
+   });
+}
 /**
  * Metodo encargado de ejecutar la vista de la tabla de transacciones 
  * contables
@@ -96,7 +118,7 @@ generarLiquidacionCostos() {debugger
  */
 verValoresLiquidados() {
   const respuesta = this.dialog.open(ResultadoValoresLiquidadosComponent, {
-    width: '100%',
+    height:'90%', width: '90%',
     data: {
       respuesta: this.dataLiquidacionCosots.respuestaLiquidarCostos,
       titulo: "Valores Liquidados",
@@ -109,7 +131,7 @@ verValoresLiquidados() {
 * contables
 * @BaironPerez
 */
-verErrores() {
+verErrores() {//
   this.erroresCostosService.erroresCostos({
     'idSeqGrupo':this.dataLiquidacionCosots.respuestaLiquidarCostos[0].idSeqGrupo,
   }).subscribe((data: any) => {    
