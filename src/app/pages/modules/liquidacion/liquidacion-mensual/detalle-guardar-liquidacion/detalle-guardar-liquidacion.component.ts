@@ -237,4 +237,8 @@ export class DetalleGuardarLiquidacionComponent implements OnInit {
     this.router.navigate(['/liquidacion/liquidacion-mensual']);
   }
 
+  onKeypressEvent(event: any):  any {
+    if(event.charCode < 48 || event.charCode > 57) return false;
+  }
+
 }

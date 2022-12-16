@@ -11,6 +11,7 @@ import { DialogIdentificadorDominioComponent } from './dialog-identificador-domi
 import { DialogEliminarIdentificadorComponent } from './dialog-eliminar-identificador/dialog-eliminar-identificador.component';
 import { DominioMaestroService } from 'src/app/_service/administracion-service/dominios-maestro.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-administracion-dominios',
@@ -112,7 +113,6 @@ export class AdministracionDominiosComponent implements OnInit {
    */
   listarDominiosMaestroTrue() {
     console.log("No incluye Dominioos inactivos")
-    console.log(this.isDominioChecked)
     this.dominioMaestroService.listarDominiosTrue({
       'estado': true
     }).subscribe((page: any) => {
@@ -132,11 +132,11 @@ export class AdministracionDominiosComponent implements OnInit {
   }
 
   listarDominios() {
+    console.log()
     if (this.isDominioChecked == true) {
       this.listarDominiosMaestroTrue()
     } else {
       console.log("Tiene dominios activos e inactivos")
-      console.log(this.isDominioChecked)
       this.dominioMaestroService.listarDominios().subscribe((page: any) => {
         this.dataSourceDominios = new MatTableDataSource(page.data);
         this.dataSourceDominios.sort = this.sort;
@@ -156,8 +156,9 @@ export class AdministracionDominiosComponent implements OnInit {
 
   listarCodigoSeleccionado() {
     this.generalesService.listarDominioXDominio({
-      'dominioPK.dominio':this.elementoDominioActualizar.dominio
+      'dominio':this.elementoDominioActualizar.dominio
     }).subscribe((page: any) => {
+      console.log(page)
       this.dataSourceCodigos = new MatTableDataSource(page.data);
       this.dataSourceCodigos.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
