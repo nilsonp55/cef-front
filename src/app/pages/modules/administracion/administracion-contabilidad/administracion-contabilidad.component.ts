@@ -86,7 +86,6 @@ export class AdministracionContabilidadComponent implements OnInit {
     * @BayronPerez
     */
   persistir() {
-    debugger
     const tipoCuentas = {
       tipoCuenta: this.form.value['tipoCuenta'],
       cuentaAuxiliar: this.form.value['cuentaAuxiliar'],

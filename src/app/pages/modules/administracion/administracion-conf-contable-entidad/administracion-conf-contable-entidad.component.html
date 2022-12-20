@@ -7,8 +7,21 @@
         </div>
     </div>
 
-    <div style="width: 30%; margin-top: 3%" class="ubicacionTablas">
-        <div *ngIf="mostrarTabla" class="div-tabla-dominio">
+    <div style="width: 60%; margin-top: 3%" class="ubicacionTablas">
+        <div *ngIf="mostrarTabla" >
+            <div class="filtro">
+                <mat-form-field appearance="fill">
+                    <mat-label>Filtro Bancos</mat-label>
+                    <mat-select [(ngModel)]="filtroBancoSelect">
+                        <mat-option *ngFor="let item of bancos" [value]="item">
+                            {{item.nombreBanco}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button title="Visualizar" mat-button (click)="filtrar($event)">
+                    <mat-icon style="color: green">search</mat-icon>
+                </button>
+            </div>
             <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll">
                 <tr>
                     <ng-container matColumnDef="banco" class="mat-column-nombreCampo">

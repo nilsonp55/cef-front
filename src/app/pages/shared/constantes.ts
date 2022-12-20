@@ -373,6 +373,7 @@ export const URLs = {
   LIQUIDACION_MENSUAL_CONSULTAR: '/consultar',
   LIQUIDACION_MENSUAL_GUARDAR: '/guardar',
   LIQUIDACION_MENSUAL_LIQUIDAR: '/liquidar',
+  LIQUIDACION_MENSUAL_CIERRE: '/cerrar',
 
   //Denominacion Cantidad
   DENOMINACION_CANTIDAD: '/tdv-denomin-cantidad',

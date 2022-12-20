@@ -51,7 +51,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
    * Inicializaion formulario de creacion y edicion
    * @BayronPerez
    */
-  initForm(param?: any) {debugger
+  initForm(param?: any) {
       this.form = new FormGroup({
         'idCuentasPuc': new FormControl(param? param.idCuentasPuc : null),
         'cuentaContable': new FormControl(param? param.cuentaContable : null),
@@ -227,7 +227,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
 
   }
 
-  formatearEstadoPersistir(param: boolean): any {debugger
+  formatearEstadoPersistir(param: boolean): any {
     if(param==true){
       return true
     }else {
@@ -235,7 +235,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
     }
   }
 
-  formatearEstadoListar(param: any): any {debugger
+  formatearEstadoListar(param: any): any {
     if(param==true){
       return true
     }else {

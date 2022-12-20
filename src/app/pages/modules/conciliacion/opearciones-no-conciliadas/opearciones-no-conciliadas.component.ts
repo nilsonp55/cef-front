@@ -106,7 +106,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
    * Metodo que llama al dialog de conciliacion manual
    * @JuanMazo
    */
-  conciliacionManual() {debugger
+  conciliacionManual() {
     this.reset()
     const valorConciliacion =  this.dialog.open(DialogConciliacionManualComponent, {
       width: 'auto',
@@ -196,7 +196,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
    * @param opeProgramada 
    * @JuanMazo
    */
-  getIdCompare(event: any, opeProgramada: any) {debugger
+  getIdCompare(event: any, opeProgramada: any) {
     if (event.target.value != '') {
       opeProgramada.relacion = event.target.value
     }
@@ -262,7 +262,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       });
   }
 
-  eventoEnter(event: any, opeProgramada: any) {debugger
+  eventoEnter(event: any, opeProgramada: any) {
     if (event.target.value != '') {
       opeProgramada.relacion = event.target.value
       this.conciliacionManual()

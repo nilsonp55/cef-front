@@ -48,6 +48,7 @@ import { DetalleGuardarLiquidacionComponent } from './pages/modules/liquidacion/
 import { GestionUsuariosComponent } from './pages/modules/administracion/gestion-usuarios/gestion-usuarios.component';
 import { TdvDenominacionCantidadComponent } from './pages/modules/liquidacion/tdv-denominacion-cantidad/tdv-denominacion-cantidad.component';
 import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
+import { CierreLiquidacionMensualComponent } from './pages/modules/liquidacion/cierre-liquidacion-mensual/cierre-liquidacion-mensual.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -99,6 +100,7 @@ const routes: Routes = [
       { path: 'liquidacion-mensual', component: LiquidacionMensualComponent },
       { path: 'guardar-detalle-liquidacion/:fechaSistema/:codTransportadora', component: DetalleGuardarLiquidacionComponent },
       { path: 'tdv-denominacion-cantidad', component: TdvDenominacionCantidadComponent },
+      { path: 'cierre-liquidacion-mensual', component: CierreLiquidacionMensualComponent },
     ]
   },
   {

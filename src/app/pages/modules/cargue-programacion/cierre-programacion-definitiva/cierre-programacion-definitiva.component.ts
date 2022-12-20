@@ -111,7 +111,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
   * Metodo para reabrir un registro de archivo previamente cargado
   * @BaironPerez
   */
- reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {debugger
+ reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
   this.cargueProgramacionPreliminarService.reabrirArchivo({
     'agrupador': "DEFIN",
   }).subscribe(item => {

@@ -38,10 +38,11 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   bancosExternos: any [] = [];
   transportadoras: any [] = [];
   tipoTransaccion: any [] = [];
-
+  filtroBancoSelect: any;
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
   cantidadRegistros: number;
+  registros: any[] =[];
   mostrarTabla: boolean = true;
 
   constructor(
@@ -60,7 +61,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
    * Inicializaion formulario de creacion y edicion
    * @BayronPerez
    */
-  initForm(param?: any) { debugger
+  initForm(param?: any) { 
     this.selectNaturaleza = param != undefined ? param.naturaleza: null
       this.form = new FormGroup({
         'consecutivo': new FormControl(param? param.consecutivo : null),
@@ -131,6 +132,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
+      this.registros = page.data;
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
@@ -279,6 +281,18 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
     this.idConfEntity = this.form.get('consecutivo').value;
     this.form.get('consecutivo').disable();
     this.esEdicion = true;
+  }
+
+  filtrar(event) {
+    let registrosFiltrados: any[] = [];
+    this.registros.forEach(item => {
+      if(item.bancoAval.nombreBanco == this.filtroBancoSelect.nombreBanco) {
+        registrosFiltrados.push(item);
+      }
+    });
+    this.dataSourceTiposCuentas = new MatTableDataSource(registrosFiltrados);
+      this.dataSourceTiposCuentas.sort = this.sort;
+      this.cantidadRegistros = registrosFiltrados.length;
   }
 
 }
