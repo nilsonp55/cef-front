@@ -153,7 +153,7 @@ export class TarifasOperacionComponent implements OnInit {
     * Se realiza persistencia del formulario de cuentas puc
     * @BayronPerez
     */
-   persistir() {debugger
+   persistir() {
     const tarifa = {
       idTarifasOperacion: this.form.value['idTarifasOperacion'],
       bancoDTO: {
@@ -181,7 +181,7 @@ export class TarifasOperacionComponent implements OnInit {
       fechaCreacion: new Date()
     };
     if(this.comparaFechas(this.form.value['fechaVigenciaIni'],this.form.value['fechaVigenciaFin'])) {
-      if (this.esEdicion) {debugger
+      if (this.esEdicion) {
         tarifa.idTarifasOperacion = this.idTarifasOperacion;
         this.tarifasOperacionService.actualizarTarifasOperacion(tarifa).subscribe(response => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {

@@ -71,7 +71,7 @@ export class CostosServicioCharterComponent implements OnInit {
    * procesos activos
    * @BaironPerez
    */
-  guardar(param: any) {debugger
+  guardar(param: any) {
     const object = {
       idLiquidacion: param.idLiquidacion,
       costoCharter: this.costoEditar

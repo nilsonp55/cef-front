@@ -1,12 +1,15 @@
 
 .division-btn {
     margin-left: 5%;
+    display: inline;
 }
 
 .division-btn2 {
     margin-left: 2em;
 }
-
+.filtro {
+  display: flex;
+}
 .ubicacion-btn-dominio {
     margin-left: 50%;
 }

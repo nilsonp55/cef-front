@@ -238,7 +238,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
     }
 
-    formatearEstadoPersistir(param: boolean): any {debugger
+    formatearEstadoPersistir(param: boolean): any {
       if(param==true){
         return 1
       }else {
@@ -246,7 +246,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       }
     }
   
-    formatearEstadoListar(param: any): any {debugger
+    formatearEstadoListar(param: any): any {
       if(param==1){
         return true
       }else {
