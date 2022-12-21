@@ -33,7 +33,7 @@ export class CargueInicialComponent implements OnInit {
    * Metodo encargado de procesar y guarda el archivo en una dirección especifica
    * @BaironPerez
    */
-  public fileChange(target: EventTarget): void {debugger
+  public fileChange(target: EventTarget): void {
     let validSize = true;
     let validName = true;
     let files: File[] = target['files'];

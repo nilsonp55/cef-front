@@ -56,7 +56,7 @@ export class EscalasComponent implements OnInit {
     * Inicializaion formulario de creacion y edicion
     * @BayronPerez
     */
-  initForm(param?: any) {debugger
+  initForm(param?: any) {
     this.form = new FormGroup({
       'idEscala': new FormControl(param ? param.idEscala : null),
       'banco': new FormControl(param ? this.selectBanco(param) : null),

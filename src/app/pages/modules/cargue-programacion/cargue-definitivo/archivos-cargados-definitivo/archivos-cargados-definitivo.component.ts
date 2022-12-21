@@ -190,7 +190,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   * Metodo para reabrir un registro de archivo previamente cargado
   * @BaironPerez
   */
-   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {debugger
+   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
     this.cargueProgramacionDefinitivaService.reabrirArchivo({
       'nombreArchivo': nombreArchivo,
       'idModeloArchivo': idModeloArchivo

@@ -64,7 +64,7 @@ export class DetalleGuardarLiquidacionComponent implements OnInit {
   * Se realiza consumo de servicio para consultar la liquidacion mensual
   * @BaironPerez
   */
-  consultaInfo() {debugger
+  consultaInfo() {
     this.liquidacionMensualService.obtenerLiquidacionMensal({
       'transportadora': this.transportadoraSelect,
     }).subscribe((data: any) => {

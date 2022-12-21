@@ -14,7 +14,8 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class LiquidacionMensualService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.LIQUIDACION_MENSUAL}`;
+    private urlLiquidacionMensaul: string = `${environment.HOST}${URLs.STAGE + URLs.LIQUIDACION_MENSUAL}`;
+    private urlCierreLiquidacionMensual: string = `${environment.HOST}${URLs.STAGE + URLs.LIQUIDACION_MENSUAL}`;
 
     constructor(private http: HttpClient) { }
 
@@ -23,21 +24,28 @@ export class LiquidacionMensualService {
      * Servicio para listar las escalas
     */
     obtenerLiquidacionMensal(params: any): Observable<any> {
-        return this.http.get<any>(`${this.url}${URLs.LIQUIDACION_MENSUAL_CONSULTAR}`, { params: params });
+        return this.http.get<any>(`${this.urlLiquidacionMensaul}${URLs.LIQUIDACION_MENSUAL_CONSULTAR}`, { params: params });
     }
 
     /**
      * Servicio para liquidar
      */
     liquidarMensual(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.LIQUIDACION_MENSUAL_LIQUIDAR}`, param);
+        return this.http.post<any>(`${this.urlLiquidacionMensaul}${URLs.LIQUIDACION_MENSUAL_LIQUIDAR}`, param);
     }
 
     /**
      * Servicio para gurdar la liquidacion
      */
     guardarLiquidacionMensal(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.LIQUIDACION_MENSUAL_GUARDAR}`, param);
+        return this.http.post<any>(`${this.urlLiquidacionMensaul}${URLs.LIQUIDACION_MENSUAL_GUARDAR}`, param);
+    }
+
+    /**
+     * Servicio para gurdar la liquidacion
+     */
+    cerrarLiquidacionMensal(): Observable<any> {
+        return this.http.post<any>(`${this.urlCierreLiquidacionMensual}${URLs.LIQUIDACION_MENSUAL_CIERRE}`, null);
     }
 
 }
