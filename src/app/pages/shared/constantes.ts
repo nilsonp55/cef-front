@@ -266,6 +266,8 @@ export const URLs = {
 
   //Gestion puntos
   GESTION_PUNTOS: '/punto',
+  DOMINIO_FUNCIONAL: '/dominio-funcional',
+  CONSULTAR_DOMINIO: '/consultar-dominio',
   CONSULTAR_PUNTOS: '/consultar',
   GUARDAR_PUNTO: '/guardar',
 

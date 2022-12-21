@@ -26,8 +26,7 @@
                         </ng-container>
                     </tr>
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsDominios"></tr>
-                    <tr mat-row (click)="eventoClick(row)"
-                    *matRowDef="let row; columns: displayedColumnsDominios;"></tr>
+                    <tr mat-row (click)="eventoClick(row)" *matRowDef="let row; columns: displayedColumnsDominios;"></tr>
                 </table>
             </div>
         </div>
