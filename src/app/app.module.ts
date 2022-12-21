@@ -121,6 +121,7 @@ import { GestionUsuariosComponent } from './pages/modules/administracion/gestion
 import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
 import { EjecutarProcedimientoComponent } from './pages/modules/administracion/gestion-procedimientos/ejecutar-procedimiento/ejecutar-procedimiento.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { InfoDetallesPuntoComponent } from './pages/modules/administracion/gestion-puntos/info-detalles-punto/info-detalles-punto.component';
 
 @NgModule({
   declarations: [
@@ -219,7 +220,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     TdvDenominacionCantidadComponent,
     GestionUsuariosComponent,
     GestionProcedimientosComponent,
-    EjecutarProcedimientoComponent
+    EjecutarProcedimientoComponent,
+    InfoDetallesPuntoComponent
     ],
 
   imports: [

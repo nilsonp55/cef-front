@@ -132,7 +132,6 @@ export class AdministracionDominiosComponent implements OnInit {
   }
 
   listarDominios() {
-    console.log()
     if (this.isDominioChecked == true) {
       this.listarDominiosMaestroTrue()
     } else {
@@ -158,7 +157,6 @@ export class AdministracionDominiosComponent implements OnInit {
     this.generalesService.listarDominioXDominio({
       'dominio':this.elementoDominioActualizar.dominio
     }).subscribe((page: any) => {
-      console.log(page)
       this.dataSourceCodigos = new MatTableDataSource(page.data);
       this.dataSourceCodigos.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;

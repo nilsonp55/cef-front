@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-dialog-info-certificadas-no-conciliadas',
@@ -17,6 +16,7 @@ export class DialogInfoCertificadasNoConciliadasComponent implements OnInit {
 
   dataSourceInfoOpCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>;
   displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion','nombreFondoTDV','nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'valorFaltante', 'valorSobrante'];
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ConciliacionesCertificadaNoConciliadasModel,
     ) { 

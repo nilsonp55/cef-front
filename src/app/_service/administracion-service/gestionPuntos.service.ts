@@ -15,6 +15,7 @@ import { URLs } from 'src/app/pages/shared/constantes';
 export class GestionPuntosService {
 
     private url: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS}`;
+    private url2: string = `${environment.HOST}${URLs.STAGE}${URLs.DOMINIO_FUNCIONAL}`;
 
     constructor(private http: HttpClient) { }
 
@@ -24,6 +25,10 @@ export class GestionPuntosService {
     listarPuntosCreados(params?: any): Observable<any> {
         const formData: FormData = new FormData();
         return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}`, { params: params });
+    }
+
+    listarTiposPuntos(params?: any): Observable<any> {
+        return this.http.get<any>(`${this.url2}${URLs.CONSULTAR_DOMINIO}`, { params: params });
     }
 
     /** 
