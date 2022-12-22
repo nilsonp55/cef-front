@@ -27,10 +27,6 @@
 
 .divTablaCerti {
     background-color: rgb(226, 229, 229);
-    padding: 1%;
-    margin-top: 2%;
-    margin-left: 2%;
-    margin-right: 10%;
     margin-bottom: auto;
 }
 
@@ -141,4 +137,9 @@
 	-webkit-transition: All 0.3s ease;
 	-moz-transition: All 0.3s ease;
 	-o-transition: All 0.3s ease;
+}
+
+.filtro {
+	display: flex;
+	margin-right: 35% ;
 }

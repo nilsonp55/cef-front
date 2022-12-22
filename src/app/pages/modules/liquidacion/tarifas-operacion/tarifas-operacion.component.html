@@ -12,8 +12,37 @@
                 (click)="irAtras()">Atras</button>
         </div>
     </div>
-
+    <br>
     <div *ngIf="mostrarTabla" class="divTablaCerti">
+        <div class="filtro">
+            <mat-form-field appearance="fill">
+                <mat-label>Bancos</mat-label>
+                <mat-select [(ngModel)]="filtroBancoSelect">
+                    <mat-option *ngFor="let item of bancos" [value]="item">
+                        {{item.nombreBanco}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Transporta</mat-label>
+                <mat-select [(ngModel)]="filtroTransportaSelect">
+                    <mat-option *ngFor="let item of transportadoras" [value]="item">
+                        {{item.nombreTransportadora}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Tipo Operación</mat-label>
+                <mat-select [(ngModel)]="filtroTipOperacionSelect">
+                    <mat-option *ngFor="let item of tipoOperaciones" [value]="item">
+                        {{item}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button title="Visualizar" mat-button (click)="filtrar($event)">
+                <mat-icon style="color: green">search</mat-icon>
+            </button>
+        </div>
         <div class="configScroll">
             <table mat-table matTableExporter [dataSource]="dataSourceTiposCuentas" matSort
                 #exporter="matTableExporter">
@@ -134,7 +163,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>Tipo operaciones</mat-label>
-                    <mat-select required formControlName="tipoOperacion">
+                    <mat-select formControlName="tipoOperacion">
                         <mat-option *ngFor="let item of tipoOperaciones" [value]="item">
                             {{item}}
                         </mat-option>

@@ -12,8 +12,37 @@
                 (click)="irAtras()">Atras</button>
         </div>
     </div>
-
+    <br>
     <div *ngIf="mostrarTabla" class="divTablaCerti">
+        <div class="filtro">
+            <mat-form-field appearance="fill">
+                <mat-label>Bancos</mat-label>
+                <mat-select [(ngModel)]="filtroBancoSelect">
+                    <mat-option *ngFor="let item of bancos" [value]="item">
+                        {{item.nombreBanco}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Transporta Orige</mat-label>
+                <mat-select [(ngModel)]="filtroTransportaOrigSelect">
+                    <mat-option *ngFor="let item of transportadoras" [value]="item">
+                        {{item.nombreTransportadora}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Ciudad Origen</mat-label>
+                <mat-select [(ngModel)]="filtroCiudadOrigSelect">
+                    <mat-option *ngFor="let item of ciudades" [value]="item">
+                        {{item.nombreCiudad}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button title="Visualizar" mat-button (click)="filtrar($event)">
+                <mat-icon style="color: green">search</mat-icon>
+            </button>
+        </div>
         <div class="configScroll">
             <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort matSortDirection="desc" matSortActive="idEscala" #exporter="matTableExporter">
                 <tr>
@@ -26,14 +55,19 @@
                         <td mat-cell *matCellDef="let element"> {{element.bancosDTO.nombreBanco}} </td>
                     </ng-container>
                     <ng-container matColumnDef="transportadoraOrigen" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP ORIG</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP Origen</th>
                         <td mat-cell *matCellDef="let element"> {{element.transportadoraOrigenDTO.nombreTransportadora}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="transportadoraDestino" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP DEST</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP DESTI</th>
                         <td mat-cell *matCellDef="let element">
                             {{element.transportadoraDestinoDTO.nombreTransportadora}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ciudadOrigen" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CIUDAD ORIGEN</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.ciudadOrigenDTO.nombreCiudad}} </td>
                     </ng-container>
                     <ng-container matColumnDef="escala" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ESCALA</th>
