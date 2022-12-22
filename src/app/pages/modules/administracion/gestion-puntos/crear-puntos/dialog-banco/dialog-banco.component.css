@@ -1,0 +1,37 @@
+.div-division {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: auto;
+    text-align: left;
+  }
+
+  .ubica {
+      margin-top: 8%;
+  }
+
+  .example-container .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+
+  .division-btn-ident {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: auto;
+    margin-top: 3%;
+    text-align: center;
+  }
+
+  .example-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
+  }
+  
+  .example-radio-button {
+    margin: 5px;
+  }
+
+  .titulo-tabla {
+    text-align: center;
+  }

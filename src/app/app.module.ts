@@ -123,6 +123,12 @@ import { EjecutarProcedimientoComponent } from './pages/modules/administracion/g
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { InfoDetallesPuntoComponent } from './pages/modules/administracion/gestion-puntos/info-detalles-punto/info-detalles-punto.component';
 import { CierreLiquidacionMensualComponent } from './pages/modules/liquidacion/cierre-liquidacion-mensual/cierre-liquidacion-mensual.component';
+import { DialogCajeroComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cajero/dialog-cajero.component';
+import { DialogFondoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-fondo/dialog-fondo.component';
+import { DialogOficinaComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-oficina/dialog-oficina.component';
+import { DialogClienteComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cliente/dialog-cliente.component';
+import { DialogBanRepComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
+import { DialogBancoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-banco/dialog-banco.component';
 
 
 @NgModule({
@@ -224,7 +230,13 @@ import { CierreLiquidacionMensualComponent } from './pages/modules/liquidacion/c
     GestionProcedimientosComponent,
     EjecutarProcedimientoComponent,
     InfoDetallesPuntoComponent,
-    CierreLiquidacionMensualComponent
+    CierreLiquidacionMensualComponent,
+    DialogCajeroComponent,
+    DialogFondoComponent,
+    DialogOficinaComponent,
+    DialogClienteComponent,
+    DialogBanRepComponent,
+    DialogBancoComponent
     ],
 
   imports: [

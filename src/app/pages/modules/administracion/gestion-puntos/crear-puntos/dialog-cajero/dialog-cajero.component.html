@@ -1,0 +1,102 @@
+<div class="titulo-tabla">
+    <h1>Crear cajero</h1>
+</div>
+<form class="example-container" [formGroup]="form" #frmPaciente="ngForm">
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Nombre</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input formControlName="nombre" matInput #input>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Ciudad</h2>
+        </div>
+        <mat-form-field appearance="fill">
+            <mat-label>Seleccione una ciudad</mat-label>
+            <mat-select formControlName="ciudad">
+                <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
+                    {{ciudad.nombreCiudad}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Código cajero</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input formControlName="codigoCajero" matInput #input>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Banco Aval</h2>
+        </div>
+        <mat-form-field appearance="fill">
+            <mat-label>Seleccione un banco</mat-label>
+            <mat-select formControlName="bancoAval">
+                <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval">
+                    {{bancoAval.nombreBanco}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Tarifa ruteo</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input formControlName="tarifaRuteo" matInput #input>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Tarifa verificación</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input formControlName="tarifaVerificacion" matInput #input>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Estado</h2>
+        </div>
+            <label class="switch" style="margin-left:8%; margin-top: 4%;" >
+                <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                <span class="switch-handle"></span>
+            </label>
+    </div>
+
+    <div>
+        <mat-checkbox class="margen-checkbox" color="primary" [(ngModel)]="esGrupoAval">Depositario</mat-checkbox>
+    </div>
+
+
+
+    <div class="division-btn-ident">
+        <div>
+            <button mat-raised-button color="primary" (click)="persistir()">Guardar</button>
+        </div>
+        <div>
+            <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+        </div>
+    </div>
+</form>
