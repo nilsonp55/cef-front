@@ -12,8 +12,29 @@
                 (click)="irAtras()">Atras</button>
         </div>
     </div>
-
+    <br>
     <div *ngIf="mostrarTabla" class="divTablaCerti">
+        <div class="filtro">
+            <mat-form-field appearance="fill">
+                <mat-label>Bancos</mat-label>
+                <mat-select [(ngModel)]="filtroBancoSelect">
+                    <mat-option *ngFor="let item of bancos" [value]="item">
+                        {{item.nombreBanco}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Transporta</mat-label>
+                <mat-select [(ngModel)]="filtroTransportaSelect">
+                    <mat-option *ngFor="let item of transportadoras" [value]="item">
+                        {{item.nombreTransportadora}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button title="Visualizar" mat-button (click)="filtrar($event)">
+                <mat-icon style="color: green">search</mat-icon>
+            </button>
+        </div>
         <div class="configScroll">
             <table mat-table matTableExporter [dataSource]="dataSourceCodigoPuntoTdv" matSort
                 #exporter="matTableExporter">

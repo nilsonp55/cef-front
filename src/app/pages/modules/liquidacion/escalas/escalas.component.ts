@@ -20,7 +20,7 @@ export class EscalasComponent implements OnInit {
 
   form: FormGroup;
   dataSourceEscalas: MatTableDataSource<any>
-  displayedColumnsEscalas: string[] = ['idEscala', 'banco', 'transportadoraOrigen', 'transportadoraDestino', 'escala', 'estado', 'acciones'];
+  displayedColumnsEscalas: string[] = ['idEscala', 'banco', 'transportadoraOrigen', 'transportadoraDestino', 'ciudadOrigen', 'escala', 'estado', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   mostrarTabla = true;
@@ -32,8 +32,9 @@ export class EscalasComponent implements OnInit {
   escalas: any[] = [];
   habilitarBTN: boolean;
 
-  //Rgistros paginados
-
+  filtroBancoSelect: any;
+  filtroTransportaOrigSelect: any;
+  filtroCiudadOrigSelect: any;
 
   constructor(
     private escalasService: EscalasService,
@@ -122,6 +123,9 @@ export class EscalasComponent implements OnInit {
     this.escalasService.obtenerEscalas({
       page: pagina,
       size: tamanio,
+      'bancos.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
+      'transportadoraOrigen.codigo': this.filtroTransportaOrigSelect == undefined ? '': this.filtroTransportaOrigSelect.codigo,
+      'ciudadOrigen.codigoDANE': this.filtroCiudadOrigSelect== undefined ? '': this.filtroCiudadOrigSelect.codigoDANE
     }).subscribe((page: any) => {
       this.dataSourceEscalas = new MatTableDataSource(page.data.content);
       this.dataSourceEscalas.sort = this.sort;
@@ -283,6 +287,13 @@ export class EscalasComponent implements OnInit {
 
   irAtras() {
     window.location.reload();
+  }
+
+  filtrar(event) {
+    this.filtroBancoSelect;
+    this.filtroTransportaOrigSelect;
+    this.filtroCiudadOrigSelect;
+    this.listarEscalas();
   }
 
 }
