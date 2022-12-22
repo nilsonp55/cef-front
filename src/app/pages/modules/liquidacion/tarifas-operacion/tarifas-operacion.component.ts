@@ -40,6 +40,10 @@ export class TarifasOperacionComponent implements OnInit {
   valorEstado = "";
   habilitarBTN: boolean;
 
+  filtroTipOperacionSelect: any;
+  filtroBancoSelect: any;
+  filtroTransportaSelect: any;S
+
   date: any;
   serializedDate: any;
 
@@ -132,6 +136,9 @@ export class TarifasOperacionComponent implements OnInit {
     this.tarifasOperacionService.consultarTarifasOperacion({
       page: pagina,
       size: tamanio,
+      'banco.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
+      'transportadora.codigo': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
+      'tipoOperacion': this.filtroTipOperacionSelect == undefined ? '': this.filtroTipOperacionSelect
     }).subscribe((page: any) => {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
       this.dataSourceTiposCuentas.sort = this.sort;
@@ -328,6 +335,13 @@ export class TarifasOperacionComponent implements OnInit {
 
   onKeypressEvent(event: any):  any {
     if(event.charCode < 48 || event.charCode > 57) return false;
+  }
+
+  filtrar(event) {
+    this.filtroBancoSelect;
+    this.filtroTransportaSelect;
+    this.filtroTipOperacionSelect;
+    this.listarTarifaOperacion();
   }
 
 }
