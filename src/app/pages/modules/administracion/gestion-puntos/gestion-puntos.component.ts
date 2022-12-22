@@ -7,6 +7,12 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 import { InfoDetallesPuntoComponent } from './info-detalles-punto/info-detalles-punto.component';
+import { DialogCajeroComponent } from './crear-puntos/dialog-cajero/dialog-cajero.component';
+import { DialogFondoComponent } from './crear-puntos/dialog-fondo/dialog-fondo.component';
+import { DialogBancoComponent } from './crear-puntos/dialog-banco/dialog-banco.component';
+import { DialogOficinaComponent } from './crear-puntos/dialog-oficina/dialog-oficina.component';
+import { DialogClienteComponent } from './crear-puntos/dialog-cliente/dialog-cliente.component';
+import { DialogBanRepComponent } from './crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
 
 @Component({
   selector: 'app-gestion-puntos',
@@ -22,6 +28,7 @@ export class GestionPuntosComponent implements OnInit {
   puntoSeleccionado;
   elementoPuntoActualizar: string;
   detallePuntoSeleccionado: any;
+  estadoPuntos: boolean;
 
   //Rgistros paginados
   cantidadRegistros: number;
@@ -33,7 +40,7 @@ export class GestionPuntosComponent implements OnInit {
   displayedColumnsPuntoSelect: string[] = ['codigo_punto', 'descripcion', 'ciudad', 'detalle'];
 
   dataSourceTiposPunto: MatTableDataSource<any>
-  displayedColumnsTiposPunto: string[] = ['name'];
+  displayedColumnsTiposPunto: string[] = ['name', 'acciones'];
 
 
   constructor(
@@ -44,6 +51,7 @@ export class GestionPuntosComponent implements OnInit {
 
   ngOnInit(): void {
     //this.listarPuntosCreados();
+    this.estadoPuntos = false;
     this.listarTiposPunto();
   }
 
@@ -52,8 +60,6 @@ export class GestionPuntosComponent implements OnInit {
     this.gestionPuntosService.listarTiposPuntos({
       "dominioPK.dominio": "TIPOS_PUNTO"
     }).subscribe(data => {
-      console.log("Entro")
-      console.log(data.data)
       this.spinnerActive = false;
       this.dataSourceTiposPunto = new MatTableDataSource(data.data);
       this.dataSourceTiposPunto.sort = this.sort;
@@ -82,8 +88,7 @@ export class GestionPuntosComponent implements OnInit {
       page: pagina,
       size: tamanio
     }).subscribe(data => {
-      console.log("Solicito la data")
-      console.log(data.data.content)
+      this.estadoPuntos = true;
       //this.spinnerActive = false;
       this.dataSourcePuntoSelect = new MatTableDataSource(data.data.content);
       this.dataSourcePuntoSelect.sort = this.sort;
@@ -122,38 +127,47 @@ export class GestionPuntosComponent implements OnInit {
   * Evento que levanta un openDialog para crear un punto segun el tipo de punto
   * @BaironPerez
   */
-   crearPunto() {
+   crearPunto(element: any) {
+    console.log("Elemento que ingresa")
+    console.log(element)
     if(this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.BANCO) {
       // TODO: debe aarecer la vetana para crear banco
-      this.dialog.open(CrearPuntoComponent, {
+      this.dialog.open(DialogBancoComponent, {
         width: '600PX', 
         data: GENERALES.TIPO_PUNTOS.BANCO
       })
     }
+    else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.BAN_REP) {
+      // TODO: debe aarecer la vetana para crear cajero
+      this.dialog.open(DialogBanRepComponent, {
+        width: '600PX', 
+        data: GENERALES.TIPO_PUNTOS.BAN_REP
+      })
+    }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.CAJERO) {
       // TODO: debe aarecer la vetana para crear cajero
-      this.dialog.open(CrearPuntoComponent, {
+      this.dialog.open(DialogCajeroComponent, {
         width: '600PX', 
         data: GENERALES.TIPO_PUNTOS.CAJERO
       })
     }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.FONDO) {
       // TODO: debe aarecer la vetana para crear fondo
-      this.dialog.open(CrearPuntoComponent, {
+      this.dialog.open(DialogFondoComponent, {
         width: '600PX', 
         data: GENERALES.TIPO_PUNTOS.FONDO
       })
     }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.OFICINA) {
       // TODO: debe aarecer la vetana para crear oficina
-      this.dialog.open(CrearPuntoComponent, {
+      this.dialog.open(DialogOficinaComponent, {
         width: '600PX', 
         data: GENERALES.TIPO_PUNTOS.OFICINA
       })
     }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.CLIENTE) {
       // TODO: debe aarecer la vetana para crear cliente
-      this.dialog.open(CrearPuntoComponent, {
+      this.dialog.open(DialogClienteComponent, {
         width: '600PX', 
         data: GENERALES.TIPO_PUNTOS.CLIENTE
       })
