@@ -15,7 +15,7 @@
 }
 
 .division-btn {
-  display: grid;
+
   grid-template-columns: 1fr 1fr 1fr;
   height: auto;
 }
@@ -96,13 +96,17 @@ table {
 }
 
 .mat-column-codigo_punto{
-  width: 20%;
+  width: 15%;
 }
 
 .mat-column-descripcion{
-  width: 55%
+  width: 40%
 }
 
 .mat-column-ciudad {
   width: 25%;
+}
+
+.mat-column-acciones {
+  width: 20%;
 }
