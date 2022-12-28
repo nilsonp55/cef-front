@@ -129,6 +129,7 @@ import { DialogOficinaComponent } from './pages/modules/administracion/gestion-p
 import { DialogClienteComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cliente/dialog-cliente.component';
 import { DialogBanRepComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
 import { DialogBancoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-banco/dialog-banco.component';
+import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
 
 
 @NgModule({
@@ -236,7 +237,8 @@ import { DialogBancoComponent } from './pages/modules/administracion/gestion-pun
     DialogOficinaComponent,
     DialogClienteComponent,
     DialogBanRepComponent,
-    DialogBancoComponent
+    DialogBancoComponent,
+    AdministracionFestivosNacionalesComponent
     ],
 
   imports: [
