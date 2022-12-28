@@ -23,7 +23,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
   public idFuncion: any;
   spinnerActive: boolean = false;
   dataSourceResponse: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7', 'campo8'];
+  displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7', 'campo8', 'campo9', 'campo10', 'campo11', , 'campo12'];
   mostrarTabla: boolean = false;
 
   constructor(
@@ -175,9 +175,55 @@ export class EjecutarProcedimientoComponent implements OnInit {
             }
             listResponse.push(object);
           }
-
+          if(resp.length == 10){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2],
+              campo4: resp[3],
+              campo5: resp[4],
+              campo6: resp[5],
+              campo7: resp[6],
+              campo8: resp[7],
+              campo9: resp[8],
+              campo10: resp[9],
+            }
+            listResponse.push(object);
+          }
+          if(resp.length == 11){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2],
+              campo4: resp[3],
+              campo5: resp[4],
+              campo6: resp[5],
+              campo7: resp[6],
+              campo8: resp[7],
+              campo9: resp[8],
+              campo10: resp[9],
+              campo11: resp[10],
+            }
+            listResponse.push(object);
+          }
+          if(resp.length == 12){
+            const object = {
+              campo1: resp[0],
+              campo2: resp[1],
+              campo3: resp[2],
+              campo4: resp[3],
+              campo5: resp[4],
+              campo6: resp[5],
+              campo7: resp[6],
+              campo8: resp[7],
+              campo9: resp[8],
+              campo10: resp[9],
+              campo11: resp[10],
+              campo12: resp[11],
+            }
+            listResponse.push(object);
+          }
         }
-        
       });
       this.dataSourceResponse = new MatTableDataSource(listResponse);
       this.mostrarTabla = true;
