@@ -38,6 +38,6 @@ export class FestivosNacionalesService {
      * Servicio para listar usuario
     */
      eliminarFestivosNacionales(params?: any): Observable<any> {
-        return this.http.delete<any>(`${this.url}${URLs.ADMIN_FESTIVOS_NACIONALES_ELIMINAR}`,  params);
+        return this.http.post<any>(`${this.url}${URLs.ADMIN_FESTIVOS_NACIONALES_ELIMINAR}`,  params);
     }
 }
