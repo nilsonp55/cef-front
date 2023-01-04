@@ -43,8 +43,11 @@ export class GestionPuntosService {
     * Servicio para listar los puntos
     */
      crearPunto(param: any): Observable<any> {
-        const formData: FormData = new FormData();
         return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`, { param });
+    }
+    
+    actualizarPunto(param: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.ACTUALIZAR_PUNTO}`, { param });
     }
 
 }

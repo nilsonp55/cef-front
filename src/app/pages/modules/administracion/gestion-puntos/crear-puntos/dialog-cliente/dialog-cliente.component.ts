@@ -19,27 +19,53 @@ export class DialogClienteComponent implements OnInit {
   tipoEstado: string[] = ['Punto en uso', 'Punto no esta en uso'];
   esGrupoAval = false;
   ciudades: any[] = [];
-  
+  clientes: any[] = [];
+  titulo: string;
   mosrarFormBanco = false;
   mosrarFormCliente = false;
   mosrarFormOficina= false;
   mosrarFormCajero = false;
   mosrarFormFondo = false;
-  
+  estadoBTN: boolean;
+  nombreBTN: string;
+  esEdicion: boolean;
+  dataElement: any = null;
+  mostrarFormulario: boolean = false;
+  isDisable: boolean;
   
   constructor(
-    private dialog: MatDialog,
+    private dialog: MatDialog, 
     @Inject(MAT_DIALOG_DATA) public data: any,
     private generalServices: GeneralesService,
     private gestionPuntosService: GestionPuntosService) 
     { }
   
   
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {debugger
     //Validar que tipo de frmulario se presentará
-    this.initForm();;
-    this.datosDesplegables();
-    if(this.data == GENERALES.TIPO_PUNTOS.BANCO) {
+    this.dataElement = this.data.element;
+    this.nombreBTN = "Guardar"
+    if(this.data.flag == "crear") {
+      this.titulo = "Crear  "
+    }
+    if(this.data.flag == "info") {
+      this.titulo = "Información "
+      this.estadoBTN = false
+      this.isDisable = false
+    }
+    if(this.data.flag == "modif") {
+      this.titulo = "Modificación "
+      this.nombreBTN = "Actualizar"
+      this.esEdicion = true;
+
+    }
+    await this.datosDesplegables();
+    this.estadoBTN = true
+    
+    
+
+
+    /*if(this.data == GENERALES.TIPO_PUNTOS.BANCO) {
       this.mosrarFormBanco == true;
       this.mosrarFormCliente = false;
       this.mosrarFormOficina= false;
@@ -60,13 +86,14 @@ export class DialogClienteComponent implements OnInit {
       this.mosrarFormCliente = false;
       this.mosrarFormOficina= false;
     }
-    else if(this.data == GENERALES.TIPO_PUNTOS.OFICINA) {
+    else if(this.data.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
       this.mosrarFormOficina= true;
       this.mosrarFormFondo= false;
       this.mosrarFormCajero = false;
       this.mosrarFormBanco == false;
       this.mosrarFormCliente = false;
-    }
+    }*/
+    this.initForm(this.dataElement);
   }
   
   /**
@@ -102,12 +129,30 @@ export class DialogClienteComponent implements OnInit {
 
   initForm(param?: any) {
     this.form = new FormGroup({
-      'nombre': new FormControl(),
-      'ciudad': new FormControl(),
-      'cliente': new FormControl(),
-      'estado': new FormControl(),
-      'fajado': new FormControl(),
+      'nombre': new FormControl(param != null ? param.nombrePunto:null),
+      'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
+      'cliente': new FormControl(param ? this.selectCliente(param) : null),
+      'estado': new FormControl(param != null ? param.estado:null),
+      'fajado': new FormControl(param != null ? param.fajado:null),
     });
+    this.mostrarFormulario = true
+  }
+
+  selectCiudad(param: any): any {
+    for(let i= 0; i < this.ciudades.length; i++) {
+      const element = this.ciudades[i];
+      if(element.codigoDANE == param.codigoCiudad) {
+        return element;
+      }
+    }
+  }
+  selectCliente(param: any): any {
+    for(let i= 0; i < this.clientes.length; i++) {
+      const element = this.clientes[i];
+      if(element.codigoCliente == param.sitiosClientes.codigoCliente) {
+        return element;
+      }
+    }
   }
   
   persistir() {
@@ -117,32 +162,60 @@ export class DialogClienteComponent implements OnInit {
       cliente: this.form.value['cliente'],
       estado: this.form.value['estado'],
       fajado: this.form.value['fajado'],
-      
-      /*bancosDTO: {
-        codigoPunto: this.form.value['banco'].codigoPunto
-      },
-      transportadoraOrigenDTO: {
-        codigo: this.form.value['transportadoraOrigen'].codigo
-      },
-      transportadoraDestinoDTO: {
-        codigo: this.form.value['transportadoraDestino'].codigo
-      },
-      ciudadOrigenDTO: {
-        codigoDANE: this.form.value['ciudadOrigen'].codigoDANE
-      },
-      ciudadDestinoDTO: {
-        codigoDANE: this.form.value['ciudadDestino'].codigoDANE
-      },
-      escala: this.form.value['escala'],*/
-      //estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
     }
     console.log(cliente)
+    if (this.esEdicion) {
+      //cliente.consecutivo = this.idConfEntity;
+      this.gestionPuntosService.actualizarPunto(cliente).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    } else {
+      this.gestionPuntosService.crearPunto(cliente).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    }
+    this.ngOnInit();
   }
 
   async datosDesplegables() {
 
     const _ciudades = await this.generalServices.listarCiudades().toPromise();
     this.ciudades = _ciudades.data;
+
+    const _clientes = await this.generalServices.listarClientes().toPromise();
+    this.clientes = _clientes.data;
   
   }
 }

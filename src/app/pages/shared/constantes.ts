@@ -252,6 +252,10 @@ export const URLs = {
   DOMINIO_ACTUALIZAR:'/actualizar',
   DIMINIO_CONSULTAR:'/consultar-dominio',
 
+  //Listar clientes
+  CLIENTE: '/clientes-corporativos',
+  CLIENTE_CONSULTAR: '/consultar',
+
   //Consultar parametro
   PARAMETRO: '/parametro',
   PARAMETRO_CONSULTA: '/consultar',
@@ -270,6 +274,7 @@ export const URLs = {
   CONSULTAR_DOMINIO: '/consultar-dominio',
   CONSULTAR_PUNTOS: '/consultar',
   GUARDAR_PUNTO: '/guardar',
+  ACTUALIZAR_PUNTO: '/actualizar',
 
   //Administración tipos cuentas 
   ADMIN_TIPOS_CUENTAS: '/tipos-cuentas',
@@ -313,9 +318,9 @@ export const URLs = {
   
   CIERRE_CONTABILIDAD_CERRAR: '/cierre',
 
-    //AUTORIZACION_CONTABILIDAD
-    AUTORIZACION_CIERRE_CONTABILIDAD: '/autorizacioncierre',
-    AUTORIZACION_CONTABILIDAD: '/autorizacion',
+  //AUTORIZACION_CONTABILIDAD
+  AUTORIZACION_CIERRE_CONTABILIDAD: '/autorizacioncierre',
+  AUTORIZACION_CONTABILIDAD: '/autorizacion',
     
   //Generar Contabilidad
   CONTABILIDAD: '/contabilidad',
@@ -326,6 +331,7 @@ export const URLs = {
   COSTOS_FLETE_CHARTER: '/costos-flete-charter',
   COSTOS_FLETE_CHARTER_CONSULTAR: '/consultar',
   COSTOS_FLETE_CHARTER_GUARDAR: '/grabar',
+
   //Liuidar costos
   LIQUIDACION: '/liquidar-valores',
   LIQUIDACION_COSTOS: '/costos',
@@ -346,11 +352,11 @@ export const URLs = {
   ADMIN_MENU_ROL_GUARDAR: '/guardar',
   ADMIN_MENU_ROL_ACTUALIZAR: '/actualizar',
 
-  //Administración menu-rol
-  ADMIN_FESTIVOS_NACIONALES: '/festivos-nacionales',
-  ADMIN_FESTIVOS_NACIONALES_CONSULTAR: '/consultar',
-  ADMIN_FESTIVOS_NACIONALES_GUARDAR: '/guardar',
-  ADMIN_FESTIVOS_NACIONALES_ELIMINAR: '/eliminar',
+   //Administración festivos-nacionles
+   ADMIN_FESTIVOS_NACIONALES: '/festivos-nacionales',
+   ADMIN_FESTIVOS_NACIONALES_CONSULTAR: '/consultar',
+   ADMIN_FESTIVOS_NACIONALES_GUARDAR: '/guardar',
+   ADMIN_FESTIVOS_NACIONALES_ELIMINAR: '/eliminar',
 
   //Administración usuario
   ADMIN_USUARIO: '/usuario',

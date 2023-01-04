@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
@@ -24,6 +24,14 @@ export class DialogOficinaComponent implements OnInit {
   mosrarFormOficina= false;
   mosrarFormCajero = false;
   mosrarFormFondo = false;
+  labelPosition: 'Refajillado' | 'fajado' = 'fajado';
+  nombreBTN: string;
+  nombreBTNCancelar: string;
+  estadoBTN: boolean;
+  titulo: string;
+  dataElement: any = null;
+  esEdicion: boolean;
+  mostrarFormulario: boolean = false;
   
   
   constructor(
@@ -34,38 +42,31 @@ export class DialogOficinaComponent implements OnInit {
     { }
   
   
-  ngOnInit(): void {
-    this.datosDesplegables();
-    //Validar que tipo de frmulario se presentará
-    if(this.data == GENERALES.TIPO_PUNTOS.BANCO) {
-      this.mosrarFormBanco == true;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-      this.mosrarFormCajero = false;
-      this.mosrarFormFondo= false;
+    async ngOnInit(): Promise<void> {
+      this.dataElement = this.data.element;
+      console.log(this.dataElement)
+      this.nombreBTN = "Guardar"
+      if(this.data.flag == "crear") {
+        this.estadoBTN = true
+        this.titulo = "Crear  "
+        this.nombreBTNCancelar = "Cancelar"
+      }
+      if(this.data.flag == "info") {
+        this.estadoBTN = false
+        this.titulo = "Información "
+        this.nombreBTNCancelar = "Cerrar"
+      }
+      if(this.data.flag == "modif") {
+        this.titulo = "Modificación "
+        this.nombreBTN = "Actualizar"
+        this.nombreBTNCancelar = "Cancelar"
+        this.estadoBTN = true
+        this.esEdicion = true;
+  
+      }
+      await this.datosDesplegables();
+      this.initForm(this.dataElement);
     }
-    else if(this.data == GENERALES.TIPO_PUNTOS.CAJERO) {
-      this.mosrarFormCajero = true;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-      this.mosrarFormFondo= false;
-    }
-    else if(this.data == GENERALES.TIPO_PUNTOS.FONDO) {
-      this.mosrarFormFondo= true;
-      this.mosrarFormCajero = false;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-    }
-    else if(this.data == GENERALES.TIPO_PUNTOS.OFICINA) {
-      this.mosrarFormOficina= true;
-      this.mosrarFormFondo= false;
-      this.mosrarFormCajero = false;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-    }
-  }
   
   /**
    * Metodo encargado de crear un punto segun el tipo de punto
@@ -98,29 +99,50 @@ export class DialogOficinaComponent implements OnInit {
     })
   }
   
-  persistir() {
-    let banco = {
-      nombre: this.form.value['nombre'],
-      
-      /*bancosDTO: {
-        codigoPunto: this.form.value['banco'].codigoPunto
-      },
-      transportadoraOrigenDTO: {
-        codigo: this.form.value['transportadoraOrigen'].codigo
-      },
-      transportadoraDestinoDTO: {
-        codigo: this.form.value['transportadoraDestino'].codigo
-      },
-      ciudadOrigenDTO: {
-        codigoDANE: this.form.value['ciudadOrigen'].codigoDANE
-      },
-      ciudadDestinoDTO: {
-        codigoDANE: this.form.value['ciudadDestino'].codigoDANE
-      },
-      escala: this.form.value['escala'],*/
-      //estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
+  initForm(param?: any) {debugger
+    this.form = new FormGroup({
+      'nombre': new FormControl(param != null ? param.nombrePunto:null),
+      'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
+      'codigoOficina': new FormControl(param != null ? param.oficinas.codigoOficina:null),
+      'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
+      'tarifaRuteo': new FormControl(param != null ? param.oficinas.tarifaRuteo:null),
+      'tariVerificacion': new FormControl(param != null ? param.oficinas.tarifaVerificacion:null),
+      'estado': new FormControl(),
+      'fajado': new FormControl(param != null ? param.oficinas.fajado :null),
+    });
+    this.mostrarFormulario = true
+  }
+
+  selectCiudad(param: any): any {
+    for(let i= 0; i < this.ciudades.length; i++) {
+      const element = this.ciudades[i];
+      if(element.codigoDANE == param.codigoCiudad) {
+        return element;
+      }
     }
-    console.log(banco)
+  }
+
+  selectBanco(param: any): any {debugger
+    for(let i= 0; i < this.bancosAval.length; i++) {
+      const element = this.bancosAval[i];
+      if(element.codigoPunto == param.codigoPunto) {
+        return element;
+      }
+    }
+  }
+
+  persistir() {
+    let oficina = {
+      nombre: this.form.value['nombre'],
+      ciudad: this.form.value['ciudad'],
+      codigoOficina: this.form.value['codigoOficina'],
+      bancoAval: this.form.value['bancoAval'],
+      tarifaRuteo: this.form.value['tarifaRuteo'],
+      tariVerificacion: this.form.value['tariVerificacion'],
+      estado: this.form.value['estado'],
+      fajado: this.form.value['fajado'],
+    }
+    console.log(oficina)
   }
 
   async datosDesplegables() {

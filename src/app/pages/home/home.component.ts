@@ -18,16 +18,13 @@ export class HomeComponent implements OnInit {
   }
 
   capturaToken() {
-    console.log(window.location)
     this.respuestaUrl = window.location.hash;
-    console.log("Valor del Hash: "+this.respuestaUrl)
     if(this.respuestaUrl.length>0) {
       const _respuesta = this.respuestaUrl.split(/[=,&]/)
       this.tokenOficial = _respuesta[3]
       var decodificado = jwt_decode(this.tokenOficial);
       this.serializarToken(decodificado,this.tokenOficial)
     }
-
   }
 
   serializarToken(decodificado: any, tokenOficial: any){

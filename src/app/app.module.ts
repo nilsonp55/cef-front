@@ -131,7 +131,6 @@ import { DialogBanRepComponent } from './pages/modules/administracion/gestion-pu
 import { DialogBancoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-banco/dialog-banco.component';
 import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
