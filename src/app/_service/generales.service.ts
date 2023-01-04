@@ -78,4 +78,9 @@ export class GeneralesService {
         return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA_X_DOMINIO}`,{params:dominio},);
     }
 
+    listarClientes(param?: any): Observable<any> {
+        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        return this.http.get<any>(`${this.url}${URLs.CLIENTE}${URLs.CLIENTE_CONSULTAR}`,{params:param, headers},);
+    }
+
 }

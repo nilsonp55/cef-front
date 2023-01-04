@@ -30,7 +30,7 @@
         <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef> Acciones</th>
             <td mat-cell *matCellDef="let element">
-                <button title="Ejecutar" *ngIf="element.codigoProceso == 'CARG_CERTIFICACION' && element.estadoProceso !== 'CERRADO'" mat-button color="primary" (click)="ejecutar(element.idArchivo)">
+                <button title="Ejecutar" *ngIf="element.codigoProceso == 'CARG_CERTIFICACION'" mat-button color="primary" (click)="ejecutar(element.idArchivo)">
                     <mat-icon style="color: rgb(29, 39, 170)">play_circle_outline</mat-icon>
                 </button>
                 <button title="Reabrir" *ngIf="element.codigoProceso == 'CARG_CERTIFICACION'" mat-button (click)="reabrirCargue(element.nombreArchivo, element.idModeloArchivo)">

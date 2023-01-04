@@ -79,7 +79,6 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
         'agrupador': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP
       }).subscribe(data => {
         this.spinnerActive = false;
-        this.listarProcesos();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {

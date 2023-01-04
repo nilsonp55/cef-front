@@ -78,7 +78,6 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
       'agrupador': GENERALES.CARGUE_DEFINITIVO_PROGRAMACION_SERVICIOS
     }).subscribe(data => {
       this.spinnerActive = false;
-      this.listarProcesos();
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {

@@ -252,6 +252,10 @@ export const URLs = {
   DOMINIO_ACTUALIZAR:'/actualizar',
   DIMINIO_CONSULTAR:'/consultar-dominio',
 
+  //Listar clientes
+  CLIENTE: '/clientes-corporativos',
+  CLIENTE_CONSULTAR: '/consultar',
+
   //Consultar parametro
   PARAMETRO: '/parametro',
   PARAMETRO_CONSULTA: '/consultar',
@@ -270,6 +274,7 @@ export const URLs = {
   CONSULTAR_DOMINIO: '/consultar-dominio',
   CONSULTAR_PUNTOS: '/consultar',
   GUARDAR_PUNTO: '/guardar',
+  ACTUALIZAR_PUNTO: '/actualizar',
 
   //Administración tipos cuentas 
   ADMIN_TIPOS_CUENTAS: '/tipos-cuentas',
@@ -345,12 +350,6 @@ export const URLs = {
   ADMIN_MENU_ROL_CONSULTAR: '/consultar',
   ADMIN_MENU_ROL_GUARDAR: '/guardar',
   ADMIN_MENU_ROL_ACTUALIZAR: '/actualizar',
-
-  //Administración menu-rol
-  ADMIN_FESTIVOS_NACIONALES: '/festivos-nacionales',
-  ADMIN_FESTIVOS_NACIONALES_CONSULTAR: '/consultar',
-  ADMIN_FESTIVOS_NACIONALES_GUARDAR: '/guardar',
-  ADMIN_FESTIVOS_NACIONALES_ELIMINAR: '/eliminar',
 
   //Administración usuario
   ADMIN_USUARIO: '/usuario',

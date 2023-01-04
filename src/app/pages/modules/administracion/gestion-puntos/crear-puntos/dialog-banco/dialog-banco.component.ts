@@ -19,6 +19,13 @@ estado: string;
 tipoEstado: string[] = ['Punto en uso', 'Punto no esta en uso'];
 esGrupoAval = false;
 ciudades: any[] = [];
+nombreBTN: string;
+nombreBTNCancelar: string;
+estadoBTN: boolean;
+titulo: string;
+dataElement: any = null;
+esEdicion: boolean;
+mostrarFormulario: boolean = false;
 
 mosrarFormBanco = false;
 mosrarFormCliente = false;
@@ -35,39 +42,31 @@ constructor(
   { }
 
 
-ngOnInit(): void {
-  //Validar que tipo de frmulario se presentará
-  this.initForm();
-  this.datosDesplegables();
-  if(this.data == GENERALES.TIPO_PUNTOS.BANCO) {
-    this.mosrarFormBanco == true;
-    this.mosrarFormCliente = false;
-    this.mosrarFormOficina= false;
-    this.mosrarFormCajero = false;
-    this.mosrarFormFondo= false;
+  async ngOnInit(): Promise<void> {
+    this.dataElement = this.data.element;
+    console.log(this.dataElement)
+    this.nombreBTN = "Guardar"
+    if(this.data.flag == "crear") {
+      this.estadoBTN = true
+      this.titulo = "Crear  "
+      this.nombreBTNCancelar = "Cancelar"
+    }
+    if(this.data.flag == "info") {
+      this.estadoBTN = false
+      this.titulo = "Información "
+      this.nombreBTNCancelar = "Cerrar"
+    }
+    if(this.data.flag == "modif") {
+      this.titulo = "Modificación "
+      this.nombreBTN = "Actualizar"
+      this.nombreBTNCancelar = "Cancelar"
+      this.estadoBTN = true
+      this.esEdicion = true;
+
+    }
+    await this.datosDesplegables();
+    this.initForm(this.dataElement);
   }
-  else if(this.data == GENERALES.TIPO_PUNTOS.CAJERO) {
-    this.mosrarFormCajero = true;
-    this.mosrarFormBanco == false;
-    this.mosrarFormCliente = false;
-    this.mosrarFormOficina= false;
-    this.mosrarFormFondo= false;
-  }
-  else if(this.data == GENERALES.TIPO_PUNTOS.FONDO) {
-    this.mosrarFormFondo= true;
-    this.mosrarFormCajero = false;
-    this.mosrarFormBanco == false;
-    this.mosrarFormCliente = false;
-    this.mosrarFormOficina= false;
-  }
-  else if(this.data == GENERALES.TIPO_PUNTOS.OFICINA) {
-    this.mosrarFormOficina= true;
-    this.mosrarFormFondo= false;
-    this.mosrarFormCajero = false;
-    this.mosrarFormBanco == false;
-    this.mosrarFormCliente = false;
-  }
-}
 
 /**
  * Metodo encargado de crear un punto segun el tipo de punto
@@ -102,13 +101,23 @@ crearPunto() {
 
 initForm(param?: any) {
   this.form = new FormGroup({
-    'nombre': new FormControl(),
-    'ciudad': new FormControl(),
-    'codigoCompensacion': new FormControl(),
-    'identificacion': new FormControl(),
-    'abreviatura': new FormControl(),
-    'esAval': new FormControl(),
+    'nombre': new FormControl(param != null ? param.nombrePunto:null),
+    'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
+    'codigoCompensacion': new FormControl(param != null ? param.bancos.codigoCompensacion:null),
+    'identificacion': new FormControl(param != null ? param.bancos.numeroNit:null),
+    'abreviatura': new FormControl(param != null ? param.bancos.abreviatura:null),
+    'esAval': new FormControl(param != null ? param.bancos.esAVAL:null),
   });
+  this.mostrarFormulario = true
+}
+
+selectCiudad(param: any): any {debugger
+  for(let i= 0; i < this.ciudades.length; i++) {
+    const element = this.ciudades[i];
+    if(element.codigoDANE == param.codigoCiudad) {
+      return element;
+    }
+  }
 }
 
 persistir() {

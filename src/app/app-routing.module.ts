@@ -49,7 +49,6 @@ import { GestionUsuariosComponent } from './pages/modules/administracion/gestion
 import { TdvDenominacionCantidadComponent } from './pages/modules/liquidacion/tdv-denominacion-cantidad/tdv-denominacion-cantidad.component';
 import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
 import { CierreLiquidacionMensualComponent } from './pages/modules/liquidacion/cierre-liquidacion-mensual/cierre-liquidacion-mensual.component';
-import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -120,7 +119,6 @@ const routes: Routes = [
       { path: 'administracion-roles', component: GestionRolesUsuariosComponent },
       { path: 'administracion-usuarios', component: GestionUsuariosComponent },
       { path: 'administracion-procedimientos', component: GestionProcedimientosComponent },
-      { path: 'administracion-festivos-nacionales', component: AdministracionFestivosNacionalesComponent },
     ]
   }
   

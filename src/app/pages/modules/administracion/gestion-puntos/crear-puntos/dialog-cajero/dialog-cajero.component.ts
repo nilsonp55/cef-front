@@ -25,6 +25,13 @@ export class DialogCajeroComponent implements OnInit {
   mosrarFormOficina= false;
   mosrarFormCajero = false;
   mosrarFormFondo = false;
+  nombreBTN: string;
+  nombreBTNCancelar: string;
+  estadoBTN: boolean;
+  titulo: string;
+  dataElement: any = null;
+  esEdicion: boolean;
+  mostrarFormulario: boolean = false;
   
   
   constructor(
@@ -35,38 +42,27 @@ export class DialogCajeroComponent implements OnInit {
     { }
   
   
-  ngOnInit(): void {
-    this.datosDesplegables();
-    //Validar que tipo de frmulario se presentará
-    if(this.data == GENERALES.TIPO_PUNTOS.BANCO) {
-      this.mosrarFormBanco == true;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-      this.mosrarFormCajero = false;
-      this.mosrarFormFondo= false;
+    async ngOnInit(): Promise<void> {
+      this.dataElement = this.data.element;
+      console.log(this.dataElement)
+      this.nombreBTN = "Guardar"
+      if(this.data.flag == "crear") {
+        this.titulo = "Crear  "
+      }
+      if(this.data.flag == "info") {
+        this.titulo = "Información "
+        this.estadoBTN = false
+      }
+      if(this.data.flag == "modif") {
+        this.titulo = "Modificación "
+        this.nombreBTN = "Actualizar"
+        this.esEdicion = true;
+  
+      }
+      await this.datosDesplegables();
+      this.estadoBTN = true
+      this.initForm(this.dataElement);
     }
-    else if(this.data == GENERALES.TIPO_PUNTOS.CAJERO) {
-      this.mosrarFormCajero = true;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-      this.mosrarFormFondo= false;
-    }
-    else if(this.data == GENERALES.TIPO_PUNTOS.FONDO) {
-      this.mosrarFormFondo= true;
-      this.mosrarFormCajero = false;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-    }
-    else if(this.data == GENERALES.TIPO_PUNTOS.OFICINA) {
-      this.mosrarFormOficina= true;
-      this.mosrarFormFondo= false;
-      this.mosrarFormCajero = false;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-    }
-  }
   
   /**
    * Metodo encargado de crear un punto segun el tipo de punto
@@ -99,18 +95,38 @@ export class DialogCajeroComponent implements OnInit {
     })
   }
 
-  initForm(param?: any) {
+  initForm(param?: any) {debugger
     this.form = new FormGroup({
-      'nombre': new FormControl(),
-      'ciudad': new FormControl(),
-      'codigoCajero': new FormControl(),
-      'bancoAval': new FormControl(),
-      'tarifaRuteo': new FormControl(),
-      'tarifaVerificacion': new FormControl(),
+      'nombre': new FormControl(param != null ? param.nombrePunto:null),
+      'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
+      'codigoCajero': new FormControl(param != null ? param.cajeroATM.codigoATM:null),
+      'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
+      'tarifaRuteo': new FormControl(param != null ? param.cajeroATM.tarifaRuteo:null),
+      'tarifaVerificacion': new FormControl(param != null ? param.cajeroATM.tarifaVerificacion:null),
       'estado': new FormControl(),
+      'depositario': new FormControl(),
     });
+    this.mostrarFormulario = true
   }
   
+  selectCiudad(param: any): any {
+    for(let i= 0; i < this.ciudades.length; i++) {
+      const element = this.ciudades[i];
+      if(element.codigoCiudad == param.codigoCiudad) {
+        return element;
+      }
+    }
+  }
+
+  selectBanco(param: any): any {
+    for(let i= 0; i < this.bancosAval.length; i++) {
+      const element = this.bancosAval[i];
+      if(element.codigoPunto == param.cajeroATM.codigoPunto) {
+        return element;
+      }
+    }
+  }
+
   persistir() {
     let cajero = {
       nombre: this.form.value['nombre'],
@@ -120,6 +136,7 @@ export class DialogCajeroComponent implements OnInit {
       tarifaRuteo: this.form.value['tarifaRuteo'],
       tarifaVerificacion: this.form.value['tarifaVerificacion'],
       estado: this.form.value['estado'],
+      depositario: this.form.value['depositario'],
     }
     console.log(cajero)
   }
