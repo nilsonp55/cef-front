@@ -33,7 +33,6 @@ export class CargueProgramacionComponent implements OnInit {
         menuOrdenado.forEach(itm => {
           this.menusCargueProgramacion.push(itm.menu);
         });
-        console.log(menusrol)
       });
     })
   }

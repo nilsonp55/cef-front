@@ -41,10 +41,12 @@ export class DialogClienteComponent implements OnInit {
     { }
   
   
-  async ngOnInit(): Promise<void> {debugger
-    //Validar que tipo de frmulario se presentará
+  async ngOnInit(): Promise<void> {
     this.dataElement = this.data.element;
     this.nombreBTN = "Guardar"
+    await this.datosDesplegables();
+    this.estadoBTN = true
+    this.initForm(this.dataElement);
     if(this.data.flag == "crear") {
       this.titulo = "Crear  "
     }
@@ -52,81 +54,20 @@ export class DialogClienteComponent implements OnInit {
       this.titulo = "Información "
       this.estadoBTN = false
       this.isDisable = false
+      this.form.get('nombre').disable();
+      this.form.get('ciudad').disable();
+      this.form.get('cliente').disable();
+      this.form.get('estado').disable();
+      this.form.get('fajado').disable();
     }
     if(this.data.flag == "modif") {
       this.titulo = "Modificación "
       this.nombreBTN = "Actualizar"
       this.esEdicion = true;
-
     }
-    await this.datosDesplegables();
-    this.estadoBTN = true
     
-    
-
-
-    /*if(this.data == GENERALES.TIPO_PUNTOS.BANCO) {
-      this.mosrarFormBanco == true;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-      this.mosrarFormCajero = false;
-      this.mosrarFormFondo= false;
-    }
-    else if(this.data == GENERALES.TIPO_PUNTOS.CAJERO) {
-      this.mosrarFormCajero = true;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-      this.mosrarFormFondo= false;
-    }
-    else if(this.data == GENERALES.TIPO_PUNTOS.FONDO) {
-      this.mosrarFormFondo= true;
-      this.mosrarFormCajero = false;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-    }
-    else if(this.data.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
-      this.mosrarFormOficina= true;
-      this.mosrarFormFondo= false;
-      this.mosrarFormCajero = false;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-    }*/
-    this.initForm(this.dataElement);
   }
   
-  /**
-   * Metodo encargado de crear un punto segun el tipo de punto
-   * @BayronPerez
-   */
-  crearPunto() {
-    this.spinnerActive = true;
-    const punto = {
-      //logica para obtener los campos para crear el tipo de puto segun tipo de punto
-    }
-    this.gestionPuntosService.crearPunto(punto).subscribe(data => {
-      this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3500);
-    },
-    (err: any) => {
-      this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      }); setTimeout(() => { alert.close() }, 3500);
-    })
-  }
-
   initForm(param?: any) {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto:null),
@@ -147,6 +88,7 @@ export class DialogClienteComponent implements OnInit {
     }
   }
   selectCliente(param: any): any {
+    if(param.sitiosClientes !== undefined){
     for(let i= 0; i < this.clientes.length; i++) {
       const element = this.clientes[i];
       if(element.codigoCliente == param.sitiosClientes.codigoCliente) {
@@ -154,18 +96,34 @@ export class DialogClienteComponent implements OnInit {
       }
     }
   }
+  }
   
   persistir() {
     let cliente = {
-      nombre: this.form.value['nombre'],
-      ciudad: this.form.value['ciudad'],
-      cliente: this.form.value['cliente'],
-      estado: this.form.value['estado'],
+      nombrePunto: this.form.value['nombre'],
+      codigoDANE: this.form.value['ciudad'].codigoDANE,
+      codigoCliente:Number(this.form.value['cliente'].codigoCliente),
+      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
       fajado: this.form.value['fajado'],
+      codigoCiudad: this.form.value['ciudad'].codigoDANE,
+      nombreCiudad: this.form.value['ciudad'].nombreCiudad,
+      tipoPunto: this.dataElement.valorTexto,
+      codigoPunto: null,
+      refagillado: null,
+      tarifaRuteo:null,
+      tarifaVerificacion:null,
+      bancoAVAL:null,
+      codigoCompensacion:null,
+      numeroNit:null,
+      abreviatura:null,
+      esAVAL:null,
+      codigoOficina:null,
+      codigoTDV:null,
+      codigoPropioTDV:null,
+      tdv:null,
+      codigoATM:null,
     }
-    console.log(cliente)
     if (this.esEdicion) {
-      //cliente.consecutivo = this.idConfEntity;
       this.gestionPuntosService.actualizarPunto(cliente).subscribe(response => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -193,7 +151,8 @@ export class DialogClienteComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); setTimeout(() => { alert.close() }, 4000);
+        console.log("Cerrar formulario")
         this.initForm();
       },
         (err: any) => {
@@ -218,4 +177,14 @@ export class DialogClienteComponent implements OnInit {
     this.clientes = _clientes.data;
   
   }
+
+  formatearEstadoPersistir(param: boolean): any {
+    if(param==true){
+      return 1
+    }else {
+      return 2
+    }
+  }
+
+
 }

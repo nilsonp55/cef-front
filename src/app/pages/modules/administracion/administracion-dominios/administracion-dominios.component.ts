@@ -74,7 +74,6 @@ export class AdministracionDominiosComponent implements OnInit {
 
 
   defineCodigo(){
-    console.log(this.isIdentChecked)
     this.listarCodigosDominio()
   }
 
@@ -112,7 +111,6 @@ export class AdministracionDominiosComponent implements OnInit {
    * @JuanMazo
    */
   listarDominiosMaestroTrue() {
-    console.log("No incluye Dominioos inactivos")
     this.dominioMaestroService.listarDominiosTrue({
       'estado': true
     }).subscribe((page: any) => {
@@ -135,7 +133,6 @@ export class AdministracionDominiosComponent implements OnInit {
     if (this.isDominioChecked == true) {
       this.listarDominiosMaestroTrue()
     } else {
-      console.log("Tiene dominios activos e inactivos")
       this.dominioMaestroService.listarDominios().subscribe((page: any) => {
         this.dataSourceDominios = new MatTableDataSource(page.data);
         this.dataSourceDominios.sort = this.sort;
@@ -193,12 +190,10 @@ export class AdministracionDominiosComponent implements OnInit {
     this.mostrarTablaCodigos = true
     this.elementoDominioActualizar = element;
     this.listarCodigoSeleccionado()
-    console.log(this.elementoDominioActualizar)
   }
 
 
   eventoClickCodigo(element: any) {
-    console.log(element)
     this.mostrarBtnDescripcionCodigo = true;
     this.mostrarBtnEliminarCodigo = true;
     this.elementoCodigo = element;
