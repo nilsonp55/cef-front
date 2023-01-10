@@ -30,7 +30,7 @@ export class AdministracionCentroCiudadGuard implements CanActivate {
         this.rolMenuService.obtenerMenuRol({
           'rol.idRol': rol,
           'estado': "1",
-          'menu.idMenuPadre': "liquidacion"
+          'menu.idMenuPadre': "administracionTabContables"
         }).subscribe(menusrol => {
           this.menus = menusrol;
           menusrol.data.forEach(itm => {
@@ -47,7 +47,7 @@ export class AdministracionCentroCiudadGuard implements CanActivate {
           if (guardOk) {
             resolve(true);
           } else {
-            this.router.navigate(['/liquidacion']);
+            this.router.navigate(['/administracion']);
             resolve(false);
           }
         });

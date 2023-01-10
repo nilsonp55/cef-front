@@ -28,7 +28,6 @@ export class DialogInfoOpProgramadasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data)
   }
 
 }

@@ -28,7 +28,6 @@ export class ContabilizacionComponent implements OnInit {
         menusrol.data.forEach(itm => {
           this.menusContabilidad.push(itm.menu);
         });
-        console.log(menusrol)
       });
     })
   }

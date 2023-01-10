@@ -29,7 +29,6 @@ export class CargueCertificacionComponent implements OnInit {
         menusrol.data.forEach(itm => {
           this.menusCargueCertificacion.push(itm.menu);
         });
-        console.log({menusrol})
       });
     })
   }

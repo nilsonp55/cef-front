@@ -25,7 +25,6 @@ export class DialogInfoCertificadasNoConciliadasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data)
   }
 
 }

@@ -42,56 +42,31 @@ export class DialogFondoComponent implements OnInit {
   
   async ngOnInit(): Promise<void> {
     this.dataElement = this.data.element;
+    console.log("Data que llega del element")
+    console.log(this.dataElement)
     this.nombreBTN = "Guardar"
+    await this.datosDesplegables();
+    this.estadoBTN = true
+    this.initForm(this.dataElement);
     if(this.data.flag == "crear") {
       this.titulo = "Crear  "
     }
     if(this.data.flag == "info") {
       this.titulo = "Información "
       this.estadoBTN = false
+      this.form.get('nombre').disable();
+      this.form.get('ciudad').disable();
+      this.form.get('transportadora').disable();
+      this.form.get('bancoAval').disable();
+      this.form.get('estado').disable();
     }
     if(this.data.flag == "modif") {
       this.titulo = "Modificación "
       this.nombreBTN = "Actualizar"
       this.esEdicion = true;
-
-    }
-    await this.datosDesplegables();
-    this.estadoBTN = true
-    this.initForm(this.dataElement);
+    }    
   }
   
-  /**
-   * Metodo encargado de crear un punto segun el tipo de punto
-   * @BayronPerez
-   */
-  crearPunto() {
-    this.spinnerActive = true;
-    const punto = {
-      //logica para obtener los campos para crear el tipo de puto segun tipo de punto
-    }
-    this.gestionPuntosService.crearPunto(punto).subscribe(data => {
-      this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3500);
-    },
-    (err: any) => {
-      this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      }); setTimeout(() => { alert.close() }, 3500);
-    })
-  }
-
   initForm(param?: any) {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto:null),
@@ -113,6 +88,7 @@ export class DialogFondoComponent implements OnInit {
   }
 
   selectTransportadorasOrigen(param: any): any {debugger
+    if(param.fondos !== undefined){
     for(let i= 0; i < this.tdvs.length; i++) {
       const element = this.tdvs[i];
       if(element.codigo == param.fondos.tdv) {
@@ -120,8 +96,10 @@ export class DialogFondoComponent implements OnInit {
       }
     }
   }
+  }
 
   selectBanco(param: any): any {
+    if(param.fondos !== undefined){
     for(let i= 0; i < this.bancosAval.length; i++) {
       const element = this.bancosAval[i];
       if(element.codigoPunto == param.fondos.bancoAVAL) {
@@ -129,35 +107,78 @@ export class DialogFondoComponent implements OnInit {
       }
     }
   }
+  }
   
   persistir() {
     let fondo = {
-      nombre: this.form.value['nombre'],
-      ciudad: this.form.value['ciudad'],
-      transportadora: this.form.value['transportadora'],
-      bancoAval: this.form.value['bancoAval'],
-      estado: this.form.value['estado'],
-      
-      
-      /*bancosDTO: {
-        codigoPunto: this.form.value['banco'].codigoPunto
-      },
-      transportadoraOrigenDTO: {
-        codigo: this.form.value['transportadoraOrigen'].codigo
-      },
-      transportadoraDestinoDTO: {
-        codigo: this.form.value['transportadoraDestino'].codigo
-      },
-      ciudadOrigenDTO: {
-        codigoDANE: this.form.value['ciudadOrigen'].codigoDANE
-      },
-      ciudadDestinoDTO: {
-        codigoDANE: this.form.value['ciudadDestino'].codigoDANE
-      },
-      escala: this.form.value['escala'],*/
-      //estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
+      nombrePunto: this.form.value['nombre'],
+      codigoDANE: this.form.value['ciudad'].codigoDANE,
+      tdv: this.form.value['transportadora'].nombreTransportadora,
+      bancoAVAL: Number(this.form.value['bancoAval'].codigoPunto),
+      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
+      codigoCompensacion: this.form.value['bancoAval'].codigoCompensacion,
+      numeroNit: this.form.value['bancoAval'].numeroNit,
+      abreviatura: this.form.value['bancoAval'].abreviatura,
+      esAVAL: this.form.value['bancoAval'].esAVAL,
+      tipoPunto: this.dataElement.valorTexto,
+      codigoPunto: Number(this.form.value['bancoAval'].codigoPunto),
+      refagillado: null,
+      tarifaRuteo: null,
+      tarifaVerificacion: null,
+      codigoOficina:null,
+      nombreCiudad:this.form.value['ciudad'].nombreCiudad,
+      codigoCliente:null,
+      codigoTDV:this.form.value['transportadora'].codigo,
+      codigoPropioTDV:this.form.value['transportadora'].codigo,
+      codigoATM:null,
+      fajado: null,
+      codigoCiudad: this.form.value['ciudad'].codigoDANE,
     }
+    console.log("Data que se enviara")
     console.log(fondo)
+    if (this.esEdicion) {debugger
+      //cliente.consecutivo = this.idConfEntity;
+      this.gestionPuntosService.actualizarPunto(fondo).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    } else {debugger
+      this.gestionPuntosService.crearPunto(fondo).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    }
+    this.ngOnInit();
   }
 
   async datosDesplegables() {
@@ -171,6 +192,14 @@ export class DialogFondoComponent implements OnInit {
     const _transportadoras = await this.generalServices.listarTransportadoras().toPromise();
     this.tdvs = _transportadoras.data;
 
+  }
+
+  formatearEstadoPersistir(param: boolean): any {
+    if(param==true){
+      return 1
+    }else {
+      return 2
+    }
   }
 
 }

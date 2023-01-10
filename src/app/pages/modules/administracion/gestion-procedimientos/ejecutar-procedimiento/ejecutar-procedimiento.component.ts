@@ -37,7 +37,6 @@ export class EjecutarProcedimientoComponent implements OnInit {
   ngOnInit(): void {
     this.parametrosFuncionesDinamicasDTO = this.data.data;
     this.idFuncion = this.data.funcion;
-    console.log();
   }
 
   confirmValor(idCampo, idBoton, valordefectoParam) {

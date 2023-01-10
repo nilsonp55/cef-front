@@ -44,8 +44,10 @@ constructor(
 
   async ngOnInit(): Promise<void> {
     this.dataElement = this.data.element;
-    console.log(this.dataElement)
     this.nombreBTN = "Guardar"
+    await this.datosDesplegables();
+    this.estadoBTN = true
+    this.initForm(this.dataElement);
     if(this.data.flag == "crear") {
       this.estadoBTN = true
       this.titulo = "Crear  "
@@ -55,6 +57,12 @@ constructor(
       this.estadoBTN = false
       this.titulo = "Información "
       this.nombreBTNCancelar = "Cerrar"
+      this.form.get('nombre').disable();
+      this.form.get('ciudad').disable();
+      this.form.get('codigoCompensacion').disable();
+      this.form.get('identificacion').disable();
+      this.form.get('abreviatura').disable();
+      this.form.get('esAval').disable();
     }
     if(this.data.flag == "modif") {
       this.titulo = "Modificación "
@@ -64,8 +72,6 @@ constructor(
       this.esEdicion = true;
 
     }
-    await this.datosDesplegables();
-    this.initForm(this.dataElement);
   }
 
 /**
@@ -103,21 +109,23 @@ initForm(param?: any) {
   this.form = new FormGroup({
     'nombre': new FormControl(param != null ? param.nombrePunto:null),
     'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
-    'codigoCompensacion': new FormControl(param != null ? param.bancos.codigoCompensacion:null),
-    'identificacion': new FormControl(param != null ? param.bancos.numeroNit:null),
-    'abreviatura': new FormControl(param != null ? param.bancos.abreviatura:null),
-    'esAval': new FormControl(param != null ? param.bancos.esAVAL:null),
+    'codigoCompensacion': new FormControl(param.bancos != undefined? param != null ? param.bancos.codigoCompensacion:null: null),
+    'identificacion': new FormControl(param.bancos != undefined? param != null ? param.bancos.numeroNit:null: null),
+    'abreviatura': new FormControl(param.bancos != undefined? param != null ? param.bancos.abreviatura:null: null),
+    'esAval': new FormControl(param.bancos != undefined? param != null ? param.bancos.esAVAL:null: null),
   });
   this.mostrarFormulario = true
 }
 
 selectCiudad(param: any): any {debugger
+  if(param.codigoCiudad !== undefined){
   for(let i= 0; i < this.ciudades.length; i++) {
     const element = this.ciudades[i];
     if(element.codigoDANE == param.codigoCiudad) {
       return element;
     }
   }
+}
 }
 
 persistir() {
@@ -148,7 +156,6 @@ persistir() {
     escala: this.form.value['escala'],*/
     //estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
   }
-  console.log(banco)
 }
 
 async datosDesplegables() {

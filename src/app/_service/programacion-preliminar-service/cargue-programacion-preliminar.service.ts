@@ -53,7 +53,6 @@ export class CargueProgramacionPreliminarService {
      */
      public procesarArchivo(params: any): Observable<any> {
         const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
-        console.log(headers)
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_PRELIMINAR_PROCESAR}`, { params: params, headers });
     }
 
@@ -62,7 +61,6 @@ export class CargueProgramacionPreliminarService {
      */
      public verDetalleArchivo(param: any): Observable<any> {
      const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
-     console.log(headers)
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_PRELIMINAR_HISTORICO}`, { params: param, headers});
     }
 

@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -30,6 +31,7 @@ export class DialogBanRepComponent implements OnInit {
   dataElement: any = null;
   esEdicion: boolean;
   mostrarFormulario: boolean = false;
+  estadoDisable: boolean;
 
 
   constructor(
@@ -42,6 +44,10 @@ export class DialogBanRepComponent implements OnInit {
     async ngOnInit(): Promise<void> {
       this.dataElement = this.data.element;
       this.nombreBTN = "Guardar"
+      this.estadoDisable = true
+      
+      await this.datosDesplegables();
+      this.initForm(this.dataElement);
       if(this.data.flag == "crear") {
         this.estadoBTN = true
         this.titulo = "Crear  "
@@ -51,6 +57,9 @@ export class DialogBanRepComponent implements OnInit {
         this.estadoBTN = false
         this.titulo = "Información "
         this.nombreBTNCancelar = "Cerrar"
+        this.form.get('nombre').disable();
+        this.form.get('ciudad').disable();
+        this.form.get('estado').disable();
       }
       if(this.data.flag == "modif") {
         this.titulo = "Modificación "
@@ -60,40 +69,7 @@ export class DialogBanRepComponent implements OnInit {
         this.esEdicion = true;
   
       }
-      await this.datosDesplegables();
-      this.initForm(this.dataElement);
     }
-
-  /**
-   * Metodo encargado de crear un punto segun el tipo de punto
-   * @BayronPerez
-   */
-  crearPunto() {
-    this.spinnerActive = true;
-    const punto = {
-      //logica para obtener los campos para crear el tipo de puto segun tipo de punto
-    }
-    this.gestionPuntosService.crearPunto(punto).subscribe(data => {
-      this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3500);
-    },
-      (err: any) => {
-        this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3500);
-      })
-  }
 
   initForm(param?: any) {
     this.form = new FormGroup({
@@ -115,9 +91,73 @@ export class DialogBanRepComponent implements OnInit {
 
   persistir() {
     let bancRep = {
-      nombre: this.form.value['nombre'],
-      ciudad: this.form.value['ciudad'],
-      estado: this.form.value['estado'],
+      nombrePunto: this.form.value['nombre'],
+      codigoCiudad: this.form.value['ciudad'].codigoDANE,
+      codigoDANE: this.form.value['ciudad'].codigoDANE,
+      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
+      tipoPunto: this.dataElement.valorTexto,
+      codigoPunto: null,
+      fajado: null,
+      refagillado: null,
+      tarifaRuteo:null,
+      tarifaVerificacion:null,
+      bancoAVAL:null,
+      codigoCompensacion:null,
+      numeroNit:null,
+      abreviatura:null,
+      esAVAL:null,
+      codigoOficina:null,
+      nombreCiudad:this.form.value['ciudad'].nombreCiudad,
+      codigoCliente:null,
+      codigoTDV:null,
+      codigoPropioTDV:null,
+      tdv:null,
+      nombreFondo:null,
+      codigoATM:null,
+    }
+    console.log("Data que se va a enviar")
+    console.log(bancRep)
+    if (this.esEdicion) {
+      //cliente.consecutivo = this.idConfEntity;
+      this.gestionPuntosService.actualizarPunto(bancRep).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
+    } else {
+      this.gestionPuntosService.crearPunto(bancRep).subscribe(response => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
+        (err: any) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          }); setTimeout(() => { alert.close() }, 3000);
+        });
     }
   }
 
@@ -126,6 +166,14 @@ export class DialogBanRepComponent implements OnInit {
     const _ciudades = await this.generalServices.listarCiudades().toPromise();
     this.ciudades = _ciudades.data;
 
+  }
+
+  formatearEstadoPersistir(param: boolean): any {
+    if(param==true){
+      return 1
+    }else {
+      return 2
+    }
   }
 
 }

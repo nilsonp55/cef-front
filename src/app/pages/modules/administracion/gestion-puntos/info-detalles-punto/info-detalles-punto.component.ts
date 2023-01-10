@@ -21,8 +21,6 @@ export class InfoDetallesPuntoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("Data que llego")
-    //console.log(this.data.bancos[0].numeroNit)
   }
 
 

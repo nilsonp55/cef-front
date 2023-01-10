@@ -58,7 +58,6 @@ export class ResultadoContabilidadComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    console.log(this.data)
     this.titulo = this.data.titulo
     this.codigoBanco = this.data.respuesta[0].bancoAval
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);

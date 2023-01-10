@@ -305,7 +305,6 @@ export class TarifasOperacionComponent implements OnInit {
   }
 
   changeEstado(event) {
-    console.log("lo toco")
   }
 
   formatearEstadoPersistir(param: boolean): any {
