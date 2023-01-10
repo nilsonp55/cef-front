@@ -50,6 +50,36 @@ import { TdvDenominacionCantidadComponent } from './pages/modules/liquidacion/td
 import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
 import { CierreLiquidacionMensualComponent } from './pages/modules/liquidacion/cierre-liquidacion-mensual/cierre-liquidacion-mensual.component';
 import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
+import { LiquidacionCharterGuard } from './wards/liquidacion-charter.guard';
+import { LiquidacionCostosGuard } from './wards/liquidacion-costos.guard';
+import { LiquidacionTarifasOperacionGuard } from './wards/liquidacion-tarifas-operacion.guard';
+import { LiquidacionCodigoTdvGuard } from './wards/liquidacion-codigo-tdv.guard';
+import { LiquidacionLiquidacionMensualGuard } from './wards/liquidacion-liquida-mensual.guard';
+import { LiquidacionDetalleLiquidacionGuard } from './wards/liquidacion-detalle-liquidacion.guard';
+import { LiquidacionDenominacionCantidadGuard } from './wards/liquidacion-denominacion-cant.guard';
+import { LiquidacionCierreLiquidacionMensualGuard } from './wards/liquidacion-cierre-liquida-mensual.guard';
+import { AdministracionDominiosGuard } from './wards/administracion-dominios.guard';
+import { AdministracionPuntosGuard } from './wards/administracion-puntos.guard';
+import { AdministracionCierreFechaGuard } from './wards/administracion-cierre-fecha.guard';
+import { AdministracionTipoCuentasGuard } from './wards/administracion-tipo-cuentas.guard';
+import { LiquidacionCuentasPucGuard } from './wards/liquidacion-cuentas-puc.guard';
+import { AdministracionTipoCentroCostosGuard } from './wards/liquidacion-tipo-centro-costos.guard';
+import { AdministracionCentroCiudadGuard } from './wards/administracion-centro-ciudad.guard';
+import { AdministracionConfEntiContablesGuard } from './wards/administracion-conf-enti-contables.guard';
+import { AdministracionRolesGuard } from './wards/administracion-roles.guard';
+import { AdministracionUsuariosGuard } from './wards/administracion-usuarios.guard';
+import { AdministracionProcedimientosGuard } from './wards/administracion-procedimientos.guard';
+import { AdministracionFestivosNacionalesGuard } from './wards/administracion-festivos-nacionales.guard';
+import { ContabilidadCierreAmGuard } from './wards/contabilidad-cierre-am.guard';
+import { ContabilidadGenerarAmGuard } from './wards/contabilidad-generar-am.guard';
+import { ContabilidadCierrePmGuard } from './wards/contabilidad-cierre-pm.guard';
+import { ContabilidadGenerarPmGuard } from './wards/contabilidad-generar-pm.guard';
+import { CertificacionGestionCargueCertificacionGuard } from './wards/certificacion-gestion-cargue-certifi.guard';
+import { CertificacionCierreCertificacionGuard } from './wards/certificacioncierreCertificacion.guard';
+import { PreliminarGestionCargueGuard } from './wards/preliminar-gestionCargue.guard';
+import { PreliminarCierreCarguePreliminarGuard } from './wards/preliminar-cierreCarguePreliminar.guard';
+import { PreliminarGestionCargueDefinitivoGuard } from './wards/preliminar-gestionCargueDefinitivo.guard';
+import { PreliminarCierreCargueDefinitivoGuard } from './wards/preliminar-cierreCargueDefinitivo.guard';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -57,17 +87,17 @@ const routes: Routes = [
   {
     path: 'cargue-programacion', component: CargueProgramacionComponent, children: [
       { path: 'cargue-inicial', component: CargueInicialComponent },
-      { path: 'administrador-cargue-preliminar', component: CarguePreliminarComponent },
-      { path: 'administrador-cierre-preliminar', component: CierreProgramacionPreliminarComponent },
-      { path: 'administrador-cargue-definitivo', component: CargueDefinitivoComponent },
-      { path: 'administrador-cierre-definitivo', component: CierreProgramacionDefinitivaComponent },
+      { path: 'administrador-cargue-preliminar', component: CarguePreliminarComponent, canActivate: [PreliminarGestionCargueGuard] },
+      { path: 'administrador-cierre-preliminar', component: CierreProgramacionPreliminarComponent, canActivate: [PreliminarCierreCarguePreliminarGuard] },
+      { path: 'administrador-cargue-definitivo', component: CargueDefinitivoComponent, canActivate: [PreliminarGestionCargueDefinitivoGuard] },
+      { path: 'administrador-cierre-definitivo', component: CierreProgramacionDefinitivaComponent, canActivate: [PreliminarCierreCargueDefinitivoGuard] },
     ]
   },
   {
     path: 'cargue-certificacion', component: CargueCertificacionComponent, children: [
       { path: 'cargue-inicial', component: CargueInicialComponent },
-      { path: 'gestion-cargue-certificacion', component: CargueDefinitivoCertificacionComponent },
-      { path: 'administrador-cargue-certificacion', component: CierreCertificacionComponent },
+      { path: 'gestion-cargue-certificacion', component: CargueDefinitivoCertificacionComponent, canActivate: [CertificacionGestionCargueCertificacionGuard] },
+      { path: 'administrador-cargue-certificacion', component: CierreCertificacionComponent, canActivate: [CertificacionCierreCertificacionGuard] },
     ]
   },
   {
@@ -85,23 +115,23 @@ const routes: Routes = [
   },
   {
     path: 'contabilidad', component: ContabilizacionComponent, children: [
-      { path: 'cierre-contabilidad-pm', component: ContabilidadPmComponent },
-      { path: 'generar-contabilidad-pm', component: GenerarContabilidadPmComponent },
-      { path: 'cierre-contabilidad-am', component: ContabilidadAmComponent },
-      { path: 'generar-contabilidad-am', component: GenerarContabilidadAmComponent },
+      { path: 'cierre-contabilidad-pm', component: ContabilidadPmComponent, canActivate: [ContabilidadCierrePmGuard] },
+      { path: 'generar-contabilidad-pm', component: GenerarContabilidadPmComponent, canActivate: [ContabilidadGenerarPmGuard] },
+      { path: 'cierre-contabilidad-am', component: ContabilidadAmComponent, canActivate: [ContabilidadCierreAmGuard] },
+      { path: 'generar-contabilidad-am', component: GenerarContabilidadAmComponent, canActivate: [ContabilidadGenerarAmGuard] },
     ]
   },
   {
     path: 'liquidacion', component: LiquidacionComponent, children: [
-      { path: 'servicio-charter', component: CostosServicioCharterComponent },
-      { path: 'liquidar-costos', component: LiquidaCostosComponent },
-      { path: 'tarifas-operacion', component: TarifasOperacionComponent },
-      { path: 'escala', component: EscalasComponent },
-      { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent },
-      { path: 'liquidacion-mensual', component: LiquidacionMensualComponent },
-      { path: 'guardar-detalle-liquidacion/:fechaSistema/:codTransportadora', component: DetalleGuardarLiquidacionComponent },
-      { path: 'tdv-denominacion-cantidad', component: TdvDenominacionCantidadComponent },
-      { path: 'cierre-liquidacion-mensual', component: CierreLiquidacionMensualComponent },
+      { path: 'servicio-charter', component: CostosServicioCharterComponent, canActivate: [LiquidacionCharterGuard] },
+      { path: 'liquidar-costos', component: LiquidaCostosComponent, canActivate: [LiquidacionCostosGuard] },
+      { path: 'tarifas-operacion', component: TarifasOperacionComponent, canActivate: [LiquidacionTarifasOperacionGuard] },
+      { path: 'escala', component: EscalasComponent, canActivate: [LiquidacionCostosGuard] },
+      { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [LiquidacionCodigoTdvGuard] },
+      { path: 'liquidacion-mensual', component: LiquidacionMensualComponent, canActivate: [LiquidacionLiquidacionMensualGuard] },
+      { path: 'guardar-detalle-liquidacion/:fechaSistema/:codTransportadora', component: DetalleGuardarLiquidacionComponent, canActivate: [LiquidacionDetalleLiquidacionGuard] },
+      { path: 'tdv-denominacion-cantidad', component: TdvDenominacionCantidadComponent, canActivate: [LiquidacionDenominacionCantidadGuard] },
+      { path: 'cierre-liquidacion-mensual', component: CierreLiquidacionMensualComponent, canActivate: [LiquidacionCierreLiquidacionMensualGuard] },
     ]
   },
   {
@@ -109,18 +139,18 @@ const routes: Routes = [
   },
   {
     path: 'administracion', component: AdministracionComponent, children: [
-      { path: 'administracion-dominios', component: AdministracionDominiosComponent },
-      { path: 'administracion-puntos', component: GestionPuntosComponent },
-      { path: 'administracion-cierre-fecha', component: CierreFechaComponent },
-      { path: 'administracion-tipo-cuentas', component: AdministracionContabilidadComponent },
-      { path: 'administracion-cuentas-puc', component: AdministradorCuentasPucComponent },
-      { path: 'administracion-tipo-centro-costos', component: AdministradorTipoCentroCostosComponent },
-      { path: 'administracion-centro-ciudad', component: AdministracionCentroCiudadesComponent },
-      { path: 'administracion-conf-contable-entidad', component: AdministracionConfContableEntidadComponent },
-      { path: 'administracion-roles', component: GestionRolesUsuariosComponent },
-      { path: 'administracion-usuarios', component: GestionUsuariosComponent },
-      { path: 'administracion-procedimientos', component: GestionProcedimientosComponent },
-      { path: 'administracion-festivos-nacionales', component: AdministracionFestivosNacionalesComponent },
+      { path: 'administracion-dominios', component: AdministracionDominiosComponent, canActivate: [AdministracionDominiosGuard] },
+      { path: 'administracion-puntos', component: GestionPuntosComponent, canActivate: [AdministracionPuntosGuard] },
+      { path: 'administracion-cierre-fecha', component: CierreFechaComponent, canActivate: [AdministracionCierreFechaGuard] },
+      { path: 'administracion-tipo-cuentas', component: AdministracionContabilidadComponent, canActivate: [AdministracionTipoCuentasGuard] },
+      { path: 'administracion-cuentas-puc', component: AdministradorCuentasPucComponent, canActivate: [LiquidacionCuentasPucGuard] },
+      { path: 'administracion-tipo-centro-costos', component: AdministradorTipoCentroCostosComponent, canActivate: [AdministracionTipoCentroCostosGuard] },
+      { path: 'administracion-centro-ciudad', component: AdministracionCentroCiudadesComponent, canActivate: [AdministracionCentroCiudadGuard] },
+      { path: 'administracion-conf-contable-entidad', component: AdministracionConfContableEntidadComponent, canActivate: [AdministracionConfEntiContablesGuard] },
+      { path: 'administracion-roles', component: GestionRolesUsuariosComponent, canActivate: [AdministracionRolesGuard] },
+      { path: 'administracion-usuarios', component: GestionUsuariosComponent, canActivate: [AdministracionUsuariosGuard] },
+      { path: 'administracion-procedimientos', component: GestionProcedimientosComponent, canActivate: [AdministracionProcedimientosGuard] },
+      { path: 'administracion-festivos-nacionales', component: AdministracionFestivosNacionalesComponent, canActivate: [AdministracionFestivosNacionalesGuard] },
     ]
   }
   
