@@ -14,7 +14,7 @@ export class LiquidacionComponent implements OnInit {
     private rolMenuService: RolMenuService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {debugger
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': sessionStorage.getItem('user')
     }).subscribe(data => {
