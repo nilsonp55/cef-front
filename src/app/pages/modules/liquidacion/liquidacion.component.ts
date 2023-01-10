@@ -28,7 +28,6 @@ export class LiquidacionComponent implements OnInit {
         menusrol.data.forEach(itm => {
           this.menusLiquidacion.push(itm.menu);
         });
-        console.log(menusrol)
       });
     })
   }

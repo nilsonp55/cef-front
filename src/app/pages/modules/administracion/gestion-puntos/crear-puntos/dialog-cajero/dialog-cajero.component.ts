@@ -13,7 +13,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 })
 export class DialogCajeroComponent implements OnInit {
 
-  spinnerActive: boolean = false;
+
   form: FormGroup;
   estado: string;
   tipoEstado: string[] = ['Punto en uso', 'Punto no esta en uso'];
@@ -44,24 +44,30 @@ export class DialogCajeroComponent implements OnInit {
   
     async ngOnInit(): Promise<void> {
       this.dataElement = this.data.element;
-      console.log(this.dataElement)
       this.nombreBTN = "Guardar"
+      await this.datosDesplegables();
+      this.estadoBTN = false
+      this.initForm(this.dataElement);
       if(this.data.flag == "crear") {
         this.titulo = "Crear  "
       }
       if(this.data.flag == "info") {
         this.titulo = "Información "
         this.estadoBTN = false
+        this.form.get('nombre').disable();
+        this.form.get('ciudad').disable();
+        this.form.get('codigoCajero').disable();
+        this.form.get('bancoAval').disable();
+        this.form.get('tarifaRuteo').disable();
+        this.form.get('tarifaVerificacion').disable();
+        this.form.get('estado').disable();
+        this.form.get('depositario').disable();
       }
       if(this.data.flag == "modif") {
         this.titulo = "Modificación "
         this.nombreBTN = "Actualizar"
         this.esEdicion = true;
-  
       }
-      await this.datosDesplegables();
-      this.estadoBTN = true
-      this.initForm(this.dataElement);
     }
   
   /**
@@ -69,12 +75,10 @@ export class DialogCajeroComponent implements OnInit {
    * @BayronPerez
    */
   crearPunto() {
-    this.spinnerActive = true;
     const punto = {
       //logica para obtener los campos para crear el tipo de puto segun tipo de punto
     }
     this.gestionPuntosService.crearPunto(punto).subscribe(data => {
-      this.spinnerActive = false;
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
@@ -84,7 +88,6 @@ export class DialogCajeroComponent implements OnInit {
       }); setTimeout(() => { alert.close() }, 3500);
     },
     (err: any) => {
-      this.spinnerActive = false;
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
@@ -99,10 +102,10 @@ export class DialogCajeroComponent implements OnInit {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto:null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
-      'codigoCajero': new FormControl(param != null ? param.cajeroATM.codigoATM:null),
+      'codigoCajero': new FormControl(param.cajeroATM != undefined? param != null ? param.cajeroATM.codigoATM:null: null),
       'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
-      'tarifaRuteo': new FormControl(param != null ? param.cajeroATM.tarifaRuteo:null),
-      'tarifaVerificacion': new FormControl(param != null ? param.cajeroATM.tarifaVerificacion:null),
+      'tarifaRuteo': new FormControl(param.cajeroATM != undefined? param != null ? param.cajeroATM.tarifaRuteo:null: null),
+      'tarifaVerificacion': new FormControl(param.cajeroATM != undefined? param != null ? param.cajeroATM.tarifaVerificacion:null: null),
       'estado': new FormControl(),
       'depositario': new FormControl(),
     });
@@ -110,6 +113,7 @@ export class DialogCajeroComponent implements OnInit {
   }
   
   selectCiudad(param: any): any {
+    if(param.codigoCiudad !== undefined){
     for(let i= 0; i < this.ciudades.length; i++) {
       const element = this.ciudades[i];
       if(element.codigoCiudad == param.codigoCiudad) {
@@ -117,14 +121,17 @@ export class DialogCajeroComponent implements OnInit {
       }
     }
   }
+  }
 
   selectBanco(param: any): any {
+    if(param.cajeroATM !== undefined){
     for(let i= 0; i < this.bancosAval.length; i++) {
       const element = this.bancosAval[i];
       if(element.codigoPunto == param.cajeroATM.codigoPunto) {
         return element;
       }
     }
+  }
   }
 
   persistir() {
@@ -138,7 +145,6 @@ export class DialogCajeroComponent implements OnInit {
       estado: this.form.value['estado'],
       depositario: this.form.value['depositario'],
     }
-    console.log(cajero)
   }
 
   async datosDesplegables() {

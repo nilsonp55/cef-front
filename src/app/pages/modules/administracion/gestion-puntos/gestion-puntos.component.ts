@@ -118,10 +118,7 @@ export class GestionPuntosComponent implements OnInit {
   }
 
   eventoClick(element: any) {
-    console.log("Elemento seleccionado:")
-    console.log(element)
     this.tipoPuntoSeleccionado = element.valorTexto;
-    console.log(this.tipoPuntoSeleccionado)
     this.listarPuntosSeleccionado();
   }
 
@@ -168,9 +165,12 @@ export class GestionPuntosComponent implements OnInit {
     }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.CLIENTE) {
       // TODO: debe aarecer la vetana para crear cliente
-      this.dialog.open(DialogClienteComponent, {
+      const dialogRef = this.dialog.open(DialogClienteComponent, {
         width: '600PX', 
         data: {element: element, flag: "crear"}
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        console.log("se cerro")
       })
     }
   }
@@ -230,8 +230,6 @@ export class GestionPuntosComponent implements OnInit {
   }
 
   modificarDetallePunto(element: any) {
-    console.log("Elemento a modificar")
-    console.log(element.tipoPunto)
     if(element.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
       this.dialog.open(DialogBancoComponent, {
         width: '600PX', 

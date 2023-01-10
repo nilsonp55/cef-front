@@ -39,7 +39,6 @@ export class ConciliacionComponent implements OnInit {
         menusrol.data.forEach(itm => {
           this.menusConsiliacion.push(itm.menu);
         });
-        console.log(menusrol)
       });
     })
   }

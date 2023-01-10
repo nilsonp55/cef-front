@@ -16,7 +16,6 @@ export class BannerSupeiorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("Usuario entro")
     this.mostrarUsuario()
   }
 
@@ -31,9 +30,6 @@ export class BannerSupeiorComponent implements OnInit {
 
   mostrarUsuario() {
     this.userName = sessionStorage.getItem('user')
-
-    console.log(this.userName)
-
   }
 
 }

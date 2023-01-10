@@ -101,8 +101,6 @@ export class GenerarContabilidadAmComponent implements OnInit {
    * @BaironPerez
    */
   verTransactContables() {
-    console.log(this.dataGenerateContabilidad)
-    console.log(this.dataGenerateContabilidad.respuestasContablesDTO)
     const resp = this.dialog.open(ResultadoContabilidadComponent, {
       width: '100%',
       data: {

@@ -62,7 +62,6 @@ export class LiquidacionMensualComponent implements OnInit {
    this.fechaSistemaSelect = _fecha.data[0].valor;
    const [day, month, year] = this.fechaSistemaSelect.split('/');
    this.fechaSistemaSelectHTML = new Date(+year, Number(month) - 1,null);
-   console.log(this.fechaSistemaSelect)
   }
 
 
