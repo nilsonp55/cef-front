@@ -1,7 +1,7 @@
 <div class="titulo-tabla">
-    <h1>Crear fondo en TDV</h1>
+    <h1>{{titulo}} fondo en TDV</h1>
 </div>
-<form class="example-container" [formGroup]="form" #frmPaciente="ngForm">
+<form *ngIf="mostrarFormulario" class="example-container" [formGroup]="form">
     <div class="div-division">
         <div class="ubica">
             <h2>Nombre</h2>
@@ -34,7 +34,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Seleccione una transportadora</mat-label>
             <mat-select formControlName="transportadora">
-                <mat-option *ngFor="let transportadora of tdv" [value]="transportadora">
+                <mat-option *ngFor="let transportadora of tdvs" [value]="transportadora">
                     {{transportadora.nombreTransportadora}}
                 </mat-option>
             </mat-select>
@@ -68,7 +68,7 @@
 
     <div class="division-btn-ident">
         <div>
-            <button mat-raised-button color="primary" (click)="persistir()">Guardar</button>
+            <button *ngIf="estadoBTN" mat-raised-button color="primary" (click)="persistir()">{{nombreBTN}}</button>
         </div>
         <div>
             <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>

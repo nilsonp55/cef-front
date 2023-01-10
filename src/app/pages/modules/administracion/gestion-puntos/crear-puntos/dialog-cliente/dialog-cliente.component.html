@@ -1,7 +1,7 @@
 <div class="titulo-tabla">
-    <h1>Crear sitio de un cliente</h1>
+    <h1>{{titulo}} sitio de un cliente</h1>
 </div>
-<form class="example-container" [formGroup]="form" #frmPaciente="ngForm">
+<form *ngIf="mostrarFormulario" class="example-container" [formGroup]="form" #frmPaciente="ngForm">
     <div class="div-division">
         <div class="ubica">
             <h2>Nombre</h2>
@@ -31,11 +31,14 @@
         <div class="ubica">
             <h2>Cliente</h2>
         </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input formControlName="cliente" matInput #input>
-            </mat-form-field>
-        </div>
+        <mat-form-field appearance="fill">
+            <mat-label>Seleccione un cliente</mat-label>
+            <mat-select formControlName="cliente">
+                <mat-option *ngFor="let cliente of clientes" [value]="cliente">
+                    {{cliente.nombreCliente}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 
     <div class="div-division">
@@ -55,7 +58,7 @@
 
     <div class="division-btn-ident">
         <div>
-            <button mat-raised-button color="primary" (click)="persistir()">Guardar</button>
+            <button *ngIf="estadoBTN" mat-raised-button color="primary" (click)="persistir()">{{nombreBTN}}</button>
         </div>
         <div>
             <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>

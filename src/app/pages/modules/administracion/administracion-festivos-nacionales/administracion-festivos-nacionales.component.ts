@@ -9,6 +9,7 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { FestivosNacionalesService } from 'src/app/_service/administracion-service/festivos-nacionales.service';
 
+
 @Component({
   selector: 'app-administracion-festivos-nacionales',
   templateUrl: './administracion-festivos-nacionales.component.html',

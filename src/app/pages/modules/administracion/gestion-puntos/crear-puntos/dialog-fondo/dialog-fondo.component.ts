@@ -19,13 +19,18 @@ export class DialogFondoComponent implements OnInit {
   esGrupoAval = false;
   ciudades: any[] = [];
   bancosAval: any[] = [];
-  tdv: any[] = [];
+  tdvs: any[] = [];
   mosrarFormBanco = false;
   mosrarFormCliente = false;
   mosrarFormOficina= false;
   mosrarFormCajero = false;
   mosrarFormFondo = false;
-  
+  nombreBTN: string;
+  estadoBTN: boolean;
+  titulo: string;
+  dataElement: any = null;
+  esEdicion: boolean;
+  mostrarFormulario: boolean = false;
   
   constructor(
     private dialog: MatDialog,
@@ -35,38 +40,25 @@ export class DialogFondoComponent implements OnInit {
     { }
   
   
-  ngOnInit(): void {
-    this.initForm();
-    this.datosDesplegables();
-    //Validar que tipo de frmulario se presentará
-    if(this.data == GENERALES.TIPO_PUNTOS.BANCO) {
-      this.mosrarFormBanco == true;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-      this.mosrarFormCajero = false;
-      this.mosrarFormFondo= false;
+  async ngOnInit(): Promise<void> {
+    this.dataElement = this.data.element;
+    this.nombreBTN = "Guardar"
+    if(this.data.flag == "crear") {
+      this.titulo = "Crear  "
     }
-    else if(this.data == GENERALES.TIPO_PUNTOS.CAJERO) {
-      this.mosrarFormCajero = true;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
-      this.mosrarFormFondo= false;
+    if(this.data.flag == "info") {
+      this.titulo = "Información "
+      this.estadoBTN = false
     }
-    else if(this.data == GENERALES.TIPO_PUNTOS.FONDO) {
-      this.mosrarFormFondo= true;
-      this.mosrarFormCajero = false;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-      this.mosrarFormOficina= false;
+    if(this.data.flag == "modif") {
+      this.titulo = "Modificación "
+      this.nombreBTN = "Actualizar"
+      this.esEdicion = true;
+
     }
-    else if(this.data == GENERALES.TIPO_PUNTOS.OFICINA) {
-      this.mosrarFormOficina= true;
-      this.mosrarFormFondo= false;
-      this.mosrarFormCajero = false;
-      this.mosrarFormBanco == false;
-      this.mosrarFormCliente = false;
-    }
+    await this.datosDesplegables();
+    this.estadoBTN = true
+    this.initForm(this.dataElement);
   }
   
   /**
@@ -102,12 +94,40 @@ export class DialogFondoComponent implements OnInit {
 
   initForm(param?: any) {
     this.form = new FormGroup({
-      'nombre': new FormControl(),
-      'ciudad': new FormControl(),
-      'transportadora': new FormControl(),
-      'bancoAval': new FormControl(),
+      'nombre': new FormControl(param != null ? param.nombrePunto:null),
+      'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
+      'transportadora': new FormControl(param ? this.selectTransportadorasOrigen(param) : null),
+      'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
       'estado': new FormControl(),
     });
+    this.mostrarFormulario = true
+  }
+
+  selectCiudad(param: any): any {
+    for(let i= 0; i < this.ciudades.length; i++) {
+      const element = this.ciudades[i];
+      if(element.codigoDANE == param.codigoCiudad) {
+        return element;
+      }
+    }
+  }
+
+  selectTransportadorasOrigen(param: any): any {debugger
+    for(let i= 0; i < this.tdvs.length; i++) {
+      const element = this.tdvs[i];
+      if(element.codigo == param.fondos.tdv) {
+        return element;
+      }
+    }
+  }
+
+  selectBanco(param: any): any {
+    for(let i= 0; i < this.bancosAval.length; i++) {
+      const element = this.bancosAval[i];
+      if(element.codigoPunto == param.fondos.bancoAVAL) {
+        return element;
+      }
+    }
   }
   
   persistir() {
@@ -149,7 +169,7 @@ export class DialogFondoComponent implements OnInit {
     this.bancosAval = _bancos.data;
 
     const _transportadoras = await this.generalServices.listarTransportadoras().toPromise();
-    this.tdv = _transportadoras.data;
+    this.tdvs = _transportadoras.data;
 
   }
 
