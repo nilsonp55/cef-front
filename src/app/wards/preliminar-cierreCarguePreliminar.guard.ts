@@ -30,7 +30,7 @@ export class PreliminarCierreCarguePreliminarGuard implements CanActivate {
         this.rolMenuService.obtenerMenuRol({
           'rol.idRol': rol,
           'estado': "1",
-          'menu.idMenuPadre': "liquidacion"
+          'menu.idMenuPadre': "carguePreliminar"
         }).subscribe(menusrol => {
           this.menus = menusrol;
           menusrol.data.forEach(itm => {
@@ -47,7 +47,7 @@ export class PreliminarCierreCarguePreliminarGuard implements CanActivate {
           if (guardOk) {
             resolve(true);
           } else {
-            this.router.navigate(['/liquidacion']);
+            this.router.navigate(['/cargue-programacion']);
             resolve(false);
           }
         });
