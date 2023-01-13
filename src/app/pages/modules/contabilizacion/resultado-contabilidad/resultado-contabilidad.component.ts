@@ -27,7 +27,8 @@ export class ResultadoContabilidadComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
-
+  nombreBTNCerrar: string = "CERRAR PROCESO"; 
+  bandera: string;
   fechaSistemaSelect: any;
   codigoBanco: any;
 
@@ -54,11 +55,15 @@ export class ResultadoContabilidadComponent implements OnInit {
     private cierreContabilidadService: CierreContabilidadService,
     private generarContabilidadService: GenerarContabilidadService,
     private dialogRef: MatDialogRef<ResultadoContabilidadComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any, tipoContabilidad: any}
+    @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any, tipoContabilidad: any, flag: any}
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.titulo = this.data.titulo
+    this.bandera = this.data.flag
+    if(this.bandera = "G"){
+      this.nombreBTNCerrar = "CANCELAR"
+    }
     this.codigoBanco = this.data.respuesta[0].bancoAval
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);
     this.dataSourceInfoProcesos.sort = this.sort;
@@ -118,7 +123,18 @@ export class ResultadoContabilidadComponent implements OnInit {
       });
   }
 
-  cerrarProceso(){
+  validarFlag(){
+    if(this.bandera == undefined){
+      this.cerrarProceso();
+    }
+    if(this.bandera == "G"){
+      
+    }else {
+      this.cerrarProceso();
+    }
+  }
+
+  cerrarProceso(){//LLEGA AQUI
     this.cierreContabilidadService.cierreContabilidadAutorizacion({
       'fecha': this.fechaSistemaSelect, 
       'tipoContabilidad': this.tipo,

@@ -92,7 +92,7 @@ export class ContabilidadPmComponent implements OnInit {
       }
     });
 
-    validateArchivo.afterClosed().subscribe(result => {
+    validateArchivo.afterClosed().subscribe(result => {//
       //Si presiona click en aceptar
       if (result.data.check) {
         this.spinnerActive = true;
@@ -105,12 +105,13 @@ export class ContabilidadPmComponent implements OnInit {
           'fase': "INICIAL"
         }).subscribe(data => {
           //Ensayo re respuesta
-          const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
+          const respuesta = this.dialog.open(ResultadoContabilidadComponent, {//
             width: '100%',
             data: {
               respuesta: data.data,
               titulo: "Generar Contabilidad PM - Resultado",
-              tipoContabilidad: "PM"
+              tipoContabilidad: "PM",
+              flag: "G"
             }
           });
         },
