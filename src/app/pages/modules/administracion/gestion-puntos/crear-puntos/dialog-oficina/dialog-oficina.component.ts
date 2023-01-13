@@ -24,6 +24,8 @@ export class DialogOficinaComponent implements OnInit {
   mosrarFormOficina= false;
   mosrarFormCajero = false;
   mosrarFormFondo = false;
+  esFajado = false;
+  esRefajillado = false;
   labelPosition: 'Refajillado' | 'fajado' = 'fajado';
   nombreBTN: string;
   nombreBTNCancelar: string;
@@ -34,6 +36,7 @@ export class DialogOficinaComponent implements OnInit {
   mostrarFormulario: boolean = false;
   estadoFajado: boolean;
   estadoRefajillado: boolean;
+  costoEditar: any;
   
   
   constructor(
@@ -67,6 +70,7 @@ export class DialogOficinaComponent implements OnInit {
         this.form.get('tariVerificacion').disable();
         this.form.get('estado').disable();
         this.form.get('fajado').disable();
+        this.form.get('refajillado').disable();
       }
       if(this.data.flag == "modif") {
         this.titulo = "Modificación "
@@ -89,6 +93,7 @@ export class DialogOficinaComponent implements OnInit {
       'tariVerificacion': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.tarifaVerificacion:null: null),
       'estado': new FormControl(),
       'fajado': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.fajado :null: null),
+      'refajillado': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.refajillado :null: null)
     });
     this.mostrarFormulario = true
   }
@@ -117,13 +122,13 @@ export class DialogOficinaComponent implements OnInit {
     let oficina = {
       nombrePunto: this.form.value['nombre'],
       codigoDANE: this.form.value['ciudad'].codigoDANE,
-      codigoOficina: this.form.value['codigoOficina'],
+      codigoOficina: Number(this.form.value['codigoOficina']),
       bancoAVAL: Number(this.form.value['bancoAval'].codigoPunto),
       tarifaRuteo: Number(this.form.value['tarifaRuteo']),
       tariVerificacion: Number(this.form.value['tariVerificacion']),
       estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
       fajado: this.formatearEstadoFajillado(this.form.value['fajado']),
-      refagillado: this.formatearEstadoFajillado(this.form.value['fajado']),
+      refagillado: this.formatearEstadoFajillado(this.form.value['refajillado']),
       tipoPunto: this.dataElement.valorTexto,
       nombreCiudad:this.form.value['ciudad'].nombreCiudad,
       codigoCiudad: Number(this.form.value['ciudad'].codigoDANE),
@@ -218,5 +223,15 @@ export class DialogOficinaComponent implements OnInit {
       return false;
     }
   }
+
+
+  changeValor(param: any) {
+    this.costoEditar = param.target.value;;
+  }
+
+  onKeypressEvent(event: any):  any {
+    console.log(event)
+    if(event.charCode < 48 || event.charCode > 57) return false;
+}
 
 }
