@@ -103,13 +103,14 @@ export class GenerarContabilidadPmComponent implements OnInit {
    * @BaironPerez
    */
   verTransactContables() {
-    const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
+    const respuesta = this.dialog.open(ResultadoContabilidadComponent, {//generar
       width: '100%',
       height: '90%',
       data: {
         respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
         titulo: "Generar Contabilidad PM - Resultado",
-        tipoContabilidad: "PM"
+        tipoContabilidad: "PM",
+        flag: "G"
       }
     });
   }

@@ -52,11 +52,11 @@ export class DialogConfirmEjecutarComponentComponent implements OnInit {
 
   cancel() {
     this.dialogRef.close({
-      data: {
+      /*data: {
         banco: '0',
         fechaSistema: this.fechaSistemaSelect,
         check: true
-      }
+      }*/
     })
   }
   
