@@ -23,7 +23,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
   public idFuncion: any;
   spinnerActive: boolean = false;
   dataSourceResponse: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7', 'campo8', 'campo9', 'campo10', 'campo11', , 'campo12'];
+  displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7', 'campo8', 'campo9', 'campo10', 'campo11', 'campo12'];
   mostrarTabla: boolean = false;
 
   constructor(
@@ -39,7 +39,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
     this.idFuncion = this.data.funcion;
   }
 
-  confirmValor(idCampo, idBoton, valordefectoParam) {
+  confirmValor(idCampo, idBoton, valordefectoParam) {debugger
     //this.concatString += this.valorDefecto + ',';
     let valor = document.getElementById(idCampo);
     if(this.valorDefecto !== ""){
@@ -63,7 +63,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
    * Metodo encargado de ejecutar el procedimiento almacenado
    * BayronPerez
    */
-  ejecutar() {
+  ejecutar() {debugger
     let formato = this.concatString.substr(0,this.concatString.length -1)
     const body ={
       "idFuncion": this.idFuncion,
