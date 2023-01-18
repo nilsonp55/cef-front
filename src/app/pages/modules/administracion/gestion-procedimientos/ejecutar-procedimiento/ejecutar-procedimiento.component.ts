@@ -39,7 +39,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
     this.idFuncion = this.data.funcion;
   }
 
-  confirmValor(idCampo, idBoton, valordefectoParam) {debugger
+  confirmValor(idCampo, idBoton, valordefectoParam) {
     //this.concatString += this.valorDefecto + ',';
     let valor = document.getElementById(idCampo);
     if(this.valorDefecto !== ""){
@@ -63,7 +63,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
    * Metodo encargado de ejecutar el procedimiento almacenado
    * BayronPerez
    */
-  ejecutar() {debugger
+  ejecutar() {
     let formato = this.concatString.substr(0,this.concatString.length -1)
     const body ={
       "idFuncion": this.idFuncion,

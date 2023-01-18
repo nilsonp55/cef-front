@@ -80,6 +80,7 @@ import { PreliminarGestionCargueGuard } from './wards/preliminar-gestionCargue.g
 import { PreliminarCierreCarguePreliminarGuard } from './wards/preliminar-cierreCarguePreliminar.guard';
 import { PreliminarGestionCargueDefinitivoGuard } from './wards/preliminar-gestionCargueDefinitivo.guard';
 import { PreliminarCierreCargueDefinitivoGuard } from './wards/preliminar-cierreCargueDefinitivo.guard';
+import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -151,6 +152,7 @@ const routes: Routes = [
       { path: 'administracion-usuarios', component: GestionUsuariosComponent, canActivate: [AdministracionUsuariosGuard] },
       { path: 'administracion-procedimientos', component: GestionProcedimientosComponent, canActivate: [AdministracionProcedimientosGuard] },
       { path: 'administracion-festivos-nacionales', component: AdministracionFestivosNacionalesComponent, canActivate: [AdministracionFestivosNacionalesGuard] },
+      { path: 'administracion-generar-llaves', component: GenerarLlaveArchivosComponent},
     ]
   }
   

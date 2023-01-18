@@ -83,7 +83,7 @@ export class DialogOficinaComponent implements OnInit {
       
     }
     
-  initForm(param?: any) {debugger
+  initForm(param?: any) {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto:null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
@@ -109,7 +109,7 @@ export class DialogOficinaComponent implements OnInit {
   }
   }
 
-  selectBanco(param: any): any {debugger
+  selectBanco(param: any): any {
     for(let i= 0; i < this.bancosAval.length; i++) {
       const element = this.bancosAval[i];
       if(element.codigoPunto == param.codigoPunto) {
@@ -167,7 +167,7 @@ export class DialogOficinaComponent implements OnInit {
             }
           }); setTimeout(() => { alert.close() }, 3000);
         });
-    } else {debugger
+    } else {
       this.gestionPuntosService.crearPunto(oficina).subscribe(response => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
