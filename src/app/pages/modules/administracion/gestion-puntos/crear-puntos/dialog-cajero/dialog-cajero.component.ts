@@ -98,7 +98,7 @@ export class DialogCajeroComponent implements OnInit {
     })
   }
 
-  initForm(param?: any) {debugger
+  initForm(param?: any) {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto:null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),

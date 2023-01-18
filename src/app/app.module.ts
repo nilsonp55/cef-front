@@ -130,6 +130,8 @@ import { DialogClienteComponent } from './pages/modules/administracion/gestion-p
 import { DialogBanRepComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
 import { DialogBancoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-banco/dialog-banco.component';
 import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
+import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
+import { DialogConfirmLlavesComponent } from './pages/modules/administracion/generar-llave-archivos/dialog-confirm-llaves/dialog-confirm-llaves.component';
 
 @NgModule({
   declarations: [
@@ -237,7 +239,9 @@ import { AdministracionFestivosNacionalesComponent } from './pages/modules/admin
     DialogClienteComponent,
     DialogBanRepComponent,
     DialogBancoComponent,
-    AdministracionFestivosNacionalesComponent
+    AdministracionFestivosNacionalesComponent,
+    GenerarLlaveArchivosComponent,
+    DialogConfirmLlavesComponent
     ],
 
   imports: [

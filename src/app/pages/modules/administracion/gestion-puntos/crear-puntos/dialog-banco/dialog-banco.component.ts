@@ -117,7 +117,7 @@ initForm(param?: any) {
   this.mostrarFormulario = true
 }
 
-selectCiudad(param: any): any {debugger
+selectCiudad(param: any): any {
   if(param.codigoCiudad !== undefined){
   for(let i= 0; i < this.ciudades.length; i++) {
     const element = this.ciudades[i];

@@ -17,8 +17,8 @@ Estilo para botones en el aplicativo
 *************************************************************************************************************************/
 .bottonAceptarCenter {
     color: #fff;
-    background-color: #eee23e;
-    border-color: #bbb231;
+    background-color: #3e67ee;
+    border-color: #f8f8f1;
     display:block; 
     margin:auto;
     padding:2%;
@@ -28,9 +28,9 @@ Estilo para botones en el aplicativo
 }
 
 .bottonCancelarCenter {
-    color: #fff;
-    background-color: #da5b34;
-    border-color: #b44a2a;
+    color: rgb(26, 23, 23);
+    background-color: #d1cbc9;
+    border-color: #d1cbc9;
     display:block; 
     margin:auto;
     padding:2%;

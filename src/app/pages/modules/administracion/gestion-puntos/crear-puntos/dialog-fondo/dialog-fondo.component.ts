@@ -87,7 +87,7 @@ export class DialogFondoComponent implements OnInit {
     }
   }
 
-  selectTransportadorasOrigen(param: any): any {debugger
+  selectTransportadorasOrigen(param: any): any {
     if(param.fondos !== undefined){
     for(let i= 0; i < this.tdvs.length; i++) {
       const element = this.tdvs[i];
@@ -136,7 +136,7 @@ export class DialogFondoComponent implements OnInit {
     }
     console.log("Data que se enviara")
     console.log(fondo)
-    if (this.esEdicion) {debugger
+    if (this.esEdicion) {
       //cliente.consecutivo = this.idConfEntity;
       this.gestionPuntosService.actualizarPunto(fondo).subscribe(response => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -157,7 +157,7 @@ export class DialogFondoComponent implements OnInit {
             }
           }); setTimeout(() => { alert.close() }, 3000);
         });
-    } else {debugger
+    } else {
       this.gestionPuntosService.crearPunto(fondo).subscribe(response => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

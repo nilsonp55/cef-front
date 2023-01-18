@@ -256,6 +256,10 @@ export const URLs = {
   CLIENTE: '/clientes-corporativos',
   CLIENTE_CONSULTAR: '/consultar',
 
+  //Generar Llaves
+  LLAVES: '/encriptar',
+  LLAVES_GENERAR: '/generar-llaves',
+
   //Consultar parametro
   PARAMETRO: '/parametro',
   PARAMETRO_CONSULTA: '/consultar',
