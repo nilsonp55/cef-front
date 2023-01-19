@@ -96,14 +96,13 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
       });
   }
 
-  listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, puntoDestino: string, pagina = 0, tamanio = 500) {
+  listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
       estadoConciliacion: 'NO_CONCILIADA',
       conciliable: 'SI',
       bancoAVAL: banco,
       tdv:tdv,
       tipoPuntoOrigen:puntoOrigen,
-      tipoPuntoDestino:puntoDestino,
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
@@ -125,51 +124,24 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   }
 
   filter(event) {
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen, event.tipoPuntoDestino)
-    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino == undefined) {
-      this.listarOpCertificadasSinConciliar()
-    }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", "", "")
-    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, "", "")
-    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen, "")
-    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", "", event.tipoPuntoDestino)
-    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen, event.tipoPuntoDestino)    }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen, event.tipoPuntoDestino)    }
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "", event.tipoPuntoDestino)    }
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen, "")
-    }
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "", "")
-    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen, "")
-    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen, event.tipoPuntoDestino)
-    }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", "", event.tipoPuntoDestino)
-    }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined && event.tipoPuntoDestino == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen, "")
-    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined && event.tipoPuntoDestino !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, "", event.tipoPuntoDestino)
-    }
+    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined) {
+      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen)    }
+    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
+      this.listarOpCertificadasSinConciliar()   }
+    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
+      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", "")    }
+    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined) {
+      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, "")    }
+    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined) {
+      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen)    }
+    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
+      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", "")    }
+    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined) {
+      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen)    }
+    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined) {
+      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen)    }
+    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined) {
+      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "")    }
   }
     
 }

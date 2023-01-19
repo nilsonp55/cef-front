@@ -11,33 +11,33 @@
                         <td mat-cell *matCellDef="let element"> {{element.idCertificacion}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="codigoFondoTDV" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>COD. FONDO TDV</th>
-                        <td mat-cell *matCellDef="let element"> {{element.codigoFondoTDV}} </td>
+                    <ng-container matColumnDef="nombreFondoTDV" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE FONDO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="codigoBanco" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO BANCO</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CÓDIGO BANCO</th>
                         <td mat-cell *matCellDef="let element"> {{element.codigoBanco}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="codigoCiudad" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO CIUDAD</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CÓDIGO CIUDAD</th>
                         <td mat-cell *matCellDef="let element"> {{element.codigoCiudad}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="codigoPuntoOrigen" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>COD PUNTO ORIGEN</th>
-                        <td mat-cell *matCellDef="let element"> {{element.codigoPuntoOrigen}} </td>
+                    <ng-container matColumnDef="nombrePuntoOrigen" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE P. ORIGEN</th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombrePuntoOrigen}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="codigoPuntoDestino">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO DESTINO</th>
-                        <td mat-cell *matCellDef="let element"> {{element.codigoPuntoDestino}} </td>
+                    <ng-container matColumnDef="nombrePuntoDestino">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE P. DESTINO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombrePuntoDestino}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="tipoPuntoOrigen" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO PUNTO ORIGEN</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO P. ORIGEN</th>
                         <td mat-cell *matCellDef="let element"> {{element.tipoPuntoOrigen}} </td>
                     </ng-container>
 
@@ -47,13 +47,13 @@
                     </ng-container>
 
                     <ng-container matColumnDef="fechaEjecucion" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EJECUCION</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EJECUCIÓN</th>
                         <td mat-cell *matCellDef="let element"> {{element.fechaEjecucion | date: 'dd/MM/YYYY' : '+00'}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO OPERACION</th>
-                        <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
+                    <ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA-SALIDA</th>
+                        <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="tipoServicio" class="mat-column-nombreCampo">
@@ -62,7 +62,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACION</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACIÓN</th>
                         <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
                     </ng-container>
 
@@ -98,29 +98,60 @@
         </div>
 </div>
 
-<div class="division">
+<div class="divForm">
+    <form class="example-container" [formGroup]="form">
+        <div class="divX2">
+            <div>
+                <h1>Modificar estado de conciliación</h1>
+                <mat-form-field appearance="fill">
+                    <mat-label>Estado conciliación</mat-label>
+                    <mat-select formControlName="estadoConciliacion">
+                        <mat-option *ngFor="let estado of estados" [value]="estado">
+                            {{estado.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <h1>Modificar valor total</h1>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Nuevo valor total</mat-label>
+                    <input formControlName="valorTotal" matInput type="number">
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
     <div>
-        <h1>Modificar estado de conciliación</h1>
-        <mat-form-field appearance="fill" >
-            <mat-label>Estado conciliación</mat-label>
-            <mat-select onchange="changeState($event)">
-                <mat-option *ngFor="let estado of estados" [value]="estado.value" (click)="changeState($event)">
-                    {{estado.viewValue}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div class="ubicacionBtn">
+            <button mat-raised-button mat-button color="primary" (click)="persistir()">Modificar</button>
+        </div>
     </div>
-    <div>
-        <h1>Modificar valor total</h1>
-        <form class="example-form">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Nuevo valor total</mat-label>
-                <input matInput type="number" [(ngModel)]="valorTotal" name="valorTotal">
+</div>
+
+<!--div class="division">
+    <form class="example-container" [formGroup]="form">
+        <div>
+            <h1>Modificar estado de conciliación</h1>
+            <mat-form-field appearance="fill">
+                <mat-label>Estado conciliación</mat-label>
+                <mat-select formControlName="estadoConciliacion">
+                    <mat-option *ngFor="let estado of estados" [value]="estado">
+                        {{estado.viewValue}}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
-        </form>
-    </div>
+        </div>
+
+        <div>
+            <h1>Modificar valor total</h1>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Nuevo valor total</mat-label>
+                    <input formControlName="valorTotal" matInput type="number">
+                </mat-form-field>
+        </div>
+    </form>
     <div class="ubicacionBtn">
-        <button mat-raised-button mat-button color="primary" (click)="actualizarEstado()">Modificar</button>
+        <button mat-raised-button mat-button color="primary" (click)="persistir()">Modificar</button>
     </div>
 
-</div>
+</div-->
