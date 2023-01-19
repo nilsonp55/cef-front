@@ -94,7 +94,6 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
           'idMaestroDefinicion': archivo.idModeloArchivo,
           'nombreArchivo': archivo.nombreArchivo
         }).subscribe((data: ValidacionArchivo) => {
-          this.listarArchivosCargados();
           this.spinnerActive = false;
           this.dialog.open(DialogResultValidacionComponent, {
             width: '950px', height: '60%', data: {id: archivo.idModeloArchivo, data},

@@ -35,3 +35,7 @@ table {
     grid-template-columns: 1fr 1fr 1fr;
     height: auto;
   }
+
+  .mat-column-codigoFondoTDV {
+    text-align: center;
+  }

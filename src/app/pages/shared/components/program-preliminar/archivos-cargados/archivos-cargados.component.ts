@@ -103,7 +103,6 @@ export class ArchivosCargadosComponent implements OnInit {
           'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
           'nombreArchivo': archivo.nombreArchivo
         }).subscribe((data: ValidacionArchivo) => {
-          this.listarArchivosCargados();
           this.spinnerActive = false;
           this.dialog.open(DialogResultValidacionComponent, {
             height: '80%', width: '950px', data: {id: archivo.idModeloArchivo, data}

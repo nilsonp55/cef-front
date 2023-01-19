@@ -7,6 +7,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
 import * as moment from 'moment';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dialog-actualizar-op-certificadas',
@@ -15,17 +16,19 @@ import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-c
 })
 export class DialogActualizarOpCertificadasComponent implements OnInit {
 
+  form: FormGroup;
   valorTotal: number;
   estado: string;
   dataSourceInfoOpCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>;
-  displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion','codigoFondoTDV','codigoBanco', 'codigoCiudad', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'tipoPuntoOrigen','tipoPuntoDestino','fechaEjecucion', 'tipoOperacion', 'tipoServicio', 'estadoConciliacion', 'conciliable', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fallidaOficina'];
+  displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion','nombreFondoTDV','nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'valorFaltante', 'valorSobrante'];
+  datoqueLlega: any;
+  dataElement: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ConciliacionesCertificadaNoConciliadasModel,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<DialogActualizarOpCertificadasComponent>,
     private opConciliadasService: OpConciliadasService,) { 
-    data.fechaEjecucion = moment(data.fechaEjecucion).format('DD/MM/YYYY')
     this.dataSourceInfoOpCertificadas = new MatTableDataSource([data]);
   }
 
@@ -38,6 +41,8 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.dataElement = this.data;
+    this.initForm(this.dataElement);
   }
 
   actualizarEstado() {
@@ -63,6 +68,45 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
       });
       setTimeout(() => { alert.close() }, 3000);
     });
+  }
+
+  initForm(param?: any) {debugger
+    this.form = new FormGroup({
+      'estadoConciliacion': new FormControl(param != null ? this.selectEstados(param.estadoConciliacion) : null),
+      'valorTotal': new FormControl(param != null ? param.valorTotal : null),
+    });
+  }
+
+  selectEstados(param: any): any {
+    let response;
+    this.estados.forEach(item => {
+      if (item.viewValue == param) {
+        response = item
+      }
+    })
+    return response;
+  }
+
+  persistir() {
+    let estadoActualizar = {
+      idOperacion: this.data.idCertificacion,
+      estado: this.form.value['estadoConciliacion'].viewValue,
+      valor: this.form.value['valorTotal']
+    }
+    this.opConciliadasService.actualizarOpCertificadas(estadoActualizar).subscribe((page: any) => {
+      this.dialogRef.close({ event: "load", data: { "event": "load" } });
+    },
+      (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        setTimeout(() => { alert.close() }, 3000);
+      });
+    this.ngOnInit();
   }
 
   changeState(event){
