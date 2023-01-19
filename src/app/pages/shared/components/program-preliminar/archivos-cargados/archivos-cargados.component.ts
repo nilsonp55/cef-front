@@ -5,7 +5,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ErrorService } from 'src/app/_model/error.model';
-import { saveAs } from 'file-saver';
 import { VentanaEmergenteResponseComponent } from '../../ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from '../../../constantes';
 import { DialogResultValidacionComponent } from './dialog-result-validacion/dialog-result-validacion.component';
@@ -103,6 +102,7 @@ export class ArchivosCargadosComponent implements OnInit {
           'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
           'nombreArchivo': archivo.nombreArchivo
         }).subscribe((data: ValidacionArchivo) => {
+          this.listarArchivosCargados();
           this.spinnerActive = false;
           this.dialog.open(DialogResultValidacionComponent, {
             height: '80%', width: '950px', data: {id: archivo.idModeloArchivo, data}
