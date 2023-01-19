@@ -28,7 +28,7 @@ export class OperacionesProgramadasService {
      * Servicio para cerrar el proceso de carga preliminar
      */
     public procesar(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.OPERACIONES_PROGRMADAS_PROCESAR}`,{ params: param, headers });
     }
 

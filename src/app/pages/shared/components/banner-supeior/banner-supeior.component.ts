@@ -29,7 +29,7 @@ export class BannerSupeiorComponent implements OnInit {
   }
 
   mostrarUsuario() {
-    this.userName = sessionStorage.getItem('user')
+    this.userName = atob(sessionStorage.getItem('user'))
   }
 
 }

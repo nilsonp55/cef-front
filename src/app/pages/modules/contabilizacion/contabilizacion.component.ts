@@ -16,7 +16,7 @@ export class ContabilizacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.rolMenuService.obtenerUsuarios({
-      'idUsuario': sessionStorage.getItem('user')
+      'idUsuario': sessionStorage.getItem(atob('user'))
     }).subscribe(data => {
       //Logica para capturar los menus para cargueCertificacion
       let rol = data.data[0].rol.idRol;

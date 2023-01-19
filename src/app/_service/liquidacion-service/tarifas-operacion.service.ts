@@ -29,7 +29,7 @@ export class TarifasOperacionService {
      * Servicio para listar las Centro ciudades
     */
     consultarTarifasOperacion(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.TARIFAS_OPERACION_CONSULTAR}`, { params: params, headers });
     }
 
@@ -37,7 +37,7 @@ export class TarifasOperacionService {
      * Servicio para gurdar una Centro ciudades
      */
      guardarTarifasOperacion(param: any): Observable<any> {
-        //const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        //const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.post<any>(`${this.url}${URLs.TARIFAS_OPERACION_GUARDAR}`, param);
     }
 
@@ -45,12 +45,12 @@ export class TarifasOperacionService {
      * Servicio para gurdar una Centro ciudades
      */
      actualizarTarifasOperacion(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.put<any>(`${this.url}${URLs.TARIFAS_OPERACION_ACTUALIZAR}`, param, {headers});
     }
 
     /*eliminarTarifasOperacion(param: any):Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.delete<any>(`${this.url}${URLs.TARIFAS_OPERACION_ELIMINAR}`, param, headers);
     }*/
 }
