@@ -27,7 +27,7 @@ export class CargueProgramacionCertificadaService {
      * Metodo para eliminar un registro de archivo previamente cargado
     */
     deleteArchivo(param: any) {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.delete<any>(`${this.url}${URLs.CARGUE_ARCHIVO_ELIMINAR}`, { params: param, headers });
     }
 
@@ -35,7 +35,7 @@ export class CargueProgramacionCertificadaService {
      * Metodo para eliminar un registro de archivo previamente cargado
     */
      reabrirArchivo(param: any) {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.post<any>(`${this.url}${URLs.CARGUE_ARCHIVO_REABRIR}`, { params: param, headers });
     }
 
@@ -43,7 +43,7 @@ export class CargueProgramacionCertificadaService {
      * Servicio para ralizar la validación de un archivo 
      */
      public consultarArchivosCargaCertificacion(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_CONSULTAR}`, { params: params, headers });
     }
 
@@ -51,7 +51,7 @@ export class CargueProgramacionCertificadaService {
      * Servicio para ralizar la validación de un archivo 
      */
     public validarArchivo(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_VALIDAR}`, { params: params, headers });
     }
 
@@ -59,7 +59,7 @@ export class CargueProgramacionCertificadaService {
      * Servicio para ralizar el procesamiento de un archivo 
      */
     public procesarArchivo(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`, { params: params, headers });
     }
 
@@ -67,7 +67,7 @@ export class CargueProgramacionCertificadaService {
      * Servicio para visualizar el detalle de un archivo cargado
      */
      public verDetalleArchivo(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_CERTIFICACION_HISTORICO}`, { params: param, headers });
     }
 
@@ -75,7 +75,7 @@ export class CargueProgramacionCertificadaService {
      * Servicio para cerrar el proceso de certificación
      */
      public procesar(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${environment.HOST}${URLs.STAGE+URLs.PROGRAMACION_CERTIFICACION_CERTIFICACIONES}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`,{ params: param, headers });
     }
 }

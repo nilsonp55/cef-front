@@ -23,7 +23,7 @@ export class GeneralesService {
     * Servicio para listar las transpordadoras
     */
     listarTransportadoras(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get(`${this.url}${URLs.TRANSPORTADORA}${URLs.TRANSPORTADORA_CONSULTA}`,{headers});
     }
 
@@ -33,7 +33,7 @@ export class GeneralesService {
     * @JuanMazo
     */
     listarBancosAval(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}?esAVAL=true`,{headers});
 
     }
@@ -43,7 +43,7 @@ export class GeneralesService {
     * @JuanMazo
     */
     listarBancos(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}`,{headers});
     }
 
@@ -52,7 +52,7 @@ export class GeneralesService {
     * @BayronPerez
     */
       listarCiudades(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`,{headers});
     }
 
@@ -61,7 +61,7 @@ export class GeneralesService {
     * @BayronPerez
     */
      listarDominioByDominio(dominio: any): Observable<any> {
-        //const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio},);
     }
 
@@ -70,7 +70,7 @@ export class GeneralesService {
     * @BayronPerez
     */
      listarParametroByFiltro(param: any): Observable<any> {
-        //const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param });
     }
 
@@ -79,7 +79,7 @@ export class GeneralesService {
     }
 
     listarClientes(param?: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.CLIENTE}${URLs.CLIENTE_CONSULTAR}`,{params:param, headers},);
     }
 

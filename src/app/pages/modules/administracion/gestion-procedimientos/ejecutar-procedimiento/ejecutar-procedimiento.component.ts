@@ -23,7 +23,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
   public idFuncion: any;
   spinnerActive: boolean = false;
   dataSourceResponse: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7', 'campo8', 'campo9', 'campo10', 'campo11', , 'campo12'];
+  displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7', 'campo8', 'campo9', 'campo10', 'campo11', 'campo12'];
   mostrarTabla: boolean = false;
 
   constructor(

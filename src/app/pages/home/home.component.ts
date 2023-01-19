@@ -29,8 +29,11 @@ export class HomeComponent implements OnInit {
 
   serializarToken(decodificado: any, tokenOficial: any){
     var _userName = decodificado.name
-      sessionStorage.setItem('token', tokenOficial)
-      sessionStorage.setItem('user', _userName)
-  }
+
+      console.log(decodificado)
+      sessionStorage.setItem('token', btoa(tokenOficial))
+      sessionStorage.setItem('user', btoa(_userName))
+      
+    }
 
 }
