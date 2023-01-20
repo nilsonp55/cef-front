@@ -27,7 +27,7 @@ export class CargueProgramacionDefinitivaService {
      * Metodo para eliminar un registro de archivo previamente cargado
     */
     deleteArchivo(param: any) {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.delete<any>(`${this.url}${URLs.CARGUE_ARCHIVO_ELIMINAR}`, { params: param, headers });
     }
 
@@ -35,7 +35,7 @@ export class CargueProgramacionDefinitivaService {
      * Metodo para eliminar un registro de archivo previamente cargado
     */
      reabrirArchivo(param: any) {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.post<any>(`${this.url}${URLs.CARGUE_ARCHIVO_REABRIR}`, { params: param, headers });
     }
     
@@ -43,7 +43,7 @@ export class CargueProgramacionDefinitivaService {
      * Servicio para ralizar la validación de un archivo 
      */
      public consultarArchivosCargaDefinitiva(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         //return this.http.get<any>(`${environment.HOST+URLs.STAGE}${URLs.PROGRAMACION_CERTIFICACION+URLs.PROGRAMACION_CERTIFICACION_CONSULTAR}`, { params: params });
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_DEFINITIVA_CONSULTAR}`, { params: params, headers });
     }
@@ -52,7 +52,7 @@ export class CargueProgramacionDefinitivaService {
      * Servicio para ralizar la validación de un archivo 
      */
     public validarArchivo(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_DEFINITIVA_VALIDAR}`, { params: params, headers });
     }
 
@@ -60,7 +60,7 @@ export class CargueProgramacionDefinitivaService {
      * Servicio para ralizar el procesamiento de un archivo 
      */
     public procesarArchivo(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_DEFINITIVA_PROCESAR}`, { params: params, headers });
     }
 
@@ -68,7 +68,7 @@ export class CargueProgramacionDefinitivaService {
      * Servicio para visualizar el detalle de un archivo cargado
      */
      public verDetalleArchivo(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_DEFINITIVA_HISTORICO}`, { params: param, headers });
     }
 }

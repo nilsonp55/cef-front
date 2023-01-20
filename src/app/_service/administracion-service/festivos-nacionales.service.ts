@@ -23,7 +23,7 @@ export class FestivosNacionalesService {
      * Servicio para listar menu rol
     */
     obtenerFestivosNaciones(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.ADMIN_FESTIVOS_NACIONALES_CONSULTAR}`);
     }
 

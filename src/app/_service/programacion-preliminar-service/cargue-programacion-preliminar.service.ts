@@ -28,7 +28,7 @@ export class CargueProgramacionPreliminarService {
      * Metodo para eliminar un registro de archivo previamente cargado
     */
      public deleteArchivo(param: any) {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.delete<any>(`${this.url}${URLs.CARGUE_ARCHIVO_ELIMINAR}`, { params: param,  headers});
     }
 
@@ -36,7 +36,7 @@ export class CargueProgramacionPreliminarService {
      * Metodo para eliminar un registro de archivo previamente cargado
     */
      reabrirArchivo(param: any) {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.urlReabrir}${URLs.OPERACIONES_PROGRMADAS_REABRIR}`, { params: param,  headers });
     }
     
@@ -44,7 +44,7 @@ export class CargueProgramacionPreliminarService {
      * Servicio para ralizar la validación de un archivo 
      */
      public validarArchivo(params: any): Observable<any> {
-     const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+     const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_PRELIMINAR_VALIDAR}`, { params: params, headers });
     }
 
@@ -52,7 +52,7 @@ export class CargueProgramacionPreliminarService {
      * Servicio para ralizar el procesamiento de un archivo 
      */
      public procesarArchivo(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_PRELIMINAR_PROCESAR}`, { params: params, headers });
     }
 
@@ -60,7 +60,7 @@ export class CargueProgramacionPreliminarService {
      * Servicio para visualizar el detalle de un archivo cargado
      */
      public verDetalleArchivo(param: any): Observable<any> {
-     const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+     const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_PRELIMINAR_HISTORICO}`, { params: param, headers});
     }
 

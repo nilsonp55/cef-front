@@ -25,7 +25,7 @@ export class RolMenuService {
      * Servicio para listar menu rol
     */
     obtenerMenuRol(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.urlMenuRol}${URLs.ADMIN_MENU_ROL_CONSULTAR}`, { params: params, headers });
     }
 
@@ -40,7 +40,7 @@ export class RolMenuService {
      * Servicio para listar usuario
     */
      obtenerUsuarios(params?: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+sessionStorage.getItem('token')}
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${this.urlUsuario}${URLs.ADMIN_USUARIO_CONSULTAR}`, { params: params, headers });
     }
 

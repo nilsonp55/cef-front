@@ -183,7 +183,7 @@ export class TarifasOperacionComponent implements OnInit {
       fajado: this.form.value['fajado'] == "null" ? null: this.form.value['fajado'],
       fechaVigenciaIni: this.form.value['fechaVigenciaIni'],
       fechaVigenciaFin: this.form.value['fechaVigenciaFin'],
-      usuarioCreacion: sessionStorage.getItem('user'),
+      usuarioCreacion: sessionStorage.getItem(atob('user')),
       fechaModificacion: new Date(),
       fechaCreacion: new Date()
     };

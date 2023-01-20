@@ -82,11 +82,11 @@ export class FiltroBancoTdvComponent implements OnInit {
   }
 
   filter(){
-    this.filterData.emit({banco:this.banco,trasportadora:this.trasportadora,tipoPuntoOrigen:this.selectedOrigen,tipoPuntoDestino:this.selectedDestino})
+    this.filterData.emit({banco:this.banco,trasportadora:this.trasportadora,tipoPuntoOrigen:this.selectedOrigen})
   }
 
   filter2(){
-    this.filterData.emit({banco:this.banco,trasportadora:this.trasportadora,tipoPuntoOrigen:this.selectedOrigen,tipoPuntoDestino:this.selectedDestino})
+    this.filterData.emit({banco:this.banco,trasportadora:this.trasportadora,tipoPuntoOrigen:this.selectedOrigen})
   }
 
   selectBanco(event){
