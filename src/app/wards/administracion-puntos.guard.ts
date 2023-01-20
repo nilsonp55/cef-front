@@ -21,7 +21,6 @@ export class AdministracionPuntosGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return new Promise((resolve, reject) => {
-      debugger
       this.rolMenuService.obtenerUsuarios({
         'idUsuario': atob(sessionStorage.getItem('user'))
       }).subscribe(data => {

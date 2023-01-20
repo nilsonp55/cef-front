@@ -71,7 +71,7 @@ export class LiquidacionMensualComponent implements OnInit {
    * @BaironPerez
    */
   consultar() {
-    this.router.navigate(['/liquidacion/guardar-detalle-liquidacion', 
+    this.router.navigate(['/liquidacion/guardar-detalle-liquidacion',
     this.fechaSistemaSelect, this.selectedTransportadora.codigo]);
   }
 
