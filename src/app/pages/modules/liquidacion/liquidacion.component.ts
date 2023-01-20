@@ -16,7 +16,7 @@ export class LiquidacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.rolMenuService.obtenerUsuarios({
-      'idUsuario': sessionStorage.getItem(atob('user'))
+      'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {
       //Logica para capturar los menus para cargueCertificacion
       let rol = data.data[0].rol.idRol;

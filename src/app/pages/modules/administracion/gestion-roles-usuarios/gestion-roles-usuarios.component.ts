@@ -66,7 +66,7 @@ export class GestionRolesUsuariosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = sessionStorage.getItem(atob('user'));
+    this.user = atob(sessionStorage.getItem('user'));
     this.listarRoles();
   }
 

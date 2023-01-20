@@ -130,7 +130,7 @@ const routes: Routes = [
       { path: 'escala', component: EscalasComponent, canActivate: [LiquidacionCostosGuard] },
       { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [LiquidacionCodigoTdvGuard] },
       { path: 'liquidacion-mensual', component: LiquidacionMensualComponent, canActivate: [LiquidacionLiquidacionMensualGuard] },
-      { path: 'guardar-detalle-liquidacion/:fechaSistema/:codTransportadora', component: DetalleGuardarLiquidacionComponent, canActivate: [LiquidacionDetalleLiquidacionGuard] },
+      { path: 'guardar-detalle-liquidacion/:fechaSistema/:codTransportadora', component: DetalleGuardarLiquidacionComponent },
       { path: 'tdv-denominacion-cantidad', component: TdvDenominacionCantidadComponent, canActivate: [LiquidacionDenominacionCantidadGuard] },
       { path: 'cierre-liquidacion-mensual', component: CierreLiquidacionMensualComponent, canActivate: [LiquidacionCierreLiquidacionMensualGuard] },
     ]
