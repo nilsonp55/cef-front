@@ -23,7 +23,7 @@ export class DateUtil {
         return pipe.transform(fecha, format);
     }
 
-    
+
     /**
      * Metodo encargado de transformar una Fecha de tipo String a Date
      * @param fecha 
@@ -40,4 +40,8 @@ export class DateUtil {
 
         return new Date(anio, mes, dia);
     }
+
+ 
+
+    
 }

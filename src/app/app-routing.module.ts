@@ -81,10 +81,12 @@ import { PreliminarCierreCarguePreliminarGuard } from './wards/preliminar-cierre
 import { PreliminarGestionCargueDefinitivoGuard } from './wards/preliminar-gestionCargueDefinitivo.guard';
 import { PreliminarCierreCargueDefinitivoGuard } from './wards/preliminar-cierreCargueDefinitivo.guard';
 import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
+import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'final-session', component: CierreSesionComponent },
   {
     path: 'cargue-programacion', component: CargueProgramacionComponent, children: [
       { path: 'cargue-inicial', component: CargueInicialComponent },
