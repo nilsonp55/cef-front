@@ -8,6 +8,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { ErrorService } from 'src/app/_model/error.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { CentroCostosService } from 'src/app/_service/contabilidad-service/tipo-centro-costos.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-administrador-tipo-centro-costos',
@@ -37,6 +38,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.datosDesplegables();
     this.listarCentroCostos();
   }

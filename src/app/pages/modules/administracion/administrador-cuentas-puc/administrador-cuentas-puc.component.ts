@@ -10,6 +10,7 @@ import { CuentasPucService } from 'src/app/_service/contabilidad-service/cuentas
 import { GeneralesService } from 'src/app/_service/generales.service'
 import { CentroCostosService } from 'src/app/_service/contabilidad-service/tipo-centro-costos.service';
 import { TiposCuentasService } from 'src/app/_service/contabilidad-service/tipos-cuentas.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-administrador-cuentas-puc',
@@ -42,6 +43,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     await this.iniciarDesplegables();
     this.listarCuntasPuc();
     this.initForm();

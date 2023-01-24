@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-resultado-valores-liquidados',
@@ -37,6 +38,7 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.titulo = this.data.titulo
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);
     this.dataSourceInfoProcesos.sort = this.sort;

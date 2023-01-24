@@ -13,6 +13,7 @@ import { DialogBancoComponent } from './crear-puntos/dialog-banco/dialog-banco.c
 import { DialogOficinaComponent } from './crear-puntos/dialog-oficina/dialog-oficina.component';
 import { DialogClienteComponent } from './crear-puntos/dialog-cliente/dialog-cliente.component';
 import { DialogBanRepComponent } from './crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-gestion-puntos',
@@ -50,6 +51,7 @@ export class GestionPuntosComponent implements OnInit {
 
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     //this.listarPuntosCreados();
     this.estadoPuntos = false;
     this.listarTiposPunto();

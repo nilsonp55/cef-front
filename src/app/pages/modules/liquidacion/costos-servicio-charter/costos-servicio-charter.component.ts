@@ -7,6 +7,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
 import { CostosFleteCharterService } from 'src/app/_service/liquidacion-service/costosFleteCharter.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-costos-servicio-charter',
@@ -38,6 +39,7 @@ export class CostosServicioCharterComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     this.serializedDate = new FormControl(new Date().toISOString());
   }
 

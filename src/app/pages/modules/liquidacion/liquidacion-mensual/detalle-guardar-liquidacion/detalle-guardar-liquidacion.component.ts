@@ -6,6 +6,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { LiquidacionMensualService } from 'src/app/_service/liquidacion-service/liquidacion-mensual.service';
 import { GuardarLiquidacionComponent } from '../guardar-liquidacion/guardar-liquidacion.component';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-detalle-guardar-liquidacion',
@@ -53,6 +54,7 @@ export class DetalleGuardarLiquidacionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     //Obtenemos datos de Url
     this.fechaSelect = this.route.snapshot.params['fechaSistema'];
     this.transportadoraSelect = this.route.snapshot.params['codTransportadora'];

@@ -9,6 +9,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { Router } from '@angular/router';
 import { DenominacionCantidadService } from 'src/app/_service/liquidacion-service/denominacion-cantidad.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-tdv-denominacion-cantidad',
@@ -47,6 +48,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
     this.listarDenominacion();

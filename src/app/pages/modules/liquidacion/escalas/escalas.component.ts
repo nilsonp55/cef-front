@@ -10,6 +10,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { Location } from '@angular/common';
 import { Route, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-escalas',
@@ -44,6 +45,7 @@ export class EscalasComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
     this.listarEscalas();

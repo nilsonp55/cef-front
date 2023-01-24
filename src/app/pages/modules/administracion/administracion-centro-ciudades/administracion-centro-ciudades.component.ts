@@ -8,6 +8,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { ErrorService } from 'src/app/_model/error.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { CentroCiudadesService } from 'src/app/_service/contabilidad-service/centro-ciudades.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-administracion-centro-ciudades',
@@ -37,6 +38,7 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.datosDesplegables();
     this.listarCentrosCiudades();
   }

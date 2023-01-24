@@ -11,6 +11,7 @@ import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/l
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-contabilidad-pm',
@@ -46,6 +47,7 @@ export class ContabilidadPmComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     const _fecha = await this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
     }).toPromise();
