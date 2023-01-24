@@ -132,6 +132,7 @@ import { DialogBancoComponent } from './pages/modules/administracion/gestion-pun
 import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
 import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
 import { DialogConfirmLlavesComponent } from './pages/modules/administracion/generar-llave-archivos/dialog-confirm-llaves/dialog-confirm-llaves.component';
+import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
 
 @NgModule({
   declarations: [
@@ -241,7 +242,8 @@ import { DialogConfirmLlavesComponent } from './pages/modules/administracion/gen
     DialogBancoComponent,
     AdministracionFestivosNacionalesComponent,
     GenerarLlaveArchivosComponent,
-    DialogConfirmLlavesComponent
+    DialogConfirmLlavesComponent,
+    CierreSesionComponent
     ],
 
   imports: [
