@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
+import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-cargue-programacion',
@@ -16,6 +17,7 @@ export class CargueProgramacionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {

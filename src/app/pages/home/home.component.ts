@@ -28,11 +28,11 @@ export class HomeComponent implements OnInit {
     console.log(this.respuestaUrl)
     if (this.respuestaUrl.length > 0) {
       const _respuesta = this.respuestaUrl.split(/[=,&]/)
-      console.log("Proceso timepo")
-      console.log(_respuesta)
       this.tokenOficial = _respuesta[3]
       var decodificado = jwt_decode(this.tokenOficial);
       this.serializarToken(decodificado, this.tokenOficial)
+    }else {
+      ManejoFechaToken.manejoFechaToken()
     }
   }
 
