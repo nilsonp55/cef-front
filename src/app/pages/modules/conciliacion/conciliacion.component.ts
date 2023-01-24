@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
+import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-conciliacion',
@@ -22,6 +23,7 @@ export class ConciliacionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {

@@ -1,12 +1,21 @@
+import { isEmpty } from "rxjs";
+
 export class ManejoFechaToken {
+
+    static flagVencimiento: boolean = false;
 
     constructor() { }
 
-    public static manejoFechaToken() {
+    public static manejoFechaToken() {debugger
         var fechaMiliseguntos = new Date().getTime()/1000.0;
         var fechaTokenExp = Number(sessionStorage.getItem('time_token_exp'))
-        this.advertenciaTiempo(fechaMiliseguntos, fechaTokenExp)
-        this.validacionFechasToken(fechaMiliseguntos, fechaTokenExp)
+        if(fechaTokenExp == undefined || fechaTokenExp == null){
+            window.location.href = '/final-session'
+        }else {
+            this.advertenciaTiempo(fechaMiliseguntos, fechaTokenExp)
+            this.validacionFechasToken(fechaMiliseguntos, fechaTokenExp)
+        }
+
     }
 
     public static validacionFechasToken(fechaLocal: any, fechaToken: any) {
@@ -19,11 +28,12 @@ export class ManejoFechaToken {
         
     }
 
-    static advertenciaTiempo(fechaActual: any, fechaExpToken: any){
+    static advertenciaTiempo(fechaActual: any, fechaExpToken: any){debugger
         var fechaAdvertencia = fechaExpToken - 300
-        if(fechaActual > fechaAdvertencia && fechaActual < fechaExpToken){
+        if(fechaActual > fechaAdvertencia && fechaActual < fechaExpToken && !this.flagVencimiento){
             console.log("Mopstrar aviso de popup")
             alert("Su sesion va a morir en menos de 5 minutos")
+            this.flagVencimiento = true
         }else {
             console.log("La session sigue como si nada")
         }
