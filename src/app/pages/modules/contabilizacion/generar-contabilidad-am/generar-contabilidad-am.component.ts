@@ -11,6 +11,7 @@ import { GenerarContabilidadService } from 'src/app/_service/contabilidad-servic
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { ErroresContabilidadComponent } from '../errores-contabilidad/errores-contabilidad.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-generar-contabilidad-am',

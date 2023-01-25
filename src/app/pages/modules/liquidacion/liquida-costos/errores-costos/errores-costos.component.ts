@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { ResultadoValoresLiquidadosComponent } from '../resultado-valores-liquidados/resultado-valores-liquidados.component';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-errores-costos',
