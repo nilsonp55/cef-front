@@ -51,7 +51,6 @@ export class AdministracionDominiosComponent implements OnInit {
 
   ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken()
-    //this.listarDominiosMaestroTrue();
     this.listarDominios();
 
   }
