@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 
@@ -41,6 +42,7 @@ export class DialogFondoComponent implements OnInit {
   
   
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     this.dataElement = this.data.element;
     console.log("Data que llega del element")
     console.log(this.dataElement)

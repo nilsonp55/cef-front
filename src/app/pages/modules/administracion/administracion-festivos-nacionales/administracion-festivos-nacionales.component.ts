@@ -8,6 +8,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { ErrorService } from 'src/app/_model/error.model';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { FestivosNacionalesService } from 'src/app/_service/administracion-service/festivos-nacionales.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     this.listarFestivosNacionales();
     this.initForm();
   }

@@ -6,7 +6,7 @@ export class ManejoFechaToken {
 
     constructor() { }
 
-    public static manejoFechaToken() {debugger
+    public static manejoFechaToken() {
         var fechaMiliseguntos = new Date().getTime()/1000.0;
         var fechaTokenExp = Number(sessionStorage.getItem('time_token_exp'))
         if(fechaTokenExp == undefined || fechaTokenExp == null){
@@ -31,8 +31,7 @@ export class ManejoFechaToken {
     static advertenciaTiempo(fechaActual: any, fechaExpToken: any){debugger
         var fechaAdvertencia = fechaExpToken - 300
         if(fechaActual > fechaAdvertencia && fechaActual < fechaExpToken && !this.flagVencimiento){
-            console.log("Mopstrar aviso de popup")
-            alert("Su sesion va a morir en menos de 5 minutos")
+            alert("Su sesion va a terminar en menos de 5 minutos")
             this.flagVencimiento = true
         }else {
             console.log("La session sigue como si nada")

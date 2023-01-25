@@ -7,6 +7,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { ErrorService } from 'src/app/_model/error.model';
 import { TiposCuentasService } from 'src/app/_service/contabilidad-service/tipos-cuentas.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-administracion-contabilidad',
@@ -37,6 +38,7 @@ export class AdministracionContabilidadComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.listarDominios();
     this.initForm();
   }

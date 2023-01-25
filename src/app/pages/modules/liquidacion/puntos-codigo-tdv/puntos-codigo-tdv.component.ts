@@ -10,6 +10,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { PuntosCodigoService } from 'src/app/_service/liquidacion-service/puntos-codigo.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-puntos-codigo-tdv',
@@ -46,6 +47,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
     this.listarPuntosCodigo();

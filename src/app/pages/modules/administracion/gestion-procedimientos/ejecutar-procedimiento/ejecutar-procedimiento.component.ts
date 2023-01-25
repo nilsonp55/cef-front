@@ -5,6 +5,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ProcedimientosAlmacenadosService } from 'src/app/_service/administracion-service/procedimientos-almacenados.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-ejecutar-procedimiento',
@@ -35,6 +36,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.parametrosFuncionesDinamicasDTO = this.data.data;
     this.idFuncion = this.data.funcion;
   }

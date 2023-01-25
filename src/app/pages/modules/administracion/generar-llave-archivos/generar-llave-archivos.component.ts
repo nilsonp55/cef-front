@@ -8,6 +8,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { DesencriptarLlavesService } from 'src/app/_service/administracion-service/generar-llaves.service';
 import { DialogConfirmEjecutarComponentComponent } from '../../contabilizacion/dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { DialogConfirmLlavesComponent } from './dialog-confirm-llaves/dialog-confirm-llaves.component';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-generar-llave-archivos',
@@ -30,6 +31,7 @@ export class GenerarLlaveArchivosComponent implements OnInit {
 
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.consultaDatos();
   }
 

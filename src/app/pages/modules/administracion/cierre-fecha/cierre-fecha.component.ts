@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { CierreFechaService } from 'src/app/_service/cierre-fecha.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 
@@ -27,6 +28,7 @@ export class CierreFechaComponent implements OnInit {
 
   
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.consultaDatos();
   }
 

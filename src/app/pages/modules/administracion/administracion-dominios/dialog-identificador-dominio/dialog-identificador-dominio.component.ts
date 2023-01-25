@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-dialog-identificador-dominio',
@@ -13,5 +14,6 @@ export class DialogIdentificadorDominioComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
   }
 }

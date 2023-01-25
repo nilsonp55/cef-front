@@ -12,6 +12,7 @@ import { DialogEliminarIdentificadorComponent } from './dialog-eliminar-identifi
 import { DominioMaestroService } from 'src/app/_service/administracion-service/dominios-maestro.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { Console } from 'console';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-administracion-dominios',
@@ -49,7 +50,7 @@ export class AdministracionDominiosComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    //this.listarDominiosMaestroTrue();
+    ManejoFechaToken.manejoFechaToken()
     this.listarDominios();
 
   }

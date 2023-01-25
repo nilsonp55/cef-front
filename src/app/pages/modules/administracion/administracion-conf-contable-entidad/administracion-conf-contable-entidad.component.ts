@@ -11,6 +11,7 @@ import { GeneralesService } from 'src/app/_service/generales.service'
 import { CentroCostosService } from 'src/app/_service/contabilidad-service/tipo-centro-costos.service';
 import { TiposCuentasService } from 'src/app/_service/contabilidad-service/tipos-cuentas.service';
 import { ConfContablesEntidadesService } from 'src/app/_service/contabilidad-service/conf-contables-entidades.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-administracion-conf-contable-entidad',
@@ -52,6 +53,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     await this.iniciarDesplegables();
     this.listarConfEntitis();
     this.initForm();

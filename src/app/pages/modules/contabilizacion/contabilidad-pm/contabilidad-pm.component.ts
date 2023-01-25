@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { ErrorService } from 'src/app/_model/error.model';
 import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
@@ -46,6 +47,7 @@ export class ContabilidadPmComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     const _fecha = await this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
     }).toPromise();

@@ -8,6 +8,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { ErrorService } from 'src/app/_model/error.model';
 import { CuentasPucService } from 'src/app/_service/contabilidad-service/cuentas-puc.service';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -34,6 +35,7 @@ export class GestionUsuariosComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     await this.iniciarDesplegables();
     this.listarUsuarios();
     this.initForm();

@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 
 @Component({
@@ -33,6 +34,7 @@ export class CrearPuntoComponent implements OnInit {
 
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     //Validar que tipo de frmulario se presentará
     if(this.data == GENERALES.TIPO_PUNTOS.BANCO) {
       this.mosrarFormBanco == true;

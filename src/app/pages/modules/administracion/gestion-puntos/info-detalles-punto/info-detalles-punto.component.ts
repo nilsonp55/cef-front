@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-info-detalles-punto',
@@ -21,6 +22,7 @@ export class InfoDetallesPuntoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
   }
 
 
