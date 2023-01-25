@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { formatDate } from '@angular/common';
 import { LiquidacionMensualService } from 'src/app/_service/liquidacion-service/liquidacion-mensual.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-liquidacion-mensual',
@@ -43,6 +44,7 @@ export class LiquidacionMensualComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.cargarDatosDesplegables();
 
   }

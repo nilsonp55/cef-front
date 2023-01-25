@@ -5,6 +5,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { CierreFechaService } from 'src/app/_service/cierre-fecha.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-cierre-fecha',
@@ -27,6 +28,7 @@ export class CierreFechaComponent implements OnInit {
 
   
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.consultaDatos();
   }
 

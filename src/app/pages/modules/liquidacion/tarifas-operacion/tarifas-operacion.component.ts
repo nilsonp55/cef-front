@@ -10,6 +10,7 @@ import { GeneralesService } from 'src/app/_service/generales.service'
 import { ConfContablesEntidadesService } from 'src/app/_service/contabilidad-service/conf-contables-entidades.service';
 import { TarifasOperacionService } from 'src/app/_service/liquidacion-service/tarifas-operacion.service';
 import { EscalasService } from 'src/app/_service/liquidacion-service/escalas.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-tarifas-operacion',
@@ -62,6 +63,7 @@ export class TarifasOperacionComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     await this.iniciarDesplegables();
     this.listarTarifaOperacion();

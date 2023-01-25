@@ -8,6 +8,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { LiquidacionMensualService } from 'src/app/_service/liquidacion-service/liquidacion-mensual.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-cierre-liquidacion-mensual',
@@ -41,6 +42,7 @@ export class CierreLiquidacionMensualComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.cargarDatosDesplegables();
   }
 

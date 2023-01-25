@@ -8,6 +8,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ProcedimientosAlmacenadosService } from 'src/app/_service/administracion-service/procedimientos-almacenados.service';
 import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { EjecutarProcedimientoComponent } from './ejecutar-procedimiento/ejecutar-procedimiento.component';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-gestion-procedimientos',
@@ -37,6 +38,7 @@ export class GestionProcedimientosComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
     this.listarProcesos();
     //this.dataSourceInfoProcesos = new MatTableDataSource(primeraData);
     //this.dataSourceInfoProcesos.sort = this.sort;

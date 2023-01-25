@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ErrorService } from 'src/app/_model/error.model';
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-dialog-confirm-ejecutar-component',
@@ -24,6 +25,7 @@ export class DialogConfirmEjecutarComponentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken()
     this.tipoContabilidad = this.data.tipoContabilidad;
     this.cargarDatosDesplegables();
   }
