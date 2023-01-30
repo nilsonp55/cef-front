@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { ErroresCostosService } from 'src/app/_service/liquidacion-service/errores-costos.serfvice';
 import { LiquidarCostosService } from 'src/app/_service/liquidacion-service/liquidar-costos.service';
@@ -119,7 +118,7 @@ consultarCostos() {
  * contables
  * @BaironPerez
  */
-verValoresLiquidados() {
+verValoresLiquidados() {debugger
   const respuesta = this.dialog.open(ResultadoValoresLiquidadosComponent, {
     height:'90%', width: '90%',
     data: {

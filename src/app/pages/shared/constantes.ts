@@ -298,6 +298,13 @@ export const URLs = {
   ADMIN_CUENTAS_CONTABLES_GUARDAR: '/guardar',
   ADMIN_CUENTAS_CONTABLES_ACTUALIZAR: '/actualizar',
 
+  //Administración tasas costo
+  ADMIN_TASAS_COSTO: '/tasas-cambio',
+  ADMIN_TASAS_COSTO_CONSULTAR: '/consultar',
+  ADMIN_TASAS_COSTO_GUARDAR: '/guardar',
+  ADMIN_TASAS_COSTO_ACTUALIZAR: '/actualizar',
+  ADMIN_TASAS_COSTO_CONSULTAR_ID: '/consultar-id',
+
   //Administración centro costos 
   ADMIN_TIPO_CENTRO_COSTOS: '/tipo-centro-costos',
   ADMIN_TIPO_CENTRO_COSTOS_CONSULTAR: '/consultar',

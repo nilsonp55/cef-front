@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-resultado-valores-liquidados',
@@ -27,7 +26,8 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['clasificacionFajado', 'clasificacionNoFajado', 'costoCharter',
+  displayedColumnsInfoProcesos: string[] = ['nombreBanco', 
+  'nombreTransportadora', 'puntoOrigen', 'puntoDestino', 'entradaSalida', 'tipoPunto', 'tipoOperacion', 'clasificacionFajado', 'clasificacionNoFajado', 'costoCharter',
       'costoEmisario', 'costoFijoParado', 'costoMoneda', 'costoPaqueteo', 'idLiquidacion',
       'milajePorRuteo', 'milajeVerificacion', 'modenaResiduo', 'tasaAeroportuaria', 'idSeqGrupo'];
 
@@ -38,7 +38,7 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any}
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {debugger
     ManejoFechaToken.manejoFechaToken()
     this.titulo = this.data.titulo
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);
