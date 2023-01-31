@@ -7,88 +7,6 @@
                 (click)="crearConfEntity()">Crear Cuenta Contable</button>
         </div>
     </div>
-
-    <div style="width: 60%; margin-top: 3%" class="ubicacionTablas">
-        <div *ngIf="mostrarTabla" >
-            <div class="filtro">
-                <mat-form-field appearance="fill">
-                    <mat-label>Filtro Bancos</mat-label>
-                    <mat-select [(ngModel)]="filtroBancoSelect">
-                        <mat-option *ngFor="let item of bancos" [value]="item">
-                            {{item.nombreBanco}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <button title="Visualizar" mat-button (click)="filtrar($event)">
-                    <mat-icon style="color: green">search</mat-icon>
-                </button>
-            </div>
-            <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll">
-                <tr>
-                    <ng-container matColumnDef="banco" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
-                        <td mat-cell *matCellDef="let element"> {{element.bancoAval.nombreBanco}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
-                    </ng-container>
-                </tr>
-                <tr>
-                    <ng-container matColumnDef="tipoTr" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>T Trans</th>
-                        <td mat-cell *matCellDef="let element"> {{element.tipoTransaccion}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
-                    </ng-container>
-                </tr>
-                <tr>
-                    <ng-container matColumnDef="dc" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>D/C</th>
-                        <td mat-cell *matCellDef="let element"> {{element.naturaleza}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
-                    </ng-container>
-                </tr>
-                <tr>
-                    <ng-container matColumnDef="tOpera" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>T Opera</th>
-                        <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
-                    </ng-container>
-                </tr>
-                <tr>
-                    <ng-container matColumnDef="cuenta" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta</th>
-                        <td mat-cell *matCellDef="let element"> {{element.cuentaContable}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
-                    </ng-container>
-                </tr>
-                <tr>
-                    <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
-                        <td mat-cell *matCellDef="let element">
-                            <button mat-button (click)="editar(element)">
-                                <mat-icon style="color: green">edit</mat-icon>
-                            </button>    
-                        </td>
-                    </ng-container>
-                </tr>
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
-            </table>
-        </div>
-    </div>
     <div style="width: 70%" class="ubicacionTablas">
         <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
             (ngSubmit)="persistir()">
@@ -187,5 +105,86 @@
                 </button>
                 </div>
         </form>
+    </div>
+    <div style="width: 60%; margin-top: 3%" class="ubicacionTablas">
+        <div *ngIf="mostrarTabla" >
+            <div class="filtro">
+                <mat-form-field appearance="fill">
+                    <mat-label>Filtro Bancos</mat-label>
+                    <mat-select [(ngModel)]="filtroBancoSelect">
+                        <mat-option *ngFor="let item of bancos" [value]="item">
+                            {{item.nombreBanco}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button title="Visualizar" mat-button (click)="filtrar($event)">
+                    <mat-icon style="color: green">search</mat-icon>
+                </button>
+            </div>
+            <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll">
+                <tr>
+                    <ng-container matColumnDef="banco" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
+                        <td mat-cell *matCellDef="let element"> {{element.bancoAval.nombreBanco}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="tipoTr" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>T Trans</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipoTransaccion}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="dc" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>D/C</th>
+                        <td mat-cell *matCellDef="let element"> {{element.naturaleza}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="tOpera" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>T Opera</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="cuenta" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta</th>
+                        <td mat-cell *matCellDef="let element"> {{element.cuentaContable}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-button (click)="editar(element)">
+                                <mat-icon style="color: green">edit</mat-icon>
+                            </button>    
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
+            </table>
+        </div>
     </div>
 </mat-card>
