@@ -12,7 +12,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ErroresContabilidadComponent } from '../errores-contabilidad/errores-contabilidad.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+
 
 @Component({
   selector: 'app-generar-contabilidad-pm',
@@ -104,7 +104,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
    * contables
    * @BaironPerez
    */
-  verTransactContables() {
+  verTransactContables() {debugger
     const respuesta = this.dialog.open(ResultadoContabilidadComponent, {//generar
       width: '100%',
       height: '90%',

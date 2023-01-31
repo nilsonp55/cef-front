@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { ErrorService } from 'src/app/_model/error.model';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -123,7 +122,9 @@ export class OpearcionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.listarOpProgramadasFallidas();
+      console.log("Pintado data")
+      console.log(result)
+      this.ngOnInit()
     });
   }
 
@@ -141,7 +142,10 @@ export class OpearcionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
-      this.listarOpCertificadasFallidas();
+      console.log("Pintado data")
+      console.log(result)
+      this.ngOnInit()
+      //this.listarOpCertificadasFallidas();
     });
   }
 
