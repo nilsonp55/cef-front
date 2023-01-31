@@ -63,7 +63,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
    * Inicializaion formulario de creacion y edicion
    * @BayronPerez
    */
-  initForm(param?: any) { 
+  initForm(param?: any) { debugger
     this.selectNaturaleza = param != undefined ? param.naturaleza: null
       this.form = new FormGroup({
         'consecutivo': new FormControl(param? param.consecutivo : null),
@@ -92,8 +92,10 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   selectBancoExterno(param: any): any {
     for (let i = 0; i < this.bancosExternos.length; i++) {
       const element = this.bancosExternos[i];
-      if(element.codigoPunto == param.codigoPuntoBancoExt.codigoPunto) {
-        return element;
+      if(param.codigoPuntoBancoExt != null){
+        if(element.codigoPunto == param.codigoPuntoBancoExt.codigoPunto) {
+          return element;
+        }
       }
     }
   }
@@ -101,8 +103,10 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   selectTransportadora(param: any): any {
     for (let i = 0; i < this.transportadoras.length; i++) {
       const element = this.transportadoras[i];
-      if(element.codigo == param.transportadora.codigo) {
-        return element;
+      if(param.transportadora != null){
+        if(element.codigo == param.transportadora.codigo) {
+          return element;
+        }
       }
     }
   }
