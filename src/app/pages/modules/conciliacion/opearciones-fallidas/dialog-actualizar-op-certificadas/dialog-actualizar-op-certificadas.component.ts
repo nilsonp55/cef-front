@@ -25,16 +25,15 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
   comparador: string;
   listarONo: string;
 
-  @HostListener("document:keydown", ['$event.key'])
+  /*@HostListener("document:keydown", ['$event.key'])
   handler_test($event: string) {
     console.log($event)
-  }
+  }*/
 
   @HostListener("document:click", ['$event.target'])
   handler_name($event: HTMLElement) {
     if ($event.classList.toString() == 'cdk-overlay-backdrop cdk-overlay-dark-backdrop') {
       this.listarONo = "N"
-      //alert("Click por fuera")
     }
   }
 
@@ -107,7 +106,7 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
       estado: this.form.value['estadoConciliacion'].viewValue,
       valor: this.form.value['valorTotal']
     }
-    this.opConciliadasService.actualizarOpCertificadas(estadoActualizar).subscribe((page: any) => {debugger
+    this.opConciliadasService.actualizarOpCertificadas(estadoActualizar).subscribe((page: any) => {
       this.dialogRef.close({ event: "load", data: { "event": "load" } });
     },
       (err: ErrorService) => {
@@ -127,9 +126,12 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
     this.estado = event.target.innerText
   }
 
+  ngOnDestroy() {
+    this.close()
+  }
+
   close() {
-    this.dialogRef.close({ 
-      event: 'Cancel',
+    this.dialogRef.close({
       data: {
         listar: this.listarONo
       }
@@ -137,12 +139,12 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
   }
 
   eventoClickXFuera() {
-    if (this.comparador=='cdk-overlay-backdrop cdk-overlay-dark-backdrop') {
+    if (this.comparador == 'cdk-overlay-backdrop cdk-overlay-dark-backdrop') {
       this.listarONo = "S"
     }
   }
 
- 
+
 
 }
 

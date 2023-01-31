@@ -122,14 +122,12 @@ export class OpearcionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Pintado data")
-      console.log(result)
-      this.ngOnInit()
+      if(result.data.listar){
+        //No debe de listar
+      }else {
+        this.ngOnInit()
+      }
     });
-  }
-
-  close(){
-   // this.dialogRef.close({event:'Cancel'})
   }
 
   /**
@@ -142,9 +140,11 @@ export class OpearcionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Pintado data")
-      console.log(result)
-      this.ngOnInit()
+      if(result.data.listar == 'N'){
+        //No debe de listar
+      }else {
+        this.ngOnInit()
+      }
       //this.listarOpCertificadasFallidas();
     });
   }
