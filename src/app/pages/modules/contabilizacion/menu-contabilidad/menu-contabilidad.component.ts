@@ -8,7 +8,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { ErrorService } from 'src/app/_model/error.model';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+
 
 @Component({
   selector: 'app-menu-contabilidad',

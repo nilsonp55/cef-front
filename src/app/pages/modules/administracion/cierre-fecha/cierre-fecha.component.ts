@@ -6,7 +6,6 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { CierreFechaService } from 'src/app/_service/cierre-fecha.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-cierre-fecha',

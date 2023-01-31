@@ -11,7 +11,6 @@ import { CierreContabilidadService } from 'src/app/_service/contabilidad-service
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 /**
  * Componente para gestionar el menu de contabilidad PM
@@ -29,7 +28,7 @@ export class ResultadoContabilidadComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
-  nombreBTNCerrar: string = "CERRAR PROCESO"; 
+  nombreBTNCerrar: string = "CERRAR PROCESO";
   bandera: string;
   fechaSistemaSelect: any;
   codigoBanco: any;
@@ -60,12 +59,14 @@ export class ResultadoContabilidadComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any, tipoContabilidad: any, flag: any}
   ) { }
 
-  async ngOnInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {debugger
     ManejoFechaToken.manejoFechaToken()
     this.titulo = this.data.titulo
     this.bandera = this.data.flag
-    if(this.bandera = "G"){
+    if(this.bandera == "G"){
       this.nombreBTNCerrar = "CANCELAR"
+    }else {
+      this.nombreBTNCerrar = this.nombreBTNCerrar
     }
     this.codigoBanco = this.data.respuesta[0].bancoAval
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);
@@ -130,10 +131,11 @@ export class ResultadoContabilidadComponent implements OnInit {
     if(this.bandera == undefined){
       this.cerrarProceso();
     }
-    if(this.bandera == "G"){
-      
-    }else {
+    if(this.bandera == "C") {
       this.cerrarProceso();
+    }
+    if(this.bandera == "G"){
+
     }
   }
 
@@ -149,9 +151,19 @@ export class ResultadoContabilidadComponent implements OnInit {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_CONTABILIDAD_PM.SUCCESFULL_GENERATE_PM,
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
         }
-      }); setTimeout(() => { alert.close() }, 4000);
+      }); setTimeout(() => { alert.close() }, 4000);//
     //this.dialogRef.close({event:'Cancel'})
-    })
+    },
+    (err: any) => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: err.error.response.description,
+          codigo: GENERALES.CODE_EMERGENT.ERROR
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+    });
+    
 
   }
 

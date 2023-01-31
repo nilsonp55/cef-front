@@ -13,7 +13,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { DialogConfirmEjecutarComponentComponent } from '../../contabilizacion/dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../../contabilizacion/resultado-contabilidad/resultado-contabilidad.component';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+
 
 @Component({
   selector: 'app-gestion-roles-usuarios',

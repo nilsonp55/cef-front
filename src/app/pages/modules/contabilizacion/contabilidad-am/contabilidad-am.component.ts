@@ -12,7 +12,7 @@ import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/l
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+
 
 @Component({
   selector: 'app-contabilidad-am',
@@ -114,7 +114,8 @@ export class ContabilidadAmComponent implements OnInit {
             data: {
               respuesta: data.data,
               titulo: "Generar Contabilidad AM - Resultado",
-              tipoContabilidad: "AM"
+              tipoContabilidad: "AM",
+              flag: "C"
             }
           });
         },

@@ -31,7 +31,7 @@ export class ManejoFechaToken {
     static advertenciaTiempo(fechaActual: any, fechaExpToken: any){debugger
         var fechaAdvertencia = fechaExpToken - 300
         if(fechaActual > fechaAdvertencia && fechaActual < fechaExpToken && !this.flagVencimiento){
-            alert("Su sesion va a terminar en menos de 5 minutos")
+            alert("Su sesión va a terminar en menos de 5 minutos")
             this.flagVencimiento = true
         }else {
             console.log("La session sigue como si nada")
