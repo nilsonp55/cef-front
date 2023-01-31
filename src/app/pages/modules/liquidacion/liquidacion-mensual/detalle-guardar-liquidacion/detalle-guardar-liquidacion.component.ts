@@ -7,7 +7,6 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { LiquidacionMensualService } from 'src/app/_service/liquidacion-service/liquidacion-mensual.service';
 import { GuardarLiquidacionComponent } from '../guardar-liquidacion/guardar-liquidacion.component';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-detalle-guardar-liquidacion',

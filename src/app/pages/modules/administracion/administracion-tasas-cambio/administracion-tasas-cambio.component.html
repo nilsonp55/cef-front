@@ -1,0 +1,83 @@
+<mat-card class="card-limites">
+    <br><br>
+    <mat-card-title>Gestión Tasas Cambio</mat-card-title>
+    <div>
+        <div class="division-btn">
+            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+                (click)="crearTasasCambio()">Crear Tasas Cambio</button>
+        </div>
+    </div>
+
+    <div style="width: 30%; margin-top: 3%" class="ubicacionTablas">
+        <div class="div-tabla-dominio">
+            <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll">
+                <tr>
+                    <ng-container matColumnDef="fecha" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tasasCambioPK.fechaTasa}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="espacio1" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="moneda" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Moneda</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tasasCambioPK.codigoMoneda}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="espacio2" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="tasa" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tasa Cambio</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tasaCambio}} </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-button (click)="editar(element)">
+                                <mat-icon style="color: green">edit</mat-icon>
+                            </button>    
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
+            </table>
+        </div>
+    </div>
+    <div style="width: 70%" class="ubicacionTablas">
+        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
+            (ngSubmit)="persistir()">
+            <div style="padding-left: 10%;">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Fecha tasa</mat-label>
+                    <input required matInput [matDatepicker]="picker1" readonly="true" formControlName="fechaTasa" value="now">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Moneda</mat-label>
+                    <mat-select formControlName="codigoMoneda">
+                        <mat-option *ngFor="let item of monedas" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Tasa Cambio" required formControlName="tasaCambio">
+                </mat-form-field>
+            </div>
+
+            <div class="tamanio-btn">
+            <button mat-raised-button type="submit" [disabled]="frmPaciente.invalid">
+                Aceptar
+            </button>
+            </div>
+        </form>
+    </div>
+</mat-card>

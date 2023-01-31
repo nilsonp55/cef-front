@@ -11,7 +11,6 @@ import { CierreContabilidadService } from 'src/app/_service/contabilidad-service
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 /**
  * Componente para gestionar el menu de contabilidad PM
