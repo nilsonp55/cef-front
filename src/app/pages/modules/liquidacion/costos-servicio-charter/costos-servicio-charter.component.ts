@@ -9,7 +9,6 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 import { ErrorService } from 'src/app/_model/error.model';
 import { CostosFleteCharterService } from 'src/app/_service/liquidacion-service/costosFleteCharter.service';
 
-
 @Component({
   selector: 'app-costos-servicio-charter',
   templateUrl: './costos-servicio-charter.component.html',

@@ -14,7 +14,6 @@ import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-us
 import { DialogConfirmEjecutarComponentComponent } from '../../contabilizacion/dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../../contabilizacion/resultado-contabilidad/resultado-contabilidad.component';
 
-
 @Component({
   selector: 'app-gestion-roles-usuarios',
   templateUrl: './gestion-roles-usuarios.component.html',

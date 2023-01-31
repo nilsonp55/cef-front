@@ -133,6 +133,7 @@ import { AdministracionFestivosNacionalesComponent } from './pages/modules/admin
 import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
 import { DialogConfirmLlavesComponent } from './pages/modules/administracion/generar-llave-archivos/dialog-confirm-llaves/dialog-confirm-llaves.component';
 import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
+import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 
 @NgModule({
   declarations: [
@@ -243,7 +244,8 @@ import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.compo
     AdministracionFestivosNacionalesComponent,
     GenerarLlaveArchivosComponent,
     DialogConfirmLlavesComponent,
-    CierreSesionComponent
+    CierreSesionComponent,
+    AdministracionTasasCambioComponent
     ],
 
   imports: [

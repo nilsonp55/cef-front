@@ -5,7 +5,6 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 
-
 @Component({
   selector: 'app-crear-punto',
   templateUrl: './crear-punto.component.html',

@@ -82,6 +82,7 @@ import { PreliminarGestionCargueDefinitivoGuard } from './wards/preliminar-gesti
 import { PreliminarCierreCargueDefinitivoGuard } from './wards/preliminar-cierreCargueDefinitivo.guard';
 import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
 import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
+import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -155,6 +156,7 @@ const routes: Routes = [
       { path: 'administracion-procedimientos', component: GestionProcedimientosComponent, canActivate: [AdministracionProcedimientosGuard] },
       { path: 'administracion-festivos-nacionales', component: AdministracionFestivosNacionalesComponent, canActivate: [AdministracionFestivosNacionalesGuard] },
       { path: 'administracion-generar-llaves', component: GenerarLlaveArchivosComponent},
+      { path: 'administracion-tasas-cambio', component: AdministracionTasasCambioComponent},
     ]
   }
   

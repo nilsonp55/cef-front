@@ -10,7 +10,6 @@ import { ProcedimientosAlmacenadosService } from 'src/app/_service/administracio
 import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { EjecutarProcedimientoComponent } from './ejecutar-procedimiento/ejecutar-procedimiento.component';
 
-
 @Component({
   selector: 'app-gestion-procedimientos',
   templateUrl: './gestion-procedimientos.component.html',
