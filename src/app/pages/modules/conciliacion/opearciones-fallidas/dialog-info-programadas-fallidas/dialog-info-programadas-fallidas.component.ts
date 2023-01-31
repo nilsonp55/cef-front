@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
@@ -27,7 +27,16 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
   dataElement: any;
   dataSourceInfoOpProgramadasFallidas: MatTableDataSource<ConciliacionesInfoProgramadasNoConciliadasModel>;
   displayedColumnsInfoOpProgramadas: string[] = ['idOperacion', 'codigoFondoTDV', 'entradaSalida', 'nombreFondoTDV', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'codigoPuntoDestino', 'fechaProgramacion', 'fechaOrigen', 'fechaDestino', 'tipoOperacion', 'tipoTransporte', 'valorTotal', 'estadoOperacion', 'idNegociacion', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
+  listarONo: string;
+  comparador: string;
 
+  @HostListener("document:click", ['$event.target'])
+  handler_name($event: HTMLElement) {
+    if ($event.classList.toString() == 'cdk-overlay-backdrop cdk-overlay-dark-backdrop') {
+      this.listarONo = "N"
+    }
+  }
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ConciliacionesInfoProgramadasNoConciliadasModel,
     private opConciliadasService: OpConciliadasService,
@@ -164,6 +173,24 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
 
   changeState(event) {
     this.estado = event.target.innerText
+  }
+
+  ngOnDestroy() {
+    this.close()
+  }
+
+  close() {
+    this.dialogRef.close({
+      data: {
+        listar: this.listarONo
+      }
+    })
+  }
+
+  eventoClickXFuera() {
+    if (this.comparador == 'cdk-overlay-backdrop cdk-overlay-dark-backdrop') {
+      this.listarONo = "S"
+    }
   }
 
 }
