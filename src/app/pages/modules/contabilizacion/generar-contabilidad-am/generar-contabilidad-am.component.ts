@@ -110,7 +110,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
         respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
         titulo: "Generar Contabilidad AM - Resultado",
         tipoContabilidad: "AM",
-        flag: "C"
+        flag: "G"
       }
     });
   }
