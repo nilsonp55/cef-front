@@ -10,6 +10,8 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { OperacionesProgramadasService } from 'src/app/_service/operaciones-programadas.service';
 import { CargueProgramacionPreliminarService } from 'src/app/_service/programacion-preliminar-service/cargue-programacion-preliminar.service';
+import { ValidacionEstadoProcesosService } from 'src/app/_service/valida-estado-proceso.service';
+import { GeneralesService } from 'src/app/_service/generales.service';
 
 @Component({
   selector: 'app-cierre-programacion-definitiva',
@@ -26,6 +28,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
+  fechaSistemaSelect: any;
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
@@ -33,14 +36,23 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private validacionEstadoProcesosService: ValidacionEstadoProcesosService,
     private logProcesoDiarioService: LogProcesoDiarioService,
     private cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
     private operacionesProgramadasService: OperacionesProgramadasService,
-    public spinnerComponent: SpinnerComponent
+    public spinnerComponent: SpinnerComponent,
+    private generalServices: GeneralesService,
   ) { }
 
   ngOnInit(): void {
     this.listarProcesos();
+  }
+
+  async cargarDatosDesplegables() {
+    const _fecha = await this.generalServices.listarParametroByFiltro({
+      codigo: "FECHA_DIA_PROCESO"
+    }).toPromise();
+    this.fechaSistemaSelect = _fecha.data[0].valor;
   }
 
   /**
@@ -65,6 +77,45 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
           }
         }); setTimeout(() => { alert.close() }, 3000);
       });
+  }
+
+  intervalCierreDefinitivo() {
+    this.spinnerActive = true;
+    this.ejecutar();
+    let identificadorIntervaloDeTiempo;
+    setInterval(() => { 
+      this.validacionEstadoProceso();
+    }, 10000);
+  }
+
+  /**
+   * Metodo encargado de validar el estado de un proceso en particular
+   */
+  validacionEstadoProceso() {
+    this.validacionEstadoProcesosService.validarEstadoProceso({
+      'codigoProceso': "codigoProcesoDuvan",
+      "fechaSIstema": this.fechaSistemaSelect
+    }).subscribe((data: any) => {
+      if(data.estado == "CERRADO"){
+        this.spinnerActive = false;
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: "Se generó la contabilidad AM exitosamente",
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      }
+      if(data.estado == "ERROR"){
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: data.mensaje,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      }
+    });
   }
 
   /**

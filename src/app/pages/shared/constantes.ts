@@ -272,6 +272,10 @@ export const URLs = {
   PROCESO_DIARIO: '/proceso-diario',
   PROCESO_DIARIO_CONSULTAR: '/consultar',
 
+   //Proceso diario
+   VALIDA_ESTADO_PROCESO: '/auditoria-procesos',
+   VALIDA_ESTADO_PROCESO_CONSULTAR: '/consultar-proceso',
+
   //Gestion puntos
   GESTION_PUNTOS: '/punto',
   DOMINIO_FUNCIONAL: '/dominio-funcional',

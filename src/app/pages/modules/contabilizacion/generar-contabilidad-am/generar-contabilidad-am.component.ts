@@ -11,6 +11,8 @@ import { GenerarContabilidadService } from 'src/app/_service/contabilidad-servic
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { ErroresContabilidadComponent } from '../errores-contabilidad/errores-contabilidad.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
+import { ValidacionEstadoProcesosService } from 'src/app/_service/valida-estado-proceso.service';
+import { ThisReceiver } from '@angular/compiler';
 
 
 @Component({
@@ -44,6 +46,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private validacionEstadoProcesosService: ValidacionEstadoProcesosService,
     private generarContabilidadService: GenerarContabilidadService,
     private generalServices: GeneralesService,
   ) { }
@@ -51,7 +54,46 @@ export class GenerarContabilidadAmComponent implements OnInit {
   ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken()
     this.cargarDatosDesplegables();
+    this.intervalGeneralContabilidad();
+  }
+
+  intervalGeneralContabilidad() {
+    this.spinnerActive = true;
     this.generarContabilidad();
+    let identificadorIntervaloDeTiempo;
+    setInterval(() => { 
+      this.validacionEstadoProceso();
+    }, 10000);
+  }
+
+  /**
+   * Metodo encargado de validar el estado de un proceso en particular
+   */
+  validacionEstadoProceso() {
+    this.validacionEstadoProcesosService.validarEstadoProceso({
+      'codigoProceso': "codigoProcesoDuvan",
+      "fechaSIstema": this.fechaSistemaSelect
+    }).subscribe((data: any) => {
+      if(data.estado == "CERRADO"){
+        this.spinnerActive = false;
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: "Se generó la contabilidad AM exitosamente",
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      }
+      if(data.estado == "ERROR"){
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: data.mensaje,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      }
+    });
   }
 
   /**
@@ -70,7 +112,6 @@ export class GenerarContabilidadAmComponent implements OnInit {
   * @BaironPerez
   */
   generarContabilidad() {
-    this.spinnerActive = true;
     this.generarContabilidadService.generarContabilidad({ tipoContabilidad: "AM" }).subscribe((data: any) => {
       this.dataGenerateContabilidad = data.data;
       let conteoContabilidadDto = data.data.conteoContabilidadDTO;
@@ -84,8 +125,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
       //Se realizan validaciones
       this.tieneErrores = conteoContabilidadDto.conteoErroresContables > 0 ? false : true;
       this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
-      this.spinnerActive = false;
-    },
+    })/**,
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -94,7 +134,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
-      });
+      });*/
   }
 
 

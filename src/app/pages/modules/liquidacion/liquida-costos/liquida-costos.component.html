@@ -9,11 +9,12 @@
         </div>
     </div>
     <div *ngIf="estadoBTN" class="ub-boton">
-        <button style="margin-right: 10%;" mat-raised-button color="primary" (click)="generarLiquidacionCostos()">Generar costos</button>
+        <button style="margin-right: 10%;" mat-raised-button color="primary" (click)="intervalGeneralContabilidad()">Generar costos</button>
         <button style="margin-left: 10%;" mat-raised-button color="primary" (click)="consultarCostos()">Consultar costos</button>
     </div>
     <!--Sprinner-->
-
+    <app-spinner *ngIf="spinnerActive"></app-spinner>
+    
     <table mat-table *ngIf="estadoTabla" [dataSource]="dataSourceInfoProcesos"  matSort class="mat-elevation-z8">
         <ng-container matColumnDef="subactividad">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBACTIVIDAD</th>

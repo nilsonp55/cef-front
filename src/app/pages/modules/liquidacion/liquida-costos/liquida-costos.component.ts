@@ -11,6 +11,7 @@ import { ErroresCostosService } from 'src/app/_service/liquidacion-service/error
 import { LiquidarCostosService } from 'src/app/_service/liquidacion-service/liquidar-costos.service';
 import { ErroresCostosComponent } from './errores-costos/errores-costos.component';
 import { ResultadoValoresLiquidadosComponent } from './resultado-valores-liquidados/resultado-valores-liquidados.component';
+import { ValidacionEstadoProcesosService } from 'src/app/_service/valida-estado-proceso.service';
 
 @Component({
   selector: 'app-liquida-costos',
@@ -41,6 +42,7 @@ constructor(
   private dialog: MatDialog,
   private liquidarCostosService: LiquidarCostosService,
   private erroresCostosService: ErroresCostosService,
+  private validacionEstadoProcesosService: ValidacionEstadoProcesosService,
   private generalServices: GeneralesService,
 ) { }
 
@@ -60,6 +62,45 @@ async cargarDatosDesplegables() {
     codigo: "FECHA_DIA_PROCESO"
   }).toPromise();
   this.fechaSistemaSelect = _fecha.data[0].valor;
+}
+
+intervalGeneralContabilidad() {
+  this.spinnerActive = true;
+  this.generarLiquidacionCostos();
+  let identificadorIntervaloDeTiempo;
+  setInterval(() => { 
+    this.validacionEstadoProceso();
+  }, 10000);
+}
+
+/**
+ * Metodo encargado de validar el estado de un proceso en particular
+ */
+validacionEstadoProceso() {
+  this.validacionEstadoProcesosService.validarEstadoProceso({
+    'codigoProceso': "codigoProcesoDuvan",
+    "fechaSIstema": this.fechaSistemaSelect
+  }).subscribe((data: any) => {
+    if(data.estado == "CERRADO"){
+      this.spinnerActive = false;
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: "Se generó la contabilidad AM exitosamente",
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+    }
+    if(data.estado == "ERROR"){
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: data.mensaje,
+          codigo: GENERALES.CODE_EMERGENT.ERROR
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+    }
+  });
 }
 
 /**
