@@ -33,6 +33,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   habilitarBTN: boolean;
   filtroBancoSelect: any;
   filtroTransportaSelect: any;
+  filtroCodigoPropio: any;
   
   //Rgistros paginados
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -106,7 +107,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
       page: pagina,
       size: tamanio,
       'bancos.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
-      'codigoTDV': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo
+      'codigoTDV': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
+      'codigoPropioTDV': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio
+
     }).subscribe((page: any) => {
       this.dataSourceCodigoPuntoTdv = new MatTableDataSource(page.data.content);
       this.dataSourceCodigoPuntoTdv.sort = this.sort;

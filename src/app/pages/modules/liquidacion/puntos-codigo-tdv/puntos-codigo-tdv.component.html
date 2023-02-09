@@ -31,6 +31,9 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input type="text" matInput placeholder="Codigo Propio" [(ngModel)]="filtroCodigoPropio">
+            </mat-form-field>
             <button title="Visualizar" mat-button (click)="filtrar($event)">
                 <mat-icon style="color: green">search</mat-icon>
             </button>
