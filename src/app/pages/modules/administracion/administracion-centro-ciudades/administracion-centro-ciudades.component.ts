@@ -63,7 +63,7 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
     this.form = new FormGroup({
       'idCentroCiudad': new FormControl(param ? param.idCentroCiudad : null),
       'bancoAval': new FormControl(param ? this.selectBancoAval(param) : null),
-      'codigoDane': new FormControl(param ? param.codigoDane : null),
+      'codigoDane': new FormControl(param ? this.selectCiudad(param) : null),
       'codigoCentro': new FormControl(param ? param.codigoCentro : null),
     });
   }
@@ -72,6 +72,14 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
     for (let i = 0; i < this.bancos.length; i++) {
       const element = this.bancos[i];
       if(element.codigoPunto == param.bancoAval.codigoPunto) {
+        return element;
+      }
+    }
+  }
+  selectCiudad(param: any): any {
+    for (let i = 0; i < this.ciudades.length; i++) {
+      const element = this.ciudades[i];
+      if(element.codigoDANE == param.ciudadDane.codigoDANE) {
         return element;
       }
     }
