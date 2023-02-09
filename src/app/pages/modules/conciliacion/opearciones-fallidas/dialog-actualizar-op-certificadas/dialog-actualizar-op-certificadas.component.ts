@@ -102,13 +102,20 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
 
   persistir() {
     let estadoActualizar = {
-      idOperacion: this.data.idCertificacion,
+      idCertificacion: this.data.idCertificacion,
       estado: this.form.value['estadoConciliacion'].viewValue,
       valor: this.form.value['valorTotal']
     }
     this.opConciliadasService.actualizarOpCertificadas(estadoActualizar).subscribe((page: any) => {
-      this.dialogRef.close({ event: "load", data: { "event": "load" } });
-    },
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: "Se realizo la actualización exitosamente",
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3500);
+        this.dialogRef.close({ event: "load", data: { "event": "load" } });
+    },   
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
