@@ -102,6 +102,13 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
     if (this.estado) {
       solicitud.estado = this.estado
       this.opConciliadasService.actualizarOpProgramadas(solicitud).subscribe((page: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: "Se realizo la actualización exitosamente",
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3500);
         this.dialogRef.close({ event: "load", data: { "event": "load" } });
       },
         (err: ErrorService) => {
@@ -117,6 +124,13 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
     } else if (this.valor) {
       solicitud.valor = this.valor
       this.opConciliadasService.actualizarOpCertificadas(solicitud).subscribe((page: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: "Se realizo la actualización exitosamente",
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3500);
         this.dialogRef.close({ event: "load", data: { "event": "load" } });
       },
         (err: ErrorService) => {
@@ -156,6 +170,13 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
       valor: this.form.value['valorTotal']
     }
     this.opConciliadasService.actualizarOpProgramadas(estadoActualizar).subscribe((page: any) => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: "Se realizo la actualización exitosamente",
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        }
+      }); setTimeout(() => { alert.close() }, 3500);
       this.dialogRef.close({ event: "load", data: { "event": "load" } });
     },
       (err: ErrorService) => {
