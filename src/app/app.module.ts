@@ -19,7 +19,6 @@ import { ConciliacionComponent } from './pages/modules/conciliacion/conciliacion
 import { ContabilizacionComponent } from './pages/modules/contabilizacion/contabilizacion.component';
 import { LiquidacionComponent } from './pages/modules/liquidacion/liquidacion.component';
 import { AdministracionComponent } from './pages/modules/administracion/administracion.component';
-import { CargueInicialComponent } from './pages/modules/cargue-programacion/cargue-inicial/cargue-inicial.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -39,7 +38,6 @@ import { LogArchivosCargadosComponent } from './pages/shared/components/program-
 import { HistoricoArchivosCargadosComponent } from './pages/shared/components/program-preliminar/historico-archivos-cargados/historico-archivos-cargados.component';
 import { DialogValidarArchivoComponent } from './pages/shared/components/program-preliminar/archivos-cargados/dialog-validar-archivo/dialog-validar-archivo.component';
 import { ArchivosCargadosComponent } from './pages/shared/components/program-preliminar/archivos-cargados/archivos-cargados.component';
-import { CargaArchivosComponent } from './pages/shared/components/carga-archivos/carga-archivos.component';
 import { CarguePreliminarComponent } from './pages/modules/cargue-programacion/cargue-preliminar/cargue-preliminar.component';
 import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/cargue-definitivo.component';
 import { OpearcionesConciliadasComponent } from './pages/modules/conciliacion/opearciones-conciliadas/opearciones-conciliadas.component';
@@ -144,7 +142,6 @@ import { AdministracionTasasCambioComponent } from './pages/modules/administraci
     ContabilizacionComponent,
     LiquidacionComponent,
     AdministracionComponent,
-    CargueInicialComponent,
     FooterComponent,
     BannerSupeiorComponent,
     LogArchivosCargadosComponent,
@@ -153,7 +150,6 @@ import { AdministracionTasasCambioComponent } from './pages/modules/administraci
     DialogResultValidacionComponent,
     VentanaEmergenteResponseComponent,
     ArchivosCargadosComponent,
-    CargaArchivosComponent,
     CarguePreliminarComponent,
     CargueDefinitivoComponent,
     OpearcionesConciliadasComponent,
