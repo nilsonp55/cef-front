@@ -43,7 +43,10 @@ export class TarifasOperacionComponent implements OnInit {
 
   filtroTipOperacionSelect: any;
   filtroBancoSelect: any;
-  filtroTransportaSelect: any;S
+  filtroTransportaSelect: any;
+  filtroEscalaSelect: any;
+  filtroTipoPuntoSelect: any;
+  filtroTipoServicioSelect: any;
 
   date: any;
   serializedDate: any;
@@ -140,7 +143,9 @@ export class TarifasOperacionComponent implements OnInit {
       size: tamanio,
       'banco.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
       'transportadora.codigo': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
-      'tipoOperacion': this.filtroTipOperacionSelect == undefined ? '': this.filtroTipOperacionSelect
+      'tipoOperacion': this.filtroTipOperacionSelect == undefined ? '': this.filtroTipOperacionSelect,
+      'escala': this.filtroEscalaSelect == undefined ? '': this.filtroEscalaSelect,
+      'tipoServicio': this.filtroTipoServicioSelect == undefined ? '': this.filtroTipoServicioSelect.codigo
     }).subscribe((page: any) => {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
       this.dataSourceTiposCuentas.sort = this.sort;
