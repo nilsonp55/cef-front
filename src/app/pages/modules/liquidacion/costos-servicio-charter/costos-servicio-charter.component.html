@@ -1,6 +1,6 @@
 <div class="divTabla">
     <div class="divTituloTablas">
-        <h1 class="tituloTabla">Costos Servicios Charter</h1>
+        <h1 class="tituloTabla">Costos Servicios Aéreos</h1>
         <span class="line-spacer"></span>
     </div>
 
@@ -52,13 +52,18 @@
             <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="escala">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Escala</th>
+            <td mat-cell *matCellDef="let element"> {{element.escala}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="valor">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> VALOR</th>
             <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency}} </td>
         </ng-container>
 
         <ng-container matColumnDef="costoCharter">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>COSTO CHARTER</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>COSTO CHARTER Y OTROS</th>
             <td mat-cell *matCellDef="let element">
                 <input required type="number" step="0.01" pattern="^[0-9]+" (change)="changeValor($event)" (keypress)="onKeypressEvent($event)" placeholder="$">
                 <!--input required type="number" step="0.01" pattern="^[0-9]+" onkeypress="return event.charCode >= 48" min="1" (change)="changeValor($event)" placeholder="$"-->
