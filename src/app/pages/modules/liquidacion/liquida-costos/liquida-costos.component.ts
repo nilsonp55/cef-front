@@ -118,7 +118,7 @@ consultarCostos() {
  * contables
  * @BaironPerez
  */
-verValoresLiquidados() {debugger
+verValoresLiquidados() {
   const respuesta = this.dialog.open(ResultadoValoresLiquidadosComponent, {
     height:'90%', width: '90%',
     data: {
@@ -133,9 +133,9 @@ verValoresLiquidados() {debugger
 * contables
 * @BaironPerez
 */
-verErrores() {//
+verErrores() {
   this.erroresCostosService.erroresCostos({
-    'idSeqGrupo':this.dataLiquidacionCosots.respuestaLiquidarCostos[0].idSeqGrupo,
+    'idSeqGrupo':this.dataLiquidacionCosots.respuestaLiquidarCostos[0].seqGrupo,
   }).subscribe((data: any) => {    
     this.spinnerActive = false;
     const respuesta = this.dialog.open(ErroresCostosComponent, {
