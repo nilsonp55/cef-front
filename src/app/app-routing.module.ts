@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { AdministracionComponent } from './pages/modules/administracion/administracion.component';
 import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/cargue-definitivo.component';
-import { CargueInicialComponent } from './pages/modules/cargue-programacion/cargue-inicial/cargue-inicial.component';
 import { CarguePreliminarComponent } from './pages/modules/cargue-programacion/cargue-preliminar/cargue-preliminar.component';
 import { CargueProgramacionComponent } from './pages/modules/cargue-programacion/cargue-programacion.component';
 import { ConciliacionComponent } from './pages/modules/conciliacion/conciliacion.component';
@@ -90,7 +89,6 @@ const routes: Routes = [
   { path: 'final-session', component: CierreSesionComponent },
   {
     path: 'cargue-programacion', component: CargueProgramacionComponent, children: [
-      { path: 'cargue-inicial', component: CargueInicialComponent },
       { path: 'administrador-cargue-preliminar', component: CarguePreliminarComponent, canActivate: [PreliminarGestionCargueGuard] },
       { path: 'administrador-cierre-preliminar', component: CierreProgramacionPreliminarComponent, canActivate: [PreliminarCierreCarguePreliminarGuard] },
       { path: 'administrador-cargue-definitivo', component: CargueDefinitivoComponent, canActivate: [PreliminarGestionCargueDefinitivoGuard] },
@@ -99,7 +97,6 @@ const routes: Routes = [
   },
   {
     path: 'cargue-certificacion', component: CargueCertificacionComponent, children: [
-      { path: 'cargue-inicial', component: CargueInicialComponent },
       { path: 'gestion-cargue-certificacion', component: CargueDefinitivoCertificacionComponent, canActivate: [CertificacionGestionCargueCertificacionGuard] },
       { path: 'administrador-cargue-certificacion', component: CierreCertificacionComponent, canActivate: [CertificacionCierreCertificacionGuard] },
     ]
