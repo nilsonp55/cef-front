@@ -33,8 +33,8 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field >
-            <mat-label>Ciudad Destino</mat-label>
-            <mat-select [(ngModel)]="filtroCiudadDestSelect">
+            <mat-label>Ciudad Origen</mat-label>
+            <mat-select [(ngModel)]="filtroCiudadOrigSelect">
                 <mat-option *ngFor="let item of ciudades" [value]="item">
                     {{item.nombreCiudad}}
                 </mat-option>
