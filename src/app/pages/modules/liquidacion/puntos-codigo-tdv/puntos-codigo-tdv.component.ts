@@ -21,7 +21,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   form: FormGroup;
   dataSourceCodigoPuntoTdv: MatTableDataSource<any>
-  displayedColumnsCodigoPuntoTdv: string[] = ['idCodigoPuntoTdv', 'codigoPunto', 'codigoTdv', 'codigoPropioTdv', 'punto', 'banco', 'estado', 'acciones'];
+  displayedColumnsCodigoPuntoTdv: string[] = ['codigoPunto', 'codigoTdv', 'codigoPropioTdv', 'punto', 'banco', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   mostrarTabla = true;
@@ -59,13 +59,13 @@ export class PuntosCodigoTdvComponent implements OnInit {
     * Inicializaion formulario de creacion y edicion
     * @BayronPerez
     */
-  initForm(param?: any) {
+  initForm(param?: any) {debugger
     this.form = new FormGroup({
       'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
-      'codigoPunto': new FormControl(param ? param.codigoPunto : null),
-      'codigoTdv': new FormControl(param ? param.codigoTDV : null),
-      'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
       'punto': new FormControl(param ? this.selectPunto(param) : null),
+      'codigoPunto': new FormControl(param ? param.codigoPunto : null),
+      'codigoTdv': new FormControl(param ? this.selectTransportadora(param) : null),
+      'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
       'banco': new FormControl(param ? this.selectBanco(param) : null),
       'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
     });
@@ -89,10 +89,10 @@ export class PuntosCodigoTdvComponent implements OnInit {
     }
   }
 
-  selectTransportadorasDestino(param: any): any {
+  selectTransportadora(param: any): any {
     for(let i= 0; i < this.transportadoras.length; i++) {
       const element = this.transportadoras[i];
-      if(element.codigo == param.transportadoraDestinoDTO.codigo) {
+      if(element.codigo == param.codigoTDV) { 
         return element;
       }
     }
@@ -224,7 +224,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     this.bancos = _bancos.data;
 
     const _puntos = await this.gestionPuntosService.listarPuntosCreados().toPromise();
-    this.puntos = _puntos.data;
+    this.puntos = _puntos.data.content;
 
     const _transportadoras = await this.generalesService.listarTransportadoras().toPromise();
     this.transportadoras = _transportadoras.data;
