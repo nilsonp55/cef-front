@@ -10,6 +10,8 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { CargueProgramacionCertificadaService } from 'src/app/_service/programacion-certificada.service/programacion-certificada-service';
 import { CargueProgramacionPreliminarService } from 'src/app/_service/programacion-preliminar-service/cargue-programacion-preliminar.service';
+import { ValidacionEstadoProcesosService } from 'src/app/_service/valida-estado-proceso.service';
+import { GeneralesService } from 'src/app/_service/generales.service';
 
 @Component({
   selector: 'app-cierre-certificacion',
@@ -26,6 +28,7 @@ export class CierreCertificacionComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
+  fechaSistemaSelect: any;
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
@@ -36,12 +39,26 @@ export class CierreCertificacionComponent implements OnInit {
     private logProcesoDiarioService: LogProcesoDiarioService,
     private cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
     private cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
+    private validacionEstadoProcesosService: ValidacionEstadoProcesosService,
     public spinnerComponent: SpinnerComponent,
+    private generalServices: GeneralesService
   ) { }
 
   ngOnInit(): void {
+    this.cargarDatosDesplegables();
     this.listarProcesos();
   }
+
+   /**
+ * Se cargan datos para el inicio de la pantalla
+ * @BaironPerez
+ */
+async cargarDatosDesplegables() {
+  const _fecha = await this.generalServices.listarParametroByFiltro({
+    codigo: "FECHA_DIA_PROCESO"
+  }).toPromise();
+  this.fechaSistemaSelect = _fecha.data[0].valor;
+}
 
   /**
   * Se realiza consumo de servicio para listr los procesos a ejectar
@@ -65,6 +82,58 @@ export class CierreCertificacionComponent implements OnInit {
           }
         }); setTimeout(() => { alert.close() }, 3000);
       });
+  }
+
+  intervacierreCertificacion(idArchivo: any) {
+    this.spinnerActive = true;
+    this.ejecutar(idArchivo);
+    let identificadorIntervaloDeTiempo;
+    setInterval(() => { 
+      this.validacionEstadoProceso();
+    }, 10000);
+  }
+
+  /**
+   * Metodo encargado de validar el estado de un proceso en particular
+   */
+  validacionEstadoProceso() {
+    var fechaFormat1 = this.fechaSistemaSelect.split("/");
+    let fec = fechaFormat1[2] + "-" + fechaFormat1[1] + "-" + fechaFormat1[0]
+    var fecha = Date.parse(fec);
+    var fecha2 = new Date(fecha);
+    this.validacionEstadoProcesosService.validarEstadoProceso({
+      'codigoProceso': "CARG_CERTIFICACION",
+      "fechaSistema": fecha2
+    }).subscribe((data: any) => {
+      if(data.estado == "PROCESADO"){
+        this.spinnerActive = false;
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: "Se generó la contabilidad AM exitosamente",
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      }
+      if(data.estado == "ERROR"){
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: data.mensaje,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      }
+      if(data.estado == "PENDIENTE"){
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: "Error al generar el cierre definitivo",
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      }
+    });
   }
 
   /**
