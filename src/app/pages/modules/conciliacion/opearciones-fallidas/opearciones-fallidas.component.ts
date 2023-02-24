@@ -53,11 +53,11 @@ export class OpearcionesFallidasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesProgramadas: string[] = ['nombreFondoTDV','fechaOrigen', 'tipoOperacion', 'entradaSalida', 'valorTotal', 'acciones'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
  
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'tipoOperacion', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['nombreFondoTDV','fechaEjecucion', 'tipoOperacion', 'entradaSalida', 'valorTotal', 'acciones'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   constructor(

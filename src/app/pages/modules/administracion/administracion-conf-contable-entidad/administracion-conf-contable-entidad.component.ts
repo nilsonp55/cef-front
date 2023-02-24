@@ -63,19 +63,19 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
    * Inicializaion formulario de creacion y edicion
    * @BayronPerez
    */
-  initForm(param?: any) { debugger
+  initForm(param?: any) { 
     this.selectNaturaleza = param != undefined ? param.naturaleza: null
       this.form = new FormGroup({
         'consecutivo': new FormControl(param? param.consecutivo : null),
         'bancoAval': new FormControl(param? this.selectBancoAval(param) : null),
-        'tipoTransaccion': new FormControl(param? param.tipoTransaccion : null),
-        'tipoOperacion': new FormControl(param? param.tipoOperacion : null),
-        'codigoComision': new FormControl(param? param.codigoComision : null),
-        'tipoImpuesto': new FormControl(param? param.tipoImpuesto : null),
+        'tipoTransaccion': new FormControl(param? String(param.tipoTransaccion) : null),
+        'tipoOperacion': new FormControl(param? String(param.tipoOperacion) : null),
+        'codigoComision': new FormControl(param? String(param.codigoComision) : null),
+        'tipoImpuesto': new FormControl(param? String(param.tipoImpuesto) : null),
         'medioPago': new FormControl(param? param.medioPago : null),
         'bancoExterno': new FormControl(param? this.selectBancoExterno(param) : null),
         'transportadora': new FormControl(param? this.selectTransportadora(param) : null),
-        'naturaleza': new FormControl(param? this.selectNaturaleza : null),
+        'naturaleza': new FormControl(param? param.naturaleza : null),
         'numeroCuenta': new FormControl(param? param.cuentaContable : null),
       });
   }

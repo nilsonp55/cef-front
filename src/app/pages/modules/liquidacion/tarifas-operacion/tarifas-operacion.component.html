@@ -1,10 +1,11 @@
 <mat-card class="card-limites">
-    <mat-card-title>Tarifas Operación</mat-card-title>
-    <div *ngIf="mostrarTabla">
+    <mat-card-title style="display: flex;">Tarifas Operación
         <div class="division-btn">
             <button *ngIf="habilitarBTN" class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
                 (click)="crearTarifaOperacion()">Crear Tarifa Operación</button>
         </div>
+    </mat-card-title>
+    <div *ngIf="mostrarTabla">
     </div>
     <div *ngIf="mostrarTabla == false">
         <div class="division-btn">
@@ -35,6 +36,24 @@
                 <mat-label>Tipo Operación</mat-label>
                 <mat-select [(ngModel)]="filtroTipOperacionSelect">
                     <mat-option *ngFor="let item of tipoOperaciones" [value]="item">
+                        {{item}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="filtro">
+            <mat-form-field appearance="fill">
+                <mat-label>Escala</mat-label>
+                <mat-select [(ngModel)]="filtroEscalaSelect">
+                    <mat-option *ngFor="let item of escalas" [value]="item">
+                        {{item}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Tipo Servicio</mat-label>
+                <mat-select [(ngModel)]="filtroTipoServicioSelect">
+                    <mat-option *ngFor="let item of tipoServicios" [value]="item">
                         {{item}}
                     </mat-option>
                 </mat-select>

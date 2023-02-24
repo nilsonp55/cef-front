@@ -1,10 +1,12 @@
 <mat-card class="card-limites">
-    <mat-card-title>Escalas</mat-card-title>
-    <div *ngIf="mostrarTabla">
+    <mat-card-title style="display: flex; padding-right: 40%;">Escalas
         <div class="division-btn">
             <button *ngIf="habilitarBTN" class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
                 (click)="crearEscala()">Crear Escala</button>
         </div>
+    </mat-card-title>
+    <div *ngIf="mostrarTabla">
+        
     </div>
     <div *ngIf="mostrarTabla == false">
         <div class="division-btn">
@@ -13,36 +15,54 @@
         </div>
     </div>
     <br>
+    <div class="filtro">
+        <mat-form-field >
+            <mat-label>Bancos</mat-label>
+            <mat-select [(ngModel)]="filtroBancoSelect">
+                <mat-option *ngFor="let item of bancos" [value]="item">
+                    {{item.nombreBanco}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Transporta Orige</mat-label>
+            <mat-select [(ngModel)]="filtroTransportaOrigSelect">
+                <mat-option *ngFor="let item of transportadoras" [value]="item">
+                    {{item.nombreTransportadora}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Ciudad Origen</mat-label>
+            <mat-select [(ngModel)]="filtroCiudadOrigSelect">
+                <mat-option *ngFor="let item of ciudades" [value]="item">
+                    {{item.nombreCiudad}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Ciudad Destino</mat-label>
+            <mat-select [(ngModel)]="filtroCiudadDestSelect">
+                <mat-option *ngFor="let item of ciudades" [value]="item">
+                    {{item.nombreCiudad}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="filtro">
+        <mat-form-field>
+            <mat-label>Ciudad Destino</mat-label>
+            <mat-select [(ngModel)]="filtroCiudadOrigSelect">
+                <mat-option *ngFor="let item of ciudades" [value]="item">
+                    {{item.nombreCiudad}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button title="Visualizar" mat-button (click)="filtrar($event)">
+            <mat-icon style="color: green">search</mat-icon>
+        </button>
+    </div>
     <div *ngIf="mostrarTabla" class="divTablaCerti">
-        <div class="filtro">
-            <mat-form-field appearance="fill">
-                <mat-label>Bancos</mat-label>
-                <mat-select [(ngModel)]="filtroBancoSelect">
-                    <mat-option *ngFor="let item of bancos" [value]="item">
-                        {{item.nombreBanco}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Transporta Orige</mat-label>
-                <mat-select [(ngModel)]="filtroTransportaOrigSelect">
-                    <mat-option *ngFor="let item of transportadoras" [value]="item">
-                        {{item.nombreTransportadora}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Ciudad Origen</mat-label>
-                <mat-select [(ngModel)]="filtroCiudadOrigSelect">
-                    <mat-option *ngFor="let item of ciudades" [value]="item">
-                        {{item.nombreCiudad}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <button title="Visualizar" mat-button (click)="filtrar($event)">
-                <mat-icon style="color: green">search</mat-icon>
-            </button>
-        </div>
         <div class="configScroll">
             <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort matSortDirection="desc" matSortActive="idEscala" #exporter="matTableExporter">
                 <tr>
@@ -55,7 +75,7 @@
                         <td mat-cell *matCellDef="let element"> {{element.bancosDTO.nombreBanco}} </td>
                     </ng-container>
                     <ng-container matColumnDef="transportadoraOrigen" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP Origen</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP ORIGEN</th>
                         <td mat-cell *matCellDef="let element"> {{element.transportadoraOrigenDTO.nombreTransportadora}}
                         </td>
                     </ng-container>
@@ -68,6 +88,11 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>CIUDAD ORIGEN</th>
                         <td mat-cell *matCellDef="let element">
                             {{element.ciudadOrigenDTO.nombreCiudad}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ciudadDestino" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CIUDAD DESTINO</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.ciudadDestinoDTO.nombreCiudad}} </td>
                     </ng-container>
                     <ng-container matColumnDef="escala" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ESCALA</th>
