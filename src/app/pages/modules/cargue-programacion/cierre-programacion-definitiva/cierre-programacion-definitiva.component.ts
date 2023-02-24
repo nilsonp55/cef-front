@@ -92,11 +92,15 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
    * Metodo encargado de validar el estado de un proceso en particular
    */
   validacionEstadoProceso() {
+    var fechaFormat1 = this.fechaSistemaSelect.split("/");
+    let fec = fechaFormat1[2] + "-" + fechaFormat1[1] + "-" + fechaFormat1[0]
+    var fecha = Date.parse(fec);
+    var fecha2 = new Date(fecha);
     this.validacionEstadoProcesosService.validarEstadoProceso({
-      'codigoProceso': "codigoProcesoDuvan",
-      "fechaSIstema": this.fechaSistemaSelect
+      'codigoProceso': "CARG_DEFINITIVO",
+      "fechaSIstema": fecha2
     }).subscribe((data: any) => {
-      if(data.estado == "CERRADO"){
+      if(data.estado == "PROCESADO"){
         this.spinnerActive = false;
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -111,6 +115,15 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: data.mensaje,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      }
+      if(data.estado == "PENDIENTE"){
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: "Error al generar el cierre definitivo",
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);

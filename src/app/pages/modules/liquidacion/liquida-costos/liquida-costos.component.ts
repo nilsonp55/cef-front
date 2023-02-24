@@ -35,7 +35,7 @@ dataSourceInfoProcesos: MatTableDataSource<any>;
 displayedColumnsInfoProcesos: string[] = ['subactividad', 'cantidad', 'estado'];
 
 dataLiquidacionCosots: any;
-fechaSistemaSelect: any;
+fechaSistemaSelect: string;
 tieneErrores: any = false;
 
 constructor(
@@ -64,24 +64,28 @@ async cargarDatosDesplegables() {
   this.fechaSistemaSelect = _fecha.data[0].valor;
 }
 
-intervalGeneralContabilidad() {
+intervalGeneralContabilidad() {debugger
   this.spinnerActive = true;
   this.generarLiquidacionCostos();
   let identificadorIntervaloDeTiempo;
   setInterval(() => { 
     this.validacionEstadoProceso();
-  }, 10000);
+  }, 3000);
 }
 
 /**
  * Metodo encargado de validar el estado de un proceso en particular
  */
 validacionEstadoProceso() {
+  var fechaFormat1 = this.fechaSistemaSelect.split("/");
+  let fec = fechaFormat1[2] + "-" + fechaFormat1[1] + "-" + 28
+  var fecha = Date.parse(fec);
+  var fecha2 = new Date(fecha);
   this.validacionEstadoProcesosService.validarEstadoProceso({
-    'codigoProceso': "codigoProcesoDuvan",
-    "fechaSIstema": this.fechaSistemaSelect
+    'codigoProceso': "LIQUIDACION",
+    "fechaSistema": fecha2
   }).subscribe((data: any) => {
-    if(data.estado == "CERRADO"){
+    if(data.estado == "PROCESADO"){
       this.spinnerActive = false;
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -96,6 +100,15 @@ validacionEstadoProceso() {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: data.mensaje,
+          codigo: GENERALES.CODE_EMERGENT.ERROR
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+    }
+    if(data.estado == "PENDIENTE"){
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: "Error al generar el cierre definitivo",
           codigo: GENERALES.CODE_EMERGENT.ERROR
         }
       }); setTimeout(() => { alert.close() }, 3000);
