@@ -21,7 +21,7 @@ export class TarifasOperacionComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['banco','tdv', 'tOperacion', 'tServicio', 'escala', 'tipoPunto', 'comisionAplicar', 'valorTarifa', 'billetes', 'monedas', 'fajado', 'estado', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['banco','tdv', 'tOperacion', 'tServicio', 'escala', 'tipoPunto', 'comisionAplicar', 'billetes', 'monedas', 'fajado', 'valorTarifa', 'estado', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   mostrarTabla = true;
@@ -137,7 +137,7 @@ export class TarifasOperacionComponent implements OnInit {
    * Lista los Cuentas puc
    * @BayronPerez
    */
-   listarTarifaOperacion(pagina = 0, tamanio = 5) {
+   listarTarifaOperacion(pagina = 0, tamanio = 5) {debugger
     this.tarifasOperacionService.consultarTarifasOperacion({
       page: pagina,
       size: tamanio,
@@ -145,7 +145,7 @@ export class TarifasOperacionComponent implements OnInit {
       'transportadora.codigo': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
       'tipoOperacion': this.filtroTipOperacionSelect == undefined ? '': this.filtroTipOperacionSelect,
       'escala': this.filtroEscalaSelect == undefined ? '': this.filtroEscalaSelect,
-      'tipoServicio': this.filtroTipoServicioSelect == undefined ? '': this.filtroTipoServicioSelect.codigo
+      'tipoServicio': this.filtroTipoServicioSelect == undefined ? '': this.filtroTipoServicioSelect
     }).subscribe((page: any) => {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
       this.dataSourceTiposCuentas.sort = this.sort;
@@ -348,6 +348,14 @@ export class TarifasOperacionComponent implements OnInit {
     this.filtroTransportaSelect;
     this.filtroTipOperacionSelect;
     this.listarTarifaOperacion();
+  }
+
+  limpiar(){
+    this.filtroBancoSelect = null;
+    this.filtroTransportaSelect = null;
+    this.filtroTipOperacionSelect = null;
+    this.filtroEscalaSelect = null;
+    this.filtroTipoServicioSelect = null;
   }
 
 }
