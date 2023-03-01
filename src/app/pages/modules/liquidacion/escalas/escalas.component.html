@@ -40,26 +40,21 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field>
-            <mat-label>Ciudad Destino</mat-label>
-            <mat-select [(ngModel)]="filtroCiudadDestSelect">
-                <mat-option *ngFor="let item of ciudades" [value]="item">
-                    {{item.nombreCiudad}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
     </div>
     <div class="filtro">
         <mat-form-field>
             <mat-label>Ciudad Destino</mat-label>
-            <mat-select [(ngModel)]="filtroCiudadOrigSelect">
-                <mat-option *ngFor="let item of ciudades" [value]="item">
-                    {{item.nombreCiudad}}
+            <mat-select [(ngModel)]="filtroCiudadDestSelect">
+                <mat-option *ngFor="let ite of ciudades" [value]="ite">
+                    {{ite.nombreCiudad}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
         <button title="Visualizar" mat-button (click)="filtrar($event)">
             <mat-icon style="color: green">search</mat-icon>
+        </button>
+        <button title="Limpiar" mat-button (click)="limpiar()">
+            <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
         </button>
     </div>
     <div *ngIf="mostrarTabla" class="divTablaCerti">

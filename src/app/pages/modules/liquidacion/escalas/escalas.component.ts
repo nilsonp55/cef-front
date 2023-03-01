@@ -128,7 +128,7 @@ export class EscalasComponent implements OnInit {
       size: tamanio,
       'bancos.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
       'transportadoraOrigen.codigo': this.filtroTransportaOrigSelect == undefined ? '': this.filtroTransportaOrigSelect.codigo,
-      'transportadoraDestino.codigo': this.filtroCiudadDestSelect == undefined ? '': this.filtroCiudadDestSelect.codigo,
+      'ciudadDestino.codigoDANE': this.filtroCiudadDestSelect == undefined ? '': this.filtroCiudadDestSelect.codigoDANE,
       'ciudadOrigen.codigoDANE': this.filtroCiudadOrigSelect== undefined ? '': this.filtroCiudadOrigSelect.codigoDANE
     }).subscribe((page: any) => {
       this.dataSourceEscalas = new MatTableDataSource(page.data.content);
@@ -298,6 +298,13 @@ export class EscalasComponent implements OnInit {
     this.filtroTransportaOrigSelect;
     this.filtroCiudadOrigSelect;
     this.listarEscalas();
+  }
+
+  limpiar(){
+    this.filtroBancoSelect = null;
+    this.filtroTransportaOrigSelect = null;
+    this.filtroCiudadOrigSelect = null;
+    this.filtroCiudadDestSelect = null;
   }
 
 }

@@ -58,8 +58,11 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <button title="Visualizar" mat-button (click)="filtrar($event)">
+            <button title="Filtrar" mat-button (click)="filtrar($event)">
                 <mat-icon style="color: green">search</mat-icon>
+            </button>
+            <button title="Limpiar" mat-button (click)="limpiar()">
+                <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
             </button>
         </div>
         <div class="configScroll">
@@ -109,12 +112,6 @@
                     </ng-container>
                 </tr>
                 <tr>
-                    <ng-container matColumnDef="valorTarifa" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarifa</th>
-                        <td mat-cell *matCellDef="let element"> {{element.valorTarifa | currency}} </td>
-                    </ng-container>
-                </tr>
-                <tr>
                     <ng-container matColumnDef="billetes" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Billetes</th>
                         <td mat-cell *matCellDef="let element"> {{element.billetes}} </td>
@@ -130,6 +127,12 @@
                     <ng-container matColumnDef="fajado" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Fajado</th>
                         <td mat-cell *matCellDef="let element"> {{element.fajado}} </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="valorTarifa" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarifa</th>
+                        <td mat-cell *matCellDef="let element"> {{element.valorTarifa}} </td>
                     </ng-container>
                 </tr>
                 <tr>
