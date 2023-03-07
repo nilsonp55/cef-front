@@ -391,6 +391,10 @@ export const URLs = {
   ADMIN_ESCALAS_GUARDAR: '/guardar',
   ADMIN_ESCALAS_ACTUALIZAR: '/actualizar',
 
+   //Escalas
+   ADMIN_AUDITORIA: '/auditoria-login',
+   ADMIN_AUDITORIA_GUARDAR: '/guardar',
+
   //Puntos Codigos TDV
   PUNTOS_CODIGO: '/puntos-codigo-tdv',
   PUNTOS_CODIGO_CONSULTAR: '/consultar',

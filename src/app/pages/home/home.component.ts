@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { Component, Inject, OnInit } from '@angular/core';
 import { ManejoFechaToken } from '../shared/utils/manejo-fecha-token';
+import { AuditoriaService } from 'src/app/_service/auditoria-login.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,10 @@ export class HomeComponent implements OnInit {
   prueba : any;
 
 
-  constructor(@Inject(DOCUMENT) document: any) { }
+  constructor(
+    @Inject(DOCUMENT) document: any,
+    private auditoriaService: AuditoriaService
+    ) { }
 
   ngOnInit(): void {
     this.capturaToken();
@@ -39,13 +43,17 @@ export class HomeComponent implements OnInit {
   serializarToken(decodificado: any, tokenOficial: any) {debugger
     var _userName = decodificado.name
     this.tokenExpira = decodificado.exp
+
+    const auditoriaLoginDTO = {
+      usuario: sessionStorage.getItem('user'),
+      fechaIngreso: new Date()
+    }
+    this.auditoriaService.guardarAuditoria(auditoriaLoginDTO).toPromise();
+
     console.log(decodificado)
     sessionStorage.setItem('token', btoa(tokenOficial))
     sessionStorage.setItem('user', btoa(_userName))
     sessionStorage.setItem('time_token_exp', this.tokenExpira)
     ManejoFechaToken.manejoFechaToken()
-  }
-
-
 
 }
