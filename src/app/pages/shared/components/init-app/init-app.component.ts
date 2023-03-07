@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import jwt_decode, { JwtPayload }  from "jwt-decode";
 import { environment } from '../../../../../environments/environment'
+import { AuditoriaService } from 'src/app/_service/auditoria-login.service';
 
 @Component({
   selector: 'app-init-app',
@@ -15,6 +16,7 @@ export class InitAppComponent implements OnInit {
 
   constructor(
     @Inject (DOCUMENT) private document: any,
+    private auditoriaService: AuditoriaService
   ) { }
 
   ngOnInit(): void {
@@ -23,6 +25,7 @@ export class InitAppComponent implements OnInit {
   }
 
   goToUrl(): void {
+
     //PT
     this.document.location.href = environment.RUTA_AUTHENTICATION;
   
@@ -46,6 +49,7 @@ export class InitAppComponent implements OnInit {
     var _userName = decodificado.name
     sessionStorage.setItem('token', tokenOficial)
     sessionStorage.setItem('user', _userName)
+
   }
 
 }
