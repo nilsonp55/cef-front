@@ -49,7 +49,7 @@
 
             <ng-container matColumnDef="valorPesos">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Pesos</th>
-                <td mat-cell *matCellDef="let element"> {{element.valor | currency}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.valor | number}} </td>
             </ng-container>
 
             <ng-container matColumnDef="valorUsd">
