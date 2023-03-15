@@ -292,13 +292,18 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   filtrar(event) {
     let registrosFiltrados: any[] = [];
     this.registros.forEach(item => {
-      if(item.bancoAval.nombreBanco == this.filtroBancoSelect.nombreBanco) {
+      if(item.bancoAval.abreviatura == this.filtroBancoSelect.abreviatura) {
         registrosFiltrados.push(item);
       }
     });
     this.dataSourceTiposCuentas = new MatTableDataSource(registrosFiltrados);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = registrosFiltrados.length;
+  }
+
+  limpiar() {
+    this.filtroBancoSelect = null;
+    this.listarConfEntitis();
   }
 
 }

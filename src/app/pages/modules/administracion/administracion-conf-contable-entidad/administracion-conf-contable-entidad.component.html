@@ -1,6 +1,6 @@
 <mat-card class="card-limites">
     <br><br>
-    <mat-card-title>Configuracion contable entidad</mat-card-title>
+    <mat-card-title>Configuración contable entidad</mat-card-title>
     <div>
         <div class="division-btn">
             <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
@@ -119,6 +119,9 @@
                 </mat-form-field>
                 <button title="Visualizar" mat-button (click)="filtrar($event)">
                     <mat-icon style="color: green">search</mat-icon>
+                </button>
+                <button title="Limpiar" mat-button (click)="limpiar()">
+                    <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
                 </button>
             </div>
             <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll">
