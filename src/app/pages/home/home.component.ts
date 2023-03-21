@@ -40,12 +40,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  serializarToken(decodificado: any, tokenOficial: any) {debugger
+  serializarToken(decodificado: any, tokenOficial: any) {
     var _userName = decodificado.name
     this.tokenExpira = decodificado.exp
 
     const auditoriaLoginDTO = {
-      usuario: sessionStorage.getItem('user'),
+      usuario: _userName,
       fechaIngreso: new Date()
     }
     this.auditoriaService.guardarAuditoria(auditoriaLoginDTO).toPromise();
@@ -55,5 +55,7 @@ export class HomeComponent implements OnInit {
     sessionStorage.setItem('user', btoa(_userName))
     sessionStorage.setItem('time_token_exp', this.tokenExpira)
     ManejoFechaToken.manejoFechaToken()
+
+}
 
 }
