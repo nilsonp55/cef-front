@@ -1,45 +1,78 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+# Control de Efectivo - Frontend
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
-
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+Repositorio para la aplicacion Angular de Control de Efectivo.
 
 ---
 
-## Edit a file
+## Prerequisitos
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+Para desplegar el proyecto en ambiente local de desarrollo se deben contar con las siguientes herramientas y programas
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+1. **npm** ([sitio oficial](https://nodejs.org/en/download/))
+2. **angular-cli** 
+3. Cliente de Git 
+4. Cuenta ATH habilitada en Artifactory Nexus ([link](https://devops-nexus.ath.net/))
+5. Cuenta ATH habilitada en el repositorio Github ([link](https://devops-github.ath.net/))
 
----
-
-## Create a file
-
-Next, you’ll add a new file to this repository.
-
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
-
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
 
 ---
 
-## Clone a repository
+## Configuracion ambiente local de desarrollo
 
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
+1. Para clonar el repositorio se debe configurar el cliente Git con las opciones **core.autocrlf** y **http.sslVerify**, para esto se de ejecutar los siguientes comandos en una terminal:
+```shell
+git config --global core.autocrlf true
+git config --global http.sslVerify "false"
+```
 
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
+2. Configurar npm para acceder al repositorio de ATH
+Se requiere configurar la propiedad **strict-ssl** con el valor **false**, para esto se debe ejecutar el siguiente comando en una terminal:
+```shell
+npm config set strict-ssl=false
+``` 
 
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+3. Realizar el login en el Artifactory Nexus de ATH, para esto se debe ejecutar el siguiente comando:
+```shell
+npm login --registry https://devops-nexus.ath.net/repository/npm-registry/
+```
+4. Instalar cliente de angular Angular/cli: 
+
+```shell
+npm install -g @angular/cli
+```
+
+5. Instalar dependencias del proyecto Angular, para esto se debe ejecutar el siguiente comando en una terminal:
+```shell
+npm install
+```
+
+---
+
+## Configuracion de enviroments de Angular
+
+Para lanzar la aplicacion angular en ambiente local se debe usar la configuracion definida en el *environment* ```dev``` para esto se debe ejecutar el siguiente comando:
+
+```shell 
+ng server --configuration pruebastecnicas
+```
+
+---
+
+## Ejecutar test unitarios
+
+Los test unitarios se pueden ejecutar con el siguiente comando:
+```shell
+ng test
+```
+
+---
+
+## Compilar la aplicacion Angular
+
+Para compilar el proyecto angular para ambiente produccion se debe ejcutar el siguiente comando:
+
+```shell
+ng build --configuration production
+```
+
+
