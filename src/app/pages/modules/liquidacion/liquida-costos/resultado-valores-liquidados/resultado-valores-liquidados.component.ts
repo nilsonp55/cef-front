@@ -26,10 +26,11 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['nombreBanco', 
-  'nombreTransportadora', 'puntoOrigen', 'puntoDestino', 'entradaSalida', 'tipoPunto', 'tipoOperacion', 'clasificacionFajado', 'clasificacionNoFajado', 'costoCharter',
-      'costoEmisario', 'costoFijoParado', 'costoMoneda', 'costoPaqueteo', 'idLiquidacion',
-      'milajePorRuteo', 'milajeVerificacion', 'modenaResiduo', 'tasaAeroportuaria', 'idSeqGrupo'];
+  displayedColumnsInfoProcesos: string[] = ['idLiquidacion', 'fechaEjecucion', 'nombreBanco', 'nombreTdv',  
+    'nombreCliente', 'puntoOrigen', 'puntoDestino', 'codigoPropioTdv', 'entradaSalida', 'tipoPunto', 'tipoOperacion', 
+    'escala', 'valorTotal', 'costoFijoParado', 'milajePorRuteo', 'milajeVerificacion', 'milajeTotal', 'costoMoneda', 'costoEmisario',
+    'costoCharter', 'clasificacionFajado', 'clasificacionNoFajado', 'costoPaqueteo', 'tasaAeroportuaria',
+    'modenaResiduo',  'idSeqGrupo'];
 
   constructor(
     private dialog: MatDialog,
