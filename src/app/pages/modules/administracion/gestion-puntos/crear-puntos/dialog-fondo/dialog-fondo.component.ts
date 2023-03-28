@@ -32,20 +32,20 @@ export class DialogFondoComponent implements OnInit {
   dataElement: any = null;
   esEdicion: boolean;
   mostrarFormulario: boolean = false;
-  
+
   constructor(
     private dialog: MatDialog,
     private generalServices: GeneralesService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private gestionPuntosService: GestionPuntosService) 
+    private gestionPuntosService: GestionPuntosService)
     { }
-  
-  
+
+
   async ngOnInit(): Promise<void> {
     ManejoFechaToken.manejoFechaToken()
     this.dataElement = this.data.element;
-    console.log("Data que llega del element")
-    console.log(this.dataElement)
+    //console.log("Data que llega del element")
+    //console.log(this.dataElement)
     this.nombreBTN = "Guardar"
     await this.datosDesplegables();
     this.estadoBTN = true
@@ -66,9 +66,9 @@ export class DialogFondoComponent implements OnInit {
       this.titulo = "Modificación "
       this.nombreBTN = "Actualizar"
       this.esEdicion = true;
-    }    
+    }
   }
-  
+
   initForm(param?: any) {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto:null),
@@ -110,7 +110,7 @@ export class DialogFondoComponent implements OnInit {
     }
   }
   }
-  
+
   persistir() {
     let fondo = {
       nombrePunto: this.form.value['nombre'],
@@ -136,8 +136,8 @@ export class DialogFondoComponent implements OnInit {
       fajado: null,
       codigoCiudad: this.form.value['ciudad'].codigoDANE,
     }
-    console.log("Data que se enviara")
-    console.log(fondo)
+    //console.log("Data que se enviara")
+    //console.log(fondo)
     if (this.esEdicion) {
       //cliente.consecutivo = this.idConfEntity;
       this.gestionPuntosService.actualizarPunto(fondo).subscribe(response => {
@@ -187,7 +187,7 @@ export class DialogFondoComponent implements OnInit {
 
     const _ciudades = await this.generalServices.listarCiudades().toPromise();
     this.ciudades = _ciudades.data;
-  
+
     const _bancos = await this.generalServices.listarBancosAval().toPromise();
     this.bancosAval = _bancos.data;
 

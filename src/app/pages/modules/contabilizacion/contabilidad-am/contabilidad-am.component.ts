@@ -80,7 +80,7 @@ export class ContabilidadAmComponent implements OnInit {
   }
 
   /**
-   * Metodo encargado de ejecutar el servicio de contabilidad para los 
+   * Metodo encargado de ejecutar el servicio de contabilidad para los
    * procesos activos
    * @BaironPerez
    */
@@ -91,7 +91,7 @@ export class ContabilidadAmComponent implements OnInit {
       width: '750px',
       data: {
         tipoContabilidad: "AM",
-        
+
       }
     });
 
@@ -107,7 +107,7 @@ export class ContabilidadAmComponent implements OnInit {
           'tipoContabilidad': tipoContabilida,
           'codBanco': codBanco,
           'fase': "INICIAL"
-        }).subscribe(data => {debugger
+        }).subscribe(data => {
           //Ensayo re respuesta
           const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
             width: '100%',

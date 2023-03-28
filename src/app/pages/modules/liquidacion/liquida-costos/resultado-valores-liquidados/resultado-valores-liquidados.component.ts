@@ -26,7 +26,7 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['nombreBanco', 
+  displayedColumnsInfoProcesos: string[] = ['nombreBanco',
   'nombreTransportadora', 'puntoOrigen', 'puntoDestino', 'entradaSalida', 'tipoPunto', 'tipoOperacion', 'clasificacionFajado', 'clasificacionNoFajado', 'costoCharter',
       'costoEmisario', 'costoFijoParado', 'costoMoneda', 'costoPaqueteo', 'idLiquidacion',
       'milajePorRuteo', 'milajeVerificacion', 'modenaResiduo', 'tasaAeroportuaria', 'idSeqGrupo'];
@@ -38,7 +38,7 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any}
   ) { }
 
-  ngOnInit(): void {debugger
+  ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken()
     this.titulo = this.data.titulo
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);

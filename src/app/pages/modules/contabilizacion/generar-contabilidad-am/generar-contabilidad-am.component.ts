@@ -61,7 +61,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
     this.spinnerActive = true;
     this.generarContabilidad();
     let identificadorIntervaloDeTiempo;
-    setInterval(() => { 
+    setInterval(() => {
       this.validacionEstadoProceso();
     }, 10000);
   }
@@ -139,11 +139,11 @@ export class GenerarContabilidadAmComponent implements OnInit {
 
 
   /**
-   * Metodo encargado de ejecutar la vista de la tabla de transacciones 
+   * Metodo encargado de ejecutar la vista de la tabla de transacciones
    * contables
    * @BaironPerez
    */
-  verTransactContables() {debugger
+  verTransactContables() {
     const resp = this.dialog.open(ResultadoContabilidadComponent, {
       width: '100%',
       data: {
@@ -156,7 +156,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
   }
 
   /**
-  * Metodo encargado de ejecutar la vista de la tabla de transacciones 
+  * Metodo encargado de ejecutar la vista de la tabla de transacciones
   * contables
   * @BaironPerez
   */

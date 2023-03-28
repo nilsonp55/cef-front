@@ -33,15 +33,15 @@ export class DialogClienteComponent implements OnInit {
   dataElement: any = null;
   mostrarFormulario: boolean = false;
   isDisable: boolean;
-  
+
   constructor(
-    private dialog: MatDialog, 
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private generalServices: GeneralesService,
-    private gestionPuntosService: GestionPuntosService) 
+    private gestionPuntosService: GestionPuntosService)
     { }
-  
-  
+
+
   async ngOnInit(): Promise<void> {
     ManejoFechaToken.manejoFechaToken()
     this.dataElement = this.data.element;
@@ -67,9 +67,9 @@ export class DialogClienteComponent implements OnInit {
       this.nombreBTN = "Actualizar"
       this.esEdicion = true;
     }
-    
+
   }
-  
+
   initForm(param?: any) {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto:null),
@@ -99,7 +99,7 @@ export class DialogClienteComponent implements OnInit {
     }
   }
   }
-  
+
   persistir() {
     let cliente = {
       nombrePunto: this.form.value['nombre'],
@@ -154,7 +154,7 @@ export class DialogClienteComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         }); setTimeout(() => { alert.close() }, 4000);
-        console.log("Cerrar formulario")
+        //console.log("Cerrar formulario")
         this.initForm();
       },
         (err: any) => {
@@ -177,7 +177,7 @@ export class DialogClienteComponent implements OnInit {
 
     const _clientes = await this.generalServices.listarClientes().toPromise();
     this.clientes = _clientes.data;
-  
+
   }
 
   formatearEstadoPersistir(param: boolean): any {

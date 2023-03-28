@@ -47,7 +47,7 @@ export class DialogBanRepComponent implements OnInit {
       this.dataElement = this.data.element;
       this.nombreBTN = "Guardar"
       this.estadoDisable = true
-      
+
       await this.datosDesplegables();
       this.initForm(this.dataElement);
       if(this.data.flag == "crear") {
@@ -69,7 +69,7 @@ export class DialogBanRepComponent implements OnInit {
         this.nombreBTNCancelar = "Cancelar"
         this.estadoBTN = true
         this.esEdicion = true;
-  
+
       }
     }
 
@@ -117,8 +117,8 @@ export class DialogBanRepComponent implements OnInit {
       nombreFondo:null,
       codigoATM:null,
     }
-    console.log("Data que se va a enviar")
-    console.log(bancRep)
+    //console.log("Data que se va a enviar")
+    //console.log(bancRep)
     if (this.esEdicion) {
       //cliente.consecutivo = this.idConfEntity;
       this.gestionPuntosService.actualizarPunto(bancRep).subscribe(response => {

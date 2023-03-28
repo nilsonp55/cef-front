@@ -34,7 +34,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   filtroBancoSelect: any;
   filtroTransportaSelect: any;
   filtroCodigoPropio: any;
-  
+
   //Rgistros paginados
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -59,7 +59,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     * Inicializaion formulario de creacion y edicion
     * @BayronPerez
     */
-  initForm(param?: any) {debugger
+  initForm(param?: any) {
     this.form = new FormGroup({
       'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
       'punto': new FormControl(param ? this.selectPunto(param) : null),
@@ -92,7 +92,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   selectTransportadora(param: any): any {
     for(let i= 0; i < this.transportadoras.length; i++) {
       const element = this.transportadoras[i];
-      if(element.codigo == param.codigoTDV) { 
+      if(element.codigo == param.codigoTDV) {
         return element;
       }
     }
@@ -192,7 +192,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
           }); setTimeout(() => { alert.close() }, 3000);
         });
     }
-    
+
   }
 
   /**
@@ -254,7 +254,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         return 2
       }
     }
-  
+
     formatearEstadoListar(param: any): any {
       if(param==1){
         return true
