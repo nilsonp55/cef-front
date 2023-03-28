@@ -21,7 +21,6 @@ export class LiquidacionTarifasOperacionGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return new Promise((resolve, reject) => {
-      debugger
       this.rolMenuService.obtenerUsuarios({
         'idUsuario': atob(sessionStorage.getItem('user'))
       }).subscribe(data => {
@@ -36,7 +35,7 @@ export class LiquidacionTarifasOperacionGuard implements CanActivate {
           menusrol.data.forEach(itm => {
             this.menusLiquidacion.push(itm.menu);
           });
-          console.log(menusrol)
+          //console.log(menusrol)
           //validation guard
           let guardOk: boolean = false;
           menusrol.data.forEach(itm => {

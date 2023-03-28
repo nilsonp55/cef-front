@@ -137,7 +137,7 @@ export class TarifasOperacionComponent implements OnInit {
    * Lista los Cuentas puc
    * @BayronPerez
    */
-   listarTarifaOperacion(pagina = 0, tamanio = 5) {debugger
+   listarTarifaOperacion(pagina = 0, tamanio = 5) {
     this.tarifasOperacionService.consultarTarifasOperacion({
       page: pagina,
       size: tamanio,
@@ -248,8 +248,8 @@ export class TarifasOperacionComponent implements OnInit {
         }
       }); setTimeout(() => { alert.close() }, 3000);
     }
-    
-    
+
+
    }
 
   async iniciarDesplegables() {

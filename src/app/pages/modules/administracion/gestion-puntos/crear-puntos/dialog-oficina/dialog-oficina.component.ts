@@ -38,16 +38,16 @@ export class DialogOficinaComponent implements OnInit {
   estadoFajado: boolean;
   estadoRefajillado: boolean;
   costoEditar: any;
-  
-  
+
+
   constructor(
     private dialog: MatDialog,
     private generalServices: GeneralesService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private gestionPuntosService: GestionPuntosService) 
+    private gestionPuntosService: GestionPuntosService)
     { }
-  
-  
+
+
     async ngOnInit(): Promise<void> {
       ManejoFechaToken.manejoFechaToken()
       this.dataElement = this.data.element;
@@ -80,16 +80,16 @@ export class DialogOficinaComponent implements OnInit {
         this.nombreBTNCancelar = "Cancelar"
         this.estadoBTN = true
         this.esEdicion = true;
-  
+
       }
-      
+
     }
-    
+
   initForm(param?: any) {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto:null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
-      'codigoOficina': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.codigoOficina:null: null),    
+      'codigoOficina': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.codigoOficina:null: null),
       'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
       'tarifaRuteo': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.tarifaRuteo:null: null),
       'tariVerificacion': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.tarifaVerificacion:null: null),
@@ -146,8 +146,8 @@ export class DialogOficinaComponent implements OnInit {
       codigoCliente:null,
       codigoATM:null, //integer
     }
-    console.log("Data que se va a enviar")
-    console.log(oficina)
+    //console.log("Data que se va a enviar")
+    //console.log(oficina)
     if (this.esEdicion) {
       //cliente.consecutivo = this.idConfEntity;
       this.gestionPuntosService.actualizarPunto(oficina).subscribe(response => {
@@ -199,7 +199,7 @@ export class DialogOficinaComponent implements OnInit {
 
     const _bancos = await this.generalServices.listarBancosAval().toPromise();
     this.bancosAval = _bancos.data;
-  
+
   }
 
   formatearEstadoPersistir(param: boolean): any {
@@ -232,7 +232,7 @@ export class DialogOficinaComponent implements OnInit {
   }
 
   onKeypressEvent(event: any):  any {
-    console.log(event)
+    //console.log(event)
     if(event.charCode < 48 || event.charCode > 57) return false;
 }
 

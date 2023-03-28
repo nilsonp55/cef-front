@@ -20,22 +20,22 @@ export class ManejoFechaToken {
 
     public static validacionFechasToken(fechaLocal: any, fechaToken: any) {
         if (fechaLocal == fechaToken || fechaLocal > fechaToken) {
-            console.log("Su session a terminado")
+            //console.log("Su session a terminado")
             window.location.href = '/final-session'
         }else {
-            console.log("La session sigue activa")
+            //console.log("La session sigue activa")
         }
-        
+
     }
 
-    static advertenciaTiempo(fechaActual: any, fechaExpToken: any){debugger
+    static advertenciaTiempo(fechaActual: any, fechaExpToken: any){
         var fechaAdvertencia = fechaExpToken - 300
         if(fechaActual > fechaAdvertencia && fechaActual < fechaExpToken && !this.flagVencimiento){
             alert("Su sesión va a terminar en menos de 5 minutos")
             this.flagVencimiento = true
         }else {
-            console.log("La session sigue como si nada")
+            //console.log("La session sigue como si nada")
         }
-        
+
       }
 }
