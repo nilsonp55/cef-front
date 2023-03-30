@@ -39,7 +39,7 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any}
   ) { }
 
-  ngOnInit(): void {debugger
+  ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken()
     this.titulo = this.data.titulo
     this.dataSourceInfoProcesos = new MatTableDataSource(this.data.respuesta);

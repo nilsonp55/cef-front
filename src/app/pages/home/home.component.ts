@@ -25,11 +25,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.capturaToken();
   }
-  
+
   capturaToken() {
     this.respuestaUrl = window.location.hash;
-    console.log("Proceso timepo")
-    console.log(this.respuestaUrl)
+    //console.log("Proceso timepo")
+    //console.log(this.respuestaUrl)
     if (this.respuestaUrl.length > 0) {
       const _respuesta = this.respuestaUrl.split(/[=,&]/)
       this.tokenOficial = _respuesta[3]
@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
     }
     this.auditoriaService.guardarAuditoria(auditoriaLoginDTO).toPromise();
 
-    console.log(decodificado)
+    //console.log(decodificado)
     sessionStorage.setItem('token', btoa(tokenOficial))
     sessionStorage.setItem('user', btoa(_userName))
     sessionStorage.setItem('time_token_exp', this.tokenExpira)

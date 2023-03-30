@@ -64,11 +64,11 @@ async cargarDatosDesplegables() {
   this.fechaSistemaSelect = _fecha.data[0].valor;
 }
 
-intervalGeneralContabilidad() {debugger
+intervalGeneralContabilidad() {
   this.spinnerActive = true;
   this.generarLiquidacionCostos();
   let identificadorIntervaloDeTiempo;
-  setInterval(() => { 
+  setInterval(() => {
     this.validacionEstadoProceso();
   }, 3000);
 }
@@ -150,7 +150,7 @@ consultarCostos() {
    //Se construye tabla de info
    const tabla = [
      { nombre: "Cantidad operaciones liquidadas", cantidad: this.dataLiquidacionCosots.cantidadOperacionesLiquidadas, estado: true },
-     { nombre: "Registros con error", cantidad: this.dataLiquidacionCosots.registrosConError, estado: true }, 
+     { nombre: "Registros con error", cantidad: this.dataLiquidacionCosots.registrosConError, estado: true },
    ];
    //Se realizan validaciones
    this.tieneErrores = false;//conteoContabilidadDto.conteoContabilidadDto.conteoErroresContables > 0 ? true : false;
@@ -168,7 +168,7 @@ consultarCostos() {
    });
 }
 /**
- * Metodo encargado de ejecutar la vista de la tabla de transacciones 
+ * Metodo encargado de ejecutar la vista de la tabla de transacciones
  * contables
  * @BaironPerez
  */
@@ -183,14 +183,14 @@ verValoresLiquidados() {
 }
 
 /**
-* Metodo encargado de ejecutar la vista de la tabla de transacciones 
+* Metodo encargado de ejecutar la vista de la tabla de transacciones
 * contables
 * @BaironPerez
 */
 verErrores() {
   this.erroresCostosService.erroresCostos({
     'idSeqGrupo':this.dataLiquidacionCosots.respuestaLiquidarCostos[0].seqGrupo,
-  }).subscribe((data: any) => {    
+  }).subscribe((data: any) => {
     this.spinnerActive = false;
     const respuesta = this.dialog.open(ErroresCostosComponent, {
       width: '100%',

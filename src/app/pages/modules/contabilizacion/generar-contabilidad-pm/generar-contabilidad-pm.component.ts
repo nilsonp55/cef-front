@@ -101,11 +101,11 @@ export class GenerarContabilidadPmComponent implements OnInit {
 
 
   /**
-   * Metodo encargado de ejecutar la vista de la tabla de transacciones 
+   * Metodo encargado de ejecutar la vista de la tabla de transacciones
    * contables
    * @BaironPerez
    */
-  verTransactContables() {debugger
+  verTransactContables() {
     const respuesta = this.dialog.open(ResultadoContabilidadComponent, {//generar
       width: '100%',
       height: '90%',
@@ -119,7 +119,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
   }
 
   /**
-  * Metodo encargado de ejecutar la vista de la tabla de transacciones 
+  * Metodo encargado de ejecutar la vista de la tabla de transacciones
   * contables
   * @BaironPerez
   */

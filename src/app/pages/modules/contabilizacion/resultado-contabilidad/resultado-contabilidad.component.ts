@@ -44,7 +44,7 @@ export class ResultadoContabilidadComponent implements OnInit {
   dataSourceInfoProcesos: MatTableDataSource<any>;
   displayedColumnsInfoProcesos: string[] = [
       'abreviaturaBancoAval','naturalezaContable', 'cuentaMayor',
-      'subAuxiliar', 'tipoIdentificacion', 'tipoCambioMonedaDolar', 'tipoCambioMonedaPeso', 
+      'subAuxiliar', 'tipoIdentificacion', 'tipoCambioMonedaDolar', 'tipoCambioMonedaPeso',
       'valorMoneda', 'valorPesos', 'valorUsd', 'centroCosto', 'centroBeneficio', 'ordenCo',
       'areaFuncional', 'descripcion', 'terceroGL', 'nombreTerceroGL',
       'fechaConversion', 'claveReferencia1', 'claveReferencia2'];
@@ -59,7 +59,7 @@ export class ResultadoContabilidadComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any, tipoContabilidad: any, flag: any}
   ) { }
 
-  async ngOnInit(): Promise<void> {debugger
+  async ngOnInit(): Promise<void> {
     ManejoFechaToken.manejoFechaToken()
     this.titulo = this.data.titulo
     this.bandera = this.data.flag
@@ -80,7 +80,7 @@ export class ResultadoContabilidadComponent implements OnInit {
   /**
   * Se realiza consumo de servicio para listr los resultados de contabilidad
   * @BaironPerez
-  
+
   listarProcesos(pagina = 0, tamanio = 5) {
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
@@ -109,7 +109,7 @@ export class ResultadoContabilidadComponent implements OnInit {
   verArchivoExcel() {
     this.spinnerActive = true;
     this.generarContabilidadService.generarArchivoContabilidad({
-       'fecha': this.fechaSistemaSelect, 
+       'fecha': this.fechaSistemaSelect,
        'tipoContabilidad': this.data.tipoContabilidad,
        'codBanco': this.codigoBanco
        }).subscribe(data => {
@@ -122,7 +122,7 @@ export class ResultadoContabilidadComponent implements OnInit {
           data: {
             msn: 'Error al generar el archivo',
             codigo: GENERALES.CODE_EMERGENT.ERROR
-          } 
+          }
         }); setTimeout(() => { alert.close() }, 3000);
       });
   }
@@ -141,7 +141,7 @@ export class ResultadoContabilidadComponent implements OnInit {
 
   cerrarProceso(){//LLEGA AQUI
     this.cierreContabilidadService.cierreContabilidadAutorizacion({
-      'fecha': this.fechaSistemaSelect, 
+      'fecha': this.fechaSistemaSelect,
       'tipoContabilidad': this.tipo,
       'estado':'autorizacion1'
     }).subscribe(data => {
@@ -163,7 +163,7 @@ export class ResultadoContabilidadComponent implements OnInit {
         }
       }); setTimeout(() => { alert.close() }, 3000);
     });
-    
+
 
   }
 
