@@ -53,7 +53,7 @@ npm install
 Para lanzar la aplicacion angular en ambiente local se debe usar la configuracion definida en el *environment* ```dev``` para esto se debe ejecutar el siguiente comando:
 
 ```shell 
-ng server --configuration pruebastecnicas
+ng serve --configuration pruebastecnicas
 ```
 
 ---
