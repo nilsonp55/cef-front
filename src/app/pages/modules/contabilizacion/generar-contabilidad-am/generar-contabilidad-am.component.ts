@@ -61,9 +61,9 @@ export class GenerarContabilidadAmComponent implements OnInit {
     this.spinnerActive = true;
     this.generarContabilidad();
     let identificadorIntervaloDeTiempo;
-    setInterval(() => {
+    /*setInterval(() => {
       this.validacionEstadoProceso();
-    }, 10000);
+    }, 10000);*/
   }
 
   /**
@@ -125,7 +125,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
       //Se realizan validaciones
       this.tieneErrores = conteoContabilidadDto.conteoErroresContables > 0 ? false : true;
       this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
-    })/**,
+    },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -133,8 +133,9 @@ export class GenerarContabilidadAmComponent implements OnInit {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });*/
+        }); setTimeout(() => { alert.close() }, 10000);
+        this.spinnerActive = false;
+      });
   }
 
 

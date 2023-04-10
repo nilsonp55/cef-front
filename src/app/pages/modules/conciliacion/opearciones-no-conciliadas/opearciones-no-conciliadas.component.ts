@@ -54,11 +54,11 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['nombreFondoTDV','fechaOrigen', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
+  displayedColumnsOperacionesProgramadas: string[] = ['nombrePuntoOrigen','nombrePuntoDestino', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
   
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'nombreFondoTDV', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion','nombrePuntoOrigen','nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   constructor(
@@ -130,6 +130,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       size: tamanio,
       estadoConciliacion: 'NO_CONCILIADA',
     }).subscribe((page: any) => {
+      debugger;
       this.dataSourceOperacionesProgramadasComplet=page.data.content;
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
