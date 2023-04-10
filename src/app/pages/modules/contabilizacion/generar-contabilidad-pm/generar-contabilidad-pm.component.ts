@@ -95,7 +95,8 @@ export class GenerarContabilidadPmComponent implements OnInit {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); setTimeout(() => { alert.close() }, 10000);
+        this.spinnerActive = false;
       });
   }
 

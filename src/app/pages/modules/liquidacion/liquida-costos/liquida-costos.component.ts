@@ -68,15 +68,16 @@ intervalGeneralContabilidad() {
   this.spinnerActive = true;
   this.generarLiquidacionCostos();
   let identificadorIntervaloDeTiempo;
-  setInterval(() => {
-    this.validacionEstadoProceso();
-  }, 3000);
+  /*var idInterval = setInterval(() => {
+    if(this.validacionEstadoProceso())
+      clearInterval(idInterval);
+  }, 3000);*/
 }
 
 /**
  * Metodo encargado de validar el estado de un proceso en particular
  */
-validacionEstadoProceso() {
+validacionEstadoProceso():any {
   var fechaFormat1 = this.fechaSistemaSelect.split("/");
   let fec = fechaFormat1[2] + "-" + fechaFormat1[1] + "-" + 28
   var fecha = Date.parse(fec);
@@ -90,12 +91,14 @@ validacionEstadoProceso() {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
-          msn: "Se generó la contabilidad AM exitosamente",
+          msn: "Se generó la liquidacion exitosamente",
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
         }
       }); setTimeout(() => { alert.close() }, 3000);
+      return true;
     }
     if(data.estado == "ERROR"){
+      debugger;
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
@@ -103,6 +106,7 @@ validacionEstadoProceso() {
           codigo: GENERALES.CODE_EMERGENT.ERROR
         }
       }); setTimeout(() => { alert.close() }, 3000);
+      return true;
     }
     if(data.estado == "PENDIENTE"){
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -112,7 +116,9 @@ validacionEstadoProceso() {
           codigo: GENERALES.CODE_EMERGENT.ERROR
         }
       }); setTimeout(() => { alert.close() }, 3000);
+      return false;
     }
+    return false;
   });
 }
 
