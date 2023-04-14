@@ -30,6 +30,7 @@ cantidadRegistros: number;
 spinnerActive: boolean = false;
 estadoTabla: boolean;
 estadoBTN: boolean;
+idInterval: any;
 //DataSource para pintar tabla de los procesos a ejecutar
 dataSourceInfoProcesos: MatTableDataSource<any>;
 displayedColumnsInfoProcesos: string[] = ['subactividad', 'cantidad', 'estado'];
@@ -67,58 +68,59 @@ async cargarDatosDesplegables() {
 intervalGeneralContabilidad() {
   this.spinnerActive = true;
   this.generarLiquidacionCostos();
-  let identificadorIntervaloDeTiempo;
-  /*var idInterval = setInterval(() => {
-    if(this.validacionEstadoProceso())
-      clearInterval(idInterval);
-  }, 3000);*/
+  this.idInterval = setInterval(() => {
+    this.validacionEstadoProceso()      
+  }, 3000);
 }
 
 /**
  * Metodo encargado de validar el estado de un proceso en particular
  */
-validacionEstadoProceso():any {
-  var fechaFormat1 = this.fechaSistemaSelect.split("/");
-  let fec = fechaFormat1[2] + "-" + fechaFormat1[1] + "-" + 28
-  var fecha = Date.parse(fec);
-  var fecha2 = new Date(fecha);
+validacionEstadoProceso() {
+  
   this.validacionEstadoProcesosService.validarEstadoProceso({
     'codigoProceso': "LIQUIDACION",
-    "fechaSistema": fecha2
-  }).subscribe((data: any) => {
-    if(data.estado == "PROCESADO"){
-      this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: "Se generó la liquidacion exitosamente",
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      return true;
-    }
-    if(data.estado == "ERROR"){
-      debugger;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: data.mensaje,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      return true;
-    }
-    if(data.estado == "PENDIENTE"){
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
+    "fechaSistema": this.fechaSistemaSelect
+  }).subscribe({
+    next: (data: any) => {
+      var dataAlert = {
+        msn: "Se generó la liquidacion exitosamente",
+        codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+      };
+      if(data.estado == "PROCESADO"){
+        this.spinnerActive = false;
+        clearInterval(this.idInterval);
+      }
+      if(data.estado == "PENDIENTE"){
+        dataAlert = {
           msn: "Error al generar el cierre definitivo",
           codigo: GENERALES.CODE_EMERGENT.ERROR
+        };
+      }
+      if(data.estado == "ERROR"){
+        dataAlert = {
+          msn: data.mensaje,
+          codigo: GENERALES.CODE_EMERGENT.ERROR
+        };
+        this.spinnerActive = false;
+        clearInterval(this.idInterval);
+      }
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: dataAlert
+      }); setTimeout(() => { alert.close() }, 5000);
+    },
+    error: (data: any) => {
+      this.spinnerActive = false;
+      clearInterval(this.idInterval);
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: data.error.response.description,
+          codigo: GENERALES.CODE_EMERGENT.ERROR
         }
-      }); setTimeout(() => { alert.close() }, 3000);
-      return false;
+      }); setTimeout(() => { alert.close() }, 5000);
     }
-    return false;
   });
 }
 
@@ -130,12 +132,12 @@ generarLiquidacionCostos() {
   const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
     width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
     data: {
-      msn: "El proceso se esta ejecutando porfavor espere por lo menos 2 minutos y seguido esto click en consultar costos",
+      msn: "El proceso se esta ejecutando por favor espere por lo menos 2 minutos y seguido esto click en consultar costos",
       codigo: GENERALES.CODE_EMERGENT.ESPERAR
     }
-   }); setTimeout(() => { alert.close() }, 30000);
-  this.liquidarCostosService.liquidarCosots().subscribe((data: any) => {
-
+   }); setTimeout(() => { alert.close() }, 5000);
+  this.liquidarCostosService.liquidarCostos().subscribe((data: any) => {
+    console.log("data: "+data);
   },
     (err: any) => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
