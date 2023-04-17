@@ -89,7 +89,7 @@ async cargarDatosDesplegables() {
     this.ejecutar(idArchivo);
     let identificadorIntervaloDeTiempo;
     setInterval(() => { 
-      this.validacionEstadoProceso();
+      //this.validacionEstadoProceso();
     }, 10000);
   }
 
