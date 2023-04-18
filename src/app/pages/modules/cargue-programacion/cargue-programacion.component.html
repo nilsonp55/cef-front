@@ -1,0 +1,24 @@
+<div class="menu-container">
+    <!--Banner superior-->
+    <app-banner-supeior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-supeior>
+    <!--Componente barra lateral y area de ejecución-->
+    <mat-sidenav-container class="sidenav-container">
+        <!--Barra izquierda de opciones (Apodo id = sidenav)-->
+        <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 17%" mode="side">   
+            <mat-divider></mat-divider>
+            <div *ngFor="let item of menusCargueProgramacion">
+                <button mat-menu-item [routerLink]="[item.url]" style="cursor: pointer"
+                    routerLinkActive="seleccion-activa">
+                    <span class="material-icons">{{item.icono}}</span>
+                    <span>{{item.nombre}}</span>
+                </button>
+                <mat-divider></mat-divider>
+            </div>      
+        </mat-sidenav>
+
+        <!--Barra derecha de ejecución-->
+        <mat-sidenav-content class="background-page">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

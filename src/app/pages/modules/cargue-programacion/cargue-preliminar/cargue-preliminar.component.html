@@ -1,0 +1,14 @@
+<mat-stepper [linear]="isLinear" #stepper>
+    <mat-step>
+        <ng-template matStepLabel>CARGUE PRELIMINAR</ng-template>
+        <app-archivos-cargados></app-archivos-cargados>
+    </mat-step>
+    <!--mat-step>
+        <ng-template matStepLabel>CARGUE MANUAL</ng-template>
+        <app-cargue-inicial [tipoCargue]="tipoCargue"></app-cargue-inicial>
+    </mat-step-->
+    <mat-step>
+        <ng-template matStepLabel>HISTORIAL DE CARGUE</ng-template>
+        <app-historico-archivos-cargados></app-historico-archivos-cargados>
+    </mat-step>
+</mat-stepper>

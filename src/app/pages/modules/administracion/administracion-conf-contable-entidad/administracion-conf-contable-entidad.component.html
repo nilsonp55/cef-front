@@ -1,0 +1,193 @@
+<mat-card class="card-limites">
+    <br><br>
+    <mat-card-title>Configuración contable entidad</mat-card-title>
+    <div>
+        <div class="division-btn">
+            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+                (click)="crearConfEntity()">Crear Cuenta Contable</button>
+        </div>
+    </div>
+    <div style="width: 70%" class="ubicacionTablas">
+        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
+            (ngSubmit)="persistir()">
+            <div style="padding-left: 10%;">
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Bancos</mat-label>
+                    <mat-select formControlName="bancoAval">
+                        <mat-option *ngFor="let item of bancos" [value]="item">
+                            {{item.nombreBanco}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipo transacciones</mat-label>
+                    <mat-select formControlName="tipoTransaccion">
+                        <mat-option *ngFor="let item of tipoTransaccion" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipo operaciones</mat-label>
+                    <mat-select formControlName="tipoOperacion">
+                        <mat-option *ngFor="let item of tipoOperaciones" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Codigo comisión</mat-label>
+                    <mat-select formControlName="codigoComision">
+                        <mat-option *ngFor="let item of codigosComiciones" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipo impuestos</mat-label>
+                    <mat-select formControlName="tipoImpuesto">
+                        <mat-option *ngFor="let item of tiposImpuestos" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Medio de pago</mat-label>
+                    <mat-select formControlName="medioPago">
+                        <mat-option *ngFor="let item of mediosPago" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Banco externo</mat-label>
+                    <mat-select formControlName="bancoExterno">
+                        <mat-option *ngFor="let item of bancosExternos" [value]="item">
+                            {{item.nombreBanco}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Transportadoras</mat-label>
+                    <mat-select formControlName="transportadora">
+                        <mat-option *ngFor="let item of transportadoras" [value]="item">
+                            {{item.nombreTransportadora}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Número de cuenta" required formControlName="numeroCuenta">
+                </mat-form-field>
+
+                <section class="example-section">
+                    <label class="example-margin">Naturaleza: </label>
+                    <mat-radio-group formControlName="naturaleza" [(ngModel)]="selectNaturaleza">
+                      <mat-radio-button class="example-margin" value="credito">Credito</mat-radio-button>
+                      <mat-radio-button class="example-margin" value="debito">Debito</mat-radio-button>
+                    </mat-radio-group>
+                  </section>
+
+            </div>
+            
+
+            <div  class="tamanio-btn">
+                <button mat-raised-button color="primary" type="submit" [disabled]="frmPaciente.invalid">
+                    Aceptar
+                </button>
+                </div>
+        </form>
+    </div>
+    <div style="width: 60%; margin-top: 3%" class="ubicacionTablas">
+        <div *ngIf="mostrarTabla" >
+            <div class="filtro">
+                <mat-form-field appearance="fill">
+                    <mat-label>Filtro Bancos</mat-label>
+                    <mat-select [(ngModel)]="filtroBancoSelect">
+                        <mat-option *ngFor="let item of bancos" [value]="item">
+                            {{item.nombreBanco}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button title="Visualizar" mat-button (click)="filtrar($event)">
+                    <mat-icon style="color: green">search</mat-icon>
+                </button>
+                <button title="Limpiar" mat-button (click)="limpiar()">
+                    <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
+                </button>
+            </div>
+            <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll">
+                <tr>
+                    <ng-container matColumnDef="banco" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
+                        <td mat-cell *matCellDef="let element"> {{element.bancoAval.nombreBanco}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="tipoTr" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>T Trans</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipoTransaccion}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="dc" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>D/C</th>
+                        <td mat-cell *matCellDef="let element"> {{element.naturaleza}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="tOpera" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>T Opera</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="cuenta" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta</th>
+                        <td mat-cell *matCellDef="let element"> {{element.cuentaContable}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-button (click)="editar(element)">
+                                <mat-icon style="color: green">edit</mat-icon>
+                            </button>    
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
+            </table>
+        </div>
+    </div>
+</mat-card>

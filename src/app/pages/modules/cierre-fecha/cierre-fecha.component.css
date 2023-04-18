@@ -1,0 +1,15 @@
+.contenedor{
+    background: rgb(255, 255, 255);
+    padding: 2%;
+    padding-left: 13%;
+    padding-right: 13%;
+}
+.centrado{
+    background: url(/assets/img/login.jpg); 
+    padding: 4%; 
+    margin-top: 3%;
+    padding-left: 40%;
+}
+.demo-inline-calendar-card {
+    width: 300px;
+  }

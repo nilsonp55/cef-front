@@ -1,0 +1,41 @@
+/*
+* ESTILOS PARA LA TABLA DE HISORICO DE CARGUE ARCHIVOS STEPER #3
+*/
+.tituloTabla {
+    padding-top: 2%;
+    text-align: center;
+    padding: 2%;
+}
+
+.fecha{
+    padding: 4%; 
+    margin: 1%;
+    margin-top: 0%;
+    padding-left: 6%;
+    font-size: 39px;
+    color: rgb(26, 24, 66);
+}
+
+.botton1 {
+    color: #fff;
+    background-color: #eee23e;
+    border-color: #bbb231;
+    display:block; 
+    margin:auto;
+    padding:1%;
+    border-radius: 0.25rem;
+    line-height: 0.7;
+    font-size: 20px;
+}
+
+.botton2 {
+    color: #fff;
+    background-color: #da5b34;
+    border-color: #b44a2a;
+    display:block; 
+    margin:auto;
+    padding:1%;
+    border-radius: 0.25rem;
+    line-height: 0.7;
+    font-size: 20px;
+}

@@ -1,0 +1,116 @@
+<div class="divTablaBancos">
+    <!--Sprinner-->
+    <app-spinner *ngIf="spinnerActive"></app-spinner>
+    <!--AvVillas-->
+    <div class="divTituloTablas">
+        <h1 class="tituloTabla">Banco AV-Villas</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <table *ngIf="spinnerActive == false" mat-table [dataSource]="dataSourceInfoAvVillas" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadEstimada">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CANTIDAD ESTIMADA</th>
+            <td mat-cell *matCellDef="let element"> {{element.cantidadEstimada}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadCapturada">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD CAPTURADA</th>//
+            <td mat-cell *matCellDef="let element">
+                <input type="number" step="0.01" pattern="^[0-9]+" [ngModel]="element.cantidadCapturada" placeholder="$"  placeholder="$" (ngModelChange)="changeCaptura(element, $event)" (keypress)="onKeypressEvent($event)">
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+    </table>
+
+    <!--Occidente-->
+    <div class="divTituloTablas">
+        <h1 class="tituloTabla">Banco de Occidente</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <table *ngIf="spinnerActive == false" mat-table [dataSource]="dataSourceInfoOccidente" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadEstimada">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CANTIDAD ESTIMADA</th>
+            <td mat-cell *matCellDef="let element"> {{element.cantidadEstimada}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadCapturada">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD CAPTURADA</th>
+            <td mat-cell *matCellDef="let element">
+                <input type="number" [ngModel]="element.cantidadCapturada" placeholder="$"  placeholder="$" (ngModelChange)="changeCaptura(element, $event)">
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+    </table>
+
+    <!--Popular-->
+    <div class="divTituloTablas">
+        <h1 class="tituloTabla">Banco de Popular</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <table *ngIf="spinnerActive == false" mat-table [dataSource]="dataSourceInfoPopular" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadEstimada">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CANTIDAD ESTIMADA</th>
+            <td mat-cell *matCellDef="let element"> {{element.cantidadEstimada}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadCapturada">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD CAPTURADA</th>
+            <td mat-cell *matCellDef="let element">
+                <input type="number" [ngModel]="element.cantidadCapturada" placeholder="$"  placeholder="$" (ngModelChange)="changeCaptura(element, $event)">
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+    </table>
+
+    <!--Bogota-->
+    <div class="divTituloTablas">
+        <h1 class="tituloTabla">Banco de Bogotá</h1>
+        <span class="line-spacer"></span>
+    </div>
+    <table *ngIf="spinnerActive == false" mat-table [dataSource]="dataSourceInfoBogota" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadEstimada">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CANTIDAD ESTIMADA</th>
+            <td mat-cell *matCellDef="let element"> {{element.cantidadEstimada}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadCapturada">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD CAPTURADA</th>
+            <td mat-cell *matCellDef="let element">
+                <input type="number" [ngModel]="element.cantidadCapturada" placeholder="$"  placeholder="$" (ngModelChange)="changeCaptura(element, $event)">
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+    </table>
+
+    <div style="text-align: center; margin-top: 0%; margin-top: 1%">
+        <button style="display:inline; margin: 2%;" class="botton1" (click)="liquidar()">Liquidar</button>
+        <button style="display:inline; margin: 2%;" class="botton2" (click)="cancelar()">Cancelar</button>
+    </div>
+</div>

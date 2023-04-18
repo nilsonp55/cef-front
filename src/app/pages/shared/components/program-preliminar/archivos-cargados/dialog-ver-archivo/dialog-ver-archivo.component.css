@@ -1,0 +1,11 @@
+.scrollDiv {
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+
+.configScroll {
+    height: 90%;
+    overflow-y: scroll !important;
+    overscroll-behavior-y: contain !important;
+    scroll-snap-type: proximity;
+}

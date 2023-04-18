@@ -1,0 +1,26 @@
+<div class="menu-container">
+    <!--Banner superior-->
+    <app-banner-supeior></app-banner-supeior>
+
+    <!--Componente barra lateral y area de ejecución-->
+    <mat-sidenav-container class="sidenav-container">
+        <!--Barra izquierda de opciones (Apodo id = sidenav)-->
+        <mat-sidenav #sidenav opened="true" style="width: 17%" mode="side">
+            <!--opciones de menu-->
+            <mat-divider></mat-divider>
+            <div *ngFor="let item of menusContabilidad">
+                <button mat-menu-item [routerLink]="[item.url]" style="cursor: pointer"
+                    routerLinkActive="seleccion-activa">
+                    <span class="material-icons">{{item.icono}}</span>
+                    <span>{{item.nombre}}</span>
+                </button>
+                <mat-divider></mat-divider>
+            </div>      
+        </mat-sidenav>
+
+        <!--Barra derecha de ejecución-->
+        <mat-sidenav-content class="background-page">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

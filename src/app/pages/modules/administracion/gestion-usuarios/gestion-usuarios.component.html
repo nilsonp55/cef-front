@@ -1,0 +1,97 @@
+<mat-card class="card-limites">
+    <mat-card-title>Gestión de Usuarios</mat-card-title>
+    <div>
+        <div class="division-btn">
+            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+                (click)="crearUsuario()">Crear Usuario</button>
+        </div>
+    </div>
+
+    <div style="width: 30%; margin-top: 3%" class="ubicacionTablas">
+        <div class="div-tabla-dominio">
+            <table mat-table [dataSource]="dataSourceUsuarios" matSort class="configScroll">
+                <tr>
+                    <ng-container matColumnDef="idUsuario" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID USUARIO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.idUsuario}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="rol" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ROL</th>
+                        <td mat-cell *matCellDef="let element"> {{element.rol.idRol}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="estado" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-button *ngIf="element.estado == '2'">
+                                <mat-icon style="color: rgb(170, 41, 18)">block</mat-icon>
+                            </button>
+                            <button mat-button *ngIf="element.estado == '1'">
+                                <mat-icon style="color: green">check_circle_outline</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-button (click)="editar(element)">
+                                <mat-icon style="color: green">edit</mat-icon>
+                            </button>    
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsUsuarios"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsUsuarios;"></tr>
+            </table>
+        </div>
+    </div>
+    <div style="width: 70%" class="ubicacionTablas">
+        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
+            (ngSubmit)="persistir()">
+            <div style="padding-left: 10%;">
+                <mat-form-field class="example-full-width">
+                    <input type="email" matInput placeholder="Id Usuario" formControlName="idUsuario">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Nombres" onkeydown="return /[a-z ]/i.test(event.key)" required formControlName="nombres">
+                </mat-form-field>
+            </div>
+            
+            <div style="padding-left: 10%;">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Apellidos" onkeydown="return /[a-z ]/i.test(event.key)" required formControlName="apellidos">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Tipo Usuario" onkeydown="return /[a-z ]/i.test(event.key)" required formControlName="tipoUsario">
+                </mat-form-field>
+            </div>
+            <div style="padding-left: 10%;">
+                <mat-form-field appearance="fill">
+                    <mat-label>Rol</mat-label>
+                    <mat-select formControlName="rol">
+                        <mat-option *ngFor="let item of roles" [value]="item">
+                            {{item.idRol}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div class="division-estado">
+                    <label class="switch" >
+                        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                    <p>ESTADO</p>
+                </div>
+            </div>
+            <div  class="tamanio-btn">
+            <button mat-raised-button color="primary" type="submit" [disabled]="frmPaciente.invalid">
+                Aceptar
+            </button>
+            </div>
+        </form>
+    </div>
+</mat-card>

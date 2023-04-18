@@ -1,0 +1,70 @@
+<mat-card class="card-limites">
+    <br><br>
+    <mat-card-title>Gestión de Tipo Cuentas</mat-card-title>
+    <div>
+        <div class="division-btn">
+            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+                (click)="crearTiposCuentas()">Crear Tipo Cuenta</button>
+        </div>
+    </div>
+
+    <div style="width: 30%; margin-top: 3%" class="ubicacionTablas">
+        <div class="div-tabla-dominio">
+            <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll">
+                <tr>
+                    <ng-container matColumnDef="name" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipos Cuentas</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipoCuenta}} </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-button (click)="editar(element)">
+                                <mat-icon style="color: green">edit</mat-icon>
+                            </button>    
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
+            </table>
+        </div>
+    </div>
+    <div style="width: 70%" class="ubicacionTablas">
+        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
+            (ngSubmit)="persistir()">
+            <div style="padding-left: 10%;">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Tipo Cuenta" minlength="3" required formControlName="tipoCuenta">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Cuenta Auxiliar" required formControlName="cuentaAuxiliar">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Tipo Id" required formControlName="tipoId">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Identificador" required formControlName="identificador">
+                </mat-form-field>
+            </div>
+            <div style="padding-left: 10%;">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Descripción" required formControlName="descripcion">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Referencia1" required formControlName="referencia1">
+                </mat-form-field>
+            </div>
+            <button style="background-color: #C1DEAE" class="buttonsSaveOremove" mat-raised-button type="submit" [disabled]="frmPaciente.invalid">
+                <mat-icon>done</mat-icon>
+                <span>Aceptar</span>
+            </button>
+        </form>
+    </div>
+</mat-card>

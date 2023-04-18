@@ -1,0 +1,81 @@
+<div class="titulo-tabla">
+    <h1>Crear nuevo identificador para el dominio</h1>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Identificador</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Descripción</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Contenido Texto</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Númerico</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Fecha</h2>
+    </div>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <input matInput #input>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="div-division">
+    <div class="ubica">
+        <h2>Estado</h2>
+    </div>
+    <div>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+            [(ngModel)]="estado">
+            <mat-radio-button class="example-radio-button" *ngFor="let season of tipoEstado" [value]="season">
+                {{season}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+</div>
+
+<div class="division-btn-ident">
+    <div>
+        <button mat-raised-button color="primary">Guardar</button>
+    </div>
+    <div>
+        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+    </div>
+</div>
