@@ -1,0 +1,16 @@
+<!--Banner superior-->
+<app-banner-supeior></app-banner-supeior>
+<div class="contenedor">
+    <p style="text-align: center; font-size: 30px">Cierre de Fecha</p>
+    <div class="centrado">
+        <div>
+            <mat-card class="demo-inline-calendar-card">
+                <mat-calendar [(selected)]="selected"></mat-calendar>
+                <div style="margin-top: 2%;">
+                    <button style="text-align: center; margin: 2%;" (click)="cierreFecha()">Aceptar</button>
+                </div>
+            </mat-card>
+            <p>Selected date: {{selected}}</p>
+        </div>
+    </div>
+</div>

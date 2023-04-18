@@ -1,0 +1,28 @@
+<div style="margin-top: 3%; padding-left: 1% ;border: 1px solid rgb(196, 196, 196)">
+    <!--Ventana emergente de validación de archivo-->
+    <h1 *ngIf="tipoContabilidad == 'AM'" style="text-align: center; margin-top: 2%;">Generar Contabilidad AM</h1>
+    <h1 *ngIf="tipoContabilidad == 'PM'"style="text-align: center; margin-top: 2%;">Generar Contabilidad PM</h1>
+    <div style="text-align: center; margin-top: 0%;">
+        <img src="assets/img/waring.jpg" width="60">
+
+        <div class="example-full-width">
+            <mat-form-field>
+                <input matInput [(ngModel)]="fechaSistemaSelect" placeholder="Fecha del sistema" disabled required>
+            </mat-form-field>
+    
+            <!--mat-form-field appearance="fill">
+                <mat-label>Bancos Aval</mat-label>
+                <mat-select [(ngModel)]="bancoSelect">
+                    <mat-option *ngFor="let item of bancos" [value]="item">
+                        {{item.nombreBanco}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field-->
+        </div>
+
+        <div style="margin-top: 3%;">
+            <button style="display:inline; margin: 2%;" class="bottonAceptarCenter" (click)="confirm()" cdkFocusInitial>Aceptar</button>
+            <button style="display:inline; margin: 2%;" class="bottonCancelarCenter" (click)="cancel()">Cancelar</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="divTablaProg">
+    <div class="divTituloTablas">
+        <h1 class="tituloTabla">Información detalle punto</h1>
+        <span class="line-spacer"></span>
+    </div>
+        <div class="configScroll">
+            <table mat-table  [dataSource]="dataSourceInfoDetallesPunto" matSort>
+                <tr>
+                    <ng-container matColumnDef="bancos" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Bancos</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.bancos.length > 0 && element.bancos[0].abreviatura">{{element.bancos[0].abreviatura}}</div>
+                            <div *ngIf="element.bancos.length == 0">N/A</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cajeroATM" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cajero ATM</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.cajeroATM.length > 0 && element.cajeroATM[0].codigoATM">{{element.cajeroATM[0].codigoATM}}</div>
+                            <div *ngIf="element.cajeroATM.length == 0">N/A</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="codigoCiudad" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO CIUDAD</th>
+                        <td mat-cell *matCellDef="let element"> {{element.codigoCiudad}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="codigoPunto" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO PUNTO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.codigoPunto}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fondos" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fondos</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.fondos.length > 0 && element.fondos[0].tdv">{{element.fondos[0].tdv}}</div>
+                            <div *ngIf="element.fondos.length == 0">N/A</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombrePunto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre punto</th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombrePunto}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="oficinas" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Oficinas</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.oficinas.length > 0 &&  element.oficinas[0].codigoOficina">{{element.oficinas[0].codigoOficina}}</div>
+                            <div *ngIf="element.oficinas.length == 0">N/A</div>
+                        </td>
+                    </ng-container>
+     
+                    <ng-container matColumnDef="puntosCodigoTDV" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Puntos codigo TDV</th>
+                        <td mat-cell *matCellDef="let element">
+                             {{element.puntosCodigoTDV}}
+                            <div *ngIf="element.puntosCodigoTDV > 0">No llega data</div>
+                            <div *ngIf="element.puntosCodigoTDV.length == 0">N/A</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="sitiosClientes" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sitios clientes</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.sitiosClientes.length > 0 && element.sitiosClientes[0].codigoPunto; else elseBlock">{{element.sitiosClientes[0].codigoPunto}}</div>
+                            <ng-template #elseBlock>N/A</ng-template>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="tipoPunto" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo punto</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipoPunto}} </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoDetallesPunto"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoDetallesPunto;"></tr>
+            </table>            
+        </div>
+</div>
