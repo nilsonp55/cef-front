@@ -25,6 +25,7 @@ export class CierreCertificacionComponent implements OnInit {
 
   //Variable para activar spinner
   spinnerActive: boolean = false;
+  idInterval: any;
 
   //Rgistros paginados
   cantidadRegistros: number;
@@ -87,9 +88,8 @@ async cargarDatosDesplegables() {
   intervacierreCertificacion(idArchivo: any) {
     this.spinnerActive = true;
     this.ejecutar(idArchivo);
-    let identificadorIntervaloDeTiempo;
-    setInterval(() => { 
-      //this.validacionEstadoProceso();
+    this.idInterval = setInterval(() => { 
+      this.validacionEstadoProceso();
     }, 10000);
   }
 
@@ -97,38 +97,47 @@ async cargarDatosDesplegables() {
    * Metodo encargado de validar el estado de un proceso en particular
    */
   validacionEstadoProceso() {
-    var fechaFormat1 = this.fechaSistemaSelect.split("/");
-    let fec = fechaFormat1[2] + "-" + fechaFormat1[1] + "-" + fechaFormat1[0]
-    var fecha = Date.parse(fec);
-    var fecha2 = new Date(fecha);
     this.validacionEstadoProcesosService.validarEstadoProceso({
       'codigoProceso': "CARG_CERTIFICACION",
-      "fechaSistema": fecha2
-    }).subscribe((data: any) => {
-      if(data.estado == "PROCESADO"){
-        this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: "Se generó la contabilidad AM exitosamente",
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      }
-      if(data.estado == "ERROR"){
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: data.mensaje,
+      "fechaSistema": this.fechaSistemaSelect
+    }).subscribe({
+      next: (data: any) => {
+        var dataAlert = {
+          msn: "Se generó cierre certificacion exitosamente",
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        };
+        if(data.estado == "PROCESADO"){
+          this.spinnerActive = false;
+          clearInterval(this.idInterval);
+        }
+        if(data.estado == "PENDIENTE"){
+          dataAlert = {
+            msn: "Error al generar el cierre certificacion",
             codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      }
-      if(data.estado == "PENDIENTE"){
+          };
+        }
+        if(data.estado == "ERROR"){
+          dataAlert = {
+            msn: "Error al generar el cierre certificacion",
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          };
+        }
+        if(data.estado == "PENDIENTE"){
+          dataAlert = {
+            msn: "Error al generar el cierre certificacion",
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          };
+          this.spinnerActive = false;
+          clearInterval(this.idInterval);
+        }
+      },
+      error: (data: any) => {
+        this.spinnerActive = false;
+        clearInterval(this.idInterval);
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: "Error al generar el cierre definitivo",
+            msn: "Error al generar el cierre certificacion",
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
