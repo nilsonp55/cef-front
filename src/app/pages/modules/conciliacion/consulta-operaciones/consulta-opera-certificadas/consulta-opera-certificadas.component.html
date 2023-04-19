@@ -13,6 +13,11 @@
                     <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="codigoPropioTDV" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO PROPIO TDV</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigoPropioTDV}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="nombrePuntoOrigen" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE P ORIGEN</th>
                     <td mat-cell *matCellDef="let element"> {{element.nombrePuntoOrigen}} </td>
