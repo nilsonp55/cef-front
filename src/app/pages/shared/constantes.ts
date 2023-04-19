@@ -219,7 +219,7 @@ export const URLs = {
   CONCILIACION_CONSULTA: '/consultar-conciliadas',
   OP_PROGRAMADAS_SIN_CONCILIAR: '/programadas-no-conciliadas',
   OP_CERTIFICADAS_SIN_CONCILIAR: '/certificadas-no-conciliadas',
-  OP_RESUMEN: '/consultar/resumen',
+  OP_RESUMEN: '/consultar-resumen',
   CONCILIACION_MANUAL: '/conciliacion-manual',
   CONCILIACION_RESUMEN: '/conciliacion/conciliacionmanual',
   DESCONCILIAR: 'desconciliaciones',
