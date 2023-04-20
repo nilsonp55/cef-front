@@ -27,4 +27,5 @@ export class ConciliacionesCertificadaNoConciliadasModel {
     fechaModificacion: string;
     bancoAVAL: string;
     tdv: string;
+    codigoPropioTDV: string;
 }
