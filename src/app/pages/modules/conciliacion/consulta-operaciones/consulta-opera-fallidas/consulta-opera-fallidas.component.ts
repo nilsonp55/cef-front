@@ -42,7 +42,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'estadoConciliacion', 'valorTotal', 'acciones'];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'tipoOperacion', 'estadoConciliacion', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'codigoPropioTDV', 'tipoOperacion', 'estadoConciliacion', 'valorTotal', 'acciones'];
 
 
   constructor(
