@@ -54,7 +54,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['nombrePuntoOrigen','nombrePuntoDestino', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
+  displayedColumnsOperacionesProgramadas: string[] = ['idOperacion', 'nombrePuntoOrigen','nombrePuntoDestino', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
   
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
@@ -130,7 +130,6 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       size: tamanio,
       estadoConciliacion: 'NO_CONCILIADA',
     }).subscribe((page: any) => {
-      debugger;
       this.dataSourceOperacionesProgramadasComplet=page.data.content;
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
