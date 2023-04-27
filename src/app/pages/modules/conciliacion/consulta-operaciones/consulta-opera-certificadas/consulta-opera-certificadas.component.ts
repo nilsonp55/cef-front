@@ -41,7 +41,7 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['nombreFondoTDV', 'nombrePuntoOrigen', 'codigoPropioTDV', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fallidaOficina'];
+  displayedColumnsOperacionesCertificadas: string[] = ['codigoFondoTDV', 'bancoAVAL', 'tdv', 'nombreFondoTDV', 'codigoPropioTDV', 'tipoOperacion', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fechaEjecucion', 'entradaSalida', 'estadoConciliacion', 'fallidaOficina'];
 
   constructor(
     private dialog: MatDialog,
