@@ -108,16 +108,13 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
    */
   conciliacionManual() {
     this.reset()
-    const valorConciliacion =  this.dialog.open(DialogConciliacionManualComponent, {
+    this.dialog.open(DialogConciliacionManualComponent, {
       width: 'auto',
       data: {
         origen: this.dataSourceOperacionesProgramadas.data,
         destino: this.dataSourceOperacionesCertificadas.data
       }
-    })
-    valorConciliacion.afterClosed().subscribe(result => {
-    //  opeProgramada.relacion = null; 
-    })
+    });
   }
 
   /**
