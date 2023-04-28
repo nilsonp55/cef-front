@@ -6,11 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
-import { ErrorService } from 'src/app/_model/error.model';
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
-import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ErroresContabilidadComponent } from '../errores-contabilidad/errores-contabilidad.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
 
@@ -73,7 +70,8 @@ export class GenerarContabilidadPmComponent implements OnInit {
   */
   generarContabilidad() {
     this.spinnerActive = true;
-    this.generarContabilidadService.generarContabilidad({ tipoContabilidad: "PM" }).subscribe((data: any) => {
+    this.generarContabilidadService.generarContabilidad({ tipoContabilidad: "PM" }).subscribe({
+      next: (data: any) => {
       this.dataGenerateContabilidad = data.data;
       let conteoContabilidadDto = data.data.conteoContabilidadDTO;
       //Se construye tabla de info
@@ -88,7 +86,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
       this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
       this.spinnerActive = false;
     },
-      (err: any) => {
+    error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -97,7 +95,8 @@ export class GenerarContabilidadPmComponent implements OnInit {
           }
         }); setTimeout(() => { alert.close() }, 10000);
         this.spinnerActive = false;
-      });
+      }
+    });
   }
 
 
