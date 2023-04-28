@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { ErrorService } from 'src/app/_model/error.model';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -48,7 +47,7 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
   dataConcilicionesComplete: ConciliacionesProgramadasNoConciliadasModel[]
-  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV', 'tipoOperacion', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaProgramacion', 'fechaOrigen', 'fechaDestino', 'tdv', 'valorTotal', 'estadoOperacion', 'bancoAVAL', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
+  displayedColumnsOperacionesProgramadas: string[] = ['codigoFondoTDV', 'bancoAVAL', 'tdv', 'nombreFondoTDV', 'tipoOperacion', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'valorTotal', 'fechaProgramacion', 'fechaOrigen', 'fechaDestino', 'tipoServicio'];
 
 
   constructor(
@@ -79,14 +78,16 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
       estadoConciliacion: 'NO_CONCILIADA',
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.load = true;
-      this.dataConcilicionesComplete = page.data.content;
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.load = true;
+        this.dataConcilicionesComplete = page.data.content;
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -95,7 +96,8 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   listarOpProgramadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
@@ -106,14 +108,16 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
       tipoPuntoOrigen: puntoOrigen,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.load = true;
-      this.dataConcilicionesComplete = page.data.content;
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.load = true;
+        this.dataConcilicionesComplete = page.data.content;
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -122,7 +126,8 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   filter(event) {

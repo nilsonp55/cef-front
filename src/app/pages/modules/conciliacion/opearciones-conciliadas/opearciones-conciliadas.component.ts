@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ErrorService } from 'src/app/_model/error.model';
 import { MatDialog } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
@@ -49,22 +48,25 @@ export class OpearcionesConciliadasComponent implements OnInit {
       this.opConciliadasService.obtenerConciliados({
         page: pagina,
         size: tamanio,
-      }).subscribe((page: any) => { 
-      this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
-      this.dataSourceConciliadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      
-    },
-    (err: any) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: err.error.response.description,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
+      }).subscribe({
+        next: (page: any) => { 
+          this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
+          this.dataSourceConciliadas.sort = this.sort;
+          this.cantidadRegistros = page.data.totalElements;
+          
+        },
+        error: (err: any) => {
+          this.dataSourceConciliadas = new MatTableDataSource();
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: err.error.response.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          });
+          setTimeout(() => { alert.close()}, 3000);      
         }
       });
-      setTimeout(() => { alert.close()}, 3000);      
-    });
   }
 
   /**

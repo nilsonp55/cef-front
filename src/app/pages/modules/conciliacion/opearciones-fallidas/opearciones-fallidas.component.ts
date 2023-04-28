@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
@@ -168,15 +168,16 @@ export class OpearcionesFallidasComponent implements OnInit {
   * @JuanMazo
   */
   listarTransportadoras() {
-    this.generalesService.listarTransportadoras().subscribe(data => {
-      this.tranportadoraOptions = data.data
-      this.filteredOptionsTranportadora = this.transportadoraForm.valueChanges.pipe(
-        startWith(''),
-        map(value => (typeof value === 'string' ? value : value.name)),
-        map(name => (name ? this._filter(name) : this.tranportadoraOptions.slice())),
-      );
-    },
-      (err: any) => {
+    this.generalesService.listarTransportadoras().subscribe({
+      next: data => {
+        this.tranportadoraOptions = data.data
+        this.filteredOptionsTranportadora = this.transportadoraForm.valueChanges.pipe(
+          startWith(''),
+          map(value => (typeof value === 'string' ? value : value.name)),
+          map(name => (name ? this._filter(name) : this.tranportadoraOptions.slice())),
+        );
+      },
+      error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -184,7 +185,8 @@ export class OpearcionesFallidasComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   seleccion(filteredOptionsBancos: any) {
@@ -195,15 +197,16 @@ export class OpearcionesFallidasComponent implements OnInit {
   * @JuanMazo
   */
   listarBancos() {
-    this.generalesService.listarBancos().subscribe(data => {
-      this.bancoOptions = data.data
-      this.filteredOptionsBancos = this.bancosForm.valueChanges.pipe(
-        startWith(''),
-        map(value => (typeof value === 'string' ? value : value.name)),
-        map(name => (name ? this.filtroBanco(name) : this.bancoOptions.slice())),
-      );
-    },
-      (err: any) => {
+    this.generalesService.listarBancos().subscribe({
+      next: data => {
+        this.bancoOptions = data.data
+        this.filteredOptionsBancos = this.bancosForm.valueChanges.pipe(
+          startWith(''),
+          map(value => (typeof value === 'string' ? value : value.name)),
+          map(name => (name ? this.filtroBanco(name) : this.bancoOptions.slice())),
+        );
+      },
+      error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -212,7 +215,8 @@ export class OpearcionesFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   /**
@@ -224,13 +228,15 @@ export class OpearcionesFallidasComponent implements OnInit {
       'estadoConciliacion': "NO_CONCILIADA",
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesProgramadasComplet=page.data.content;
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistrosOpProgramadasFallidas = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesProgramadasComplet=page.data.content;
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistrosOpProgramadasFallidas = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -239,7 +245,8 @@ export class OpearcionesFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   /**
@@ -260,13 +267,15 @@ export class OpearcionesFallidasComponent implements OnInit {
       conciliable: 'SI',
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesCertificadasComplet=page.data.content;
-      this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistrosOpCertificadasFallidas = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesCertificadasComplet=page.data.content;
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosOpCertificadasFallidas = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -275,7 +284,8 @@ export class OpearcionesFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   /**
@@ -303,13 +313,15 @@ export class OpearcionesFallidasComponent implements OnInit {
       tipoPuntoOrigen:puntoOrigen,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesProgramadasComplet=page.data.content;
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistrosProgram = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesProgramadasComplet=page.data.content;
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistrosProgram = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -318,7 +330,8 @@ export class OpearcionesFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
@@ -330,13 +343,15 @@ export class OpearcionesFallidasComponent implements OnInit {
       tipoPuntoOrigen:puntoOrigen,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesCertificadasComplet=page.data.content;
-      this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistrosCerti = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesCertificadasComplet=page.data.content;
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosCerti = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -345,7 +360,8 @@ export class OpearcionesFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   filter(event) {

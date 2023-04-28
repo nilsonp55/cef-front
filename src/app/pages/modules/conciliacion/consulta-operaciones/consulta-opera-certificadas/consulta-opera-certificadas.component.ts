@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { ErrorService } from 'src/app/_model/error.model';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -41,7 +40,7 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['nombreFondoTDV', 'nombrePuntoOrigen', 'codigoPropioTDV', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fallidaOficina'];
+  displayedColumnsOperacionesCertificadas: string[] = ['codigoFondoTDV', 'bancoAVAL', 'tdv', 'nombreFondoTDV', 'codigoPropioTDV', 'tipoOperacion', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fechaEjecucion', 'entradaSalida', 'estadoConciliacion', 'fallidaOficina'];
 
   constructor(
     private dialog: MatDialog,
@@ -79,13 +78,15 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
     'conciliable':'SI',
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesCertificadasComplet=page.data.content;
-      this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesCertificadasComplet=page.data.content;
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -93,7 +94,8 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
@@ -105,13 +107,15 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
       tipoPuntoOrigen:puntoOrigen,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesCertificadasComplet=page.data.content;
-      this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesCertificadasComplet=page.data.content;
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -120,7 +124,8 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   filter(event) {

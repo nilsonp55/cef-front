@@ -76,17 +76,26 @@ export class DialogConciliacionManualComponent implements OnInit {
   conciliacionManual() {
     var idOperacion = this.dataSourceInfoOpProgramadas.data[0].idOperacion
     var idCertificacion = this.dataSourceInfoOpProgramadas.data[1].idCertificacion
-    this.opConciliadasService.conciliacionManual(idOperacion, idCertificacion).subscribe((page: any) => {
-    },
-    (err: ErrorService) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_CONCILIATION,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      });
-      setTimeout(() => { alert.close() }, 3000);
+    this.opConciliadasService.conciliacionManual(idOperacion, idCertificacion).subscribe({
+      next: (data: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.SUCCESFULL_CONCILIATION,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        });
+        
+      },
+      error: (data: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_CONCILIATION + " code: " + data.error.response.code + " description: " + data.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+      }
     });
   }
 

@@ -8,7 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-program-no-conciliadas.model';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
-import { GeneralesService } from 'src/app/_service/generales.service';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
 import { DialogInfoCertificadasNoConciliadasComponent } from '../../opearciones-no-conciliadas/dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
 import * as moment from 'moment';
@@ -39,10 +38,10 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'tipoOperacion', 'estadoConciliacion', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesProgramadas: string[] = ['fechaOrigen', 'nombreFondoTDV', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'codigoPropioTDV', 'tipoOperacion', 'estadoConciliacion', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'codigoPropioTDV', 'nombreFondoTDV', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
 
 
   constructor(
@@ -137,14 +136,16 @@ export class ConsultaOperaFallidasComponent implements OnInit {
       conciliable: 'SI',
       page: pagina,
       size: tamanio
-    }).subscribe((page: any) => {
-      page.fechaEjecucion = moment(page.data.content).format('DD/MM/YYYY')
-      this.dataSourceOperacionesCertificadasComplet = page.data.content;
-      this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistrosCerti = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        page.fechaEjecucion = moment(page.data.content).format('DD/MM/YYYY')
+        this.dataSourceOperacionesCertificadasComplet = page.data.content;
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosCerti = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -153,7 +154,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   /**
@@ -172,13 +174,15 @@ export class ConsultaOperaFallidasComponent implements OnInit {
       tipoPuntoOrigen: puntoOrigen,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesProgramadasComplet = page.data.content;
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistrosProgram = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesProgramadasComplet = page.data.content;
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistrosProgram = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -187,7 +191,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
@@ -199,13 +204,15 @@ export class ConsultaOperaFallidasComponent implements OnInit {
       tipoPuntoOrigen: puntoOrigen,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesCertificadasComplet = page.data.content;
-      this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistrosCerti = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesCertificadasComplet = page.data.content;
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosCerti = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -214,7 +221,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   filter(event) {
