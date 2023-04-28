@@ -8,12 +8,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FormControl } from '@angular/forms';
 import { TransportadoraModel } from 'src/app/_model/transportadora.model';
-import { map, Observable, startWith } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BancoModel } from 'src/app/_model/banco.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-program-no-conciliadas.model';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
-import { ErrorService } from 'src/app/_model/error.model';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
 import { DialogConciliacionManualComponent } from './dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 import { DialogInfoCertificadasNoConciliadasComponent } from './dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
@@ -126,13 +125,16 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       page: pagina,
       size: tamanio,
       estadoConciliacion: 'NO_CONCILIADA',
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesProgramadasComplet=page.data.content;
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistrosOpProgramadasSinConciliar = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesProgramadasComplet=page.data.content;
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistrosOpProgramadasSinConciliar = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -140,7 +142,8 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   /**
@@ -161,13 +164,15 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       conciliable:'SI',
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesCertificadasComplet=page.data.content;
-      this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistrosOpCertificadasSinConciliar = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesCertificadasComplet=page.data.content;
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosOpCertificadasSinConciliar = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -176,7 +181,8 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   /**
@@ -210,13 +216,15 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       tipoPuntoOrigen:puntoOrigen,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesProgramadasComplet=page.data.content;
-      this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesProgramadas.sort = this.sort;
-      this.cantidadRegistrosOpProgramadasSinConciliar = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesProgramadasComplet=page.data.content;
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.cantidadRegistrosOpProgramadasSinConciliar = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -225,7 +233,8 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
@@ -237,13 +246,15 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
       tipoPuntoOrigen:puntoOrigen,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceOperacionesCertificadasComplet=page.data.content;
-      this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-      this.dataSourceOperacionesCertificadas.sort = this.sort;
-      this.cantidadRegistrosOpCertificadasSinConciliar = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceOperacionesCertificadasComplet=page.data.content;
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
+        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.cantidadRegistrosOpCertificadasSinConciliar = page.data.totalElements;
+      },
+      error: (err: any) => {
+        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -252,7 +263,8 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   eventoEnter(event: any, opeProgramada: any) {
