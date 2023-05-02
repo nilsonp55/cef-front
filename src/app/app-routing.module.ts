@@ -52,7 +52,7 @@ import { AdministracionFestivosNacionalesComponent } from './pages/modules/admin
 import { LiquidacionCharterGuard } from './wards/liquidacion-charter.guard';
 import { LiquidacionCostosGuard } from './wards/liquidacion-costos.guard';
 import { LiquidacionTarifasOperacionGuard } from './wards/liquidacion-tarifas-operacion.guard';
-import { LiquidacionCodigoTdvGuard } from './wards/liquidacion-codigo-tdv.guard';
+import { AdministracionCodigoTdvGuard } from './wards/administracion-codigo-tdv.guard';
 import { LiquidacionLiquidacionMensualGuard } from './wards/liquidacion-liquida-mensual.guard';
 import { LiquidacionDetalleLiquidacionGuard } from './wards/liquidacion-detalle-liquidacion.guard';
 import { LiquidacionDenominacionCantidadGuard } from './wards/liquidacion-denominacion-cant.guard';
@@ -128,7 +128,6 @@ const routes: Routes = [
       { path: 'liquidar-costos', component: LiquidaCostosComponent, canActivate: [LiquidacionCostosGuard] },
       { path: 'tarifas-operacion', component: TarifasOperacionComponent, canActivate: [LiquidacionTarifasOperacionGuard] },
       { path: 'escala', component: EscalasComponent, canActivate: [LiquidacionCostosGuard] },
-      { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [LiquidacionCodigoTdvGuard] },
       { path: 'liquidacion-mensual', component: LiquidacionMensualComponent, canActivate: [LiquidacionLiquidacionMensualGuard] },
       { path: 'guardar-detalle-liquidacion/:fechaSistema/:codTransportadora', component: DetalleGuardarLiquidacionComponent },
       { path: 'tdv-denominacion-cantidad', component: TdvDenominacionCantidadComponent, canActivate: [LiquidacionDenominacionCantidadGuard] },
@@ -154,6 +153,7 @@ const routes: Routes = [
       { path: 'administracion-festivos-nacionales', component: AdministracionFestivosNacionalesComponent, canActivate: [AdministracionFestivosNacionalesGuard] },
       { path: 'administracion-generar-llaves', component: GenerarLlaveArchivosComponent},
       { path: 'administracion-tasas-cambio', component: AdministracionTasasCambioComponent},
+      { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [AdministracionCodigoTdvGuard] },
     ]
   }
   
