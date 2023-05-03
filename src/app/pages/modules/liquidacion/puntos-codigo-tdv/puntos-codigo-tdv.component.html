@@ -92,6 +92,21 @@
                     <input matInput placeholder="Id Punto Codigo" formControlName="idPuntoCodigo">
                 </mat-form-field>
 
+                
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipo Punto</mat-label>
+                    <mat-select [(value)]="selectedTipoPunto" >
+                        <mat-option>Ninguno</mat-option>
+                        <mat-option value="BAN_REP">BAN_REP</mat-option>
+                        <mat-option value="CAJERO">CAJERO</mat-option>
+                        <mat-option value="BANCO">BANCO</mat-option>
+                        <mat-option value="OFICINA">OFICINA</mat-option>
+                        <mat-option value="FONDO">FONDO</mat-option>
+                        <mat-option value="CLIENTE">CLIENTE</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
                 <mat-form-field appearance="fill">
                     <mat-label>Punto</mat-label>
                     <mat-select required formControlName="punto" (selectionChange)="changePunto($event)">

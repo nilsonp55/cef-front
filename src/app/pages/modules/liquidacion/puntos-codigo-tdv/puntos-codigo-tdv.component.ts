@@ -5,7 +5,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { EscalasService } from 'src/app/_service/liquidacion-service/escalas.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { PuntosCodigoService } from 'src/app/_service/liquidacion-service/puntos-codigo.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -34,6 +33,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
   filtroBancoSelect: any;
   filtroTransportaSelect: any;
   filtroCodigoPropio: any;
+  selectedTipoPunto = "";
+  ciudades: any[] = [];
 
   //Rgistros paginados
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -110,13 +111,14 @@ export class PuntosCodigoTdvComponent implements OnInit {
       'codigoTDV': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
       'codigoPropioTDV': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio
 
-    }).subscribe((page: any) => {
-      this.dataSourceCodigoPuntoTdv = new MatTableDataSource(page.data.content);
-      this.dataSourceCodigoPuntoTdv.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      this.habilitarBTN = true;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceCodigoPuntoTdv = new MatTableDataSource(page.data.content);
+        this.dataSourceCodigoPuntoTdv.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+        this.habilitarBTN = true;
+      },
+      error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -124,7 +126,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
   /**
@@ -149,18 +152,19 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
     if(this.esEdicion) {
       puntoCpdigo.idPuntoCodigoTdv = this.idPuntoCodigo;
-      this.puntosCodigoService.actualizarPuntosCodigoTDV(puntoCpdigo).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 4000);
-        this.listarPuntosCodigo();
-        this.initForm();
-      },
-        (err: any) => {
+      this.puntosCodigoService.actualizarPuntosCodigoTDV(puntoCpdigo).subscribe({
+        next: response => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            }
+          }); setTimeout(() => { alert.close() }, 4000);
+          this.listarPuntosCodigo();
+          this.initForm();
+        },
+        error: (err: any) => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -168,21 +172,23 @@ export class PuntosCodigoTdvComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           }); setTimeout(() => { alert.close() }, 3000);
-        });
+        }
+      });
     }
     else {
-      this.puntosCodigoService.guardarPuntosCodigoTDV(puntoCpdigo).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 4000);
-        this.listarPuntosCodigo();
-        this.initForm();
-      },
-        (err: any) => {
+      this.puntosCodigoService.guardarPuntosCodigoTDV(puntoCpdigo).subscribe({
+        next: response => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            }
+          }); setTimeout(() => { alert.close() }, 4000);
+          this.listarPuntosCodigo();
+          this.initForm();
+        },
+        error: (err: any) => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -190,7 +196,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           }); setTimeout(() => { alert.close() }, 3000);
-        });
+        }
+      });
     }
 
   }
@@ -214,20 +221,40 @@ export class PuntosCodigoTdvComponent implements OnInit {
     this.initForm(element)
     this.mostrarFormulario = true;
     this.idPuntoCodigo = this.form.value['idPuntoCodigo'];
+    this.form.get('idPuntoCodigo').disable();
     this.esEdicion = true;
     this.mostrarTabla = false;
   }
 
   async iniciarDesplegables() {
-
+    debugger;
     const _bancos = await this.generalesService.listarBancosAval().toPromise();
     this.bancos = _bancos.data;
 
-    const _puntos = await this.gestionPuntosService.listarPuntosCreados().toPromise();
-    this.puntos = _puntos.data.content;
-
     const _transportadoras = await this.generalesService.listarTransportadoras().toPromise();
     this.transportadoras = _transportadoras.data;
+
+    const _puntos = await this.gestionPuntosService.listarPuntosCreados().toPromise();
+    this.puntos = _puntos.data.content;
+    
+    this.generalesService.listarCiudades().subscribe({
+      next: (response: any) => {
+        this.ciudades = response.data;
+      },
+      error: (err: any) => {}
+    });
+
+  }
+
+  async listPuntos(event) {
+
+    this.gestionPuntosService.listarPuntosCreados().subscribe({
+      next: data => {},
+      error: err => {}
+    });
+  }
+
+  async changeCiudad(event) {
 
   }
 
