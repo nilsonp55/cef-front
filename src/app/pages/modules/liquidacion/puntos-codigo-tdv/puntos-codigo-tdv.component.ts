@@ -10,6 +10,7 @@ import { PuntosCodigoService } from 'src/app/_service/liquidacion-service/puntos
 import { MatPaginator } from '@angular/material/paginator';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-puntos-codigo-tdv',
@@ -35,6 +36,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   filtroCodigoPropio: any;
   selectedTipoPunto = "";
   ciudades: any[] = [];
+  ciudadSelected: any = "";
 
   //Rgistros paginados
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -63,40 +65,27 @@ export class PuntosCodigoTdvComponent implements OnInit {
   initForm(param?: any) {
     this.form = new FormGroup({
       'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
-      'punto': new FormControl(param ? this.selectPunto(param) : null),
+      'punto': new FormControl(param ? this.selectPunto(param.puntosDTO.codigoPunto) : null),
       'codigoPunto': new FormControl(param ? param.codigoPunto : null),
-      'codigoTdv': new FormControl(param ? this.selectTransportadora(param) : null),
+      'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
       'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
-      'banco': new FormControl(param ? this.selectBanco(param) : null),
+      'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null),
       'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
+      'codigoDANE': new FormControl(param? this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad) : null),
     });
   }
 
-  selectBanco(param: any): any {
-    for(let i= 0; i < this.bancos.length; i++) {
-      const element = this.bancos[i];
-      if(element.codigoPunto == param.bancosDTO.codigoPunto) {
-        return element;
+  selectPunto(codigoPunto: any): any {
+    this.gestionPuntosService.consultarPuntoCreadoById(codigoPunto).pipe().subscribe({
+      next: (response) => {
+        console.log("success selectPunto: "+response.data.nombrePunto);
+        this.puntos[0] = response.data;
+        return response.data.nombrePunto;
+      },
+      error: (err) => {
+        console.log("selectPunto: " + err);
       }
-    }
-  }
-
-  selectPunto(param: any): any {
-    for(let i= 0; i < this.puntos.length; i++) {
-      const element = this.puntos[i];
-      if(element.codigoPunto == param.puntosDTO.codigoPunto) {
-        return element;
-      }
-    }
-  }
-
-  selectTransportadora(param: any): any {
-    for(let i= 0; i < this.transportadoras.length; i++) {
-      const element = this.transportadoras[i];
-      if(element.codigo == param.codigoTDV) {
-        return element;
-      }
-    }
+    });
   }
 
   /**
@@ -227,34 +216,33 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async iniciarDesplegables() {
-    debugger;
-    const _bancos = await this.generalesService.listarBancosAval().toPromise();
-    this.bancos = _bancos.data;
 
-    const _transportadoras = await this.generalesService.listarTransportadoras().toPromise();
-    this.transportadoras = _transportadoras.data;
-
-    const _puntos = await this.gestionPuntosService.listarPuntosCreados().toPromise();
-    this.puntos = _puntos.data.content;
-    
-    this.generalesService.listarCiudades().subscribe({
-      next: (response: any) => {
-        this.ciudades = response.data;
-      },
-      error: (err: any) => {}
+    await lastValueFrom(this.generalesService.listarCiudades()).then((response) => {
+      this.ciudades = response.data;
     });
-
+    await lastValueFrom(this.generalesService.listarBancosAval()).then((response) => {
+      this.bancos = response.data;
+    });    
+    await lastValueFrom(this.generalesService.listarTransportadoras()).then((response) => {
+      this.transportadoras = response.data;
+    });
+    
   }
 
-  async listPuntos(event) {
-
-    this.gestionPuntosService.listarPuntosCreados().subscribe({
-      next: data => {},
+  async filtrarPuntos(event: any) {
+    debugger;
+    let params = {codigoCiudad: event.value ? this.ciudadSelected.codigoDANE : '', 
+      tipoPunto: this.selectedTipoPunto};
+    this.gestionPuntosService.listarPuntosCreados(params).subscribe({
+      next: response => {
+        this.puntos = response.data.content;
+      },
       error: err => {}
     });
+    alert("event: "+event);
   }
 
-  async changeCiudad(event) {
+  async changeCiudad(event: any) {
 
   }
 
