@@ -35,8 +35,8 @@ export class GestionPuntosService {
     * Servicio para listar los puntos
     */
      consultarPuntoCreadoById(idPunto: any): Observable<any> {
-        const formData: FormData = new FormData();
-        return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}/${idPunto}`);
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
+        return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}/${idPunto}`, {headers});
     }
 
     /** 

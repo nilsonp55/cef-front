@@ -88,8 +88,32 @@
         <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
             (ngSubmit)="persistir()">
             <div style="padding-left: 10%;">
-                <mat-form-field class="example-full-width">
+                <mat-form-field >
                     <input matInput placeholder="Id Punto Codigo" formControlName="idPuntoCodigo">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Ciudad</mat-label>
+                    <mat-select formControlName="codigoDANE" (selectionChange)="filtrarPuntos($event)" 
+                        [(value)]="ciudadSelected">
+                        <mat-option value="">Ninguno</mat-option>
+                        <mat-option *ngFor="let item of ciudades" [value]="item">
+                            {{item.nombreCiudad}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field >
+                    <mat-label>Tipo Punto</mat-label>
+                    <mat-select [(value)]="selectedTipoPunto" (selectionChange)="filtrarPuntos($event)">
+                        <mat-option value="">Ninguno</mat-option>
+                        <mat-option value="BAN_REP">BAN_REP</mat-option>
+                        <mat-option value="CAJERO">CAJERO</mat-option>
+                        <mat-option value="BANCO">BANCO</mat-option>
+                        <mat-option value="OFICINA">OFICINA</mat-option>
+                        <mat-option value="FONDO">FONDO</mat-option>
+                        <mat-option value="CLIENTE">CLIENTE</mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -101,8 +125,13 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <input type="number" matInput placeholder="Codigo Punto" formControlName="codigoPunto" readonly>
+                <mat-form-field >
+                    <mat-label>Banco</mat-label>
+                    <mat-select required formControlName="banco">
+                        <mat-option *ngFor="let item of bancos" [value]="item">
+                            {{item.nombreBanco}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -114,18 +143,14 @@
                     </mat-select>
                 </mat-form-field>
 
+                <mat-form-field appearance="fill">
+                    <input type="number" matInput placeholder="Codigo Punto" formControlName="codigoPunto" readonly>
+                </mat-form-field>
+
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Codigo Propio TDV" formControlName="codigoPropioTDV" required>
                 </mat-form-field>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Banco</mat-label>
-                    <mat-select required formControlName="banco">
-                        <mat-option *ngFor="let item of bancos" [value]="item">
-                            {{item.nombreBanco}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
                 <div class="division-estado">
                     <label class="switch" >
                         <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
