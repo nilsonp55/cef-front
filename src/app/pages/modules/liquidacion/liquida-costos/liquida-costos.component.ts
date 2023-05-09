@@ -82,24 +82,25 @@ validacionEstadoProceso() {
     'codigoProceso': "LIQUIDACION",
     "fechaSistema": this.fechaSistemaSelect
   }).subscribe({
-    next: (data: any) => {
+    next: (response: any) => {
+      debugger;
       var dataAlert = {
         msn: "Se generó la liquidacion exitosamente",
         codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
       };
-      if(data.estado == "PROCESADO"){
+      if(response.data.estadoProceso == "PROCESADO"){
         this.spinnerActive = false;
         clearInterval(this.idInterval);
       }
-      if(data.estado == "PENDIENTE"){
+      if(response.data.estadoProceso == "PENDIENTE"){
         dataAlert = {
           msn: "Error al generar el cierre definitivo",
           codigo: GENERALES.CODE_EMERGENT.ERROR
         };
       }
-      if(data.estado == "ERROR"){
+      if(response.data.estadoProceso == "ERROR"){
         dataAlert = {
-          msn: data.mensaje,
+          msn: response.data.mensaje,
           codigo: GENERALES.CODE_EMERGENT.ERROR
         };
         this.spinnerActive = false;
