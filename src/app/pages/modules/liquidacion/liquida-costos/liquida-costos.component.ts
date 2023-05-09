@@ -83,7 +83,6 @@ validacionEstadoProceso() {
     "fechaSistema": this.fechaSistemaSelect
   }).subscribe({
     next: (response: any) => {
-      debugger;
       var dataAlert = {
         msn: "Se generó la liquidacion exitosamente",
         codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
