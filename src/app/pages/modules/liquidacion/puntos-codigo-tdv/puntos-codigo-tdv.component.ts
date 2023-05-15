@@ -78,7 +78,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
   selectPunto(codigoPunto: any): any {
     this.gestionPuntosService.consultarPuntoCreadoById(codigoPunto).pipe().subscribe({
       next: (response) => {
-        console.log("success selectPunto: "+response.data.nombrePunto);
         this.puntos[0] = response.data;
         return response.data.nombrePunto;
       },
