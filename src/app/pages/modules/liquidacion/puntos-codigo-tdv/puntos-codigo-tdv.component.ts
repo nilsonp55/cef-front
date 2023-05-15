@@ -98,7 +98,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       size: tamanio,
       'bancos.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
       'codigoTDV': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
-      'codigoPropioTDV': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio
+      'busqueda': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio
 
     }).subscribe({
       next: (page: any) => {
@@ -230,20 +230,25 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async filtrarPuntos(event: any) {
-    debugger;
-    let params = {codigoCiudad: event.value ? this.ciudadSelected.codigoDANE : '', 
-      tipoPunto: this.selectedTipoPunto};
+    let params = {
+      codigoCiudad: event.value ? this.ciudadSelected.codigoDANE : '', 
+      tipoPunto: this.selectedTipoPunto
+    };
     this.gestionPuntosService.listarPuntosCreados(params).subscribe({
       next: response => {
         this.puntos = response.data.content;
       },
-      error: err => {}
+      error: err => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); 
+        setTimeout(() => { alert.close() }, 3000);
+      }
     });
-    alert("event: "+event);
-  }
-
-  async changeCiudad(event: any) {
-
   }
 
   /**
