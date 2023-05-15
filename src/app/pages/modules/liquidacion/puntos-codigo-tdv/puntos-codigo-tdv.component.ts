@@ -98,7 +98,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       size: tamanio,
       'bancos.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
       'codigoTDV': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
-      'codigoPropioTDV': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio
+      'busqueda': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio
 
     }).subscribe({
       next: (page: any) => {
