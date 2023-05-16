@@ -6,8 +6,7 @@ import { AuditoriaService } from 'src/app/_service/auditoria-login.service';
 
 @Component({
   selector: 'app-init-app',
-  templateUrl: './init-app.component.html',
-  styleUrls: ['./init-app.component.css']
+  templateUrl: './init-app.component.html'
 })
 export class InitAppComponent implements OnInit {
 

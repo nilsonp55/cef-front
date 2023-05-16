@@ -4,8 +4,7 @@ import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-cargue-certificacion',
-  templateUrl: './cargue-certificacion.component.html',
-  styleUrls: ['./cargue-certificacion.component.css']
+  templateUrl: './cargue-certificacion.component.html'
 })
 export class CargueCertificacionComponent implements OnInit {
 

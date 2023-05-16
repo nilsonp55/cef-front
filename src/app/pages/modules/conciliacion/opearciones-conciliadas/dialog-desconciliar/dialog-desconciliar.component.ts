@@ -15,8 +15,7 @@ import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/cons
  */
 @Component({
   selector: 'app-dialog-desconciliar',
-  templateUrl: './dialog-desconciliar.component.html',
-  styleUrls: ['./dialog-desconciliar.component.css']
+  templateUrl: './dialog-desconciliar.component.html'
 })
 
 /**

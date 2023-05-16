@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-cargue-definitivo-certificacion',
-  templateUrl: './cargue-definitivo-certificacion.component.html',
-  styleUrls: ['./cargue-definitivo-certificacion.component.css']
+  templateUrl: './cargue-definitivo-certificacion.component.html'
 })
 
 /**
