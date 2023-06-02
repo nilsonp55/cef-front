@@ -13,6 +13,11 @@
                         <td mat-cell *matCellDef="let element"> {{element.idOperacion}} </td>
                     </ng-container>
 
+                    <ng-container matColumnDef="tipoServicio" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO SERVICIO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipoServicio}} </td>
+                    </ng-container>
+
                     <ng-container matColumnDef="nombrePuntoOrigen" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE PUNTO ORIGEN</th>
                         <td mat-cell *matCellDef="let element"> {{element.nombrePuntoOrigen}} </td>

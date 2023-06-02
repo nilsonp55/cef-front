@@ -53,7 +53,7 @@ export class OpearcionesNoConciliadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['idOperacion', 'nombrePuntoOrigen','nombrePuntoDestino', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
+  displayedColumnsOperacionesProgramadas: string[] = ['idOperacion', 'tipoServicio', 'nombrePuntoOrigen','nombrePuntoDestino', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
   
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
