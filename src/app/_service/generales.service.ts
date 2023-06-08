@@ -55,6 +55,11 @@ export class GeneralesService {
         const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`,{headers});
     }
+    
+    listarCiudadesByParams(param?: any): Observable<any> {
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
+        return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`,{headers, params:param});
+    }
 
     /** 
     * Servicio para listar los bancos del grupo aval
