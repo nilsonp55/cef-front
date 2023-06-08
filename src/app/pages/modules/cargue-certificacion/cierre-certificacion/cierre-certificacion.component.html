@@ -36,7 +36,7 @@
                 <button title="Reabrir" *ngIf="element.codigoProceso == 'CARG_CERTIFICACION'" mat-button (click)="reabrirCargue(element.nombreArchivo, element.idModeloArchivo)">
                     <mat-icon style="color: orange">lock_open</mat-icon>
                 </button>
-                <button title="Actualizar estado" *ngIf="element.estadoProceso == 'PENDIENTE'" mat-button (click)="validacionEstadoProceso()">
+                <button title="Actualizar estado" *ngIf="element.codigoProceso == 'CARG_CERTIFICACION' && element.estadoProceso == 'PENDIENTE'" mat-button (click)="validacionEstadoProceso(element.codigoProceso)">
                     <mat-icon style="color: greenyellow">sync</mat-icon>
                 </button>
             </td>
