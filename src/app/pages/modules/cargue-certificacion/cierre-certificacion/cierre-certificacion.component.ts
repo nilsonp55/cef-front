@@ -89,58 +89,44 @@ async cargarDatosDesplegables() {
     this.spinnerActive = true;
     this.ejecutar(idArchivo);
     this.idInterval = setInterval(() => { 
-      this.validacionEstadoProceso();
+      this.validacionEstadoProceso("CARG_CERTIFICACION");
     }, 10000);
   }
 
   /**
    * Metodo encargado de validar el estado de un proceso en particular
    */
-  validacionEstadoProceso() {
+  validacionEstadoProceso(codigoProceso: any) {
     this.validacionEstadoProcesosService.validarEstadoProceso({
-      'codigoProceso': "CARG_CERTIFICACION",
+      'codigoProceso': codigoProceso,
       "fechaSistema": this.fechaSistemaSelect
     }).subscribe({
-      next: (data: any) => {
-        var dataAlert = {
-          msn: "Se generó cierre certificacion exitosamente",
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        };
-        if(data.estado == "PROCESADO"){
-          this.spinnerActive = false;
-          clearInterval(this.idInterval);
-        }
-        if(data.estado == "PENDIENTE"){
-          dataAlert = {
-            msn: "Error al generar el cierre certificacion",
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          };
-        }
-        if(data.estado == "ERROR"){
-          dataAlert = {
-            msn: "Error al generar el cierre certificacion",
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          };
-        }
-        if(data.estado == "PENDIENTE"){
-          dataAlert = {
-            msn: "Error al generar el cierre certificacion",
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          };
-          this.spinnerActive = false;
-          clearInterval(this.idInterval);
-        }
+      next: (response: any) => {
+        var estadoProceso = GENERALES.CODE_EMERGENT.WARNING;
+        if(response.data.estadoProceso == 'PROCESADO')
+          estadoProceso = GENERALES.CODE_EMERGENT.SUCCESFULL;
+        if(response.data.estadoProceso == 'ERROR')
+          estadoProceso = GENERALES.CODE_EMERGENT.ERROR;
+        if(response.data.estadoProceso == 'EN PROCESO')
+          estadoProceso = GENERALES.CODE_EMERGENT.ESPERAR;
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: response.data.estadoProceso + " - " + response.data.mensaje,
+            codigo: estadoProceso
+          }
+        }); setTimeout(() => { alert.close() }, 5000);
       },
-      error: (data: any) => {
+      error: (err: any) => {
         this.spinnerActive = false;
         clearInterval(this.idInterval);
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: "Error al generar el cierre certificacion",
+            msn: err.error.response.description + " - code: " + err.error.response.code,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); setTimeout(() => { alert.close() }, 5000);
       }
     });
   }
