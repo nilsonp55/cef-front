@@ -116,6 +116,7 @@ async cargarDatosDesplegables() {
             codigo: estadoProceso
           }
         }); setTimeout(() => { alert.close() }, 5000);
+        this.listarProcesos();
       },
       error: (err: any) => {
         this.spinnerActive = false;
