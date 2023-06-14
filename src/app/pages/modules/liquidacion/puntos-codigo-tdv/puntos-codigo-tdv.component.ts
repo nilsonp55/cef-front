@@ -36,7 +36,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   filtroCodigoPropio: any;
   selectedTipoPunto = "";
   ciudades: any[] = [];
-  ciudadSelected: any = "";
+  ciudadSelected: any;
 
   clientes: any[] = [];
   bancoSelect: boolean = false;
@@ -80,7 +80,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
       'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null),
       'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
-      'codigoDANE': new FormControl(param? this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad) : null),
+      'codigoDANE': new FormControl(param? this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).nombreCiudad : null),
       'cliente': new FormControl(param ? param.cliente : null),
     });
   }
@@ -249,6 +249,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
   async filtrarPuntos(event: any) {
     debugger;
     let params;
+    this.ciudadSelect = false;
+    this.clienteSelect = false;
     if(event.value == "BAN_REP"){
       this.puntoSelect = true;
       this.ciudadSelect = true;
@@ -296,7 +298,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
   listarClientes(params: any){
     this.generalesService.listarClientes(params).subscribe({
       next: response => {
-        this.clientes = response.data.content;
+        debugger;
+        this.clientes = response.data;
       },
       error: err => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -355,8 +358,10 @@ export class PuntosCodigoTdvComponent implements OnInit {
     changePunto(event) {
       debugger;
       this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
-      this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe(response => {
-
+      this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe(
+        response => {
+          this.form.controls['codigoDANE'].setValue(response.data[0].nombreCiudad);
+          //this.form.controls['codigoDANE'].disable();
       });
     }
 

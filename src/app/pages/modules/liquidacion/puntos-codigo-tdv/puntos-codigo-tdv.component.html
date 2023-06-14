@@ -138,7 +138,7 @@
                     <mat-select formControlName="cliente" (selectionChange)="filtrarPuntosCliente($event)">
                         <mat-option value="">Ninguno</mat-option>
                         <mat-option *ngFor="let item of clientes" [value]="item">
-                            {{item.nombre}}
+                            {{item.nombreCliente}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -155,21 +155,16 @@
 
                 <!--Codigo Punto-->
                 <mat-form-field appearance="fill">
+                    <mat-label>Codigo Punto</mat-label>
                     <input type="number" matInput placeholder="Codigo Punto" formControlName="codigoPunto" readonly>
                 </mat-form-field>
 
                 <!--Ciudad-->
                 <mat-form-field appearance="fill" *ngIf="ciudadSelect">
                     <mat-label>Ciudad</mat-label>
-                    <mat-select formControlName="codigoDANE" 
-                        [(value)]="ciudadSelected">
-                        <mat-option value="">Ninguno</mat-option>
-                        <mat-option *ngFor="let item of ciudades" [value]="item">
-                            {{item.nombreCiudad}}
-                        </mat-option>
-                    </mat-select>
+                    <input type="text" matInput placeholder="Ciudad" formControlName="codigoDANE" readonly>
                 </mat-form-field>
-
+                
                 <!--Estado-->
                 <div class="division-estado">
                     <label class="switch" >
