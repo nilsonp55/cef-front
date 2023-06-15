@@ -21,13 +21,14 @@ export class FiltroBancoTdvComponent implements OnInit {
 
   tranportadoraOptions: TransportadoraModel[]
   bancoOptions: BancoModel[]
-  banco:string;
-  trasportadora:string;
+  estadosConciliacionOptions: any[];
+  banco: string;
+  trasportadora: string;
   selectedOrigen = '';
   selectedDestino = '';
+  estadoConciliacion: any;
 
-  
-  @Output() 
+  @Output()
   filterData = new EventEmitter<any>();
 
 
@@ -38,16 +39,17 @@ export class FiltroBancoTdvComponent implements OnInit {
   ngOnInit(): void {
     this.listarBancos();
     this.listarTransportadoras();
+    this.estadosConciliacionOptions = ['CONCILIADA', 'NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'];
   }
 
   /** 
   * Se realiza consumo de servicio para listar los transportadoras en el select
   * @JuanMazo
   */
-   listarTransportadoras( ) {
+  listarTransportadoras() {
     this.generalesService.listarTransportadoras().subscribe(data => {
       this.tranportadoraOptions = data.data
-      
+
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -65,36 +67,36 @@ export class FiltroBancoTdvComponent implements OnInit {
   * Se realiza consumo de servicio para listar los bancos en el select
   * @JuanMazo
   */
-   listarBancos( ) {
+  listarBancos() {
     this.generalesService.listarBancosAval().subscribe(data => {
-      this.bancoOptions = data.data     
+      this.bancoOptions = data.data
     },
-    (err: ErrorService) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_BANCO.ERROR_BANCO,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
+      (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_BANCO.ERROR_BANCO,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        setTimeout(() => { alert.close() }, 3000);
       });
-      setTimeout(() => { alert.close() }, 3000);
-    });
   }
 
-  filter(){
-    this.filterData.emit({banco:this.banco,trasportadora:this.trasportadora,tipoPuntoOrigen:this.selectedOrigen})
+  filter() {
+    this.filterData.emit({ banco: this.banco, trasportadora: this.trasportadora, tipoPuntoOrigen: this.selectedOrigen, estadoConciliacion: this.estadoConciliacion })
   }
 
-  filter2(){
-    this.filterData.emit({banco:this.banco,trasportadora:this.trasportadora,tipoPuntoOrigen:this.selectedOrigen})
+  filter2() {
+    this.filterData.emit({ banco: this.banco, trasportadora: this.trasportadora, tipoPuntoOrigen: this.selectedOrigen })
   }
 
-  selectBanco(event){
-    this.banco=event.value
+  selectBanco(event) {
+    this.banco = event.value
   }
 
-  selectTrasportadora(event){
-    this.trasportadora=event.value
+  selectTrasportadora(event) {
+    this.trasportadora = event.value
   }
 
 }
