@@ -43,6 +43,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
   displayedColumnsOperacionesCertificadas: string[] = ['fechaEjecucion', 'codigoPropioTDV', 'nombreFondoTDV', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
 
+  estadoConciliacionInicial: any[] = ['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'];
 
   constructor(
     private dialog: MatDialog,
@@ -97,7 +98,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
    */
   listarOpProgramadasFallidas(pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
-      'estadoConciliacion': ['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'],
+      estadoConciliacion: this.estadoConciliacionInicial,
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
@@ -132,7 +133,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
    */
   listarOpCertificadasFallidas(pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-      'estadoConciliacion': ['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'],
+      estadoConciliacion: this.estadoConciliacionInicial,
       conciliable: 'SI',
       page: pagina,
       size: tamanio
@@ -166,9 +167,9 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     this.listarOpCertificadasFallidas(e.pageIndex, e.pageSize);
   }
 
-  listarOpProgramadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
+  listarOpProgramadasSinConciliarXBancoOTDV(tdv?: string, banco?: string, puntoOrigen?: string, estadoConciliacion?: any[], pagina = 0, tamanio = 500) {
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
-      'estadoConciliacion': ['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'],
+      estadoConciliacion: estadoConciliacion,
       bancoAVAL: banco,
       tdv: tdv,
       tipoPuntoOrigen: puntoOrigen,
@@ -195,9 +196,9 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     });
   }
 
-  listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
-    this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-      'estadoConciliacion': ['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'],
+  listarOpCertificadasSinConciliarXBancoOTDV(tdv?: string, banco?: string, puntoOrigen?: string, estadoConciliacion?: any[], pagina = 0, tamanio = 500) {
+    this.opConciliadasService.obtenerOpCertificadasSinconciliar({ 
+      estadoConciliacion: estadoConciliacion,
       conciliable: 'SI',
       bancoAVAL: banco,
       tdv: tdv,
@@ -226,33 +227,18 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   }
 
   filter(event) {
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen)
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen)    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasFallidas()
-      this.listarOpCertificadasFallidas()    }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, "", "")
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", "")    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV("", event.banco, "")
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, "")    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen)
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen)    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV("", "", "")
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", "")    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen)
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen)    }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen)
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen)    }
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "")
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "")    }
+    
+    this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora == undefined ? "":event.trasportadora, 
+    event.banco == undefined ? "" : event.banco, 
+    event.tipoPuntoOrigen == undefined ? "" : event.tipoPuntoOrigen, 
+    event.estadoConciliacion == undefined ? this.estadoConciliacionInicial : event.estadoConciliacion);
+
+    this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora == undefined ? "":event.trasportadora, 
+    event.banco == undefined ? "" : event.banco, 
+    event.tipoPuntoOrigen == undefined ? "" : event.tipoPuntoOrigen, 
+    event.estadoConciliacion == undefined ? this.estadoConciliacionInicial : event.estadoConciliacion);
+    
+    
   }
 
 }
