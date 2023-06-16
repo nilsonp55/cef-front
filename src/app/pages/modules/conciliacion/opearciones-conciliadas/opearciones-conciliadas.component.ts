@@ -94,4 +94,5 @@ export class OpearcionesConciliadasComponent implements OnInit {
     });
   }
   
+  filter(event) {}
 }
