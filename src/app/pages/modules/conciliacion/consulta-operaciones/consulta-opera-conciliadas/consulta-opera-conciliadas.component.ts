@@ -3,11 +3,9 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
-import { ErrorService } from 'src/app/_model/error.model';
 import { MatDialog } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
-import { ConciliacionesModel } from 'src/app/_model/consiliacion-model/conciliacion.model';
 import { MatSort } from '@angular/material/sort';
 
 @Component({
@@ -24,6 +22,7 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
+  pageSizeList: number[] = [5, 10, 25, 100];
 
   public load: boolean = false;
 
@@ -57,6 +56,7 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
       this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
       this.dataSourceConciliadas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
 
     },
       (err: any) => {
