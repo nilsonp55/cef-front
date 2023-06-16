@@ -84,17 +84,17 @@
     </div>
 
 
-    <div style="width: 70%" class="ubicacionTablas">
+    <div style="width: 80%" class="ubicacionTablas">
         <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
             (ngSubmit)="persistir()">
-            <div style="padding-left: 10%;">
+            <div >
                 <!--Id Punto Codigo TDV-->
-                <mat-form-field >
+                <mat-form-field appearance="outline">
                     <input matInput placeholder="Id Punto Codigo TDV" formControlName="idPuntoCodigo">
                 </mat-form-field>
 
                 <!--Banco-->
-                <mat-form-field >
+                <mat-form-field appearance="outline">
                     <mat-label>Banco</mat-label>
                     <mat-select required formControlName="banco" (selectionChange)="selectedBanco($event)">
                         <mat-option *ngFor="let item of bancos" [value]="item">
@@ -104,7 +104,7 @@
                 </mat-form-field>
 
                 <!--Transportadora-->
-                <mat-form-field appearance="fill" *ngIf="tdvSelect">
+                <mat-form-field appearance="outline" *ngIf="tdvSelect">
                     <mat-label>TDV</mat-label>
                     <mat-select required formControlName="codigoTdv" (selectionChange)="selectedTdv($event)">
                         <mat-option *ngFor="let item of transportadoras" [value]="item">
@@ -114,12 +114,12 @@
                 </mat-form-field>
 
                 <!--Codigo Propio TDV-->
-                <mat-form-field class="example-full-width">
+                <mat-form-field appearance="outline" class="example-full-width">
                     <input matInput placeholder="Codigo Propio TDV" formControlName="codigoPropioTDV" required>
                 </mat-form-field>
-                
+
                 <!--Tipo Punto-->
-                <mat-form-field *ngIf="tipoPuntoSelect">
+                <mat-form-field appearance="outline" *ngIf="tipoPuntoSelect">
                     <mat-label>Tipo Punto</mat-label>
                     <mat-select [(value)]="selectedTipoPunto" (selectionChange)="filtrarPuntos($event)">
                         <mat-option value="">Ninguno</mat-option>
@@ -133,7 +133,7 @@
                 </mat-form-field>
 
                 <!--Cliente-->
-                <mat-form-field appearance="fill" *ngIf="clienteSelect">
+                <mat-form-field appearance="outline" *ngIf="clienteSelect">
                     <mat-label>Cliente</mat-label>
                     <mat-select formControlName="cliente" (selectionChange)="filtrarPuntosCliente($event)">
                         <mat-option value="">Ninguno</mat-option>
@@ -144,7 +144,7 @@
                 </mat-form-field>
 
                 <!--Punto-->
-                <mat-form-field appearance="fill" *ngIf="puntoSelect">
+                <mat-form-field appearance="outline" *ngIf="puntoSelect">
                     <mat-label>Punto</mat-label>
                     <mat-select required formControlName="punto" (selectionChange)="changePunto($event)">
                         <mat-option *ngFor="let item of puntos" [value]="item">
@@ -154,19 +154,19 @@
                 </mat-form-field>
 
                 <!--Codigo Punto-->
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>Codigo Punto</mat-label>
                     <input type="number" matInput placeholder="Codigo Punto" formControlName="codigoPunto" readonly>
                 </mat-form-field>
 
                 <!--Ciudad-->
-                <mat-form-field appearance="fill" *ngIf="ciudadSelect">
+                <mat-form-field appearance="outline" *ngIf="ciudadSelect">
                     <mat-label>Ciudad</mat-label>
                     <input type="text" matInput placeholder="Ciudad" formControlName="codigoDANE" readonly>
                 </mat-form-field>
                 
                 <!--Estado-->
-                <div class="division-estado">
+                <div class="division-estado" appearance="outline">
                     <label class="switch" >
                         <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
                         <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>

@@ -247,7 +247,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async filtrarPuntos(event: any) {
-    debugger;
     let params;
     this.ciudadSelect = false;
     this.clienteSelect = false;
@@ -271,7 +270,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     if(event.value == "OFICINA"){
       this.puntoSelect = true;
       params = {
-        'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
+        'oficinas.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
         tipoPunto: this.selectedTipoPunto
       };
       this.listarPuntos(params);
@@ -280,7 +279,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.puntoSelect = true;
       params = {
         tipoPunto: this.selectedTipoPunto,
-        'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto)
+        'cajerosAtm.codBancoAval': Number(this.form.value['banco'].codigoPunto)
       };
       this.listarPuntos(params);
     }
@@ -298,7 +297,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
   listarClientes(params: any){
     this.generalesService.listarClientes(params).subscribe({
       next: response => {
-        debugger;
         this.clientes = response.data;
       },
       error: err => {
@@ -356,7 +354,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
     }
 
     changePunto(event) {
-      debugger;
       this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
       this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe(
         response => {
