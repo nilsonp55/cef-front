@@ -8,6 +8,8 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ConciliacionesModel } from 'src/app/_model/consiliacion-model/conciliacion.model';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
 import { DialogDesconciliarComponent } from './dialog-desconciliar/dialog-desconciliar.component';
+import { GeneralesService } from 'src/app/_service/generales.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({    
   selector: 'app-opearciones-conciliadas',
@@ -24,9 +26,12 @@ export class OpearcionesConciliadasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
-
+  estadoConciliacion: string[] = ['CONCILIADA'];
+  bancoAVAL: string[];
+  fechaOrigen: string;
+  transportadora: string;
 
   //DataSource para pintar tabla de conciliados
   dataSourceConciliadas: MatTableDataSource<ConciliacionesModel>;
@@ -34,20 +39,34 @@ export class OpearcionesConciliadasComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private opConciliadasService: OpConciliadasService) { }
+    private opConciliadasService: OpConciliadasService,
+    private generalServices: GeneralesService) { 
+      
+    }
 
   ngOnInit(): void {
-    this.listarConciliados();
+    this.listarConciliados(this.estadoConciliacion, 
+      this.bancoAVAL == undefined ? [] : this.bancoAVAL, 
+      this.fechaOrigen == undefined ? "" : this.fechaOrigen, 
+      this.transportadora == undefined ? "" : this.transportadora);
   }
 
    /** 
   * Se realiza consumo de servicio para listar los conciliaciones
   * @JuanMazo
   */
-    listarConciliados(pagina = 0, tamanio = 5) {
+    async listarConciliados(estado?: string[], banco?: string[], fecha?: string, trasnportadora?: string, pagina = 0, tamanio = 5) {
+      const _fecha = await this.generalServices.listarParametroByFiltro({
+        codigo: "FECHA_DIA_PROCESO"
+      }).toPromise();
+      const [day, month, year] = _fecha.data[0].valor.split('/');
+      const fechaFormat = year+'/'+month+'/'+day
       this.opConciliadasService.obtenerConciliados({
         page: pagina,
         size: tamanio,
+        estadoConciliacion: estado,
+        bancoAval: banco,
+        fechaOrigen: fechaFormat
       }).subscribe({
         next: (page: any) => { 
           this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
@@ -94,5 +113,11 @@ export class OpearcionesConciliadasComponent implements OnInit {
     });
   }
   
-  filter(event) {}
+  filter(event) {
+    this.listarConciliados(event.estadoConciliacion == undefined ? "" : event.estadoConciliacion, 
+      event.banco == undefined ? "" : event.banco,
+      this.fechaOrigen == undefined ? "" : this.fechaOrigen,
+      event.trasportadora == undefined ? "" : event.trasportadora
+    );
+  }
 }
