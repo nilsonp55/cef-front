@@ -34,7 +34,8 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
   //Rgistros paginados
   cantidadRegistros: number;
 
-  public load: boolean = false;
+  public load: boolean = true;
+  pageSizeList: number[] = [5, 10, 25, 100];
 
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
@@ -73,18 +74,21 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
    * Lista las operaciones programadas sin conciliar
    * @JuanMazo
    */
-  listarOpProgramadasSinConciliar(pagina = 0, tamanio = 500) {
+  listarOpProgramadasSinConciliar(pagina = 0, tamanio = 10) {
+    this.load = true;
+    this.dataSourceOperacionesProgramadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       estadoConciliacion: 'NO_CONCILIADA',
       page: pagina,
       size: tamanio,
     }).subscribe({
       next: (page: any) => {
-        this.load = true;
         this.dataConcilicionesComplete = page.data.content;
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesProgramadas.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
+        this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
+        this.load = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
@@ -96,11 +100,14 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.load = false;
       }
     });
   }
 
   listarOpProgramadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
+    this.load = true;
+    this.dataSourceOperacionesProgramadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       estadoConciliacion: 'NO_CONCILIADA',
       bancoAVAL: banco,
@@ -110,11 +117,12 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
       size: tamanio,
     }).subscribe({
       next: (page: any) => {
-        this.load = true;
         this.dataConcilicionesComplete = page.data.content;
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesProgramadas.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
+        this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
+        this.load = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
@@ -126,6 +134,7 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.load = false;
       }
     });
   }

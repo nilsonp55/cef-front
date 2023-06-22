@@ -35,13 +35,18 @@ export class OperacionesFallidasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistrosOpProgramadasFallidas: number;
   cantidadRegistrosOpCertificadasFallidas: number;
 
-    //Rgistros paginados
-    cantidadRegistrosProgram: number;
-    cantidadRegistrosCerti: number;
+  //Registros paginados
+  cantidadRegistrosProgram: number;
+  cantidadRegistrosCerti: number;
+
+  public loadProg: boolean = true;
+  pageSizeListProg: number[] = [5, 10, 25, 100];
+  public loadCert: boolean = true;
+  pageSizeListCert: number[] = [5, 10, 25, 100];
 
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
@@ -223,7 +228,9 @@ export class OperacionesFallidasComponent implements OnInit {
    * Lista las operaciones programadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpProgramadasFallidas(pagina = 0, tamanio = 500) {
+  listarOpProgramadasFallidas(pagina = 0, tamanio = 10) {
+    this.loadProg = true;
+    this.dataSourceOperacionesProgramadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       'estadoConciliacion': "NO_CONCILIADA",
       page: pagina,
@@ -234,6 +241,8 @@ export class OperacionesFallidasComponent implements OnInit {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesProgramadas.sort = this.sort;
         this.cantidadRegistrosOpProgramadasFallidas = page.data.totalElements;
+        this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
+        this.loadProg = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
@@ -245,6 +254,7 @@ export class OperacionesFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.loadProg = false;
       }
     });
   }
@@ -261,7 +271,9 @@ export class OperacionesFallidasComponent implements OnInit {
    * Lista las operaciones certificadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpCertificadasFallidas(pagina = 0, tamanio = 500) {
+  listarOpCertificadasFallidas(pagina = 0, tamanio = 10) {
+    this.loadCert = true;
+    this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
       'estadoConciliacion': "NO_CONCILIADA",
       conciliable: 'SI',
@@ -273,6 +285,8 @@ export class OperacionesFallidasComponent implements OnInit {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesCertificadas.sort = this.sort;
         this.cantidadRegistrosOpCertificadasFallidas = page.data.totalElements;
+        this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
+        this.loadCert = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
@@ -284,6 +298,7 @@ export class OperacionesFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.loadCert = false;
       }
     });
   }
@@ -293,7 +308,7 @@ export class OperacionesFallidasComponent implements OnInit {
   * @BaironPerez
   */
    mostrarMasOpCertificadasFallidas(e: any) {
-    this.listarOpProgramadasFallidas(e.pageIndex, e.pageSize);
+    this.listarOpCertificadasFallidas(e.pageIndex, e.pageSize);
   }
   /**
    * Captura del id para crear una relación
@@ -305,7 +320,9 @@ export class OperacionesFallidasComponent implements OnInit {
     }
   }
 
-  listarOpProgramadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
+  listarOpProgramadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 10) {
+    this.loadProg = true;
+    this.dataSourceOperacionesProgramadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       'estadoConciliacion':['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION','POSPUESTA', 'CANCELADA'],
       bancoAVAL: banco,
@@ -319,6 +336,8 @@ export class OperacionesFallidasComponent implements OnInit {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesProgramadas.sort = this.sort;
         this.cantidadRegistrosProgram = page.data.totalElements;
+        this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
+        this.loadProg = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
@@ -330,11 +349,14 @@ export class OperacionesFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.loadProg = false;
       }
     });
   }
 
-  listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
+  listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 10) {
+    this.loadCert = true;
+    this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
       'estadoConciliacion':['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION','POSPUESTA', 'CANCELADA'],
       conciliable: 'SI',
@@ -349,6 +371,8 @@ export class OperacionesFallidasComponent implements OnInit {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesCertificadas.sort = this.sort;
         this.cantidadRegistrosCerti = page.data.totalElements;
+        this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
+        this.loadCert = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
@@ -360,6 +384,7 @@ export class OperacionesFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.loadCert = false;
       }
     });
   }

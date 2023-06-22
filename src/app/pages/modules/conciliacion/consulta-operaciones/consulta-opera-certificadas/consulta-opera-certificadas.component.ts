@@ -28,6 +28,8 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
+  public load: boolean = true;
+  pageSizeList: number[] = [5, 10, 25, 100];
 
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
@@ -72,7 +74,9 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
    * Lista las operaciones certificadas sin conciliar
    * @JuanMazo
    */
-  listarOpCertificadasSinConciliar(pagina = 0, tamanio = 500) {
+  listarOpCertificadasSinConciliar(pagina = 0, tamanio = 10) {
+    this.load = true;
+    this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
     'estadoConciliacion': GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO,
     'conciliable':'SI',
@@ -84,6 +88,8 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesCertificadas.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
+        this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
+        this.load = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
@@ -94,11 +100,14 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
+        this.load = false;
       }
     });
   }
 
   listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
+    this.load = true;
+    this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
       estadoConciliacion: 'NO_CONCILIADA',
       conciliable: 'SI',
@@ -113,6 +122,8 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesCertificadas.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
+        this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
+        this.load = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
@@ -124,6 +135,7 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.load = false;
       }
     });
   }
