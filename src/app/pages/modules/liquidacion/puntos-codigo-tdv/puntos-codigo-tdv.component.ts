@@ -72,17 +72,22 @@ export class PuntosCodigoTdvComponent implements OnInit {
     * @BayronPerez
     */
   initForm(param?: any) {
-    this.form = new FormGroup({
-      'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
-      'punto': new FormControl(param ? this.selectPunto(param.puntosDTO.codigoPunto) : null),
-      'codigoPunto': new FormControl(param ? param.codigoPunto : null),
-      'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
-      'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
-      'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null),
-      'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
-      'codigoDANE': new FormControl(param? this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).nombreCiudad : null),
-      'cliente': new FormControl(param ? param.cliente : null),
-    });
+    if (this.mostrarFormulario) {
+      debugger;
+      const punto = this.selectPunto(param.puntosDTO.codigoPunto);
+      this.form = new FormGroup({
+        'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
+        'punto': new FormControl(param ? param.puntosDTO.nombrePunto : null),
+        'codigoPunto': new FormControl(param ? param.codigoPunto : null),
+        'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
+        'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
+        'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null),
+        'estado': new FormControl(param ? this.formatearEstadoListar(param.estado) : null),
+        'codigoDANE': new FormControl(param ? this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).nombreCiudad : null),
+        'cliente': new FormControl(param ? param.cliente : null),
+        'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null)
+      });
+    }
   }
 
   selectPunto(codigoPunto: any): any {
