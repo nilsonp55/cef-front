@@ -1,6 +1,6 @@
 <app-filtro-banco-tdv (filterData)="filter($event)"></app-filtro-banco-tdv>
 <div class="division">
-    <div class="divTablaProg">
+    <div>
         <div class="divTituloTablas">
             <h1 class="tituloTabla">Operaciones programadas sin conciliar</h1>
             <span class="line-spacer"></span>
@@ -13,7 +13,7 @@
                 (click)="exporter.exportTable('xlsx', {fileName:'operaciones_programadas_fallidas'})">Exportar
                 tabla</button>
         </div>
-        <div class="configScroll">
+        <div class="divTablaProg">
             <div *ngIf="loadProg" class="disenio-spinner">
                 <mat-spinner></mat-spinner>
             </div>
@@ -68,9 +68,8 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesProgramadas;"></tr>
             </table>
         </div>
-
     </div>
-    <div class="divTablaCerti">
+    <div>
         <div class="divTituloTablas">
             <h1 class="tituloTabla">Operaciones certificadas sin conciliar</h1>
             <span class="line-spacer"></span>
@@ -83,7 +82,7 @@
                 (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_fallidas'})">Exportar
                 tabla</button>
         </div>
-        <div class="configScroll">
+        <div class="divTablaCerti">
             <div *ngIf="loadCert" class="disenio-spinner">
                 <mat-spinner></mat-spinner>
             </div>
@@ -134,7 +133,5 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesCertificadas;"></tr>
             </table>
         </div>
-
     </div>
-
 </div>
