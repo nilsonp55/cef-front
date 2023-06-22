@@ -20,9 +20,9 @@ import { DialogActualizarOpCertificadasComponent } from './dialog-actualizar-op-
 import { DialogConciliacionManualComponent } from '../opearciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 
 @Component({
-  selector: 'app-opearciones-fallidas',
-  templateUrl: './opearciones-fallidas.component.html',
-  styleUrls: ['./opearciones-fallidas.component.css']
+  selector: 'app-operaciones-fallidas',
+  templateUrl: './operaciones-fallidas.component.html',
+  styleUrls: ['./operaciones-fallidas.component.css']
 })
 
 /**
@@ -30,7 +30,7 @@ import { DialogConciliacionManualComponent } from '../opearciones-no-conciliadas
  * permite modificar su estado y su valor
  * @JuanMazo 
  */
-export class OpearcionesFallidasComponent implements OnInit {
+export class OperacionesFallidasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

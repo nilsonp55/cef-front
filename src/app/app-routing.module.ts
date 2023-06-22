@@ -7,7 +7,7 @@ import { CarguePreliminarComponent } from './pages/modules/cargue-programacion/c
 import { CargueProgramacionComponent } from './pages/modules/cargue-programacion/cargue-programacion.component';
 import { ConciliacionComponent } from './pages/modules/conciliacion/conciliacion.component';
 import { OperacionesConciliadasComponent } from './pages/modules/conciliacion/operaciones-conciliadas/operaciones-conciliadas.component';
-import { OpearcionesFallidasComponent } from './pages/modules/conciliacion/opearciones-fallidas/opearciones-fallidas.component';
+import { OperacionesFallidasComponent } from './pages/modules/conciliacion/operaciones-fallidas/operaciones-fallidas.component';
 import { OpearcionesNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/opearciones-no-conciliadas.component';
 import { ResumenComponent } from './pages/modules/conciliacion/consulta-operaciones/resumen/resumen.component';
 import { CargueCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-certificacion.component';
@@ -109,7 +109,7 @@ const routes: Routes = [
       { path: 'operaciones-conciliadas-fallidas-consulta', component: ConsultaOperaFallidasComponent },
       { path: 'operaciones-conciliadas', component: OperacionesConciliadasComponent },
       { path: 'operaciones-programadas-no-conciliadas', component: OpearcionesNoConciliadasComponent },
-      { path: 'operaciones-sin-conciliar', component: OpearcionesFallidasComponent },
+      { path: 'operaciones-sin-conciliar', component: OperacionesFallidasComponent },
       { path: 'resumen-operaciones', component: ResumenComponent },
       { path: 'administrador-cargue-conciliacion', component: CierreConciliacionComponent },
     ]

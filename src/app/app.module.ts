@@ -42,7 +42,7 @@ import { CarguePreliminarComponent } from './pages/modules/cargue-programacion/c
 import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/cargue-definitivo.component';
 import { OperacionesConciliadasComponent } from './pages/modules/conciliacion/operaciones-conciliadas/operaciones-conciliadas.component';
 import { OpearcionesNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/opearciones-no-conciliadas.component';
-import { OpearcionesFallidasComponent } from './pages/modules/conciliacion/opearciones-fallidas/opearciones-fallidas.component';
+import { OperacionesFallidasComponent } from './pages/modules/conciliacion/operaciones-fallidas/operaciones-fallidas.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import { DialogDesconciliarComponent } from './pages/modules/conciliacion/operaciones-conciliadas/dialog-desconciliar/dialog-desconciliar.component';
@@ -56,7 +56,7 @@ import { DialogInfoProgramadasNoConciliadasComponent } from './pages/modules/con
 import { DialogInfoCertificadasNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
 import { DialogConciliacionManualComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 import { ResumenComponent } from './pages/modules/conciliacion/consulta-operaciones/resumen/resumen.component';
-import { DialogInfoProgramadasFallidasComponent } from './pages/modules/conciliacion/opearciones-fallidas/dialog-info-programadas-fallidas/dialog-info-programadas-fallidas.component';
+import { DialogInfoProgramadasFallidasComponent } from './pages/modules/conciliacion/operaciones-fallidas/dialog-info-programadas-fallidas/dialog-info-programadas-fallidas.component';
 import { ConsultaOperaConciliadasComponent } from './pages/modules/conciliacion/consulta-operaciones/consulta-opera-conciliadas/consulta-opera-conciliadas.component';
 import { ConsultaOperaProgramadasComponent } from './pages/modules/conciliacion/consulta-operaciones/consulta-opera-programadas/consulta-opera-programadas.component';
 import { ConsultaOperaCertificadasComponent } from './pages/modules/conciliacion/consulta-operaciones/consulta-opera-certificadas/consulta-opera-certificadas.component';
@@ -93,7 +93,7 @@ import { FiltroBancoTdvComponent } from './pages/shared/components/filtro-banco-
 import { GenerarContabilidadAmComponent } from './pages/modules/contabilizacion/generar-contabilidad-am/generar-contabilidad-am.component';
 import { GenerarContabilidadPmComponent } from './pages/modules/contabilizacion/generar-contabilidad-pm/generar-contabilidad-pm.component';
 import { DialogInfoOpProgramadasComponent } from './pages/modules/conciliacion/consulta-operaciones/consulta-opera-fallidas/dialog-info-op-programadas/dialog-info-op-programadas.component';
-import { DialogActualizarOpCertificadasComponent } from './pages/modules/conciliacion/opearciones-fallidas/dialog-actualizar-op-certificadas/dialog-actualizar-op-certificadas.component';
+import { DialogActualizarOpCertificadasComponent } from './pages/modules/conciliacion/operaciones-fallidas/dialog-actualizar-op-certificadas/dialog-actualizar-op-certificadas.component';
 import { CierreConciliacionComponent } from './pages/modules/conciliacion/cierre-conciliacion/cierre-conciliacion.component';
 import { CierreCertificacionComponent } from './pages/modules/cargue-certificacion/cierre-certificacion/cierre-certificacion.component';
 import { DialogVerArchivoComponent } from './pages/shared/components/program-preliminar/archivos-cargados/dialog-ver-archivo/dialog-ver-archivo.component';
@@ -154,7 +154,7 @@ import { AdministracionTasasCambioComponent } from './pages/modules/administraci
     CargueDefinitivoComponent,
     OperacionesConciliadasComponent,
     OpearcionesNoConciliadasComponent,
-    OpearcionesFallidasComponent,
+    OperacionesFallidasComponent,
     CierreFechaComponent,
     DialogDesconciliarComponent,
     SpinnerComponent,
