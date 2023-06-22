@@ -41,7 +41,7 @@ import { ArchivosCargadosComponent } from './pages/shared/components/program-pre
 import { CarguePreliminarComponent } from './pages/modules/cargue-programacion/cargue-preliminar/cargue-preliminar.component';
 import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/cargue-definitivo.component';
 import { OperacionesConciliadasComponent } from './pages/modules/conciliacion/operaciones-conciliadas/operaciones-conciliadas.component';
-import { OpearcionesNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/opearciones-no-conciliadas.component';
+import { OperacionesNoConciliadasComponent } from './pages/modules/conciliacion/operaciones-no-conciliadas/operaciones-no-conciliadas.component';
 import { OperacionesFallidasComponent } from './pages/modules/conciliacion/operaciones-fallidas/operaciones-fallidas.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -52,9 +52,9 @@ import { SpinnerComponent } from './pages/shared/components/spinner/spinner.comp
 import { ArchivosCargadosDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/archivos-cargados-definitivo/archivos-cargados-definitivo.component';
 import { HistoricoArchivosCargadosDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/historico-archivos-cargados-definitivo.component';
 import { LogArchivoCargadoDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/log-archivo-cargado-definitivo/log-archivo-cargado.component';
-import { DialogInfoProgramadasNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/dialog-info-programadas-no-conciliadas/dialog-info-programadas-no-conciliadas.component';
-import { DialogInfoCertificadasNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
-import { DialogConciliacionManualComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
+import { DialogInfoProgramadasNoConciliadasComponent } from './pages/modules/conciliacion/operaciones-no-conciliadas/dialog-info-programadas-no-conciliadas/dialog-info-programadas-no-conciliadas.component';
+import { DialogInfoCertificadasNoConciliadasComponent } from './pages/modules/conciliacion/operaciones-no-conciliadas/dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
+import { DialogConciliacionManualComponent } from './pages/modules/conciliacion/operaciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 import { ResumenComponent } from './pages/modules/conciliacion/consulta-operaciones/resumen/resumen.component';
 import { DialogInfoProgramadasFallidasComponent } from './pages/modules/conciliacion/operaciones-fallidas/dialog-info-programadas-fallidas/dialog-info-programadas-fallidas.component';
 import { ConsultaOperaConciliadasComponent } from './pages/modules/conciliacion/consulta-operaciones/consulta-opera-conciliadas/consulta-opera-conciliadas.component';
@@ -153,7 +153,7 @@ import { AdministracionTasasCambioComponent } from './pages/modules/administraci
     CarguePreliminarComponent,
     CargueDefinitivoComponent,
     OperacionesConciliadasComponent,
-    OpearcionesNoConciliadasComponent,
+    OperacionesNoConciliadasComponent,
     OperacionesFallidasComponent,
     CierreFechaComponent,
     DialogDesconciliarComponent,

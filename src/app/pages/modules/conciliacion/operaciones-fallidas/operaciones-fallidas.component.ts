@@ -17,7 +17,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
 import { DialogInfoProgramadasFallidasComponent } from './dialog-info-programadas-fallidas/dialog-info-programadas-fallidas.component';
 import { DialogActualizarOpCertificadasComponent } from './dialog-actualizar-op-certificadas/dialog-actualizar-op-certificadas.component';
-import { DialogConciliacionManualComponent } from '../opearciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
+import { DialogConciliacionManualComponent } from '../operaciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 
 @Component({
   selector: 'app-operaciones-fallidas',

@@ -19,16 +19,16 @@ import { DialogInfoCertificadasNoConciliadasComponent } from './dialog-info-cert
 import { DialogInfoProgramadasNoConciliadasComponent } from './dialog-info-programadas-no-conciliadas/dialog-info-programadas-no-conciliadas.component';
 
 @Component({
-  selector: 'app-opearciones-no-conciliadas',
-  templateUrl: './opearciones-no-conciliadas.component.html',
-  styleUrls: ['./opearciones-no-conciliadas.component.css']
+  selector: 'app-operaciones-no-conciliadas',
+  templateUrl: './operaciones-no-conciliadas.component.html',
+  styleUrls: ['./operaciones-no-conciliadas.component.css']
 })
 
 /**
  * Clase que nos lista las operaciones en estado no conciliado
  * @JuanMazo
  */
-export class OpearcionesNoConciliadasComponent implements OnInit {
+export class OperacionesNoConciliadasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
