@@ -12,16 +12,16 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { lastValueFrom } from 'rxjs';
 
 @Component({    
-  selector: 'app-opearciones-conciliadas',
-  templateUrl: './opearciones-conciliadas.component.html',
-  styleUrls: ['./opearciones-conciliadas.component.css']
+  selector: 'app-operaciones-conciliadas',
+  templateUrl: './operaciones-conciliadas.component.html',
+  styleUrls: ['./operaciones-conciliadas.component.css']
 })
 
 /**
  * Clase que lista la operaciones conciliadas y nos permite llamar al Mat Dialog para hacer la desconciliación
  * @JuanMazo
  */
-export class OpearcionesConciliadasComponent implements OnInit {
+export class OperacionesConciliadasComponent implements OnInit {
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

@@ -40,12 +40,12 @@ import { DialogValidarArchivoComponent } from './pages/shared/components/program
 import { ArchivosCargadosComponent } from './pages/shared/components/program-preliminar/archivos-cargados/archivos-cargados.component';
 import { CarguePreliminarComponent } from './pages/modules/cargue-programacion/cargue-preliminar/cargue-preliminar.component';
 import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/cargue-definitivo.component';
-import { OpearcionesConciliadasComponent } from './pages/modules/conciliacion/opearciones-conciliadas/opearciones-conciliadas.component';
+import { OperacionesConciliadasComponent } from './pages/modules/conciliacion/operaciones-conciliadas/operaciones-conciliadas.component';
 import { OpearcionesNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/opearciones-no-conciliadas.component';
 import { OpearcionesFallidasComponent } from './pages/modules/conciliacion/opearciones-fallidas/opearciones-fallidas.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
-import { DialogDesconciliarComponent } from './pages/modules/conciliacion/opearciones-conciliadas/dialog-desconciliar/dialog-desconciliar.component';
+import { DialogDesconciliarComponent } from './pages/modules/conciliacion/operaciones-conciliadas/dialog-desconciliar/dialog-desconciliar.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SpinnerComponent } from './pages/shared/components/spinner/spinner.component';
@@ -152,7 +152,7 @@ import { AdministracionTasasCambioComponent } from './pages/modules/administraci
     ArchivosCargadosComponent,
     CarguePreliminarComponent,
     CargueDefinitivoComponent,
-    OpearcionesConciliadasComponent,
+    OperacionesConciliadasComponent,
     OpearcionesNoConciliadasComponent,
     OpearcionesFallidasComponent,
     CierreFechaComponent,
