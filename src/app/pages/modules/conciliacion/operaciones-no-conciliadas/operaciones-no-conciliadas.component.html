@@ -5,8 +5,21 @@
             <h1 class="tituloTabla">Operaciones programadas no conciliadas </h1>
             <span class="line-spacer"></span>
         </div>
+        <div>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListProg"
+                [length]="cantidadRegistrosOpProgramadasSinConciliar"
+                (page)="mostrarMasOpProgramadasSinConciliar($event)">
+            </mat-paginator>
+            <button mat-raised-button color="primary"
+                (click)="exporter.exportTable('xlsx', {fileName:'operaciones_programadas_no_conciliadas'})">Exportar
+                tabla</button>
+        </div>
         <div class="configScroll">
-            <table mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort #exporter="matTableExporter">
+            <div *ngIf="loadProg" class="disenio-spinner">
+                <mat-spinner></mat-spinner>
+            </div>
+            <table mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort
+                #exporter="matTableExporter">
                 <tr>
                     <ng-container matColumnDef="idOperacion" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
@@ -30,14 +43,15 @@
 
                     <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA ORIGEN</th>
-                        <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}}
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA-SALIDA</th>
                         <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
                     </ng-container>
-                    
+
                     <ng-container matColumnDef="valorTotal">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> VALOR TOTAL</th>
                         <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency}} </td>
@@ -56,7 +70,8 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>RELACION</th>
                         <td mat-cell *matCellDef="let element">
                             <mat-form-field class="example-form-field" class="ancho" appearance="fill">
-                                <input id="idsValue" matInput type="text" (keyup.enter)="eventoEnter($event,element)" (input)="getIdCompare($event,element)">
+                                <input id="idsValue" matInput type="text" (keyup.enter)="eventoEnter($event,element)"
+                                    (input)="getIdCompare($event,element)">
                             </mat-form-field>
                         </td>
                     </ng-container>
@@ -65,19 +80,28 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesProgramadas;"></tr>
             </table>
         </div>
-        <mat-paginator [pageSize]="500" [pageSizeOptions]="[500]" [length]="cantidadRegistrosOpProgramadasSinConciliar"
-            (page)="mostrarMasOpProgramadasSinConciliar($event)">
-        </mat-paginator>
-        <button mat-raised-button color="primary" 
-        (click)="exporter.exportTable('xlsx', {fileName:'operaciones_programadas_no_conciliadas'})">Exportar tabla</button>
+
     </div>
     <div class="divTablaCerti">
         <div class="divTituloTablas">
             <h1 class="tituloTabla">Operaciones certificadas no conciliadas </h1>
             <span class="line-spacer"></span>
         </div>
+        <div>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListCert"
+                [length]="cantidadRegistrosOpCertificadasSinConciliar"
+                (page)="mostrarMasOpCertificadasSinConciliar($event)">
+            </mat-paginator>
+            <button mat-raised-button color="primary"
+                (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_no_conciliadas'})">Exportar
+                tabla</button>
+        </div>
         <div class="configScroll">
-            <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort #exporter="matTableExporter">
+            <div *ngIf="loadCert" class="disenio-spinner">
+                <mat-spinner></mat-spinner>
+            </div>
+            <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort
+                #exporter="matTableExporter">
                 <tr>
 
                     <ng-container matColumnDef="idCertificacion" class="mat-column-nombreCampo">
@@ -94,7 +118,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE PUNTO DESTINO</th>
                         <td mat-cell *matCellDef="let element"> {{element.nombrePuntoDestino}} </td>
                     </ng-container>
-                    
+
                     <ng-container matColumnDef="ciudadFondo" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> CIUIDAD FONDO</th>
                         <td mat-cell *matCellDef="let element"> {{element.ciudadFondo}} </td>
@@ -102,7 +126,8 @@
 
                     <ng-container matColumnDef="fechaEjecucion" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA EJECUCION</th>
-                        <td mat-cell *matCellDef="let element"> {{element.fechaEjecucion | date: 'dd/MM/YYYY' : '+00'}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaEjecucion | date: 'dd/MM/YYYY' : '+00'}}
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
@@ -128,12 +153,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesCertificadas;"></tr>
             </table>
         </div>
-        <mat-paginator [pageSize]="500" [pageSizeOptions]="[500]" [length]="cantidadRegistrosOpCertificadasSinConciliar"
-            (page)="mostrarMasOpCertificadasSinConciliar($event)">
-        </mat-paginator>
-        <button mat-raised-button color="primary" 
-        (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_no_conciliadas'})">Exportar tabla</button>
-    
+
     </div>
 
 </div>

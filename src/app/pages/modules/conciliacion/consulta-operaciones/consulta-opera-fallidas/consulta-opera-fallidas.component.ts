@@ -9,10 +9,10 @@ import { MatSort } from '@angular/material/sort';
 import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-program-no-conciliadas.model';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
-import { DialogInfoCertificadasNoConciliadasComponent } from '../../opearciones-no-conciliadas/dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
+import { DialogInfoCertificadasNoConciliadasComponent } from '../../operaciones-no-conciliadas/dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
 import * as moment from 'moment';
 import { DialogInfoOpProgramadasComponent } from './dialog-info-op-programadas/dialog-info-op-programadas.component';
-import { DialogConciliacionManualComponent } from '../../opearciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
+import { DialogConciliacionManualComponent } from '../../operaciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 
 
 @Component({
@@ -33,6 +33,10 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   //Rgistros paginados
   cantidadRegistrosProgram: number;
   cantidadRegistrosCerti: number;
+  public loadProg: boolean = true;
+  pageSizeListProg: number[] = [5, 10, 25, 100];
+  public loadCert: boolean = true;
+  pageSizeListCert: number[] = [5, 10, 25, 100];
 
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
@@ -96,7 +100,9 @@ export class ConsultaOperaFallidasComponent implements OnInit {
    * Lista las operaciones programadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpProgramadasFallidas(pagina = 0, tamanio = 500) {
+  listarOpProgramadasFallidas(pagina = 0, tamanio = 10) {
+    this.loadProg = true;
+    this.dataSourceOperacionesProgramadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       estadoConciliacion: this.estadoConciliacionInicial,
       page: pagina,
@@ -106,6 +112,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
       this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
       this.dataSourceOperacionesProgramadas.sort = this.sort;
       this.cantidadRegistrosProgram = page.data.totalElements;
+      this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
+      this.loadProg = false;
     },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -116,6 +124,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.loadProg = false;
       });
   }
 
@@ -131,7 +140,9 @@ export class ConsultaOperaFallidasComponent implements OnInit {
    * Lista las operaciones certificadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpCertificadasFallidas(pagina = 0, tamanio = 500) {
+  listarOpCertificadasFallidas(pagina = 0, tamanio = 10) {
+    this.loadCert = true;
+    this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
       estadoConciliacion: this.estadoConciliacionInicial,
       conciliable: 'SI',
@@ -144,6 +155,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesCertificadas.sort = this.sort;
         this.cantidadRegistrosCerti = page.data.totalElements;
+        this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
+        this.loadCert = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
@@ -155,6 +168,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.loadCert = false;
       }
     });
   }
@@ -167,7 +181,9 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     this.listarOpCertificadasFallidas(e.pageIndex, e.pageSize);
   }
 
-  listarOpProgramadasSinConciliarXBancoOTDV(tdv?: string, banco?: string, puntoOrigen?: string, estadoConciliacion?: any[], pagina = 0, tamanio = 500) {
+  listarOpProgramadasSinConciliarXBancoOTDV(tdv?: string, banco?: string, puntoOrigen?: string, estadoConciliacion?: any[], pagina = 0, tamanio = 10) {
+    this.loadProg = true;
+    this.dataSourceOperacionesProgramadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       estadoConciliacion: estadoConciliacion,
       bancoAVAL: banco,
@@ -181,6 +197,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesProgramadas.sort = this.sort;
         this.cantidadRegistrosProgram = page.data.totalElements;
+        this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
+        this.loadProg = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
@@ -192,11 +210,14 @@ export class ConsultaOperaFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.loadProg = false;
       }
     });
   }
 
-  listarOpCertificadasSinConciliarXBancoOTDV(tdv?: string, banco?: string, puntoOrigen?: string, estadoConciliacion?: any[], pagina = 0, tamanio = 500) {
+  listarOpCertificadasSinConciliarXBancoOTDV(tdv?: string, banco?: string, puntoOrigen?: string, estadoConciliacion?: any[], pagina = 0, tamanio = 10) {
+    this.loadCert = true;
+    this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({ 
       estadoConciliacion: estadoConciliacion,
       conciliable: 'SI',
@@ -211,6 +232,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesCertificadas.sort = this.sort;
         this.cantidadRegistrosCerti = page.data.totalElements;
+        this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
+        this.loadCert = false;
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
@@ -222,6 +245,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.loadCert = false;
       }
     });
   }

@@ -5,6 +5,16 @@
             <h1 class="tituloTabla">Operaciones programadas sin conciliar </h1>
             <span class="line-spacer"></span>
         </div>
+        <div>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListProg" [length]="cantidadRegistrosProgram"
+                (page)="mostrarMasOpProgramadasFallidas($event)">
+            </mat-paginator>
+            <button mat-raised-button color="primary" 
+            (click)="exporter.exportTable('xlsx', {fileName:'operaciones_programadas_fallidas'})">Exportar tabla</button>
+        </div>
+        <div *ngIf="loadProg" class="disenio-spinner">
+            <mat-spinner></mat-spinner>
+        </div>
         <div class="configScroll">
             <table mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort #exporter="matTableExporter">
                 <tr>
@@ -50,17 +60,23 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsOperacionesProgramadas"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesProgramadas;"></tr>
             </table>
-        </div>
-        <mat-paginator [pageSize]="500" [pageSizeOptions]="[500]" [length]="cantidadRegistrosProgram"
-            (page)="mostrarMasOpProgramadasFallidas($event)">
-        </mat-paginator>
-        <button mat-raised-button color="primary" 
-        (click)="exporter.exportTable('xlsx', {fileName:'operaciones_programadas_fallidas'})">Exportar tabla</button>
+        </div>  
     </div>
-    <div class="divTablaCerti">
+    
+    <div class="divTablaCerti"> 
         <div class="divTituloTablas">
             <h1 class="tituloTabla">Operaciones certificadas sin conciliar</h1>
             <span class="line-spacer"></span>
+        </div>
+        <div>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListCert" [length]="cantidadRegistrosCerti"
+                (page)="mostrarMasOpCertificadasFallidas($event)">
+            </mat-paginator>
+            <button mat-raised-button color="primary" 
+            (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_fallidas'})">Exportar tabla</button>
+        </div>       
+        <div *ngIf="loadCert" class="disenio-spinner">
+            <mat-spinner></mat-spinner>
         </div>
         <div class="configScroll">
             <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort #exporter="matTableExporter">
@@ -118,11 +134,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesCertificadas;"></tr>
             </table>
         </div>
-        <mat-paginator [pageSize]="500" [pageSizeOptions]="[500]" [length]="cantidadRegistrosCerti"
-            (page)="mostrarMasOpCertificadasFallidas($event)">
-        </mat-paginator>
-        <button mat-raised-button color="primary" 
-        (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_fallidas'})">Exportar tabla</button>
+        
     </div>
 
 </div>

@@ -9,19 +9,19 @@ import { ConciliacionesModel } from 'src/app/_model/consiliacion-model/conciliac
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
 import { DialogDesconciliarComponent } from './dialog-desconciliar/dialog-desconciliar.component';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { lastValueFrom } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({    
-  selector: 'app-opearciones-conciliadas',
-  templateUrl: './opearciones-conciliadas.component.html',
-  styleUrls: ['./opearciones-conciliadas.component.css']
+  selector: 'app-operaciones-conciliadas',
+  templateUrl: './operaciones-conciliadas.component.html',
+  styleUrls: ['./operaciones-conciliadas.component.css']
 })
 
 /**
  * Clase que lista la operaciones conciliadas y nos permite llamar al Mat Dialog para hacer la desconciliación
  * @JuanMazo
  */
-export class OpearcionesConciliadasComponent implements OnInit {
+export class OperacionesConciliadasComponent implements OnInit {
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -30,8 +30,11 @@ export class OpearcionesConciliadasComponent implements OnInit {
   cantidadRegistros: number;
   estadoConciliacion: string[] = ['CONCILIADA'];
   bancoAVAL: string[];
-  fechaOrigen: string;
+  fechaOrigen: any;
   transportadora: string;
+  fecha1: Date;
+  public load: boolean = true;
+  pageSizeList: number[] = [5, 10, 25, 100];
 
   //DataSource para pintar tabla de conciliados
   dataSourceConciliadas: MatTableDataSource<ConciliacionesModel>;
@@ -44,10 +47,18 @@ export class OpearcionesConciliadasComponent implements OnInit {
       
     }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    const _fecha = await this.generalServices.listarParametroByFiltro({
+      codigo: "FECHA_DIA_PROCESO"
+    }).toPromise();
+    const [day, month, year] = _fecha.data[0].valor.split('/');
+    const fechaFormat = year+'/'+month+'/'+day
+    this.fecha1 = new Date(fechaFormat);
+    this.fechaOrigen = new FormControl(_fecha.data[0].valor);
+
     this.listarConciliados(this.estadoConciliacion, 
       this.bancoAVAL == undefined ? [] : this.bancoAVAL, 
-      this.fechaOrigen == undefined ? "" : this.fechaOrigen, 
+      this.fechaOrigen == undefined ? "" : fechaFormat, 
       this.transportadora == undefined ? "" : this.transportadora);
   }
 
@@ -55,24 +66,23 @@ export class OpearcionesConciliadasComponent implements OnInit {
   * Se realiza consumo de servicio para listar los conciliaciones
   * @JuanMazo
   */
-    async listarConciliados(estado?: string[], banco?: string[], fecha?: string, trasnportadora?: string, pagina = 0, tamanio = 5) {
-      const _fecha = await this.generalServices.listarParametroByFiltro({
-        codigo: "FECHA_DIA_PROCESO"
-      }).toPromise();
-      const [day, month, year] = _fecha.data[0].valor.split('/');
-      const fechaFormat = year+'/'+month+'/'+day
+    async listarConciliados(estado?: string[], banco?: string[], fecha?: string, trasportadora?: string, pagina = 0, tamanio = 5) {
+      this.load = true;
+      this.dataSourceConciliadas = new MatTableDataSource();
       this.opConciliadasService.obtenerConciliados({
         page: pagina,
         size: tamanio,
         estadoConciliacion: estado,
         bancoAval: banco,
-        fechaOrigen: fechaFormat
+        fechaOrigen: fecha,
+        tdv: trasportadora
       }).subscribe({
         next: (page: any) => { 
           this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
           this.dataSourceConciliadas.sort = this.sort;
           this.cantidadRegistros = page.data.totalElements;
-          
+          this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
+          this.load = false;
         },
         error: (err: any) => {
           this.dataSourceConciliadas = new MatTableDataSource();
@@ -83,7 +93,8 @@ export class OpearcionesConciliadasComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
-          setTimeout(() => { alert.close()}, 3000);      
+          setTimeout(() => { alert.close()}, 3000);  
+          this.load = false;    
         }
       });
   }
@@ -93,7 +104,13 @@ export class OpearcionesConciliadasComponent implements OnInit {
   * @BaironPerez
   */
    mostrarMas(e: any) {
-    this.listarConciliados(e.pageIndex, e.pageSize);
+    const [month, day, year] = new Date(this.fechaOrigen.value).toLocaleDateString().split('/');
+    const fechaFormat = year+'/'+month+'/'+day;
+    this.listarConciliados(this.estadoConciliacion, 
+      this.bancoAVAL == undefined ? [] : this.bancoAVAL, 
+      this.fechaOrigen == undefined ? "" : fechaFormat, 
+      this.transportadora == undefined ? "" : this.transportadora,
+      e.pageIndex, e.pageSize);
   }
 
   /**
@@ -114,9 +131,12 @@ export class OpearcionesConciliadasComponent implements OnInit {
   }
   
   filter(event) {
-    this.listarConciliados(event.estadoConciliacion == undefined ? "" : event.estadoConciliacion, 
+    const [month, day, year] = new Date(this.fechaOrigen.value).toLocaleDateString().split('/');
+    const fechaFormat = year+'/'+month+'/'+day;
+    this.listarConciliados(
+      event.estadoConciliacion == undefined ? this.estadoConciliacion : event.estadoConciliacion, 
       event.banco == undefined ? "" : event.banco,
-      this.fechaOrigen == undefined ? "" : this.fechaOrigen,
+      this.fechaOrigen == undefined ? "" : fechaFormat,
       event.trasportadora == undefined ? "" : event.trasportadora
     );
   }

@@ -6,9 +6,9 @@ import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/c
 import { CarguePreliminarComponent } from './pages/modules/cargue-programacion/cargue-preliminar/cargue-preliminar.component';
 import { CargueProgramacionComponent } from './pages/modules/cargue-programacion/cargue-programacion.component';
 import { ConciliacionComponent } from './pages/modules/conciliacion/conciliacion.component';
-import { OpearcionesConciliadasComponent } from './pages/modules/conciliacion/opearciones-conciliadas/opearciones-conciliadas.component';
-import { OpearcionesFallidasComponent } from './pages/modules/conciliacion/opearciones-fallidas/opearciones-fallidas.component';
-import { OpearcionesNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/opearciones-no-conciliadas.component';
+import { OperacionesConciliadasComponent } from './pages/modules/conciliacion/operaciones-conciliadas/operaciones-conciliadas.component';
+import { OperacionesFallidasComponent } from './pages/modules/conciliacion/operaciones-fallidas/operaciones-fallidas.component';
+import { OperacionesNoConciliadasComponent } from './pages/modules/conciliacion/operaciones-no-conciliadas/operaciones-no-conciliadas.component';
 import { ResumenComponent } from './pages/modules/conciliacion/consulta-operaciones/resumen/resumen.component';
 import { CargueCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-certificacion.component';
 import { CargueDefinitivoCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-definitivo-certificacion/cargue-definitivo-certificacion.component';
@@ -107,9 +107,9 @@ const routes: Routes = [
       { path: 'operaciones-programadas-no-conciliadas-consulta', component: ConsultaOperaProgramadasComponent },
       { path: 'operaciones-certificadas-no-conciliadas-consulta', component: ConsultaOperaCertificadasComponent },
       { path: 'operaciones-conciliadas-fallidas-consulta', component: ConsultaOperaFallidasComponent },
-      { path: 'operaciones-conciliadas', component: OpearcionesConciliadasComponent },
-      { path: 'operaciones-programadas-no-conciliadas', component: OpearcionesNoConciliadasComponent },
-      { path: 'operaciones-sin-conciliar', component: OpearcionesFallidasComponent },
+      { path: 'operaciones-conciliadas', component: OperacionesConciliadasComponent },
+      { path: 'operaciones-programadas-no-conciliadas', component: OperacionesNoConciliadasComponent },
+      { path: 'operaciones-sin-conciliar', component: OperacionesFallidasComponent },
       { path: 'resumen-operaciones', component: ResumenComponent },
       { path: 'administrador-cargue-conciliacion', component: CierreConciliacionComponent },
     ]
