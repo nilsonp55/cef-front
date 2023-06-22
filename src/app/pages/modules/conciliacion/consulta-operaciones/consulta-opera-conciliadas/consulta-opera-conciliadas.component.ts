@@ -24,7 +24,7 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
   cantidadRegistros: number;
   pageSizeList: number[] = [5, 10, 25, 100];
 
-  public load: boolean = false;
+  public load: boolean = true;
 
   //DataSource para pintar tabla de conciliados
   dataSourceConciliadas: MatTableDataSource<any>;
@@ -48,16 +48,17 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
  * @JuanMazo
  */
   listarConciliados(pagina = 0, tamanio = 5) {
+    this.load = true;
+    this.dataSourceConciliadas = new MatTableDataSource();
     this.opConciliadasService.obtenerConciliados({
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
-      this.load = true;
       this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
       this.dataSourceConciliadas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
       this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
-
+      this.load = false;
     },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -68,6 +69,7 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.load = false;
       });
   }
 
