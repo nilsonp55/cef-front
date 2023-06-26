@@ -104,7 +104,7 @@
                 </mat-form-field>
 
                 <!--Transportadora-->
-                <mat-form-field appearance="outline" *ngIf="tdvSelect">
+                <mat-form-field appearance="outline" *ngIf="tdvSelect || esEdicion">
                     <mat-label>TDV</mat-label>
                     <mat-select required formControlName="codigoTdv" (selectionChange)="selectedTdv($event)">
                         <mat-option *ngFor="let item of transportadoras" [value]="item">
@@ -119,9 +119,9 @@
                 </mat-form-field>
 
                 <!--Tipo Punto-->
-                <mat-form-field appearance="outline" *ngIf="tipoPuntoSelect">
+                <mat-form-field appearance="outline" *ngIf="tipoPuntoSelect || esEdicion">
                     <mat-label>Tipo Punto</mat-label>
-                    <mat-select [(value)]="selectedTipoPunto" (selectionChange)="filtrarPuntos($event)">
+                    <mat-select formControlName="tipoPunto" [(value)]="selectedTipoPunto" (selectionChange)="filtrarPuntos($event)">
                         <mat-option value="">Ninguno</mat-option>
                         <mat-option value="BAN_REP">BAN_REP</mat-option>
                         <mat-option value="CAJERO">CAJERO</mat-option>
@@ -133,7 +133,7 @@
                 </mat-form-field>
 
                 <!--Cliente-->
-                <mat-form-field appearance="outline" *ngIf="clienteSelect">
+                <mat-form-field appearance="outline" *ngIf="selectedTipoPunto=='CLIENTE'">
                     <mat-label>Cliente</mat-label>
                     <mat-select formControlName="cliente" (selectionChange)="filtrarPuntosCliente($event)">
                         <mat-option value="">Ninguno</mat-option>
@@ -144,7 +144,7 @@
                 </mat-form-field>
 
                 <!--Punto-->
-                <mat-form-field appearance="outline" *ngIf="puntoSelect">
+                <mat-form-field appearance="outline" *ngIf="puntoSelect || esEdicion">
                     <mat-label>Punto</mat-label>
                     <mat-select required formControlName="punto" (selectionChange)="changePunto($event)">
                         <mat-option *ngFor="let item of puntos" [value]="item">
@@ -160,7 +160,7 @@
                 </mat-form-field>
 
                 <!--Ciudad-->
-                <mat-form-field appearance="outline" *ngIf="ciudadSelect">
+                <mat-form-field appearance="outline" *ngIf="selectedTipoPunto=='BAN_REP'">
                     <mat-label>Ciudad</mat-label>
                     <input type="text" matInput placeholder="Ciudad" formControlName="codigoDANE" readonly>
                 </mat-form-field>
