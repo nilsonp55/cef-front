@@ -133,7 +133,7 @@
                 </mat-form-field>
 
                 <!--Cliente-->
-                <mat-form-field appearance="outline" *ngIf="clienteSelect">
+                <mat-form-field appearance="outline" *ngIf="selectedTipoPunto=='CLIENTE'">
                     <mat-label>Cliente</mat-label>
                     <mat-select formControlName="cliente" (selectionChange)="filtrarPuntosCliente($event)">
                         <mat-option value="">Ninguno</mat-option>
@@ -160,7 +160,7 @@
                 </mat-form-field>
 
                 <!--Ciudad-->
-                <mat-form-field appearance="outline" *ngIf="ciudadSelect || esEdicion">
+                <mat-form-field appearance="outline" *ngIf="selectedTipoPunto=='BAN_REP'">
                     <mat-label>Ciudad</mat-label>
                     <input type="text" matInput placeholder="Ciudad" formControlName="codigoDANE" readonly>
                 </mat-form-field>
