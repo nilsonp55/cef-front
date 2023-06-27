@@ -1,25 +1,26 @@
 <div class="division-busqueda">
   <div class="ubicacionBanco">
-      <mat-form-field appearance="fill">
-          <mat-label>Bancos grupo aval</mat-label>
-          <mat-select (selectionChange)="selectBanco($event)">
-            <mat-option>Ninguno</mat-option>
-            <mat-option *ngFor="let bancoOption of bancoOptions" [value]="bancoOption.nombreBanco">
-              {{bancoOption.nombreBanco}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Bancos grupo aval</mat-label>
+      <mat-select (selectionChange)="selectBanco($event)">
+        <mat-option>Ninguno</mat-option>
+        <mat-option *ngFor="let bancoOption of bancoOptions" [value]="bancoOption.nombreBanco">
+          {{bancoOption.nombreBanco}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div class="ubicacionTdV">
-      <mat-form-field appearance="fill">
-          <mat-label>Transportadoras</mat-label>
-          <mat-select (selectionChange)="selectTrasportadora($event)">
-            <mat-option>Ninguno</mat-option>
-            <mat-option *ngFor="let tranportadoraOption of tranportadoraOptions" [value]="tranportadoraOption.nombreTransportadora">
-              {{tranportadoraOption.nombreTransportadora}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Transportadoras</mat-label>
+      <mat-select (selectionChange)="selectTrasportadora($event)">
+        <mat-option>Ninguno</mat-option>
+        <mat-option *ngFor="let tranportadoraOption of tranportadoraOptions"
+          [value]="tranportadoraOption.nombreTransportadora">
+          {{tranportadoraOption.nombreTransportadora}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div>
     <mat-form-field appearance="fill">
@@ -37,7 +38,7 @@
   </div>
 
   <div>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" *ngIf="showFilterEstado">
       <mat-label>Estado Conciliacion</mat-label>
       <mat-select [(value)]="estadoConciliacion" multiple>
         <mat-option *ngFor="let item of estadosConciliacionOptions" [value]="item">{{item}}</mat-option>
@@ -47,7 +48,7 @@
 
   <div>
     <div class="ubicacionBotonFiltrar">
-        <button mat-raised-button color="primary" (click)="filter()">FILTRAR</button>
+      <button mat-raised-button color="primary" (click)="filter()">FILTRAR</button>
     </div>
-</div>
+  </div>
 </div>
