@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -27,6 +27,9 @@ export class FiltroBancoTdvComponent implements OnInit {
   selectedOrigen = '';
   selectedDestino = '';
   estadoConciliacion: any;
+
+  @Input()
+  showFilterEstado: boolean = false;
 
   @Output()
   filterData = new EventEmitter<any>();
