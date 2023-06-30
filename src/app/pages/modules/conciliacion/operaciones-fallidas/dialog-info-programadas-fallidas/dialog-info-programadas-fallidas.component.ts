@@ -2,7 +2,7 @@ import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
-import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
+import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { ErrorService } from 'src/app/_model/error.model';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';

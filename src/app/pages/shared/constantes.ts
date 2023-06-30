@@ -207,6 +207,7 @@ export const URLs = {
   PROGRAMACION_CERTIFICACION_CERTIFICACIONES: '/certificaciones',
   PROGRAMACION_CERTIFICACION_PROCESAR: '/procesar',
   PROGRAMACION_CERTIFICACION_HISTORICO: '/detalle',
+  PROGRAMACION_CERTIFICACION_PROCESAR_ALCANCE: '/procesar-alcance',
 
   //Operaciones programadas 
   OPERACIONES_PROGRMADAS: '/operaciones-programadas',

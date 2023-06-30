@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
-import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
+import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import * as moment from 'moment';
 import { FormControl } from '@angular/forms';
 

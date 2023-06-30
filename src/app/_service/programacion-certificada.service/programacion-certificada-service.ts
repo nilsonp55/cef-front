@@ -78,4 +78,12 @@ export class CargueProgramacionCertificadaService {
         const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get<any>(`${environment.HOST}${URLs.STAGE+URLs.PROGRAMACION_CERTIFICACION_CERTIFICACIONES}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`,{ params: param, headers });
     }
+
+    /**
+     * Servicio para cerrar el proceso de certificación
+     */
+    public procesarAlcances(param: any): Observable<any> {
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
+        return this.http.post<any>(`${environment.HOST}${URLs.STAGE+URLs.PROGRAMACION_CERTIFICACION_CERTIFICACIONES}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`,{ params: param, headers });
+    }
 }
