@@ -6,10 +6,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ConciliacionesModel } from 'src/app/_model/consiliacion-model/conciliacion.model';
-import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
+import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { DialogDesconciliarComponent } from './dialog-desconciliar/dialog-desconciliar.component';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { FormControl } from '@angular/forms';
+import { lastValueFrom } from 'rxjs';
 
 @Component({    
   selector: 'app-operaciones-conciliadas',
@@ -48,13 +49,16 @@ export class OperacionesConciliadasComponent implements OnInit {
     }
 
   async ngOnInit(): Promise<void> {
-    const _fecha = await this.generalServices.listarParametroByFiltro({
+    debugger;
+    let fechaFormat: string;
+    await lastValueFrom(this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
-    }).toPromise();
-    const [day, month, year] = _fecha.data[0].valor.split('/');
-    const fechaFormat = year+'/'+month+'/'+day
-    this.fecha1 = new Date(fechaFormat);
-    this.fechaOrigen = new FormControl(_fecha.data[0].valor);
+    })).then((response) => {
+      const [day, month, year] = response.data[0].valor.split('/');
+      fechaFormat = year+'/'+month+'/'+day
+      this.fecha1 = new Date(fechaFormat);
+      this.fechaOrigen = new FormControl(response.data[0].valor);
+    });
 
     this.listarConciliados(this.estadoConciliacion, 
       this.bancoAVAL == undefined ? [] : this.bancoAVAL, 

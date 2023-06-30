@@ -15,7 +15,7 @@ import { URLs } from '../../pages/shared/constantes';
 export class CargueProgramacionPreliminarService {
 
     private url: string = `${environment.HOST}${URLs.STAGE + URLs.PROGRAMACION_PRELIMINAR}`;
-    private urlReabrir: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRMADAS}`;
+    private urlReabrir: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRAMADAS}`;
 
     constructor(private http: HttpClient) { }
 
@@ -37,7 +37,7 @@ export class CargueProgramacionPreliminarService {
     */
      reabrirArchivo(param: any) {
         const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get<any>(`${this.urlReabrir}${URLs.OPERACIONES_PROGRMADAS_REABRIR}`, { params: param,  headers });
+        return this.http.get<any>(`${this.urlReabrir}${URLs.OPERACIONES_PROGRAMADAS_REABRIR}`, { params: param,  headers });
     }
     
     /**

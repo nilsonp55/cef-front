@@ -5,7 +5,7 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
-import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
+import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({

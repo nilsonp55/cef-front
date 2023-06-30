@@ -7,7 +7,7 @@ import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinne
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
-import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
+import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { OperacionesProgramadasService } from 'src/app/_service/operaciones-programadas.service';
 

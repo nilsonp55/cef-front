@@ -207,11 +207,12 @@ export const URLs = {
   PROGRAMACION_CERTIFICACION_CERTIFICACIONES: '/certificaciones',
   PROGRAMACION_CERTIFICACION_PROCESAR: '/procesar',
   PROGRAMACION_CERTIFICACION_HISTORICO: '/detalle',
+  PROGRAMACION_CERTIFICACION_PROCESAR_ALCANCE: '/procesar-alcance',
 
   //Operaciones programadas 
-  OPERACIONES_PROGRMADAS: '/operaciones-programadas',
-  OPERACIONES_PROGRMADAS_PROCESAR: '/procesar',
-  OPERACIONES_PROGRMADAS_REABRIR: '/reabrir',
+  OPERACIONES_PROGRAMADAS: '/operaciones-programadas',
+  OPERACIONES_PROGRAMADAS_PROCESAR: '/procesar',
+  OPERACIONES_PROGRAMADAS_REABRIR: '/reabrir',
 
 
   //Conciliación
