@@ -15,7 +15,7 @@ import { URLs } from '../../pages/shared/constantes';
 export class OpConciliadasService {
 
     private url: string = `${environment.HOST}${URLs.STAGE}${URLs.CONCILIACION}`;
-    private urlReabrir: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRMADAS}`;
+    private urlReabrir: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRAMADAS}`;
 
     //private url: string = `${environment.HOST}${URLs.API_VERSION}${URLs.CONCILIACION}`;
 
@@ -131,7 +131,7 @@ export class OpConciliadasService {
 */
     reabrirArchivo(param: any) {
         const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.urlReabrir}${URLs.OPERACIONES_PROGRMADAS_REABRIR}`, { params: param, headers });
+        return this.http.get<any>(`${this.urlReabrir}${URLs.OPERACIONES_PROGRAMADAS_REABRIR}`, { params: param, headers });
     }
 
 }

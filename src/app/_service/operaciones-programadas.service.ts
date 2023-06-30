@@ -14,7 +14,7 @@ import { URLs } from '../pages/shared/constantes';
  */
 export class OperacionesProgramadasService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRMADAS}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRAMADAS}`;
 
     constructor(private http: HttpClient) { }
 
@@ -29,7 +29,7 @@ export class OperacionesProgramadasService {
      */
     public procesar(param: any): Observable<any> {
         const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get<any>(`${this.url}${URLs.OPERACIONES_PROGRMADAS_PROCESAR}`,{ params: param, headers });
+        return this.http.get<any>(`${this.url}${URLs.OPERACIONES_PROGRAMADAS_PROCESAR}`,{ params: param, headers });
     }
 
 }
