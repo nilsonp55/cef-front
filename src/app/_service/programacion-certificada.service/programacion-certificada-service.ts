@@ -82,8 +82,8 @@ export class CargueProgramacionCertificadaService {
     /**
      * Servicio para cerrar el proceso de certificación
      */
-    public procesarAlcances(param: any): Observable<any> {
+    public procesarAlcances(param?: any): Observable<any> {
         const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.post<any>(`${environment.HOST}${URLs.STAGE+URLs.PROGRAMACION_CERTIFICACION_CERTIFICACIONES}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR}`,{ params: param, headers });
+        return this.http.post<any>(`${environment.HOST}${URLs.STAGE+URLs.PROGRAMACION_CERTIFICACION_CERTIFICACIONES}${URLs.PROGRAMACION_CERTIFICACION_PROCESAR_ALCANCES}`,{ params: param, headers });
     }
 }
