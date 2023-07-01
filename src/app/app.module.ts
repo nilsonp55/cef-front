@@ -132,6 +132,7 @@ import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/ge
 import { DialogConfirmLlavesComponent } from './pages/modules/administracion/generar-llave-archivos/dialog-confirm-llaves/dialog-confirm-llaves.component';
 import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
 import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
+import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
 
 @NgModule({
   declarations: [
@@ -241,7 +242,8 @@ import { AdministracionTasasCambioComponent } from './pages/modules/administraci
     GenerarLlaveArchivosComponent,
     DialogConfirmLlavesComponent,
     CierreSesionComponent,
-    AdministracionTasasCambioComponent
+    AdministracionTasasCambioComponent,
+    ProcesarAlcancesComponent
     ],
 
   imports: [
