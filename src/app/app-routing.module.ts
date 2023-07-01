@@ -12,7 +12,7 @@ import { OperacionesNoConciliadasComponent } from './pages/modules/conciliacion/
 import { ResumenComponent } from './pages/modules/conciliacion/consulta-operaciones/resumen/resumen.component';
 import { CargueCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-certificacion.component';
 import { CargueDefinitivoCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-definitivo-certificacion/cargue-definitivo-certificacion.component';
-import { MenuContabilidadComponent } from './pages/modules/contabilizacion/menu-contabilidad/menu-contabilidad.component';
+import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
 import { CierreFechaComponent } from './pages/modules/administracion/cierre-fecha/cierre-fecha.component';
 import { AdministracionContabilidadComponent } from './pages/modules/administracion/administracion-contabilidad/administracion-contabilidad.component';
 import { AdministradorCuentasPucComponent } from './pages/modules/administracion/administrador-cuentas-puc/administrador-cuentas-puc.component';
@@ -54,7 +54,6 @@ import { LiquidacionCostosGuard } from './wards/liquidacion-costos.guard';
 import { LiquidacionTarifasOperacionGuard } from './wards/liquidacion-tarifas-operacion.guard';
 import { AdministracionCodigoTdvGuard } from './wards/administracion-codigo-tdv.guard';
 import { LiquidacionLiquidacionMensualGuard } from './wards/liquidacion-liquida-mensual.guard';
-import { LiquidacionDetalleLiquidacionGuard } from './wards/liquidacion-detalle-liquidacion.guard';
 import { LiquidacionDenominacionCantidadGuard } from './wards/liquidacion-denominacion-cant.guard';
 import { LiquidacionCierreLiquidacionMensualGuard } from './wards/liquidacion-cierre-liquida-mensual.guard';
 import { AdministracionDominiosGuard } from './wards/administracion-dominios.guard';
@@ -99,6 +98,7 @@ const routes: Routes = [
     path: 'cargue-certificacion', component: CargueCertificacionComponent, children: [
       { path: 'gestion-cargue-certificacion', component: CargueDefinitivoCertificacionComponent, canActivate: [CertificacionGestionCargueCertificacionGuard] },
       { path: 'administrador-cargue-certificacion', component: CierreCertificacionComponent, canActivate: [CertificacionCierreCertificacionGuard] },
+      { path: 'procesar-alcances', component: ProcesarAlcancesComponent, canActivate: [CertificacionCierreCertificacionGuard] },
     ]
   },
   {
