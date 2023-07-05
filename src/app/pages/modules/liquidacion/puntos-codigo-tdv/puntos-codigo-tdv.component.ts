@@ -64,6 +64,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     this.habilitarBTN = false;
     this.iniciarDesplegables();
     this.listarPuntosCodigo();
+    this.iniciarPuntos();
     this.initForm();
   }
 
@@ -78,10 +79,15 @@ export class PuntosCodigoTdvComponent implements OnInit {
         this.selectedTipoPunto = param.puntosDTO.tipoPunto;
         if(param.puntosDTO.codigoCiudad)
           ciudad = this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).nombreCiudad;
+      
+        const params = {
+          tipoPunto: this.selectedTipoPunto
+        };
+        this.listarPuntos(params);
       }
       this.form = new FormGroup({
         'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
-        'punto': new FormControl(param ? param.puntosDTO.codigoPunto : null),
+        'punto': new FormControl(param ? param.puntosDTO.nombrePunto : null),
         'codigoPunto': new FormControl(param ? param.codigoPunto : null),
         'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
         'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
@@ -230,7 +236,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     this.idPuntoCodigo = this.form.value['idPuntoCodigo'];
     this.form.get('idPuntoCodigo').disable();
     this.esEdicion = true;
-    this.mostrarTabla = false;
+    this.mostrarTabla = false;    
   }
 
   async iniciarDesplegables() {
@@ -243,6 +249,14 @@ export class PuntosCodigoTdvComponent implements OnInit {
     });    
     await lastValueFrom(this.generalesService.listarTransportadoras()).then((response) => {
       this.transportadoras = response.data;
+    });
+    
+  }
+
+  async iniciarPuntos() {
+
+    await lastValueFrom(this.gestionPuntosService.listarPuntosCreados()).then((response) => {
+      this.puntos = response.content;
     });
     
   }
@@ -322,7 +336,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
 
-  listarPuntos(params: any){
+  listarPuntos(params?: any){
     this.gestionPuntosService.listarPuntosCreados(params).subscribe({
       next: response => {
         this.puntos = response.data.content;

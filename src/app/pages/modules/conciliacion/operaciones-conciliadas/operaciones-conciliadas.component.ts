@@ -49,7 +49,6 @@ export class OperacionesConciliadasComponent implements OnInit {
     }
 
   async ngOnInit(): Promise<void> {
-    debugger;
     let fechaFormat: string;
     await lastValueFrom(this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
