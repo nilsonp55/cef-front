@@ -22,46 +22,57 @@ export class DialogConciliacionManualComponent implements OnInit {
   dataSourceInfoOpProgramadas: MatTableDataSource<any>;
   displayedColumnsInfoOpProgramadas: string[] = ['nombreFondoTDV', 'tipoOperacion', 'codigoPuntoOrigen', 'codigoPuntoDestino', 'fecha', 'entradaSalida', 'valorTotal'];
 
+  idsCertifica: any[] = [];
   datosCoparados: any[] = [];
+  paramsConciliacionManual: any[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private opConciliadasService: OpConciliadasService,
     private dialog: MatDialog,) {
       
+	this.datosCoparados = [];
+	data.origen.forEach(element => {
+		if (element.relacion && element.relacion.length > 1 ) {
+			this.idsCertifica = [];
+			this.idsCertifica = element.relacion.split(',');
+			this.idsCertifica.forEach( idCerti  => {
+				this.operacionCerfida = null
+				this.operacionCerfida = data.destino.filter(operacionProgramada => operacionProgramada.idCertificacion === parseInt(idCerti))
+				if (this.operacionCerfida.length > 0) {
+					this.datosCoparados.push({
+					  tipoOperacion: element.tipoOperacion,
+					  valorTotal: element.valorTotal,
+					  nombreFondoTDV: element.nombreFondoTDV,
+					  tipoPuntoDestino: element.tipoPuntoDestino,
+					  nombrePuntoOrigen: element.nombrePuntoOrigen,
+					  nombrePuntoDestino: element.nombrePuntoDestino,
+					  fechaProgramacion: element.fechaProgramacion,
+					  fechaOrigen: element.fechaOrigen ? element.fechaOrigen : "",
+					  fechaDestino: element.fechaDestino,
+					  entradaSalida: element.entradaSalida,
+					  idOperacion: element.idOperacion
+					})
+					this.datosCoparados.push({
+					  tipoOperacion: this.operacionCerfida[0].tipoOperacion,
+					  valorTotal: this.operacionCerfida[0].valorTotal,
+					  nombreFondoTDV: this.operacionCerfida[0].nombreFondoTDV,
+					  nombrePuntoOrigen: this.operacionCerfida[0].nombrePuntoOrigen,
+					  fechaEjecucion: this.operacionCerfida[0].fechaEjecucion ? this.operacionCerfida[0].fechaEjecucion : " ",
+					  nombrePuntoDestino: this.operacionCerfida[0].nombrePuntoDestino,
+					  fechaProgramacion: this.operacionCerfida[0].fechaProgramacion,
+					  entradaSalida: this.operacionCerfida[0].entradaSalida,
+					  idCertificacion: this.operacionCerfida[0].idCertificacion
+					})
 
-     this.datosCoparados = []
-    data.origen.forEach(element => {
-      this.operacionCerfida = null;
-      this.operacionCerfida = data.destino.filter(operacionProgramada => operacionProgramada.idCertificacion === parseInt(element.relacion))
-      if (this.operacionCerfida.length > 0) {
-        this.datosCoparados.push({
-          tipoOperacion: element.tipoOperacion,
-          valorTotal: element.valorTotal,
-          nombreFondoTDV: element.nombreFondoTDV,
-          tipoPuntoDestino: element.tipoPuntoDestino,
-          nombrePuntoOrigen: element.nombrePuntoOrigen,
-          nombrePuntoDestino: element.nombrePuntoDestino,
-          fechaProgramacion: element.fechaProgramacion,
-          fechaOrigen: element.fechaOrigen ? element.fechaOrigen : "",
-          fechaDestino: element.fechaDestino,
-          entradaSalida: element.entradaSalida,
-          idOperacion: element.idOperacion
-
-        })
-        this.datosCoparados.push({
-          tipoOperacion: this.operacionCerfida[0].tipoOperacion,
-          valorTotal: this.operacionCerfida[0].valorTotal,
-          nombreFondoTDV: this.operacionCerfida[0].nombreFondoTDV,
-          nombrePuntoOrigen: this.operacionCerfida[0].nombrePuntoOrigen,
-          fechaEjecucion: this.operacionCerfida[0].fechaEjecucion ? this.operacionCerfida[0].fechaEjecucion : " ",
-          nombrePuntoDestino: this.operacionCerfida[0].nombrePuntoDestino,
-          fechaProgramacion: this.operacionCerfida[0].fechaProgramacion,
-          entradaSalida: this.operacionCerfida[0].entradaSalida,
-          idCertificacion: this.operacionCerfida[0].idCertificacion
-        })
-      }
-    });
+          this.paramsConciliacionManual.push({
+            idOperacion: element.idOperacion,
+            idCertificacion: idCerti
+          });
+				}
+			});
+		}
+	});
     this.dataSourceInfoOpProgramadas = new MatTableDataSource(this.datosCoparados)
   }
 
@@ -74,9 +85,8 @@ export class DialogConciliacionManualComponent implements OnInit {
    * @JuanMazo
    */
   conciliacionManual() {
-    var idOperacion = this.dataSourceInfoOpProgramadas.data[0].idOperacion
-    var idCertificacion = this.dataSourceInfoOpProgramadas.data[1].idCertificacion
-    this.opConciliadasService.conciliacionManual(idOperacion, idCertificacion).subscribe({
+    
+    this.opConciliadasService.conciliacionManual(this.paramsConciliacionManual).subscribe({
       next: (data: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
