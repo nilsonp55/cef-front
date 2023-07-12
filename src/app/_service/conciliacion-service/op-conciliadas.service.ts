@@ -59,9 +59,9 @@ export class OpConciliadasService {
      * @param idCertificacion 
      * @JuanMazo
      */
-    conciliacionManual(idOperacion: any, idCertificacion: any): Observable<any> {
+    conciliacionManual(param: any): Observable<any> {
         const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.CONCILIACION_MANUAL}`, [{ idOperacion, idCertificacion }]);
+        return this.http.post<any>(`${this.url}${URLs.CONCILIACION_MANUAL}`, param );
     }
 
     /**
