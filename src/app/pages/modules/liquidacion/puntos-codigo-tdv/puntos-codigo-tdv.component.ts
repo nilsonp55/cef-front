@@ -277,7 +277,18 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.puntoSelect = true;
       this.ciudadSelect = true;
       params = {
-        tipoPunto: this.selectedTipoPunto
+        tipoPunto: this.selectedTipoPunto,
+		page: 0,
+		size: 50
+      };
+      this.listarPuntos(params);
+    }
+	if(event.value == "BANCO"){
+      this.puntoSelect = true;
+        params = {
+        tipoPunto: this.selectedTipoPunto,
+		page: 0,
+		size: 50
       };
       this.listarPuntos(params);
     }
@@ -286,7 +297,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
       params = {
         'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
         'fondos.tdv': this.form.value['codigoTdv'].codigo,
-        tipoPunto: this.selectedTipoPunto
+        tipoPunto: this.selectedTipoPunto,
+		page: 0,
+		size: 50
       };
       this.listarPuntos(params);
     }
@@ -294,7 +307,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.puntoSelect = true;
       params = {
         'oficinas.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
-        tipoPunto: this.selectedTipoPunto
+        tipoPunto: this.selectedTipoPunto,
+		page: 0,
+		size: 1000
       };
       this.listarPuntos(params);
     }
@@ -302,7 +317,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.puntoSelect = true;
       params = {
         tipoPunto: this.selectedTipoPunto,
-        'cajerosAtm.codBancoAval': Number(this.form.value['banco'].codigoPunto)
+        'cajerosAtm.codBancoAval': Number(this.form.value['banco'].codigoPunto),
+		page: 0,
+		size: 1000
       };
       this.listarPuntos(params);
     }
@@ -310,7 +327,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.puntoSelect = false;
       this.clienteSelect = true;
       params = {
-        'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto)
+        'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
+		page: 0,
+		size: 1000
       };
       this.listarClientes(params);
     }
