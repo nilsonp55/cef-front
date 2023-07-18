@@ -1,12 +1,7 @@
-<app-filtro-banco-tdv (filterData)="filter($event)"></app-filtro-banco-tdv>
+<app-filtro-banco-tdv (filterData)="filter($event)" [showFechaProceso]="true"
+    [fechaProceso]="fechaProceso" [fechaOrigen]="fechaOrigen">
+</app-filtro-banco-tdv>
 
-<mat-form-field>
-    <mat-label>Fecha Proceso</mat-label>
-    <input matInput [matDatepicker]="picker1" [formControl]="fechaOrigen" [(ngModel)]="fechaProceso"
-        (dateChange)="filter($event)">
-    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-    <mat-datepicker #picker1></mat-datepicker>
-</mat-form-field>
 <div class="divTituloTablas">
     <h1 class="tituloTabla">Ajustes de Operaciones Conciliadas</h1>
 </div>
