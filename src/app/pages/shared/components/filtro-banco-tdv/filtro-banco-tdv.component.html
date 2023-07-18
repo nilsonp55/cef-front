@@ -23,10 +23,9 @@
     </mat-form-field>
   </div>
   <div>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" >
       <mat-label>Tipo Punto</mat-label>
-      <mat-select [(value)]="selectedOrigen" multiple>
-        <mat-option>Ninguno</mat-option>
+      <mat-select [(value)]="selectedOrigen" multiple (closed)="filter()">
         <mat-option value="BAN_REP">BAN_REP</mat-option>
         <mat-option value="CAJERO">CAJERO</mat-option>
         <mat-option value="BANCO">BANCO</mat-option>
@@ -40,15 +39,9 @@
   <div>
     <mat-form-field appearance="fill" *ngIf="showFilterEstado">
       <mat-label>Estado Conciliacion</mat-label>
-      <mat-select [(value)]="estadoConciliacion" multiple>
+      <mat-select [(value)]="estadoConciliacion" multiple (closed)="filter()">
         <mat-option *ngFor="let item of estadosConciliacionOptions" [value]="item">{{item}}</mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
-
-  <div>
-    <div class="ubicacionBotonFiltrar">
-      <button mat-raised-button color="primary" (click)="filter()">FILTRAR</button>
-    </div>
   </div>
 </div>

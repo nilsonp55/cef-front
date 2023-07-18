@@ -24,8 +24,7 @@ export class FiltroBancoTdvComponent implements OnInit {
   estadosConciliacionOptions: any[];
   banco: string;
   trasportadora: string;
-  selectedOrigen = '';
-  selectedDestino = '';
+  selectedOrigen = [];
   estadoConciliacion: any;
 
   @Input()
@@ -87,7 +86,7 @@ export class FiltroBancoTdvComponent implements OnInit {
   }
 
   filter() {
-    this.filterData.emit({ banco: this.banco, trasportadora: this.trasportadora, tipoPuntoOrigen: this.selectedOrigen, estadoConciliacion: this.estadoConciliacion })
+    this.filterData.emit({ banco: this.banco, trasportadora: this.trasportadora, tipoPuntoOrigen: this.selectedOrigen, estadoConciliacion: this.estadoConciliacion });
   }
 
   filter2() {
@@ -95,11 +94,13 @@ export class FiltroBancoTdvComponent implements OnInit {
   }
 
   selectBanco(event) {
-    this.banco = event.value
+    this.banco = event.value;
+    this.filter();
   }
 
   selectTrasportadora(event) {
-    this.trasportadora = event.value
+    this.trasportadora = event.value;
+    this.filter();
   }
 
 }
