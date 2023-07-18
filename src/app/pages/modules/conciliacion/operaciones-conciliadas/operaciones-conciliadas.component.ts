@@ -33,8 +33,9 @@ export class OperacionesConciliadasComponent implements OnInit {
   bancoAVAL: string[];
   fechaOrigen: any;
   transportadora: string;
-  fecha1: Date;
-  public load: boolean = true;
+  tipoPuntoOrigen: string[] = [];
+  fechaProceso: Date;
+  load: boolean = true;
   pageSizeList: number[] = [5, 10, 25, 100];
 
   //DataSource para pintar tabla de conciliados
@@ -55,30 +56,30 @@ export class OperacionesConciliadasComponent implements OnInit {
     })).then((response) => {
       const [day, month, year] = response.data[0].valor.split('/');
       fechaFormat = year+'/'+month+'/'+day
-      this.fecha1 = new Date(fechaFormat);
+      this.fechaProceso= new Date(fechaFormat);
       this.fechaOrigen = new FormControl(response.data[0].valor);
     });
 
-    this.listarConciliados(this.estadoConciliacion, 
-      this.bancoAVAL == undefined ? [] : this.bancoAVAL, 
+    this.listarConciliados(this.estadoConciliacion, [""], 
       this.fechaOrigen == undefined ? "" : fechaFormat, 
-      this.transportadora == undefined ? "" : this.transportadora);
+      "", [""]);
   }
 
    /** 
   * Se realiza consumo de servicio para listar los conciliaciones
   * @JuanMazo
   */
-    async listarConciliados(estado?: string[], banco?: string[], fecha?: string, trasportadora?: string, pagina = 0, tamanio = 5) {
+    async listarConciliados(estado?: string[], banco?: string[], fecha?: string, trasportadora?: string, tipopunto?: string[], pagina = 0, tamanio = 5) {
       this.load = true;
       this.dataSourceConciliadas = new MatTableDataSource();
       this.opConciliadasService.obtenerConciliados({
         page: pagina,
         size: tamanio,
         estadoConciliacion: estado,
-        bancoAval: banco,
+        bancoAVAL: banco,
         fechaOrigen: fecha,
-        tdv: trasportadora
+        tdv: trasportadora,
+        tipoPuntoOrigen: tipopunto
       }).subscribe({
         next: (page: any) => { 
           this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
@@ -107,12 +108,11 @@ export class OperacionesConciliadasComponent implements OnInit {
   * @BaironPerez
   */
    mostrarMas(e: any) {
-    const [month, day, year] = new Date(this.fechaOrigen.value).toLocaleDateString().split('/');
-    const fechaFormat = year+'/'+month+'/'+day;
     this.listarConciliados(this.estadoConciliacion, 
       this.bancoAVAL == undefined ? [] : this.bancoAVAL, 
-      this.fechaOrigen == undefined ? "" : fechaFormat, 
+      this.getFechaOrigen(this.fechaOrigen.value), 
       this.transportadora == undefined ? "" : this.transportadora,
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
       e.pageIndex, e.pageSize);
   }
 
@@ -134,13 +134,22 @@ export class OperacionesConciliadasComponent implements OnInit {
   }
   
   filter(event) {
-    const [month, day, year] = new Date(this.fechaOrigen.value).toLocaleDateString().split('/');
-    const fechaFormat = year+'/'+month+'/'+day;
+    debugger;
+    this.transportadora = event.trasportadora;
+    this.bancoAVAL = event.banco;
+    this.tipoPuntoOrigen = event.tipoPuntoOrigen;
     this.listarConciliados(
-      event.estadoConciliacion == undefined ? this.estadoConciliacion : event.estadoConciliacion, 
-      event.banco == undefined ? "" : event.banco,
-      this.fechaOrigen == undefined ? "" : fechaFormat,
-      event.trasportadora == undefined ? "" : event.trasportadora
+      this.estadoConciliacion, 
+      this.bancoAVAL == undefined ? [""] : this.bancoAVAL,
+      this.fechaOrigen == undefined ? "" : this.getFechaOrigen(this.fechaOrigen.value),
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
     );
   }
+
+  getFechaOrigen(fecha: string): string {
+    const [month, day, year] = new Date(fecha).toLocaleDateString().split('/');
+    return year+'/'+month+'/'+day;
+  }
+
 }
