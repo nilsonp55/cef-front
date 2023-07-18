@@ -134,10 +134,10 @@ export class OperacionesConciliadasComponent implements OnInit {
   }
   
   filter(event) {
-    debugger;
     this.transportadora = event.trasportadora;
     this.bancoAVAL = event.banco;
     this.tipoPuntoOrigen = event.tipoPuntoOrigen;
+    this.fechaProceso = event.fechaSelected;
     this.listarConciliados(
       this.estadoConciliacion, 
       this.bancoAVAL == undefined ? [""] : this.bancoAVAL,
