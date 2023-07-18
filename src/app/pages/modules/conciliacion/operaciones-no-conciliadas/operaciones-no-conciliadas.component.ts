@@ -10,7 +10,6 @@ import { FormControl } from '@angular/forms';
 import { TransportadoraModel } from 'src/app/_model/transportadora.model';
 import { Observable } from 'rxjs';
 import { BancoModel } from 'src/app/_model/banco.model';
-import { GeneralesService } from 'src/app/_service/generales.service';
 import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-program-no-conciliadas.model';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
@@ -40,9 +39,9 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   //Registros paginados
   cantidadRegistrosProgram: number;
   cantidadRegistrosCerti: number;
-  public loadProg: boolean = true;
+  loadProg: boolean = true;
   pageSizeListProg: number[] = [5, 10, 25, 100];
-  public loadCert: boolean = true;
+  loadCert: boolean = true;
   pageSizeListCert: number[] = [5, 10, 25, 100];
 
   idsValue: string;
@@ -57,32 +56,26 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['idOperacion', 'tipoOperacion', 'nombrePuntoOrigen','nombrePuntoDestino', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
+  displayedColumnsOperacionesProgramadas: string[] = ['idOperacion', 'tipoOperacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
-  
+
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion','nombrePuntoOrigen','nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
-  
-  filtroBanco : string;
-  filtroTrasportadora : string;
-  filtroTipoPunto : string;
-  
-  tamanoPaginaPr : any;
-  numPaginaPr : any;
-  tamanoPaginaCer : any;
-  numPaginaCer : any;
-  
+
+  filtroBanco: string = '';
+  filtroTrasportadora: string = '';
+  filtroTipoPunto: string[] = [""];
 
   constructor(
     private dialog: MatDialog,
-    private opConciliadasService: OpConciliadasService,
-    private generalesService: GeneralesService) { }
+    private opConciliadasService: OpConciliadasService
+  ) { }
 
 
   ngOnInit(): void {
-    this.listarOpProgramadasSinConciliar();
-    this.listarOpCertificadasSinConciliar();
+    this.listarOpProgramadasSinConciliar("", "", [""]);
+    this.listarOpCertificadasSinConciliar("", "", [""]);
   }
 
   displayFn(banco: any): string {
@@ -134,19 +127,19 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    * Lista las operaciones programadas sin conciliar
    * @JuanMazo
    */
-  listarOpProgramadasSinConciliar(pagina = 0, tamanio = 10) {
+  listarOpProgramadasSinConciliar(tdv?: string, banco?: string, puntoOrigen?: string[], pagina = 0, tamanio = 10) {
     this.loadProg = true;
     this.dataSourceOperacionesProgramadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
-	  page: pagina,
+      page: pagina,
       size: tamanio,
       estadoConciliacion: 'NO_CONCILIADA',
-	  bancoAVAL: this.filtroBanco,
-      tdv: this.filtroTrasportadora,
-      tipoPuntoOrigen: this.filtroTipoPunto,
+      bancoAVAL: banco,
+      tdv: tdv,
+      tipoPuntoOrigen: puntoOrigen,
     }).subscribe({
       next: (page: any) => {
-        this.dataSourceOperacionesProgramadasComplet=page.data.content;
+        this.dataSourceOperacionesProgramadasComplet = page.data.content;
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesProgramadas.sort = this.sort;
         this.cantidadRegistrosOpProgramadasSinConciliar = page.data.totalElements;
@@ -169,33 +162,23 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   }
 
   /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-   mostrarMasOpProgramadasSinConciliar(e: any) {
-    this.tamanoPaginaPr = e.pageSize;
-	this.numPaginaPr = e.pageIndex;
-	this.listarOpProgramadasSinConciliar(e.pageIndex, e.pageSize);
-  }
-
-  /**
    * Lista las operaciones certificadas sin conciliar
    * @JuanMazo
    */
-  listarOpCertificadasSinConciliar(pagina = 0, tamanio = 10) {
+  listarOpCertificadasSinConciliar(tdv?: string, banco?: string, puntoOrigen?: string[], pagina = 0, tamanio = 10) {
     this.loadCert = true;
     this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
       'estadoConciliacion': GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO,
       conciliable: 'SI',
-      bancoAVAL: this.filtroBanco,
-      tdv: this.filtroTrasportadora,
-      tipoPuntoOrigen: this.filtroTipoPunto,
+      bancoAVAL: banco,
+      tdv: tdv,
+      tipoPuntoOrigen: puntoOrigen,
       page: pagina,
       size: tamanio,
     }).subscribe({
       next: (page: any) => {
-        this.dataSourceOperacionesCertificadasComplet=page.data.content;
+        this.dataSourceOperacionesCertificadasComplet = page.data.content;
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
         this.dataSourceOperacionesCertificadas.sort = this.sort;
         this.cantidadRegistrosOpCertificadasSinConciliar = page.data.totalElements;
@@ -217,14 +200,30 @@ export class OperacionesNoConciliadasComponent implements OnInit {
     });
   }
 
+   /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
+   mostrarMasOpProgramadasSinConciliar(e: any) {
+    this.listarOpProgramadasSinConciliar(
+      this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
+      this.filtroBanco == undefined ? "" : this.filtroBanco, 
+      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
+      e.pageIndex, e.pageSize
+    );
+  }
+
   /**
   * Metodo para gestionar la paginación de la tabla
   * @BaironPerez
   */
-   mostrarMasOpCertificadasSinConciliar(e: any) {
-	this.tamanoPaginaPr = e.pageSize;
-	this.numPaginaPr = e.pageIndex;
-    this.listarOpCertificadasSinConciliar(e.pageIndex, e.pageSize);
+  mostrarMasOpCertificadasSinConciliar(e: any) {
+    this.listarOpCertificadasSinConciliar(
+      this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
+      this.filtroBanco == undefined ? "" : this.filtroBanco, 
+      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
+      e.pageIndex, e.pageSize
+    );
   }
 
   /**
@@ -242,75 +241,6 @@ export class OperacionesNoConciliadasComponent implements OnInit {
     }
   }
 
-  listarOpProgramadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string) {
-    this.loadProg = true;
-    this.dataSourceOperacionesProgramadas = new MatTableDataSource();
-    this.opConciliadasService.obtenerOpProgramadasSinconciliar({
-      estadoConciliacion: 'NO_CONCILIADA',
-      bancoAVAL: banco,
-      tdv:tdv,
-      tipoPuntoOrigen:puntoOrigen,
-      page: this.numPaginaPr,
-      size: this.tamanoPaginaPr,
-    }).subscribe({
-      next: (page: any) => {
-        this.dataSourceOperacionesProgramadasComplet=page.data.content;
-        this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesProgramadas.sort = this.sort;
-        this.cantidadRegistrosOpProgramadasSinConciliar = page.data.totalElements;
-        this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
-        this.loadProg = false;
-      },
-      error: (err: any) => {
-        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-        this.loadProg = false;
-      }
-    });
-  }
-
-  listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 10) {
-    this.loadCert = true;
-    this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-    this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-      estadoConciliacion: 'NO_CONCILIADA',
-      conciliable: 'SI',
-      bancoAVAL: banco,
-      tdv:tdv,
-      tipoPuntoOrigen:puntoOrigen,
-      page: this.numPaginaCer,
-      size: this.tamanoPaginaCer,
-    }).subscribe({
-      next: (page: any) => {
-        this.dataSourceOperacionesCertificadasComplet=page.data.content;
-        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesCertificadas.sort = this.sort;
-        this.cantidadRegistrosOpCertificadasSinConciliar = page.data.totalElements;
-        this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
-        this.loadCert = false;
-      },
-      error: (err: any) => {
-        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-        this.loadCert = false;
-      }
-    });
-  }
-
   eventoEnter(event: any, opeProgramada: any) {
     if (event.target.value != '') {
       opeProgramada.relacion = event.target.value
@@ -322,29 +252,24 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   }
 
   filter(event) {
-	  
-	if ( event.banco !== undefined) {
-		this.filtroBanco = event.banco;
-  } else {
-		this.filtroBanco = "";
-	}
-	
-	if ( event.trasportadora !== undefined) {
-		this.filtroTrasportadora = event.trasportadora;
-  } else {
-		this.filtroTrasportadora = "";
-	}
-	
-	if ( event.tipoPuntoOrigen !== undefined) {
-		this.filtroTipoPunto = event.tipoPuntoOrigen;
-  } else {
-		this.filtroTipoPunto = "";
-	}
-	this.listarOpProgramadasSinConciliarXBancoOTDV(this.filtroTrasportadora, this.filtroBanco, this.filtroTipoPunto);
-  this.listarOpCertificadasSinConciliarXBancoOTDV(this.filtroTrasportadora, this.filtroBanco, this.filtroTipoPunto)  
-	
+
+    this.filtroBanco = event.banco;
+    this.filtroTrasportadora = event.trasportadora;
+    this.filtroTipoPunto = event.tipoPuntoOrigen;
+
+    this.listarOpProgramadasSinConciliar(
+      this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
+      this.filtroBanco == undefined ? "" : this.filtroBanco, 
+      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto
+    );
+    this.listarOpCertificadasSinConciliar(
+      this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
+      this.filtroBanco == undefined ? "" : this.filtroBanco, 
+      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto
+    );
+
   }
-  
+
   reset() {
     this.idsValue = "";
   }

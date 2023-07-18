@@ -28,7 +28,10 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
-  public load: boolean = true;
+  load: boolean = true;
+  bancoAVAL: string;
+  transportadora: string;
+  tipoPuntoOrigen: string[] = [];
   pageSizeList: number[] = [5, 10, 25, 100];
 
   transportadoraForm = new FormControl();
@@ -47,11 +50,10 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private opConciliadasService: OpConciliadasService,
-    //private generalesService: GeneralesService
     ) { }
 
   ngOnInit(): void {
-    this.listarOpCertificadasSinConciliar();
+    this.listarOpCertificadasSinConciliar("", "", [""]);
   }
 
   displayFn(banco: any): string {
@@ -67,19 +69,26 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   * @JuanMazo
   */
   mostrarMas(e: any) {
-    this.listarOpCertificadasSinConciliar(e.pageIndex, e.pageSize);
+    this.listarOpCertificadasSinConciliar(
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      e.pageIndex, e.pageSize);
   }
 
   /**
    * Lista las operaciones certificadas sin conciliar
    * @JuanMazo
    */
-  listarOpCertificadasSinConciliar(pagina = 0, tamanio = 10) {
+  listarOpCertificadasSinConciliar(tdv?: string, banco?: string, puntoOrigen?: string[], pagina = 0, tamanio = 10) {
     this.load = true;
     this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-    'estadoConciliacion': GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO,
-    'conciliable':'SI',
+      estadoConciliacion: GENERALES.ESTADOS_CONCILIACION.ESTADO_NO_CONCILIADO,
+      conciliable: 'SI',
+      bancoAVAL: banco,
+      tdv:tdv,
+      tipoPuntoOrigen:puntoOrigen,
       page: pagina,
       size: tamanio,
     }).subscribe({
@@ -105,60 +114,15 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
     });
   }
 
-  listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 500) {
-    this.load = true;
-    this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-    this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-      estadoConciliacion: 'NO_CONCILIADA',
-      conciliable: 'SI',
-      bancoAVAL: banco,
-      tdv:tdv,
-      tipoPuntoOrigen:puntoOrigen,
-      page: pagina,
-      size: tamanio,
-    }).subscribe({
-      next: (page: any) => {
-        this.dataSourceOperacionesCertificadasComplet=page.data.content;
-        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesCertificadas.sort = this.sort;
-        this.cantidadRegistros = page.data.totalElements;
-        this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
-        this.load = false;
-      },
-      error: (err: any) => {
-        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-        this.load = false;
-      }
-    });
-  }
-
   filter(event) {
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen)    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpCertificadasSinConciliar()   }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", "")    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, "")    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen)    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", "")    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen)    }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen)    }
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "")    }
+    this.transportadora = event.trasportadora;
+    this.bancoAVAL = event.banco;
+    this.tipoPuntoOrigen = event.tipoPuntoOrigen;
+    this.listarOpCertificadasSinConciliar(
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
+    ); 
   }
     
 }

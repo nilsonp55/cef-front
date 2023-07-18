@@ -43,19 +43,13 @@ export class OperacionesFallidasComponent implements OnInit {
   cantidadRegistrosProgram: number;
   cantidadRegistrosCerti: number;
 
-  public loadProg: boolean = true;
+  loadProg: boolean = true;
   pageSizeListProg: number[] = [5, 10, 25, 100];
-  public loadCert: boolean = true;
+  loadCert: boolean = true;
   pageSizeListCert: number[] = [5, 10, 25, 100];
-
-  transportadoraForm = new FormControl();
-  bancosForm = new FormControl();
-
-  tranportadoraOptions: TransportadoraModel[]
-  filteredOptionsTranportadora: Observable<TransportadoraModel[]>;
-
-  bancoOptions: BancoModel[]
-  filteredOptionsBancos: Observable<BancoModel[]>;
+  bancoAVAL: string;
+  transportadora: string;
+  tipoPuntoOrigen: string[] = [];
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
   displayedColumnsOperacionesProgramadas: string[] = ['nombreFondoTDV','fechaOrigen', 'tipoOperacion', 'entradaSalida', 'valorTotal', 'acciones'];
@@ -72,19 +66,9 @@ export class OperacionesFallidasComponent implements OnInit {
 
     
   ngOnInit(): void {
-    this.listarBancos();
-    this.listarTransportadoras();
-    this.listarOpProgramadasFallidas();
-    this.listarOpCertificadasFallidas();
+    this.listarOpProgramadasFallidas("", "", [""]);
+    this.listarOpCertificadasFallidas("", "", [""]);
 
-  }
-
-  /**
-* Metodo para gestionar la paginación de la tabla
-* @BaironPerez
-*/
-  mostrarMas(e: any) {
-    //this.listarArchivosCargados(e.pageIndex, e.pageSize);
   }
 
   displayFn(banco: any): string {
@@ -93,28 +77,6 @@ export class OperacionesFallidasComponent implements OnInit {
 
   displayFnTrans(transPortadora: any): string {
     return transPortadora && transPortadora.nombreTransportadora ? transPortadora.nombreTransportadora : '';
-  }
-
-  /**
-  * Filtra las TDV para poder pintar en el editext
-  * @param name 
-  * @JuanMazo
-  */
-  private _filter(name: string): TransportadoraModel[] {
-    const filterValue = name.toLowerCase();
-
-    return this.tranportadoraOptions.filter(option => option.nombreTransportadora.toLowerCase().includes(filterValue));
-
-  }
-
-  /**
-   * Filtra los bancos para poder pintar en el editext
-   * @param name 
-   * @JuanMazo
-   */
-  private filtroBanco(name: string): BancoModel[] {
-    const filterValue = name.toLowerCase();
-    return this.bancoOptions.filter(bancoOption => bancoOption.nombreBanco.toLowerCase().includes(filterValue));
   }
 
   /**
@@ -150,7 +112,6 @@ export class OperacionesFallidasComponent implements OnInit {
       }else {
         this.ngOnInit()
       }
-      //this.listarOpCertificadasFallidas();
     });
   }
 
@@ -167,72 +128,19 @@ export class OperacionesFallidasComponent implements OnInit {
       }
     })
   }
-
-  /** 
-  * Se realiza consumo de servicio para listar los transportadoras
-  * @JuanMazo
-  */
-  listarTransportadoras() {
-    this.generalesService.listarTransportadoras().subscribe({
-      next: data => {
-        this.tranportadoraOptions = data.data
-        this.filteredOptionsTranportadora = this.transportadoraForm.valueChanges.pipe(
-          startWith(''),
-          map(value => (typeof value === 'string' ? value : value.name)),
-          map(name => (name ? this._filter(name) : this.tranportadoraOptions.slice())),
-        );
-      },
-      error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      }
-    });
-  }
-
-  seleccion(filteredOptionsBancos: any) {
-  }
-
-  /** 
-  * Se realiza consumo de servicio para listar los bancos
-  * @JuanMazo
-  */
-  listarBancos() {
-    this.generalesService.listarBancos().subscribe({
-      next: data => {
-        this.bancoOptions = data.data
-        this.filteredOptionsBancos = this.bancosForm.valueChanges.pipe(
-          startWith(''),
-          map(value => (typeof value === 'string' ? value : value.name)),
-          map(name => (name ? this.filtroBanco(name) : this.bancoOptions.slice())),
-        );
-      },
-      error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      }
-    });
-  }
-
+ 
   /**
    * Lista las operaciones programadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpProgramadasFallidas(pagina = 0, tamanio = 10) {
+  listarOpProgramadasFallidas(tdv?: string, banco?: string, puntoOrigen?: string[], pagina = 0, tamanio = 10) {
     this.loadProg = true;
     this.dataSourceOperacionesProgramadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
-      'estadoConciliacion': "NO_CONCILIADA",
+      estadoConciliacion: "NO_CONCILIADA",
+      bancoAVAL: banco,
+      tdv:tdv,
+      tipoPuntoOrigen:puntoOrigen,
       page: pagina,
       size: tamanio,
     }).subscribe({
@@ -260,23 +168,18 @@ export class OperacionesFallidasComponent implements OnInit {
   }
 
   /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-   mostrarMasOpProgramadasFallidas(e: any) {
-    this.listarOpProgramadasFallidas(e.pageIndex, e.pageSize);
-  }
-
-  /**
    * Lista las operaciones certificadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpCertificadasFallidas(pagina = 0, tamanio = 10) {
+  listarOpCertificadasFallidas(tdv?: string, banco?: string, puntoOrigen?: string[], pagina = 0, tamanio = 10) {
     this.loadCert = true;
     this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
       'estadoConciliacion': "NO_CONCILIADA",
       conciliable: 'SI',
+      bancoAVAL: banco,
+      tdv:tdv,
+      tipoPuntoOrigen:puntoOrigen,
       page: pagina,
       size: tamanio,
     }).subscribe({
@@ -307,8 +210,26 @@ export class OperacionesFallidasComponent implements OnInit {
   * Metodo para gestionar la paginación de la tabla
   * @BaironPerez
   */
+  mostrarMasOpProgramadasFallidas(e: any) {
+    this.listarOpProgramadasFallidas(
+      this.transportadora == undefined ? "" : this.transportadora, 
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      e.pageIndex, e.pageSize
+    );
+  }
+
+  /**
+  * Metodo para gestionar la paginación de la tabla
+  * @BaironPerez
+  */
    mostrarMasOpCertificadasFallidas(e: any) {
-    this.listarOpCertificadasFallidas(e.pageIndex, e.pageSize);
+    this.listarOpCertificadasFallidas(
+      this.transportadora == undefined ? "" : this.transportadora, 
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      e.pageIndex, e.pageSize
+    );
   }
   /**
    * Captura del id para crear una relación
@@ -320,103 +241,21 @@ export class OperacionesFallidasComponent implements OnInit {
     }
   }
 
-  listarOpProgramadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 10) {
-    this.loadProg = true;
-    this.dataSourceOperacionesProgramadas = new MatTableDataSource();
-    this.opConciliadasService.obtenerOpProgramadasSinconciliar({
-      'estadoConciliacion':['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION','POSPUESTA', 'CANCELADA'],
-      bancoAVAL: banco,
-      tdv:tdv,
-      tipoPuntoOrigen:puntoOrigen,
-      page: pagina,
-      size: tamanio,
-    }).subscribe({
-      next: (page: any) => {
-        this.dataSourceOperacionesProgramadasComplet=page.data.content;
-        this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesProgramadas.sort = this.sort;
-        this.cantidadRegistrosProgram = page.data.totalElements;
-        this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
-        this.loadProg = false;
-      },
-      error: (err: any) => {
-        this.dataSourceOperacionesProgramadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-        this.loadProg = false;
-      }
-    });
-  }
-
-  listarOpCertificadasSinConciliarXBancoOTDV(tdv: string, banco: string, puntoOrigen: string, pagina = 0, tamanio = 10) {
-    this.loadCert = true;
-    this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-    this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-      'estadoConciliacion':['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION','POSPUESTA', 'CANCELADA'],
-      conciliable: 'SI',
-      bancoAVAL: banco,
-      tdv:tdv,
-      tipoPuntoOrigen:puntoOrigen,
-      page: pagina,
-      size: tamanio,
-    }).subscribe({
-      next: (page: any) => {
-        this.dataSourceOperacionesCertificadasComplet=page.data.content;
-        this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesCertificadas.sort = this.sort;
-        this.cantidadRegistrosCerti = page.data.totalElements;
-        this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
-        this.loadCert = false;
-      },
-      error: (err: any) => {
-        this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-        this.loadCert = false;
-      }
-    });
-  }
-
   filter(event) {
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen)
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, event.tipoPuntoOrigen)    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasFallidas()
-      this.listarOpCertificadasFallidas()  }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, "", "")
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", "")    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV("", event.banco, "")
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, "")    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen)
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", event.tipoPuntoOrigen)    }
-    if (event.trasportadora == undefined && event.banco == undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV("", "", "")
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", "", "")    }
-    if (event.trasportadora == undefined && event.banco !== undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen)
-      this.listarOpCertificadasSinConciliarXBancoOTDV("", event.banco, event.tipoPuntoOrigen)    }
-    if (event.trasportadora !== undefined && event.banco == undefined && event.tipoPuntoOrigen !== undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen)
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, "", event.tipoPuntoOrigen)    }
-    if (event.trasportadora !== undefined && event.banco !== undefined && event.tipoPuntoOrigen == undefined) {
-      this.listarOpProgramadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "")
-      this.listarOpCertificadasSinConciliarXBancoOTDV(event.trasportadora, event.banco, "")    }
+    this.transportadora = event.trasportadora;
+    this.bancoAVAL = event.banco;
+    this.tipoPuntoOrigen = event.tipoPuntoOrigen;
+    
+    this.listarOpProgramadasFallidas(
+      this.transportadora == undefined ? "" : this.transportadora, 
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
+    );
+    this.listarOpCertificadasFallidas(
+      this.transportadora == undefined ? "" : this.transportadora, 
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
+    );
   }
 
 }
