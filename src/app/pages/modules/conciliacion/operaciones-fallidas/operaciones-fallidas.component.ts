@@ -1,19 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators'
 import { MatDialog } from '@angular/material/dialog';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { TransportadoraModel } from 'src/app/_model/transportadora.model';
-import { BancoModel } from 'src/app/_model/banco.model';
 import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-program-no-conciliadas.model';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
-import { GeneralesService } from 'src/app/_service/generales.service';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
 import { DialogInfoProgramadasFallidasComponent } from './dialog-info-programadas-fallidas/dialog-info-programadas-fallidas.component';
 import { DialogActualizarOpCertificadasComponent } from './dialog-actualizar-op-certificadas/dialog-actualizar-op-certificadas.component';
@@ -50,6 +44,7 @@ export class OperacionesFallidasComponent implements OnInit {
   bancoAVAL: string;
   transportadora: string;
   tipoPuntoOrigen: string[] = [];
+  estadoConciliacionInicial: any[] = ['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'];
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
   displayedColumnsOperacionesProgramadas: string[] = ['nombreFondoTDV','fechaOrigen', 'tipoOperacion', 'entradaSalida', 'valorTotal', 'acciones'];
@@ -61,13 +56,12 @@ export class OperacionesFallidasComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private generalesService: GeneralesService,
     private opConciliadasService: OpConciliadasService) { }
 
     
   ngOnInit(): void {
-    this.listarOpProgramadasFallidas("", "", [""]);
-    this.listarOpCertificadasFallidas("", "", [""]);
+    this.listarOpProgramadasFallidas("", "", [""], this.estadoConciliacionInicial);
+    this.listarOpCertificadasFallidas("", "", [""], this.estadoConciliacionInicial);
 
   }
 
@@ -107,9 +101,7 @@ export class OperacionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
-      if(result.data.listar == 'N'){
-        //No debe de listar
-      }else {
+      if(result.data.listar != 'N'){
         this.ngOnInit()
       }
     });
@@ -133,11 +125,11 @@ export class OperacionesFallidasComponent implements OnInit {
    * Lista las operaciones programadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpProgramadasFallidas(tdv?: string, banco?: string, puntoOrigen?: string[], pagina = 0, tamanio = 10) {
+  listarOpProgramadasFallidas(tdv?: string, banco?: string, puntoOrigen?: string[], estadoConciliacion?: any[], pagina = 0, tamanio = 10) {
     this.loadProg = true;
     this.dataSourceOperacionesProgramadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
-      estadoConciliacion: "NO_CONCILIADA",
+      estadoConciliacion: estadoConciliacion,
       bancoAVAL: banco,
       tdv:tdv,
       tipoPuntoOrigen:puntoOrigen,
@@ -171,11 +163,11 @@ export class OperacionesFallidasComponent implements OnInit {
    * Lista las operaciones certificadas distintas al estado conciliadas
    * @JuanMazo
    */
-  listarOpCertificadasFallidas(tdv?: string, banco?: string, puntoOrigen?: string[], pagina = 0, tamanio = 10) {
+  listarOpCertificadasFallidas(tdv?: string, banco?: string, puntoOrigen?: string[], estadoConciliacion?: any[], pagina = 0, tamanio = 10) {
     this.loadCert = true;
     this.dataSourceOperacionesCertificadas = new MatTableDataSource();
     this.opConciliadasService.obtenerOpCertificadasSinconciliar({
-      'estadoConciliacion': "NO_CONCILIADA",
+      estadoConciliacion: estadoConciliacion,
       conciliable: 'SI',
       bancoAVAL: banco,
       tdv:tdv,
@@ -215,6 +207,7 @@ export class OperacionesFallidasComponent implements OnInit {
       this.transportadora == undefined ? "" : this.transportadora, 
       this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
       this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.estadoConciliacionInicial,
       e.pageIndex, e.pageSize
     );
   }
@@ -228,6 +221,7 @@ export class OperacionesFallidasComponent implements OnInit {
       this.transportadora == undefined ? "" : this.transportadora, 
       this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
       this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.estadoConciliacionInicial,
       e.pageIndex, e.pageSize
     );
   }
@@ -245,16 +239,19 @@ export class OperacionesFallidasComponent implements OnInit {
     this.transportadora = event.trasportadora;
     this.bancoAVAL = event.banco;
     this.tipoPuntoOrigen = event.tipoPuntoOrigen;
+    this.estadoConciliacionInicial = event.estadoConciliacion;
     
     this.listarOpProgramadasFallidas(
       this.transportadora == undefined ? "" : this.transportadora, 
       this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.estadoConciliacionInicial
     );
     this.listarOpCertificadasFallidas(
       this.transportadora == undefined ? "" : this.transportadora, 
       this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.estadoConciliacionInicial
     );
   }
 
