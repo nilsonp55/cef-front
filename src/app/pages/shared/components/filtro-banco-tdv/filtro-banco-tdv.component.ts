@@ -113,7 +113,7 @@ export class FiltroBancoTdvComponent implements OnInit {
   }
 
   selectFechaOrigen(event) {
-    this.fechaSelected = event.value;
+    this.fechaSelected = new Date(event.value);
     this.filter();
   }
 
