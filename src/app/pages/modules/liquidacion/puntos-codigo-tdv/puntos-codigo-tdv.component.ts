@@ -59,7 +59,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     private generalesService: GeneralesService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
@@ -72,8 +72,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     * Inicializaion formulario de creacion y edicion
     * @BayronPerez
     */
-  initForm(param?: any) {
-    //if (this.mostrarFormulario) {
+  async initForm(param?: any) {
       var ciudad = null;
       if(param) {
         this.selectedTipoPunto = param.puntosDTO.tipoPunto;
@@ -83,11 +82,11 @@ export class PuntosCodigoTdvComponent implements OnInit {
         const params = {
           tipoPunto: this.selectedTipoPunto
         };
-        this.listarPuntos(params);
+        await this.listarPuntos(params);
       }
       this.form = new FormGroup({
         'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
-        'punto': new FormControl(param ? param.puntosDTO.nombrePunto : null),
+        'punto': new FormControl(param ? this.puntos.find((value) => value.codigoPunto = param.puntosDTO.codigoPunto) : null),
         'codigoPunto': new FormControl(param ? param.codigoPunto : null),
         'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
         'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
@@ -97,7 +96,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
         'cliente': new FormControl(param ? param.cliente : null),
         'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null)
       });
-    //}
   }
 
   selectPunto(codigoPunto: any): any {
@@ -356,22 +354,12 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
 
-  listarPuntos(params?: any){
-    this.gestionPuntosService.listarPuntosCreados(params).subscribe({
-      next: response => {
+  async listarPuntos(params?: any) {
+    await lastValueFrom(this.gestionPuntosService.listarPuntosCreados(params)).then(
+      (response) => {
         this.puntos = response.data.content;
-      },
-      error: err => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); 
-        setTimeout(() => { alert.close() }, 3000);
       }
-    });
+    );
   }
 
   filtrarPuntosCliente(event: any) {
@@ -400,7 +388,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
       this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe(
         response => {
-          this.form.controls['codigoDANE'].setValue(response.data[0].nombreCiudad);
+          this.form.controls['codigoDANE'].setValue(response.data[0].codigoDANE);
           //this.form.controls['codigoDANE'].disable();
       });
     }
