@@ -260,12 +260,14 @@ export class OperacionesNoConciliadasComponent implements OnInit {
     this.listarOpProgramadasSinConciliar(
       this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
       this.filtroBanco == undefined ? "" : this.filtroBanco, 
-      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto
+      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
+      event.pageIndex, event.pageSize
     );
     this.listarOpCertificadasSinConciliar(
       this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
       this.filtroBanco == undefined ? "" : this.filtroBanco, 
-      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto
+      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
+      event.pageIndex, event.pageSize
     );
 
   }
