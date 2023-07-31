@@ -295,7 +295,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.puntoSelect = true;
       params = {
         'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
-        'fondos.tdv': this.form.value['codigoTdv'].codigo,
         tipoPunto: this.selectedTipoPunto,
 		page: 0,
 		size: 50
