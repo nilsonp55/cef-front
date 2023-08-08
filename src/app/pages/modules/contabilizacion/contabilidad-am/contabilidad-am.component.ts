@@ -15,6 +15,8 @@ import { ResultadoContabilidadComponent } from '../resultado-contabilidad/result
 import { BancoModel } from 'src/app/_model/banco.model';
 import { GenerarArchivoService } from 'src/app/_service/contabilidad-service/generar-archivo.service';
 import { saveAs } from 'file-saver';
+import { map, tap } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-contabilidad-am',
@@ -59,6 +61,18 @@ export class ContabilidadAmComponent implements OnInit {
     this.fechaSistemaSelect = _fecha.data[0].valor;
     this.listarProcesos();
     this.listarBancos();
+    this.generarArchivoService.generarArchivo({
+      fecha: this.fechaSistemaSelect,
+      tipoContabilidad: "AM",
+      codBanco: 299
+    }).subscribe(
+      data => {
+        const h = data.xhr;
+        const con = h.getAll('content-disposition');
+        console.log(h.get('content-type'));
+        saveAs(data.body);
+      }
+    );
   }
 
   /**
@@ -151,19 +165,24 @@ export class ContabilidadAmComponent implements OnInit {
   }
 
   descargarArchivoContabilidad(){
+    this.load = true;
+    this.generarArchivoService.generarArchivo({
+      fecha: this.fechaSistemaSelect,
+      tipoContabilidad: "AM",
+      codBanco: 299
+    }).subscribe(
+      data => {
+        const h = data.headers;
+        const con = h.getAll('content-disposition');
+        console.log(h.get('content-type'));
+        saveAs(data.body);
+      }
+    );
     this.bancoOptions.forEach(banco => {
-      console.log(banco.codigoPunto);
-      this.load = true;
-      this.generarArchivoService.generarArchivo({
-        fecha: this.fechaSistemaSelect,
-        tipoContabilidad: "AM",
-        codBanco: banco.codigoPunto
-      }).subscribe({
-        next: (response: any) => {
-          saveAs(new Blob([response]));
-        }
-      });
+      console.log(banco.codigoPunto);      
+      
     });
+    this.load = false;
   }
 
   listarBancos() {

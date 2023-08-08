@@ -344,7 +344,7 @@ export const URLs = {
   CONTABILIDAD_GENERAR_ARCHIVO: '/archivo-cierre',
 
   // generar archivos contabilidad
-  GENERAR_ARCHIVO: '/generararchivo',
+  GENERAR_ARCHIVO: '/GenerarArchivo',
   GENERAR: '/generar',
 
   //Coatos Flete Charter

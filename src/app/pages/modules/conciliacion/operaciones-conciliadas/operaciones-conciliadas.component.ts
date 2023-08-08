@@ -12,7 +12,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { FormControl } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 
-@Component({    
+@Component({
   selector: 'app-operaciones-conciliadas',
   templateUrl: './operaciones-conciliadas.component.html',
   styleUrls: ['./operaciones-conciliadas.component.css']
@@ -23,7 +23,7 @@ import { lastValueFrom } from 'rxjs';
  * @JuanMazo
  */
 export class OperacionesConciliadasComponent implements OnInit {
-  
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -37,6 +37,8 @@ export class OperacionesConciliadasComponent implements OnInit {
   fechaProceso: Date;
   load: boolean = true;
   pageSizeList: number[] = [5, 10, 25, 100];
+  numPagina: any;
+  cantPagina: any
 
   //DataSource para pintar tabla de conciliados
   dataSourceConciliadas: MatTableDataSource<ConciliacionesModel>;
@@ -45,9 +47,9 @@ export class OperacionesConciliadasComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private opConciliadasService: OpConciliadasService,
-    private generalServices: GeneralesService) { 
-      
-    }
+    private generalServices: GeneralesService) {
+
+  }
 
   async ngOnInit(): Promise<void> {
     let fechaFormat: string;
@@ -55,62 +57,65 @@ export class OperacionesConciliadasComponent implements OnInit {
       codigo: "FECHA_DIA_PROCESO"
     })).then((response) => {
       const [day, month, year] = response.data[0].valor.split('/');
-      fechaFormat = year+'/'+month+'/'+day
-      this.fechaProceso= new Date(fechaFormat);
+      fechaFormat = year + '/' + month + '/' + day
+      this.fechaProceso = new Date(fechaFormat);
       this.fechaOrigen = new FormControl(response.data[0].valor);
     });
-
-    this.listarConciliados(this.estadoConciliacion, [""], 
-      this.fechaOrigen == undefined ? "" : fechaFormat, 
-      "", [""]);
+    this.numPagina = 0;
+    this.cantPagina = 10;
+    this.listarConciliados(this.estadoConciliacion, [""],
+      this.fechaOrigen == undefined ? "" : fechaFormat,
+      "", [""], this.numPagina, this.cantPagina);
   }
 
-   /** 
-  * Se realiza consumo de servicio para listar los conciliaciones
-  * @JuanMazo
-  */
-    async listarConciliados(estado?: string[], banco?: string[], fecha?: string, trasportadora?: string, tipopunto?: string[], pagina = 0, tamanio = 5) {
-      this.load = true;
-      this.dataSourceConciliadas = new MatTableDataSource();
-      this.opConciliadasService.obtenerConciliados({
-        page: pagina,
-        size: tamanio,
-        estadoConciliacion: estado,
-        bancoAVAL: banco,
-        fechaOrigen: fecha,
-        tdv: trasportadora,
-        tipoPuntoOrigen: tipopunto
-      }).subscribe({
-        next: (page: any) => { 
-          this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
-          this.dataSourceConciliadas.sort = this.sort;
-          this.cantidadRegistros = page.data.totalElements;
-          this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
-          this.load = false;
-        },
-        error: (err: any) => {
-          this.dataSourceConciliadas = new MatTableDataSource();
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-          setTimeout(() => { alert.close()}, 3000);  
-          this.load = false;    
-        }
-      });
+  /** 
+ * Se realiza consumo de servicio para listar los conciliaciones
+ * @JuanMazo
+ */
+  async listarConciliados(estado?: string[], banco?: string[], fecha?: string, trasportadora?: string, tipopunto?: string[], pagina = 0, tamanio = 5) {
+    this.load = true;
+    this.dataSourceConciliadas = new MatTableDataSource();
+    this.opConciliadasService.obtenerConciliados({
+      page: pagina,
+      size: tamanio,
+      estadoConciliacion: estado,
+      bancoAVAL: banco,
+      fechaOrigen: fecha,
+      tdv: trasportadora,
+      tipoPuntoOrigen: tipopunto
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
+        this.dataSourceConciliadas.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+        this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
+        this.load = false;
+      },
+      error: (err: any) => {
+        this.dataSourceConciliadas = new MatTableDataSource();
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        setTimeout(() => { alert.close() }, 3000);
+        this.load = false;
+      }
+    });
   }
 
   /**
   * Metodo para gestionar la paginación de la tabla
   * @BaironPerez
   */
-   mostrarMas(e: any) {
-    this.listarConciliados(this.estadoConciliacion, 
-      this.bancoAVAL == undefined ? [] : this.bancoAVAL, 
-      this.getFechaOrigen(this.fechaOrigen.value), 
+  mostrarMas(e: any) {
+    this.numPagina = e.pageIndex;
+    this.cantPagina = e.pageSize;
+    this.listarConciliados(this.estadoConciliacion,
+      this.bancoAVAL == undefined ? [] : this.bancoAVAL,
+      this.getFechaOrigen(this.fechaOrigen.value),
       this.transportadora == undefined ? "" : this.transportadora,
       this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
       e.pageIndex, e.pageSize);
@@ -121,7 +126,7 @@ export class OperacionesConciliadasComponent implements OnInit {
    * @JuanMazo
    */
   eventoDesconciliar(event: any) {
-    const dialogRef =this.dialog.open(DialogDesconciliarComponent, {
+    const dialogRef = this.dialog.open(DialogDesconciliarComponent, {
       width: '400PX',
       data: {
         seleccionDescon: event
@@ -129,27 +134,33 @@ export class OperacionesConciliadasComponent implements OnInit {
     })
 
     dialogRef.afterClosed().subscribe(result => {
-      this.listarConciliados()
+      this.listarConciliados(this.estadoConciliacion,
+        this.bancoAVAL == undefined ? [""] : this.bancoAVAL,
+        this.fechaOrigen == undefined ? "" : this.getFechaOrigen(this.fechaOrigen.value),
+        this.transportadora == undefined ? "" : this.transportadora,
+        this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+        this.numPagina, this.cantPagina)
     });
   }
-  
+
   filter(event) {
     this.transportadora = event.trasportadora;
     this.bancoAVAL = event.banco;
     this.tipoPuntoOrigen = event.tipoPuntoOrigen;
     this.fechaProceso = event.fechaSelected;
     this.listarConciliados(
-      this.estadoConciliacion, 
+      this.estadoConciliacion,
       this.bancoAVAL == undefined ? [""] : this.bancoAVAL,
       this.fechaOrigen == undefined ? "" : this.getFechaOrigen(this.fechaOrigen.value),
       this.transportadora == undefined ? "" : this.transportadora,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.numPagina, this.cantPagina
     );
   }
 
   getFechaOrigen(fecha: string): string {
     const [month, day, year] = new Date(fecha).toLocaleDateString().split('/');
-    return year+'/'+month+'/'+day;
+    return year + '/' + month + '/' + day;
   }
 
 }

@@ -40,6 +40,10 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   bancoAVAL: string;
   transportadora: string;
   tipoPuntoOrigen: string[] = [];
+  numPaginaOpPr: any;
+  cantPaginaOpPr: any;
+  numPaginaOpCer: any;
+  cantPaginaOpCer: any;
 
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
@@ -58,6 +62,10 @@ export class ConsultaOperaFallidasComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.numPaginaOpPr = 0;
+    this.cantPaginaOpPr = 10;
+    this.numPaginaOpCer = 0;
+    this.cantPaginaOpCer = 10;
     this.listarOpProgramadasFallidas("", "", [""], this.estadoConciliacionInicial);
     this.listarOpCertificadasFallidas("", "", [""], this.estadoConciliacionInicial);
   }
@@ -121,17 +129,17 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
         this.loadProg = false;
       },
-      error:  (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-          setTimeout(() => { alert.close() }, 3000);
-          this.loadProg = false;
-        }
+      error: (err: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        setTimeout(() => { alert.close() }, 3000);
+        this.loadProg = false;
+      }
     });
   }
 
@@ -180,11 +188,13 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   * @BaironPerez
   */
   mostrarMasOpProgramadasFallidas(e: any) {
+    this.numPaginaOpPr = e.pageIndex;
+    this.cantPaginaOpPr = e.pageSize;
     this.listarOpProgramadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora, 
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen, 
-      this.estadoConciliacionInicial,
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
       e.pageIndex, e.pageSize
     );
   }
@@ -194,11 +204,13 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   * @BaironPerez
   */
   mostrarMasOpCertificadasFallidas(e: any) {
+    this.numPaginaOpCer = e.pageIndex;
+    this.cantPaginaOpCer = e.pageSize;
     this.listarOpCertificadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora, 
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen, 
-      this.estadoConciliacionInicial,
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
       e.pageIndex, e.pageSize
     );
   }
@@ -210,20 +222,22 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     this.estadoConciliacionInicial = event.estadoConciliacion;
 
     this.listarOpProgramadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora, 
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen, 
-      this.estadoConciliacionInicial
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
+      this.numPaginaOpPr, this.cantPaginaOpPr
     );
 
     this.listarOpCertificadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora, 
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen, 
-      this.estadoConciliacionInicial
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
+      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
+      this.numPaginaOpCer, this.cantPaginaOpCer
     );
-    
-    
+
+
   }
 
 }
