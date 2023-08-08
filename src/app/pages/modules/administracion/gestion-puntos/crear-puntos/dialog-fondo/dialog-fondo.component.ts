@@ -23,7 +23,7 @@ export class DialogFondoComponent implements OnInit {
   tdvs: any[] = [];
   mosrarFormBanco = false;
   mosrarFormCliente = false;
-  mosrarFormOficina= false;
+  mosrarFormOficina = false;
   mosrarFormCajero = false;
   mosrarFormFondo = false;
   nombreBTN: string;
@@ -37,8 +37,7 @@ export class DialogFondoComponent implements OnInit {
     private dialog: MatDialog,
     private generalServices: GeneralesService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private gestionPuntosService: GestionPuntosService)
-    { }
+    private gestionPuntosService: GestionPuntosService) { }
 
 
   async ngOnInit(): Promise<void> {
@@ -50,10 +49,10 @@ export class DialogFondoComponent implements OnInit {
     await this.datosDesplegables();
     this.estadoBTN = true
     this.initForm(this.dataElement);
-    if(this.data.flag == "crear") {
+    if (this.data.flag == "crear") {
       this.titulo = "Crear  "
     }
-    if(this.data.flag == "info") {
+    if (this.data.flag == "info") {
       this.titulo = "Información "
       this.estadoBTN = false
       this.form.get('nombre').disable();
@@ -62,7 +61,7 @@ export class DialogFondoComponent implements OnInit {
       this.form.get('bancoAval').disable();
       this.form.get('estado').disable();
     }
-    if(this.data.flag == "modif") {
+    if (this.data.flag == "modif") {
       this.titulo = "Modificación "
       this.nombreBTN = "Actualizar"
       this.esEdicion = true;
@@ -71,7 +70,7 @@ export class DialogFondoComponent implements OnInit {
 
   initForm(param?: any) {
     this.form = new FormGroup({
-      'nombre': new FormControl(param != null ? param.nombrePunto:null),
+      'nombre': new FormControl(param != null ? param.nombrePunto : null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
       'transportadora': new FormControl(param ? this.selectTransportadorasOrigen(param) : null),
       'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
@@ -81,34 +80,34 @@ export class DialogFondoComponent implements OnInit {
   }
 
   selectCiudad(param: any): any {
-    for(let i= 0; i < this.ciudades.length; i++) {
+    for (let i = 0; i < this.ciudades.length; i++) {
       const element = this.ciudades[i];
-      if(element.codigoDANE == param.codigoCiudad) {
+      if (element.codigoDANE == param.codigoCiudad) {
         return element;
       }
     }
   }
 
   selectTransportadorasOrigen(param: any): any {
-    if(param.fondos !== undefined){
-    for(let i= 0; i < this.tdvs.length; i++) {
-      const element = this.tdvs[i];
-      if(element.codigo == param.fondos.tdv) {
-        return element;
+    if (param.fondos !== undefined) {
+      for (let i = 0; i < this.tdvs.length; i++) {
+        const element = this.tdvs[i];
+        if (element.codigo == param.fondos.tdv) {
+          return element;
+        }
       }
     }
-  }
   }
 
   selectBanco(param: any): any {
-    if(param.fondos !== undefined){
-    for(let i= 0; i < this.bancosAval.length; i++) {
-      const element = this.bancosAval[i];
-      if(element.codigoPunto == param.fondos.bancoAVAL) {
-        return element;
+    if (param.fondos !== undefined) {
+      for (let i = 0; i < this.bancosAval.length; i++) {
+        const element = this.bancosAval[i];
+        if (element.codigoPunto == param.fondos.bancoAVAL) {
+          return element;
+        }
       }
     }
-  }
   }
 
   persistir() {
@@ -123,63 +122,38 @@ export class DialogFondoComponent implements OnInit {
       abreviatura: this.form.value['bancoAval'].abreviatura,
       esAVAL: this.form.value['bancoAval'].esAVAL,
       tipoPunto: this.dataElement.valorTexto,
-      codigoPunto: Number(this.form.value['bancoAval'].codigoPunto),
+      codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       refagillado: null,
       tarifaRuteo: null,
       tarifaVerificacion: null,
-      codigoOficina:null,
-      nombreCiudad:this.form.value['ciudad'].nombreCiudad,
-      codigoCliente:null,
-      codigoTDV:this.form.value['transportadora'].codigo,
-      codigoPropioTDV:this.form.value['transportadora'].codigo,
-      codigoATM:null,
+      codigoOficina: null,
+      nombreCiudad: this.form.value['ciudad'].nombreCiudad,
+      codigoCliente: null,
+      codigoTDV: this.form.value['transportadora'].codigo,
+      codigoPropioTDV: this.form.value['transportadora'].codigo,
+      codigoATM: null,
       fajado: null,
       codigoCiudad: this.form.value['ciudad'].codigoDANE,
     }
-    //console.log("Data que se enviara")
-    //console.log(fondo)
-    if (this.esEdicion) {
-      //cliente.consecutivo = this.idConfEntity;
-      this.gestionPuntosService.actualizarPunto(fondo).subscribe(response => {
+    this.gestionPuntosService.crearPunto(fondo).subscribe(response => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+      this.initForm();
+    },
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            msn: err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
-        this.initForm();
-      },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
-    } else {
-      this.gestionPuntosService.crearPunto(fondo).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-        this.initForm();
-      },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
-    }
+      });
     this.ngOnInit();
   }
 
@@ -197,9 +171,9 @@ export class DialogFondoComponent implements OnInit {
   }
 
   formatearEstadoPersistir(param: boolean): any {
-    if(param==true){
+    if (param == true) {
       return 1
-    }else {
+    } else {
       return 2
     }
   }

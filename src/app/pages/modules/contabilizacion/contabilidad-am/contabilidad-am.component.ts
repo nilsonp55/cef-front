@@ -12,7 +12,11 @@ import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/l
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
-
+import { BancoModel } from 'src/app/_model/banco.model';
+import { GenerarArchivoService } from 'src/app/_service/contabilidad-service/generar-archivo.service';
+import { saveAs } from 'file-saver';
+import { map, tap } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-contabilidad-am',
@@ -38,12 +42,15 @@ export class ContabilidadAmComponent implements OnInit {
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
   displayedColumnsInfoProcesos: string[] = ['fechaProceso', 'actividad', 'estado', 'acciones'];
+  bancoOptions: BancoModel[];
+  load: boolean = false;
 
   constructor(
     private dialog: MatDialog,
     private generalServices: GeneralesService,
     private cierreContabilidadService: CierreContabilidadService,
-    private logProcesoDiarioService: LogProcesoDiarioService
+    private logProcesoDiarioService: LogProcesoDiarioService,
+    private generarArchivoService: GenerarArchivoService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -53,6 +60,19 @@ export class ContabilidadAmComponent implements OnInit {
     }).toPromise();
     this.fechaSistemaSelect = _fecha.data[0].valor;
     this.listarProcesos();
+    this.listarBancos();
+    this.generarArchivoService.generarArchivo({
+      fecha: this.fechaSistemaSelect,
+      tipoContabilidad: "AM",
+      codBanco: 299
+    }).subscribe(
+      data => {
+        const h = data.xhr;
+        const con = h.getAll('content-disposition');
+        console.log(h.get('content-type'));
+        saveAs(data.body);
+      }
+    );
   }
 
   /**
@@ -144,4 +164,40 @@ export class ContabilidadAmComponent implements OnInit {
     this.listarProcesos(e.pageIndex, e.pageSize);
   }
 
+  descargarArchivoContabilidad(){
+    this.load = true;
+    this.generarArchivoService.generarArchivo({
+      fecha: this.fechaSistemaSelect,
+      tipoContabilidad: "AM",
+      codBanco: 299
+    }).subscribe(
+      data => {
+        const h = data.headers;
+        const con = h.getAll('content-disposition');
+        console.log(h.get('content-type'));
+        saveAs(data.body);
+      }
+    );
+    this.bancoOptions.forEach(banco => {
+      console.log(banco.codigoPunto);      
+      
+    });
+    this.load = false;
+  }
+
+  listarBancos() {
+    this.generalServices.listarBancosAval().subscribe(data => {
+      this.bancoOptions = data.data
+    },
+      (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_BANCO.ERROR_BANCO,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        setTimeout(() => { alert.close() }, 3000);
+      });
+  }
 }

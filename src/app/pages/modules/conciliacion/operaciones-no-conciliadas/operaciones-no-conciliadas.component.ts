@@ -43,6 +43,10 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   pageSizeListProg: number[] = [5, 10, 25, 100];
   loadCert: boolean = true;
   pageSizeListCert: number[] = [5, 10, 25, 100];
+  numPaginaOpPr: any;
+  cantPaginaOpPr: any;
+  numPaginaOpCer: any;
+  cantPaginaOpCer: any;
 
   idsValue: string;
 
@@ -56,11 +60,11 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['idOperacion', 'tipoOperacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
+  displayedColumnsOperacionesProgramadas: string[] = ['idOperacion', 'tipoOperacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaOrigen', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'tipoOperacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   filtroBanco: string = '';
@@ -74,6 +78,10 @@ export class OperacionesNoConciliadasComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.numPaginaOpPr = 0;
+    this.cantPaginaOpPr = 10;
+    this.numPaginaOpCer = 0;
+    this.cantPaginaOpCer = 10;
     this.listarOpProgramadasSinConciliar("", "", [""]);
     this.listarOpCertificadasSinConciliar("", "", [""]);
   }
@@ -200,14 +208,16 @@ export class OperacionesNoConciliadasComponent implements OnInit {
     });
   }
 
-   /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-   mostrarMasOpProgramadasSinConciliar(e: any) {
+  /**
+ * Metodo para gestionar la paginación de la tabla
+ * @BaironPerez
+ */
+  mostrarMasOpProgramadasSinConciliar(e: any) {
+    this.numPaginaOpPr = e.pageIndex;
+    this.cantPaginaOpPr = e.pageSize;
     this.listarOpProgramadasSinConciliar(
-      this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
-      this.filtroBanco == undefined ? "" : this.filtroBanco, 
+      this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
+      this.filtroBanco == undefined ? "" : this.filtroBanco,
       this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
       e.pageIndex, e.pageSize
     );
@@ -218,9 +228,11 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   * @BaironPerez
   */
   mostrarMasOpCertificadasSinConciliar(e: any) {
+    this.numPaginaOpCer = e.pageIndex;
+    this.cantPaginaOpCer = e.pageSize;
     this.listarOpCertificadasSinConciliar(
-      this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
-      this.filtroBanco == undefined ? "" : this.filtroBanco, 
+      this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
+      this.filtroBanco == undefined ? "" : this.filtroBanco,
       this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
       e.pageIndex, e.pageSize
     );
@@ -258,16 +270,16 @@ export class OperacionesNoConciliadasComponent implements OnInit {
     this.filtroTipoPunto = event.tipoPuntoOrigen;
 
     this.listarOpProgramadasSinConciliar(
-      this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
-      this.filtroBanco == undefined ? "" : this.filtroBanco, 
+      this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
+      this.filtroBanco == undefined ? "" : this.filtroBanco,
       this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
-      event.pageIndex, event.pageSize
+      this.numPaginaOpPr, this.cantPaginaOpPr
     );
     this.listarOpCertificadasSinConciliar(
-      this.filtroTrasportadora == undefined ? "": this.filtroTrasportadora, 
-      this.filtroBanco == undefined ? "" : this.filtroBanco, 
+      this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
+      this.filtroBanco == undefined ? "" : this.filtroBanco,
       this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
-      event.pageIndex, event.pageSize
+      this.numPaginaOpCer, this.cantPaginaOpCer
     );
 
   }

@@ -37,6 +37,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
   selectedTipoPunto = "";
   ciudades: any[] = [];
   ciudadSelected: any;
+  numPagina : any;
+  cantPagina : any;
 
   clientes: any[] = [];
   bancoSelect: boolean = false;
@@ -63,7 +65,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
     ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
-    this.listarPuntosCodigo();
+	  this.numPagina = 0;
+	  this.cantPagina = 10;
+    this.listarPuntosCodigo(this.numPagina, this.cantPagina);
     this.iniciarPuntos();
     this.initForm();
   }
@@ -114,7 +118,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * Lista los puntos codigo TDV
    * @BayronPerez
    */
-   listarPuntosCodigo(pagina = 0, tamanio = 5) {
+   listarPuntosCodigo(pagina = 0, tamanio = 10) {
     this.puntosCodigoService.obtenerPuntosCodigoTDV({
       page: pagina,
       size: tamanio,
@@ -151,7 +155,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       codigoTDV: this.form.value['codigoTdv'].codigo,
       codigoPunto: this.form.value['codigoPunto'],
       codigoPropioTDV: this.form.value['codigoPropioTDV'],
-	    ciudadFondo: this.form.value['codigoDANE'],
+	  ciudadFondo: this.form.value['codigoDANE'],
       bancosDTO: {
         codigoPunto: Number(this.form.value['banco'].codigoPunto)
       },
@@ -173,7 +177,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           }); setTimeout(() => { alert.close() }, 4000);
-          this.listarPuntosCodigo();
+          this.listarPuntosCodigo(this.numPagina, this.cantPagina);
           this.initForm();
         },
         error: (err: any) => {
@@ -197,7 +201,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           }); setTimeout(() => { alert.close() }, 4000);
-          this.listarPuntosCodigo();
+          this.listarPuntosCodigo(this.numPagina, this.cantPagina);
           this.initForm();
         },
         error: (err: any) => {
@@ -232,7 +236,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   actualizarPuntoCodigo(element) {
     this.initForm(element)
     this.mostrarFormulario = true;
-    this.idPuntoCodigo = this.form.value['idPuntoCodigo'];
+    this.idPuntoCodigo = element.idPuntoCodigoTdv;
     this.form.get('idPuntoCodigo').disable();
     this.esEdicion = true;
     this.mostrarTabla = false;    
@@ -278,7 +282,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       params = {
         tipoPunto: this.selectedTipoPunto,
 		page: 0,
-		size: 50
+		size: 80
       };
       this.listarPuntos(params);
     }
@@ -287,7 +291,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         params = {
         tipoPunto: this.selectedTipoPunto,
 		page: 0,
-		size: 50
+		size: 80
       };
       this.listarPuntos(params);
     }
@@ -297,7 +301,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
         tipoPunto: this.selectedTipoPunto,
 		page: 0,
-		size: 50
+		size: 140
       };
       this.listarPuntos(params);
     }
@@ -317,7 +321,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         tipoPunto: this.selectedTipoPunto,
         'cajerosAtm.codBancoAval': Number(this.form.value['banco'].codigoPunto),
 		page: 0,
-		size: 1000
+		size: 1500
       };
       this.listarPuntos(params);
     }
@@ -376,7 +380,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
   * @BaironPerez
   */
      mostrarMas(e: any) {
-      this.listarPuntosCodigo(e.pageIndex, e.pageSize);
+		this.numPagina = e.pageIndex;
+		this.cantPagina = e.pageSize;
+		this.listarPuntosCodigo(this.numPagina, this.cantPagina );
     }
 
     irAtras() {
@@ -388,7 +394,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe(
         response => {
           this.form.controls['codigoDANE'].setValue(response.data[0].codigoDANE);
-          //this.form.controls['codigoDANE'].disable();
       });
     }
 
@@ -411,6 +416,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
     filtrar(event) {
       this.filtroBancoSelect;
       this.filtroTransportaSelect;
-      this.listarPuntosCodigo();
+      this.listarPuntosCodigo(this.numPagina, this.cantPagina);
     }
 }

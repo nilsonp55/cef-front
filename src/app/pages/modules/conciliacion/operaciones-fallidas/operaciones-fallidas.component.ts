@@ -27,7 +27,9 @@ import { DialogConciliacionManualComponent } from '../operaciones-no-conciliadas
 export class OperacionesFallidasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+
+  @ViewChild('tablaProg') sortProg = new MatSort();
+  @ViewChild('tablaCerti') sortCert = new MatSort();
 
   //Registros paginados
   cantidadRegistrosOpProgramadasFallidas: number;
@@ -36,6 +38,10 @@ export class OperacionesFallidasComponent implements OnInit {
   //Registros paginados
   cantidadRegistrosProgram: number;
   cantidadRegistrosCerti: number;
+  numPaginaOpPr: any;
+  cantPaginaOpPr: any;
+  numPaginaOpCer: any;
+  cantPaginaOpCer: any;
 
   loadProg: boolean = true;
   pageSizeListProg: number[] = [5, 10, 25, 100];
@@ -47,19 +53,27 @@ export class OperacionesFallidasComponent implements OnInit {
   estadoConciliacionInicial: any[] = ['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'];
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['nombreFondoTDV','fechaOrigen', 'tipoOperacion', 'entradaSalida', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesProgramadas: string[] = ['nombreFondoTDV', 'fechaOrigen', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
- 
+
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['nombreFondoTDV','fechaEjecucion', 'tipoOperacion', 'entradaSalida', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['nombreFondoTDV', 'fechaEjecucion', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   constructor(
     private dialog: MatDialog,
     private opConciliadasService: OpConciliadasService) { }
 
-    
+  ngAfterViewInit() {
+    this.dataSourceOperacionesProgramadas.sort = this.sortProg;
+    this.dataSourceOperacionesCertificadas.sort = this.sortCert;
+  }
+
   ngOnInit(): void {
+    this.numPaginaOpPr = 0;
+    this.cantPaginaOpPr = 10;
+    this.numPaginaOpCer = 0;
+    this.cantPaginaOpCer = 10;
     this.listarOpProgramadasFallidas("", "", [""], this.estadoConciliacionInicial);
     this.listarOpCertificadasFallidas("", "", [""], this.estadoConciliacionInicial);
 
@@ -83,9 +97,9 @@ export class OperacionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
-      if(result.data.listar){
+      if (result.data.listar) {
         //No debe de listar
-      }else {
+      } else {
         this.ngOnInit()
       }
     });
@@ -101,7 +115,7 @@ export class OperacionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
-      if(result.data.listar != 'N'){
+      if (result.data.listar != 'N') {
         this.ngOnInit()
       }
     });
@@ -120,7 +134,7 @@ export class OperacionesFallidasComponent implements OnInit {
       }
     })
   }
- 
+
   /**
    * Lista las operaciones programadas distintas al estado conciliadas
    * @JuanMazo
@@ -131,15 +145,14 @@ export class OperacionesFallidasComponent implements OnInit {
     this.opConciliadasService.obtenerOpProgramadasSinconciliar({
       estadoConciliacion: estadoConciliacion,
       bancoAVAL: banco,
-      tdv:tdv,
-      tipoPuntoOrigen:puntoOrigen,
+      tdv: tdv,
+      tipoPuntoOrigen: puntoOrigen,
       page: pagina,
       size: tamanio,
     }).subscribe({
       next: (page: any) => {
-        this.dataSourceOperacionesProgramadasComplet=page.data.content;
+        this.dataSourceOperacionesProgramadasComplet = page.data.content;
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesProgramadas.sort = this.sort;
         this.cantidadRegistrosOpProgramadasFallidas = page.data.totalElements;
         this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
         this.loadProg = false;
@@ -170,15 +183,14 @@ export class OperacionesFallidasComponent implements OnInit {
       estadoConciliacion: estadoConciliacion,
       conciliable: 'SI',
       bancoAVAL: banco,
-      tdv:tdv,
-      tipoPuntoOrigen:puntoOrigen,
+      tdv: tdv,
+      tipoPuntoOrigen: puntoOrigen,
       page: pagina,
       size: tamanio,
     }).subscribe({
       next: (page: any) => {
-        this.dataSourceOperacionesCertificadasComplet=page.data.content;
+        this.dataSourceOperacionesCertificadasComplet = page.data.content;
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesCertificadas.sort = this.sort;
         this.cantidadRegistrosOpCertificadasFallidas = page.data.totalElements;
         this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
         this.loadCert = false;
@@ -203,11 +215,14 @@ export class OperacionesFallidasComponent implements OnInit {
   * @BaironPerez
   */
   mostrarMasOpProgramadasFallidas(e: any) {
+
+    this.numPaginaOpPr = e.pageIndex;
+    this.cantPaginaOpPr = e.pageSize;
     this.listarOpProgramadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora, 
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
       this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
-      this.estadoConciliacionInicial,
+      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
       e.pageIndex, e.pageSize
     );
   }
@@ -216,12 +231,14 @@ export class OperacionesFallidasComponent implements OnInit {
   * Metodo para gestionar la paginación de la tabla
   * @BaironPerez
   */
-   mostrarMasOpCertificadasFallidas(e: any) {
+  mostrarMasOpCertificadasFallidas(e: any) {
+    this.numPaginaOpCer = e.pageIndex;
+    this.cantPaginaOpCer = e.pageSize;
     this.listarOpCertificadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora, 
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
       this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
-      this.estadoConciliacionInicial,
+      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
       e.pageIndex, e.pageSize
     );
   }
@@ -240,18 +257,20 @@ export class OperacionesFallidasComponent implements OnInit {
     this.bancoAVAL = event.banco;
     this.tipoPuntoOrigen = event.tipoPuntoOrigen;
     this.estadoConciliacionInicial = event.estadoConciliacion;
-    
+
     this.listarOpProgramadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora, 
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
       this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
-      this.estadoConciliacionInicial
+      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
+      this.numPaginaOpPr, this.cantPaginaOpPr
     );
     this.listarOpCertificadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora, 
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL, 
+      this.transportadora == undefined ? "" : this.transportadora,
+      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
       this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
-      this.estadoConciliacionInicial
+      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
+      this.numPaginaOpCer, this.cantPaginaOpCer
     );
   }
 

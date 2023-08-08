@@ -343,6 +343,10 @@ export const URLs = {
   CONTABILIDAD_GENERAL: '/generar',
   CONTABILIDAD_GENERAR_ARCHIVO: '/archivo-cierre',
 
+  // generar archivos contabilidad
+  GENERAR_ARCHIVO: '/GenerarArchivo',
+  GENERAR: '/generar',
+
   //Coatos Flete Charter
   COSTOS_FLETE_CHARTER: '/costos-flete-charter',
   COSTOS_FLETE_CHARTER_CONSULTAR: '/consultar',
