@@ -19,16 +19,16 @@
             </div>
             <table mat-table matSort #tablaProg="matSort" [dataSource]="dataSourceOperacionesProgramadas"
                 matTableExporter #exporter="matTableExporter">
-                <tr>
-					<ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA ORIGEN</th>
-                        <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}}
-                        </td>
-                    </ng-container>
-					
+                <tr>										
                     <ng-container matColumnDef="nombreFondoTDV" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE FONDO</th>
                         <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA ORIGEN</th>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}}
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">
@@ -41,7 +41,7 @@
                         <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
                     </ng-container>
 					
-					<ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
+					<ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACION</th>
                         <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
                     </ng-container>
@@ -116,8 +116,13 @@
                     </ng-container>
 
                     <ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA-SALIDA</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA SALIDA</th>
                         <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACION</th>
+                        <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="valorTotal">
