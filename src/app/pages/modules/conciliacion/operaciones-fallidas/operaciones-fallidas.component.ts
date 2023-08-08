@@ -27,7 +27,9 @@ import { DialogConciliacionManualComponent } from '../operaciones-no-conciliadas
 export class OperacionesFallidasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+
+  @ViewChild('tablaProg') sortProg = new MatSort();
+  @ViewChild('tablaCerti') sortCert = new MatSort();
 
   //Registros paginados
   cantidadRegistrosOpProgramadasFallidas: number;
@@ -62,6 +64,10 @@ export class OperacionesFallidasComponent implements OnInit {
     private dialog: MatDialog,
     private opConciliadasService: OpConciliadasService) { }
 
+  ngAfterViewInit() {
+    this.dataSourceOperacionesProgramadas.sort = this.sortProg;
+    this.dataSourceOperacionesCertificadas.sort = this.sortCert;
+  }
 
   ngOnInit(): void {
     this.numPaginaOpPr = 0;
@@ -147,7 +153,6 @@ export class OperacionesFallidasComponent implements OnInit {
       next: (page: any) => {
         this.dataSourceOperacionesProgramadasComplet = page.data.content;
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesProgramadas.sort = this.sort;
         this.cantidadRegistrosOpProgramadasFallidas = page.data.totalElements;
         this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
         this.loadProg = false;
@@ -186,7 +191,6 @@ export class OperacionesFallidasComponent implements OnInit {
       next: (page: any) => {
         this.dataSourceOperacionesCertificadasComplet = page.data.content;
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesCertificadas.sort = this.sort;
         this.cantidadRegistrosOpCertificadasFallidas = page.data.totalElements;
         this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
         this.loadCert = false;
