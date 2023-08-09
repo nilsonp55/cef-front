@@ -155,7 +155,7 @@ export class ContabilidadPmComponent implements OnInit {
       this.generarArchivoService.generarArchivo({
         fecha: this.fechaSistemaSelect,
         tipoContabilidad: "AM",
-        codBanco: 299
+        codBanco: codBanco.codigoPunto
       }).subscribe(
         data => {
           saveAs(data.body);
