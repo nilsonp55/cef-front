@@ -15,8 +15,6 @@ import { ResultadoContabilidadComponent } from '../resultado-contabilidad/result
 import { BancoModel } from 'src/app/_model/banco.model';
 import { GenerarArchivoService } from 'src/app/_service/contabilidad-service/generar-archivo.service';
 import { saveAs } from 'file-saver';
-import { map, tap } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-contabilidad-am',
@@ -93,7 +91,6 @@ export class ContabilidadAmComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar() {
-    let data;
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogConfirmEjecutarComponentComponent, {
       width: '750px',
@@ -138,9 +135,6 @@ export class ContabilidadAmComponent implements OnInit {
             }); setTimeout(() => { alert.close() }, 4500);
           });
       }
-      else {
-        //Si presiona click en cancelar
-      }
     })
   }
 
@@ -152,18 +146,18 @@ export class ContabilidadAmComponent implements OnInit {
     this.listarProcesos(e.pageIndex, e.pageSize);
   }
 
-  descargarArchivoContabilidad(){
-    this.load = true;    
+  descargarArchivoContabilidad() {
+    this.load = true;
     this.bancoOptions.forEach(codBanco => {
       this.generarArchivoService.generarArchivo({
         fecha: this.fechaSistemaSelect,
         tipoContabilidad: "AM",
-        codBanco: 299
+        codBanco: codBanco.codigoPunto
       }).subscribe(
         data => {
           saveAs(data.body);
         }
-      );      
+      );
     });
     this.load = false;
   }

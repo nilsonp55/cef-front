@@ -1,4 +1,4 @@
-import { Component, IterableDiffers, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -92,7 +92,6 @@ export class ContabilidadPmComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar() {
-    let data;
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogConfirmEjecutarComponentComponent, {
       width: '750px',
@@ -101,7 +100,7 @@ export class ContabilidadPmComponent implements OnInit {
       }
     });
 
-    validateArchivo.afterClosed().subscribe(result => {//
+    validateArchivo.afterClosed().subscribe(result => {
       //Si presiona click en aceptar
       if (result.data.check) {
         this.spinnerActive = true;
@@ -114,7 +113,7 @@ export class ContabilidadPmComponent implements OnInit {
           'fase': "INICIAL"
         }).subscribe(data => {
           //Ensayo re respuesta
-          const respuesta = this.dialog.open(ResultadoContabilidadComponent, {//
+          const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
             width: '100%',
             data: {
               respuesta: data.data,
@@ -135,9 +134,6 @@ export class ContabilidadPmComponent implements OnInit {
             }); setTimeout(() => { alert.close() }, 3500);
           });
       }
-      else {
-        //Si presiona click en cancelar
-      }
     })
   }
 
@@ -149,18 +145,18 @@ export class ContabilidadPmComponent implements OnInit {
     this.listarProcesos(e.pageIndex, e.pageSize);
   }
 
-  descargarArchivoContabilidad(){
-    this.load = true;    
+  descargarArchivoContabilidad() {
+    this.load = true;
     this.bancoOptions.forEach(codBanco => {
       this.generarArchivoService.generarArchivo({
         fecha: this.fechaSistemaSelect,
         tipoContabilidad: "AM",
-        codBanco: 299
+        codBanco: codBanco.codigoPunto
       }).subscribe(
         data => {
           saveAs(data.body);
         }
-      );      
+      );
     });
     this.load = false;
   }
