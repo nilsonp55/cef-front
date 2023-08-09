@@ -150,19 +150,19 @@ export class ContabilidadPmComponent implements OnInit {
   }
 
   descargarArchivoContabilidad(){
-    this.bancoOptions.forEach(banco => {
-      console.log(banco.codigoPunto);
-      this.load = true;
+    this.load = true;    
+    this.bancoOptions.forEach(codBanco => {
       this.generarArchivoService.generarArchivo({
         fecha: this.fechaSistemaSelect,
-        tipoContabilidad: "PM",
-        codBanco: banco.codigoPunto
-      }).subscribe({
-        next: (response: any) => {
-          saveAs(new Blob([response]));
+        tipoContabilidad: "AM",
+        codBanco: 299
+      }).subscribe(
+        data => {
+          saveAs(data.body);
         }
-      });
+      );      
     });
+    this.load = false;
   }
 
   listarBancos() {
