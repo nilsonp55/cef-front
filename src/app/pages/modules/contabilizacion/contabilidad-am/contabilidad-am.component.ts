@@ -61,18 +61,6 @@ export class ContabilidadAmComponent implements OnInit {
     this.fechaSistemaSelect = _fecha.data[0].valor;
     this.listarProcesos();
     this.listarBancos();
-    this.generarArchivoService.generarArchivo({
-      fecha: this.fechaSistemaSelect,
-      tipoContabilidad: "AM",
-      codBanco: 299
-    }).subscribe(
-      data => {
-        const h = data.xhr;
-        const con = h.getAll('content-disposition');
-        console.log(h.get('content-type'));
-        saveAs(data.body);
-      }
-    );
   }
 
   /**
@@ -165,22 +153,17 @@ export class ContabilidadAmComponent implements OnInit {
   }
 
   descargarArchivoContabilidad(){
-    this.load = true;
-    this.generarArchivoService.generarArchivo({
-      fecha: this.fechaSistemaSelect,
-      tipoContabilidad: "AM",
-      codBanco: 299
-    }).subscribe(
-      data => {
-        const h = data.headers;
-        const con = h.getAll('content-disposition');
-        console.log(h.get('content-type'));
-        saveAs(data.body);
-      }
-    );
-    this.bancoOptions.forEach(banco => {
-      console.log(banco.codigoPunto);      
-      
+    this.load = true;    
+    this.bancoOptions.forEach(codBanco => {
+      this.generarArchivoService.generarArchivo({
+        fecha: this.fechaSistemaSelect,
+        tipoContabilidad: "AM",
+        codBanco: 299
+      }).subscribe(
+        data => {
+          saveAs(data.body);
+        }
+      );      
     });
     this.load = false;
   }

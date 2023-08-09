@@ -17,10 +17,9 @@ export class GenerarArchivoService {
   generarArchivo(param): Observable<any> {
     let headers = new HttpHeaders();
     headers.append('Authorization', 'Bearer '+ atob(sessionStorage.getItem('token')));
-    headers.append('Accept', '*/*');
     return this.http.get(
       `${this.url}${URLs.GENERAR}`, 
-      {params: param, observe: 'events', responseType: 'arraybuffer' }
+      {params: param, observe: 'response', responseType: 'blob' }
     );
   }
 }
