@@ -28,7 +28,8 @@ import { DialogConciliacionManualComponent } from '../../operaciones-no-concilia
 export class ConsultaOperaFallidasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('sort1') sort1 = new MatSort();
+  @ViewChild('sort2') sort2 = new MatSort();
 
   //Rgistros paginados
   cantidadRegistrosProgram: number;
@@ -124,7 +125,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
       next: (page: any) => {
         this.dataSourceOperacionesProgramadasComplet = page.data.content;
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.dataSourceOperacionesProgramadas.sort = this.sort1;
         this.cantidadRegistrosProgram = page.data.totalElements;
         this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
         this.loadProg = false;
@@ -163,7 +164,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         page.fechaEjecucion = moment(page.data.content).format('DD/MM/YYYY')
         this.dataSourceOperacionesCertificadasComplet = page.data.content;
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.dataSourceOperacionesCertificadas.sort = this.sort2;
         this.cantidadRegistrosCerti = page.data.totalElements;
         this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
         this.loadCert = false;

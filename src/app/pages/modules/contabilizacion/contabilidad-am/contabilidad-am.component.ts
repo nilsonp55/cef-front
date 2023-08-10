@@ -15,6 +15,7 @@ import { ResultadoContabilidadComponent } from '../resultado-contabilidad/result
 import { BancoModel } from 'src/app/_model/banco.model';
 import { GenerarArchivoService } from 'src/app/_service/contabilidad-service/generar-archivo.service';
 import { saveAs } from 'file-saver';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-contabilidad-am',
@@ -149,13 +150,26 @@ export class ContabilidadAmComponent implements OnInit {
   descargarArchivoContabilidad() {
     this.load = true;
     this.bancoOptions.forEach(codBanco => {
-      this.generarArchivoService.generarArchivo({
+      lastValueFrom(this.generarArchivoService.generarArchivo({
         fecha: this.fechaSistemaSelect,
         tipoContabilidad: "AM",
         codBanco: codBanco.codigoPunto
-      }).subscribe(
-        data => {
-          saveAs(data.body);
+      })).then(
+        response => {
+          if (response.headers.has('content-disposition')) {
+            const archivo_generar = response.headers.get("content-disposition").split(';')[1].split('=')[1].trim();
+            saveAs(response.body, archivo_generar);
+          }
+        },
+        error => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + error.message,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          });
+          setTimeout(() => { alert.close() }, 5000);
         }
       );
     });

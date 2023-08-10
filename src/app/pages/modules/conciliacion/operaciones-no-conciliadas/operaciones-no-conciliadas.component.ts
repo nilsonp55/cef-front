@@ -30,7 +30,8 @@ import { DialogInfoProgramadasNoConciliadasComponent } from './dialog-info-progr
 export class OperacionesNoConciliadasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('sort1') sort1 = new MatSort();
+  @ViewChild('sort2') sort2 = new MatSort();
 
   //Registros paginados
   cantidadRegistrosOpProgramadasSinConciliar: number;
@@ -149,7 +150,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
       next: (page: any) => {
         this.dataSourceOperacionesProgramadasComplet = page.data.content;
         this.dataSourceOperacionesProgramadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesProgramadas.sort = this.sort;
+        this.dataSourceOperacionesProgramadas.sort = this.sort1;
         this.cantidadRegistrosOpProgramadasSinConciliar = page.data.totalElements;
         this.pageSizeListProg = [5, 10, 25, 100, page.data.totalElements];
         this.loadProg = false;
@@ -188,7 +189,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
       next: (page: any) => {
         this.dataSourceOperacionesCertificadasComplet = page.data.content;
         this.dataSourceOperacionesCertificadas = new MatTableDataSource(page.data.content);
-        this.dataSourceOperacionesCertificadas.sort = this.sort;
+        this.dataSourceOperacionesCertificadas.sort = this.sort2;
         this.cantidadRegistrosOpCertificadasSinConciliar = page.data.totalElements;
         this.pageSizeListCert = [5, 10, 25, 100, page.data.totalElements];
         this.loadCert = false;

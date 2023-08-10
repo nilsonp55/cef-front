@@ -11,6 +11,7 @@ import { DialogDesconciliarComponent } from './dialog-desconciliar/dialog-descon
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { FormControl } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-operaciones-conciliadas',
@@ -144,6 +145,7 @@ export class OperacionesConciliadasComponent implements OnInit {
   }
 
   filter(event) {
+    var pipe = new DatePipe('en-US');
     this.transportadora = event.trasportadora;
     this.bancoAVAL = event.banco;
     this.tipoPuntoOrigen = event.tipoPuntoOrigen;
@@ -151,7 +153,7 @@ export class OperacionesConciliadasComponent implements OnInit {
     this.listarConciliados(
       this.estadoConciliacion,
       this.bancoAVAL == undefined ? [""] : this.bancoAVAL,
-      this.fechaOrigen == undefined ? "" : this.getFechaOrigen(this.fechaOrigen.value),
+      this.fechaOrigen == undefined ? "" : pipe.transform(this.fechaProceso, 'yyyy/MM/dd'),
       this.transportadora == undefined ? "" : this.transportadora,
       this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
       this.numPagina, this.cantPagina
@@ -159,8 +161,9 @@ export class OperacionesConciliadasComponent implements OnInit {
   }
 
   getFechaOrigen(fecha: string): string {
-    const [month, day, year] = new Date(fecha).toLocaleDateString().split('/');
-    return year + '/' + month + '/' + day;
+    var pipe = new DatePipe('en-US');
+    const fechaFormat = pipe.transform(new Date(fecha), 'yyyy/MM/dd'); 
+    return fechaFormat;
   }
 
 }

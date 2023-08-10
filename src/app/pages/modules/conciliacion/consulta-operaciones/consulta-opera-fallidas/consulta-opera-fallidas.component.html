@@ -2,7 +2,7 @@
 <div class="division">
     <div>
         <div class="divTituloTablas">
-            <h1 class="tituloTabla">Operaciones programadas sin conciliar</h1>
+            <h1 class="tituloTabla">Operaciones programadas sin conciliar </h1>
             <span class="line-spacer"></span>
         </div>
         <div>
@@ -10,7 +10,7 @@
                 (page)="mostrarMasOpProgramadasFallidas($event)">
             </mat-paginator>
             <button mat-raised-button color="primary"
-                (click)="exporter.exportTable('xlsx', {fileName:'operaciones_programadas_fallidas'})">Exportar
+                (click)="exporterProg.exportTable('xlsx', {fileName:'operaciones_programadas_fallidas'})">Exportar
                 tabla</button>
         </div>
         <div class="divTablaProg">
@@ -20,7 +20,7 @@
             </div>
             <div class="configScroll">
                 <table mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort
-                    #exporter="matTableExporter">
+                    #sort1="matSort" #exporterProg="matTableExporter">
                     <tr>
                         <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA ORIGEN</th>
@@ -86,7 +86,7 @@
             </div>
             <div class="configScroll">
                 <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort
-                    #exporter="matTableExporter">
+                    #sort2="matSort" #exporter="matTableExporter">
                     <tr>
                         <ng-container matColumnDef="ciudadFondo" class="mat-column-nombreCampo">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> CIUIDAD FONDO</th>
@@ -145,4 +145,4 @@
 
         </div>
     </div>
-</div>
+</div>F
