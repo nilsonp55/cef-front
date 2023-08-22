@@ -151,7 +151,7 @@ export class ContabilidadPmComponent implements OnInit {
     this.bancoOptions.forEach(codBanco => {
       lastValueFrom(this.generarArchivoService.generarArchivo({
         fecha: this.fechaSistemaSelect,
-        tipoContabilidad: "AM",
+        tipoContabilidad: "PM",
         codBanco: codBanco.codigoPunto
       })).then(
         response => {
