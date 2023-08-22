@@ -21,7 +21,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   form: FormGroup;
   dataSourceCodigoPuntoTdv: MatTableDataSource<any>
-  displayedColumnsCodigoPuntoTdv: string[] = ['codigoPunto', 'codigoTdv', 'codigoPropioTdv', 'punto', 'banco', 'acciones'];
+  displayedColumnsCodigoPuntoTdv: string[] = ['codigoPunto', 'codigoTdv', 'codigoPropioTdv', 'nombrePunto', 'nombreBanco', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   mostrarTabla = true;
@@ -39,6 +39,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   ciudadSelected: any;
   numPagina : any;
   cantPagina : any;
+  tipoPunto: any;
 
   clientes: any[] = [];
   bancoSelect: boolean = false;
@@ -65,8 +66,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
     ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
-	  this.numPagina = 0;
-	  this.cantPagina = 10;
+	this.numPagina = 0;
+	this.cantPagina = 10;
     this.listarPuntosCodigo(this.numPagina, this.cantPagina);
     this.iniciarPuntos();
     this.initForm();
@@ -83,14 +84,11 @@ export class PuntosCodigoTdvComponent implements OnInit {
         if(param.puntosDTO.codigoCiudad)
           ciudad = this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).codigoDANE;
       
-        const params = {
-          tipoPunto: this.selectedTipoPunto
-        };
-        await this.listarPuntos(params);
+        await this.filtrarListaPuntos(param.puntosDTO.tipoPunto);
       }
       this.form = new FormGroup({
         'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
-        'punto': new FormControl(param ? this.puntos.find((value) => value.codigoPunto = param.puntosDTO.codigoPunto) : null),
+        'punto': new FormControl(param ? this.puntos.find((value) => value.codigoPunto = param.codigoPunto) : null),
         'codigoPunto': new FormControl(param ? param.codigoPunto : null),
         'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
         'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
@@ -273,10 +271,15 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async filtrarPuntos(event: any) {
+	this.tipoPunto =   event.value;
+	this.filtrarListaPuntos(this.tipoPunto);
+  }
+  
+  filtrarListaPuntos(tipoPunto) {
     let params;
     this.ciudadSelect = false;
     this.clienteSelect = false;
-    if(event.value == "BAN_REP"){
+    if(tipoPunto == "BAN_REP"){
       this.puntoSelect = true;
       this.ciudadSelect = true;
       params = {
@@ -286,7 +289,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       };
       this.listarPuntos(params);
     }
-	if(event.value == "BANCO"){
+	if(tipoPunto == "BANCO"){
       this.puntoSelect = true;
         params = {
         tipoPunto: this.selectedTipoPunto,
@@ -295,7 +298,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       };
       this.listarPuntos(params);
     }
-    if(event.value == "FONDO"){
+    if(tipoPunto == "FONDO"){
       this.puntoSelect = true;
       params = {
         'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
@@ -305,7 +308,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       };
       this.listarPuntos(params);
     }
-    if(event.value == "OFICINA"){
+    if(tipoPunto == "OFICINA"){
       this.puntoSelect = true;
       params = {
         'oficinas.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
@@ -315,7 +318,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       };
       this.listarPuntos(params);
     }
-    if(event.value == "CAJERO"){
+    if(tipoPunto == "CAJERO"){
       this.puntoSelect = true;
       params = {
         tipoPunto: this.selectedTipoPunto,
@@ -325,7 +328,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       };
       this.listarPuntos(params);
     }
-    if(event.value == "CLIENTE"){
+    if(tipoPunto == "CLIENTE"){
       this.puntoSelect = false;
       this.clienteSelect = true;
       params = {
