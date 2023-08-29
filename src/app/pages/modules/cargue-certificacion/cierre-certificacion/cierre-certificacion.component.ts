@@ -19,7 +19,6 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 })
 export class CierreCertificacionComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   //Variable para activar spinner
@@ -32,7 +31,7 @@ export class CierreCertificacionComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['idLogProceso', 'fechaProceso', 'actividad', 'estado', 'acciones'];
+  displayedColumnsInfoProcesos: string[] = ['idLogProceso', 'fechaCreacion', 'codigoProceso', 'estadoProceso', 'acciones'];
 
   constructor(
     private dialog: MatDialog,
@@ -163,14 +162,6 @@ export class CierreCertificacionComponent implements OnInit {
           }
         }); setTimeout(() => { alert.close() }, 3500);
       });
-  }
-
-  /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-  mostrarMas(e: any) {
-    this.listarProcesos(e.pageIndex, e.pageSize);
   }
 
   /** 
