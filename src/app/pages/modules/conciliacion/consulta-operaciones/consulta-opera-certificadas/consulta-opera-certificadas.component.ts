@@ -45,7 +45,7 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['codigoFondoTDV', 'bancoAVAL', 'tdv', 'nombreFondoTDV', 'codigoPropioTDV', 'tipoOperacion', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fechaEjecucion', 'entradaSalida', 'estadoConciliacion', 'fallidaOficina'];
+  displayedColumnsOperacionesCertificadas: string[] = ['codigoFondoTDV', 'bancoAVAL', 'tdv', 'nombreFondoTDV', 'codigoPropioTDV', 'tipoOperacion', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fechaEjecucion', 'estadoConciliacion', 'fallidaOficina'];
 
   constructor(
     private dialog: MatDialog,
@@ -122,7 +122,7 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
       this.transportadora == undefined ? "" : this.transportadora,
       this.bancoAVAL == undefined ? "" : this.bancoAVAL,
       this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
-    ); 
+    );
   }
-    
+
 }
