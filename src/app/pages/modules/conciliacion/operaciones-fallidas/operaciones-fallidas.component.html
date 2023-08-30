@@ -10,14 +10,14 @@
                 [length]="cantidadRegistrosOpProgramadasFallidas" (page)="mostrarMasOpProgramadasFallidas($event)">
             </mat-paginator>
             <button mat-raised-button color="primary"
-                (click)="exporterProg.exportTable('xlsx', {fileName:'operaciones_programadas_fallidas'})">Exportar
+                (click)="exporterProg.exportTable('xlsx', {fileName:'operaciones_programadas_sin_conciliar'})">Exportar
                 tabla</button>
         </div>
         <div class="divTablaProg">
             <div *ngIf="loadProg" class="disenio-spinner">
                 <mat-spinner></mat-spinner>
             </div>
-            <table mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort #sort1="matSort" 
+            <table mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort #sort1="matSort"
                 #exporterProg="matTableExporter">
                 <tr>
                     <ng-container matColumnDef="nombreFondoTDV" class="mat-column-nombreCampo">
@@ -40,7 +40,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA SALIDA</th>
                         <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
                     </ng-container>
-					
+
 					<ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACION</th>
                         <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
@@ -84,14 +84,14 @@
                 [length]="cantidadRegistrosOpCertificadasFallidas" (page)="mostrarMasOpCertificadasFallidas($event)">
             </mat-paginator>
             <button mat-raised-button color="primary"
-                (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_fallidas'})">Exportar
+                (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_sin_conciliar'})">Exportar
                 tabla</button>
         </div>
         <div class="divTablaCerti">
             <div *ngIf="loadCert" class="disenio-spinner">
                 <mat-spinner></mat-spinner>
             </div>
-            <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort #sort2="matSort" 
+            <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort #sort2="matSort"
                 #exporter="matTableExporter">
                 <tr>
                     <ng-container matColumnDef="idCertificacion" class="mat-column-nombreCampo">

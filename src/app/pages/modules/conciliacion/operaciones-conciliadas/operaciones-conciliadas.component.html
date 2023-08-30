@@ -8,7 +8,7 @@
 <mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros" (page)="mostrarMas($event)">
 </mat-paginator>
 <button mat-raised-button color="primary"
-    (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas'})">Exportar tabla</button>
+    (click)="exporter.exportTable('xlsx', {fileName:'operaciones_conciliadas'})">Exportar tabla</button>
 
 <div class="divTabla">
     <div *ngIf="load" class="disenio-spinner">
