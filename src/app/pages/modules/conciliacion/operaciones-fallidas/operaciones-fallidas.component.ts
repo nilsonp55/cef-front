@@ -22,7 +22,7 @@ import { DialogConciliacionManualComponent } from '../operaciones-no-conciliadas
 /**
  * Clase que nos lista las operaciones programadas y conciliadas en estado de conciliacion fallidas, canceladas, pospuestas o fuera de conciliación,
  * permite modificar su estado y su valor
- * @JuanMazo 
+ * @JuanMazo
  */
 export class OperacionesFallidasComponent implements OnInit {
 
@@ -93,10 +93,11 @@ export class OperacionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
+      debugger;
       if (result.data.listar) {
         //No debe de listar
       } else {
-        this.ngOnInit()
+        this.ngOnInit();
       }
     });
   }
@@ -111,8 +112,9 @@ export class OperacionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
+      debugger;
       if (result.data.listar != 'N') {
-        this.ngOnInit()
+        this.ngOnInit();
       }
     });
   }

@@ -36,7 +36,7 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
       this.listarONo = "N"
     }
   }
-  
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ConciliacionesInfoProgramadasNoConciliadasModel,
     private opConciliadasService: OpConciliadasService,
@@ -77,7 +77,7 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
 
     //Aqui llama al se45rvicio actualizar
     this.opConciliadasService.actualizarOpProgramadas(actualizarRequest).subscribe((page: any) => {
-      this.dialogRef.close({ event: "load", data: { "event": "load" } });
+      this.dialogRef.close();
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -163,7 +163,7 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
     return response;
   }
 
-  persistir() {
+  persistir(): void {
     let estadoActualizar = {
       idOperacion: this.idOpProgramada,
       estado: this.form.value['estadoConciliacion'].viewValue,
@@ -190,14 +190,6 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
         setTimeout(() => { alert.close() }, 3000);
       });
     this.ngOnInit();
-  }
-
-  changeState(event) {
-    this.estado = event.target.innerText
-  }
-
-  ngOnDestroy() {
-    this.close()
   }
 
   close() {
