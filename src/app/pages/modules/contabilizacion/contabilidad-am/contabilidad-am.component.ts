@@ -26,10 +26,9 @@ import { lastValueFrom } from 'rxjs';
 /**
  * Componente para gestionar el menu de contabilidad PM
  * @BaironPerez
-*/
+ */
 export class ContabilidadAmComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   //Rgistros paginados
@@ -40,7 +39,7 @@ export class ContabilidadAmComponent implements OnInit {
   fechaSistemaSelect: any;
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['fechaProceso', 'actividad', 'estado', 'acciones'];
+  displayedColumnsInfoProcesos: string[] = ['fechaCreacion', 'codigoProceso', 'estadoProceso', 'acciones'];
   bancoOptions: BancoModel[];
   load: boolean = false;
 
@@ -63,18 +62,18 @@ export class ContabilidadAmComponent implements OnInit {
   }
 
   /**
-  * Se realiza consumo de servicio para listr los procesos a ejectar
-  * @BaironPerez
-  */
+   * Se realiza consumo de servicio para listr los procesos a ejectar
+   * @BaironPerez
+   */
   listarProcesos(pagina = 0, tamanio = 5) {
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
-      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
-      this.dataSourceInfoProcesos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
+        this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
+        this.dataSourceInfoProcesos.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -114,17 +113,17 @@ export class ContabilidadAmComponent implements OnInit {
           'codBanco': codBanco,
           'fase': "INICIAL"
         }).subscribe(data => {
-          //Ensayo re respuesta
-          const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
-            width: '100%',
-            data: {
-              respuesta: data.data,
-              titulo: "Generar Contabilidad AM - Resultado",
-              tipoContabilidad: "AM",
-              flag: "C"
-            }
-          });
-        },
+            //Ensayo re respuesta
+            const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
+              width: '100%',
+              data: {
+                respuesta: data.data,
+                titulo: "Generar Contabilidad AM - Resultado",
+                tipoContabilidad: "AM",
+                flag: "C"
+              }
+            });
+          },
           (err: any) => {
             this.spinnerActive = false;
             const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -137,14 +136,6 @@ export class ContabilidadAmComponent implements OnInit {
           });
       }
     })
-  }
-
-  /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-  mostrarMas(e: any) {
-    this.listarProcesos(e.pageIndex, e.pageSize);
   }
 
   descargarArchivoContabilidad() {
@@ -178,8 +169,8 @@ export class ContabilidadAmComponent implements OnInit {
 
   listarBancos() {
     this.generalServices.listarBancosAval().subscribe(data => {
-      this.bancoOptions = data.data
-    },
+        this.bancoOptions = data.data
+      },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

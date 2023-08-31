@@ -43,7 +43,7 @@ export class OperacionesConciliadasComponent implements OnInit {
 
   //DataSource para pintar tabla de conciliados
   dataSourceConciliadas: MatTableDataSource<ConciliacionesModel>;
-  displayedColumnsConciliadas: string[] = ['banco', 'transPortadora', 'ciudad', 'tipoOperacion', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'ciudadPuntoOrigen', 'ciudadPuntoDestino', 'valor', 'tipoConciliacion', 'fechaEjecucion', 'acciones'];
+  displayedColumnsConciliadas: string[] = ['Banco', 'Transportadora', 'tipoOperacion', 'puntoOrigen', 'puntoDestino', 'ciudadOrigen', 'ciudadDestino', 'valorTotal', 'tipoConciliacion', 'fechaEjecucion', 'acciones'];
 
   constructor(
     private dialog: MatDialog,
@@ -69,7 +69,7 @@ export class OperacionesConciliadasComponent implements OnInit {
       "", [""], this.numPagina, this.cantPagina);
   }
 
-  /** 
+  /**
  * Se realiza consumo de servicio para listar los conciliaciones
  * @JuanMazo
  */
@@ -145,7 +145,7 @@ export class OperacionesConciliadasComponent implements OnInit {
   }
 
   filter(event) {
-    var pipe = new DatePipe('en-US');
+    const pipe = new DatePipe('en-US');
     this.transportadora = event.trasportadora;
     this.bancoAVAL = event.banco;
     this.tipoPuntoOrigen = event.tipoPuntoOrigen;
@@ -161,9 +161,8 @@ export class OperacionesConciliadasComponent implements OnInit {
   }
 
   getFechaOrigen(fecha: string): string {
-    var pipe = new DatePipe('en-US');
-    const fechaFormat = pipe.transform(new Date(fecha), 'yyyy/MM/dd'); 
-    return fechaFormat;
+    const pipe = new DatePipe('en-US');
+    return pipe.transform(new Date(fecha), 'yyyy/MM/dd');
   }
 
 }

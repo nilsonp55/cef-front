@@ -18,66 +18,65 @@ import { CargueProgramacionPreliminarService } from 'src/app/_service/programaci
 })
 export class CierreProgramacionPreliminarComponent implements OnInit {
 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
-  
-    //Variable para activar spinner
-    spinnerActive: boolean = false;
+  @ViewChild(MatSort) sort: MatSort;
 
-    //Rgistros paginados
-    cantidadRegistros: number;
-  
-    //DataSource para pintar tabla de los procesos a ejecutar
-    dataSourceInfoProcesos: MatTableDataSource<any>;
-    displayedColumnsInfoProcesos: string[] = ['idLogProceso', 'fechaProceso', 'actividad', 'estado', 'acciones'];
-  
-    constructor(
-      private dialog: MatDialog,
-      private logProcesoDiarioService: LogProcesoDiarioService,
-      private cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
-      private operacionesProgramadasService: OperacionesProgramadasService,
-      public spinnerComponent: SpinnerComponent
-    ) { }
-  
-    ngOnInit(): void {
-      this.listarProcesos();
-    }
-  
-    /**
-    * Se realiza consumo de servicio para listr los procesos a ejectar
-    * @BaironPerez
-    */
-    listarProcesos(pagina = 0, tamanio = 5) {
-      this.logProcesoDiarioService.obtenerProcesosDiarios({
-        page: pagina,
-        size: tamanio,
-      }).subscribe((page: any) => {
+  //Variable para activar spinner
+  spinnerActive: boolean = false;
+
+  //Rgistros paginados
+  cantidadRegistros: number;
+
+  //DataSource para pintar tabla de los procesos a ejecutar
+  dataSourceInfoProcesos: MatTableDataSource<any>;
+  displayedColumnsInfoProcesos: string[] = ['idLogProceso', 'fechaCreacion', 'codigoProceso', 'estadoProceso', 'acciones'];
+
+  constructor(
+    private dialog: MatDialog,
+    private logProcesoDiarioService: LogProcesoDiarioService,
+    private cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
+    private operacionesProgramadasService: OperacionesProgramadasService,
+    public spinnerComponent: SpinnerComponent
+  ) { }
+
+  ngOnInit(): void {
+    this.listarProcesos();
+  }
+
+  /**
+   * Se realiza consumo de servicio para listr los procesos a ejectar
+   * @BaironPerez
+   */
+  listarProcesos(pagina = 0, tamanio = 10) {
+    this.logProcesoDiarioService.obtenerProcesosDiarios({
+      page: pagina,
+      size: tamanio,
+    }).subscribe((page: any) => {
         this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
         this.dataSourceInfoProcesos.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
-    }
-  
+      (err: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      });
+  }
 
-    /**
-     * Metodo encargado de ejecutar el servicio de contabilidad para los 
-     * procesos activos
-     * @BaironPerez
-     */
-    ejecutar() {
-      this.spinnerActive = true;
-      this.operacionesProgramadasService.procesar({
-        'agrupador': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP
-      }).subscribe(data => {
+
+  /**
+   * Metodo encargado de ejecutar el servicio de contabilidad para los
+   * procesos activos
+   * @BaironPerez
+   */
+  ejecutar() {
+    this.spinnerActive = true;
+    this.operacionesProgramadasService.procesar({
+      'agrupador': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP
+    }).subscribe(data => {
         this.spinnerActive = false;
         this.listarProcesos();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -99,7 +98,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
         }); setTimeout(() => { alert.close() }, 5500);
       });
     }
-  
+
     /**
     * Metodo para gestionar la paginación de la tabla
     * @BaironPerez
@@ -108,47 +107,47 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
       this.listarProcesos(e.pageIndex, e.pageSize);
     }
 
-  /** 
-  * Metodo para reabrir un registro de archivo previamente cargado
-  * @BaironPerez
-  */
- reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
-  this.cargueProgramacionPreliminarService.reabrirArchivo({
-    'agrupador': "IPP",
-  }).subscribe(item => {
-    this.listarProcesos();
-    let messageResponse: string = item.data
-    let messageValidate = messageResponse.indexOf('Error')
-      if(messageValidate == 1) {
+  /**
+   * Metodo para reabrir un registro de archivo previamente cargado
+   * @BaironPerez
+   */
+  reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
+    this.cargueProgramacionPreliminarService.reabrirArchivo({
+      'agrupador': "IPP",
+    }).subscribe(item => {
+        this.listarProcesos();
+        let messageResponse: string = item.data
+        let messageValidate = messageResponse.indexOf('Error')
+        if(messageValidate == 1) {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
+              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            }
+          });
+          setTimeout(() => { alert.close() }, 3000);
+        }else {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: messageResponse,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          });
+          setTimeout(() => { alert.close() }, 3000);
+        }
+      },
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      }else {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: messageResponse,
+            msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      }
-  },
-  (err: any) => {
-    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-      data: {
-        msn: err.error.response.description,
-        codigo: GENERALES.CODE_EMERGENT.ERROR
-      }
-    }); setTimeout(() => { alert.close() }, 3000);
-  })
-}
-  
+        }); setTimeout(() => { alert.close() }, 3000);
+      })
   }
-  
+
+}
+
