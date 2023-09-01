@@ -36,13 +36,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
   filtroCodigoPropio: any;
   selectedTipoPunto = "";
   ciudades: any[] = [];
-  ciudadSelected: any;
-  numPagina : any;
-  cantPagina : any;
-  tipoPunto: any;
 
   clientes: any[] = [];
-  bancoSelect: boolean = false;
   tdvSelect: boolean = false;
   tipoPuntoSelect: boolean = false;
   puntoSelect: boolean = false;
@@ -66,38 +61,39 @@ export class PuntosCodigoTdvComponent implements OnInit {
     ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
-	this.numPagina = 0;
-	this.cantPagina = 10;
-    this.listarPuntosCodigo(this.numPagina, this.cantPagina);
+    this.listarPuntosCodigo();
     this.iniciarPuntos();
     this.initForm();
   }
 
   /**
-    * Inicializaion formulario de creacion y edicion
-    * @BayronPerez
-    */
+   * Inicializaion formulario de creacion y edicion
+   * @BayronPerez
+   */
   async initForm(param?: any) {
-      var ciudad = null;
-      if(param) {
-        this.selectedTipoPunto = param.puntosDTO.tipoPunto;
-        if(param.puntosDTO.codigoCiudad)
-          ciudad = this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).codigoDANE;
-      
-        await this.filtrarListaPuntos(param.puntosDTO.tipoPunto);
-      }
-      this.form = new FormGroup({
-        'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
-        'punto': new FormControl(param ? this.puntos.find((value) => value.codigoPunto = param.codigoPunto) : null),
-        'codigoPunto': new FormControl(param ? param.codigoPunto : null),
-        'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
-        'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
-        'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null),
-        'estado': new FormControl(param ? this.formatearEstadoListar(param.estado) : null),
-        'codigoDANE': new FormControl(ciudad),
-        'cliente': new FormControl(param ? param.cliente : null),
-        'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null)
-      });
+    var ciudad = null;
+    if(param) {
+      this.selectedTipoPunto = param.puntosDTO.tipoPunto;
+      if(param.puntosDTO.codigoCiudad)
+        ciudad = this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).codigoDANE;
+
+      const params = {
+        tipoPunto: this.selectedTipoPunto
+      };
+      await this.listarPuntos(params);
+    }
+    this.form = new FormGroup({
+      'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
+      'punto': new FormControl(param ? this.puntos.find((value) => value.codigoPunto = param.puntosDTO.codigoPunto) : null),
+      'codigoPunto': new FormControl(param ? param.codigoPunto : null),
+      'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
+      'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
+      'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null),
+      'estado': new FormControl(param ? this.formatearEstadoListar(param.estado) : null),
+      'codigoDANE': new FormControl(ciudad),
+      'cliente': new FormControl(param ? param.cliente : null),
+      'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null)
+    });
   }
 
   selectPunto(codigoPunto: any): any {
@@ -116,7 +112,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * Lista los puntos codigo TDV
    * @BayronPerez
    */
-   listarPuntosCodigo(pagina = 0, tamanio = 10) {
+  listarPuntosCodigo(pagina = 0, tamanio = 5) {
     this.puntosCodigoService.obtenerPuntosCodigoTDV({
       page: pagina,
       size: tamanio,
@@ -144,16 +140,16 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   /**
-    * Se realiza persistencia del formulario de punto codigo
-    * @BayronPerez
-    */
+   * Se realiza persistencia del formulario de punto codigo
+   * @BayronPerez
+   */
   persistir(param?: any) {
     const puntoCpdigo = {
       idPuntoCodigoTdv: null,
       codigoTDV: this.form.value['codigoTdv'].codigo,
       codigoPunto: this.form.value['codigoPunto'],
       codigoPropioTDV: this.form.value['codigoPropioTDV'],
-	  ciudadFondo: this.form.value['codigoDANE'],
+      ciudadFondo: this.form.value['codigoDANE'],
       bancosDTO: {
         codigoPunto: Number(this.form.value['banco'].codigoPunto)
       },
@@ -175,7 +171,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           }); setTimeout(() => { alert.close() }, 4000);
-          this.listarPuntosCodigo(this.numPagina, this.cantPagina);
+          this.listarPuntosCodigo();
           this.initForm();
         },
         error: (err: any) => {
@@ -199,7 +195,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           }); setTimeout(() => { alert.close() }, 4000);
-          this.listarPuntosCodigo(this.numPagina, this.cantPagina);
+          this.listarPuntosCodigo();
           this.initForm();
         },
         error: (err: any) => {
@@ -217,9 +213,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   /**
-    * Se muestra el formulario para crear punto codigo
-    * @BayronPerez
-    */
+   * Se muestra el formulario para crear punto codigo
+   * @BayronPerez
+   */
   crearPuntoCodigo() {
     this.mostrarFormulario = true;
     this.form.get('idPuntoCodigo').disable();
@@ -228,16 +224,16 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   /**
-    * Se muestra el formulario para actualizar punto codigo
-    * @BayronPerez
-    */
+   * Se muestra el formulario para actualizar punto codigo
+   * @BayronPerez
+   */
   actualizarPuntoCodigo(element) {
     this.initForm(element)
     this.mostrarFormulario = true;
-    this.idPuntoCodigo = element.idPuntoCodigoTdv;
+    this.idPuntoCodigo = this.form.value['idPuntoCodigo'];
     this.form.get('idPuntoCodigo').disable();
     this.esEdicion = true;
-    this.mostrarTabla = false;    
+    this.mostrarTabla = false;
   }
 
   async iniciarDesplegables() {
@@ -247,11 +243,11 @@ export class PuntosCodigoTdvComponent implements OnInit {
     });
     await lastValueFrom(this.generalesService.listarBancosAval()).then((response) => {
       this.bancos = response.data;
-    });    
+    });
     await lastValueFrom(this.generalesService.listarTransportadoras()).then((response) => {
       this.transportadoras = response.data;
     });
-    
+
   }
 
   async iniciarPuntos() {
@@ -259,7 +255,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     await lastValueFrom(this.gestionPuntosService.listarPuntosCreados()).then((response) => {
       this.puntos = response.content;
     });
-    
+
   }
 
   selectedBanco(event) {
@@ -271,70 +267,66 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async filtrarPuntos(event: any) {
-	this.tipoPunto =   event.value;
-	this.filtrarListaPuntos(this.tipoPunto);
-  }
-  
-  filtrarListaPuntos(tipoPunto) {
     let params;
     this.ciudadSelect = false;
     this.clienteSelect = false;
-    if(tipoPunto == "BAN_REP"){
+    if(event.value == "BAN_REP"){
       this.puntoSelect = true;
       this.ciudadSelect = true;
       params = {
         tipoPunto: this.selectedTipoPunto,
-		page: 0,
-		size: 80
+        page: 0,
+        size: 80
       };
       this.listarPuntos(params);
     }
-	if(tipoPunto == "BANCO"){
+    if(event.value == "BANCO"){
       this.puntoSelect = true;
-        params = {
+      params = {
         tipoPunto: this.selectedTipoPunto,
-		page: 0,
-		size: 80
+        page: 0,
+        size: 80
       };
       this.listarPuntos(params);
     }
-    if(tipoPunto == "FONDO"){
+    if(event.value == "FONDO"){
       this.puntoSelect = true;
       params = {
         'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
+        'fondos.tdv': this.form.value['codigoTdv'].codigo,
         tipoPunto: this.selectedTipoPunto,
-		page: 0,
-		size: 140
+        page: 0,
+        size: 140
       };
       this.listarPuntos(params);
     }
-    if(tipoPunto == "OFICINA"){
+    if(event.value == "OFICINA"){
       this.puntoSelect = true;
       params = {
         'oficinas.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
         tipoPunto: this.selectedTipoPunto,
-		page: 0,
-		size: 1000
+        page: 0,
+        size: 1000
       };
       this.listarPuntos(params);
     }
-    if(tipoPunto == "CAJERO"){
+    if(event.value == "CAJERO"){
       this.puntoSelect = true;
       params = {
         tipoPunto: this.selectedTipoPunto,
         'cajerosAtm.codBancoAval': Number(this.form.value['banco'].codigoPunto),
-		page: 0,
-		size: 1500
+        page: 0,
+        size: 1500
       };
       this.listarPuntos(params);
     }
-    if(tipoPunto == "CLIENTE"){
+    if(event.value == "CLIENTE"){
       this.puntoSelect = false;
       this.clienteSelect = true;
       params = {
         'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
-		page: 0,
-		size: 1000
+        page: 0,
+        size: 1000
       };
       this.listarClientes(params);
     }
@@ -353,7 +345,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); 
+        });
         setTimeout(() => { alert.close() }, 3000);
       }
     });
@@ -369,56 +361,51 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   filtrarPuntosCliente(event: any) {
-      this.puntoSelect = true;
-      this.ciudadSelect = true;
-      let params = {
-        tipoPunto: this.selectedTipoPunto,
-        cliente: this.form.value['cliente'].codigo,
-      };
-      this.listarPuntos(params);
+    this.puntoSelect = true;
+    this.ciudadSelect = true;
+    let params = {
+      tipoPunto: this.selectedTipoPunto,
+      cliente: this.form.value['cliente'].codigo,
+    };
+    this.listarPuntos(params);
   }
 
   /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-     mostrarMas(e: any) {
-		this.numPagina = e.pageIndex;
-		this.cantPagina = e.pageSize;
-		this.listarPuntosCodigo(this.numPagina, this.cantPagina );
-    }
+   * Metodo para gestionar la paginación de la tabla
+   * @BaironPerez
+   */
+  mostrarMas(e: any) {
+    this.listarPuntosCodigo(e.pageIndex, e.pageSize);
+  }
 
-    irAtras() {
-      window.location.reload();
-    }
+  irAtras() {
+    window.location.reload();
+  }
 
-    changePunto(event) {
-      this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
-      this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe(
-        response => {
-          this.form.controls['codigoDANE'].setValue(response.data[0].codigoDANE);
+  changePunto(event) {
+    this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
+    this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe(
+      response => {
+        this.form.controls['codigoDANE'].setValue(response.data[0].codigoDANE);
+        //this.form.controls['codigoDANE'].disable();
       });
-    }
+  }
 
-    formatearEstadoPersistir(param: boolean): any {
-      if(param==true){
-        return 1
-      }else {
-        return 2
-      }
+  formatearEstadoPersistir(param: boolean): any {
+    if(param==true){
+      return 1
+    }else {
+      return 2
     }
+  }
 
-    formatearEstadoListar(param: any): any {
-      if(param==1){
-        return true
-      }else {
-        return false
-      }
-    }
+  formatearEstadoListar(param: any): any {
+    return param == 1;
+  }
 
-    filtrar(event) {
-      this.filtroBancoSelect;
-      this.filtroTransportaSelect;
-      this.listarPuntosCodigo(this.numPagina, this.cantPagina);
-    }
+  filtrar(event) {
+    this.filtroBancoSelect;
+    this.filtroTransportaSelect;
+    this.listarPuntosCodigo();
+  }
 }
