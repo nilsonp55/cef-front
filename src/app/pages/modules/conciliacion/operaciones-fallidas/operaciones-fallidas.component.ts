@@ -36,8 +36,6 @@ export class OperacionesFallidasComponent implements OnInit {
   cantidadRegistrosOpCertificadasFallidas: number;
 
   //Registros paginados
-  cantidadRegistrosProgram: number;
-  cantidadRegistrosCerti: number;
   numPaginaOpPr: any;
   cantPaginaOpPr: any;
   numPaginaOpCer: any;
@@ -75,14 +73,6 @@ export class OperacionesFallidasComponent implements OnInit {
 
   }
 
-  displayFn(banco: any): string {
-    return banco && banco.nombreBanco ? banco.nombreBanco : '';
-  }
-
-  displayFnTrans(transPortadora: any): string {
-    return transPortadora && transPortadora.nombreTransportadora ? transPortadora.nombreTransportadora : '';
-  }
-
   /**
    * Metodo que llama al dialog de Info de operfaciones programadas
    * @JuanMazo
@@ -93,11 +83,8 @@ export class OperacionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
-      debugger;
-      if (result.data.listar) {
-        //No debe de listar
-      } else {
-        this.ngOnInit();
+      if (result && result.data.response.code === 'S000') {
+        this.filterTables();
       }
     });
   }
@@ -112,9 +99,8 @@ export class OperacionesFallidasComponent implements OnInit {
       data: element
     })
     dialogRef.afterClosed().subscribe(result => {
-      debugger;
-      if (result.data.listar != 'N') {
-        this.ngOnInit();
+      if (result && result.data.response.code === 'S000') {
+        this.filterTables();
       }
     });
   }
@@ -258,6 +244,9 @@ export class OperacionesFallidasComponent implements OnInit {
     this.tipoPuntoOrigen = event.tipoPuntoOrigen;
     this.estadoConciliacionInicial = event.estadoConciliacion;
 
+    this.filterTables();
+  }
+  filterTables() {
     this.listarOpProgramadasFallidas(
       this.transportadora == undefined ? "" : this.transportadora,
       this.bancoAVAL == undefined ? "" : this.bancoAVAL,

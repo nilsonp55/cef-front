@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/conciliaciones-info-programadas-no-conciliadas.model';
@@ -28,14 +28,14 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
   dataSourceInfoOpProgramadasFallidas: MatTableDataSource<ConciliacionesInfoProgramadasNoConciliadasModel>;
   displayedColumnsInfoOpProgramadas: string[] = ['idOperacion', 'codigoFondoTDV', 'entradaSalida', 'nombreFondoTDV', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'codigoPuntoDestino', 'fechaProgramacion', 'fechaOrigen', 'fechaDestino', 'tipoOperacion', 'tipoTransporte', 'valorTotal', 'estadoOperacion', 'idNegociacion', 'tasaNegociacion', 'estadoConciliacion', 'idOperacionRelac', 'tipoServicio'];
   listarONo: string;
-  comparador: string;
 
-  @HostListener("document:click", ['$event.target'])
-  handler_name($event: HTMLElement) {
-    if ($event.classList.toString() == 'cdk-overlay-backdrop cdk-overlay-dark-backdrop') {
-      this.listarONo = "N"
-    }
-  }
+  estados: Estado[] = [
+    { value: 'cancelada-1', viewValue: 'CANCELADA' },
+    { value: 'no_conciliado-2', viewValue: 'NO_CONCILIADA' },
+    { value: 'fallida-3', viewValue: 'FALLIDA' },
+    { value: 'pospuesta-4', viewValue: 'POSPUESTA' },
+    { value: 'fuera_de_conciliacion-4', viewValue: 'FUERA_DE_CONCILIACION' },
+  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ConciliacionesInfoProgramadasNoConciliadasModel,
@@ -47,103 +47,9 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
     this.dataSourceInfoOpProgramadasFallidas = new MatTableDataSource([data]);
   }
 
-  estados: Estado[] = [
-    { value: 'cancelada-1', viewValue: 'CANCELADA' },
-    { value: 'no_conciliado-2', viewValue: 'NO_CONCILIADA' },
-    { value: 'fallida-3', viewValue: 'FALLIDA' },
-    { value: 'pospuesta-4', viewValue: 'POSPUESTA' },
-    { value: 'fuera_de_conciliacion-4', viewValue: 'FUERA_DE_CONCILIACION' },
-  ];
-
   ngOnInit(): void {
     this.dataElement = this.data;
     this.initForm(this.dataElement);
-  }
-
-  /**
-   * Función que llama el servicio que actualiza el estado y el valor
-   * @JuanMazo
-   */
-  actualizarEstado() {
-    var actualizarRequest: any = {
-      idOperacion: this.idOpProgramada
-    }
-    if (this.valor) {
-      actualizarRequest.valor = this.valor
-    }
-    if (this.estado) {
-      actualizarRequest.estado = this.estado
-    }
-
-    //Aqui llama al se45rvicio actualizar
-    this.opConciliadasService.actualizarOpProgramadas(actualizarRequest).subscribe((page: any) => {
-      this.dialogRef.close();
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      });
-  }
-
-  /**
-   * Metodo de prueba para  actualizar estado
-   * @JuanMazo
-   */
-  condicionActualizacion() {
-    var solicitud: any = {
-      idOperacion: this.idOpProgramada
-    }
-    if (this.estado) {
-      solicitud.estado = this.estado
-      this.opConciliadasService.actualizarOpProgramadas(solicitud).subscribe((page: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: "Se realizo la actualización exitosamente",
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 3500);
-        this.dialogRef.close({ event: "load", data: { "event": "load" } });
-      },
-        (err: ErrorService) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-          setTimeout(() => { alert.close() }, 3000);
-        });
-    } else if (this.valor) {
-      solicitud.valor = this.valor
-      this.opConciliadasService.actualizarOpCertificadas(solicitud).subscribe((page: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: "Se realizo la actualización exitosamente",
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 3500);
-        this.dialogRef.close({ event: "load", data: { "event": "load" } });
-      },
-        (err: ErrorService) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-          setTimeout(() => { alert.close() }, 3000);
-        });
-    }
   }
 
   initForm(param?: any) {
@@ -169,41 +75,28 @@ export class DialogInfoProgramadasFallidasComponent implements OnInit {
       estado: this.form.value['estadoConciliacion'].viewValue,
       valor: this.form.value['valorTotal']
     }
-    this.opConciliadasService.actualizarOpProgramadas(estadoActualizar).subscribe((page: any) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: "Se realizo la actualización exitosamente",
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3500);
-      this.dialogRef.close({ event: "load", data: { "event": "load" } });
-    },
-      (err: ErrorService) => {
+    this.opConciliadasService.actualizarOpProgramadas(estadoActualizar).subscribe({
+      next: (page: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION,
+            msn: "Se realizo la actualización exitosamente",
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3500);
+        this.dialogRef.close({ data: page });
+      },
+      error:  (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION + " - " + err.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
-    this.ngOnInit();
-  }
-
-  close() {
-    this.dialogRef.close({
-      data: {
-        listar: this.listarONo
       }
-    })
-  }
-
-  eventoClickXFuera() {
-    if (this.comparador == 'cdk-overlay-backdrop cdk-overlay-dark-backdrop') {
-      this.listarONo = "S"
-    }
+    });
   }
 
 }

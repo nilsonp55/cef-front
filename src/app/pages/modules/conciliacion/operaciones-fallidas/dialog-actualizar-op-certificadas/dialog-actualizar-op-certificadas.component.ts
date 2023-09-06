@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ErrorService } from 'src/app/_model/error.model';
@@ -20,30 +20,7 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
   estado: string;
   dataSourceInfoOpCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>;
   displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion', 'nombreFondoTDV', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'valorFaltante', 'valorSobrante'];
-  datoqueLlega: any;
   dataElement: any;
-  comparador: string;
-  listarONo: string;
-
-  /*@HostListener("document:keydown", ['$event.key'])
-  handler_test($event: string) {
-    console.log($event)
-  }*/
-
-  @HostListener("document:click", ['$event.target'])
-  handler_name($event: HTMLElement) {
-    if ($event.classList.toString() == 'cdk-overlay-backdrop cdk-overlay-dark-backdrop') {
-      this.listarONo = "N"
-    }
-  }
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ConciliacionesCertificadaNoConciliadasModel,
-    private dialog: MatDialog,
-    public dialogRef: MatDialogRef<DialogActualizarOpCertificadasComponent>,
-    private opConciliadasService: OpConciliadasService,) {
-    this.dataSourceInfoOpCertificadas = new MatTableDataSource([data]);
-  }
 
   estados: Estado[] = [
     { value: 'cancelada-1', viewValue: 'CANCELADA' },
@@ -53,34 +30,17 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
     { value: 'fuera_de_conciliacion-4', viewValue: 'FUERA_DE_CONCILIACION' },
   ];
 
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: ConciliacionesCertificadaNoConciliadasModel,
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<DialogActualizarOpCertificadasComponent>,
+    private opConciliadasService: OpConciliadasService,) {
+    this.dataSourceInfoOpCertificadas = new MatTableDataSource([data]);
+  }
+
   ngOnInit(): void {
     this.dataElement = this.data;
     this.initForm(this.dataElement);
-  }
-
-  actualizarEstado() {
-    var actualizarRequest: any = {
-      idCertificacion: this.data.idCertificacion
-    }
-    if (this.valorTotal) {
-      actualizarRequest.valorTotal = this.valorTotal
-    }
-    if (this.estado) {
-      actualizarRequest.estado = this.estado
-    }
-    this.opConciliadasService.actualizarOpCertificadas(actualizarRequest).subscribe((page: any) => {
-      this.dialogRef.close({ event: "load", data: { "event": "load" } });
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      });
   }
 
   initForm(param?: any) {
@@ -106,7 +66,8 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
       estado: this.form.value['estadoConciliacion'].viewValue,
       valor: this.form.value['valorTotal']
     }
-    this.opConciliadasService.actualizarOpCertificadas(estadoActualizar).subscribe((page: any) => {
+    this.opConciliadasService.actualizarOpCertificadas(estadoActualizar).subscribe({
+      next: (page: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -114,44 +75,20 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         }); setTimeout(() => { alert.close() }, 3500);
-        this.dialogRef.close({ event: "load", data: { "event": "load" } });
-    },   
-      (err: ErrorService) => {
+        this.dialogRef.close({ data: page });
+      },
+      error: (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION + " - " + err.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
         setTimeout(() => { alert.close() }, 3000);
-      });
-    this.ngOnInit();
-  }
-
-  changeState(event) {
-    this.estado = event.target.innerText
-  }
-
-  ngOnDestroy() {
-    this.close()
-  }
-
-  close() {
-    this.dialogRef.close({
-      data: {
-        listar: this.listarONo
       }
-    })
+    });
   }
-
-  eventoClickXFuera() {
-    if (this.comparador == 'cdk-overlay-backdrop cdk-overlay-dark-backdrop') {
-      this.listarONo = "S"
-    }
-  }
-
-
 
 }
 
