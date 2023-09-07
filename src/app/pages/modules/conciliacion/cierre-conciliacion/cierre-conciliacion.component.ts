@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ErrorService } from 'src/app/_model/error.model';
@@ -31,8 +30,7 @@ export class CierreConciliacionComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private logProcesoDiarioService: LogProcesoDiarioService,
-    private opConciliadasService: OpConciliadasService,
-    public spinnerComponent: SpinnerComponent
+    private opConciliadasService: OpConciliadasService
   ) {
   }
 
@@ -48,12 +46,13 @@ export class CierreConciliacionComponent implements OnInit {
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({
+      next: (page: any) => {
         this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
         this.dataSourceInfoProcesos.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
       },
-      (err: ErrorService) => {
+      error: (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -61,10 +60,9 @@ export class CierreConciliacionComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => {
-          alert.close()
-        }, 3000);
-      });
+        this.closeDialog(alert);
+      }
+    });
   }
 
   /**
@@ -84,9 +82,7 @@ export class CierreConciliacionComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         });
-        setTimeout(() => {
-          alert.close()
-        }, 3500);
+        this.closeDialog(alert);
       },
       (err: any) => {
         this.spinnerActive = false;
@@ -97,9 +93,7 @@ export class CierreConciliacionComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => {
-          alert.close()
-        }, 3500);
+        this.closeDialog(alert);
       });
   }
 
@@ -123,9 +117,7 @@ export class CierreConciliacionComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           });
-          setTimeout(() => {
-            alert.close()
-          }, 3000);
+          this.closeDialog(alert);
         } else {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -134,9 +126,7 @@ export class CierreConciliacionComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
-          setTimeout(() => {
-            alert.close()
-          }, 3000);
+          this.closeDialog(alert);
         }
       },
       (err: any) => {
@@ -147,9 +137,13 @@ export class CierreConciliacionComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => {
-          alert.close()
-        }, 3000);
+        this.closeDialog(alert);
       })
+  }
+
+  closeDialog(alert: any) {
+    setTimeout(() => {
+      alert.close()
+    }, 3000);
   }
 }
