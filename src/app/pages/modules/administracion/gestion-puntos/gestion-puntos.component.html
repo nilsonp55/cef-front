@@ -1,13 +1,5 @@
 <mat-card class="card-limites">
     <mat-card-title>Adminsitración de puntos</mat-card-title>
-    <div class="division-btn">
-        <div>
-            
-        </div>
-        <div *ngIf="estadoPuntos">
-            <!--button mat-raised-button class="ubicacion-btn-dominio" color="primary" (click)="crearPunto()">Crear Punto</button-->
-        </div>
-    </div>
 
     <div style="width: 30%" class="ubicacionTablas">
         <div class="div-tabla-dominio">
@@ -15,8 +7,8 @@
                 <tr>
                     <ng-container matColumnDef="name" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipos punto</th>
-                        <td mat-cell (click)="selectedTipoPunto(element.name)" 
-                        *matCellDef="let element"> {{element.valorTexto}} 
+                        <td mat-cell (click)="selectedTipoPunto(element.name)"
+                        *matCellDef="let element"> {{element.valorTexto}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="acciones" class="mat-column-acciones">
