@@ -36,6 +36,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
   filtroCodigoPropio: any;
   selectedTipoPunto = "";
   ciudades: any[] = [];
+  numPagina : any;
+  cantPagina : any;
 
   clientes: any[] = [];
   tdvSelect: boolean = false;
@@ -61,7 +63,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
     ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
-    this.listarPuntosCodigo();
+    this.numPagina = 0;
+	this.cantPagina = 10;
+    this.listarPuntosCodigo(this.numPagina, this.cantPagina);
     this.iniciarPuntos();
     this.initForm();
   }
@@ -71,20 +75,17 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * @BayronPerez
    */
   async initForm(param?: any) {
-    var ciudad = null;
+    let ciudad = null;
     if(param) {
       this.selectedTipoPunto = param.puntosDTO.tipoPunto;
       if(param.puntosDTO.codigoCiudad)
         ciudad = this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).codigoDANE;
 
-      const params = {
-        tipoPunto: this.selectedTipoPunto
-      };
-      await this.listarPuntos(params);
+      await this.filtrarListaPuntos(param.puntosDTO.tipoPunto);
     }
     this.form = new FormGroup({
       'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
-      'punto': new FormControl(param ? this.puntos.find((value) => value.codigoPunto = param.puntosDTO.codigoPunto) : null),
+      'punto': new FormControl(param ? this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto) : null),
       'codigoPunto': new FormControl(param ? param.codigoPunto : null),
       'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
       'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
@@ -112,7 +113,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * Lista los puntos codigo TDV
    * @BayronPerez
    */
-  listarPuntosCodigo(pagina = 0, tamanio = 5) {
+  listarPuntosCodigo(pagina = 0, tamanio = 10) {
     this.puntosCodigoService.obtenerPuntosCodigoTDV({
       page: pagina,
       size: tamanio,
@@ -143,8 +144,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * Se realiza persistencia del formulario de punto codigo
    * @BayronPerez
    */
-  persistir(param?: any) {
-    const puntoCpdigo = {
+  persistir() {
+    const puntoCodigo = {
       idPuntoCodigoTdv: null,
       codigoTDV: this.form.value['codigoTdv'].codigo,
       codigoPunto: this.form.value['codigoPunto'],
@@ -161,8 +162,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
     };
 
     if(this.esEdicion) {
-      puntoCpdigo.idPuntoCodigoTdv = this.idPuntoCodigo;
-      this.puntosCodigoService.actualizarPuntosCodigoTDV(puntoCpdigo).subscribe({
+      puntoCodigo.idPuntoCodigoTdv = this.form.value['idPuntoCodigo'];
+      this.puntosCodigoService.actualizarPuntosCodigoTDV(puntoCodigo).subscribe({
         next: response => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -171,7 +172,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           }); setTimeout(() => { alert.close() }, 4000);
-          this.listarPuntosCodigo();
+          this.listarPuntosCodigo(this.numPagina, this.cantPagina);
           this.initForm();
         },
         error: (err: any) => {
@@ -186,7 +187,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       });
     }
     else {
-      this.puntosCodigoService.guardarPuntosCodigoTDV(puntoCpdigo).subscribe({
+      this.puntosCodigoService.guardarPuntosCodigoTDV(puntoCodigo).subscribe({
         next: response => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -195,7 +196,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           }); setTimeout(() => { alert.close() }, 4000);
-          this.listarPuntosCodigo();
+          this.listarPuntosCodigo(this.numPagina, this.cantPagina);
           this.initForm();
         },
         error: (err: any) => {
@@ -267,10 +268,14 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async filtrarPuntos(event: any) {
+    this.filtrarListaPuntos(event.value);
+  }
+
+  async filtrarListaPuntos(tipoPunto1) {
     let params;
     this.ciudadSelect = false;
     this.clienteSelect = false;
-    if(event.value == "BAN_REP"){
+    if(tipoPunto1 == "BAN_REP"){
       this.puntoSelect = true;
       this.ciudadSelect = true;
       params = {
@@ -278,29 +283,28 @@ export class PuntosCodigoTdvComponent implements OnInit {
         page: 0,
         size: 80
       };
-      this.listarPuntos(params);
+      await this.listarPuntos(params);
     }
-    if(event.value == "BANCO"){
+    if(tipoPunto1 == "BANCO"){
       this.puntoSelect = true;
       params = {
         tipoPunto: this.selectedTipoPunto,
         page: 0,
         size: 80
       };
-      this.listarPuntos(params);
+      await this.listarPuntos(params);
     }
-    if(event.value == "FONDO"){
+    if(tipoPunto1 == "FONDO"){
       this.puntoSelect = true;
       params = {
         'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
-        'fondos.tdv': this.form.value['codigoTdv'].codigo,
         tipoPunto: this.selectedTipoPunto,
         page: 0,
         size: 140
       };
-      this.listarPuntos(params);
+      await this.listarPuntos(params);
     }
-    if(event.value == "OFICINA"){
+    if(tipoPunto1 == "OFICINA"){
       this.puntoSelect = true;
       params = {
         'oficinas.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
@@ -308,9 +312,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
         page: 0,
         size: 1000
       };
-      this.listarPuntos(params);
+      await this.listarPuntos(params);
     }
-    if(event.value == "CAJERO"){
+    if(tipoPunto1 == "CAJERO"){
       this.puntoSelect = true;
       params = {
         tipoPunto: this.selectedTipoPunto,
@@ -318,9 +322,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
         page: 0,
         size: 1500
       };
-      this.listarPuntos(params);
+      await this.listarPuntos(params);
     }
-    if(event.value == "CLIENTE"){
+    if(tipoPunto1 == "CLIENTE"){
       this.puntoSelect = false;
       this.clienteSelect = true;
       params = {
@@ -375,7 +379,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * @BaironPerez
    */
   mostrarMas(e: any) {
-    this.listarPuntosCodigo(e.pageIndex, e.pageSize);
+    this.numPagina = e.pageIndex;
+	this.cantPagina = e.pageSize;
+	this.listarPuntosCodigo(this.numPagina, this.cantPagina );
   }
 
   irAtras() {
@@ -406,6 +412,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
   filtrar(event) {
     this.filtroBancoSelect;
     this.filtroTransportaSelect;
-    this.listarPuntosCodigo();
+    this.listarPuntosCodigo(this.numPagina, this.cantPagina);
   }
 }
