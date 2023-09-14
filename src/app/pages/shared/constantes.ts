@@ -207,11 +207,12 @@ export const URLs = {
   PROGRAMACION_CERTIFICACION_CERTIFICACIONES: '/certificaciones',
   PROGRAMACION_CERTIFICACION_PROCESAR: '/procesar',
   PROGRAMACION_CERTIFICACION_HISTORICO: '/detalle',
+  PROGRAMACION_CERTIFICACION_PROCESAR_ALCANCES: '/procesar-alcances',
 
   //Operaciones programadas 
-  OPERACIONES_PROGRMADAS: '/operaciones-programadas',
-  OPERACIONES_PROGRMADAS_PROCESAR: '/procesar',
-  OPERACIONES_PROGRMADAS_REABRIR: '/reabrir',
+  OPERACIONES_PROGRAMADAS: '/operaciones-programadas',
+  OPERACIONES_PROGRAMADAS_PROCESAR: '/procesar',
+  OPERACIONES_PROGRAMADAS_REABRIR: '/reabrir',
 
 
   //Conciliación
@@ -341,6 +342,10 @@ export const URLs = {
   CONTABILIDAD: '/contabilidad',
   CONTABILIDAD_GENERAL: '/generar',
   CONTABILIDAD_GENERAR_ARCHIVO: '/archivo-cierre',
+
+  // generar archivos contabilidad
+  GENERAR_ARCHIVO: '/generararchivo',
+  GENERAR: '/generar',
 
   //Coatos Flete Charter
   COSTOS_FLETE_CHARTER: '/costos-flete-charter',

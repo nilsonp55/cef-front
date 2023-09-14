@@ -12,7 +12,10 @@ import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/l
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
-
+import { BancoModel } from 'src/app/_model/banco.model';
+import { GenerarArchivoService } from 'src/app/_service/contabilidad-service/generar-archivo.service';
+import { saveAs } from 'file-saver';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-contabilidad-am',
@@ -23,10 +26,9 @@ import { ResultadoContabilidadComponent } from '../resultado-contabilidad/result
 /**
  * Componente para gestionar el menu de contabilidad PM
  * @BaironPerez
-*/
+ */
 export class ContabilidadAmComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   //Rgistros paginados
@@ -37,13 +39,16 @@ export class ContabilidadAmComponent implements OnInit {
   fechaSistemaSelect: any;
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['fechaProceso', 'actividad', 'estado', 'acciones'];
+  displayedColumnsInfoProcesos: string[] = ['fechaCreacion', 'codigoProceso', 'estadoProceso', 'acciones'];
+  bancoOptions: BancoModel[];
+  load: boolean = false;
 
   constructor(
     private dialog: MatDialog,
     private generalServices: GeneralesService,
     private cierreContabilidadService: CierreContabilidadService,
-    private logProcesoDiarioService: LogProcesoDiarioService
+    private logProcesoDiarioService: LogProcesoDiarioService,
+    private generarArchivoService: GenerarArchivoService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -53,21 +58,22 @@ export class ContabilidadAmComponent implements OnInit {
     }).toPromise();
     this.fechaSistemaSelect = _fecha.data[0].valor;
     this.listarProcesos();
+    this.listarBancos();
   }
 
   /**
-  * Se realiza consumo de servicio para listr los procesos a ejectar
-  * @BaironPerez
-  */
+   * Se realiza consumo de servicio para listr los procesos a ejectar
+   * @BaironPerez
+   */
   listarProcesos(pagina = 0, tamanio = 5) {
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
-      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
-      this.dataSourceInfoProcesos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
+        this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
+        this.dataSourceInfoProcesos.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -85,7 +91,6 @@ export class ContabilidadAmComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar() {
-    let data;
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogConfirmEjecutarComponentComponent, {
       width: '750px',
@@ -108,17 +113,17 @@ export class ContabilidadAmComponent implements OnInit {
           'codBanco': codBanco,
           'fase': "INICIAL"
         }).subscribe(data => {
-          //Ensayo re respuesta
-          const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
-            width: '100%',
-            data: {
-              respuesta: data.data,
-              titulo: "Generar Contabilidad AM - Resultado",
-              tipoContabilidad: "AM",
-              flag: "C"
-            }
-          });
-        },
+            //Ensayo re respuesta
+            const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
+              width: '100%',
+              data: {
+                respuesta: data.data,
+                titulo: "Generar Contabilidad AM - Resultado",
+                tipoContabilidad: "AM",
+                flag: "C"
+              }
+            });
+          },
           (err: any) => {
             this.spinnerActive = false;
             const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -130,18 +135,51 @@ export class ContabilidadAmComponent implements OnInit {
             }); setTimeout(() => { alert.close() }, 4500);
           });
       }
-      else {
-        //Si presiona click en cancelar
-      }
     })
   }
 
-  /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-  mostrarMas(e: any) {
-    this.listarProcesos(e.pageIndex, e.pageSize);
+  descargarArchivoContabilidad() {
+    this.load = true;
+    this.bancoOptions.forEach(codBanco => {
+      lastValueFrom(this.generarArchivoService.generarArchivo({
+        fecha: this.fechaSistemaSelect,
+        tipoContabilidad: "AM",
+        codBanco: codBanco.codigoPunto
+      })).then(
+        response => {
+          if (response.headers.has('content-disposition')) {
+            const archivo_generar = response.headers.get("content-disposition").split(';')[1].split('=')[1].trim();
+            saveAs(response.body, archivo_generar);
+          }
+        },
+        error => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + error.message,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          });
+          setTimeout(() => { alert.close() }, 5000);
+        }
+      );
+    });
+    this.load = false;
   }
 
+  listarBancos() {
+    this.generalServices.listarBancosAval().subscribe(data => {
+        this.bancoOptions = data.data
+      },
+      (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_BANCO.ERROR_BANCO,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        setTimeout(() => { alert.close() }, 3000);
+      });
+  }
 }

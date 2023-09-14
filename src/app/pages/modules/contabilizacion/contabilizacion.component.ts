@@ -4,8 +4,7 @@ import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-contabilizacion',
-  templateUrl: './contabilizacion.component.html',
-  styleUrls: ['./contabilizacion.component.css']
+  templateUrl: './contabilizacion.component.html'
 })
 export class ContabilizacionComponent implements OnInit {
 

@@ -4,8 +4,7 @@ import { DialogResultValidacionComponent } from '../dialog-result-validacion/dia
 
 @Component({
   selector: 'app-dialog-validar-archivo',
-  templateUrl: './dialog-validar-archivo.component.html',
-  styleUrls: ['./dialog-validar-archivo.component.css']
+  templateUrl: './dialog-validar-archivo.component.html'
 })
 export class DialogValidarArchivoComponent implements OnInit {
 

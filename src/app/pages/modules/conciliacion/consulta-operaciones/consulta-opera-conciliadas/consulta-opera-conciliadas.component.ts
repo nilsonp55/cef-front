@@ -2,12 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 
 import { MatTableDataSource } from '@angular/material/table';
-import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conicliadas.service';
-import { ErrorService } from 'src/app/_model/error.model';
+import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { MatDialog } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
-import { ConciliacionesModel } from 'src/app/_model/consiliacion-model/conciliacion.model';
 import { MatSort } from '@angular/material/sort';
 
 @Component({
@@ -24,8 +22,9 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
+  pageSizeList: number[] = [5, 10, 25, 100];
 
-  public load: boolean = false;
+  public load: boolean = true;
 
   //DataSource para pintar tabla de conciliados
   dataSourceConciliadas: MatTableDataSource<any>;
@@ -49,15 +48,17 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
  * @JuanMazo
  */
   listarConciliados(pagina = 0, tamanio = 5) {
+    this.load = true;
+    this.dataSourceConciliadas = new MatTableDataSource();
     this.opConciliadasService.obtenerConciliados({
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
-      this.load = true;
       this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
       this.dataSourceConciliadas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
-
+      this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
+      this.load = false;
     },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -68,6 +69,7 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
           }
         });
         setTimeout(() => { alert.close() }, 3000);
+        this.load = false;
       });
   }
 

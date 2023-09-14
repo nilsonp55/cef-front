@@ -4,8 +4,7 @@ import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-conciliacion',
-  templateUrl: './conciliacion.component.html',
-  styleUrls: ['./conciliacion.component.css']
+  templateUrl: './conciliacion.component.html'
 })
 export class ConciliacionComponent implements OnInit {
 

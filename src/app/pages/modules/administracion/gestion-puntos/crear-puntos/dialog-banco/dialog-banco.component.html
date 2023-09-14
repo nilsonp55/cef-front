@@ -65,20 +65,6 @@
             Grupo Aval</mat-checkbox>
     </div>
 
-    <!--div class="div-division">
-        <div class="ubica">
-            <h2>Estado</h2>
-        </div>
-        <div>
-            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-                [(ngModel)]="estado">
-                <mat-radio-button formControlName="estado" class="example-radio-button" *ngFor="let season of tipoEstado" [value]="season">
-                    {{season}}
-                </mat-radio-button>
-            </mat-radio-group>
-        </div>
-    </div-->
-
     <div class="division-btn-ident">
         <div>
             <button *ngIf="estadoBTN" mat-raised-button color="primary" (click)="persistir()">{{nombreBTN}}</button>

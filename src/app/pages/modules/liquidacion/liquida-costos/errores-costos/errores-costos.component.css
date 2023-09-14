@@ -22,9 +22,6 @@
     max-width: 100%;
     overflow: auto;
   }
-  .tmanioTabla {
-    width: 200% !important;
-  }
   
   .tituloTabla {
       padding-top: 1%;

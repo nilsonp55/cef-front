@@ -22,7 +22,7 @@ export class DialogOficinaComponent implements OnInit {
   bancosAval: any[] = [];
   mosrarFormBanco = false;
   mosrarFormCliente = false;
-  mosrarFormOficina= false;
+  mosrarFormOficina = false;
   mosrarFormCajero = false;
   mosrarFormFondo = false;
   esFajado = false;
@@ -44,77 +44,76 @@ export class DialogOficinaComponent implements OnInit {
     private dialog: MatDialog,
     private generalServices: GeneralesService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private gestionPuntosService: GestionPuntosService)
-    { }
+    private gestionPuntosService: GestionPuntosService) { }
 
 
-    async ngOnInit(): Promise<void> {
-      ManejoFechaToken.manejoFechaToken()
-      this.dataElement = this.data.element;
-      this.nombreBTN = "Guardar"
-      await this.datosDesplegables();
+  async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
+    this.dataElement = this.data.element;
+    this.nombreBTN = "Guardar"
+    await this.datosDesplegables();
+    this.estadoBTN = true
+    this.initForm(this.dataElement);
+    if (this.data.flag == "crear") {
       this.estadoBTN = true
-      this.initForm(this.dataElement);
-      if(this.data.flag == "crear") {
-        this.estadoBTN = true
-        this.titulo = "Crear  "
-        this.nombreBTNCancelar = "Cancelar"
-      }
-      if(this.data.flag == "info") {
-        this.estadoBTN = false
-        this.titulo = "Información "
-        this.nombreBTNCancelar = "Cerrar"
-        this.form.get('nombre').disable();
-        this.form.get('ciudad').disable();
-        this.form.get('codigoOficina').disable();
-        this.form.get('bancoAval').disable();
-        this.form.get('tarifaRuteo').disable();
-        this.form.get('tariVerificacion').disable();
-        this.form.get('estado').disable();
-        this.form.get('fajado').disable();
-        this.form.get('refajillado').disable();
-      }
-      if(this.data.flag == "modif") {
-        this.titulo = "Modificación "
-        this.nombreBTN = "Actualizar"
-        this.nombreBTNCancelar = "Cancelar"
-        this.estadoBTN = true
-        this.esEdicion = true;
-
-      }
+      this.titulo = "Crear  "
+      this.nombreBTNCancelar = "Cancelar"
+    }
+    if (this.data.flag == "info") {
+      this.estadoBTN = false
+      this.titulo = "Información "
+      this.nombreBTNCancelar = "Cerrar"
+      this.form.get('nombre').disable();
+      this.form.get('ciudad').disable();
+      this.form.get('codigoOficina').disable();
+      this.form.get('bancoAval').disable();
+      this.form.get('tarifaRuteo').disable();
+      this.form.get('tariVerificacion').disable();
+      this.form.get('estado').disable();
+      this.form.get('fajado').disable();
+      this.form.get('refajillado').disable();
+    }
+    if (this.data.flag == "modif") {
+      this.titulo = "Modificación "
+      this.nombreBTN = "Actualizar"
+      this.nombreBTNCancelar = "Cancelar"
+      this.estadoBTN = true
+      this.esEdicion = true;
 
     }
 
+  }
+
   initForm(param?: any) {
     this.form = new FormGroup({
-      'nombre': new FormControl(param != null ? param.nombrePunto:null),
+      'nombre': new FormControl(param != null ? param.nombrePunto : null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
-      'codigoOficina': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.codigoOficina:null: null),
+      'codigoOficina': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.codigoOficina : null : null),
       'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
-      'tarifaRuteo': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.tarifaRuteo:null: null),
-      'tariVerificacion': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.tarifaVerificacion:null: null),
+      'tarifaRuteo': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.tarifaRuteo : null : null),
+      'tariVerificacion': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.tarifaVerificacion : null : null),
       'estado': new FormControl(),
-      'fajado': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.fajado :null: null),
-      'refajillado': new FormControl(param.oficinas != undefined? param != null ? param.oficinas.refajillado :null: null)
+      'fajado': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.fajado : null : null),
+      'refajillado': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.refajillado : null : null)
     });
     this.mostrarFormulario = true
   }
 
   selectCiudad(param: any): any {
-    if(param.codigoCiudad !== undefined){
-    for(let i= 0; i < this.ciudades.length; i++) {
-      const element = this.ciudades[i];
-      if(element.codigoDANE == param.codigoCiudad) {
-        return element;
+    if (param.codigoCiudad !== undefined) {
+      for (let i = 0; i < this.ciudades.length; i++) {
+        const element = this.ciudades[i];
+        if (element.codigoDANE == param.codigoCiudad) {
+          return element;
+        }
       }
     }
   }
-  }
 
   selectBanco(param: any): any {
-    for(let i= 0; i < this.bancosAval.length; i++) {
+    for (let i = 0; i < this.bancosAval.length; i++) {
       const element = this.bancosAval[i];
-      if(element.codigoPunto == param.codigoPunto) {
+      if (element.codigoPunto == param.codigoPunto) {
         return element;
       }
     }
@@ -132,64 +131,40 @@ export class DialogOficinaComponent implements OnInit {
       fajado: this.formatearEstadoFajillado(this.form.value['fajado']),
       refagillado: this.formatearEstadoFajillado(this.form.value['refajillado']),
       tipoPunto: this.dataElement.valorTexto,
-      nombreCiudad:this.form.value['ciudad'].nombreCiudad,
+      nombreCiudad: this.form.value['ciudad'].nombreCiudad,
       codigoCiudad: Number(this.form.value['ciudad'].codigoDANE),
       codigoCompensacion: Number(this.form.value['bancoAval'].codigoCompensacion),
       numeroNit: this.form.value['bancoAval'].numeroNit,
       abreviatura: this.form.value['bancoAval'].abreviatura,
       esAVAL: this.form.value['bancoAval'].esAVAL,
-      codigoPunto: Number(this.form.value['bancoAval'].codigoPunto),
-      codigoTDV:null,
-      codigoPropioTDV:null,
+      codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
+      codigoTDV: null,
+      codigoPropioTDV: null,
       tdv: null,
       tarifaVerificacion: null,
-      codigoCliente:null,
-      codigoATM:null, //integer
+      codigoCliente: null,
+      codigoATM: null, //integer
     }
-    //console.log("Data que se va a enviar")
-    //console.log(oficina)
-    if (this.esEdicion) {
-      //cliente.consecutivo = this.idConfEntity;
-      this.gestionPuntosService.actualizarPunto(oficina).subscribe(response => {
+    this.gestionPuntosService.crearPunto(oficina).subscribe(response => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+      this.initForm();
+    },
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            msn: err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
-        this.initForm();
-      },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
-    } else {
-      this.gestionPuntosService.crearPunto(oficina).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-        this.initForm();
-      },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
-    }
+      });
+    this.ngOnInit();
   }
 
   async datosDesplegables() {
@@ -203,25 +178,25 @@ export class DialogOficinaComponent implements OnInit {
   }
 
   formatearEstadoPersistir(param: boolean): any {
-    if(param==true){
+    if (param == true) {
       return 1
-    }else {
+    } else {
       return 2
     }
   }
 
-  formatearEstadoFajillado(param:any):boolean {
-    if(param=="fajado"){
+  formatearEstadoFajillado(param: any): boolean {
+    if (param == "fajado") {
       return true;
-    }else {
+    } else {
       return false;
     }
   }
 
-  formatearEstadoRefajillado(param:any):boolean {
-    if(param=="fajado"){
+  formatearEstadoRefajillado(param: any): boolean {
+    if (param == "fajado") {
       return true;
-    }else {
+    } else {
       return false;
     }
   }
@@ -231,9 +206,9 @@ export class DialogOficinaComponent implements OnInit {
     this.costoEditar = param.target.value;;
   }
 
-  onKeypressEvent(event: any):  any {
+  onKeypressEvent(event: any): any {
     //console.log(event)
-    if(event.charCode < 48 || event.charCode > 57) return false;
-}
+    if (event.charCode < 48 || event.charCode > 57) return false;
+  }
 
 }

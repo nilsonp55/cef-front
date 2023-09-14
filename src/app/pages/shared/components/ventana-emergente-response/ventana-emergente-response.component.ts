@@ -3,8 +3,7 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ventana-emergente-response',
-  templateUrl: './ventana-emergente-response.component.html',
-  styleUrls: ['./ventana-emergente-response.component.css']
+  templateUrl: './ventana-emergente-response.component.html'
 })
 export class VentanaEmergenteResponseComponent implements OnInit {
 

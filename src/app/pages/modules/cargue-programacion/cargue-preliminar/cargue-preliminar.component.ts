@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-cargue-preliminar',
-  templateUrl: './cargue-preliminar.component.html',
-  styleUrls: ['./cargue-preliminar.component.css']
+  templateUrl: './cargue-preliminar.component.html'
 })
 
 /**

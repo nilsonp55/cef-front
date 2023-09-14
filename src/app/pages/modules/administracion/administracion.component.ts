@@ -4,8 +4,7 @@ import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-administracion',
-  templateUrl: './administracion.component.html',
-  styleUrls: ['./administracion.component.css']
+  templateUrl: './administracion.component.html'
 })
 
 /**

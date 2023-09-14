@@ -6,13 +6,13 @@ import { CargueDefinitivoComponent } from './pages/modules/cargue-programacion/c
 import { CarguePreliminarComponent } from './pages/modules/cargue-programacion/cargue-preliminar/cargue-preliminar.component';
 import { CargueProgramacionComponent } from './pages/modules/cargue-programacion/cargue-programacion.component';
 import { ConciliacionComponent } from './pages/modules/conciliacion/conciliacion.component';
-import { OpearcionesConciliadasComponent } from './pages/modules/conciliacion/opearciones-conciliadas/opearciones-conciliadas.component';
-import { OpearcionesFallidasComponent } from './pages/modules/conciliacion/opearciones-fallidas/opearciones-fallidas.component';
-import { OpearcionesNoConciliadasComponent } from './pages/modules/conciliacion/opearciones-no-conciliadas/opearciones-no-conciliadas.component';
+import { OperacionesConciliadasComponent } from './pages/modules/conciliacion/operaciones-conciliadas/operaciones-conciliadas.component';
+import { OperacionesFallidasComponent } from './pages/modules/conciliacion/operaciones-fallidas/operaciones-fallidas.component';
+import { OperacionesNoConciliadasComponent } from './pages/modules/conciliacion/operaciones-no-conciliadas/operaciones-no-conciliadas.component';
 import { ResumenComponent } from './pages/modules/conciliacion/consulta-operaciones/resumen/resumen.component';
 import { CargueCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-certificacion.component';
 import { CargueDefinitivoCertificacionComponent } from './pages/modules/cargue-certificacion/cargue-definitivo-certificacion/cargue-definitivo-certificacion.component';
-import { MenuContabilidadComponent } from './pages/modules/contabilizacion/menu-contabilidad/menu-contabilidad.component';
+import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
 import { CierreFechaComponent } from './pages/modules/administracion/cierre-fecha/cierre-fecha.component';
 import { AdministracionContabilidadComponent } from './pages/modules/administracion/administracion-contabilidad/administracion-contabilidad.component';
 import { AdministradorCuentasPucComponent } from './pages/modules/administracion/administrador-cuentas-puc/administrador-cuentas-puc.component';
@@ -52,9 +52,8 @@ import { AdministracionFestivosNacionalesComponent } from './pages/modules/admin
 import { LiquidacionCharterGuard } from './wards/liquidacion-charter.guard';
 import { LiquidacionCostosGuard } from './wards/liquidacion-costos.guard';
 import { LiquidacionTarifasOperacionGuard } from './wards/liquidacion-tarifas-operacion.guard';
-import { LiquidacionCodigoTdvGuard } from './wards/liquidacion-codigo-tdv.guard';
+import { AdministracionCodigoTdvGuard } from './wards/administracion-codigo-tdv.guard';
 import { LiquidacionLiquidacionMensualGuard } from './wards/liquidacion-liquida-mensual.guard';
-import { LiquidacionDetalleLiquidacionGuard } from './wards/liquidacion-detalle-liquidacion.guard';
 import { LiquidacionDenominacionCantidadGuard } from './wards/liquidacion-denominacion-cant.guard';
 import { LiquidacionCierreLiquidacionMensualGuard } from './wards/liquidacion-cierre-liquida-mensual.guard';
 import { AdministracionDominiosGuard } from './wards/administracion-dominios.guard';
@@ -99,6 +98,7 @@ const routes: Routes = [
     path: 'cargue-certificacion', component: CargueCertificacionComponent, children: [
       { path: 'gestion-cargue-certificacion', component: CargueDefinitivoCertificacionComponent, canActivate: [CertificacionGestionCargueCertificacionGuard] },
       { path: 'administrador-cargue-certificacion', component: CierreCertificacionComponent, canActivate: [CertificacionCierreCertificacionGuard] },
+      { path: 'procesar-alcances', component: ProcesarAlcancesComponent, canActivate: [CertificacionCierreCertificacionGuard] },
     ]
   },
   {
@@ -107,9 +107,9 @@ const routes: Routes = [
       { path: 'operaciones-programadas-no-conciliadas-consulta', component: ConsultaOperaProgramadasComponent },
       { path: 'operaciones-certificadas-no-conciliadas-consulta', component: ConsultaOperaCertificadasComponent },
       { path: 'operaciones-conciliadas-fallidas-consulta', component: ConsultaOperaFallidasComponent },
-      { path: 'operaciones-conciliadas', component: OpearcionesConciliadasComponent },
-      { path: 'operaciones-programadas-no-conciliadas', component: OpearcionesNoConciliadasComponent },
-      { path: 'operaciones-sin-conciliar', component: OpearcionesFallidasComponent },
+      { path: 'operaciones-conciliadas', component: OperacionesConciliadasComponent },
+      { path: 'operaciones-programadas-no-conciliadas', component: OperacionesNoConciliadasComponent },
+      { path: 'operaciones-sin-conciliar', component: OperacionesFallidasComponent },
       { path: 'resumen-operaciones', component: ResumenComponent },
       { path: 'administrador-cargue-conciliacion', component: CierreConciliacionComponent },
     ]
@@ -128,7 +128,6 @@ const routes: Routes = [
       { path: 'liquidar-costos', component: LiquidaCostosComponent, canActivate: [LiquidacionCostosGuard] },
       { path: 'tarifas-operacion', component: TarifasOperacionComponent, canActivate: [LiquidacionTarifasOperacionGuard] },
       { path: 'escala', component: EscalasComponent, canActivate: [LiquidacionCostosGuard] },
-      { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [LiquidacionCodigoTdvGuard] },
       { path: 'liquidacion-mensual', component: LiquidacionMensualComponent, canActivate: [LiquidacionLiquidacionMensualGuard] },
       { path: 'guardar-detalle-liquidacion/:fechaSistema/:codTransportadora', component: DetalleGuardarLiquidacionComponent },
       { path: 'tdv-denominacion-cantidad', component: TdvDenominacionCantidadComponent, canActivate: [LiquidacionDenominacionCantidadGuard] },
@@ -154,6 +153,7 @@ const routes: Routes = [
       { path: 'administracion-festivos-nacionales', component: AdministracionFestivosNacionalesComponent, canActivate: [AdministracionFestivosNacionalesGuard] },
       { path: 'administracion-generar-llaves', component: GenerarLlaveArchivosComponent},
       { path: 'administracion-tasas-cambio', component: AdministracionTasasCambioComponent},
+      { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [AdministracionCodigoTdvGuard] },
     ]
   }
   

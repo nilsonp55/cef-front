@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
-import { ErrorService } from 'src/app/_model/error.model';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { CargueProgramacionCertificadaService } from 'src/app/_service/programacion-certificada.service/programacion-certificada-service';
 import { CargueProgramacionPreliminarService } from 'src/app/_service/programacion-preliminar-service/cargue-programacion-preliminar.service';
@@ -20,7 +19,6 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 })
 export class CierreCertificacionComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   //Variable para activar spinner
@@ -33,7 +31,7 @@ export class CierreCertificacionComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['idLogProceso', 'fechaProceso', 'actividad', 'estado', 'acciones'];
+  displayedColumnsInfoProcesos: string[] = ['idLogProceso', 'fechaCreacion', 'codigoProceso', 'estadoProceso', 'acciones'];
 
   constructor(
     private dialog: MatDialog,
@@ -50,16 +48,16 @@ export class CierreCertificacionComponent implements OnInit {
     this.listarProcesos();
   }
 
-   /**
- * Se cargan datos para el inicio de la pantalla
- * @BaironPerez
- */
-async cargarDatosDesplegables() {
-  const _fecha = await this.generalServices.listarParametroByFiltro({
-    codigo: "FECHA_DIA_PROCESO"
-  }).toPromise();
-  this.fechaSistemaSelect = _fecha.data[0].valor;
-}
+  /**
+* Se cargan datos para el inicio de la pantalla
+* @BaironPerez
+*/
+  async cargarDatosDesplegables() {
+    const _fecha = await this.generalServices.listarParametroByFiltro({
+      codigo: "FECHA_DIA_PROCESO"
+    }).toPromise();
+    this.fechaSistemaSelect = _fecha.data[0].valor;
+  }
 
   /**
   * Se realiza consumo de servicio para listr los procesos a ejectar
@@ -88,59 +86,48 @@ async cargarDatosDesplegables() {
   intervacierreCertificacion(idArchivo: any) {
     this.spinnerActive = true;
     this.ejecutar(idArchivo);
-    this.idInterval = setInterval(() => { 
-      this.validacionEstadoProceso();
+    this.idInterval = setInterval(() => {
+      this.validacionEstadoProceso("CARG_CERTIFICACION");
     }, 10000);
   }
 
   /**
    * Metodo encargado de validar el estado de un proceso en particular
    */
-  validacionEstadoProceso() {
+  validacionEstadoProceso(codigoProceso: any) {
     this.validacionEstadoProcesosService.validarEstadoProceso({
-      'codigoProceso': "CARG_CERTIFICACION",
+      'codigoProceso': codigoProceso,
       "fechaSistema": this.fechaSistemaSelect
     }).subscribe({
-      next: (data: any) => {
-        var dataAlert = {
-          msn: "Se generó cierre certificacion exitosamente",
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        };
-        if(data.estado == "PROCESADO"){
-          this.spinnerActive = false;
+      next: (response: any) => {
+        var estadoProceso = GENERALES.CODE_EMERGENT.WARNING;
+        if (response.data.estadoProceso == 'PROCESADO')
+          estadoProceso = GENERALES.CODE_EMERGENT.SUCCESFULL;
+        if (response.data.estadoProceso == 'ERROR')
+          estadoProceso = GENERALES.CODE_EMERGENT.ERROR;
+        if (response.data.estadoProceso == 'EN PROCESO')
+          estadoProceso = GENERALES.CODE_EMERGENT.ESPERAR;
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: response.data.estadoProceso + " - " + response.data.mensaje,
+            codigo: estadoProceso
+          }
+        }); setTimeout(() => { alert.close() }, 5000);
+        this.listarProcesos();
+        if (response.data.estadoProceso == 'PROCESADO' || response.data.estadoProceso == 'ERROR')
           clearInterval(this.idInterval);
-        }
-        if(data.estado == "PENDIENTE"){
-          dataAlert = {
-            msn: "Error al generar el cierre certificacion",
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          };
-        }
-        if(data.estado == "ERROR"){
-          dataAlert = {
-            msn: "Error al generar el cierre certificacion",
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          };
-        }
-        if(data.estado == "PENDIENTE"){
-          dataAlert = {
-            msn: "Error al generar el cierre certificacion",
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          };
-          this.spinnerActive = false;
-          clearInterval(this.idInterval);
-        }
       },
-      error: (data: any) => {
+      error: (err: any) => {
         this.spinnerActive = false;
         clearInterval(this.idInterval);
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: "Error al generar el cierre certificacion",
+            msn: err.error.response.description + " - code: " + err.error.response.code,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); setTimeout(() => { alert.close() }, 5000);
       }
     });
   }
@@ -153,8 +140,8 @@ async cargarDatosDesplegables() {
   ejecutar(idArchivo) {
     this.spinnerActive = true;
     this.cargueProgramacionCertificadaService.procesar({
-        'agrupador': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS
-      }).subscribe(data => {
+      'agrupador': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS
+    }).subscribe(data => {
       this.spinnerActive = false;
       this.listarProcesos();
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -177,41 +164,33 @@ async cargarDatosDesplegables() {
       });
   }
 
-  /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-  mostrarMas(e: any) {
-    this.listarProcesos(e.pageIndex, e.pageSize);
-  }
-
   /** 
   * Metodo para reabrir un registro de archivo previamente cargado
   * @BaironPerez
   */
- reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
-  this.cargueProgramacionPreliminarService.reabrirArchivo({
-    'agrupador': "CERTI",
-  }).subscribe(item => {
-    this.listarProcesos();
-    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-      data: {
-        msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
-        codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-      }
-    });
-    setTimeout(() => { alert.close() }, 3000);
-  },
-  (err: any) => {
-    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-      data: {
-        msn: err.error.response.description,
-        codigo: GENERALES.CODE_EMERGENT.ERROR
-      }
-    }); setTimeout(() => { alert.close() }, 3000);
-  })
-}
+  reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
+    this.cargueProgramacionPreliminarService.reabrirArchivo({
+      'agrupador': "CERTI",
+    }).subscribe(item => {
+      this.listarProcesos();
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        }
+      });
+      setTimeout(() => { alert.close() }, 3000);
+    },
+      (err: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+      })
+  }
 
 }

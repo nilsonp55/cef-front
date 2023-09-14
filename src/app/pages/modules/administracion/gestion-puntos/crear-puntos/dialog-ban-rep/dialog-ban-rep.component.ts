@@ -42,40 +42,40 @@ export class DialogBanRepComponent implements OnInit {
     private gestionPuntosService: GestionPuntosService) { }
 
 
-    async ngOnInit(): Promise<void> {
-      ManejoFechaToken.manejoFechaToken()
-      this.dataElement = this.data.element;
-      this.nombreBTN = "Guardar"
-      this.estadoDisable = true
+  async ngOnInit(): Promise<void> {
+    ManejoFechaToken.manejoFechaToken()
+    this.dataElement = this.data.element;
+    this.nombreBTN = "Guardar"
+    this.estadoDisable = true
 
-      await this.datosDesplegables();
-      this.initForm(this.dataElement);
-      if(this.data.flag == "crear") {
-        this.estadoBTN = true
-        this.titulo = "Crear  "
-        this.nombreBTNCancelar = "Cancelar"
-      }
-      if(this.data.flag == "info") {
-        this.estadoBTN = false
-        this.titulo = "Información "
-        this.nombreBTNCancelar = "Cerrar"
-        this.form.get('nombre').disable();
-        this.form.get('ciudad').disable();
-        this.form.get('estado').disable();
-      }
-      if(this.data.flag == "modif") {
-        this.titulo = "Modificación "
-        this.nombreBTN = "Actualizar"
-        this.nombreBTNCancelar = "Cancelar"
-        this.estadoBTN = true
-        this.esEdicion = true;
-
-      }
+    await this.datosDesplegables();
+    this.initForm(this.dataElement);
+    if (this.data.flag == "crear") {
+      this.estadoBTN = true
+      this.titulo = "Crear  "
+      this.nombreBTNCancelar = "Cancelar"
     }
+    if (this.data.flag == "info") {
+      this.estadoBTN = false
+      this.titulo = "Información "
+      this.nombreBTNCancelar = "Cerrar"
+      this.form.get('nombre').disable();
+      this.form.get('ciudad').disable();
+      this.form.get('estado').disable();
+    }
+    if (this.data.flag == "modif") {
+      this.titulo = "Modificación "
+      this.nombreBTN = "Actualizar"
+      this.nombreBTNCancelar = "Cancelar"
+      this.estadoBTN = true
+      this.esEdicion = true;
+
+    }
+  }
 
   initForm(param?: any) {
     this.form = new FormGroup({
-      'nombre': new FormControl(param != null ? param.nombrePunto:null),
+      'nombre': new FormControl(param != null ? param.nombrePunto : null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
       'estado': new FormControl(),
     });
@@ -83,9 +83,9 @@ export class DialogBanRepComponent implements OnInit {
   }
 
   selectCiudad(param: any): any {
-    for(let i= 0; i < this.ciudades.length; i++) {
+    for (let i = 0; i < this.ciudades.length; i++) {
       const element = this.ciudades[i];
-      if(element.codigoDANE == param.codigoCiudad) {
+      if (element.codigoDANE == param.codigoCiudad) {
         return element;
       }
     }
@@ -98,69 +98,45 @@ export class DialogBanRepComponent implements OnInit {
       codigoDANE: this.form.value['ciudad'].codigoDANE,
       estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
       tipoPunto: this.dataElement.valorTexto,
-      codigoPunto: null,
+      codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       fajado: null,
       refagillado: null,
-      tarifaRuteo:null,
-      tarifaVerificacion:null,
-      bancoAVAL:null,
-      codigoCompensacion:null,
-      numeroNit:null,
-      abreviatura:null,
-      esAVAL:null,
-      codigoOficina:null,
-      nombreCiudad:this.form.value['ciudad'].nombreCiudad,
-      codigoCliente:null,
-      codigoTDV:null,
-      codigoPropioTDV:null,
-      tdv:null,
-      nombreFondo:null,
-      codigoATM:null,
+      tarifaRuteo: null,
+      tarifaVerificacion: null,
+      bancoAVAL: null,
+      codigoCompensacion: null,
+      numeroNit: null,
+      abreviatura: null,
+      esAVAL: null,
+      codigoOficina: null,
+      nombreCiudad: this.form.value['ciudad'].nombreCiudad,
+      codigoCliente: null,
+      codigoTDV: null,
+      codigoPropioTDV: null,
+      tdv: null,
+      nombreFondo: null,
+      codigoATM: null,
     }
-    //console.log("Data que se va a enviar")
-    //console.log(bancRep)
-    if (this.esEdicion) {
-      //cliente.consecutivo = this.idConfEntity;
-      this.gestionPuntosService.actualizarPunto(bancRep).subscribe(response => {
+    this.gestionPuntosService.crearPunto(bancRep).subscribe(response => {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+        }
+      }); setTimeout(() => { alert.close() }, 3000);
+      this.initForm();
+    },
+      (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            msn: err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
-        this.initForm();
-      },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
-    } else {
-      this.gestionPuntosService.crearPunto(bancRep).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-        this.initForm();
-      },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
-    }
+      });
+    this.ngOnInit();
   }
 
   async datosDesplegables() {
@@ -171,9 +147,9 @@ export class DialogBanRepComponent implements OnInit {
   }
 
   formatearEstadoPersistir(param: boolean): any {
-    if(param==true){
+    if (param == true) {
       return 1
-    }else {
+    } else {
       return 2
     }
   }

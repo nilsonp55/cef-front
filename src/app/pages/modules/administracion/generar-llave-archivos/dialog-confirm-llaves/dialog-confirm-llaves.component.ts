@@ -7,8 +7,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 
 @Component({
   selector: 'app-dialog-confirm-llaves',
-  templateUrl: './dialog-confirm-llaves.component.html',
-  styleUrls: ['./dialog-confirm-llaves.component.css']
+  templateUrl: './dialog-confirm-llaves.component.html'
 })
 export class DialogConfirmLlavesComponent implements OnInit {
 

@@ -7,8 +7,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 
 @Component({
   selector: 'app-dialog-confirm-ejecutar-component',
-  templateUrl: './dialog-confirm-ejecutar-component.component.html',
-  styleUrls: ['./dialog-confirm-ejecutar-component.component.css']
+  templateUrl: './dialog-confirm-ejecutar-component.component.html'
 })
 export class DialogConfirmEjecutarComponentComponent implements OnInit {
 

@@ -3,23 +3,24 @@
     <button mat-icon-button (click)="eventoMenu($event)">
         <mat-icon class="color">menu</mat-icon>
     </button>
-    <div routerLink="active">
+    <div routerLink="active" >
         <a [routerLink]="['/home']">
-    <img src="assets/img/logo_CE-1.png" width="240">
-        </a>
+            <img src="assets/img/logo_CE-1.png" width="240">
+        </a>        
     </div>
+    
     <h1 class="example-app-name"></h1>
     <!--Separar de esquina a esquina los 2 objetos-->
     <span class="line-spacer"></span>
     <div class="enlinea">
         <div>
-        <p >Bayron Andres Perez Muñoz</p>
-    </div>
-    <br>
-    <div class="sesion">
-        <p class="sesion-name">{{ userName }}</p>
-        <p class="sesion-date">{{ fechaActual | date : 'medium' : 'GMT-5' }}</p>
-    </div>
+            <p>{{ userName }}</p>
+        </div>
+        <br>
+        <div class="sesion">
+            <p class="sesion-name">{{ userName }}</p>
+            <p class="sesion-date">{{ fechaActual | date : 'medium' : 'GMT-5' }}</p>
+        </div>
         <!--Icono zona derecha (Menu descplegable)-->
         <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
@@ -35,7 +36,7 @@
             </button>
         </mat-menu>
         <span class="line-spacer"></span>
-    </div>    
+    </div>
 </mat-toolbar>
 <!--Div complmenario para info de sesion-->
 <div style="background-color: #26213d; height: 20px; display: flex">

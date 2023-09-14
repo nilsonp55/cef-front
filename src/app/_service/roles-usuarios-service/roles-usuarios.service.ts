@@ -25,43 +25,43 @@ export class RolMenuService {
      * Servicio para listar menu rol
     */
     obtenerMenuRol(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
+        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.get<any>(`${this.urlMenuRol}${URLs.ADMIN_MENU_ROL_CONSULTAR}`, { params: params, headers });
     }
 
     /**
      * Servicio para gurdar menu rol
      */
-     actualizarMenuRol(param: any): Observable<any> {
+    actualizarMenuRol(param: any): Observable<any> {
         return this.http.post<any>(`${this.urlMenuRol}${URLs.ADMIN_MENU_ROL_ACTUALIZAR}`, param);
     }
 
     /** 
      * Servicio para listar usuario
     */
-     obtenerUsuarios(params?: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
+    obtenerUsuarios(params?: any): Observable<any> {
+        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.get<any>(`${this.urlUsuario}${URLs.ADMIN_USUARIO_CONSULTAR}`, { params: params, headers });
     }
 
     /**
      * Servicio para guardar usuario
      */
-     guardarUsuario(param: any): Observable<any> {
+    guardarUsuario(param: any): Observable<any> {
         return this.http.post<any>(`${this.urlUsuario}${URLs.ADMIN_USUARIO_GUARDAR}`, param);
     }
 
     /**
      * Servicio para actualizar usuario
      */
-     actualizarUsuario(param: any): Observable<any> {
+    actualizarUsuario(param: any): Observable<any> {
         return this.http.post<any>(`${this.urlUsuario}${URLs.ADMIN_USUARIO_ACTUALIZAR}`, param);
     }
 
     /** 
      * Servicio para listar usuario
     */
-     obtenerRoles(params?: any): Observable<any> {
+    obtenerRoles(params?: any): Observable<any> {
         return this.http.get<any>(`${this.urlRol}${URLs.ADMIN_ROL_CONSULTAR}`, { params: params });
     }
 }
