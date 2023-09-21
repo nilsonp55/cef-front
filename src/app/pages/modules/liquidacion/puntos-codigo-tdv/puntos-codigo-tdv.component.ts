@@ -30,7 +30,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
   bancos: any[] = [];
   puntos: any[] = [];
   transportadoras: any[] = [];
-  habilitarBTN: boolean;
   filtroBancoSelect: any;
   filtroTransportaSelect: any;
   filtroCodigoPropio: any;
@@ -60,11 +59,10 @@ export class PuntosCodigoTdvComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    ManejoFechaToken.manejoFechaToken()
-    this.habilitarBTN = false;
+    ManejoFechaToken.manejoFechaToken();
     this.iniciarDesplegables();
     this.numPagina = 0;
-	this.cantPagina = 10;
+	  this.cantPagina = 10;
     this.listarPuntosCodigo(this.numPagina, this.cantPagina);
     this.iniciarPuntos();
     this.initForm();
@@ -81,11 +79,12 @@ export class PuntosCodigoTdvComponent implements OnInit {
       if(param.puntosDTO.codigoCiudad)
         ciudad = this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).codigoDANE;
 
-      await this.filtrarListaPuntos(param.puntosDTO.tipoPunto);
+      await this.filtrarListaPuntos(param);
     }
+    const puntoValueForm = this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto);
     this.form = new FormGroup({
       'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
-      'punto': new FormControl(param ? this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto) : null),
+      'punto': new FormControl(param ? puntoValueForm : null),
       'codigoPunto': new FormControl(param ? param.codigoPunto : null),
       'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
       'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
@@ -97,17 +96,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     });
   }
 
-  selectPunto(codigoPunto: any): any {
-    this.gestionPuntosService.consultarPuntoCreadoById(codigoPunto).pipe().subscribe({
-      next: (response) => {
-        this.puntos[0] = response.data;
-        return response.data.nombrePunto;
-      },
-      error: (err) => {
-        console.log("selectPunto: " + err);
-      }
-    });
-  }
+
 
   /**
    * Lista los puntos codigo TDV
@@ -126,7 +115,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         this.dataSourceCodigoPuntoTdv = new MatTableDataSource(page.data.content);
         this.dataSourceCodigoPuntoTdv.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
-        this.habilitarBTN = true;
+
       },
       error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -268,10 +257,78 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async filtrarPuntos(event: any) {
-    this.filtrarListaPuntos(event.value);
+    this.filtrarListaPuntosCambio(event.value);
   }
 
-  async filtrarListaPuntos(tipoPunto1) {
+  async filtrarListaPuntos(paramn) {
+    let params;
+    let tipoPunto1 = paramn.puntosDTO.tipoPunto;
+    this.ciudadSelect = false;
+    this.clienteSelect = false;
+    if(tipoPunto1 == "BAN_REP"){
+      this.puntoSelect = true;
+      this.ciudadSelect = true;
+      params = {
+        tipoPunto: this.selectedTipoPunto,
+        page: 0,
+        size: 5000
+      };
+      await this.listarPuntos(params);
+    }
+    if(tipoPunto1 == "BANCO"){
+      this.puntoSelect = true;
+      params = {
+        tipoPunto: this.selectedTipoPunto,
+        page: 0,
+        size: 5000
+      };
+      await this.listarPuntos(params);
+    }
+    if(tipoPunto1 == "FONDO"){
+      this.puntoSelect = true;
+      params = {
+        'fondos.bancoAVAL': Number(paramn.bancosDTO.codigoPunto),
+        tipoPunto: this.selectedTipoPunto,
+        page: 0,
+        size: 5000
+      };
+      await this.listarPuntos(params);
+    }
+    if(tipoPunto1 == "OFICINA"){
+      this.puntoSelect = true;
+      params = {
+        'oficinas.bancoAVAL': Number(paramn.bancosDTO.codigoPunto),
+        tipoPunto: this.selectedTipoPunto,
+        page: 0,
+        size: 5000
+      };
+      await this.listarPuntos(params);
+    }
+    if(tipoPunto1 == "CAJERO"){
+      this.puntoSelect = true;
+      params = {
+        tipoPunto: this.selectedTipoPunto,
+        'cajerosAtm.codBancoAval': Number(paramn.bancosDTO.codigoPunto),
+        page: 0,
+        size: 5000
+      };
+      await this.listarPuntos(params);
+    }
+    if(tipoPunto1 == "CLIENTE"){
+      this.puntoSelect = false;
+      this.clienteSelect = true;
+      params = {
+        'fondos.bancoAVAL': Number(paramn.bancosDTO.codigoPunto),
+        page: 0,
+        size: 5000
+      };
+      await this.filtrarPuntosClienteEdit(paramn.puntosDTO.sitiosClientes.codigoCliente);
+      this.listarClientes(params);
+    }
+
+  }
+
+  async filtrarListaPuntosCambio(tipoPunto1) {
     let params;
     this.ciudadSelect = false;
     this.clienteSelect = false;
@@ -281,7 +338,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       params = {
         tipoPunto: this.selectedTipoPunto,
         page: 0,
-        size: 80
+        size: 5000
       };
       await this.listarPuntos(params);
     }
@@ -290,7 +347,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       params = {
         tipoPunto: this.selectedTipoPunto,
         page: 0,
-        size: 80
+        size: 5000
       };
       await this.listarPuntos(params);
     }
@@ -300,7 +357,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
         tipoPunto: this.selectedTipoPunto,
         page: 0,
-        size: 140
+        size: 5000
       };
       await this.listarPuntos(params);
     }
@@ -310,7 +367,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         'oficinas.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
         tipoPunto: this.selectedTipoPunto,
         page: 0,
-        size: 1000
+        size: 5000
       };
       await this.listarPuntos(params);
     }
@@ -320,7 +377,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         tipoPunto: this.selectedTipoPunto,
         'cajerosAtm.codBancoAval': Number(this.form.value['banco'].codigoPunto),
         page: 0,
-        size: 1500
+        size: 5000
       };
       await this.listarPuntos(params);
     }
@@ -330,7 +387,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       params = {
         'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
         page: 0,
-        size: 1000
+        size: 5000
       };
       this.listarClientes(params);
     }
@@ -374,14 +431,24 @@ export class PuntosCodigoTdvComponent implements OnInit {
     this.listarPuntos(params);
   }
 
+  async filtrarPuntosClienteEdit(codigoCliente: any) {
+    this.puntoSelect = true;
+    this.ciudadSelect = true;
+    let params = {
+      tipoPunto: this.selectedTipoPunto,
+      cliente: codigoCliente,
+    };
+    await this.listarPuntos(params);
+  }
+
   /**
    * Metodo para gestionar la paginación de la tabla
    * @BaironPerez
    */
   mostrarMas(e: any) {
     this.numPagina = e.pageIndex;
-	this.cantPagina = e.pageSize;
-	this.listarPuntosCodigo(this.numPagina, this.cantPagina );
+	  this.cantPagina = e.pageSize;
+	  this.listarPuntosCodigo(this.numPagina, this.cantPagina );
   }
 
   irAtras() {
