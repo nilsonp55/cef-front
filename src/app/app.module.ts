@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -23,7 +23,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { BannerSupeiorComponent } from './pages/shared/components/banner-supeior/banner-supeior.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -271,7 +270,7 @@ import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/
     MatPaginatorModule,
     MatSortModule,
     MatDatepickerModule,
-    MatDatepickerModule, 
+    MatDatepickerModule,
     MatNativeDateModule,
     MatStepperModule,
     MatCardModule,
