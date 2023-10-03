@@ -80,14 +80,14 @@ export class DialogCajeroComponent implements OnInit {
       //logica para obtener los campos para crear el tipo de puto segun tipo de punto
     }
     this.gestionPuntosService.crearPunto(punto).subscribe(data => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3500);
-    },
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3500);
+      },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -125,10 +125,11 @@ export class DialogCajeroComponent implements OnInit {
   }
 
   selectBanco(param: any): any {
+
     if (param.cajeroATM !== undefined) {
       for (let i = 0; i < this.bancosAval.length; i++) {
         const element = this.bancosAval[i];
-        if (element.codigoPunto == param.cajeroATM.codigoPunto) {
+        if (element.codigoPunto == param.cajeroATM.codigoBancoAval) {
           return element;
         }
       }
@@ -137,6 +138,7 @@ export class DialogCajeroComponent implements OnInit {
 
   persistir() {
     let cajero = {
+      tipoPunto : "CAJERO",
       nombre: this.form.value['nombre'],
       ciudad: this.form.value['ciudad'],
       codigoCajero: this.form.value['codigoCajero'],
@@ -148,15 +150,15 @@ export class DialogCajeroComponent implements OnInit {
       depositario: this.form.value['depositario'],
     }
     this.gestionPuntosService.crearPunto(cajero).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      this.initForm();
-    },
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
