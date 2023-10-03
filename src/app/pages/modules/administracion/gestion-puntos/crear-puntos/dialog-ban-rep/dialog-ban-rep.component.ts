@@ -97,7 +97,7 @@ export class DialogBanRepComponent implements OnInit {
       codigoCiudad: this.form.value['ciudad'].codigoDANE,
       codigoDANE: this.form.value['ciudad'].codigoDANE,
       estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
-      tipoPunto: this.dataElement.valorTexto,
+      tipoPunto: "BAN_REP",
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       fajado: null,
       refagillado: null,
@@ -118,15 +118,15 @@ export class DialogBanRepComponent implements OnInit {
       codigoATM: null,
     }
     this.gestionPuntosService.crearPunto(bancRep).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      this.initForm();
-    },
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
