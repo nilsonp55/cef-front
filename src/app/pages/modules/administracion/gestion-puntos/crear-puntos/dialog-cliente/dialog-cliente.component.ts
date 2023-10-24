@@ -108,7 +108,7 @@ export class DialogClienteComponent implements OnInit {
       fajado: this.form.value['fajado'],
       codigoCiudad: this.form.value['ciudad'].codigoDANE,
       nombreCiudad: this.form.value['ciudad'].nombreCiudad,
-      tipoPunto: this.dataElement.valorTexto,
+      tipoPunto: "CLIENTE",
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       refagillado: null,
       tarifaRuteo: null,
@@ -125,15 +125,15 @@ export class DialogClienteComponent implements OnInit {
       codigoATM: null,
     }
     this.gestionPuntosService.crearPunto(cliente).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 4000);
-      this.initForm();
-    },
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 4000);
+        this.initForm();
+      },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

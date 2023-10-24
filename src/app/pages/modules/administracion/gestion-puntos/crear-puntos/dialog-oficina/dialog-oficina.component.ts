@@ -111,9 +111,14 @@ export class DialogOficinaComponent implements OnInit {
   }
 
   selectBanco(param: any): any {
+    debugger;
+    if(this.data.flag == "crear")
+      return [];
+
     for (let i = 0; i < this.bancosAval.length; i++) {
       const element = this.bancosAval[i];
-      if (element.codigoPunto == param.codigoPunto) {
+
+      if (element.codigoPunto == param.oficinas.bancoAval) {
         return element;
       }
     }
@@ -130,7 +135,7 @@ export class DialogOficinaComponent implements OnInit {
       estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
       fajado: this.formatearEstadoFajillado(this.form.value['fajado']),
       refagillado: this.formatearEstadoFajillado(this.form.value['refajillado']),
-      tipoPunto: this.dataElement.valorTexto,
+      tipoPunto: "OFICINA",
       nombreCiudad: this.form.value['ciudad'].nombreCiudad,
       codigoCiudad: Number(this.form.value['ciudad'].codigoDANE),
       codigoCompensacion: Number(this.form.value['bancoAval'].codigoCompensacion),
@@ -146,15 +151,15 @@ export class DialogOficinaComponent implements OnInit {
       codigoATM: null, //integer
     }
     this.gestionPuntosService.crearPunto(oficina).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      this.initForm();
-    },
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
