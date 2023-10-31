@@ -23,23 +23,20 @@ export class PuntosCodigoService {
      * Servicio para listar los puntos codigo TDV
     */
     obtenerPuntosCodigoTDV(params?: any): Observable<any> {
-		const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get<any>(`${this.url}${URLs.PUNTOS_CODIGO_CONSULTAR}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.PUNTOS_CODIGO_CONSULTAR}`, { params: params });
     }
 
     /**
      * Servicio para gurdar un punto codigo TDV
      */
     guardarPuntosCodigoTDV(params: any): Observable<any> {
-		const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.post<any>(`${this.url}${URLs.PUNTOS_CODIGO_GUARDAR}`, { params: params, headers });
+        return this.http.post<any>(`${this.url}${URLs.PUNTOS_CODIGO_GUARDAR}`, params);
     }
 
     /**
      * Servicio para gurdar una Punto Codigo TDV
      */
     actualizarPuntosCodigoTDV(params: any): Observable<any> {
-		const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.put<any>(`${this.url}${URLs.PUNTOS_CODIGO_ACTUALIZAR}`, { params: params, headers });
+        return this.http.put<any>(`${this.url}${URLs.PUNTOS_CODIGO_ACTUALIZAR}`, params);
     }
 }
