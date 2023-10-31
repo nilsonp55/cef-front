@@ -68,6 +68,7 @@ export class ErroresContabilidadComponent implements OnInit {
    * Metodo encargado de ejecutar el servicio de visualizar archivo excel
    * @BaironPerez
    */
+  // Se oculta boton en vista html, hasta confirmar funcionalidad del mismo
   verArchivoExcel() {
     this.spinnerActive = true;
     this.generarContabilidadService.generarArchivoContabilidad({
