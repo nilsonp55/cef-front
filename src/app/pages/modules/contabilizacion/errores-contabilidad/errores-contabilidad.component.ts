@@ -8,7 +8,6 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { ErrorService } from 'src/app/_model/error.model';
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
-import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 
 /**
@@ -69,10 +68,11 @@ export class ErroresContabilidadComponent implements OnInit {
    * Metodo encargado de ejecutar el servicio de visualizar archivo excel
    * @BaironPerez
    */
+  // Se oculta boton en vista html, hasta confirmar funcionalidad del mismo
   verArchivoExcel() {
     this.spinnerActive = true;
     this.generarContabilidadService.generarArchivoContabilidad({
-       'fecha': this.fechaSistemaSelect, 
+       'fecha': this.fechaSistemaSelect,
        'tipoContabilidad': this.data.tipoContabilidad,
        'codBanco': this.codigoBanco
        }).subscribe(data => {
@@ -85,7 +85,7 @@ export class ErroresContabilidadComponent implements OnInit {
           data: {
             msn: 'Error al generar el archivo',
             codigo: GENERALES.CODE_EMERGENT.ERROR
-          } 
+          }
         }); setTimeout(() => { alert.close() }, 3000);
       });
   }

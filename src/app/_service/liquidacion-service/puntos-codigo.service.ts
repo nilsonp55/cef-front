@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { URLs } from '../../pages/shared/constantes';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class PuntosCodigoService {
     constructor(private http: HttpClient) { }
 
 
-    /** 
+    /**
      * Servicio para listar los puntos codigo TDV
     */
     obtenerPuntosCodigoTDV(params?: any): Observable<any> {
@@ -29,14 +29,14 @@ export class PuntosCodigoService {
     /**
      * Servicio para gurdar un punto codigo TDV
      */
-    guardarPuntosCodigoTDV(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.PUNTOS_CODIGO_GUARDAR}`, param);
+    guardarPuntosCodigoTDV(params: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.PUNTOS_CODIGO_GUARDAR}`, params);
     }
 
     /**
      * Servicio para gurdar una Punto Codigo TDV
      */
-    actualizarPuntosCodigoTDV(param: any): Observable<any> {
-        return this.http.put<any>(`${this.url}${URLs.PUNTOS_CODIGO_ACTUALIZAR}`, param);
+    actualizarPuntosCodigoTDV(params: any): Observable<any> {
+        return this.http.put<any>(`${this.url}${URLs.PUNTOS_CODIGO_ACTUALIZAR}`, params);
     }
 }

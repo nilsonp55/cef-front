@@ -121,7 +121,7 @@ export class DialogFondoComponent implements OnInit {
       numeroNit: this.form.value['bancoAval'].numeroNit,
       abreviatura: this.form.value['bancoAval'].abreviatura,
       esAVAL: this.form.value['bancoAval'].esAVAL,
-      tipoPunto: this.dataElement.valorTexto,
+      tipoPunto: 'FONDO',
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       refagillado: null,
       tarifaRuteo: null,
@@ -136,15 +136,15 @@ export class DialogFondoComponent implements OnInit {
       codigoCiudad: this.form.value['ciudad'].codigoDANE,
     }
     this.gestionPuntosService.crearPunto(fondo).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      this.initForm();
-    },
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        }); setTimeout(() => { alert.close() }, 3000);
+        this.initForm();
+      },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
