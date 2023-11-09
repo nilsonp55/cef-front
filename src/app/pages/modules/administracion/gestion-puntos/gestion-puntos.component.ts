@@ -6,7 +6,6 @@ import { CrearPuntoComponent } from './crear-punto/crear-punto.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
-import { InfoDetallesPuntoComponent } from './info-detalles-punto/info-detalles-punto.component';
 import { DialogCajeroComponent } from './crear-puntos/dialog-cajero/dialog-cajero.component';
 import { DialogFondoComponent } from './crear-puntos/dialog-fondo/dialog-fondo.component';
 import { DialogBancoComponent } from './crear-puntos/dialog-banco/dialog-banco.component';
@@ -30,8 +29,9 @@ export class GestionPuntosComponent implements OnInit {
   elementoPuntoActualizar: string;
   detallePuntoSeleccionado: any;
   estadoPuntos: boolean;
+  nombrePuntoBusqueda: string;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   //Variable para activar spinner
@@ -46,8 +46,7 @@ export class GestionPuntosComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private gestionPuntosService: GestionPuntosService)
-    { }
+    private gestionPuntosService: GestionPuntosService) { }
 
 
   ngOnInit(): void {
@@ -67,16 +66,16 @@ export class GestionPuntosComponent implements OnInit {
       this.dataSourceTiposPunto.sort = this.sort;
       this.cantidadRegistros = data.data.totalElements;
     },
-    (err: any) => {
-      this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      }); setTimeout(() => { alert.close() }, 3500);
-    });
+      (err: any) => {
+        this.spinnerActive = false;
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3500);
+      });
   }
 
   /**
@@ -88,7 +87,8 @@ export class GestionPuntosComponent implements OnInit {
     this.gestionPuntosService.listarPuntosCreados({
       "tipoPunto": this.tipoPuntoSeleccionado,
       page: pagina,
-      size: tamanio
+      size: tamanio,
+      'busqueda': this.nombrePuntoBusqueda == undefined ? '' : this.nombrePuntoBusqueda
     }).subscribe(data => {
       this.estadoPuntos = true;
       //this.spinnerActive = false;
@@ -96,25 +96,25 @@ export class GestionPuntosComponent implements OnInit {
       this.dataSourcePuntoSelect.sort = this.sort;
       this.cantidadRegistros = data.data.totalElements;
     },
-    (err: any) => {
-      this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      }); setTimeout(() => { alert.close() }, 3500);
-    });
+      (err: any) => {
+        this.spinnerActive = false;
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        }); setTimeout(() => { alert.close() }, 3500);
+      });
   }
 
 
-   /**
-   * Evento que valida la selecciond un tipo de punto
-   * @BayronPerez
-   */
+  /**
+  * Evento que valida la selecciond un tipo de punto
+  * @BayronPerez
+  */
   selectedTipoPunto(param: any) {
-    if(param != undefined) {
+    if (param != undefined) {
       this.tipoPuntoSeleccionado = param;
     }
   }
@@ -129,48 +129,48 @@ export class GestionPuntosComponent implements OnInit {
   * Evento que levanta un openDialog para crear un punto segun el tipo de punto
   * @BaironPerez
   */
-   crearPunto(element: any) {
+  crearPunto(element: any) {
     this.tipoPuntoSeleccionado = element.valorTexto;
-    if(this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.BANCO) {
+    if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.BANCO) {
       // TODO: debe aarecer la vetana para crear banco
       this.dialog.open(DialogBancoComponent, {
         width: '600PX',
-        data: {element: element, flag: "crear"}
+        data: { element: element, flag: "crear" }
       })
     }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.BAN_REP) {
       // TODO: debe aarecer la vetana para crear cajero
       this.dialog.open(DialogBanRepComponent, {
         width: '600PX',
-        data: {element: element, flag: "crear"}
+        data: { element: element, flag: "crear" }
       })
     }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.CAJERO) {
       // TODO: debe aarecer la vetana para crear cajero
       this.dialog.open(DialogCajeroComponent, {
         width: '600PX',
-        data: {element: element, flag: "crear"}
+        data: { element: element, flag: "crear" }
       })
     }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.FONDO) {
       // TODO: debe aarecer la vetana para crear fondo
       this.dialog.open(DialogFondoComponent, {
         width: '600PX',
-        data: {element: element, flag: "crear"}
+        data: { element: element, flag: "crear" }
       })
     }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.OFICINA) {
       // TODO: debe aarecer la vetana para crear oficina
       this.dialog.open(DialogOficinaComponent, {
         width: '600PX',
-        data: {element: element, flag: "crear"}
+        data: { element: element, flag: "crear" }
       })
     }
     else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.CLIENTE) {
       // TODO: debe aarecer la vetana para crear cliente
       const dialogRef = this.dialog.open(DialogClienteComponent, {
         width: '600PX',
-        data: {element: element, flag: "crear"}
+        data: { element: element, flag: "crear" }
       })
       dialogRef.afterClosed().subscribe(result => {
         console.log("se cerro")
@@ -183,8 +183,8 @@ export class GestionPuntosComponent implements OnInit {
    * Evento que valida la selecciond un punto
    * @BayronPerez
    */
-   selectedPunto(param: any) {
-    if(param != undefined) {
+  selectedPunto(param: any) {
+    if (param != undefined) {
       this.puntoSeleccionado = param;
     }
   }
@@ -194,79 +194,79 @@ export class GestionPuntosComponent implements OnInit {
   }
 
   infoDetallePunto(element: any) {
-    if(element.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
+    if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
       this.dialog.open(DialogBancoComponent, {
         width: '600PX',
-        data: {element: element, flag: "info"}
+        data: { element: element, flag: "info" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BAN_REP) {
       this.dialog.open(DialogBanRepComponent, {
         width: '600PX',
-        data: {element: element, flag: "info"}
+        data: { element: element, flag: "info" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CAJERO) {
       this.dialog.open(DialogCajeroComponent, {
         width: '600PX',
-        data: {element: element, flag: "info"}
+        data: { element: element, flag: "info" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.FONDO) {
       this.dialog.open(DialogFondoComponent, {
         width: '600PX',
-        data: {element: element, flag: "info"}
+        data: { element: element, flag: "info" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
       this.dialog.open(DialogOficinaComponent, {
         width: '600PX',
-        data: {element: element, flag: "info"}
+        data: { element: element, flag: "info" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CLIENTE) {
       this.dialog.open(DialogClienteComponent, {
         width: '600PX',
-        data:{element: element, flag: "info"}
+        data: { element: element, flag: "info" }
       })
     }
   }
 
   modificarDetallePunto(element: any) {
-    if(element.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
+    if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
       this.dialog.open(DialogBancoComponent, {
         width: '600PX',
-        data: {element: element, flag: "modif"}
+        data: { element: element, flag: "modif" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BAN_REP) {
       this.dialog.open(DialogBanRepComponent, {
         width: '600PX',
-        data: {element: element, flag: "modif"}
+        data: { element: element, flag: "modif" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CAJERO) {
       this.dialog.open(DialogCajeroComponent, {
         width: '600PX',
-        data: {element: element, flag: "modif"}
+        data: { element: element, flag: "modif" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.FONDO) {
       this.dialog.open(DialogFondoComponent, {
         width: '600PX',
-        data: {element: element, flag: "modif"}
+        data: { element: element, flag: "modif" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
       this.dialog.open(DialogOficinaComponent, {
         width: '600PX',
-        data: {element: element, flag: "modif"}
+        data: { element: element, flag: "modif" }
       })
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CLIENTE) {
       this.dialog.open(DialogClienteComponent, {
         width: '600PX',
-        data:{element: element, flag: "modif"}
+        data: { element: element, flag: "modif" }
       })
     }
   }
@@ -276,9 +276,9 @@ export class GestionPuntosComponent implements OnInit {
    * Evento que levanta un openDialog para modificar un punto segun el tipo punto
    * @BaironPerez
    */
-   modificarPunto() {
+  modificarPunto() {
     this.gestionPuntosService.consultarPuntoCreadoById(this.puntoSeleccionado).subscribe(data => {
-      if(data.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
+      if (data.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
         // TODO: debe aarecer la vetana para crear banco
         this.dialog.open(CrearPuntoComponent, {
           width: '600PX',
@@ -318,6 +318,10 @@ export class GestionPuntosComponent implements OnInit {
 
   mostrarMas(e: any) {
     this.listarPuntosSeleccionado(e.pageIndex, e.pageSize);
+  }
+
+  filtrar(event) {
+    this.listarPuntosSeleccionado();
   }
 
 }

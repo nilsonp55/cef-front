@@ -34,18 +34,18 @@ export class GestionPuntosService {
     /** 
     * Servicio para listar los puntos
     */
-     consultarPuntoCreadoById(idPunto: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}/${idPunto}`, {headers});
+    consultarPuntoCreadoById(idPunto: any): Observable<any> {
+        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+        return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}/${idPunto}`, { headers });
     }
 
     /** 
     * Servicio para listar los puntos
     */
-     crearPunto(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`,  param );
+    crearPunto(param: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`, param);
     }
-    
+
     actualizarPunto(param: any): Observable<any> {
         return this.http.post<any>(`${this.url}${URLs.ACTUALIZAR_PUNTO}`, { param });
     }
