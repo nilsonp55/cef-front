@@ -37,11 +37,9 @@
                         <div *ngIf="element.fechaOrigen && element.fechaDestino">
                             {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}}<span> - </span>{{ element.fechaDestino
                             | date: 'dd/MM/YYYY' : '+00'}}
-                            <!--{{element.fechaEjecucion  ?element.fechaEjecucion:(element.fechaOrigen +"/"+element.fechaDestino) }}-->
                         </div>
                         <div *ngIf="element.fechaEjecucion">
                             {{element.fechaEjecucion | date: 'dd/MM/YYYY' : '+00'}}
-                            <!--{{element.fechaEjecucion  ?element.fechaEjecucion:(element.fechaOrigen +"/"+element.fechaDestino) }}-->
                         </div>
                     </td>
                 </ng-container>
