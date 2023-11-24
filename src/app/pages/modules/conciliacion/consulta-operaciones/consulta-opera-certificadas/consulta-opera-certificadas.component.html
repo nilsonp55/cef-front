@@ -54,6 +54,11 @@
                     <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="oficina" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>OFICINA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.oficina}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="nombrePuntoOrigen" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE P ORIGEN</th>
                     <td mat-cell *matCellDef="let element"> {{element.nombrePuntoOrigen}} </td>
