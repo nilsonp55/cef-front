@@ -36,7 +36,8 @@
                 <button title="Procesar" mat-button color="primary" (click)="procesarArchivo(element)">
                     <mat-icon>assignment_returned</mat-icon>
                 </button>
-                <button title="Eliminar" mat-button (click)="eliminarArchivo(element.nombreArchivo, element.idModeloArchivo)">
+                <button title="Eliminar" mat-button
+                    (click)="eliminarArchivo(element.nombreArchivo, element.idModeloArchivo)">
                     <mat-icon style="color: red">delete</mat-icon>
                 </button>
                 <button mat-button (click)="reabrirCargue(element.nombreArchivo, element.idModeloArchivo)">
