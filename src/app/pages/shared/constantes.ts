@@ -330,7 +330,7 @@ export const URLs = {
   ADMIN_CONF_CONTABLE_ENTIDADES_ACTUALIZAR: '/actualizar',
 
   //Cierre Contabilidad
-  CIERRE_CONTABILIDAD: '/CierreContabilidad',
+  CIERRE_CONTABILIDAD: '/cierre-contabilidad',
   
   CIERRE_CONTABILIDAD_CERRAR: '/cierre',
 
