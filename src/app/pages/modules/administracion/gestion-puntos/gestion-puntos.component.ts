@@ -25,7 +25,7 @@ export class GestionPuntosComponent implements OnInit {
 
   isPointChecked = false;
   tipoPuntoSeleccionado: string;
-  puntoSeleccionado;
+  puntoSeleccionado: string = "";
   elementoPuntoActualizar: string;
   detallePuntoSeleccionado: any;
   estadoPuntos: boolean;
@@ -40,9 +40,7 @@ export class GestionPuntosComponent implements OnInit {
   dataSourcePuntoSelect: MatTableDataSource<any>
   displayedColumnsPuntoSelect: string[] = ['codigo_punto', 'descripcion', 'ciudad', 'detalle'];
 
-  dataSourceTiposPunto: MatTableDataSource<any>
-  displayedColumnsTiposPunto: string[] = ['valorTexto', 'acciones'];
-
+  listPuntosSelect: any;
 
   constructor(
     private dialog: MatDialog,
@@ -51,20 +49,19 @@ export class GestionPuntosComponent implements OnInit {
 
   ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken()
-    //this.listarPuntosCreados();
     this.estadoPuntos = false;
     this.listarTiposPunto();
+    this.listarPuntosSeleccionado();
   }
 
   listarTiposPunto() {
     this.spinnerActive = true;
     this.gestionPuntosService.listarTiposPuntos({
       "dominioPK.dominio": "TIPOS_PUNTO"
-    }).subscribe(data => {
+    }).subscribe(response => {     
       this.spinnerActive = false;
-      this.dataSourceTiposPunto = new MatTableDataSource(data.data);
-      this.dataSourceTiposPunto.sort = this.sort;
-      this.cantidadRegistros = data.data.totalElements;
+      this.listPuntosSelect = response.data;
+      this.cantidadRegistros = response.data.totalElements;
     },
       (err: any) => {
         this.spinnerActive = false;
@@ -82,16 +79,16 @@ export class GestionPuntosComponent implements OnInit {
    * Listar puntos creados para realizar acciones
    * @BayronPerez
    */
-  listarPuntosSeleccionado(pagina = 0, tamanio = 5) {
-    //this.spinnerActive = true;
+  listarPuntosSeleccionado(pagina = 0, tamanio = 10) {
+    this.spinnerActive = true;
     this.gestionPuntosService.listarPuntosCreados({
-      "tipoPunto": this.tipoPuntoSeleccionado,
+      "tipoPunto": this.tipoPuntoSeleccionado === undefined ? "" : this.tipoPuntoSeleccionado,
       page: pagina,
       size: tamanio,
       'busqueda': this.nombrePuntoBusqueda == undefined ? '' : this.nombrePuntoBusqueda
     }).subscribe(data => {
       this.estadoPuntos = true;
-      //this.spinnerActive = false;
+      this.spinnerActive = false;
       this.dataSourcePuntoSelect = new MatTableDataSource(data.data.content);
       this.dataSourcePuntoSelect.sort = this.sort;
       this.cantidadRegistros = data.data.totalElements;
@@ -120,7 +117,7 @@ export class GestionPuntosComponent implements OnInit {
   }
 
   eventoClick(element: any) {
-    this.tipoPuntoSeleccionado = element.valorTexto;
+    this.tipoPuntoSeleccionado = element.value;
     this.listarPuntosSeleccionado();
   }
 
@@ -129,53 +126,11 @@ export class GestionPuntosComponent implements OnInit {
   * Evento que levanta un openDialog para crear un punto segun el tipo de punto
   * @BaironPerez
   */
-  crearPunto(element: any) {
-    this.tipoPuntoSeleccionado = element.valorTexto;
-    if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.BANCO) {
-      // TODO: debe aarecer la vetana para crear banco
-      this.dialog.open(DialogBancoComponent, {
-        width: '600PX',
-        data: { element: element, flag: "crear" }
-      })
-    }
-    else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.BAN_REP) {
-      // TODO: debe aarecer la vetana para crear cajero
-      this.dialog.open(DialogBanRepComponent, {
-        width: '600PX',
-        data: { element: element, flag: "crear" }
-      })
-    }
-    else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.CAJERO) {
-      // TODO: debe aarecer la vetana para crear cajero
-      this.dialog.open(DialogCajeroComponent, {
-        width: '600PX',
-        data: { element: element, flag: "crear" }
-      })
-    }
-    else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.FONDO) {
-      // TODO: debe aarecer la vetana para crear fondo
-      this.dialog.open(DialogFondoComponent, {
-        width: '600PX',
-        data: { element: element, flag: "crear" }
-      })
-    }
-    else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.OFICINA) {
-      // TODO: debe aarecer la vetana para crear oficina
-      this.dialog.open(DialogOficinaComponent, {
-        width: '600PX',
-        data: { element: element, flag: "crear" }
-      })
-    }
-    else if (this.tipoPuntoSeleccionado == GENERALES.TIPO_PUNTOS.CLIENTE) {
-      // TODO: debe aarecer la vetana para crear cliente
-      const dialogRef = this.dialog.open(DialogClienteComponent, {
-        width: '600PX',
-        data: { element: element, flag: "crear" }
-      })
-      dialogRef.afterClosed().subscribe(result => {
-        console.log("se cerro")
-      })
-    }
+  crearPunto() {
+    this.dialog.open(CrearPuntoComponent, {
+      width: '600PX',
+      data: { flag: "crear", listPuntos: this.listPuntosSelect }
+    });
   }
 
 
@@ -192,46 +147,7 @@ export class GestionPuntosComponent implements OnInit {
   eventoSelectionPuntoDetalleClick(element: any) {
     this.detallePuntoSeleccionado = element
   }
-
-  infoDetallePunto(element: any) {
-    if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
-      this.dialog.open(DialogBancoComponent, {
-        width: '600PX',
-        data: { element: element, flag: "info" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BAN_REP) {
-      this.dialog.open(DialogBanRepComponent, {
-        width: '600PX',
-        data: { element: element, flag: "info" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CAJERO) {
-      this.dialog.open(DialogCajeroComponent, {
-        width: '600PX',
-        data: { element: element, flag: "info" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.FONDO) {
-      this.dialog.open(DialogFondoComponent, {
-        width: '600PX',
-        data: { element: element, flag: "info" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
-      this.dialog.open(DialogOficinaComponent, {
-        width: '600PX',
-        data: { element: element, flag: "info" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CLIENTE) {
-      this.dialog.open(DialogClienteComponent, {
-        width: '600PX',
-        data: { element: element, flag: "info" }
-      })
-    }
-  }
-
+  
   modificarDetallePunto(element: any) {
     if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
       this.dialog.open(DialogBancoComponent, {
