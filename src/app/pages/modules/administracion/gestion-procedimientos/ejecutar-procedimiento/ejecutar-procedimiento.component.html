@@ -37,6 +37,7 @@
         <button *ngIf="mostrarTabla" mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'procedimientos_almacenados'})">Exportar tabla</button>
         <div>
             <table mat-table matTableExporter [dataSource]="dataSourceResponse" #exporter="matTableExporter" matSort class="mat-elevation-z8">
+                <caption></caption>
                 <ng-container matColumnDef="campo1">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>CAMPO1</th>
                     <td mat-cell *matCellDef="let element"> {{element.campo1}} </td>
