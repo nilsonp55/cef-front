@@ -6,6 +6,7 @@
     </div>
     <div class="mat-elevation-z8 disenio-tabla">
         <table mat-table matTableExporter [dataSource]="dataSourceInfoProcesos" matSort #exporter="matTableExporter">
+            <caption></caption>
             <ng-container matColumnDef="idLiquidacion">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Id Liquidación</th>
                 <td mat-cell *matCellDef="let element"> {{element.idLiquidacion}} </td>

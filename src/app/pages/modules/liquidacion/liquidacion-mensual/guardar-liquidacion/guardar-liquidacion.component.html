@@ -9,6 +9,7 @@
                 <span class="line-spacer"></span>
             </div>
             <table mat-table [dataSource]="tablaAvVillas">
+                <caption></caption>
                 <ng-container matColumnDef="descripcion">
                     <th mat-header-cell *matHeaderCellDef>DESCRIPCIÓN</th>
                     <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
@@ -38,6 +39,7 @@
                 <span class="line-spacer"></span>
             </div>
             <table mat-table [dataSource]="tablaOccidente">
+                <caption></caption>
                 <ng-container matColumnDef="descripcion">
                     <th mat-header-cell *matHeaderCellDef>DESCRIPCIÓN</th>
                     <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
@@ -67,6 +69,7 @@
                 <span class="line-spacer"></span>
             </div>
             <table mat-table [dataSource]="tablaPopular">
+                <caption></caption>
                 <ng-container matColumnDef="descripcion">
                     <th mat-header-cell *matHeaderCellDef>DESCRIPCIÓN</th>
                     <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
@@ -97,6 +100,7 @@
                 <span class="line-spacer"></span>
             </div>
             <table mat-table [dataSource]="tablaBogota">
+                <caption></caption>
                 <ng-container matColumnDef="descripcion">
                     <th mat-header-cell *matHeaderCellDef>DESCRIPCIÓN</th>
                     <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
