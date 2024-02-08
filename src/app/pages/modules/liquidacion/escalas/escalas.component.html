@@ -60,6 +60,7 @@
     <div *ngIf="mostrarTabla" class="divTablaCerti">
         <div class="configScroll">
             <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort matSortDirection="desc" matSortActive="idEscala" #exporter="matTableExporter">
+                <caption></caption>
                 <tr>
                     <ng-container matColumnDef="idEscala" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID ESCALA</th>

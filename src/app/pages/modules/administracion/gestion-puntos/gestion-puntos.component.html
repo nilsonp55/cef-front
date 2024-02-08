@@ -1,31 +1,18 @@
-<mat-card class="card-limites">
-    <mat-card-title>Adminsitración de puntos</mat-card-title>
-
-    <div style="width: 30%" class="ubicacionTablas">
-        <div class="div-tabla-dominio">
-            <table mat-table [dataSource]="dataSourceTiposPunto" matSort class="configScroll">
-                <tr>
-                    <ng-container matColumnDef="valorTexto" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipos punto</th>
-                        <td mat-cell (click)="eventoClick(element)" *matCellDef="let element"> {{element.valorTexto}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="acciones" class="mat-column-acciones">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Crear punto</th>
-                        <td mat-cell *matCellDef="let element">
-                            <button title="Crear punto" mat-button (click)="crearPunto(element)">
-                                <mat-icon style="color: rgb(26, 10, 243)">add_circle</mat-icon>
-                            </button>
-                        </td>
-                    </ng-container>
-                </tr>
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposPunto"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposPunto;"></tr>
-            </table>
-        </div>
+    <div >
+        <h1 class="tituloTabla">Adminsitración de puntos</h1>
     </div>
-    <div *ngIf="estadoPuntos" style="width: 70%" class=" ubicacionTablas">
+    
         <div class="div-search">
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipo Punto</mat-label>
+                    <mat-select [(ngModel)]="puntoSeleccionado" (selectionChange)="eventoClick($event)">
+                        <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto.valorTexto">
+                            {{tipoPunto.valorTexto}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
             <div>
                 <mat-form-field appearance="fill">
                     <mat-label>Nombre punto</mat-label>
@@ -34,13 +21,20 @@
                 <button mat-icon-button color="primary" aria-label="Boton para buscar punto" (click)="filtrar($event)">
                     <mat-icon>search</mat-icon>
                 </button>
-            </div>
-            <div></div>
+            </div>       
         </div>
-        <mat-checkbox class="margen-checkbox" color="primary" [(ngModel)]="isPointChecked">Incluir puntos
-            inactivos</mat-checkbox>
-        <div class="div-tabla-identificadores">
-            <table mat-table [dataSource]="dataSourcePuntoSelect" matSort class="configScroll">
+        <div class="div-search">
+            <div><button title="Crear punto" mat-raised-button color="primary" (click)="crearPunto()">Crear Punto</button></div>
+            <mat-checkbox class="margen-checkbox" color="primary" [(ngModel)]="isPointChecked">Incluir puntos
+                inactivos</mat-checkbox>
+        </div>
+
+        <div *ngIf="spinnerActive" class="disenio-spinner">
+            <mat-spinner></mat-spinner>
+          </div>
+        <div>    
+            <table mat-table [dataSource]="dataSourcePuntoSelect" matSort >
+                <caption></caption>
                 <tr>
                     <ng-container matColumnDef="codigo_punto" class="mat-column-codigo_punto">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Código punto</th>
@@ -68,15 +62,12 @@
                 <tr mat-row (click)="eventoSelectionPuntoDetalleClick(row)"
                     *matRowDef="let row; columns: displayedColumnsPuntoSelect;"></tr>
             </table>
-            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+            
+    <div>
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
                 (page)="mostrarMas($event)">
             </mat-paginator>
-        </div>
-        <div class="division-btn-ident">
             <div>
                 <button mat-raised-button color="warn">Exportar Lista</button>
             </div>
-        </div>
-
     </div>
-</mat-card>
