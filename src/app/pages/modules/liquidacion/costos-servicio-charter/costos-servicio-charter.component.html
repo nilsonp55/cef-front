@@ -27,6 +27,7 @@
     </div><br><br>
 
     <table mat-table *ngIf="mostrarTabla" [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
+        <caption></caption>
         <ng-container matColumnDef="bancoAval">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO AVAL</th>
             <td mat-cell *matCellDef="let element"> {{element.nombreBanco}} </td>

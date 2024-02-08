@@ -21,6 +21,7 @@
             <div class="configScroll">
                 <table mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort
                     #sort1="matSort" #exporterProg="matTableExporter">
+                    <caption></caption>
                     <tr>
                         <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA ORIGEN</th>
@@ -87,6 +88,7 @@
             <div class="configScroll">
                 <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort
                     #sort2="matSort" #exporter="matTableExporter">
+                    <caption></caption>
                     <tr>
                         <ng-container matColumnDef="ciudadFondo" class="mat-column-nombreCampo">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> CIUIDAD FONDO</th>

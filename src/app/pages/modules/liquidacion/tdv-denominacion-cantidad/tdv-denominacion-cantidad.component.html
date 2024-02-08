@@ -16,6 +16,7 @@
     <div *ngIf="mostrarTabla" class="divTablaCerti">
         <div class="configScroll">
             <table mat-table [dataSource]="dataSourceDenominacion" matSort class="mat-elevation-z8">
+                <caption></caption>
                 <tr>
                     <ng-container matColumnDef="idTdvDenCant" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
