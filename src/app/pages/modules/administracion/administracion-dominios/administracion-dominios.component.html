@@ -19,6 +19,7 @@
         <div style="width: 30%" class="ubicacionTablas">
             <div class="div-tabla-dominio">
                 <table mat-table [dataSource]="dataSourceDominios" matSort>
+                    <caption></caption>
                     <tr>
                         <ng-container matColumnDef="name" class="mat-column-nombreCampo">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Dominios</th>
@@ -38,6 +39,7 @@
             inactivos</mat-checkbox>
         <div class="div-tabla-identificadores">
             <table mat-table [dataSource]="dataSourceCodigos" matSort class="configScroll">
+                <caption></caption>
                 <tr>
                     <ng-container matColumnDef="identificador" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
