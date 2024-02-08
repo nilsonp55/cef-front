@@ -9,33 +9,33 @@
     <table mat-table [dataSource]="dataSourceInfoArchivo" matSort class="mat-elevation-z8">
         <caption></caption>
         <ng-container matColumnDef="nombreArchivo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE</th>
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>NOMBRE</th>
             <td mat-cell *matCellDef="let element"> {{element.nombreArchivo}} </td>
         </ng-container>
 
         <ng-container matColumnDef="fechaInicioCargue">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DATOS</th>
+            <th mat-header-cell mat-sort-header *matHeaderCellDef> FECHA DATOS</th>
             <td mat-cell *matCellDef="let element"> {{element.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>ESTADO</th>
             <td mat-cell *matCellDef="let element"> {{element.estadoCargue}} </td>
         </ng-container>
 
         <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef>ACCIONES</th>
             <td mat-cell *matCellDef="let element">
-                <button title="Validar Archivo" mat-button (click)="validarArchivo(element)">
+                <button mat-button title="Validar Archivo" (click)="validarArchivo(element)">
                     <mat-icon style="color: green">assignment_turned_in</mat-icon>
                 </button>
-                <button title="Visualizar" mat-button (click)="downloadFile(element)">
+                <button mat-button title="Visualizar" (click)="downloadFile(element)">
                     <mat-icon>visibility</mat-icon>
                 </button>
-                <button title="Procesar" mat-button color="primary" (click)="procesarArchivo(element)">
+                <button mat-button title="Procesar" color="primary" (click)="procesarArchivo(element)">
                     <mat-icon>assignment_returned</mat-icon>
                 </button>
-                <button title="Eliminar" mat-button (click)="eliminarArchivo(element.nombreArchivo, element.idModeloArchivo)">
+                <button mat-button title="Eliminar" (click)="eliminarArchivo(element.nombreArchivo, element.idModeloArchivo)">
                     <mat-icon style="color: red">delete</mat-icon>
                 </button>
             </td>
