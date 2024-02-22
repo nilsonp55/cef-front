@@ -225,37 +225,37 @@
         <table mat-table [dataSource]="dataSourceLiquidar" matSort class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>CODIGO</th>
                 <td mat-cell *matCellDef="let element"> {{element.codigo }} </td>
             </ng-container>
 
             <ng-container matColumnDef="idRol">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> ROL</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>ROL</th>
                 <td mat-cell *matCellDef="let element"> {{element.idRol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="menuPadre">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> MENU PADRE</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>MENU PADRE</th>
                 <td mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
             </ng-container>
 
             <ng-container matColumnDef="nombreMenu">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> MENU</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>MENU</th>
                 <td mat-cell *matCellDef="let element"> {{element.menu.nombre}} </td>
             </ng-container>
 
             <ng-container matColumnDef="estado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>Estado</th>
                 <td mat-cell *matCellDef="let element"> {{element._estado}} </td>
             </ng-container>
 
             <ng-container matColumnDef="acciones">
-                <th mat-header-cell *matHeaderCellDef> Acti/Desa</th>
-                <td mat-cell *matCellDef="let element" disabled="codigoProceso">
-                    <button mat-button (click)="accion(element, 'desactivar')" *ngIf="element.estado == '2'">
+                <th *matHeaderCellDef mat-header-cell>Acti/Desa</th>
+                <td disabled="codigoProceso" mat-cell *matCellDef="let element">
+                    <button *ngIf="element.estado == '2'" mat-button (click)="accion(element, 'desactivar')">
                         <mat-icon style="color: rgb(170, 41, 18)">block</mat-icon>
                     </button>
-                    <button mat-button (click)="accion(element, 'activar')" *ngIf="element.estado == '1'">
+                    <button *ngIf="element.estado == '1'" mat-button (click)="accion(element, 'activar')">
                         <mat-icon style="color: green">check_circle_outline</mat-icon>
                     </button>
                 </td>
@@ -323,37 +323,37 @@
         <table mat-table [dataSource]="dataSourceAdministracionContable" matSort class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO</th>
+                <th *matHeaderCellDef mat-sort-header mat-header-cell>CODIGO</th>
                 <td mat-cell *matCellDef="let element"> {{element.codigo }} </td>
             </ng-container>
 
             <ng-container matColumnDef="idRol">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> ROL</th>
+                <th *matHeaderCellDef mat-sort-header mat-header-cell>ROL</th>
                 <td mat-cell *matCellDef="let element"> {{element.idRol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="menuPadre">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> MENU PADRE</th>
+                <th *matHeaderCellDef mat-sort-header mat-header-cell>MENU PADRE</th>
                 <td mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
             </ng-container>
 
             <ng-container matColumnDef="nombreMenu">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> MENU</th>
+                <th *matHeaderCellDef mat-sort-header mat-header-cell>MENU</th>
                 <td mat-cell *matCellDef="let element"> {{element.menu.nombre}} </td>
             </ng-container>
 
             <ng-container matColumnDef="estado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                <th *matHeaderCellDef mat-sort-header mat-header-cell>Estado</th>
                 <td mat-cell *matCellDef="let element"> {{element._estado}} </td>
             </ng-container>
 
             <ng-container matColumnDef="acciones">
                 <th mat-header-cell *matHeaderCellDef> Acti/Desa</th>
-                <td mat-cell *matCellDef="let element" disabled="codigoProceso">
-                    <button mat-button (click)="accion(element, 'desactivar')" *ngIf="element.estado == '2'">
+                <td *matCellDef="let element" mat-cell disabled="codigoProceso">
+                    <button (click)="accion(element, 'desactivar')" mat-button *ngIf="element.estado == '2'">
                         <mat-icon style="color: rgb(170, 41, 18)">block</mat-icon>
                     </button>
-                    <button mat-button (click)="accion(element, 'activar')" *ngIf="element.estado == '1'">
+                    <button (click)="accion(element, 'activar')" mat-button *ngIf="element.estado == '1'">
                         <mat-icon style="color: green">check_circle_outline</mat-icon>
                     </button>
                 </td>
