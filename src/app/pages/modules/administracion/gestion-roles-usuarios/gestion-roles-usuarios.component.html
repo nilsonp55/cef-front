@@ -167,42 +167,42 @@
         </table>
     </div>
 
-    <!--Tabla para roles administracion-->
+    <!--Tabla para roles Contabilidad-->
     <div *ngIf="mostrarTablasRoles">
         <div class="divTituloTablas">
-            <h1 style="padding-top: 2%; text-align: center; margin-left: 42.2%">Contabiidad</h1>
+            <h1 style="padding-top: 2%; text-align: center; margin-left: 42.2%">Contabilidad</h1>
             <span class="line-spacer"></span>
         </div>
-        <table mat-table [dataSource]="dataSourceadministracion" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSourceContabilidad" matSort class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
-                <th id="codadministracion" mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO</th>
-                <td id="codadministracion" mat-cell *matCellDef="let element"> {{element.codigo }} </td>
+                <th id="codcontabilidad" mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO</th>
+                <td id="codcontabilidad" mat-cell *matCellDef="let element"> {{element.codigo }} </td>
             </ng-container>
 
             <ng-container matColumnDef="idRol">
-                <th id="roladministracion" mat-header-cell *matHeaderCellDef mat-sort-header> ROL</th>
-                <td id="roladministracion" mat-cell *matCellDef="let element"> {{element.idRol}} </td>
+                <th id="rolcontabilidad" mat-header-cell *matHeaderCellDef mat-sort-header> ROL</th>
+                <td id="rolcontabilidad" mat-cell *matCellDef="let element"> {{element.idRol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="menuPadre">
-                <th id="padadministracion" mat-header-cell *matHeaderCellDef mat-sort-header> MENU PADRE</th>
-                <td id="padadministracion" mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
+                <th id="padcontabilidad" mat-header-cell *matHeaderCellDef mat-sort-header> MENU PADRE</th>
+                <td id="padcontabilidad" mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
             </ng-container>
 
             <ng-container matColumnDef="nombreMenu">
-                <th id="menadministracion" mat-header-cell *matHeaderCellDef mat-sort-header> MENU</th>
-                <td id="menadministracion" mat-cell *matCellDef="let element"> {{element.menu.nombre}} </td>
+                <th id="mencontabilidad" mat-header-cell *matHeaderCellDef mat-sort-header> MENU</th>
+                <td id="mencontabilidad" mat-cell *matCellDef="let element"> {{element.menu.nombre}} </td>
             </ng-container>
 
             <ng-container matColumnDef="estado">
-                <th id="estadministracion" mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
-                <td id="estadministracion" mat-cell *matCellDef="let element"> {{element._estado}} </td>
+                <th id="estcontabilidad" mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                <td id="estcontabilidad" mat-cell *matCellDef="let element"> {{element._estado}} </td>
             </ng-container>
 
             <ng-container matColumnDef="acciones">
-                <th id="accadministracion" mat-header-cell *matHeaderCellDef> Acti/Desa</th>
-                <td id="accadministracion" mat-cell *matCellDef="let element" disabled="codigoProceso">
+                <th id="acccontabilidad" mat-header-cell *matHeaderCellDef> Acti/Desa</th>
+                <td id="acccontabilidad" mat-cell *matCellDef="let element" disabled="codigoProceso">
                     <button mat-button (click)="accion(element, 'desactivar')" *ngIf="element.estado == '2'">
                         <mat-icon style="color: rgb(170, 41, 18)">block</mat-icon>
                     </button>
@@ -211,12 +211,12 @@
                     </button>
                 </td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsadministracion"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsadministracion;"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsContabilidad"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsContabilidad;"></tr>
         </table>
     </div>
 
-    <!--Tabla para roles administracion-->
+    <!--Tabla para roles Liquidacion-->
     <div *ngIf="mostrarTablasRoles">
         <div class="divTituloTablas">
             <h1 style="padding-top: 2%; text-align: center; margin-left: 42.3%">Liquidación</h1>
@@ -225,33 +225,33 @@
         <table mat-table [dataSource]="dataSourceLiquidar" matSort class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
-                <th id="codadministracion" *matHeaderCellDef mat-header-cell mat-sort-header>CODIGO</th>
-                <td id="codadministracion" mat-cell *matCellDef="let element"> {{element.codigo }} </td>
+                <th id="codliquidacion" *matHeaderCellDef mat-header-cell mat-sort-header>CODIGO</th>
+                <td id="codliquidacion" mat-cell *matCellDef="let element"> {{element.codigo }} </td>
             </ng-container>
 
             <ng-container matColumnDef="idRol">
-                <th id="roladministracion" *matHeaderCellDef mat-header-cell mat-sort-header>ROL</th>
-                <td id="roladministracion" mat-cell *matCellDef="let element"> {{element.idRol}} </td>
+                <th id="rolliquidacion" *matHeaderCellDef mat-header-cell mat-sort-header>ROL</th>
+                <td id="rolliquidacion" mat-cell *matCellDef="let element"> {{element.idRol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="menuPadre">
-                <th id="padadministracion" *matHeaderCellDef mat-header-cell mat-sort-header>MENU PADRE</th>
+                <th id="padliquidacion" *matHeaderCellDef mat-header-cell mat-sort-header>MENU PADRE</th>
                 <td id="padiquidacion" mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
             </ng-container>
 
             <ng-container matColumnDef="nombreMenu">
-                <th id="menadministracion" *matHeaderCellDef mat-header-cell mat-sort-header>MENU</th>
-                <td id="menadministracion" mat-cell *matCellDef="let element"> {{element.menu.nombre}} </td>
+                <th id="menliquidacion" *matHeaderCellDef mat-header-cell mat-sort-header>MENU</th>
+                <td id="menliquidacion" mat-cell *matCellDef="let element"> {{element.menu.nombre}} </td>
             </ng-container>
 
             <ng-container matColumnDef="estado">
-                <th id="estadministracion" *matHeaderCellDef mat-header-cell mat-sort-header>Estado</th>
-                <td id="estadministracion" mat-cell *matCellDef="let element"> {{element._estado}} </td>
+                <th id="estliquidacion" *matHeaderCellDef mat-header-cell mat-sort-header>Estado</th>
+                <td id="estliquidacion" mat-cell *matCellDef="let element"> {{element._estado}} </td>
             </ng-container>
 
             <ng-container matColumnDef="acciones">
-                <th id="accadministracion" *matHeaderCellDef mat-header-cell>Acti/Desa</th>
-                <td id="accadministracion" disabled="codigoProceso" mat-cell *matCellDef="let element">
+                <th id="accliquidacion" *matHeaderCellDef mat-header-cell>Acti/Desa</th>
+                <td id="accliquidacion" disabled="codigoProceso" mat-cell *matCellDef="let element">
                     <button *ngIf="element.estado == '2'" mat-button (click)="accion(element, 'desactivar')">
                         <mat-icon style="color: rgb(170, 41, 18)">block</mat-icon>
                     </button>
