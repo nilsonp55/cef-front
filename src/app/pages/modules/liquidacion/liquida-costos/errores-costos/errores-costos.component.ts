@@ -27,7 +27,7 @@ export class ErroresCostosComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['fecha', 'menaje_error', 'seqGrupo',
+  displayedColumnsInfoProcesos: string[] = ['fecha', 'mensajeError', 'seqGrupo',
       'estado'];
 
   constructor(
