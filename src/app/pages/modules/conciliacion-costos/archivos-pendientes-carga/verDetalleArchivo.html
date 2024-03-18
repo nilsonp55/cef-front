@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{data.msn.nombreArchivo}}</h2>
+<div style="overflow-x: scroll; overflow-y: scroll; height: 500px;">
+    <div *ngFor="let cont of data.msn.contenidoArchivo; let i=index" >
+        <p style="width: 300%;">{{cont}}</p>
+    </div>
+</div>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="secondary" mat-dialog-close>Cerrar</button>
+    <button mat-raised-button color="primary" (click)="descargarArchivo(data)">Descargar</button>
+</mat-dialog-actions>

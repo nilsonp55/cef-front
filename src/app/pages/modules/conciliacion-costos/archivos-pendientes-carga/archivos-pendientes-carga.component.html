@@ -1,0 +1,92 @@
+<app-filtro-archivos (filterData)="filter($event)" [showFechaProceso]="true">
+</app-filtro-archivos>
+<div class="divTituloTablas">
+    <h1 class="tituloTabla">ARCHIVOS PENDIENTES DE CARGAR</h1>
+    <span class="line-spacer"></span>
+</div>
+<!--  (click)="exporter.exportTable('xlsx', {fileName:'operaciones_conciliadas'})" -->
+
+<mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros">
+</mat-paginator>
+<div class="row botonesArchivo">
+    <div class="col-2">
+        <button mat-raised-button color="primary" (click)="procesarArchivos()">Procesar archivos</button>
+    </div>
+    <div class="col-2 botones">
+        <button mat-raised-button color="primary" (click)="modalProximoDesarrollo()">Eliminar archivos</button>
+    </div>
+    <div class="col-2">
+        <button mat-raised-button color="primary" (click)="modalProximoDesarrollo()">Exportar tabla</button>
+    </div>
+</div>
+
+<div class="divTabla">
+    <table mat-table matTableExporter [dataSource]="dataSourceConciliadas" matSort #exporter="matTableExporter">
+        <tr>
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox color="primary" (change)="$event ? seleccion() : null"
+                        [checked]="selection.hasValue() && seleccionarTodo()"
+                        [indeterminate]="selection.hasValue() && !seleccionarTodo()">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                        (change)="seleccionRow($event, row)" [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombreArchivo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE ARCHIVO</th>
+                <td mat-cell *matCellDef="let element"> {{element.nombreArchivo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fechaArchivo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA ARCHIVO</th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                <td mat-cell *matCellDef="let element">
+                    <a (click)="modalProximoDesarrollo()" *ngIf="element.estado === 'ERRADO'"
+                        [ngClass]="{estadoError: element.estado === 'ERRADO'}">{{element.estado}}</a>
+                    <p *ngIf="element.estado !== 'ERRADO'" style="margin: 0 0 0px !important;">{{element.estado}}</p>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Banco">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO</th>
+                <td mat-cell *matCellDef="let element"> {{element.banco}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Tdv">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>TDV</th>
+                <td mat-cell *matCellDef="let element"> {{element.tdv}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fechaTransferencia">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA DE TRANSFERENCIA</th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaTransferencia | date: 'dd/MM/YYYY' : '+00'}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipoArchivo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO DE ARCHIVO</th>
+                <td mat-cell *matCellDef="let element"> {{element.tipoArchivo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>ACCIONES</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-button>
+                        <mat-icon style="color: black" (click)="verDetalle(element)">remove_red_eye</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsConciliadas"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsConciliadas;"></tr>
+    </table>
+</div>

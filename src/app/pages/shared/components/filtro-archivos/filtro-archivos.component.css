@@ -1,0 +1,43 @@
+.division-busqueda {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.ubicacionBotonFiltrar {
+    margin-top: 8%;
+}
+
+.ubicacionDerecha {
+    text-align: right;
+}
+
+.ubicacionCentro {
+    text-align: center;
+}
+
+.ubicacionIzquierda {
+    text-align: left;
+}
+
+@media only screen and (min-width: 1330px) {
+    ::ng-deep .camposIzquierda {
+        margin-right: 32px;
+        width: 67.5%;
+    }
+
+    ::ng-deep .camposCentro {
+        width: 68.5%
+    }
+}
+
+
+@media only screen and (min-width: 1920px) {
+    ::ng-deep .camposIzquierda {
+        margin-right: 46px;
+        width: 45.5%;
+    }
+
+    ::ng-deep .camposCentro {
+        width: 48.5%;
+    }
+}

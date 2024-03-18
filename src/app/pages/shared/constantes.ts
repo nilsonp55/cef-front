@@ -424,6 +424,10 @@ export const URLs = {
   FUNCIONES_DINAMICAS_CONSULTAR: '/consultar',
   FUNCIONES_DINAMICAS_EJECUTAR: '/ejecutar',
   FUNCIONES_DINAMICAS_ACTUALIZAR: '/actualizar',
+
+  //Conciliacion Costos
+  ARCHIVOS_PENDIENTE_CARGA_CONSULTA: '/archivos-liquidacion/consultar',
+  ARCHIVOS_PENDIENTE_CARGA_PROCESAR: '/archivos-liquidacion/procesar'
 };
 
 export const ROLES = [
