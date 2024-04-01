@@ -31,7 +31,7 @@ export class CostosServicioCharterComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['bancoAval', 'tdv', 'puntoOrigen', 'puntoDestino', 'tipoServicioProvision', 'escala', 'valor', 'costoCharter', 'acciones'];
+  displayedColumnsInfoProcesos: string[] = ['bancoAval', 'tdv', 'nombrePunto', 'nombreFondo', 'tipoServicioProvision', 'escala', 'valor', 'costoCharter', 'acciones'];
 
   constructor(
     private dialog: MatDialog,
@@ -76,7 +76,7 @@ export class CostosServicioCharterComponent implements OnInit {
   guardar(param: any) {
     const object = {
       idLiquidacion: param.idLiquidacion,
-      costoCharter: this.costoEditar
+      costosCharter: this.costoEditar
     };
     this.costosFleteCharterService.guardarCostosFleteCharter(object).subscribe(result => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
