@@ -133,8 +133,11 @@ import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.compo
 import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
 import { ConciliacionCostosComponent } from './pages/modules/conciliacion-costos/conciliacion-costos.component';
-import { ArchivosPendienteCargaComponent, VentanaEmergenteVerDetalleArchivoComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/archivos-pendientes-carga.component';
 import { FiltroArchivosComponent } from './pages/shared/components/filtro-archivos/filtro-archivos.component';
+import { ArchivosPendienteCargaComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/archivos-pendientes-carga.component';
+import { VentanaEmergenteVerDetalleArchivoComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-detalle/ventana-emergente-detalle';
+import { VentanaEmergenteErrorComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-error/ventana-emergente-error.component';
+import { VentanaEmergenteEliminarComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-eliminar/ventana-emergente-eliminar.component';
 
 @NgModule({
   declarations: [
@@ -250,6 +253,8 @@ import { FiltroArchivosComponent } from './pages/shared/components/filtro-archiv
     ArchivosPendienteCargaComponent,
     FiltroArchivosComponent,
     VentanaEmergenteVerDetalleArchivoComponent,
+    VentanaEmergenteErrorComponent,
+    VentanaEmergenteEliminarComponent
   ],
 
   imports: [

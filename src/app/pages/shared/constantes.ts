@@ -427,7 +427,11 @@ export const URLs = {
 
   //Conciliacion Costos
   ARCHIVOS_PENDIENTE_CARGA_CONSULTA: '/archivos-liquidacion/consultar',
-  ARCHIVOS_PENDIENTE_CARGA_PROCESAR: '/archivos-liquidacion/procesar'
+  ARCHIVOS_PENDIENTE_CARGA_PROCESAR: '/archivos-liquidacion/procesar',
+  ARCHIVOS_PENDIENTE_CARGA_DETALLE_PROCESAR: '/archivos-liquidacion/detalle',
+  ARCHIVOS_PENDIENTE_CARGA_DETALLE_ERROR_PROCESAR: '/archivos-liquidacion/detalle-error',
+  ARCHIVOS_PENDIENTE_CARGA_ELIMINAR: '/archivos-liquidacion/eliminar',
+  ARCHIVOS_PENDIENTE_CARGA_DESCARGAR: '/descargar-idArchivo-liquidacion'
 };
 
 export const ROLES = [

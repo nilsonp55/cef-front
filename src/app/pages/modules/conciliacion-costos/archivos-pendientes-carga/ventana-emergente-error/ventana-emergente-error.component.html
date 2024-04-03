@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>{{data.msn.nombreArchivo}}</h2>
+<div style="overflow-x: scroll; overflow-y: scroll; height: 500px;">
+    <div class="col-12 row">
+        <div class="col-12">
+            <label class="col-3 text-left control-label col-form-label">
+                NOMBRE DEL ARCHIVO:
+            </label>
+            <label class="col-3 text-left control-label col-form-label">
+                {{data.msn.nombreArchivo}}
+            </label>
+            <button class="btn btn-primary" style="margin-left: 30%;" (click)="descargarArchivo()">Descargar
+            </button>
+        </div>
+        <div class="col-12">
+            <div class="col-12">
+                <label class="col-3 text-left control-label col-form-label">
+                    TOTAL LINEAS:
+                </label>
+                <label class="col-3 text-left control-label col-form-label">
+                    {{numeroLineas}}
+                </label>
+                <label class="col-3 text-left control-label col-form-label">
+                    NUMERO DE ERRORES:
+                </label>
+                <label class="col-3 text-left control-label col-form-label">
+                    {{numeroErrores}}
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 row">
+        <table mat-table matTableExporter [dataSource]="dataSource" matSort #exporter="matTableExporter">
+            <tr>
+                <ng-container matColumnDef="linea">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> LINEA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.numeroLinea}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="campo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CAMPO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.numeroCampo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="descripcionError">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCIÓN DEL ERROR</th>
+                    <td mat-cell *matCellDef="let element"> {{element.mensajeErrorTxt}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="contenidoError">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CONTENIDO DEL ERROR</th>
+                    <td mat-cell *matCellDef="let element"> {{element.contenido}} </td>
+                </ng-container>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsErrores"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsErrores;"></tr>
+        </table>
+    </div>
+</div>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="secondary" mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

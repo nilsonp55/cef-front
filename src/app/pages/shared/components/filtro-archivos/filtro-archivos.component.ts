@@ -98,7 +98,7 @@ export class FiltroArchivosComponent implements OnInit {
 
   async listarEstados() {
     const _estadoArchivo = await this.generalesService.listarDominioByDominio({
-      'dominio':"ESTADO_ARCHIVO_LIQUIDACION"
+      'dominio': "ESTADO_ARCHIVO_LIQUIDACION"
     }).toPromise();
     this.estadosArchivoOptions = _estadoArchivo.data;
     this.listarTipoArchivo();
@@ -106,7 +106,7 @@ export class FiltroArchivosComponent implements OnInit {
 
   async listarTipoArchivo() {
     const _tipoArchivo = await this.generalesService.listarDominioByDominio({
-      'dominio':"TIPO_ARCHIVO_LIQUIDACION"
+      'dominio': "TIPO_ARCHIVO_LIQUIDACION"
     }).toPromise();
     this.tipoArchivoOptions = _tipoArchivo.data;
   }
@@ -160,6 +160,24 @@ export class FiltroArchivosComponent implements OnInit {
 
   selectFechaArchivoF(event) {
     this.fechaSelectArchivoF = new Date(event.value);
+    this.filter();
+  }
+
+  clearDateArchivo(event) {
+    event.stopPropagation();
+    this.fechaSelectArchivoI = undefined;
+    this.fechaSelectArchivoF = undefined;
+    this.fechaArchivoI = undefined;
+    this.fechaArchivoF = undefined;
+    this.filter();
+  }
+
+  clearDateTrans(event) {
+    event.stopPropagation();
+    this.fechaSelectTranferI = undefined;
+    this.fechaSelectTranferF = undefined;
+    this.fechaTransferenciaI = undefined;
+    this.fechaTransferenciaF = undefined;
     this.filter();
   }
 }

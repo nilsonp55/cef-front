@@ -31,8 +31,9 @@
                 <input matEndDate matInput placeholder="Fecha Fin" [(ngModel)]="fechaTransferenciaF"
                     (dateChange)="selectFechaTranferenciaF($event)" />
             </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matPrefix [for]="picker1"></mat-datepicker-toggle>
             <mat-date-range-picker #picker1></mat-date-range-picker>
+            <mat-icon rangepickerToggleIcon matSuffix (click)="clearDateTrans($event)">clear</mat-icon>
         </mat-form-field>
     </div>
     <div class="ubicacionDerecha">
@@ -44,8 +45,9 @@
                 <input matEndDate matInput placeholder="Fecha Fin" [(ngModel)]="fechaArchivoF"
                     (dateChange)="selectFechaArchivoF($event)" />
             </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matPrefix [for]="picker2"></mat-datepicker-toggle>
             <mat-date-range-picker #picker2></mat-date-range-picker>
+            <mat-icon rangepickerToggleIcon matSuffix (click)="clearDateArchivo($event)">clear</mat-icon>
         </mat-form-field>
     </div>
     <div class="ubicacionCentro">

@@ -20,24 +20,32 @@
 }
 
 @media only screen and (min-width: 1330px) {
-    ::ng-deep .camposIzquierda {
+    .camposIzquierda {
         margin-right: 32px;
         width: 67.5%;
     }
 
-    ::ng-deep .camposCentro {
+    .ubicacionDerecha {
+        width: 100%;
+    }
+
+    .camposCentro {
         width: 68.5%
     }
 }
 
 
 @media only screen and (min-width: 1920px) {
-    ::ng-deep .camposIzquierda {
-        margin-right: 46px;
-        width: 45.5%;
+    .camposIzquierda {
+        margin-right: 45px;
+        width: 50%;
     }
 
-    ::ng-deep .camposCentro {
+    .ubicacionDerecha {
+        width: 100%;
+    }
+
+    .camposCentro {
         width: 48.5%;
     }
 }

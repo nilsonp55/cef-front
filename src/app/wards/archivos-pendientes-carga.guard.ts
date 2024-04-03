@@ -35,7 +35,7 @@ export class ArchivosPendientesCargaGuard implements CanActivate {
           menusrol.data.forEach(itm => {
             this.menusLiquidacion.push(itm.menu);
           });
-          //console.log(menusrol)
+          console.log(menusrol)
           //validation guard
           let guardOk: boolean = false;
           menusrol.data.forEach(itm => {

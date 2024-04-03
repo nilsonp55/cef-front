@@ -4,7 +4,6 @@
     <h1 class="tituloTabla">ARCHIVOS PENDIENTES DE CARGAR</h1>
     <span class="line-spacer"></span>
 </div>
-<!--  (click)="exporter.exportTable('xlsx', {fileName:'operaciones_conciliadas'})" -->
 
 <mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros">
 </mat-paginator>
@@ -13,15 +12,17 @@
         <button mat-raised-button color="primary" (click)="procesarArchivos()">Procesar archivos</button>
     </div>
     <div class="col-2 botones">
-        <button mat-raised-button color="primary" (click)="modalProximoDesarrollo()">Eliminar archivos</button>
+        <button mat-raised-button color="primary" (click)="eliminarArchivo()">Eliminar archivos</button>
     </div>
     <div class="col-2">
-        <button mat-raised-button color="primary" (click)="modalProximoDesarrollo()">Exportar tabla</button>
+        <button mat-raised-button color="primary"
+            (click)="exporter.exportTable('xlsx', {fileName:'archivos_pendiente_carga'})">Exportar tabla</button>
     </div>
 </div>
 
 <div class="divTabla">
-    <table mat-table matTableExporter [dataSource]="dataSourceConciliadas" matSort #exporter="matTableExporter">
+    <table mat-table matTableExporter [hiddenColumns]="[0,8]" [dataSource]="dataSourceConciliadas" matSort
+        #exporter="matTableExporter">
         <tr>
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef>
@@ -32,7 +33,8 @@
                 </th>
                 <td mat-cell *matCellDef="let row">
                     <mat-checkbox color="primary" (click)="$event.stopPropagation()"
-                        (change)="seleccionRow($event, row)" [checked]="selection.isSelected(row)">
+                        (change)="$event ? selection.toggle(row) : null; seleccionRow($event, row)"
+                        [checked]="selection.isSelected(row)">
                     </mat-checkbox>
                 </td>
             </ng-container>
@@ -50,7 +52,7 @@
             <ng-container matColumnDef="Estado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
                 <td mat-cell *matCellDef="let element">
-                    <a (click)="modalProximoDesarrollo()" *ngIf="element.estado === 'ERRADO'"
+                    <a (click)="verError(element)" *ngIf="element.estado === 'ERRADO'"
                         [ngClass]="{estadoError: element.estado === 'ERRADO'}">{{element.estado}}</a>
                     <p *ngIf="element.estado !== 'ERRADO'" style="margin: 0 0 0px !important;">{{element.estado}}</p>
                 </td>
