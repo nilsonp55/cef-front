@@ -48,8 +48,7 @@
         </div>
     </div>
     <div style="width: 70%" class="ubicacionTablas">
-        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
-            (ngSubmit)="persistir()">
+        <div class="example-container" [formGroup]="form" #frmUsuario="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
                     <input type="email" matInput placeholder="Id Usuario" formControlName="idUsuario">
@@ -89,10 +88,10 @@
                 </div>
             </div>
             <div  class="tamanio-btn">
-            <button mat-raised-button color="primary" type="submit" [disabled]="frmPaciente.invalid">
+            <button mat-raised-button color="primary" type="button" [disabled]="frmUsuario.invalid" (click)="persistir()">
                 Aceptar
             </button>
             </div>
-        </form>
+        </div>
     </div>
 </mat-card>

@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { GENERALES } from 'src/app/pages/shared/constantes';
-import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { ErrorService } from 'src/app/_model/error.model';
-import { GeneralesService } from 'src/app/_service/generales.service'
-import { ConfContablesEntidadesService } from 'src/app/_service/contabilidad-service/conf-contables-entidades.service';
-import { TarifasOperacionService } from 'src/app/_service/liquidacion-service/tarifas-operacion.service';
+import { GeneralesService } from 'src/app/_service/generales.service';
 import { EscalasService } from 'src/app/_service/liquidacion-service/escalas.service';
+import { TarifasOperacionService } from 'src/app/_service/liquidacion-service/tarifas-operacion.service';
+import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
+import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({

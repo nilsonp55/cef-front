@@ -1,7 +1,7 @@
 <div class="titulo-tabla">
     <h1>{{titulo}} cajero</h1>
 </div>
-<form *ngIf="mostrarFormulario" class="example-container" [formGroup]="form" #frmPaciente="ngForm">
+<div *ngIf="mostrarFormulario" class="example-container" [formGroup]="form" #frmPaciente="ngForm">
     <div class="div-division">
         <div class="ubica">
             <h2>Nombre</h2>
@@ -99,4 +99,4 @@
             <button mat-raised-button color="warn" mat-dialog-close>{{nombreBTNCancelar}}</button>
         </div>
     </div>
-</form>
+</div>
