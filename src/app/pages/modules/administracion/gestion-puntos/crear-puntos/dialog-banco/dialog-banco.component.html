@@ -1,14 +1,14 @@
 <div class="titulo-tabla">
     <h1>{{titulo}} banco</h1>
 </div>
-<div *ngIf="mostrarFormulario" class="example-container" [formGroup]="form">
+<div class="example-container" [formGroup]="form" *ngIf="mostrarFormulario">
     <div class="div-division">
         <div class="ubica">
             <h2>Nombre</h2>
         </div>
         <div class="example-container">
             <mat-form-field appearance="fill">
-                <input formControlName="nombre" matInput #input>
+                <input matInput #input formControlName="nombre">
             </mat-form-field>
         </div>
     </div>
@@ -33,7 +33,7 @@
         </div>
         <div class="example-container">
             <mat-form-field appearance="fill">
-                <input formControlName="codigoCompensacion" matInput #input>
+                <input matInput #input formControlName="codigoCompensacion">
             </mat-form-field>
         </div>
     </div>
@@ -44,7 +44,7 @@
         </div>
         <div class="example-container">
             <mat-form-field appearance="fill">
-                <input formControlName="identificacion" matInput #input>
+                <input matInput #input formControlName="identificacion">
             </mat-form-field>
         </div>
     </div>
@@ -55,7 +55,7 @@
         </div>
         <div class="example-container">
             <mat-form-field appearance="fill">
-                <input formControlName="abreviatura" matInput #input>
+                <input matInput #input formControlName="abreviatura">
             </mat-form-field>
         </div>
     </div>
