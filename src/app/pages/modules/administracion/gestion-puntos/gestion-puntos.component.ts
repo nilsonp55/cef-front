@@ -38,7 +38,7 @@ export class GestionPuntosComponent implements OnInit {
   spinnerActive: boolean = false;
 
   dataSourcePuntoSelect: MatTableDataSource<any>
-  displayedColumnsPuntoSelect: string[] = ['codigo_punto', 'descripcion', 'ciudad', 'detalle'];
+  displayedColumnsPuntoSelect: string[] = ['codigo_punto', 'tipo_punto', 'descripcion', 'ciudad', 'detalle'];
 
   listPuntosSelect: any;
 

@@ -35,23 +35,22 @@
                     </ng-container>
                 </tr>
                 <tr>
-                    <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
-                        <td mat-cell *matCellDef="let element">
+                    <ng-container class="mat-column-nombreCampo" matColumnDef="acciones">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>Acciones</th>
+                        <td *matCellDef="let element" mat-cell>
                             <button mat-button (click)="editar(element)">
                                 <mat-icon style="color: green">edit</mat-icon>
                             </button>    
                         </td>
                     </ng-container>
                 </tr>
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
+                <tr *matHeaderRowDef="displayedColumnsTiposCuentas" mat-header-row></tr>
+                <tr *matRowDef="let row; columns: displayedColumnsTiposCuentas;" mat-row></tr>
             </table>
         </div>
     </div>
     <div style="width: 70%" class="ubicacionTablas">
-        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
-            (ngSubmit)="persistir()">
+        <div class="example-container" [formGroup]="form" #frmTasasCambio="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
                     <mat-label>Fecha tasa</mat-label>
@@ -75,10 +74,10 @@
             </div>
 
             <div class="tamanio-btn">
-            <button mat-raised-button type="submit" [disabled]="frmPaciente.invalid">
+            <button mat-raised-button type="button" (click)="persistir()" [disabled]="frmTasasCambio.invalid">
                 Aceptar
             </button>
             </div>
-        </form>
+        </div>
     </div>
 </mat-card>

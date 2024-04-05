@@ -1,12 +1,11 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
+import { GeneralesService } from 'src/app/_service/generales.service';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
-import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
-import { GeneralesService } from 'src/app/_service/generales.service';
 
 @Component({
   selector: 'app-dialog-ban-rep',

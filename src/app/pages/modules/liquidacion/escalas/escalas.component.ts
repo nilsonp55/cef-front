@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { GENERALES } from 'src/app/pages/shared/constantes';
-import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { EscalasService } from 'src/app/_service/liquidacion-service/escalas.service';
-import { GeneralesService } from 'src/app/_service/generales.service';
-import { Location } from '@angular/common';
-import { Route, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { GeneralesService } from 'src/app/_service/generales.service';
+import { EscalasService } from 'src/app/_service/liquidacion-service/escalas.service';
+import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
+import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({

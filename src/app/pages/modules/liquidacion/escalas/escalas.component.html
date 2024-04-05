@@ -120,8 +120,7 @@
     </div>
 
     <div class="ubicacionTablaCrear">
-        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
-            (ngSubmit)="persistir()">
+        <div class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
                     <input type="number" matInput placeholder="Id Escala" formControlName="idEscala">
@@ -190,8 +189,8 @@
                     <p>ESTADO</p>
                 </div>
             </div>
-            <button mat-raised-button type="submit" class="ubicacion-btn" color="primary"
+            <button mat-raised-button type="button" (click)="persistir()" class="ubicacion-btn" color="primary"
                 [disabled]="frmPaciente.invalid">Aceptar</button>
-        </form>
+        </div>
     </div>
 </mat-card>

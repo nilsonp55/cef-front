@@ -8,8 +8,7 @@
         </div>
     </div>
     <div style="width: 70%" class="ubicacionTablas">
-        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
-            (ngSubmit)="persistir()">
+        <div class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
 
                 <mat-form-field appearance="fill">
@@ -100,13 +99,13 @@
             
 
             <div  class="tamanio-btn">
-                <button mat-raised-button color="primary" type="submit" [disabled]="frmPaciente.invalid">
+                <button mat-raised-button color="primary" type="button" (click)="persistir()" [disabled]="frmPaciente.invalid">
                     Aceptar
                 </button>
                 </div>
-        </form>
+            </div>
     </div>
-    <div style="width: 60%; margin-top: 3%" class="ubicacionTablas">
+    <div style="width: 100%; margin-top: 3%" class="ubicacionTablas">
         <div *ngIf="mostrarTabla" >
             <div class="filtro">
                 <mat-form-field appearance="fill">
@@ -131,19 +130,11 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
                         <td mat-cell *matCellDef="let element"> {{element.bancoAval.nombreBanco}} </td>
                     </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
-                    </ng-container>
                 </tr>
                 <tr>
                     <ng-container matColumnDef="tipoTr" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>T Trans</th>
                         <td mat-cell *matCellDef="let element"> {{element.tipoTransaccion}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
                     </ng-container>
                 </tr>
                 <tr>
@@ -151,29 +142,17 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>D/C</th>
                         <td mat-cell *matCellDef="let element"> {{element.naturaleza}} </td>
                     </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
-                    </ng-container>
                 </tr>
                 <tr>
                     <ng-container matColumnDef="tOpera" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>T Opera</th>
                         <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
                     </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
-                    </ng-container>
                 </tr>
                 <tr>
                     <ng-container matColumnDef="cuenta" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta</th>
                         <td mat-cell *matCellDef="let element"> {{element.cuentaContable}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef=" " class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                        <td mat-cell *matCellDef="let element"></td>
                     </ng-container>
                 </tr>
                 <tr>

@@ -89,8 +89,7 @@
       </div>
 
       <div style="width: 80%" class="ubicacionTablas">
-        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
-              (ngSubmit)="persistir()">
+        <div class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
           <div >
             <!--Id Punto Codigo TDV-->
             <mat-form-field appearance="outline">
@@ -180,9 +179,9 @@
             </div>
           </div>
 
-          <button mat-raised-button type="submit" class="ubicacion-btn" color="primary"
+          <button mat-raised-button type="button" (click)="persistir()" class="ubicacion-btn" color="primary"
                   [disabled]="frmPaciente.invalid">Aceptar</button>
-        </form>
+        </div>
       </div>
       <!--Fin content mostrarFOrmulario -->
     </ng-container>
