@@ -1,7 +1,7 @@
 <div class="titulo-tabla">
     <h1>{{titulo}} oficina</h1>
 </div>
-<form *ngIf="mostrarFormulario" class="example-container" [formGroup]="form">
+<div *ngIf="mostrarFormulario" class="example-container" [formGroup]="form">
     <div class="div-division">
         <div class="ubica">
             <h2>Nombre</h2>
@@ -102,4 +102,4 @@
             <button mat-raised-button color="warn" mat-dialog-close>{{nombreBTNCancelar}}</button>
         </div>
     </div>
-</form>
+</div>
