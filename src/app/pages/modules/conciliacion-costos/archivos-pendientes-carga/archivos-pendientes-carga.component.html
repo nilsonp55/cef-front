@@ -22,7 +22,7 @@
 
 <div class="divTabla">
     <table mat-table matTableExporter [hiddenColumns]="[0,8]" [dataSource]="dataSourceConciliadas" matSort
-        #exporter="matTableExporter">
+        #exporter="matTableExporter" aria-label="archivosCarga">
         <tr>
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef>
