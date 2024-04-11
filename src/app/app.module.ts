@@ -132,6 +132,7 @@ import { DialogConfirmLlavesComponent } from './pages/modules/administracion/gen
 import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
 import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
+import { ClientesCorporativosComponent } from './pages/modules/administracion/clientes-corporativos/clientes-corporativos.component';
 
 @NgModule({
   declarations: [
@@ -242,7 +243,8 @@ import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/
     DialogConfirmLlavesComponent,
     CierreSesionComponent,
     AdministracionTasasCambioComponent,
-    ProcesarAlcancesComponent
+    ProcesarAlcancesComponent,
+    ClientesCorporativosComponent
     ],
 
   imports: [
