@@ -8,10 +8,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './pages/home/home.component';
 import { CargueProgramacionComponent } from './pages/modules/cargue-programacion/cargue-programacion.component';
@@ -20,17 +20,17 @@ import { ContabilizacionComponent } from './pages/modules/contabilizacion/contab
 import { LiquidacionComponent } from './pages/modules/liquidacion/liquidacion.component';
 import { AdministracionComponent } from './pages/modules/administracion/administracion.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BannerSupeiorComponent } from './pages/shared/components/banner-supeior/banner-supeior.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { FooterComponent } from './pages/shared/components/footer/footer.component';
-import { MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { DialogResultValidacionComponent } from './pages/shared/components/program-preliminar/archivos-cargados/dialog-result-validacion/dialog-result-validacion.component';
 import { VentanaEmergenteResponseComponent } from './pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { LogArchivosCargadosComponent } from './pages/shared/components/program-preliminar/historico-archivos-cargados/log-archivos-cargados/log-archivos-cargados.component';
@@ -43,10 +43,10 @@ import { OperacionesConciliadasComponent } from './pages/modules/conciliacion/op
 import { OperacionesNoConciliadasComponent } from './pages/modules/conciliacion/operaciones-no-conciliadas/operaciones-no-conciliadas.component';
 import { OperacionesFallidasComponent } from './pages/modules/conciliacion/operaciones-fallidas/operaciones-fallidas.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DialogDesconciliarComponent } from './pages/modules/conciliacion/operaciones-conciliadas/dialog-desconciliar/dialog-desconciliar.component';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerComponent } from './pages/shared/components/spinner/spinner.component';
 import { ArchivosCargadosDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/archivos-cargados-definitivo/archivos-cargados-definitivo.component';
 import { HistoricoArchivosCargadosDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/historico-archivos-cargados-definitivo.component';
@@ -132,6 +132,12 @@ import { DialogConfirmLlavesComponent } from './pages/modules/administracion/gen
 import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
 import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
+import { ConciliacionCostosComponent } from './pages/modules/conciliacion-costos/conciliacion-costos.component';
+import { FiltroArchivosComponent } from './pages/shared/components/filtro-archivos/filtro-archivos.component';
+import { ArchivosPendienteCargaComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/archivos-pendientes-carga.component';
+import { VentanaEmergenteVerDetalleArchivoComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-detalle/ventana-emergente-detalle';
+import { VentanaEmergenteErrorComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-error/ventana-emergente-error.component';
+import { VentanaEmergenteEliminarComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-eliminar/ventana-emergente-eliminar.component';
 
 @NgModule({
   declarations: [
@@ -242,8 +248,14 @@ import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/
     DialogConfirmLlavesComponent,
     CierreSesionComponent,
     AdministracionTasasCambioComponent,
-    ProcesarAlcancesComponent
-    ],
+    ProcesarAlcancesComponent,
+    ConciliacionCostosComponent,
+    ArchivosPendienteCargaComponent,
+    FiltroArchivosComponent,
+    VentanaEmergenteVerDetalleArchivoComponent,
+    VentanaEmergenteErrorComponent,
+    VentanaEmergenteEliminarComponent
+  ],
 
   imports: [
     CommonModule,
