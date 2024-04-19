@@ -1,0 +1,74 @@
+<div class="division-busqueda">
+    <div class="ubicacionDerecha">
+        <mat-form-field appearance="fill" class="camposIzquierda">
+            <mat-label>Bancos Transportadora Aval</mat-label>
+            <mat-select (selectionChange)="selectBanco($event)">
+                <mat-option>Ninguno</mat-option>
+                <mat-option *ngFor="let bancoOption of bancoOptions" [value]="bancoOption.nombreBanco">
+                    {{bancoOption.nombreBanco}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+        <mat-form-field appearance="fill" class="camposCentro">
+            <mat-label>Transportadoras</mat-label>
+            <mat-select (selectionChange)=" selectTrasportadora($event)">
+                <mat-option>Ninguno</mat-option>
+                <mat-option *ngFor="let tranportadoraOption of tranportadoraOptions"
+                    [value]="tranportadoraOption.nombreTransportadora">
+                    {{tranportadoraOption.nombreTransportadora}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="ubicacionIzquierda">
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha de Transferencia</mat-label>
+            <mat-date-range-input [rangePicker]="picker1">
+                <input matStartDate matInput placeholder="Fecha Incio" [(ngModel)]="fechaTransferenciaI"
+                    (dateChange)="selectFechaTranferenciaI($event)" />
+                <input matEndDate matInput placeholder="Fecha Fin" [(ngModel)]="fechaTransferenciaF"
+                    (dateChange)="selectFechaTranferenciaF($event)" />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matPrefix [for]="picker1"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker1></mat-date-range-picker>
+            <mat-icon rangepickerToggleIcon matSuffix (click)="clearDateTrans($event)">clear</mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="ubicacionDerecha">
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha del Archivo</mat-label>
+            <mat-date-range-input [rangePicker]="picker2">
+                <input matStartDate matInput placeholder="Fecha Incio" [(ngModel)]="fechaArchivoI"
+                    (dateChange)="selectFechaArchivoI($event)" />
+                <input matEndDate matInput placeholder="Fecha Fin" [(ngModel)]="fechaArchivoF"
+                    (dateChange)="selectFechaArchivoF($event)" />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matPrefix [for]="picker2"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker2></mat-date-range-picker>
+            <mat-icon rangepickerToggleIcon matSuffix (click)="clearDateArchivo($event)">clear</mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+        <mat-form-field appearance="fill" class="camposCentro">
+            <mat-label>Estado</mat-label>
+            <mat-select (selectionChange)="selectEstado($event)">
+                <mat-option>Ninguno</mat-option>
+                <mat-option *ngFor="let estadosArchivoOptions of estadosArchivoOptions" [value]="estadosArchivoOptions">
+                    {{estadosArchivoOptions}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="ubicacionIzquierda">
+        <mat-form-field appearance="fill" class="camposCentro">
+            <mat-label>Tipo de Archivo</mat-label>
+            <mat-select [(value)]="tipoArchivo" (selectionChange)="selectTipoArchivo($event)">
+                <mat-option>Ninguno</mat-option>
+                <mat-option *ngFor="let item of tipoArchivoOptions" [value]="item">{{item}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>

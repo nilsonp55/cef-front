@@ -28,6 +28,7 @@
     "mat-table-exporter": "^10.2.4",
     "moment": "^2.29.4",
     "rxjs": "~7.5.0",
+    "sweetalert2": "^11.10.6",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

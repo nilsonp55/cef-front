@@ -83,6 +83,9 @@ import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.compo
 import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 import { ClientesCorporativosComponent } from './pages/modules/administracion/clientes-corporativos/clientes-corporativos.component';
 import { ClientesCorporativosGuard } from './wards/clientes-corporativos.guard';
+import { ConciliacionCostosComponent } from './pages/modules/conciliacion-costos/conciliacion-costos.component';
+import { ArchivosPendienteCargaComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/archivos-pendientes-carga.component';
+import { ArchivosPendientesCargaGuard } from './wards/archivos-pendientes-carga.guard';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -138,6 +141,11 @@ const routes: Routes = [
   },
   {
     path: 'cierre-fecha', component: CierreFechaComponent
+  },
+  {
+    path: 'conciliacion-costos', component: ConciliacionCostosComponent, children: [
+      { path: 'archivos-pendiente-carga', component: ArchivosPendienteCargaComponent, canActivate: [ArchivosPendientesCargaGuard] },
+    ]
   },
   {
     path: 'administracion', component: AdministracionComponent, children: [
