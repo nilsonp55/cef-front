@@ -133,6 +133,7 @@ import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.compo
 import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
 import { ClientesCorporativosComponent } from './pages/modules/administracion/clientes-corporativos/clientes-corporativos.component';
+import { FormClientesCorpComponent } from './pages/modules/administracion/clientes-corporativos/form-clientes-corp/form-clientes-corp.component';
 
 @NgModule({
   declarations: [
@@ -244,7 +245,8 @@ import { ClientesCorporativosComponent } from './pages/modules/administracion/cl
     CierreSesionComponent,
     AdministracionTasasCambioComponent,
     ProcesarAlcancesComponent,
-    ClientesCorporativosComponent
+    ClientesCorporativosComponent,
+    FormClientesCorpComponent
     ],
 
   imports: [
