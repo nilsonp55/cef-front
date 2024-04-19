@@ -252,8 +252,7 @@ import { VentanaEmergenteEliminarComponent } from './pages/modules/conciliacion-
     AdministracionTasasCambioComponent,
     ProcesarAlcancesComponent,
     ClientesCorporativosComponent,
-    FormClientesCorpComponent
-    ],
+    FormClientesCorpComponent,
     ConciliacionCostosComponent,
     ArchivosPendienteCargaComponent,
     FiltroArchivosComponent,
