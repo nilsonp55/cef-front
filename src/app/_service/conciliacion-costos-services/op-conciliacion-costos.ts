@@ -32,7 +32,7 @@ export class OpConciliacionCostosService {
     */
     obtenerListaArchivoPendienteCarga(params: any) {
         const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_CONSULTA}`, { params: params });
+        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_CONSULTA}`, { params: params, headers });
     }
 
     /** 
@@ -40,7 +40,7 @@ export class OpConciliacionCostosService {
       */
     procesarArchivos(param: any): Observable<any> {
         const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_PROCESAR}`, param);
+        return this.http.post<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_PROCESAR}`, param, {headers});
     }
 
     /** 
@@ -53,22 +53,22 @@ export class OpConciliacionCostosService {
 
     obtenerArchivoDetalleProcesar(params: any) {
         const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_DETALLE_PROCESAR}`, { params: params });
+        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_DETALLE_PROCESAR}`, { params: params, headers });
     }
 
     obtenerArchivoDetalleErrorProcesar(params: any) {
         const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_DETALLE_ERROR_PROCESAR}`, { params: params });
+        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_DETALLE_ERROR_PROCESAR}`, { params: params, headers });
     }
 
     eliminarArchivo(param: any) {
         const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_ELIMINAR}`, param);
+        return this.http.post<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_ELIMINAR}`, param, {headers});
     }
 
     descargarArchivoError(params: any) {
         const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get(`${this.url}${URLs.CARGUE_FILE + URLs.ARCHIVOS_PENDIENTE_CARGA_DESCARGAR}`, { params: params, observe: 'response', responseType: 'blob' });
+        return this.http.get(`${this.url}${URLs.CARGUE_FILE + URLs.ARCHIVOS_PENDIENTE_CARGA_DESCARGAR}`, { params: params, observe: 'response', responseType: 'blob', headers });
     }
 
 }

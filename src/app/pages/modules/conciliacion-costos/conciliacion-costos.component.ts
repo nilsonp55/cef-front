@@ -60,7 +60,7 @@ export class ConciliacionCostosComponent implements OnInit {
   }
 
   validarMenuProximo(menu) {
-    if (menu.url === "") {
+    if (menu.nombre === "Conciliación transporte" || menu.nombre === "Conciliación procesamiento" || menu.nombre === "Gestión de archivos") {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
@@ -79,5 +79,6 @@ export class ConciliacionCostosComponent implements OnInit {
       this.router.navigate(["/conciliacion-costos/" + menu.url])
     }
   }
+
 
 }

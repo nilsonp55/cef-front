@@ -73,9 +73,7 @@ export class VentanaEmergenteVerDetalleArchivoComponent {
     }
 
     descargarArchivo() {
-        console.log(this.data.msn.estado)
         if (this.data.msn.estado === "PENDIENTE") {
-            debugger
             this.cargueArchivosService.visializarArchivo3({
                 'nombreArchivo': this.data.msn.nombreArchivoCompleto,
                 'idMaestroArchivo': this.data.msn.idMaestroArchivo,
@@ -93,7 +91,8 @@ export class VentanaEmergenteVerDetalleArchivoComponent {
                             listaContenido.push(element.contenido)
                         });
                     }
-                    const blob = new Blob([listaContenido], { type: 'application/octet-stream' });
+                    const contenidoTexto = listaContenido.join('')
+                    const blob = new Blob([contenidoTexto], { type: 'text/plain' });
                     saveAs(blob, this.data.msn.nombreArchivoCompleto);
                     Swal.close();
                 },
