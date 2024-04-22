@@ -12,11 +12,10 @@
         <button mat-raised-button color="primary" (click)="procesarArchivos()">Procesar archivos</button>
     </div>
     <div class="col-2 botones">
-        <button mat-raised-button color="primary" (click)="eliminarArchivo()">Eliminar archivos</button>
+        <button mat-raised-button color="primary" (click)="modalProximoDesarrollo()">Eliminar archivos</button>
     </div>
     <div class="col-2">
-        <button mat-raised-button color="primary"
-            (click)="exporter.exportTable('xlsx', {fileName:'archivos_pendiente_carga'})">Exportar tabla</button>
+        <button mat-raised-button color="primary" (click)="modalProximoDesarrollo()">Exportar tabla</button>
     </div>
 </div>
 
@@ -52,7 +51,7 @@
             <ng-container matColumnDef="Estado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
                 <td mat-cell *matCellDef="let element">
-                    <a (click)="verError(element)" *ngIf="element.estado === 'ERRADO'"
+                    <a (click)="modalProximoDesarrollo()" *ngIf="element.estado === 'ERRADO'"
                         [ngClass]="{estadoError: element.estado === 'ERRADO'}">{{element.estado}}</a>
                     <p *ngIf="element.estado !== 'ERRADO'" style="margin: 0 0 0px !important;">{{element.estado}}</p>
                 </td>
