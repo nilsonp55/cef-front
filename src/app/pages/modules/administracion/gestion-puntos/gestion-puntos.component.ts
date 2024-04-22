@@ -187,51 +187,6 @@ export class GestionPuntosComponent implements OnInit {
     }
   }
 
-
-  /**
-   * Evento que levanta un openDialog para modificar un punto segun el tipo punto
-   * @BaironPerez
-   */
-  modificarPunto() {
-    this.gestionPuntosService.consultarPuntoCreadoById(this.puntoSeleccionado).subscribe(data => {
-      if (data.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
-        // TODO: debe aarecer la vetana para crear banco
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-      else if (data.tipoPunto == GENERALES.TIPO_PUNTOS.CAJERO) {
-        // TODO: debe aarecer la vetana para crear cajero
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-      else if (data.tipoPunto == GENERALES.TIPO_PUNTOS.FONDO) {
-        // TODO: debe aarecer la vetana para crear fondo
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-      else if (data.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
-        // TODO: debe aarecer la vetana para crear oficina
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-      else if (data.tipoPunto == GENERALES.TIPO_PUNTOS.CLIENTE) {
-        // TODO: debe aarecer la vetana para crear cliente
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-    });
-  }
-
   mostrarMas(e: any) {
     this.listarPuntosSeleccionado(e.pageIndex, e.pageSize);
   }

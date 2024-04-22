@@ -151,7 +151,6 @@ export class CrearPuntoComponent implements OnInit {
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       esAVAL: this.form.value['bancoAval'] ? this.form.value['bancoAval'].esAVAL : '',
     };
-    debugger;
     this.gestionPuntosService.crearPunto(cliente).subscribe(response => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

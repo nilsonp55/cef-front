@@ -111,7 +111,6 @@ export class DialogOficinaComponent implements OnInit {
   }
 
   selectBanco(param: any): any {
-    debugger;
     if(this.data.flag == "crear")
       return [];
 

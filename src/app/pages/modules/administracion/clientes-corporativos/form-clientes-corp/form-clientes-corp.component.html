@@ -1,0 +1,45 @@
+<div class="titulo-tabla">
+    <h1>Cliente Corporativo</h1>
+</div>
+
+<div [formGroup]="form">
+    <mat-form-field appearance="outline">
+        <mat-label>Código Cliente</mat-label>
+        <input formControlName="codigoCliente" matInput #input>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Banco Aval</mat-label>
+        <mat-select required formControlName="codigoBancoAval">
+            <mat-option *ngFor="let item of bancos" [value]="item">
+                {{item.nombreBanco}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre Cliente Corporativo</mat-label>
+        <input formControlName="nombreCliente" matInput #input required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Tipo de identificación</mat-label>
+        <input formControlName="tipoId" matInput #input required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Numero de identificación</mat-label>
+        <input formControlName="identificacion" matInput #input required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Tarifa separación</mat-label>
+        <input formControlName="tarifaSeparacion" matInput #input required>
+    </mat-form-field>
+
+    <mat-checkbox [(ngModel)]="checkAmparado" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+</div>
+<div mat-dialog-actions>
+    <button mat-button cdkFocusInitial [mat-dialog-close]="data.row">Aceptar</button>
+    <button mat-button (click)="onCancel()">Cancelar</button>
+</div>

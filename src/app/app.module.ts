@@ -132,6 +132,8 @@ import { DialogConfirmLlavesComponent } from './pages/modules/administracion/gen
 import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
 import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
+import { ClientesCorporativosComponent } from './pages/modules/administracion/clientes-corporativos/clientes-corporativos.component';
+import { FormClientesCorpComponent } from './pages/modules/administracion/clientes-corporativos/form-clientes-corp/form-clientes-corp.component';
 import { ConciliacionCostosComponent } from './pages/modules/conciliacion-costos/conciliacion-costos.component';
 import { FiltroArchivosComponent } from './pages/shared/components/filtro-archivos/filtro-archivos.component';
 import { ArchivosPendienteCargaComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/archivos-pendientes-carga.component';
@@ -249,6 +251,8 @@ import { VentanaEmergenteEliminarComponent } from './pages/modules/conciliacion-
     CierreSesionComponent,
     AdministracionTasasCambioComponent,
     ProcesarAlcancesComponent,
+    ClientesCorporativosComponent,
+    FormClientesCorpComponent,
     ConciliacionCostosComponent,
     ArchivosPendienteCargaComponent,
     FiltroArchivosComponent,
