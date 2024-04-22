@@ -161,7 +161,7 @@ export class ArchivosPendienteCargaComponent implements OnInit {
 
   verDetalle(event) {
     const alert = this.dialog.open(VentanaEmergenteVerDetalleArchivoComponent, {
-      width: "800px",
+      width: "1000px",
       data: {
         msn: event
       }
@@ -170,7 +170,7 @@ export class ArchivosPendienteCargaComponent implements OnInit {
 
   verError(event) {
     const alert = this.dialog.open(VentanaEmergenteErrorComponent, {
-      width: "800px",
+      width: "1000px",
       data: {
         msn: event
       }
