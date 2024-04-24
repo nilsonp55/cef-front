@@ -37,6 +37,10 @@ export class ClientesCorporativosComponent implements OnInit {
     this.listarClientesCorporativos(0, 10);
   }
 
+  getNombreBanco(data: any): string {
+    return this.bancos.find((value) => value.codigoPunto === data).nombreBanco;
+  };
+
   /**
    * @author prv_nparra
    */
@@ -83,7 +87,6 @@ export class ClientesCorporativosComponent implements OnInit {
       .afterClosed().subscribe(result => {
       });
   }
-
 
   /**
    * @author prv_nparra

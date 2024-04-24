@@ -4,7 +4,7 @@
 <div class="div-search">
     <button title="Crear punto" mat-raised-button color="primary" (click)="openFormClienteCorporativo(null, 'create')">Crear Cliente Corporativo</button>
 </div>
- 
+
 <div class="divTabla">
     <div *ngIf="spinnerActive" class="disenio-spinner">
         <mat-spinner></mat-spinner>
@@ -19,9 +19,9 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Código Cliente</th>
             <td mat-cell *matCellDef="let element"> {{element.codigoCliente}} </td>
         </ng-container>
-        <ng-container matColumnDef="banco">
+        <ng-container matColumnDef="banco" >
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Banco</th>
-            <td mat-cell *matCellDef="let element"> {{bancos[element.codigoBancoAval]}} </td>
+            <td mat-cell *matCellDef="let element"> {{getNombreBanco(element.codigoBancoAval)}} </td>
         </ng-container>
         <ng-container matColumnDef="nombre_cliente">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Nombre Cliente</th>
@@ -33,11 +33,11 @@
         </ng-container>
         <ng-container matColumnDef="identificacion">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">identificación</th>
-            <td mat-cell *matCellDef="let element"> {{element.identificacion}} </td>
+            <td mat-cell *matCellDef="let element" > {{element.identificacion}} </td>
         </ng-container>
         <ng-container matColumnDef="tarifa_separacion">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Tarifa Separación</th>
-            <td mat-cell *matCellDef="let element"> {{element.tarifaSeparacion}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.tarifaSeparacion | number: '1.2-2'}} </td>
         </ng-container>
         <ng-container matColumnDef="amparado">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Amparado</th>
