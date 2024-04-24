@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
@@ -30,8 +30,8 @@ export class FormClientesCorpComponent implements OnInit {
       this.bancos = param.bancos;
       let banco = param.row?.codigoBancoAval != null ? this.bancos.find((value) => value.codigoPunto == param.row.codigoBancoAval) : [];
       this.form = new FormGroup({
-        'codigoCliente': new FormControl(param.row != null ? param.row.codigoCliente : null),
-        'codigoBancoAval': new FormControl(param.row != null ? param.row.codigoBancoAval : null),
+        'codigoCliente': new FormControl({value: param.row?.codigoCliente, disabled: true}),
+        'codigoBancoAval': new FormControl( param.row != null ? banco : null),
         'nombreCliente': new FormControl(param.row != null ? param.row.nombreCliente : null),
         'tipoId': new FormControl(param.row != null ? param.row.tipoId : null),
         'identificacion': new FormControl(param.row != null ? param.row.identificacion : null),

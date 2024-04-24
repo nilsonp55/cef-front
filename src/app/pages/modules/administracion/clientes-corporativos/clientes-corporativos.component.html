@@ -21,7 +21,7 @@
         </ng-container>
         <ng-container matColumnDef="banco">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Banco</th>
-            <td mat-cell *matCellDef="let element"> {{element.codigoBancoAval}} </td>
+            <td mat-cell *matCellDef="let element"> {{bancos[element.codigoBancoAval]}} </td>
         </ng-container>
         <ng-container matColumnDef="nombre_cliente">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Nombre Cliente</th>
