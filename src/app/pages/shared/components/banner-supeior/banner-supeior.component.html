@@ -6,9 +6,9 @@
     <div routerLink="active" >
         <a [routerLink]="['/home']">
             <img src="assets/img/logo_CE-1.png" width="240">
-        </a>        
+        </a>
     </div>
-    
+
     <h1 class="example-app-name"></h1>
     <!--Separar de esquina a esquina los 2 objetos-->
     <span class="line-spacer"></span>
@@ -23,19 +23,9 @@
         </div>
         <!--Icono zona derecha (Menu descplegable)-->
         <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/perfil">
-                <mat-icon>account_box</mat-icon>
-                <span>Option1</span>
-            </button>
-            <button mat-menu-item>
-                <mat-icon>exit_to_app</mat-icon>
-                <span>Opcion2</span>
-            </button>
         </mat-menu>
-        <span class="line-spacer"></span>
     </div>
 </mat-toolbar>
 <!--Div complmenario para info de sesion-->
