@@ -1,23 +1,27 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ventana-emergente-response',
-  templateUrl: './ventana-emergente-response.component.html'
+  templateUrl: './ventana-emergente-response.component.html',
 })
 export class VentanaEmergenteResponseComponent implements OnInit {
-
   msn: string = 'Mensaje de prueba';
   codigoIcono: number = 1;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {msn: string, codigo: number}) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { msn: string; codigo: number, showActions?: boolean },
+    public dialogRef: MatDialogRef<VentanaEmergenteResponseComponent>
+  ) {}
 
   imgError: string = 'assets/img/error.jpg';
   imgAlerta: string = 'assets/img/waring.jpg';
   imgExistoso: string = 'assets/img/succesfull.png';
   imgEsperar: string = 'assets/img/esperar.png';
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
+  onCancel(): void {
+    this.dialogRef.close();
+  }
 }
