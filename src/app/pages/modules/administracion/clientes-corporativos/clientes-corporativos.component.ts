@@ -21,10 +21,11 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 export class ClientesCorporativosComponent implements OnInit {
   totalRegistros: number;
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  pIndex: number = 0;
+  pSize: number = 10;
   spinnerActive: boolean = false;
   dsClientesCorporativos: MatTableDataSource<any>;
   displayColumnsClientes: String[] = [
-    'row_num',
     'codigo_cliente',
     'banco',
     'nombre_cliente',
@@ -54,13 +55,17 @@ export class ClientesCorporativosComponent implements OnInit {
    */
   getNombreBanco(data: any): string {
     let banco = this.bancos.find((value) => value.codigoPunto === data);
-    return banco == !undefined ? banco.nombreBanco : '';
+    return banco !== undefined ? banco.nombreBanco : '';
+  }
+
+  resolveAmparado(amparado: boolean): string {
+    return amparado ? "Si" : "No";
   }
 
   /**
    * @author prv_nparra
    */
-  listarClientesCorporativos(pagina = 0, tamanio = 10) {
+  listarClientesCorporativos(pagina = this.pIndex, tamanio = this.pSize) {
     this.spinnerActive = true;
     this.dsClientesCorporativos = new MatTableDataSource();
     this.clientesCorporativosServices
@@ -98,6 +103,8 @@ export class ClientesCorporativosComponent implements OnInit {
    * @author prv_nparra
    */
   mostrarMas(e: any) {
+    this.pIndex = e.pageIndex;
+    this.pSize = e.pageSize;
     this.listarClientesCorporativos(e.pageIndex, e.pageSize);
   }
 
@@ -108,7 +115,7 @@ export class ClientesCorporativosComponent implements OnInit {
     // abrir dialog para crear o editar cliente
     this.dialog
       .open(FormClientesCorpComponent, {
-        width: '70%',
+        width: GENERALES.DIALOG_FORM.SIZE_FORM,
         data: { flag: accion, row: element, bancos: this.bancos },
       })
       .afterClosed()
@@ -122,9 +129,14 @@ export class ClientesCorporativosComponent implements OnInit {
     this.dialog.open(VentanaEmergenteResponseComponent, {
       width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
       data: {
-        msn: 'Eliminar?',
+        msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.MSG_DELETE_ROW,
         codigo: GENERALES.CODE_EMERGENT.WARNING,
         showActions: true
+      }
+    }).afterClosed().subscribe(result => {
+      if(result !== undefined) {
+        this.eliminarClienteCorporativo(element);
+        this.listarClientesCorporativos(this.pIndex, this.pSize);
       }
     });
   }
@@ -150,7 +162,7 @@ export class ClientesCorporativosComponent implements OnInit {
         error: (err: any) => {
           this.spinnerActive = false;
           this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: '40%',
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DELETE + " - " + err.mensaje,
               codigo: GENERALES.CODE_EMERGENT.ERROR

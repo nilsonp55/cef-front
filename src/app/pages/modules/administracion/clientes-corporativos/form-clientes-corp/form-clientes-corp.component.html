@@ -37,9 +37,12 @@
         <input formControlName="tarifaSeparacion" matInput #input required>
     </mat-form-field>
 
-    <mat-checkbox [(ngModel)]="checkAmparado" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+    <div class="mat-form-field-wrapper">
+      <mat-checkbox formControlName="amparado" labelPosition="before">Amparado</mat-checkbox>
+    </div>
 </div>
 <div mat-dialog-actions>
-    <button class="division-btn1" mat-raised-button color="primary" cdkFocusInitial [mat-dialog-close]="data.row">Aceptar</button>
-    <button mat-raised-button (click)="onCancel">Cancelar</button>
+  <button class="division-btn1" mat-raised-button color="primary" cdkFocusInitial
+    [mat-dialog-close]="data.row">Aceptar</button>
+  <button mat-raised-button (click)="onCancel()">Cancelar</button>
 </div>

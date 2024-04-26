@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
@@ -11,7 +11,6 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 export class FormClientesCorpComponent implements OnInit {
   form: FormGroup;
   bancos: any[] = [];
-  checkAmparado: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -49,8 +48,10 @@ export class FormClientesCorpComponent implements OnInit {
         tarifaSeparacion: new FormControl(
           param.row != null ? param.row.tarifaSeparacion : null
         ),
+        amparado: new FormControl(
+          param.row != null ? param.row.amparado : false
+        ),
       });
-      this.checkAmparado = param.row != null ? param.row.amparado : false;
     }
   }
 

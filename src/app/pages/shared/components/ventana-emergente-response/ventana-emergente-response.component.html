@@ -11,6 +11,7 @@
     </div>
 </div>
 <div mat-dialog-actions *ngIf="data.showActions">
-  <button class="division-btn1" mat-raised-button color="primary" cdkFocusInitial [mat-dialog-close]="data">Aceptar</button>
-  <button mat-raised-button (click)="onCancel">Cancelar</button>
+  <button class="division-btn1" mat-raised-button color="primary" cdkFocusInitial
+    [mat-dialog-close]="data">Aceptar</button>
+  <button mat-raised-button (click)="onCancel()">Cancelar</button>
 </div>
