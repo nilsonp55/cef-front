@@ -1,0 +1,56 @@
+table {
+    width: 100%;
+}
+
+.configScroll {
+    height: auto;
+    overflow-x: scroll;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: proximity;
+}
+
+.tituloTabla {
+    text-align: center;
+    font-size: large;
+}
+
+::ng-deep .mat-paginator-container {
+    display: flex !important;
+    justify-content: unset !important;
+    padding-left: 76% !important;
+}
+
+::ng-deep .divTabla {
+    padding: 1% !important;
+    margin-top: 1% !important;
+    margin-right: 0% !important;
+    margin-left: 1% !important;
+    background-color: transparent !important;
+}
+
+.botonesArchivo {
+    padding-left: 2%;
+}
+
+@media only screen and (min-width: 1330px) {
+    ::ng-deep .botones {
+        padding-left: 0%;
+        margin-right: -3.5%;
+        margin-left: -1%;
+    }
+}
+
+@media only screen and (min-width: 1920px) {
+    ::ng-deep .botones {
+        padding-left: 0%;
+        margin-right: -7.5%;
+        margin-left: -5.5%;
+    }
+}
+
+.estadoError {
+    color: red !important;
+    margin: 0 0 0px !important;
+    pointer-events: auto;
+    cursor: pointer;
+}

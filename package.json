@@ -1,6 +1,6 @@
 {
   "name": "admin-efectivo",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --configuration dev",
@@ -28,6 +28,7 @@
     "mat-table-exporter": "^10.2.4",
     "moment": "^2.29.4",
     "rxjs": "~7.5.0",
+    "sweetalert2": "^11.10.6",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
