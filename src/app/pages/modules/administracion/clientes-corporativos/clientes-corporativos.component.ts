@@ -136,7 +136,6 @@ export class ClientesCorporativosComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       if(result !== undefined) {
         this.eliminarClienteCorporativo(element);
-        this.listarClientesCorporativos(this.pIndex, this.pSize);
       }
     });
   }
@@ -158,6 +157,7 @@ export class ClientesCorporativosComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           });
+          this.listarClientesCorporativos(this.pIndex, this.pSize);
         },
         error: (err: any) => {
           this.spinnerActive = false;
