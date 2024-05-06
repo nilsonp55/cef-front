@@ -41,7 +41,7 @@ export class ArchivosPendienteCargaComponent implements OnInit {
 
   //DataSource para pintar tabla de conciliados
   dataSourceConciliadas: MatTableDataSource<ConciliacionesModel>;
-  displayedColumnsConciliadas: string[] = ['select', 'nombreArchivo', 'fechaArchivo', 'estado', 'banco', 'tdv', 'fechaTransferencia', 'tipoArchivo', 'acciones'];
+  displayedColumnsConciliadas: string[] = ['select', 'nombreArchivo', 'fechaArchivo', 'Estado', 'Banco', 'Tdv', 'fechaTransferencia', 'tipoArchivo', 'acciones'];
 
   //selectData para pintar check de seleccion en la tabla
   selection = new SelectionModel<ConciliacionesModel>(true, []);
