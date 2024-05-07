@@ -29,6 +29,14 @@ export class ClientesCorporativosService {
   /**
    * @author prv_nparra
    */
+  obtenerClienteCorporativo(codigoCliente: number): Observable<any> {
+    const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+    return this.http.get<any>(`${this.url}${URLs.CLIENTE}/${codigoCliente}`, { headers },);
+  }
+
+  /**
+   * @author prv_nparra
+   */
   guardarClientesCorporativos(param?: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
     return this.http.post<any>(`${this.url}${URLs.CLIENTE}/`, { params: param, headers },);
@@ -45,8 +53,8 @@ export class ClientesCorporativosService {
   /**
    * @author prv_nparra
    */
-  eliminarClientesCorporativos(param?: any): Observable<any> {
+  eliminarClientesCorporativos(codigoCliente: number): Observable<any> {
     const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-    return this.http.delete<any>(`${this.url}${URLs.CLIENTE}/`, { params: param, headers },);
+    return this.http.delete<any>(`${this.url}${URLs.CLIENTE}/${codigoCliente}`, { headers },);
   }
 }

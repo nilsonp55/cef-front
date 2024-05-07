@@ -3,14 +3,14 @@ export const GENERALES = {
   MESSAGE_ALERT: {
     SIZE_WINDOWS_ALERT: '500px',
     MESSAGE_CRUD: {
-      SUCCESFULL_UPDATE: 'Registro actualizado exitosamente',
-      SUCCESFULL_CREATE: 'Se creo el registro exitosamente',
-      SUCCESFULL_DELETE: 'Se elmino el registro sactisfactoriamente',
-      ERROR_UPDATE: 'Error al actualizar el registro',
-      ERROR_CREATE: 'Error al crear el registro',
-      ERROR_DELETE: 'Error al elminar el registro',
-      ERROR_DATA_FILE: 'Error ocurrido al obtener la lista de información',
-      MSG_DELETE_ROW: '¿Confirma que va a eliminar el registro?',
+      SUCCESFULL_UPDATE: 'Registro actualizado exitosamente', 
+      SUCCESFULL_CREATE: 'Se creo el registro exitosamente', 
+      SUCCESFULL_DELETE: 'Se elimino el registro satisfactoriamente', 
+      ERROR_UPDATE: 'Error al actualizar el registro', 
+      ERROR_CREATE: 'Error al crear el registro', 
+      ERROR_DELETE: 'Error al eliminar el registro', 
+      ERROR_DATA_FILE: 'Error ocurrido al obtener la lista de información', 
+      MSG_DELETE_ROW: '¿Confirma que va a eliminar el registro?', 
     },
     MESSAGE_LOAD_FILE: {
       SUCCESFULL_DOWNLOAD_FILE: 'El archivo se descargo satisfactoriamente',

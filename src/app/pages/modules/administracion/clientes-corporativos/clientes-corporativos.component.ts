@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClientesCorporativosService } from 'src/app/_service/administracion-service/clientes-corporativos.service';
@@ -8,6 +8,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { lastValueFrom } from 'rxjs';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-clientes-corporativos',
@@ -19,6 +20,9 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
  * @author prv_nparra
  */
 export class ClientesCorporativosComponent implements OnInit {
+
+  @ViewChild(MatSort) sort: MatSort;
+
   totalRegistros: number;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pIndex: number = 0;
@@ -26,12 +30,12 @@ export class ClientesCorporativosComponent implements OnInit {
   spinnerActive: boolean = false;
   dsClientesCorporativos: MatTableDataSource<any>;
   displayColumnsClientes: String[] = [
-    'codigo_cliente',
-    'banco',
-    'nombre_cliente',
-    'tipo_id',
+    'codigoCliente',
+    'codigoBancoAval',
+    'nombreCliente',
+    'tipoId',
     'identificacion',
-    'tarifa_separacion',
+    'tarifaSeparacion',
     'amparado',
     'acciones',
   ];
@@ -78,11 +82,20 @@ export class ClientesCorporativosComponent implements OnInit {
           this.dsClientesCorporativos = new MatTableDataSource(
             page.data.content
           );
+          this.dsClientesCorporativos.sort = this.sort;
           this.totalRegistros = page.data.totalElements;
           this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
           this.spinnerActive = false;
         },
         error: (errors: any) => {
+          this.dsClientesCorporativos = new MatTableDataSource();
+          this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + errors.mensaje,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          });
           this.spinnerActive = false;
         },
       });
@@ -111,15 +124,92 @@ export class ClientesCorporativosComponent implements OnInit {
   /**
    * @author prv_nparra
    */
-  openFormClienteCorporativo(element: any, accion: string) {
+  openFormClienteCorporativo(element: any, action: string) {
+    // consultar id registro en servicio backend
+    if(action === "edit"){
+      this.spinnerActive = true;
+      this.clientesCorporativosServices.obtenerClienteCorporativo(element.codigoCliente)
+        .subscribe({
+          next: (page: any) => {
+            element = page.data;
+            this.spinnerActive = false;
+          },
+          error: (err: any) => {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
+              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+              data: {
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.mensaje,
+                codigo: GENERALES.CODE_EMERGENT.ERROR
+              }
+            });
+            this.spinnerActive = false;
+          }
+        });
+    }
+
     // abrir dialog para crear o editar cliente
     this.dialog
       .open(FormClientesCorpComponent, {
         width: GENERALES.DIALOG_FORM.SIZE_FORM,
-        data: { flag: accion, row: element, bancos: this.bancos },
+        data: { flag: action, row: element, bancos: this.bancos },
       })
       .afterClosed()
-      .subscribe((result) => {});
+      .subscribe((result) => {
+        this.spinnerActive = true;
+        if(action === "create") {
+          this.clientesCorporativosServices.guardarClientesCorporativos(result)
+            .subscribe({
+              next: (page: any) => {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
+                  width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                  data: {
+                    msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response.description,
+                    codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+                  }
+                });
+                this.listarClientesCorporativos(this.pIndex, this.pSize);
+                this.spinnerActive = false;
+              },
+              error: (err: any) => {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
+                  width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                  data: {
+                    msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err.mensaje,
+                    codigo: GENERALES.CODE_EMERGENT.ERROR
+                  }
+                });
+                this.spinnerActive = false;
+              }
+            });
+        }
+
+        if(action === "edit") {
+          this.clientesCorporativosServices.actualizarClientesCorporativos(result)
+            .subscribe({
+              next: (page: any) => {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
+                  width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                  data: {
+                    msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE + " - " + page.response.description,
+                    codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+                  }
+                });
+                this.listarClientesCorporativos(this.pIndex, this.pSize);
+                this.spinnerActive = false;
+              },
+              error: (err: any) => {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
+                  width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                  data: {
+                    msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err.mensaje,
+                    codigo: GENERALES.CODE_EMERGENT.ERROR
+                  }
+                });
+                this.spinnerActive = false;
+              }
+            });
+        }
+      });
   }
 
   /**
@@ -146,7 +236,7 @@ export class ClientesCorporativosComponent implements OnInit {
   eliminarClienteCorporativo(element: any) {
     this.spinnerActive = true;
     this.clientesCorporativosServices
-      .eliminarClientesCorporativos({ codigoCliente: element.codigoCliente })
+      .eliminarClientesCorporativos(element.codigoCliente)
       .subscribe({
         next: (response: any) => {
           this.spinnerActive = false;
@@ -159,8 +249,7 @@ export class ClientesCorporativosComponent implements OnInit {
           });
           this.listarClientesCorporativos(this.pIndex, this.pSize);
         },
-        error: (err: any) => {
-          this.spinnerActive = false;
+        error: (err: any) => {          
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -168,6 +257,7 @@ export class ClientesCorporativosComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
+          this.spinnerActive = false;
         },
       });
   }
