@@ -6,7 +6,12 @@
             <img *ngSwitchCase="3" [src]="imgExistoso" width="150">
             <img *ngSwitchCase="4" [src]="imgEsperar" width="150">
         </div>
-        
+
         <p style="font-size: 20px; margin-top: 2%;"> {{ data.msn }} </p>
     </div>
+</div>
+<div mat-dialog-actions *ngIf="data.showActions">
+  <button class="division-btn1" mat-raised-button color="primary" cdkFocusInitial
+    [mat-dialog-close]="data">Aceptar</button>
+  <button mat-raised-button (click)="onCancel()">Cancelar</button>
 </div>
