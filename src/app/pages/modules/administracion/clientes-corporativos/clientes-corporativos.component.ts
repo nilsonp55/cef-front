@@ -40,6 +40,8 @@ export class ClientesCorporativosComponent implements OnInit {
     'acciones',
   ];
   bancos: any[] = [];
+  pCodigoBanco: string;
+  pBusqueda: string;
 
   constructor(
     private dialog: MatDialog,
@@ -62,6 +64,9 @@ export class ClientesCorporativosComponent implements OnInit {
     return banco !== undefined ? banco.nombreBanco : '';
   }
 
+  /**
+   * @author prv_nparra
+   */
   resolveAmparado(amparado: boolean): string {
     return amparado ? "Si" : "No";
   }
@@ -76,6 +81,8 @@ export class ClientesCorporativosComponent implements OnInit {
       .listarClientesCorporativos({
         page: pagina,
         size: tamanio,
+        codigoBancoAval: this.pCodigoBanco === undefined ? '' : this.pCodigoBanco,
+        busqueda: this.pBusqueda === undefined ? '' : this.pBusqueda,
       })
       .subscribe({
         next: (page: any) => {
@@ -104,12 +111,28 @@ export class ClientesCorporativosComponent implements OnInit {
   /**
    * @author prv_nparra
    */
+  busquedaClientes(e: any) {
+    this.pBusqueda = e.value;
+    this.listarClientesCorporativos(e.pageIndex, e.pageSize);
+  }
+
+  /**
+   * @author prv_nparra
+   */
   async listarBancos() {
     await lastValueFrom(this.generalesService.listarBancosAval()).then(
       (response) => {
         this.bancos = response.data;
       }
     );
+  }
+
+  /**
+   * @author prv_nparra
+   */
+  selectBanco(e: any) {
+    this.pCodigoBanco = e.value?.codigoPunto;
+    this.listarClientesCorporativos(e.pageIndex, e.pageSize);
   }
 
   /**
@@ -152,62 +175,10 @@ export class ClientesCorporativosComponent implements OnInit {
       .open(FormClientesCorpComponent, {
         width: GENERALES.DIALOG_FORM.SIZE_FORM,
         data: { flag: action, row: element, bancos: this.bancos },
-      })
-      .afterClosed()
+      }).afterClosed()
       .subscribe((result) => {
-        this.spinnerActive = true;
-        if(action === "create") {
-          this.clientesCorporativosServices.guardarClientesCorporativos(result)
-            .subscribe({
-              next: (page: any) => {
-                this.dialog.open(VentanaEmergenteResponseComponent, {
-                  width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                  data: {
-                    msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response.description,
-                    codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-                  }
-                });
-                this.listarClientesCorporativos(this.pIndex, this.pSize);
-                this.spinnerActive = false;
-              },
-              error: (err: any) => {
-                this.dialog.open(VentanaEmergenteResponseComponent, {
-                  width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                  data: {
-                    msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err.mensaje,
-                    codigo: GENERALES.CODE_EMERGENT.ERROR
-                  }
-                });
-                this.spinnerActive = false;
-              }
-            });
-        }
-
-        if(action === "edit") {
-          this.clientesCorporativosServices.actualizarClientesCorporativos(result)
-            .subscribe({
-              next: (page: any) => {
-                this.dialog.open(VentanaEmergenteResponseComponent, {
-                  width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                  data: {
-                    msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE + " - " + page.response.description,
-                    codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-                  }
-                });
-                this.listarClientesCorporativos(this.pIndex, this.pSize);
-                this.spinnerActive = false;
-              },
-              error: (err: any) => {
-                this.dialog.open(VentanaEmergenteResponseComponent, {
-                  width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                  data: {
-                    msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err.mensaje,
-                    codigo: GENERALES.CODE_EMERGENT.ERROR
-                  }
-                });
-                this.spinnerActive = false;
-              }
-            });
+        if(result !== undefined) {
+          this.listarClientesCorporativos(this.pIndex, this.pSize);
         }
       });
   }
@@ -249,7 +220,7 @@ export class ClientesCorporativosComponent implements OnInit {
           });
           this.listarClientesCorporativos(this.pIndex, this.pSize);
         },
-        error: (err: any) => {          
+        error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {

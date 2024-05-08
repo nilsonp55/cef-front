@@ -1,15 +1,37 @@
-<div class="divTituloTablas">
-    <h1 class="tituloTabla">Administración de Clientes Corporativos</h1>
+<div class="division-busqueda">
+  <mat-form-field appearance="fill">
+    <mat-label>Bancos</mat-label>
+    <mat-select (selectionChange)="selectBanco($event)">
+      <mat-option>Ninguno</mat-option>
+      <mat-option *ngFor="let item of bancos" [value]="item">
+        {{item.nombreBanco}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Busqueda</mat-label>
+    <input type="search" matInput #busqueda placeholder="Búsqueda por identificación y nombre"
+      (change)="busquedaClientes(busqueda)">
+  </mat-form-field>
 </div>
-<div class="div-search">
-    <button title="Crear punto" mat-raised-button color="primary" (click)="openFormClienteCorporativo(null, 'create')">Crear Cliente Corporativo</button>
+<div class="row botonesClientes">
+  <div class="col-2">
+  <button title="Crear punto" mat-raised-button color="primary"
+    (click)="openFormClienteCorporativo(null, 'create')">Nuevo</button>
+  </div>
+  <div class="col-2">
+  <button mat-raised-button color="primary"
+    (click)="exporter.exportTable('xlsx', {fileName:'clientes_corporativos'})">Exportar</button>
+  </div>
 </div>
 
 <div class="divTabla">
   <div *ngIf="spinnerActive" class="disenio-spinner">
     <mat-spinner></mat-spinner>
   </div>
-  <table mat-table [dataSource]="dsClientesCorporativos" matSort class="mat-elevation-z8" aria-label="clientesCorporativos">
+  <table mat-table [dataSource]="dsClientesCorporativos" matSort class="mat-elevation-z8" matTableExporter
+    #exporter="matTableExporter" aria-label="clientesCorporativos">
     <tr>
       <ng-container matColumnDef="codigoCliente">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Código Cliente</th>
@@ -59,7 +81,4 @@
     <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="totalRegistros" showFirstLastButtons
         (page)="mostrarMas($event)">
     </mat-paginator>
-    <div>
-        <button mat-raised-button color="warn">Exportar Lista</button>
-    </div>
 </div>

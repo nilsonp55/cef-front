@@ -17,4 +17,13 @@
     margin-left: 20%;
   }
 
+  .division-busqueda {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .botonesClientes {
+    padding-left: 2%;
+  }
+
 

@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ClientesCorporativosService } from 'src/app/_service/administracion-service/clientes-corporativos.service';
+import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
+import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
@@ -11,10 +14,13 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 export class FormClientesCorpComponent implements OnInit {
   form: FormGroup;
   bancos: any[] = [];
+  spinnerActive: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<FormClientesCorpComponent>
+    public dialogRef: MatDialogRef<FormClientesCorpComponent>,
+    private clientesCorporativosServices: ClientesCorporativosService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -23,7 +29,6 @@ export class FormClientesCorpComponent implements OnInit {
   }
 
   initForm(param?: any) {
-    debugger;
     if (!(param === null || param === undefined)) {
       this.bancos = param.bancos;
       let banco =
@@ -52,6 +57,75 @@ export class FormClientesCorpComponent implements OnInit {
           param.row != null ? param.row.amparado : false
         ),
       });
+    }
+  }
+
+  async saveClienteCorporativo() {
+    this.spinnerActive = true;
+    const rowSave = {
+      "codigoCliente": this.form.controls["codigoCliente"].value,
+      "codigoBancoAval": this.form.controls["codigoBancoAval"].value.codigoPunto,
+      "identificacion": this.form.controls["identificacion"].value,
+      "nombreCliente": this.form.controls["nombreCliente"].value,
+      "tipoId": this.form.controls["tipoId"].value,
+      "tarifaSeparacion": this.form.controls["tarifaSeparacion"].value,
+      "amparado": this.form.controls["amparado"].value
+    };
+
+    if(this.data.flag === "create") {
+      this.clientesCorporativosServices.guardarClientesCorporativos(rowSave)
+        .subscribe({
+          next: (page: any) => {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
+              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+              data: {
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response.description,
+                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+              }
+            }).afterClosed().subscribe(result => {
+              this.dialogRef.close(rowSave);
+            });
+            this.spinnerActive = false;
+          },
+          error: (err: any) => {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
+              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+              data: {
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err.mensaje,
+                codigo: GENERALES.CODE_EMERGENT.ERROR
+              }
+            });
+            this.spinnerActive = false;
+          }
+        });
+    }
+
+    if(this.data.flag === "edit") {
+      (await this.clientesCorporativosServices.actualizarClientesCorporativos(rowSave))
+        .subscribe({
+          next: (page: any) => {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
+              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+              data: {
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE + " - " + page.response.description,
+                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+              }
+            }).afterClosed().subscribe(result => {
+              this.dialogRef.close(rowSave);
+            });;
+            this.spinnerActive = false;
+          },
+          error: (err: any) => {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
+              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+              data: {
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err.mensaje,
+                codigo: GENERALES.CODE_EMERGENT.ERROR
+              }
+            });
+            this.spinnerActive = false;
+          }
+        });
     }
   }
 

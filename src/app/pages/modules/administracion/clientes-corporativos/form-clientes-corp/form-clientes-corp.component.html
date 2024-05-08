@@ -42,7 +42,6 @@
     </div>
 </div>
 <div mat-dialog-actions>
-  <button class="division-btn1" mat-raised-button color="primary" cdkFocusInitial
-    [mat-dialog-close]="data.row">Aceptar</button>
+  <button class="division-btn1" mat-raised-button color="primary" (click)="saveClienteCorporativo()">Aceptar</button>
   <button mat-raised-button (click)="onCancel()">Cancelar</button>
 </div>
