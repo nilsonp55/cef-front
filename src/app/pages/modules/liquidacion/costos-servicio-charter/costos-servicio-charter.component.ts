@@ -31,7 +31,7 @@ export class CostosServicioCharterComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['bancoAval', 'tdv', 'nombrePunto', 'nombreFondo', 'tipoServicioProvision', 'escala', 'valor', 'costoCharter', 'acciones'];
+  displayedColumnsInfoProcesos: string[] = ['bancoAval', 'tdv', 'nombreFondo', 'nombrePunto', 'tipoServicioProvision', 'escala', 'valor', 'costoCharter', 'acciones'];
 
   constructor(
     private dialog: MatDialog,
@@ -69,7 +69,7 @@ export class CostosServicioCharterComponent implements OnInit {
   }
 
   /**
-   * Metodo encargado de ejecutar el servicio de contabilidad para los 
+   * Metodo encargado de ejecutar el servicio de contabilidad para los
    * procesos activos
    * @BaironPerez
    */
@@ -124,5 +124,5 @@ export class CostosServicioCharterComponent implements OnInit {
   onKeypressEvent(event: any):  any {
       if(event.charCode < 48 || event.charCode > 57) return false;
   }
-  
+
 }
