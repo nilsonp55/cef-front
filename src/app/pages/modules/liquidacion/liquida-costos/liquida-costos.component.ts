@@ -97,8 +97,10 @@ validacionEstadoProceso() {
             codigo: estadoProceso
           }
         }); setTimeout(() => { alert.close() }, 5000);
-        if (response.data.estadoProceso == 'PROCESADO' || response.data.estadoProceso == 'ERROR')
+        if (response.data.estadoProceso == 'PROCESADO' || response.data.estadoProceso == 'ERROR'){
           clearInterval(this.idInterval);
+          this.spinnerActive = false;
+        }
     },
     error: (data: any) => {
       this.spinnerActive = false;

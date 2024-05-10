@@ -1,16 +1,16 @@
 export const GENERALES = {
-  
   //Mensajes de ventana de alerta global
   MESSAGE_ALERT: {
     SIZE_WINDOWS_ALERT: '500px',
     MESSAGE_CRUD: {
       SUCCESFULL_UPDATE: 'Registro actualizado exitosamente',
       SUCCESFULL_CREATE: 'Se creo el registro exitosamente',
-      SUCCESFULL_DELETE: 'Se elmino el registro sactisfactoriamente',
+      SUCCESFULL_DELETE: 'Se elimino el registro satisfactoriamente',
       ERROR_UPDATE: 'Error al actualizar el registro',
       ERROR_CREATE: 'Error al crear el registro',
-      ERROR_DELETE: 'Error al elminar el registro',
+      ERROR_DELETE: 'Error al eliminar el registro',
       ERROR_DATA_FILE: 'Error ocurrido al obtener la lista de información',
+      MSG_DELETE_ROW: '¿Confirma que desea eliminar el registro?',
     },
     MESSAGE_LOAD_FILE: {
       SUCCESFULL_DOWNLOAD_FILE: 'El archivo se descargo satisfactoriamente',
@@ -26,81 +26,109 @@ export const GENERALES = {
       SUCCESFULL_CONCILIATION: 'Se realizo la conciliación exitosamente.',
       ERROR_CONCILIATION: 'No se puede realizar la conciliación.',
       ERROR_OBTENER_CONCILIADOS: 'No se encuentran operaciones conciliadas',
-      ERROR_OBTENER_CERTIFICADAS: 'No se encuentran operaciones certificadas no conciliadas',
-      ERROR_OBTENER_PROGRAMADAS: 'No se encuentran operaciones programadas no conciliadas',
+      ERROR_OBTENER_CERTIFICADAS:
+        'No se encuentran operaciones certificadas no conciliadas',
+      ERROR_OBTENER_PROGRAMADAS:
+        'No se encuentran operaciones programadas no conciliadas',
       ERROR_MODIFICACION: 'Error al realizar la modificación',
       MESSAGE_CIERRE_CONCILIACION: {
-        SUCCESFULL_CIERRE_CONCILIACION: 'Se realizo el cierre de conciliación exitosamente',
-        ERROR_CIERRE_FECHA_CONCILIACION: 'No se puede realizar el cierre de conciliación correctamente'
+        SUCCESFULL_CIERRE_CONCILIACION:
+          'Se realizo el cierre de conciliación exitosamente',
+        ERROR_CIERRE_FECHA_CONCILIACION:
+          'No se puede realizar el cierre de conciliación correctamente',
       },
     },
     MESSAGE_TRANSPORTE: {
-      ERROR_TRANSPORTE: 'Error al consultar las transportadoras'
+      ERROR_TRANSPORTE: 'Error al consultar las transportadoras',
     },
     MESSAGE_BANCO: {
-      ERROR_BANCO: 'Error al consultar los bancos'
+      ERROR_BANCO: 'Error al consultar los bancos',
     },
     MESSAGE_CIERRE_FECHA: {
       SUCCESFULL_CIERRE_FECHA: 'Se realizo el cierre de día exitosamente.',
-      ERROR_CIERRE_FECHA: 'No se puede realizar el cierre del día correctamente'
+      ERROR_CIERRE_FECHA:
+        'No se puede realizar el cierre del día correctamente',
     },
     MESSAGE_CIERRE_PROG_PRELIMINAR: {
-      SUCCESFULL_CIERRE_PRELIMINAR: 'Se realizo el cierre de programación preliminar exitosamente',
-      ERROR_CIERRE_FECHA_PRELIMINAR: 'No se puede realizar el cierre de programación preliminar correctamente'
+      SUCCESFULL_CIERRE_PRELIMINAR:
+        'Se realizo el cierre de programación preliminar exitosamente',
+      ERROR_CIERRE_FECHA_PRELIMINAR:
+        'No se puede realizar el cierre de programación preliminar correctamente',
     },
     MESSAGE_CIERRE_PROG_DEFINITIVA: {
-      SUCCESFULL_CIERRE_DEFINITIVA: 'Se realizo el cierre de programación definitivo exitosamente',
+      SUCCESFULL_CIERRE_DEFINITIVA:
+        'Se realizo el cierre de programación definitivo exitosamente',
       REABRIR_CIERRE: 'Se reabrio exitosamente',
-      ERROR_CIERRE_FECHA_DEFINITIVA: 'No se puede realizar el cierre de programación definitivo correctamente',
-      ERROR_REABRIR_CIERRE: ''
+      ERROR_CIERRE_FECHA_DEFINITIVA:
+        'No se puede realizar el cierre de programación definitivo correctamente',
+      ERROR_REABRIR_CIERRE: '',
     },
     MESSAGE_CIERRE_PROG_CERTIFICACION: {
-      SUCCESFULL_CIERRE_CERTIFICACION: 'Se realizo el cierre de certificación exitosamente',
-      ERROR_CIERRE_FECHA_CERTIFICACION: 'No se puede realizar el cierre de certificación correctamente'
+      SUCCESFULL_CIERRE_CERTIFICACION:
+        'Se realizo el cierre de certificación exitosamente',
+      ERROR_CIERRE_FECHA_CERTIFICACION:
+        'No se puede realizar el cierre de certificación correctamente',
     },
     MESSAGE_ADMIN_TIPO_CUNTAS: {
-      ERROR_GET_TIPO_ADMIN_CUNTAS: 'No se puedo obtener la lista de Tipos Cuentas correctamente',
-      SUCCESFULL_PERSIST_ADMIN_TIPO_CUNTAS: 'Se realizo el guardado de Tipo Cuenta exitosamente',
-      ERROR_PERSIST_TIPO_ADMIN_CUNTAS: 'No se puedo gurdar el Tipo Cuenta correctamente'
+      ERROR_GET_TIPO_ADMIN_CUNTAS:
+        'No se puedo obtener la lista de Tipos Cuentas correctamente',
+      SUCCESFULL_PERSIST_ADMIN_TIPO_CUNTAS:
+        'Se realizo el guardado de Tipo Cuenta exitosamente',
+      ERROR_PERSIST_TIPO_ADMIN_CUNTAS:
+        'No se puedo gurdar el Tipo Cuenta correctamente',
     },
     MESSAGE_ADMIN_CUNTAS_PUC: {
-      ERROR_GET_TIPO_ADMIN_CUNTAS_PUC: 'No se puedo obtener la lista de Cuentas Puc correctamente',
-      SUCCESFULL_PERSIST_ADMIN_CUNTAS_PUC: 'Se realizo el guardado de Cuenta Puc exitosamente',
-      ERROR_PERSIST_TIPO_ADMIN_CUNTAS_PUC: 'No se puedo gurdar el Cuenta Puc correctamente'
+      ERROR_GET_TIPO_ADMIN_CUNTAS_PUC:
+        'No se puedo obtener la lista de Cuentas Puc correctamente',
+      SUCCESFULL_PERSIST_ADMIN_CUNTAS_PUC:
+        'Se realizo el guardado de Cuenta Puc exitosamente',
+      ERROR_PERSIST_TIPO_ADMIN_CUNTAS_PUC:
+        'No se puedo gurdar el Cuenta Puc correctamente',
     },
     MESSAGE_ADMIN_CENTRO_CIUDAD: {
-      ERROR_GET_TIPO_ADMIN_CENTRO_CIUDAD: 'No se puedo obtener la lista de Centro Ciudades correctamente',
-      SUCCESFULL_PERSIST_ADMIN_CENTRO_CIUDAD: 'Se realizo el guardado de Centro Ciudades exitosamente',
-      ERROR_PERSIST_TIPO_ADMIN_CENTRO_CIUDAD: 'No se puedo gurdar el Centro Ciudades correctamente'
+      ERROR_GET_TIPO_ADMIN_CENTRO_CIUDAD:
+        'No se puedo obtener la lista de Centro Ciudades correctamente',
+      SUCCESFULL_PERSIST_ADMIN_CENTRO_CIUDAD:
+        'Se realizo el guardado de Centro Ciudades exitosamente',
+      ERROR_PERSIST_TIPO_ADMIN_CENTRO_CIUDAD:
+        'No se puedo gurdar el Centro Ciudades correctamente',
     },
     MESSAGE_ADMIN_CENTRO_COSTOS: {
-      ERROR_GET_TIPO_ADMIN_CENTRO_COSTOS: 'No se puedo obtener la lista de Centro Ciudades correctamente',
-      SUCCESFULL_PERSIST_ADMIN_CENTRO_COSTOS: 'Se realizo el guardado de Centro Ciudades exitosamente',
-      ERROR_PERSIST_TIPO_ADMIN_CENTRO_COSTOS: 'No se puedo gurdar el Centro Ciudades correctamente'
+      ERROR_GET_TIPO_ADMIN_CENTRO_COSTOS:
+        'No se puedo obtener la lista de Centro Ciudades correctamente',
+      SUCCESFULL_PERSIST_ADMIN_CENTRO_COSTOS:
+        'Se realizo el guardado de Centro Ciudades exitosamente',
+      ERROR_PERSIST_TIPO_ADMIN_CENTRO_COSTOS:
+        'No se puedo gurdar el Centro Ciudades correctamente',
     },
     MESSAGE_CONTABILIDAD_PM: {
       SUCCESFULL_GENERATE_PM: 'Se realizo la contabilidad PM exitosamente',
-      ERROR__GENERATE_PM: 'No se puedo realizar la contabilidad PM correctamente'
+      ERROR__GENERATE_PM:
+        'No se puedo realizar la contabilidad PM correctamente',
     },
     MESSAGE_CONTABILIDAD_AM: {
       SUCCESFULL_GENERATE_AM: 'Se realizo la contabilidad AM exitosamente',
-      ERROR__GENERATE_AM: 'No se puedo realizar la contabilidad AM correctamente'
+      ERROR__GENERATE_AM:
+        'No se puedo realizar la contabilidad AM correctamente',
     },
     MESSAGE_CIERRE_CONTABILIDAD_PM: {
-      SUCCESFULL_GENERATE_PM: 'Se realizo el cierre de la contabilidad exitosamente',
+      SUCCESFULL_GENERATE_PM:
+        'Se realizo el cierre de la contabilidad exitosamente',
     },
     MESSAGE_CIERRE_CONTABILIDAD_AM: {
-      SUCCESFULL_GENERATE_AM: 'Se realizo el cierre de la contabilidad AM exitosamente',
+      SUCCESFULL_GENERATE_AM:
+        'Se realizo el cierre de la contabilidad AM exitosamente',
     },
-    MESSAGE_GESTION_PUNTOS: {
-
-    },
+    MESSAGE_GESTION_PUNTOS: {},
     MESSAGE_VLIDACION_FECHAS: {
       ERROR_DATE: 'La fecha inicial debe de ser menor a la fecha final',
-    }
+    },
   },
 
-   //-----------------------------------------------------------------------------------------------------------------
+  DIALOG_FORM: {
+    SIZE_FORM: '60%',
+  },
+  //-----------------------------------------------------------------------------------------------------------------
   //Variables y constantes para parametrización
   //-----------------------------------------------------------------------------------------------------------------
 
@@ -115,18 +143,18 @@ export const GENERALES = {
   ESTADO_ACTIVO: 'ACT',
   ESTADO_PENDIENTE: 'PEND',
 
-  //Log procesos diarios 
+  //Log procesos diarios
   LOG_PROCESOS_DIARIOS: {
     PROCESO: {
-      CARG_PRELIMINAR: "CARG_PRELIMINAR",
-      CARG_DEFINITICO: "CARG_DEFINITICO",
-      CONCILIACION: "CONCILIACION"
+      CARG_PRELIMINAR: 'CARG_PRELIMINAR',
+      CARG_DEFINITICO: 'CARG_DEFINITICO',
+      CONCILIACION: 'CONCILIACION',
     },
 
     ESTADO: {
-      COMPLETO: "COMPLETO",
-      PROCESO: "PROCESO"
-    }
+      COMPLETO: 'COMPLETO',
+      PROCESO: 'PROCESO',
+    },
   },
 
   //Codigos para la ventana de alerta global
@@ -134,12 +162,12 @@ export const GENERALES = {
     ERROR: 1,
     WARNING: 2,
     SUCCESFULL: 3,
-    ESPERAR: 4
+    ESPERAR: 4,
   },
 
   //Estados de conciliacion
   ESTADOS_CONCILIACION: {
-    ESTADO_NO_CONCILIADO: 'NO_CONCILIADA'
+    ESTADO_NO_CONCILIADO: 'NO_CONCILIADA',
   },
 
   //Codigos para el envio de tipo de archivos a cargar
@@ -151,13 +179,15 @@ export const GENERALES = {
 
   //Tipo de punto
   TIPO_PUNTOS: {
-    BANCO: "BANCO",
-    BAN_REP: "BAN_REP",
-    CAJERO: "CAJERO",
-    CLIENTE: "CLIENTE",
-    FONDO: "FONDO",
-    OFICINA: "OFICINA"
-  }
+    BANCO: 'BANCO',
+    BAN_REP: 'BAN_REP',
+    CAJERO: 'CAJERO',
+    CLIENTE: 'CLIENTE',
+    FONDO: 'FONDO',
+    OFICINA: 'OFICINA',
+  },
+
+  TIPO_IDENTIFICACION:  ['NIT', 'CC' ],
 
 };
 
@@ -209,7 +239,7 @@ export const URLs = {
   PROGRAMACION_CERTIFICACION_HISTORICO: '/detalle',
   PROGRAMACION_CERTIFICACION_PROCESAR_ALCANCES: '/procesar-alcances',
 
-  //Operaciones programadas 
+  //Operaciones programadas
   OPERACIONES_PROGRAMADAS: '/operaciones-programadas',
   OPERACIONES_PROGRAMADAS_PROCESAR: '/procesar',
   OPERACIONES_PROGRAMADAS_REABRIR: '/reabrir',
@@ -285,19 +315,19 @@ export const URLs = {
   GUARDAR_PUNTO: '/guardar',
   ACTUALIZAR_PUNTO: '/actualizar',
 
-  //Administración tipos cuentas 
+  //Administración tipos cuentas
   ADMIN_TIPOS_CUENTAS: '/tipos-cuentas',
   ADMIN_TIPOS_CUENTAS_CONSULTAR: '/consultar',
   ADMIN_TIPOS_CUENTAS_GUARDAR: '/guardar',
   ADMIN_TIPOS_CUENTAS_ACTUALIZAR: '/actualizar',
 
-  //Administración cuentas puc 
+  //Administración cuentas puc
   ADMIN_CUENTAS_PUC: '/cuentas-puc',
   ADMIN_CUENTAS_PUC_CONSULTAR: '/consultar',
   ADMIN_CUENTAS_PUC_GUARDAR: '/guardar',
   ADMIN_CUENTAS_PUC_ACTUALIZAR: '/actualizar',
 
-  //Administración cuentas contables 
+  //Administración cuentas contables
   ADMIN_CUENTAS_CONTABLES: '/cuentas-contables',
   ADMIN_CUENTAS_CONTABLES_CONSULTAR: '/consultar',
   ADMIN_CUENTAS_CONTABLES_GUARDAR: '/guardar',
@@ -310,13 +340,13 @@ export const URLs = {
   ADMIN_TASAS_COSTO_ACTUALIZAR: '/actualizar',
   ADMIN_TASAS_COSTO_CONSULTAR_ID: '/consultar-id',
 
-  //Administración centro costos 
+  //Administración centro costos
   ADMIN_TIPO_CENTRO_COSTOS: '/tipo-centro-costos',
   ADMIN_TIPO_CENTRO_COSTOS_CONSULTAR: '/consultar',
   ADMIN_TIPO_CENTRO_COSTOS_GUARDAR: '/guardar',
   ADMIN_TIPO_CENTRO_COSTOS_ACTUALIZAR: '/actualizar',
 
-  //Administración centro ciudad 
+  //Administración centro ciudad
   ADMIN_CENTRO_CIUDAD: '/centro-ciudad',
   ADMIN_CENTRO_CIUDAD_CONSULTAR: '/consultar',
   ADMIN_CENTRO_CIUDAD_GUARDAR: '/guardar',
@@ -331,13 +361,13 @@ export const URLs = {
 
   //Cierre Contabilidad
   CIERRE_CONTABILIDAD: '/cierre-contabilidad',
-  
+
   CIERRE_CONTABILIDAD_CERRAR: '/cierre',
 
   //AUTORIZACION_CONTABILIDAD
   AUTORIZACION_CIERRE_CONTABILIDAD: '/autorizacioncierre',
   AUTORIZACION_CONTABILIDAD: '/autorizacion',
-    
+
   //Generar Contabilidad
   CONTABILIDAD: '/contabilidad',
   CONTABILIDAD_GENERAL: '/generar',
@@ -365,7 +395,7 @@ export const URLs = {
   TARIFAS_OPERACION_ACTUALIZAR: '/actualizar',
   TARIFAS_OPERACION_ELIMINAR: '/eliminar',
   TARIFAS_OPERACION_CONSULTAR: '/consultar',
-  
+
   //Administración menu-rol
   ADMIN_MENU_ROL: '/menurol',
   ADMIN_MENU_ROL_CONSULTAR: '/consultar',
@@ -405,7 +435,7 @@ export const URLs = {
   PUNTOS_CODIGO_CONSULTAR: '/consultar',
   PUNTOS_CODIGO_GUARDAR: '/guardar',
   PUNTOS_CODIGO_ACTUALIZAR: '/actualizar',
-  
+
   //Liquidacion mensual
   LIQUIDACION_MENSUAL: '/clasificacion-mensual',
   LIQUIDACION_MENSUAL_CONSULTAR: '/consultar',

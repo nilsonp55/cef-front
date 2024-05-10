@@ -19,27 +19,33 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Nombre Cliente Corporativo</mat-label>
-        <input formControlName="nombreCliente" matInput #input required>
+        <input matInput required formControlName="nombreCliente">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-        <mat-label>Tipo de identificación</mat-label>
-        <input formControlName="tipoId" matInput #input required>
+      <mat-label>Tipo de identificación</mat-label>
+      <mat-select required formControlName="tipoId">
+        <mat-option *ngFor="let item of tiposIdentificacion" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Numero de identificación</mat-label>
-        <input formControlName="identificacion" matInput #input required>
+        <input matInput required formControlName="identificacion">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Tarifa separación</mat-label>
-        <input formControlName="tarifaSeparacion" matInput #input required>
+        <input matInput required placeholder="0" type="number" formControlName="tarifaSeparacion">
     </mat-form-field>
 
-    <mat-checkbox [(ngModel)]="checkAmparado" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+    <div class="mat-form-field-wrapper">
+      <mat-checkbox formControlName="amparado" labelPosition="before">Amparado</mat-checkbox>
+    </div>
 </div>
 <div mat-dialog-actions>
-    <button mat-button cdkFocusInitial [mat-dialog-close]="data.row">Aceptar</button>
-    <button mat-button (click)="onCancel()">Cancelar</button>
+  <button class="division-btn1" mat-raised-button color="primary" (click)="saveClienteCorporativo()">Aceptar</button>
+  <button mat-raised-button (click)="onCancel()">Cancelar</button>
 </div>

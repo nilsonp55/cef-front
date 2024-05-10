@@ -10,9 +10,20 @@
     margin-right: 2%;
     margin-bottom: auto;
   }
-  
+
   .tituloTabla {
     padding-top: 2%;
     text-align: center;
     margin-left: 20%;
   }
+
+  .division-busqueda {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .botonesClientes {
+    padding-left: 2%;
+  }
+
+
