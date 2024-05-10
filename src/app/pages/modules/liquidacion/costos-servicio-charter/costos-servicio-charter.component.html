@@ -64,10 +64,10 @@
         </ng-container>
 
         <ng-container matColumnDef="costoCharter">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>COSTO CHARTER Y OTROS</th>
-            <td mat-cell *matCellDef="let element">
-                <input required type="number" step="0.01" pattern="^[0-9]+" (change)="changeValor($event)" (keypress)="onKeypressEvent($event)" placeholder="$">
-            </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>COSTO CHARTER Y OTROS</th>
+          <td mat-cell *matCellDef="let element" class="columnEdit">
+            <input matInput type="number" value="{{element.valoresLiquidadosDTO.costoCharter}}" (change)="changeValor($event)">
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="acciones">
