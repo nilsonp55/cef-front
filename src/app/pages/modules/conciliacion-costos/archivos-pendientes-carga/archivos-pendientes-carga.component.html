@@ -48,7 +48,7 @@
                 <td mat-cell *matCellDef="let element"> {{element.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Estado">
+            <ng-container matColumnDef="estado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
                 <td mat-cell *matCellDef="let element">
                     <a (click)="verError(element)" *ngIf="element.estado === 'ERRADO'"
@@ -57,12 +57,12 @@
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="Banco">
+            <ng-container matColumnDef="banco">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO</th>
                 <td mat-cell *matCellDef="let element"> {{element.banco}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Tdv">
+            <ng-container matColumnDef="tdv">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>TDV</th>
                 <td mat-cell *matCellDef="let element"> {{element.tdv}} </td>
             </ng-container>
