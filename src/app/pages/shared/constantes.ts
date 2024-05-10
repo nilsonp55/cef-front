@@ -126,7 +126,7 @@ export const GENERALES = {
   },
 
   DIALOG_FORM: {
-    SIZE_FORM: '60%'
+    SIZE_FORM: '60%',
   },
   //-----------------------------------------------------------------------------------------------------------------
   //Variables y constantes para parametrización
@@ -186,6 +186,9 @@ export const GENERALES = {
     FONDO: 'FONDO',
     OFICINA: 'OFICINA',
   },
+
+  TIPO_IDENTIFICACION:  ['NIT', 'CC' ],
+
 };
 
 //-----------------------------------------------------------------------------------------------------------------
