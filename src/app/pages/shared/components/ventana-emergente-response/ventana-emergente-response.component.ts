@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 @Component({
   selector: 'app-ventana-emergente-response',
   templateUrl: './ventana-emergente-response.component.html',
+  styleUrls: ['./ventana-emergente-response.component.css'],
 })
 export class VentanaEmergenteResponseComponent implements OnInit {
   msn: string = 'Mensaje de prueba';
