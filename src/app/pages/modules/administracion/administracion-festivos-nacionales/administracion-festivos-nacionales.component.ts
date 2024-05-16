@@ -72,7 +72,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
             msn: "Error al listar los Festivos Nacionales",
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); 
+        });
         this.spinnerActive = false;
       }
     });
@@ -85,7 +85,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
    crearUsuario() {
     this.mostrarFormulario = true;
   }
-  
+
   /**
     * Se realiza persistencia del formulario de usuarios
     * @BayronPerez
@@ -105,7 +105,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + page?.response?.description,
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
         }
-      }); 
+      });
       this.listarFestivosNacionales()
       this.initForm();
       this.mostrarFormulario = false;
@@ -118,7 +118,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); 
+        });
         this.spinnerActive = false;
       }
     });
@@ -136,7 +136,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
 
   eliminar(param: any) {
     this.spinnerActive = true;
-    this.festivosNacionalesService.eliminarFestivosNacionales(param.fecha).subscribe({
+    this.festivosNacionalesService.eliminarFestivosNacionales({'idFecha': param.fecha}).subscribe({
       next: (page: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -144,20 +144,20 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_DELETE + page?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); 
+        });
         this.listarFestivosNacionales()
         this.initForm();
         this.mostrarFormulario = false;
         this.spinnerActive = false;
       },
-      error: (err: any) => {        
+      error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DELETE + err.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); 
+        });
         this.spinnerActive = false;
       }
     });
