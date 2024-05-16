@@ -80,7 +80,8 @@ export class GeneralesService {
     }
 
     listarDominioXDominio(dominio: any): Observable<any> {
-        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA_X_DOMINIO}`,{params:dominio},);
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}        
+        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DIMINIO_CONSULTAR}`,{params:dominio},);
     }
 
     listarClientes(param?: any): Observable<any> {

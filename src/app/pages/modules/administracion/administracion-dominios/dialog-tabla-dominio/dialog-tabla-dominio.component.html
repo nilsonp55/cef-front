@@ -31,8 +31,8 @@
     <div>
         <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
             [(ngModel)]="contenido">
-            <mat-radio-button class="example-radio-button" *ngFor="let contenido of tipoContenido" [value]="contenido">
-                {{contenido}}
+            <mat-radio-button class="example-radio-button" *ngFor="let contenido of tipoContenidoList" [value]="contenido.value">
+                {{contenido.label}}
             </mat-radio-button>
         </mat-radio-group>
     </div>
@@ -45,8 +45,8 @@
     <div>
         <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
             [(ngModel)]="estado">
-            <mat-radio-button class="example-radio-button" *ngFor="let estado of tipoEstado" [value]="estado">
-                {{estado}}
+            <mat-radio-button class="example-radio-button" *ngFor="let estado of tipoEstadoList" [value]="estado.value">
+                {{estado.label}}
             </mat-radio-button>
         </mat-radio-group>
     </div>

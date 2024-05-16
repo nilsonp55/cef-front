@@ -2,16 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { ErrorService } from 'src/app/_model/error.model';
 import { DialogTablaDominioComponent } from './dialog-tabla-dominio/dialog-tabla-dominio.component';
 import { DialogIdentificadorDominioComponent } from './dialog-identificador-dominio/dialog-identificador-dominio.component';
 import { DialogEliminarIdentificadorComponent } from './dialog-eliminar-identificador/dialog-eliminar-identificador.component';
 import { DominioMaestroService } from 'src/app/_service/administracion-service/dominios-maestro.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { Console } from 'console';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
@@ -33,16 +30,13 @@ export class AdministracionDominiosComponent implements OnInit {
   valorEstado: any;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   displayedColumns: string[] = ['name'];
-  dataSource = ELEMENT_DATA;
   clickedRows = new Set<any>();
 
   displayedColumnsIdent: string[] = ['identificador', 'descripcion'];
-  dataSourceCodigo = IDENT_DATA;
-  clickedRowsIdent = new Set<Identificadores>();
 
   constructor(
     private dominioMaestroService: DominioMaestroService,
@@ -50,27 +44,18 @@ export class AdministracionDominiosComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    ManejoFechaToken.manejoFechaToken()
+    ManejoFechaToken.manejoFechaToken();
     this.listarDominios();
 
   }
 
-  dataSourceCodigos: MatTableDataSource<any>
+  dataSourceCodigos: MatTableDataSource<any>;
 
-
-  dataSourceDominios: MatTableDataSource<any>
+  dataSourceDominios: MatTableDataSource<any>;
   displayedColumnsDominios: string[] = ['name'];
 
-  /**
-* Metodo para gestionar la paginación de la tabla
-* @JuanMazo
-*/
-  mostrarMas(e: any) {
-    //this.listarArchivosCargados(e.pageIndex, e.pageSize);
-  }
-
   define() {
-    this.listarDominios()
+    this.listarDominios();
   }
 
 
@@ -88,25 +73,28 @@ export class AdministracionDominiosComponent implements OnInit {
     return this.valorEstado
   }
 
-  listarCodigosDominio(){
+  listarCodigosDominio() {
     this.generalesService.listarDominioXDominio({
-      'dominioPK.dominio':this.elementoDominioActualizar.dominio,
+      'dominioPK.dominio': this.elementoDominioActualizar.dominio,
       'estado': this.interpretaCheckBox()
-    }).subscribe((page: any) => {
-      this.dataSourceCodigos = new MatTableDataSource(page.data);
-      this.dataSourceCodigos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceCodigos = new MatTableDataSource(page.data);
+        this.dataSourceCodigos.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
+      error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      })
+        });
+      }
+    })
   }
+
   /**
    * Lista los dominios en estado true (Activos)
    * @JuanMazo
@@ -114,60 +102,66 @@ export class AdministracionDominiosComponent implements OnInit {
   listarDominiosMaestroTrue() {
     this.dominioMaestroService.listarDominiosTrue({
       'estado': true
-    }).subscribe((page: any) => {
-      this.dataSourceDominios = new MatTableDataSource(page.data);
-      this.dataSourceDominios.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceDominios = new MatTableDataSource(page.data);
+        this.dataSourceDominios.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
+      error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+      }
+    });
   }
 
   listarDominios() {
     if (this.isDominioChecked == true) {
       this.listarDominiosMaestroTrue()
     } else {
-      this.dominioMaestroService.listarDominios().subscribe((page: any) => {
-        this.dataSourceDominios = new MatTableDataSource(page.data);
-        this.dataSourceDominios.sort = this.sort;
-        this.cantidadRegistros = page.data.totalElements;
-      },
-        (err: any) => {
+      this.dominioMaestroService.listarDominios().subscribe({
+        next: (page: any) => {
+          this.dataSourceDominios = new MatTableDataSource(page.data);
+          this.dataSourceDominios.sort = this.sort;
+          this.cantidadRegistros = page.data.totalElements;
+        },
+        error: (err: any) => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        })
+          });
+        }
+      })
     }
   }
 
   listarCodigoSeleccionado() {
     this.generalesService.listarDominioXDominio({
-      'dominio':this.elementoDominioActualizar.dominio
-    }).subscribe((page: any) => {
-      this.dataSourceCodigos = new MatTableDataSource(page.data);
-      this.dataSourceCodigos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: any) => {
+      'dominioPK.dominio': this.elementoDominioActualizar.dominio
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceCodigos = new MatTableDataSource(page.data);
+        this.dataSourceCodigos.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
+      error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      })
+        });
+      }
+    })
   }
 
   /**
@@ -185,7 +179,6 @@ export class AdministracionDominiosComponent implements OnInit {
     })
   }
 
-
   eventoClick(element: any) {
     this.btnEstado = false;
     this.mostrarTablaCodigos = true
@@ -193,13 +186,11 @@ export class AdministracionDominiosComponent implements OnInit {
     this.listarCodigoSeleccionado()
   }
 
-
   eventoClickCodigo(element: any) {
     this.mostrarBtnDescripcionCodigo = true;
     this.mostrarBtnEliminarCodigo = true;
     this.elementoCodigo = element;
   }
-
 
   /**
  * Evento que levanta un openDialog para actualizar una tabla de dominio
@@ -246,41 +237,3 @@ export class AdministracionDominiosComponent implements OnInit {
   }
 
 }
-
-
-export interface PeriodicElement {
-  name: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { name: 'Bancos Aval' },
-  { name: 'Bancos del Pais' },
-  { name: 'Calidades Efectivo' },
-  { name: 'Ciudades' },
-  { name: 'Estado Operación' },
-  { name: 'Familias de Efectivo' },
-  { name: 'Monedas' },
-  { name: 'Tipos de Puntos' },
-  { name: 'Tipos de Efectivo' },
-  { name: 'Tipos de Servicio' },
-  { name: 'Tipos de Movimiento' },
-  { name: 'Inactivo - Dominio prueba' }
-];
-
-export interface Identificadores {
-  identificador: string;
-  descripcion: string;
-}
-
-const IDENT_DATA: Identificadores[] = [
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' },
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' },
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' },
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' },
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' },
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' },
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' },
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' },
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' },
-  { identificador: 'Cambio', descripcion: 'Solicitud de dindero sencillo' }
-];
