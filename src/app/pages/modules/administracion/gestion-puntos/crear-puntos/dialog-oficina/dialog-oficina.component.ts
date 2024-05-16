@@ -89,10 +89,10 @@ export class DialogOficinaComponent implements OnInit {
       'nombre': new FormControl(param != null ? param.nombrePunto : null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
       'codigoOficina': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.codigoOficina : null : null),
-      'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
+      'banco': new FormControl(param ? this.bancosAval.find(v => v.codigoPunto === param.oficinas.bancoAVAL) : null),
       'tarifaRuteo': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.tarifaRuteo : null : null),
       'tariVerificacion': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.tarifaVerificacion : null : null),
-      'estado': new FormControl(),
+      'estado': new FormControl(param?.estado === "1" ? true : false ),
       'fajado': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.fajado : null : null),
       'refajillado': new FormControl(param.oficinas != undefined ? param != null ? param.oficinas.refajillado : null : null)
     });
@@ -113,7 +113,7 @@ export class DialogOficinaComponent implements OnInit {
   selectBanco(param: any): any {
     if(this.data.flag == "crear")
       return [];
-
+    debugger;
     for (let i = 0; i < this.bancosAval.length; i++) {
       const element = this.bancosAval[i];
 
@@ -128,19 +128,19 @@ export class DialogOficinaComponent implements OnInit {
       nombrePunto: this.form.value['nombre'],
       codigoDANE: this.form.value['ciudad'].codigoDANE,
       codigoOficina: Number(this.form.value['codigoOficina']),
-      bancoAVAL: Number(this.form.value['bancoAval'].codigoPunto),
+      bancoAVAL: Number(this.form.value['banco'].codigoPunto),
       tarifaRuteo: Number(this.form.value['tarifaRuteo']),
       tariVerificacion: Number(this.form.value['tariVerificacion']),
-      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
+      estado: this.form.value['estado'] ? "1" : "0",
       fajado: this.formatearEstadoFajillado(this.form.value['fajado']),
       refagillado: this.formatearEstadoFajillado(this.form.value['refajillado']),
       tipoPunto: "OFICINA",
       nombreCiudad: this.form.value['ciudad'].nombreCiudad,
       codigoCiudad: Number(this.form.value['ciudad'].codigoDANE),
-      codigoCompensacion: Number(this.form.value['bancoAval'].codigoCompensacion),
-      numeroNit: this.form.value['bancoAval'].numeroNit,
-      abreviatura: this.form.value['bancoAval'].abreviatura,
-      esAVAL: this.form.value['bancoAval'].esAVAL,
+      codigoCompensacion: Number(this.form.value['banco'].codigoCompensacion),
+      numeroNit: this.form.value['banco'].numeroNit,
+      abreviatura: this.form.value['banco'].abreviatura,
+      esAVAL: this.form.value['banco'].esAVAL,
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       codigoTDV: null,
       codigoPropioTDV: null,
@@ -156,7 +156,7 @@ export class DialogOficinaComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); 
         this.initForm();
       },
       (err: any) => {
@@ -166,7 +166,7 @@ export class DialogOficinaComponent implements OnInit {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); 
       });
     this.ngOnInit();
   }
@@ -179,14 +179,6 @@ export class DialogOficinaComponent implements OnInit {
     const _bancos = await this.generalServices.listarBancosAval().toPromise();
     this.bancosAval = _bancos.data;
 
-  }
-
-  formatearEstadoPersistir(param: boolean): any {
-    if (param == true) {
-      return 1
-    } else {
-      return 2
-    }
   }
 
   formatearEstadoFajillado(param: any): boolean {

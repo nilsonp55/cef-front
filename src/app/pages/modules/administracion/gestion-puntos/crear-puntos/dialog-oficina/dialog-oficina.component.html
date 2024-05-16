@@ -44,7 +44,7 @@
         </div>
         <mat-form-field appearance="fill">
             <mat-label>Seleccione un banco</mat-label>
-            <mat-select formControlName="bancoAval">
+            <mat-select formControlName="banco">
                 <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval" required>
                     {{bancoAval.nombreBanco}}
                 </mat-option>
