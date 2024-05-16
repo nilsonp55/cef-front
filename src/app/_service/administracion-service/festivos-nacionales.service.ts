@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { URLs } from '../../pages/shared/constantes';
 
 @Injectable({
@@ -37,7 +37,9 @@ export class FestivosNacionalesService {
     /** 
      * Servicio para listar usuario
     */
-     eliminarFestivosNacionales(params?: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ADMIN_FESTIVOS_NACIONALES_ELIMINAR}`,  params);
+     eliminarFestivosNacionales(param?: any): Observable<any> {
+        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
+        return this.http.delete<any>(`${this.url}${URLs.ADMIN_FESTIVOS_NACIONALES_ELIMINAR}`,  {headers, params: param} );
+        //return this.http.post<any>(`${this.url}${URLs.ADMIN_FESTIVOS_NACIONALES_ELIMINAR}`, {headers}); //npm-15may2024
     }
 }

@@ -51,8 +51,7 @@ export class GestionUsuariosComponent implements OnInit {
         'apellidos': new FormControl(param? param.apellidos : null),
         'tipoUsario': new FormControl(param? param.tipoUsario : null),
         'rol': new FormControl(param? this.selectRol(param) : null),
-        'estado': new FormControl(param? param.estado : null),
-
+        'estado': new FormControl(param?.estado === "1" ? true : false),
       });
   }
 
@@ -91,6 +90,10 @@ export class GestionUsuariosComponent implements OnInit {
     * @BayronPerez
     */
    persistir() {
+    let valorEstado = '0';
+    if(this.form.value['estado']){
+     valorEstado = '1';
+    }
     const usuarioDTO = {
       idUsuario: this.form.value['idUsuario'],
       nombres: this.form.value['nombres'],
@@ -99,7 +102,7 @@ export class GestionUsuariosComponent implements OnInit {
       rol: {
         idRol: this.form.value['rol'].idRol
       },
-      estado: this.form.value['estado'],
+      estado: valorEstado,
     };
 
     if (this.esEdicion) {
@@ -108,7 +111,7 @@ export class GestionUsuariosComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         }); setTimeout(() => { alert.close() }, 3000);
