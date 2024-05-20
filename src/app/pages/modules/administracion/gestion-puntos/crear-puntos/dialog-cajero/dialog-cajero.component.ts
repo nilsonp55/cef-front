@@ -17,7 +17,6 @@ export class DialogCajeroComponent implements OnInit {
 
   form: FormGroup;
   estado: string;
-  tipoEstado: string[] = ['Punto en uso', 'Punto no esta en uso'];
   esGrupoAval = false;
   ciudades: any[] = [];
   bancosAval: any[] = [];
@@ -107,8 +106,7 @@ export class DialogCajeroComponent implements OnInit {
       'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
       'tarifaRuteo': new FormControl(param.cajeroATM != undefined ? param != null ? param.cajeroATM.tarifaRuteo : null : null),
       'tarifaVerificacion': new FormControl(param.cajeroATM != undefined ? param != null ? param.cajeroATM.tarifaVerificacion : null : null),
-      'estado': new FormControl(),
-      'depositario': new FormControl(),
+      'estado': new FormControl(param?.estado === "1" ? true : false)
     });
     this.mostrarFormulario = true
   }
@@ -129,7 +127,7 @@ export class DialogCajeroComponent implements OnInit {
     if (param.cajeroATM !== undefined) {
       for (let i = 0; i < this.bancosAval.length; i++) {
         const element = this.bancosAval[i];
-        if (element.codigoPunto == param.cajeroATM.codigoBancoAval) {
+        if (element.codigoPunto == param.cajeroATM.bancoAval) {
           return element;
         }
       }
@@ -146,30 +144,26 @@ export class DialogCajeroComponent implements OnInit {
       tarifaRuteo: this.form.value['tarifaRuteo'],
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       tarifaVerificacion: this.form.value['tarifaVerificacion'],
-      estado: this.form.value['estado'],
-      depositario: this.form.value['depositario'],
+      estado: Number(this.form.value['estado'] ? 1 : 0),
     }
     this.gestionPuntosService.crearPunto(cajero).subscribe(response => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-        this.initForm();
+        });
       },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err?.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
       });
-
-    this.ngOnInit();
   }
 
   async datosDesplegables() {

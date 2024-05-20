@@ -17,7 +17,6 @@ export class CrearPuntoComponent implements OnInit {
   spinnerActive: boolean = false;
   form: FormGroup;
   estado: string;
-  tipoEstado: string[] = ['Punto en uso', 'Punto no esta en uso'];
   ciudades: any[] = [];
   clientes: any[] = [];
   titulo: string;
@@ -26,11 +25,8 @@ export class CrearPuntoComponent implements OnInit {
   mosrarFormOficina = false;
   mosrarFormCajero = false;
   mosrarFormFondo = false;
-  estadoBTN: boolean;
-  nombreBTN: string;
   esEdicion: boolean;
   dataElement: any = null;
-  mostrarFormulario: boolean = false;
   isDisable: boolean;
   puntoSeleccionado: string = "";
   listPuntosSelect: any;
@@ -46,46 +42,52 @@ export class CrearPuntoComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     ManejoFechaToken.manejoFechaToken();
-    this.dataElement = this.data.element;
-    this.nombreBTN = "Guardar";
-    await this.datosDesplegables();
-    this.estadoBTN = true;
-    this.initForm(this.dataElement);
+    this.datosDesplegables();
+    this.dataElement = this.data.element;    
     this.listPuntosSelect = this.data.listPuntos;
 
     if (this.data.flag == "crear") {
-      this.titulo = "Crear  "
+      this.titulo = "Crear "
     }
 
     if (this.data.flag == "modif") {
-      this.titulo = "Modificación "
-      this.nombreBTN = "Actualizar"
+      this.titulo = "Modificación de "
       this.esEdicion = true;
     }
-
+    this.initForm(this.dataElement);
   }
 
   initForm(param?: any) {
+    this.puntoSeleccionado = param?.tipoPunto;
+    let valCodigoOficina = '';
+    let valBancoAval = '';
+    let valTarifaRuteo = '';
+    let valTarifaVerificacion = '';
+    if(param?.oficinas !== undefined) {
+      valCodigoOficina = param.oficinas.codigoOficina;
+      valBancoAval = param.oficinas.bancoAVAL;
+      valTarifaRuteo = param.oficinas.tarifaRuteo;
+      valTarifaVerificacion = param.oficinas.tarifaVerificacion;
+    }
     this.form = new FormGroup({
-      'tipoPunto': new FormControl(param ? param : null),
+      'tipoPunto': new FormControl(param ? this.listPuntosSelect.find((value) => value.valorTexto === param?.tipoPunto) : null),
       'nombre': new FormControl(param != null ? param.nombrePunto : null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
       'cliente': new FormControl(param ? this.selectCliente(param) : null),
       'transportadora': new FormControl(param ? this.selectTransportadorasOrigen(param) : null),
-      'codigoOficina': new FormControl(param != undefined ? param != null ? param.codigoOficina : null : null),
-      'codigoCajero': new FormControl(param != undefined ? param != null ? param.codigoATM : null : null),
-      'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
-      'tarifaRuteo': new FormControl(param != undefined ? param != null ? param.tarifaRuteo : null : null),
-      'tarifaVerificacion': new FormControl(param != undefined ? param != null ? param.tarifaVerificacion : null : null),
+      'codigoOficina': new FormControl(param ? valCodigoOficina : null),
+      'bancoAval': new FormControl(param ? this.selectBanco(valBancoAval) : null),
+      'tarifaRuteo': new FormControl(param ? valTarifaRuteo : null),
+      'tarifaVerificacion': new FormControl(param ? valTarifaVerificacion : null),
       'codigoCompensacion': new FormControl(param != undefined ? param != null ? param.codigoCompensacion : null : null),
+      'codigoCajero': new FormControl(param ? param.cajeroATM.codigoATM : null),
       'identificacion': new FormControl(param != undefined ? param != null ? param.numeroNit : null : null),
       'abreviatura': new FormControl(param != undefined ? param != null ? param.abreviatura : null : null),
-      'estado': new FormControl(param != null ? param.estado : null),
       'fajado': new FormControl(param != null ? param.fajado : null),
       'refajillado': new FormControl(param != undefined ? param != null ? param.refajillado : null : null),
-      'esAval': new FormControl(param != undefined ? param != null ? param.esAVAL : null : null)
+      'esAval': new FormControl(param != undefined ? param != null ? param.esAVAL : null : null),
+      'estado': new FormControl(param?.estado === "1" ? true : false),
     });
-    this.mostrarFormulario = true
   }
 
   selectCiudad(param: any): any {
@@ -97,10 +99,10 @@ export class CrearPuntoComponent implements OnInit {
     }
   }
   selectCliente(param: any): any {
-    if (param.sitiosClientes !== undefined) {
+    if (param?.sitiosClientes !== undefined) {
       for (let i = 0; i < this.clientes.length; i++) {
         const element = this.clientes[i];
-        if (element.codigoCliente == param.sitiosClientes.codigoCliente) {
+        if (element.codigoCliente == param?.sitiosClientes?.codigoCliente) {
           return element;
         }
       }
@@ -110,7 +112,7 @@ export class CrearPuntoComponent implements OnInit {
     if (param.fondos !== undefined) {
       for (let i = 0; i < this.tdvs.length; i++) {
         const element = this.tdvs[i];
-        if (element.codigo == param.fondos.tdv) {
+        if (element.codigo == param?.fondos?.tdv) {
           return element;
         }
       }
@@ -121,7 +123,7 @@ export class CrearPuntoComponent implements OnInit {
     if (param.fondos !== undefined) {
       for (let i = 0; i < this.bancosAval.length; i++) {
         const element = this.bancosAval[i];
-        if (element.codigoPunto == param.fondos.bancoAVAL) {
+        if (element.codigoPunto == param?.fondos?.bancoAVAL) {
           return element;
         }
       }
@@ -132,45 +134,45 @@ export class CrearPuntoComponent implements OnInit {
     let cliente = {
       tipoPunto: this.form.value['tipoPunto'],
       nombrePunto: this.form.value['nombre'],
-      codigoDANE: this.form.value['ciudad'].codigoDANE,
-      nombreCiudad: this.form.value['ciudad'].nombreCiudad,
+      codigoDANE: this.form.value['ciudad']?.codigoDANE,
+      nombreCiudad: this.form.value['ciudad']?.nombreCiudad,
       codigoCliente: this.form.value['cliente'] ? Number(this.form.value['cliente'].codigoCliente) : '',
       codigoTDV: this.form.value['transportadora'] ? this.form.value['transportadora'].codigo : '',
       codigoPropioTDV: this.form.value['transportadora'] ? this.form.value['transportadora'].codigo : '',
       codigoOficina: Number(this.form.value['codigoOficina']),      
       codigoATM: this.form.value['codigoCajero'],      
-      bancoAval: this.form.value['bancoAval'],
+      bancoAVAL: this.form.value['bancoAval']?.codigoPunto,
       tarifaRuteo: this.form.value['tarifaRuteo'],
       tarifaVerificacion: this.form.value['tarifaVerificacion'],
       codigoCompensacion: this.form.value['codigoCompensacion'],
-      identificacion: this.form.value['identificacion'],
+      numeroNit: this.form.value['identificacion'],
       abreviatura: this.form.value['abreviatura'],
-      estado: Number(this.form.value['estado'] ? 1 : 2),
-      fajado: (this.form.value['fajado'] === "fajado"),
-      refagillado: (this.form.value['refajillado'] === "refajillado"),
+      estado: Number(this.form.value['estado'] ? 1 : 0),
+      fajado: (this.form.value['fajado']),
+      refagillado: (this.form.value['refajillado']),
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       esAVAL: this.form.value['bancoAval'] ? this.form.value['bancoAval'].esAVAL : '',
     };
-    this.gestionPuntosService.crearPunto(cliente).subscribe(response => {
+    this.gestionPuntosService.crearPunto(cliente).subscribe({ 
+      next: (page: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response.description,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 4000);
-        this.initForm();
+        });
       },
-      (err: any) => {
+      error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err?.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
-    this.ngOnInit();
+        }); 
+      }
+    });
   }
 
   async datosDesplegables() {

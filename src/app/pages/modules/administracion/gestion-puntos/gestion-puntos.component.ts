@@ -58,21 +58,22 @@ export class GestionPuntosComponent implements OnInit {
     this.spinnerActive = true;
     this.gestionPuntosService.listarTiposPuntos({
       "dominioPK.dominio": "TIPOS_PUNTO"
-    }).subscribe(response => {     
+    }).subscribe({ next: (page) => {     
+      this.listPuntosSelect = page.data;
+      this.cantidadRegistros = page.data.totalElements;
       this.spinnerActive = false;
-      this.listPuntosSelect = response.data;
-      this.cantidadRegistros = response.data.totalElements;
     },
-      (err: any) => {
-        this.spinnerActive = false;
+    error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3500);
-      });
+        });
+        this.spinnerActive = false;
+      }
+    });
   }
 
   /**
@@ -86,23 +87,24 @@ export class GestionPuntosComponent implements OnInit {
       page: pagina,
       size: tamanio,
       'busqueda': this.nombrePuntoBusqueda == undefined ? '' : this.nombrePuntoBusqueda
-    }).subscribe(data => {
+    }).subscribe({ next: (data) => {
       this.estadoPuntos = true;
-      this.spinnerActive = false;
       this.dataSourcePuntoSelect = new MatTableDataSource(data.data.content);
       this.dataSourcePuntoSelect.sort = this.sort;
       this.cantidadRegistros = data.data.totalElements;
+      this.spinnerActive = false;
     },
-      (err: any) => {
-        this.spinnerActive = false;
+    error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3500);
-      });
+        });
+        this.spinnerActive = false;
+      }
+    });
   }
 
 
@@ -126,10 +128,10 @@ export class GestionPuntosComponent implements OnInit {
   * Evento que levanta un openDialog para crear un punto segun el tipo de punto
   * @BaironPerez
   */
-  crearPunto() {
+  crearPunto(action, element) {
     this.dialog.open(CrearPuntoComponent, {
       width: '600PX',
-      data: { flag: "crear", listPuntos: this.listPuntosSelect }
+      data: { flag: action, listPuntos: this.listPuntosSelect, element: element }
     });
   }
 
@@ -153,38 +155,39 @@ export class GestionPuntosComponent implements OnInit {
       this.dialog.open(DialogBancoComponent, {
         width: '600PX',
         data: { element: element, flag: "modif" }
-      })
+      }).afterClosed().subscribe((result) => { this.listarPuntosSeleccionado(); });
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BAN_REP) {
       this.dialog.open(DialogBanRepComponent, {
         width: '600PX',
         data: { element: element, flag: "modif" }
-      })
+      }).afterClosed().subscribe((result) => { this.listarPuntosSeleccionado(); });
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CAJERO) {
       this.dialog.open(DialogCajeroComponent, {
         width: '600PX',
         data: { element: element, flag: "modif" }
-      })
+      }).afterClosed().subscribe((result) => { this.listarPuntosSeleccionado(); });
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.FONDO) {
       this.dialog.open(DialogFondoComponent, {
         width: '600PX',
         data: { element: element, flag: "modif" }
-      })
+      }).afterClosed().subscribe((result) => { this.listarPuntosSeleccionado(); });
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
       this.dialog.open(DialogOficinaComponent, {
         width: '600PX',
         data: { element: element, flag: "modif" }
-      })
+      }).afterClosed().subscribe((result) => { this.listarPuntosSeleccionado(); });
     }
     else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CLIENTE) {
       this.dialog.open(DialogClienteComponent, {
         width: '600PX',
         data: { element: element, flag: "modif" }
-      })
+      }).afterClosed().subscribe((result) => { this.listarPuntosSeleccionado(); });
     }
+    
   }
 
   mostrarMas(e: any) {

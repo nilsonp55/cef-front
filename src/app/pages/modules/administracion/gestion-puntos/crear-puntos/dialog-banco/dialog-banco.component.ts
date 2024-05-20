@@ -110,10 +110,11 @@ export class DialogBancoComponent implements OnInit {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto : null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
-      'codigoCompensacion': new FormControl(param.bancos != undefined ? param != null ? param.bancos.codigoCompensacion : null : null),
-      'identificacion': new FormControl(param.bancos != undefined ? param != null ? param.bancos.numeroNit : null : null),
-      'abreviatura': new FormControl(param.bancos != undefined ? param != null ? param.bancos.abreviatura : null : null),
-      'esAval': new FormControl(param.bancos != undefined ? param != null ? param.bancos.esAVAL : null : null),
+      'codigoCompensacion': new FormControl(param ? param?.bancos?.codigoCompensacion : null),
+      'numeroNit': new FormControl(param ? param?.bancos?.numeroNit : null),
+      'abreviatura': new FormControl(param ? param.bancos.abreviatura : null),
+      'esAval': new FormControl(param ? param?.bancos?.esAVAL : null),
+      'estado': new FormControl(param?.estado === "1" ? true : false),
     });
     this.mostrarFormulario = true
   }
@@ -132,7 +133,7 @@ export class DialogBancoComponent implements OnInit {
   persistir() {
     let banco = {
       tipoPunto : "BANCO",
-      nombre: this.form.value['nombre'],
+      nombrePunto: this.form.value['nombre'],
       ciudad: this.form.value['ciudad'],
       codigoCompensacion: this.form.value['codigoCompensacion'],
       identificacion: this.form.value['identificacion'],
@@ -144,23 +145,20 @@ export class DialogBancoComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-        this.initForm();
+        });
       },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err?.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
       });
-
-    this.ngOnInit();
   }
 
   async datosDesplegables() {

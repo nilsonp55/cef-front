@@ -53,12 +53,12 @@
     </div>
 
     <div>
-        <mat-checkbox class="margen-checkbox" formControlName="fajado" color="primary" [(ngModel)]="esGrupoAval" required>Fajado</mat-checkbox>
+        <mat-checkbox class="margen-checkbox" formControlName="fajado" color="primary" required>Fajado</mat-checkbox>
     </div>
 
     <div class="division-btn-ident">
         <div>
-            <button *ngIf="estadoBTN" mat-raised-button [mat-dialog-close]="data" color="primary" (click)="persistir()">{{nombreBTN}}</button>
+            <button *ngIf="estadoBTN" mat-raised-button color="primary" (click)="persistir()">{{nombreBTN}}</button>
         </div>
         <div>
             <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
