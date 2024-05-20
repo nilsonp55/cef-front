@@ -74,8 +74,8 @@ export class DialogClienteComponent implements OnInit {
       'nombre': new FormControl(param != null ? param.nombrePunto : null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
       'cliente': new FormControl(param ? this.selectCliente(param) : null),
-      'estado': new FormControl(param != null ? param.estado : null),
-      'fajado': new FormControl(param != null ? param.fajado : null),
+      'estado': new FormControl(param?.estado === "1" ? true : false),
+      'fajado': new FormControl(param?.sitiosClientes.fajado),
     });
     this.mostrarFormulario = true
   }
@@ -102,12 +102,12 @@ export class DialogClienteComponent implements OnInit {
   persistir() {
     let cliente = {
       nombrePunto: this.form.value['nombre'],
-      codigoDANE: this.form.value['ciudad'].codigoDANE,
+      codigoDANE: this.form.value['ciudad']?.codigoDANE,
       codigoCliente: Number(this.form.value['cliente'].codigoCliente),
       estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
       fajado: this.form.value['fajado'],
-      codigoCiudad: this.form.value['ciudad'].codigoDANE,
-      nombreCiudad: this.form.value['ciudad'].nombreCiudad,
+      codigoCiudad: this.form.value['ciudad']?.codigoDANE,
+      nombreCiudad: this.form.value['ciudad']?.nombreCiudad,
       tipoPunto: "CLIENTE",
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       refagillado: null,
@@ -128,11 +128,10 @@ export class DialogClienteComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 4000);
-        this.initForm();
+        }); 
       },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -141,9 +140,8 @@ export class DialogClienteComponent implements OnInit {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); 
       });
-    this.ngOnInit();
   }
 
   async datosDesplegables() {
