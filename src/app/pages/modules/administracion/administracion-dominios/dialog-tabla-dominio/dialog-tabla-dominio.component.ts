@@ -1,4 +1,3 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -19,12 +18,17 @@ export class DialogTablaDominioComponent implements OnInit {
   descripcion: string;
 
   contenido: string;
-  contenidoFinal: any;
-  tipoContenido: string[] = ['Texto', 'Númerico', 'Fecha'];
+  tipoContenidoList: any = [
+    { value: "T", label: "Texto" }, 
+    { value: "N", label: "Númerico" }, 
+    { value: "F", label: "Fecha" }
+  ];
 
   estado: string;
-  estadoFinal: any;
-  tipoEstado: string[] = ['Dominio en uso', 'Dominio no esta en uso'];
+  tipoEstadoList: any = [
+    {value: "true", label: "Dominio en uso"}, 
+    {value: "false", label: "Dominio no esta en uso"}
+  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -49,30 +53,9 @@ export class DialogTablaDominioComponent implements OnInit {
       this.nombreBTN = "Actualizar"
       this.nombreDominio = this.data.data.dominio;
       this.descripcion = this.data.data.descripcion;
+      this.contenido = this.data.data.tipoContenido;
+      this.estado = this.data.data.estado;
     }
-  }
-
-  convertirTexto():string {
-    if(this.contenido=="Texto"){
-      this.contenidoFinal = "T"
-    }
-    if(this.contenido=="Númerico"){
-      this.contenidoFinal = "N"
-    }
-    if(this.contenido=="Fecha"){
-      this.contenidoFinal = "F"
-    }
-    return this.contenidoFinal
-  }
-
-  convertirTexto2():string {
-    if(this.estado=="Dominio en uso"){
-      this.estadoFinal = "true"
-    }
-    if(this.estado=="Dominio no esta en uso"){
-      this.estadoFinal = "false"
-    }
-    return this.estadoFinal
   }
 
   persistirDatos() {
@@ -84,56 +67,60 @@ export class DialogTablaDominioComponent implements OnInit {
     }
   }
 
-  guardarDominio(){
+  guardarDominio() {
     this.dominioMaestroService.crearDominio({
       'dominio': this.nombreDominio.toUpperCase(),
       'descripcion': this.descripcion,
-      'tipo_contenido': this.convertirTexto(),
-      'estado': this.convertirTexto2()
-    }).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-    },
-      (err: any) => {
+      'tipoContenido': this.contenido,
+      'estado': this.estado
+    }).subscribe({
+      next: (page: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response?.description,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        });
+      },
+      error: (err: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      })
+        });
+      }
+    })
   }
 
-  actualizarDominio(){
+  actualizarDominio() {
     this.dominioMaestroService.actualizarDominio({
       'dominio': this.nombreDominio.toUpperCase(),
       'descripcion': this.descripcion,
-      'tipo_contenido': this.convertirTexto(),
-      'estado': this.convertirTexto2()
-    }).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-    },
-      (err: any) => {
+      'tipoContenido': this.contenido,
+      'estado': this.estado
+    }).subscribe({
+      next: (page: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE + " - " + page.response?.description,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        });
+      },
+      error: (err: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      })
+        });
+      }
+    })
   }
 
 }

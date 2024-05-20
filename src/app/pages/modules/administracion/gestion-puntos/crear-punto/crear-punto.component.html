@@ -1,8 +1,8 @@
 <div class="titulo-tabla">
-    <h1>Crear punto</h1>
+    <h1>{{titulo}} punto</h1>
 </div>
 
-<div *ngIf="mostrarFormulario" class="example-container" [formGroup]="form" >
+<div class="example-container" [formGroup]="form" >
     
     <div class="div-division">
         <div class="ubica">
@@ -177,9 +177,6 @@
     <div *ngIf="puntoSeleccionado=='OFICINA'">
         <mat-checkbox formControlName="refajillado" class="margen-checkbox" color="primary">Refajillado</mat-checkbox>
     </div>
-    <div *ngIf="puntoSeleccionado=='CAJERO'">
-        <mat-checkbox formControlName="depositario" class="margen-checkbox" color="primary">Depositario</mat-checkbox>
-    </div>
     <div *ngIf="puntoSeleccionado=='BANCO'">
         <mat-checkbox formControlName="esAval" class="margen-checkbox" color="primary">Es del
             Grupo Aval</mat-checkbox>
@@ -187,7 +184,8 @@
 
     <div class="division-btn-ident">
         <div>
-            <button *ngIf="estadoBTN" mat-raised-button [mat-dialog-close]="data" color="primary" (click)="persistir()">{{nombreBTN}}</button>
+            <button mat-raised-button color="primary"
+                (click)="persistir()">Guardar</button>
         </div>
         <div>
             <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>

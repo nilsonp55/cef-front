@@ -44,7 +44,7 @@
         </div>
         <mat-form-field appearance="fill">
             <mat-label>Seleccione un banco</mat-label>
-            <mat-select formControlName="bancoAval">
+            <mat-select formControlName="banco">
                 <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval" required>
                     {{bancoAval.nombreBanco}}
                 </mat-option>
@@ -86,11 +86,11 @@
     </div>
 
     <div>
-        <mat-checkbox formControlName="fajado" class="margen-checkbox" color="primary" [(ngModel)]="esFajado">Fajado</mat-checkbox>
+        <mat-checkbox formControlName="fajado" class="margen-checkbox" color="primary">Fajado</mat-checkbox>
     </div>
 
     <div>
-        <mat-checkbox formControlName="refajillado" class="margen-checkbox" color="primary" [(ngModel)]="esRefajillado">Refajillado</mat-checkbox>
+        <mat-checkbox formControlName="refajillado" class="margen-checkbox" color="primary">Refajillado</mat-checkbox>
     </div>
 
 

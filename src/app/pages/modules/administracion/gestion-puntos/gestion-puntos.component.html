@@ -24,7 +24,7 @@
             </div>       
         </div>
         <div class="div-search">
-            <div><button title="Crear punto" mat-raised-button color="primary" (click)="crearPunto()">Crear Punto</button></div>
+            <div><button title="Crear punto" mat-raised-button color="primary" (click)="crearPunto('crear', null)">Crear Punto</button></div>
             <mat-checkbox class="margen-checkbox" color="primary" [(ngModel)]="isPointChecked">Incluir puntos
                 inactivos</mat-checkbox>
         </div>
@@ -33,7 +33,7 @@
             <mat-spinner></mat-spinner>
           </div>
         <div>    
-            <table mat-table [dataSource]="dataSourcePuntoSelect" matSort >
+            <table mat-table [dataSource]="dataSourcePuntoSelect" matSort matTableExporter #exporter="matTableExporter">
                 <caption></caption>
                 <tr>
                     <ng-container matColumnDef="codigo_punto" class="mat-column-codigo_punto">
@@ -72,6 +72,6 @@
                 (page)="mostrarMas($event)">
             </mat-paginator>
             <div>
-                <button mat-raised-button color="warn">Exportar Lista</button>
+                <button mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'puntos'})">Exportar</button>
             </div>
     </div>

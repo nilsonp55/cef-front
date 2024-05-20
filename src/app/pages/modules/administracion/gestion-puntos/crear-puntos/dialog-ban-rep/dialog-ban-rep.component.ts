@@ -16,7 +16,6 @@ export class DialogBanRepComponent implements OnInit {
   spinnerActive: boolean = false;
   form: FormGroup;
   estado: string;
-  tipoEstado: string[] = ['Punto en uso', 'Punto no esta en uso'];
   esGrupoAval = false;
   ciudades: any[] = [];
   mosrarFormBanco = false;
@@ -76,7 +75,7 @@ export class DialogBanRepComponent implements OnInit {
     this.form = new FormGroup({
       'nombre': new FormControl(param != null ? param.nombrePunto : null),
       'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
-      'estado': new FormControl(),
+      'estado': new FormControl(param?.estado === "1" ? true : false),
     });
     this.mostrarFormulario = true
   }
@@ -120,11 +119,10 @@ export class DialogBanRepComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-        this.initForm();
+        });
       },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -133,9 +131,8 @@ export class DialogBanRepComponent implements OnInit {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
       });
-    this.ngOnInit();
   }
 
   async datosDesplegables() {
