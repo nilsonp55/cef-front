@@ -1,7 +1,7 @@
 <div class="titulo-tabla">
     <h1>{{titulo}} sitio de un cliente</h1>
 </div>
-<div *ngIf="mostrarFormulario" class="example-container" [formGroup]="form" #frmPaciente="ngForm">
+<div class="example-container" [formGroup]="form" #frmPaciente="ngForm">
     <div class="div-division">
         <div class="ubica">
             <h2>Nombre</h2>
@@ -58,7 +58,7 @@
 
     <div class="division-btn-ident">
         <div>
-            <button *ngIf="estadoBTN" mat-raised-button [mat-dialog-close]="data" color="primary" (click)="persistir()">{{nombreBTN}}</button>
+            <button mat-raised-button color="primary" (click)="persistir()">Guardar</button>
         </div>
         <div>
             <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>

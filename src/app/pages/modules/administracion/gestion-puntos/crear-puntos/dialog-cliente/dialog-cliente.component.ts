@@ -6,14 +6,14 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-cliente',
   templateUrl: './dialog-cliente.component.html',
-  styleUrls: ['./dialog-cliente.component.css']
+  styleUrls: ['./dialog-cliente.component.css'],
 })
 export class DialogClienteComponent implements OnInit {
-
   spinnerActive: boolean = false;
   form: FormGroup;
   estado: string;
@@ -27,57 +27,51 @@ export class DialogClienteComponent implements OnInit {
   mosrarFormOficina = false;
   mosrarFormCajero = false;
   mosrarFormFondo = false;
-  estadoBTN: boolean;
-  nombreBTN: string;
   esEdicion: boolean;
   dataElement: any = null;
-  mostrarFormulario: boolean = false;
   isDisable: boolean;
 
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private generalServices: GeneralesService,
-    private gestionPuntosService: GestionPuntosService) { }
-
+    private gestionPuntosService: GestionPuntosService
+  ) {}
 
   async ngOnInit(): Promise<void> {
-    ManejoFechaToken.manejoFechaToken()
+    debugger;
+    ManejoFechaToken.manejoFechaToken();
     this.dataElement = this.data.element;
-    this.nombreBTN = "Guardar"
     await this.datosDesplegables();
-    this.estadoBTN = true
     this.initForm(this.dataElement);
-    if (this.data.flag == "crear") {
-      this.titulo = "Crear  "
+    if (this.data.flag == 'crear') {
+      this.titulo = 'Crear  ';
     }
-    if (this.data.flag == "info") {
-      this.titulo = "Información "
-      this.estadoBTN = false
-      this.isDisable = false
+    if (this.data.flag == 'info') {
+      this.titulo = 'Información ';
+      this.isDisable = false;
       this.form.get('nombre').disable();
       this.form.get('ciudad').disable();
       this.form.get('cliente').disable();
       this.form.get('estado').disable();
       this.form.get('fajado').disable();
     }
-    if (this.data.flag == "modif") {
-      this.titulo = "Modificación "
-      this.nombreBTN = "Actualizar"
+    if (this.data.flag == 'modif') {
+      this.titulo = 'Modificación ';
       this.esEdicion = true;
     }
-
   }
 
   initForm(param?: any) {
     this.form = new FormGroup({
-      'nombre': new FormControl(param != null ? param.nombrePunto : null),
-      'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
-      'cliente': new FormControl(param ? this.selectCliente(param) : null),
-      'estado': new FormControl(param != null ? param.estado : null),
-      'fajado': new FormControl(param != null ? param.fajado : null),
+      nombre: new FormControl(param != null ? param.nombrePunto : null),
+      ciudad: new FormControl(param ? this.selectCiudad(param) : null),
+      cliente: new FormControl(param ? this.selectCliente(param) : null),
+      estado: new FormControl(param != null ? param.estado : null),
+      fajado: new FormControl(
+        param != null ? param.sitiosClientes?.fajado : null
+      ),
     });
-    this.mostrarFormulario = true
   }
 
   selectCiudad(param: any): any {
@@ -108,7 +102,7 @@ export class DialogClienteComponent implements OnInit {
       fajado: this.form.value['fajado'],
       codigoCiudad: this.form.value['ciudad'].codigoDANE,
       nombreCiudad: this.form.value['ciudad'].nombreCiudad,
-      tipoPunto: "CLIENTE",
+      tipoPunto: 'CLIENTE',
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
       refagillado: null,
       tarifaRuteo: null,
@@ -123,46 +117,48 @@ export class DialogClienteComponent implements OnInit {
       codigoPropioTDV: null,
       tdv: null,
       codigoATM: null,
-    }
-    this.gestionPuntosService.crearPunto(cliente).subscribe(response => {
+    };
+    this.gestionPuntosService.crearPunto(cliente).subscribe({
+      next: (page) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 4000);
-        this.initForm();
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response.description,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+          },
+        });
       },
-      (err: any) => {
+      error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
-    this.ngOnInit();
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err.error?.response?.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+          },
+        });
+      }
+    });
   }
 
   async datosDesplegables() {
+    await lastValueFrom(this.generalServices.listarCiudades()).then(
+      (response) => {
+        this.ciudades = response.data;
+      }
+    );
 
-    const _ciudades = await this.generalServices.listarCiudades().toPromise();
-    this.ciudades = _ciudades.data;
-
-    const _clientes = await this.generalServices.listarClientes().toPromise();
-    this.clientes = _clientes.data;
-
+    await lastValueFrom(this.generalServices.listarClientes()).then(
+      (response) => {
+        this.clientes = response.data;
+      }
+    );
   }
 
   formatearEstadoPersistir(param: boolean): any {
     if (param == true) {
-      return 1
+      return 1;
     } else {
-      return 2
+      return 2;
     }
   }
-
-
 }

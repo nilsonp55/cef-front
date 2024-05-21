@@ -6,14 +6,14 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-crear-punto',
   templateUrl: './crear-punto.component.html',
-  styleUrls: ['./crear-punto.component.css']
+  styleUrls: ['./crear-punto.component.css'],
 })
 export class CrearPuntoComponent implements OnInit {
-
   spinnerActive: boolean = false;
   form: FormGroup;
   estado: string;
@@ -30,9 +30,8 @@ export class CrearPuntoComponent implements OnInit {
   nombreBTN: string;
   esEdicion: boolean;
   dataElement: any = null;
-  mostrarFormulario: boolean = false;
   isDisable: boolean;
-  puntoSeleccionado: string = "";
+  puntoSeleccionado: string = '';
   listPuntosSelect: any;
   bancosAval: any[] = [];
   tdvs: any[] = [];
@@ -41,51 +40,77 @@ export class CrearPuntoComponent implements OnInit {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private generalServices: GeneralesService,
-    private gestionPuntosService: GestionPuntosService) { }
-
+    private gestionPuntosService: GestionPuntosService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     ManejoFechaToken.manejoFechaToken();
     this.dataElement = this.data.element;
-    this.nombreBTN = "Guardar";
+    this.nombreBTN = 'Guardar';
     await this.datosDesplegables();
     this.estadoBTN = true;
     this.initForm(this.dataElement);
     this.listPuntosSelect = this.data.listPuntos;
 
-    if (this.data.flag == "crear") {
-      this.titulo = "Crear  "
+    if (this.data.flag == 'crear') {
+      this.titulo = 'Crear  ';
     }
 
-    if (this.data.flag == "modif") {
-      this.titulo = "Modificación "
-      this.nombreBTN = "Actualizar"
+    if (this.data.flag == 'modif') {
+      this.titulo = 'Modificación ';
+      this.nombreBTN = 'Actualizar';
       this.esEdicion = true;
     }
-
   }
 
   initForm(param?: any) {
     this.form = new FormGroup({
-      'tipoPunto': new FormControl(param ? param : null),
-      'nombre': new FormControl(param != null ? param.nombrePunto : null),
-      'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
-      'cliente': new FormControl(param ? this.selectCliente(param) : null),
-      'transportadora': new FormControl(param ? this.selectTransportadorasOrigen(param) : null),
-      'codigoOficina': new FormControl(param != undefined ? param != null ? param.codigoOficina : null : null),
-      'codigoCajero': new FormControl(param != undefined ? param != null ? param.codigoATM : null : null),
-      'bancoAval': new FormControl(param ? this.selectBanco(param) : null),
-      'tarifaRuteo': new FormControl(param != undefined ? param != null ? param.tarifaRuteo : null : null),
-      'tarifaVerificacion': new FormControl(param != undefined ? param != null ? param.tarifaVerificacion : null : null),
-      'codigoCompensacion': new FormControl(param != undefined ? param != null ? param.codigoCompensacion : null : null),
-      'identificacion': new FormControl(param != undefined ? param != null ? param.numeroNit : null : null),
-      'abreviatura': new FormControl(param != undefined ? param != null ? param.abreviatura : null : null),
-      'estado': new FormControl(param != null ? param.estado : null),
-      'fajado': new FormControl(param != null ? param.fajado : null),
-      'refajillado': new FormControl(param != undefined ? param != null ? param.refajillado : null : null),
-      'esAval': new FormControl(param != undefined ? param != null ? param.esAVAL : null : null)
+      tipoPunto: new FormControl(param ? param : null),
+      nombre: new FormControl(param != null ? param.nombrePunto : null),
+      ciudad: new FormControl(param ? this.selectCiudad(param) : null),
+      cliente: new FormControl(param ? this.selectCliente(param) : null),
+      transportadora: new FormControl(
+        param ? this.selectTransportadorasOrigen(param) : null
+      ),
+      codigoOficina: new FormControl(
+        param != undefined ? (param != null ? param.codigoOficina : null) : null
+      ),
+      codigoCajero: new FormControl(
+        param != undefined ? (param != null ? param.codigoATM : null) : null
+      ),
+      bancoAval: new FormControl(param ? this.selectBanco(param) : null),
+      tarifaRuteo: new FormControl(
+        param != undefined ? (param != null ? param.tarifaRuteo : null) : null
+      ),
+      tarifaVerificacion: new FormControl(
+        param != undefined
+          ? param != null
+            ? param.tarifaVerificacion
+            : null
+          : null
+      ),
+      codigoCompensacion: new FormControl(
+        param != undefined
+          ? param != null
+            ? param.codigoCompensacion
+            : null
+          : null
+      ),
+      identificacion: new FormControl(
+        param != undefined ? (param != null ? param.numeroNit : null) : null
+      ),
+      abreviatura: new FormControl(
+        param != undefined ? (param != null ? param.abreviatura : null) : null
+      ),
+      estado: new FormControl(param != null ? param.estado : null),
+      fajado: new FormControl(param != null ? param.fajado : null),
+      refajillado: new FormControl(
+        param != undefined ? (param != null ? param.refajillado : null) : null
+      ),
+      esAval: new FormControl(
+        param != undefined ? (param != null ? param.esAVAL : null) : null
+      ),
     });
-    this.mostrarFormulario = true
   }
 
   selectCiudad(param: any): any {
@@ -132,13 +157,19 @@ export class CrearPuntoComponent implements OnInit {
     let cliente = {
       tipoPunto: this.form.value['tipoPunto'],
       nombrePunto: this.form.value['nombre'],
-      codigoDANE: this.form.value['ciudad'].codigoDANE,
-      nombreCiudad: this.form.value['ciudad'].nombreCiudad,
-      codigoCliente: this.form.value['cliente'] ? Number(this.form.value['cliente'].codigoCliente) : '',
-      codigoTDV: this.form.value['transportadora'] ? this.form.value['transportadora'].codigo : '',
-      codigoPropioTDV: this.form.value['transportadora'] ? this.form.value['transportadora'].codigo : '',
-      codigoOficina: Number(this.form.value['codigoOficina']),      
-      codigoATM: this.form.value['codigoCajero'],      
+      codigoDANE: this.form.value['ciudad']?.codigoDANE,
+      nombreCiudad: this.form.value['ciudad']?.nombreCiudad,
+      codigoCliente: this.form.value['cliente']
+        ? Number(this.form.value['cliente']?.codigoCliente)
+        : '',
+      codigoTDV: this.form.value['transportadora']
+        ? this.form.value['transportadora']?.codigo
+        : '',
+      codigoPropioTDV: this.form.value['transportadora']
+        ? this.form.value['transportadora']?.codigo
+        : '',
+      codigoOficina: Number(this.form.value['codigoOficina']),
+      codigoATM: this.form.value['codigoCajero'],
       bancoAval: this.form.value['bancoAval'],
       tarifaRuteo: this.form.value['tarifaRuteo'],
       tarifaVerificacion: this.form.value['tarifaVerificacion'],
@@ -146,51 +177,62 @@ export class CrearPuntoComponent implements OnInit {
       identificacion: this.form.value['identificacion'],
       abreviatura: this.form.value['abreviatura'],
       estado: Number(this.form.value['estado'] ? 1 : 2),
-      fajado: (this.form.value['fajado'] === "fajado"),
-      refagillado: (this.form.value['refajillado'] === "refajillado"),
+      fajado: this.form.value['fajado'],
+      refagillado: this.form.value['refajillado'] === 'refajillado',
       codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
-      esAVAL: this.form.value['bancoAval'] ? this.form.value['bancoAval'].esAVAL : '',
+      esAVAL: this.form.value['bancoAval']
+        ? this.form.value['bancoAval']?.esAVAL
+        : '',
     };
-    this.gestionPuntosService.crearPunto(cliente).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    this.gestionPuntosService.crearPunto(cliente).subscribe({
+      next: (page) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 4000);
-        this.initForm();
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response.description,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+          },
+        });
       },
-      (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
-    this.ngOnInit();
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err?.error?.response?.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+          },
+        });
+      }
+    });
   }
 
   async datosDesplegables() {
+    await lastValueFrom(this.generalServices.listarCiudades()).then(
+      (response) => {
+        this.ciudades = response.data;
+      }
+    );
 
-    const _ciudades = await this.generalServices.listarCiudades().toPromise();
-    this.ciudades = _ciudades.data;
+    await lastValueFrom(this.generalServices.listarClientes()).then(
+      (response) => {
+        this.clientes = response.data;
+      }
+    );
 
-    const _clientes = await this.generalServices.listarClientes().toPromise();
-    this.clientes = _clientes.data;
+    await lastValueFrom(this.generalServices.listarBancosAval()).then(
+      (response) => {
+        this.bancosAval = response.data;
+      }
+    );
 
-    const _bancos = await this.generalServices.listarBancosAval().toPromise();
-    this.bancosAval = _bancos.data;
-
-    const _transportadoras = await this.generalServices.listarTransportadoras().toPromise();
-    this.tdvs = _transportadoras.data;
-
+    await lastValueFrom(this.generalServices.listarTransportadoras()).then(
+      (response) => {
+        this.tdvs = response.data;
+      }
+    );
   }
 
   changeTipoPunto(element: any) {
     this.puntoSeleccionado = element.value;
   }
-
 }

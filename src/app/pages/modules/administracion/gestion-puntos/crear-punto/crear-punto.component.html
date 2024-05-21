@@ -2,8 +2,8 @@
     <h1>Crear punto</h1>
 </div>
 
-<div *ngIf="mostrarFormulario" class="example-container" [formGroup]="form" >
-    
+<div class="example-container" [formGroup]="form" >
+
     <div class="div-division">
         <div class="ubica">
             <h2>Tipo Punto</h2>
@@ -15,6 +15,21 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+    </div>
+
+    <div class="div-division"
+      *ngIf="puntoSeleccionado=='FONDO' || puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'  || puntoSeleccionado=='CLIENTE'">
+      <div class="ubica">
+        <h2>Banco Aval</h2>
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Seleccione un banco</mat-label>
+        <mat-select formControlName="bancoAval">
+          <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval">
+            {{bancoAval.nombreBanco}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="div-division">
@@ -89,20 +104,6 @@
                 <input formControlName="codigoCajero" matInput #input>
             </mat-form-field>
         </div>
-    </div>
-
-    <div class="div-division" *ngIf="puntoSeleccionado=='FONDO' || puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
-        <div class="ubica">
-            <h2>Banco Aval</h2>
-        </div>
-        <mat-form-field appearance="fill">
-            <mat-label>Seleccione un banco</mat-label>
-            <mat-select formControlName="bancoAval">
-                <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval">
-                    {{bancoAval.nombreBanco}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
     </div>
 
     <div class="div-division" *ngIf="puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
@@ -187,7 +188,7 @@
 
     <div class="division-btn-ident">
         <div>
-            <button *ngIf="estadoBTN" mat-raised-button [mat-dialog-close]="data" color="primary" (click)="persistir()">{{nombreBTN}}</button>
+            <button *ngIf="estadoBTN" mat-raised-button color="primary" (click)="persistir()">{{nombreBTN}}</button>
         </div>
         <div>
             <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
