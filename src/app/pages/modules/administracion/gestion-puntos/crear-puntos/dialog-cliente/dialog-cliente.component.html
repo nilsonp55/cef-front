@@ -1,7 +1,7 @@
 <div class="titulo-tabla">
-    <h1>{{titulo}} sitio de un cliente</h1>
+    <h1>Modificación de un cliente</h1>
 </div>
-<div class="example-container" [formGroup]="form" #frmPaciente="ngForm">
+<div [formGroup]="form" class="example-container">
     <div class="div-division">
         <div class="ubica">
             <h2>Nombre</h2>
@@ -53,7 +53,7 @@
     </div>
 
     <div>
-        <mat-checkbox class="margen-checkbox" formControlName="fajado" color="primary" [(ngModel)]="esGrupoAval" required>Fajado</mat-checkbox>
+        <mat-checkbox class="margen-checkbox" formControlName="fajado" color="primary" required>Fajado</mat-checkbox>
     </div>
 
     <div class="division-btn-ident">

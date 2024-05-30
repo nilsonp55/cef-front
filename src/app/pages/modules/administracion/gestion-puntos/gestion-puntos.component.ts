@@ -51,7 +51,7 @@ export class GestionPuntosComponent implements OnInit {
   listPuntosSelect: any;
   ciudades: any[] = [];
   bancosAval: any[] = [];
-  bancoSeleccionado: string = "";
+  bancoSeleccionado: string = '';
   fondosBancoAVALSeleccionado: number;
   oficinasBancoAVALSeleccionado: number;
   cajerosATMBancoAvalSeleccionado: number;
@@ -59,7 +59,7 @@ export class GestionPuntosComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private gestionPuntosService: GestionPuntosService,
-    private generalServices: GeneralesService
+    private generalServices: GeneralesService,
   ) {}
 
   ngOnInit(): void {
@@ -106,13 +106,12 @@ export class GestionPuntosComponent implements OnInit {
         'dominioPK.dominio': 'TIPOS_PUNTO',
       })
       .subscribe({
-        next: (response: any) => {
+        next: (page) => {
+          this.listPuntosSelect = page.data;
+          this.cantidadRegistros = page.data.totalElements;
           this.spinnerActive = false;
-          this.listPuntosSelect = response.data;
-          this.cantidadRegistros = response.data.totalElements;
         },
         error: (err: any) => {
-          this.spinnerActive = false;
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -123,6 +122,7 @@ export class GestionPuntosComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR,
             },
           });
+          this.spinnerActive = false;
         },
       });
   }
@@ -137,10 +137,20 @@ export class GestionPuntosComponent implements OnInit {
       .listarPuntosCreados({
         tipoPunto:
           this.tipoPuntoSeleccionado !== undefined
-            ? this.tipoPuntoSeleccionado : '',
-        'fondos.bancoAVAL': this.fondosBancoAVALSeleccionado !== undefined ? this.fondosBancoAVALSeleccionado : '',
-        'oficinas.bancoAVAL': this.oficinasBancoAVALSeleccionado !== undefined ? this.oficinasBancoAVALSeleccionado : '',
-        'cajeroATM.bancoAval': this.cajerosATMBancoAvalSeleccionado !== undefined ? this.cajerosATMBancoAvalSeleccionado : '',
+            ? this.tipoPuntoSeleccionado
+            : '',
+        'fondos.bancoAVAL':
+          this.fondosBancoAVALSeleccionado !== undefined
+            ? this.fondosBancoAVALSeleccionado
+            : '',
+        'oficinas.bancoAVAL':
+          this.oficinasBancoAVALSeleccionado !== undefined
+            ? this.oficinasBancoAVALSeleccionado
+            : '',
+        'cajeroATM.bancoAval':
+          this.cajerosATMBancoAvalSeleccionado !== undefined
+            ? this.cajerosATMBancoAvalSeleccionado
+            : '',
         page: pagina,
         size: tamanio,
         busqueda:
@@ -232,10 +242,17 @@ export class GestionPuntosComponent implements OnInit {
    * Evento que levanta un openDialog para crear un punto segun el tipo de punto
    * @BaironPerez
    */
-  crearPunto() {
+  async abrirDialogPunto(action: string, element: any) {
     this.dialog.open(CrearPuntoComponent, {
       width: '600PX',
-      data: { flag: 'crear', listPuntos: this.listPuntosSelect },
+      data: {
+        flag: action,
+        listPuntos: this.listPuntosSelect,
+        element: element,
+      },
+    }).afterClosed()
+    .subscribe((result) => {
+      this.listarPuntosSeleccionado();
     });
   }
 
@@ -251,40 +268,6 @@ export class GestionPuntosComponent implements OnInit {
 
   eventoSelectionPuntoDetalleClick(element: any) {
     this.detallePuntoSeleccionado = element;
-  }
-
-  modificarDetallePunto(element: any) {
-    if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
-      this.dialog.open(DialogBancoComponent, {
-        width: '600PX',
-        data: { element: element, flag: 'modif' },
-      });
-    } else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BAN_REP) {
-      this.dialog.open(DialogBanRepComponent, {
-        width: '600PX',
-        data: { element: element, flag: 'modif' },
-      });
-    } else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CAJERO) {
-      this.dialog.open(DialogCajeroComponent, {
-        width: '600PX',
-        data: { element: element, flag: 'modif' },
-      });
-    } else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.FONDO) {
-      this.dialog.open(DialogFondoComponent, {
-        width: '600PX',
-        data: { element: element, flag: 'modif' },
-      });
-    } else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
-      this.dialog.open(DialogOficinaComponent, {
-        width: '600PX',
-        data: { element: element, flag: 'modif' },
-      });
-    } else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CLIENTE) {
-      this.dialog.open(DialogClienteComponent, {
-        width: '600PX',
-        data: { element: element, flag: 'modif' },
-      });
-    }
   }
 
   mostrarMas(e: any) {

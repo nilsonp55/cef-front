@@ -17,19 +17,10 @@ export class DialogClienteComponent implements OnInit {
   spinnerActive: boolean = false;
   form: FormGroup;
   estado: string;
-  tipoEstado: string[] = ['Punto en uso', 'Punto no esta en uso'];
   esGrupoAval = false;
   ciudades: any[] = [];
   clientes: any[] = [];
-  titulo: string;
-  mosrarFormBanco = false;
-  mosrarFormCliente = false;
-  mosrarFormOficina = false;
-  mosrarFormCajero = false;
-  mosrarFormFondo = false;
-  esEdicion: boolean;
   dataElement: any = null;
-  isDisable: boolean;
 
   constructor(
     private dialog: MatDialog,
@@ -39,38 +30,20 @@ export class DialogClienteComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    debugger;
     ManejoFechaToken.manejoFechaToken();
     this.dataElement = this.data.element;
     await this.datosDesplegables();
     this.initForm(this.dataElement);
-    if (this.data.flag == 'crear') {
-      this.titulo = 'Crear  ';
-    }
-    if (this.data.flag == 'info') {
-      this.titulo = 'Información ';
-      this.isDisable = false;
-      this.form.get('nombre').disable();
-      this.form.get('ciudad').disable();
-      this.form.get('cliente').disable();
-      this.form.get('estado').disable();
-      this.form.get('fajado').disable();
-    }
-    if (this.data.flag == 'modif') {
-      this.titulo = 'Modificación ';
-      this.esEdicion = true;
-    }
+
   }
 
   initForm(param?: any) {
     this.form = new FormGroup({
-      nombre: new FormControl(param != null ? param.nombrePunto : null),
-      ciudad: new FormControl(param ? this.selectCiudad(param) : null),
-      cliente: new FormControl(param ? this.selectCliente(param) : null),
-      estado: new FormControl(param != null ? param.estado : null),
-      fajado: new FormControl(
-        param != null ? param.sitiosClientes?.fajado : null
-      ),
+      'nombre': new FormControl(param != null ? param.nombrePunto : null),
+      'ciudad': new FormControl(param ? this.selectCiudad(param) : null),
+      'cliente': new FormControl(param ? this.selectCliente(param) : null),
+      'estado': new FormControl(param?.estado === "1" ? true : false),
+      'fajado': new FormControl(param?.sitiosClientes.fajado)
     });
   }
 
@@ -96,23 +69,17 @@ export class DialogClienteComponent implements OnInit {
   persistir() {
     let cliente = {
       nombrePunto: this.form.value['nombre'],
-      codigoDANE: this.form.value['ciudad'].codigoDANE,
+      codigoDANE: this.form.value['ciudad']?.codigoDANE,
       codigoCliente: Number(this.form.value['cliente'].codigoCliente),
       estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
       fajado: this.form.value['fajado'],
-      codigoCiudad: this.form.value['ciudad'].codigoDANE,
-      nombreCiudad: this.form.value['ciudad'].nombreCiudad,
-      tipoPunto: 'CLIENTE',
-      codigoPunto: this.esEdicion ? this.dataElement.codigoPunto : null,
-      refagillado: null,
-      tarifaRuteo: null,
-      tarifaVerificacion: null,
-      bancoAVAL: null,
-      codigoCompensacion: null,
+      codigoCiudad: this.form.value['ciudad']?.codigoDANE,
+      nombreCiudad: this.form.value['ciudad']?.nombreCiudad,
+      tipoPunto: "CLIENTE",
+      codigoPunto: this.dataElement.codigoPunto,
       numeroNit: null,
       abreviatura: null,
       esAVAL: null,
-      codigoOficina: null,
       codigoTDV: null,
       codigoPropioTDV: null,
       tdv: null,
