@@ -6,12 +6,6 @@ import { CrearPuntoComponent } from './crear-punto/crear-punto.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
-import { DialogCajeroComponent } from './crear-puntos/dialog-cajero/dialog-cajero.component';
-import { DialogFondoComponent } from './crear-puntos/dialog-fondo/dialog-fondo.component';
-import { DialogBancoComponent } from './crear-puntos/dialog-banco/dialog-banco.component';
-import { DialogOficinaComponent } from './crear-puntos/dialog-oficina/dialog-oficina.component';
-import { DialogClienteComponent } from './crear-puntos/dialog-cliente/dialog-cliente.component';
-import { DialogBanRepComponent } from './crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { lastValueFrom } from 'rxjs';
@@ -85,7 +79,7 @@ export class GestionPuntosComponent implements OnInit {
    * @prv_nparra
    */
   getNombreBanco(punto: any) {
-    let codigoBanco;
+    let codigoBanco: any;
     if (punto.tipoPunto === 'FONDO') {
       codigoBanco = punto.fondos.bancoAVAL;
     }

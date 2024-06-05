@@ -133,7 +133,7 @@ export class CrearPuntoComponent implements OnInit {
       codigoPropioTDV: this.form.value['transportadora']?.codigo,
       codigoOficina: Number(this.form.value['codigoOficina']),
       codigoATM: this.form.value['codigoCajero'],
-      bancoAval: this.form.value['bancoAval'],
+      bancoAVAL: this.form.value['bancoAval'].codigoPunto,
       tarifaRuteo: this.form.value['tarifaRuteo'],
       tarifaVerificacion: this.form.value['tarifaVerificacion'],
       codigoCompensacion: this.form.value['codigoCompensacion'],
@@ -144,12 +144,20 @@ export class CrearPuntoComponent implements OnInit {
       refagillado: (this.form.value['refajillado']),
       esAVAL: this.form.value['bancoAval']?.esAVAL,
     };
+    let messagePersistirSuccesful = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
+    let messagePersistirError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
+
+    if(this.data.flag == "modif") {
+      messagePersistirSuccesful = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE;
+      messagePersistirError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE;
+    }
+
     this.gestionPuntosService.crearPunto(cliente).subscribe({
       next: (page) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response.description,
+            msn: messagePersistirSuccesful + " - " + page.response.description,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
           },
         })
@@ -162,7 +170,7 @@ export class CrearPuntoComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err?.error?.response?.description,
+            msn: messagePersistirError + " - " + err?.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
           },
         });
