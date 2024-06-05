@@ -1,0 +1,55 @@
+* {
+  background: #fff;
+}
+
+::ng-deep .divTabla {
+  padding: 1%;
+  margin: 1% 0 0 1%;
+  background-color: transparent;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.botones-tabla {
+  display: table-cell;
+  width: 100%;
+}
+
+.botones-tabla .mat-button-base  {
+  margin: 8px 8px 8px 0;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 0 5px;
+}
+
+[class*='mat-column-aplicativo'] {
+  background: lightblue;
+}
+
+[class*='mat-column-tvd'] {
+  background: lightskyblue;
+}
+
+
+.mat-column-header-row-group-1, .mat-column-header-row-group-3, .mat-column-header-row-group-5,
+.mat-column-valor_procesado_billete, .mat-column-valor_total_procesado, .mat-column-iva_p,
+.mat-column-valor_procesado_billete_tdv, .mat-column-valor_total_procesado_tdv, .mat-column-iva_tdv
+{
+  background: lightblue;
+}
+
+.mat-column-header-row-group-2, .mat-column-header-row-group-4, .mat-column-header-row-group-6,
+.mat-column-valor_procesado_moneda, .mat-column-subtotal, .mat-column-valor_total,
+.mat-column-valor_procesado_moneda_tdv, .mat-column-subtotalTdv, .mat-column-valor_total_tdv
+{
+  background: lightgoldenrodyellow;
+}
+
+.text-no-equity{
+  color: red;
+}

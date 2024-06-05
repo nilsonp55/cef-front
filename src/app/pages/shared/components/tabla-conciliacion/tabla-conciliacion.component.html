@@ -1,0 +1,194 @@
+<div>
+    <mat-grid-list cols="2" rowHeight="100px">
+        <mat-grid-tile colspan="1">
+            <div class="botones-tabla">
+                <button mat-raised-button color="primary"
+                    (click)="exporter.exportTable('xlsx', {fileName: datosTabla.nombreArchivoExportar})">Exportar
+                    tabla</button>
+                <button *ngFor="let boton of datosTabla.botones; let i=index" mat-raised-button color="primary"
+                    (click)="emitirEvento($event)">{{boton}}</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1">
+            <mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeList"
+                [length]="datosTabla.totalRegistros"></mat-paginator>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <div class="divTabla">
+        <table mat-table matTableExporter [hiddenColumns]="[0]" [dataSource]="dataSource" matSort #exporter="matTableExporter"
+            aria-label="tablaConciliacion">
+            <tr>
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox color="primary" (change)="$event ? seleccion() : null"
+                            [checked]="selection.hasValue() && seleccionarTodo()"
+                            [indeterminate]="selection.hasValue() && !seleccionarTodo()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                            (change)="seleccionRow($event, row)" [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="entidad">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ENTIDAD</th>
+                    <td mat-cell *matCellDef="let element"> {{element.entidad}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha_servicio_transporte" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA SERVICIO TRANSPORTE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha_servicio_transporte | date: 'dd/MM/YYYY' :
+                        '+00'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="identificacion_cliente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> IDENTIFICACÍON CLIENTE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.identificacion_cliente}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="razon_social">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> RAZÓN SOCIAL</th>
+                    <td mat-cell *matCellDef="let element"> {{element.razon_social}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigo_punto_cargo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO PUNTO CARGO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigo_punto_cargo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nombre_punto_cargo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE PUNTO CARGO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_punto_cargo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ciudad_fondo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CIUDAD FONDO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.ciudad_fondo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nombre_tipo_servicio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE TIPO SERVICIO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_tipo_servicio}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="moneda_divisa">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> MONEDA DIVISA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.moneda_divisa}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativo">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.aplicativo === 1 ? "X" : " " }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvd">
+                    <th mat-header-cell *matHeaderCellDef> TDV</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tdv === 1 ? "X" : " " }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoPedido">
+                    <th mat-header-cell *matHeaderCellDef> TIPO PEDIDO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipo_pedido}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="escala">
+                    <th mat-header-cell *matHeaderCellDef> ESCALA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.escala}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valorTransportadoBilletes">
+                    <th mat-header-cell *matHeaderCellDef> VALOR TRANSPORTADO BILLETES</th>
+                    <td mat-cell *matCellDef="let element"> {{element.valor_transportado_billetes | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valorTransportadoMonedas">
+                    <th mat-header-cell *matHeaderCellDef> VALOR TRANSPORTADO MONEDA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.valor_transportado_monedas | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valorTotalTransportado">
+                    <th mat-header-cell *matHeaderCellDef> VALOR TOTAL TRANSPORTADO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.valor_total | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="numeroBolsas">
+                    <th mat-header-cell *matHeaderCellDef> NUMERO BOLSAS MONEDA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.numero_bolsas | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="costoFijo">
+                    <th mat-header-cell *matHeaderCellDef> COSTO FIJO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.costo_fijo | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="costoPorMilaje">
+                    <th mat-header-cell *matHeaderCellDef> COSTO POR MILAJE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.costo_milaje | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="costoPorBolsa">
+                    <th mat-header-cell *matHeaderCellDef> COSTO POR BOLSA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.costo_bolsa | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="costoFletes">
+                    <th mat-header-cell *matHeaderCellDef> COSTO FLETES</th>
+                    <td mat-cell *matCellDef="let element"> {{element.costo_flete | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="costoEmisarios">
+                    <th mat-header-cell *matHeaderCellDef> COSTO EMISARIOS</th>
+                    <td mat-cell *matCellDef="let element"> {{element.costo_emisario | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="otros_1">
+                    <th mat-header-cell *matHeaderCellDef> OTORS_1</th>
+                    <td mat-cell *matCellDef="let element"> {{element.otros_1}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="otros_2">
+                    <th mat-header-cell *matHeaderCellDef> OTROS_2</th>
+                    <td mat-cell *matCellDef="let element"> {{element.otros_2}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="otros_3">
+                    <th mat-header-cell *matHeaderCellDef> OTROS_3</th>
+                    <td mat-cell *matCellDef="let element"> {{element.otros_3}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="otros_4">
+                    <th mat-header-cell *matHeaderCellDef> OTROS_4</th>
+                    <td mat-cell *matCellDef="let element"> {{element.otros_4}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="otros_5">
+                    <th mat-header-cell *matHeaderCellDef> OTROS_5</th>
+                    <td mat-cell *matCellDef="let element"> {{element.otros_5}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subTotal">
+                    <th mat-header-cell *matHeaderCellDef> SUBTOTAL</th>
+                    <td mat-cell *matCellDef="let element"> {{element.subtotal | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="iva">
+                    <th mat-header-cell *matHeaderCellDef> IVA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valorTotal">
+                    <th mat-header-cell *matHeaderCellDef> VALOR TOTAL</th>
+                    <td mat-cell *matCellDef="let element"> {{element.valor_total | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef> ESTADO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                </ng-container>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsConciliadas"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsConciliadas;"></tr>
+        </table>
+    </div>
+</div>

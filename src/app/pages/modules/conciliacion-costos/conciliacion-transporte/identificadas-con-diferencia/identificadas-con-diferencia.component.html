@@ -1,0 +1,355 @@
+<div *ngIf="load">
+  <div class="content-center">
+      <mat-spinner class="disenio-spinner"></mat-spinner>
+  </div>
+</div>
+<div *ngIf="!load">
+    <mat-grid-list cols="2" rowHeight="100px">
+        <mat-grid-tile colspan="1">
+            <div class="botones-tabla">
+                <button mat-raised-button color="primary"
+                    (click)="exporter.exportTable('xlsx', {fileName: datosTabla.nombreArchivoExportar})">Exportar
+                    tabla</button>
+                <button *ngFor="let boton of datosTabla.botones; let i=index" mat-raised-button color="primary"
+                    (click)="emitirEvento($event)">{{boton}}</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1">
+            <mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeList"
+                [length]="datosTabla.totalRegistros"></mat-paginator>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <div class="divTabla">
+        <table mat-table matTableExporter [dataSource]="dataSource" matSort #exporter="matTableExporter"
+            aria-label="tablaIdenConDif">
+            <tr>
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox color="primary" (change)="$event ? seleccion() : null"
+                            [checked]="selection.hasValue() && seleccionarTodo()"
+                            [indeterminate]="selection.hasValue() && !seleccionarTodo()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                            (change)="seleccionRow($event, row)" [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="entidad">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ENTIDAD</th>
+                    <td mat-cell *matCellDef="let element"> {{element.entidad}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha_servicio_transporte" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA SERVICIO TRANSPORTE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha_servicio_transporte | date: 'dd/MM/YYYY' :
+                        '+00'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="identificacion_cliente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> IDENTIFICACOÓN CLIENTE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.identificacion_cliente}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="razon_social">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> RAZÓN SOCIAL</th>
+                    <td mat-cell *matCellDef="let element"> {{element.razon_social}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigo_punto_cargo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO PUNTO CARGO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigo_punto_cargo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nombre_punto_cargo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE PUNTO CARGO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_punto_cargo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ciudad_fondo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CIUDAD FONDO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.ciudad_fondo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nombre_tipo_servicio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE TIPO SERVICIO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_tipo_servicio}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="moneda_divisa">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> MONEDA DIVISA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.moneda_divisa}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoTipoPedido">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.tipo_pedido,element.tipo_pedido_tdv)"> {{element.tipo_pedido}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdTipoPedido">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.tipo_pedido,element.tipo_pedido_tdv)"> {{element.tipo_pedido_tdv}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoEscala">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.escala,element.escala_tdv)"> {{element.escala}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdEscala">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.escala,element.escala_tdv)"> {{element.escala_tdv}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoTransportadoBilletePesos">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_transportado_billetes,element.valor_transportado_billetes_tdv)"> {{element.valor_transportado_billetes | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdTransportadoBilletePesos">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_transportado_billetes,element.valor_transportado_billetes_tdv)"> {{element.valor_transportado_billetes_tdv | currency}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoTransportadoMonedaPesos">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_transportado_monedas,element.valor_transportado_monedas_tdv)"> {{element.valor_transportado_monedas | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdTransportadoMonedaPesos">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_transportado_monedas,element.valor_transportado_monedas_tdv)"> {{element.valor_transportado_monedas_tdv | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoTotalTransportado">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_total_transportado,element.valor_total_transportado_tdv)"> {{element.valor_total_transportado | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdTotalTransportado">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_total_transportado,element.valor_total_transportado_tdv)"> {{element.valor_total_transportado_tdv | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoNumeroBolsasMoneda">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.numero_bolsas,element.numero_bolsas_tdv)"> {{element.numero_bolsas}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdNumeroBolsasMoneda">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.numero_bolsas,element.numero_bolsas_tdv)"> {{element.numero_bolsas_tdv}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoCostoFijo">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_fijo,element.costo_fijo_tdv)"> {{element.costo_fijo | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdCostoFijo">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_fijo,element.costo_fijo_tdv)"> {{element.costo_fijo_tdv | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoCostoMilaje">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_milaje,element.costo_milaje_tdv)"> {{element.costo_milaje | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdCostoMilaje">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_milaje,element.costo_milaje_tdv)"> {{element.costo_milaje_tdv | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoCostoBolsa">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_bolsa,element.costo_bolsa_tdv)"> {{element.costo_bolsa | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdCostoBolsa">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_bolsa,element.costo_bolsa_tdv)"> {{element.costo_bolsa_tdv | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoCostoFletes">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_flete,element.costo_flete_tdv)"> {{element.costo_flete | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdCostoFletes">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_flete,element.costo_flete_tdv)"> {{element.costo_flete_tdv | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoOtros1">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_1)">{{0 | currency}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdOtros1">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_1)"> {{element.otros_1 | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoOtros2">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_2)">{{0 | currency}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdOtros2">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_2)"> {{element.otros_2 | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoOtros3">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_3)">{{0 | currency}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdOtros3">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_3)"> {{element.otros_3 | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoOtros4">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_4)"> {{0 | currency}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdOtros4">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_4)">{{element.otros_4 | currency}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoOtros5">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_5)">{{0 | currency}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdOtros5">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_5)"> {{element.otros_5 | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoSubTotal">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.subtotal)"> {{0 | currency}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdSubTotal">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.subtotal)"> {{element.subtotal | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoIva">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.iva)">{{0}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdIva">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.iva)"> {{element.iva}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aplicativoValorTotal">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.valor_total)">{{ 0 | currency}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tvdValorTotal">
+                    <th mat-header-cell *matHeaderCellDef> TVD</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.valor_total)"> {{element.valor_total | currency}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef> ESTADO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="header-row-1">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="10">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-2">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2">TIPO PEDIDO
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-3">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> ESCALA </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-4">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> VALOR
+                        TRANSPORTADO BILLETE PESOS </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-5">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> VALOR
+                        TRANSPORTADO MONEDA PESOS </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-6">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> VALOR TOTAL
+                        TRANSPORTADO PESOS </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-7">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> NÚMERO DE
+                        BOLSAS MONEDA </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-8">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> COSTO FIJO
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-9">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> COSTO POR
+                        MILAJE
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-10">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> COSTO POR
+                        BOLSA
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-11">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> COSTO FLETES
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-12">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> OTROS 1
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-13">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> OTROS 2
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-14">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> OTROS 3
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-15">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> OTROS 4
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-16">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> OTROS 5
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-17">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> SUBTOTAL </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-18">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> IVA </th>
+                </ng-container>
+                <ng-container matColumnDef="header-row-19">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;" [attr.colspan]="2"> VALOR TOTAL
+                    </th>
+                </ng-container>
+            </tr>
+            <tr mat-header-row
+                *matHeaderRowDef="['header-row-1', 'header-row-2', 'header-row-3', 'header-row-4', 'header-row-5', 'header-row-6', 'header-row-7', 'header-row-8', 'header-row-9', 'header-row-10', 'header-row-11', 'header-row-12', 'header-row-13', 'header-row-14', 'header-row-15', 'header-row-16', 'header-row-17', 'header-row-18', 'header-row-19']">
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsConciliadas"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsConciliadas;"></tr>
+        </table>
+    </div>
+</div>
