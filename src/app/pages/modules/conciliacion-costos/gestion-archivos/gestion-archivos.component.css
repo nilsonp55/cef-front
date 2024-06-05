@@ -1,0 +1,33 @@
+table {
+    width: 100%;
+}
+
+.botones-tabla {
+  display: table-cell;
+  width: 100%;
+  margin-left: 1%;
+}
+
+.botones-tabla .mat-button-base  {
+  margin: 8px 8px 8px 0;
+}
+
+.tituloTabla {
+    text-align: center;
+    font-size: large;
+}
+
+
+::ng-deep .divTabla {
+    padding: 1%;
+    margin-top: 1%;
+    margin-right: 0%;
+    margin-left:  1%;
+    background-color: transparent;
+}
+
+.estadoError {
+    color: red !important;
+    margin: 0 0 0px !important;
+    pointer-events: all;
+}

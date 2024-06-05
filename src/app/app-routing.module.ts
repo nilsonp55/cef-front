@@ -84,6 +84,12 @@ import { AdministracionTasasCambioComponent } from './pages/modules/administraci
 import { ConciliacionCostosComponent } from './pages/modules/conciliacion-costos/conciliacion-costos.component';
 import { ArchivosPendienteCargaComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/archivos-pendientes-carga.component';
 import { ArchivosPendientesCargaGuard } from './wards/archivos-pendientes-carga.guard';
+import { ConciliacionTransporteGuard } from './wards/conciliacion-transporte.guard';
+import { ConciliacionTransporteComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/conciliacion-transporte.component';
+import { ConciliacionProcesamientoGuard } from './wards/conciliacion-procesamiento.guard';
+import { ConciliacionProcesamientoComponent } from './pages/modules/conciliacion-costos/conciliacion-procesamiento/conciliacion-procesamiento.component';
+import { GestionArchivosGuard } from './wards/gestion-archivos.guard';
+import { GestionArchivosComponent } from './pages/modules/conciliacion-costos/gestion-archivos/gestion-archivos.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -143,6 +149,9 @@ const routes: Routes = [
   {
     path: 'conciliacion-costos', component: ConciliacionCostosComponent, children: [
       { path: 'archivos-pendiente-carga', component: ArchivosPendienteCargaComponent, canActivate: [ArchivosPendientesCargaGuard] },
+      { path: 'conciliacion-transporte', component: ConciliacionTransporteComponent, canActivate: [ConciliacionTransporteGuard] },
+      { path: 'conciliacion-procesamiento', component: ConciliacionProcesamientoComponent, canActivate: [ConciliacionProcesamientoGuard] },
+      { path: 'gestion-archivos', component: GestionArchivosComponent, canActivate: [GestionArchivosGuard] }
     ]
   },
   {
@@ -164,7 +173,7 @@ const routes: Routes = [
       { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [AdministracionCodigoTdvGuard] },
     ]
   }
-  
+
 ];
 
 @NgModule({
