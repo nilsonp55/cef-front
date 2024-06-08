@@ -23,7 +23,6 @@
 .div-search {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  height: auto;
 }
 
 .division-btn-ident {

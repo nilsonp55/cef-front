@@ -1,7 +1,9 @@
 <div class="titulo-tabla">
     <h1>{{titulo}} punto</h1>
 </div>
-
+<div *ngIf="spinnerActive" class="disenio-spinner">
+  <mat-spinner></mat-spinner>
+</div>
 <div class="example-container" [formGroup]="form" >
     <div class="div-division">
         <div class="ubica">

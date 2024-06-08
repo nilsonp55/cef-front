@@ -1,5 +1,5 @@
 .division-btn {
-    margin-left: 5%;
+  margin-left: 5%;
 }
 
 .division-btn2 {
@@ -52,7 +52,6 @@
 .switch {
 	position: relative;
 	display: block;
-	vertical-align: top;
 	width: 100px;
 	height: 30px;
 	padding: 3px;
@@ -144,7 +143,7 @@
 	left: 74px;
 	box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
 }
- 
+
 /* Transition
 ========================== */
 .switch-label, .switch-handle {
@@ -155,6 +154,6 @@
 }
 
 .filtro {
-	display: flex;
-	margin-right: 0% ;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
 }

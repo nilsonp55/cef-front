@@ -54,6 +54,7 @@ export class CrearPuntoComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken();
     await this.datosDesplegables();
     this.dataElement = this.data.element;
@@ -67,6 +68,7 @@ export class CrearPuntoComponent implements OnInit {
       this.titulo = "Modificación de "
     }
     await this.initForm(this.dataElement);
+    this.spinnerActive = false;
   }
 
   initForm(param?: any) {
@@ -114,7 +116,7 @@ export class CrearPuntoComponent implements OnInit {
       'codigoCajero': new FormControl(param ? param.cajeroATM?.codigoATM : null),
       'identificacion': new FormControl(param != undefined ? param != null ? param.numeroNit : null : null),
       'abreviatura': new FormControl(param != undefined ? param != null ? param.abreviatura : null : null),
-      'fajado': new FormControl(param?.sitiosClientes?.fajado),
+      'fajado': new FormControl(param ? valFajado : null),
       'refajillado': new FormControl(param != undefined ? param != null ? param.refajillado : null : null),
       'esAval': new FormControl(param != undefined ? param != null ? param.esAVAL : null : null),
       'estado': new FormControl(param?.estado === "1" ? true : false),
@@ -122,6 +124,7 @@ export class CrearPuntoComponent implements OnInit {
   }
 
   persistir() {
+    this.spinnerActive = true;
     let cliente = {
       codigoPunto: this.dataElement?.codigoPunto,
       tipoPunto: this.puntoSeleccionado,
@@ -133,7 +136,7 @@ export class CrearPuntoComponent implements OnInit {
       codigoPropioTDV: this.form.value['transportadora']?.codigo,
       codigoOficina: Number(this.form.value['codigoOficina']),
       codigoATM: this.form.value['codigoCajero'],
-      bancoAVAL: this.form.value['bancoAval'].codigoPunto,
+      bancoAVAL: this.form.value['bancoAval']?.codigoPunto,
       tarifaRuteo: this.form.value['tarifaRuteo'],
       tarifaVerificacion: this.form.value['tarifaVerificacion'],
       codigoCompensacion: this.form.value['codigoCompensacion'],
@@ -174,6 +177,7 @@ export class CrearPuntoComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR,
           },
         });
+        this.spinnerActive = false;
       }
     });
   }

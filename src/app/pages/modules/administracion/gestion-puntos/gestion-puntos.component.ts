@@ -18,7 +18,6 @@ import { lastValueFrom } from 'rxjs';
 export class GestionPuntosComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
-  isPointChecked = false;
   tipoPuntoSeleccionado: string;
   puntoSeleccionado: string = '';
   elementoPuntoActualizar: string;
@@ -28,6 +27,7 @@ export class GestionPuntosComponent implements OnInit {
 
   //Registros paginados
   cantidadRegistros: number;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
 
   //Variable para activar spinner
   spinnerActive: boolean = false;
@@ -56,7 +56,8 @@ export class GestionPuntosComponent implements OnInit {
     private generalServices: GeneralesService,
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken();
     this.estadoPuntos = false;
     this.listarTiposPunto();
@@ -94,19 +95,16 @@ export class GestionPuntosComponent implements OnInit {
   }
 
   listarTiposPunto() {
-    this.spinnerActive = true;
     this.gestionPuntosService
       .listarTiposPuntos({
         'dominioPK.dominio': 'TIPOS_PUNTO',
       })
       .subscribe({
-        next: (page) => {
+        next: (page: any) => {
           this.listPuntosSelect = page.data;
-          this.cantidadRegistros = page.data.totalElements;
-          this.spinnerActive = false;
         },
         error: (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn:
@@ -116,7 +114,6 @@ export class GestionPuntosComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR,
             },
           });
-          this.spinnerActive = false;
         },
       });
   }
@@ -151,18 +148,18 @@ export class GestionPuntosComponent implements OnInit {
           this.nombrePuntoBusqueda == undefined ? '' : this.nombrePuntoBusqueda,
       })
       .subscribe({
-        next: (data: any) => {
+        next: (page: any) => {
           this.estadoPuntos = true;
-          this.spinnerActive = false;
           this.dataSourcePuntoSelect = new MatTableDataSource(
-            data.data.content
+            page.data.content
           );
           this.dataSourcePuntoSelect.sort = this.sort;
-          this.cantidadRegistros = data.data.totalElements;
+          this.cantidadRegistros = page.data.totalElements;
+          this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
+          this.spinnerActive = false;
         },
         error: (err: any) => {
-          this.spinnerActive = false;
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn:
@@ -172,6 +169,7 @@ export class GestionPuntosComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR,
             },
           });
+          this.spinnerActive = false;
         },
       });
   }

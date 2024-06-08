@@ -118,12 +118,6 @@ import { GestionProcedimientosComponent } from './pages/modules/administracion/g
 import { EjecutarProcedimientoComponent } from './pages/modules/administracion/gestion-procedimientos/ejecutar-procedimiento/ejecutar-procedimiento.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CierreLiquidacionMensualComponent } from './pages/modules/liquidacion/cierre-liquidacion-mensual/cierre-liquidacion-mensual.component';
-import { DialogCajeroComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cajero/dialog-cajero.component';
-import { DialogFondoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-fondo/dialog-fondo.component';
-import { DialogOficinaComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-oficina/dialog-oficina.component';
-import { DialogClienteComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cliente/dialog-cliente.component';
-import { DialogBanRepComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
-import { DialogBancoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-banco/dialog-banco.component';
 import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
 import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
 import { DialogConfirmLlavesComponent } from './pages/modules/administracion/generar-llave-archivos/dialog-confirm-llaves/dialog-confirm-llaves.component';
@@ -235,12 +229,6 @@ import { VentanaEmergenteEliminarComponent } from './pages/modules/conciliacion-
     GestionProcedimientosComponent,
     EjecutarProcedimientoComponent,
     CierreLiquidacionMensualComponent,
-    DialogCajeroComponent,
-    DialogFondoComponent,
-    DialogOficinaComponent,
-    DialogClienteComponent,
-    DialogBanRepComponent,
-    DialogBancoComponent,
     AdministracionFestivosNacionalesComponent,
     GenerarLlaveArchivosComponent,
     DialogConfirmLlavesComponent,
