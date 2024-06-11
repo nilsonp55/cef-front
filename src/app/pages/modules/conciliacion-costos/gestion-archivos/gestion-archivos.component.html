@@ -21,13 +21,15 @@
         <tr>
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox color="primary" (change)="$event ? seleccion() : null"
+                    <mat-checkbox color="primary"
+                        (change)="$event ? seleccion() : null"
                         [checked]="selection.hasValue() && seleccionarTodo()"
                         [indeterminate]="selection.hasValue() && !seleccionarTodo()">
                     </mat-checkbox>
                 </th>
                 <td mat-cell *matCellDef="let row">
-                    <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                    <mat-checkbox color="primary"
+                        (click)="$event.stopPropagation()"
                         (change)="$event ? selection.toggle(row) : null; seleccionRow($event, row)"
                         [checked]="selection.isSelected(row)">
                     </mat-checkbox>
@@ -35,51 +37,53 @@
             </ng-container>
 
             <ng-container matColumnDef="nombreArchivo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE ARCHIVO</th>
-                <td mat-cell *matCellDef="let element"> {{element.nombreArchivo}} </td>
+                <th mat-sort-header *matHeaderCellDef mat-header-cell> NOMBRE ARCHIVO</th>
+                <td *matCellDef="let element" mat-cell> {{element.nombreArchivo}} </td>
             </ng-container>
 
             <ng-container matColumnDef="fechaArchivo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA ARCHIVO</th>
-                <td mat-cell *matCellDef="let element"> {{element.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}} </td>
+                <th mat-sort-header *matHeaderCellDef mat-header-cell> FECHA ARCHIVO</th>
+                <td *matCellDef="let element" mat-cell> {{element.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="estado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
-                <td mat-cell *matCellDef="let element">{{element.estado}}</td>
+                <th mat-sort-header *matHeaderCellDef mat-header-cell>ESTADO</th>
+                <td *matCellDef="let element" mat-cell>{{element.estado}}</td>
             </ng-container>
 
             <ng-container matColumnDef="banco">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO</th>
-                <td mat-cell *matCellDef="let element"> {{element.banco}} </td>
+                <th mat-sort-header *matHeaderCellDef mat-header-cell>BANCO</th>
+                <td *matCellDef="let element" mat-cell> {{element.banco}} </td>
             </ng-container>
 
             <ng-container matColumnDef="tdv">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>TDV</th>
-                <td mat-cell *matCellDef="let element"> {{element.tdv}} </td>
+                <th mat-sort-header *matHeaderCellDef mat-header-cell>TDV</th>
+                <td *matCellDef="let element" mat-cell> {{element.tdv}} </td>
             </ng-container>
 
             <ng-container matColumnDef="fechaTransferencia">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA DE TRANSFERENCIA</th>
-                <td mat-cell *matCellDef="let element"> {{element.fechaTransferencia | date: 'dd/MM/YYYY' : '+00'}}
+                <th mat-sort-header *matHeaderCellDef mat-header-cell>FECHA DE TRANSFERENCIA</th>
+                <td *matCellDef="let element" mat-cell> {{element.fechaTransferencia | date: 'dd/MM/YYYY' : '+00'}}
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="tipoArchivo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO DE ARCHIVO</th>
-                <td mat-cell *matCellDef="let element"> {{element.tipoArchivo}} </td>
+                <th mat-sort-header *matHeaderCellDef mat-header-cell>TIPO DE ARCHIVO</th>
+                <td *matCellDef="let element" mat-cell> {{element.tipoArchivo}} </td>
             </ng-container>
 
             <ng-container matColumnDef="acciones">
                 <th mat-header-cell *matHeaderCellDef>ACCIONES</th>
-                <td mat-cell *matCellDef="let element">
+                <td *matCellDef="let element" mat-cell>
                     <button mat-button>
-                        <mat-icon style="color: black" (click)="verDetalle(element)">remove_red_eye</mat-icon>
+                        <mat-icon style="color: black" (click)="verDetalle(element)">
+                          remove_red_eye
+                        </mat-icon>
                     </button>
                 </td>
             </ng-container>
         </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsConciliadas"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsConciliadas;"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsConciliadas"></tr>
     </table>
 </div>

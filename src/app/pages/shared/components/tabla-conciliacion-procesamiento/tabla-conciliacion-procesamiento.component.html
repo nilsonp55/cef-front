@@ -3,10 +3,13 @@
         <mat-grid-tile colspan="1">
             <div class="botones-tabla">
                 <button *ngIf="this.datosTabla.mostrarExportar" mat-raised-button color="primary"
-                    (click)="exporter.exportTable('xlsx', {fileName: datosTabla.nombreArchivoExportar})">Exportar
-                    tabla</button>
+                    (click)="exporter.exportTable('xlsx', {fileName: datosTabla.nombreArchivoExportar})">
+                    Exportar tabla
+                </button>
                 <button *ngFor="let boton of datosTabla.botones; let i=index" mat-raised-button color="primary"
-                    (click)="emitirEvento($event)">{{boton}}</button>
+                    (click)="emitirEvento($event)">
+                    {{boton}}
+                  </button>
             </div>
         </mat-grid-tile>
         <mat-grid-tile colspan="1">
@@ -14,17 +17,20 @@
         </mat-grid-tile>
     </mat-grid-list>
     <div class="divTabla">
-        <table mat-table [dataSource]="dataSource" matSort matTableExporter #exporter="matTableExporter" [hiddenColumns]="[0]" >
+        <table mat-table [dataSource]="dataSource" matSort matTableExporter #exporter="matTableExporter" [hiddenColumns]="[0]" aria-label="tablaProcesamiento">
                 <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef>
-                        <mat-checkbox color="primary" (change)="$event ? seleccion() : null"
+                        <mat-checkbox (change)="$event ? seleccion() : null"
                             [checked]="selection.hasValue() && seleccionarTodo()"
-                            [indeterminate]="selection.hasValue() && !seleccionarTodo()">
+                            [indeterminate]="selection.hasValue() && !seleccionarTodo()"
+                            color="primary">
                         </mat-checkbox>
                     </th>
                     <td mat-cell *matCellDef="let row">
-                        <mat-checkbox color="primary" (click)="$event.stopPropagation()"
-                            (change)="seleccionRow($event, row)" [checked]="selection.isSelected(row)">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="seleccionRow($event, row)"
+                            [checked]="selection.isSelected(row)"
+                            color="primary">
                         </mat-checkbox>
                     </td>
                 </ng-container>

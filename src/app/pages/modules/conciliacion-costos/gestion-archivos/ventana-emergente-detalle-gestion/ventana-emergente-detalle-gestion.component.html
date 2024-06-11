@@ -1,15 +1,15 @@
 <h2 mat-dialog-title>{{data.msn.nombreArchivo}}</h2>
-<div style="overflow-x: scroll; overflow-y: scroll; height: 500px;" *ngIf="data.msn.estado === 'PENDIENTE'">
-    <div *ngFor="let cont of data.msn.contenidoArchivo; let i=index">
-        <p style="width: 320%;">{{cont}}</p>
+<div *ngIf="data.msn.estado === 'PENDIENTE'" style="overflow-x: scroll; overflow-y: scroll; height: 500px;">
+    <div *ngFor="let contenido of data.msn.contenidoArchivo">
+        <p style="width: 320%;">{{contenido}}</p>
     </div>
 </div>
-<div style="overflow-x: scroll; overflow-y: scroll; height: 500px;" *ngIf="data.msn.estado !== 'PENDIENTE'" >
-<div *ngFor="let contNo of dataNoPendiente; let i=index">
-    <p style="width: 320%;">{{contNo}}</p>
+<div *ngIf="data.msn.estado !== 'PENDIENTE'" style="overflow-x: scroll; overflow-y: scroll; height: 500px;">
+<div *ngFor="let contenidoNoPendiente of dataNoPendiente">
+    <p style="width: 320%;">{{contenidoNoPendiente}}</p>
 </div>
 </div>
 <mat-dialog-actions align="end">
-    <button mat-raised-button color="secondary" mat-dialog-close>Cerrar</button>
-    <button mat-raised-button color="primary" (click)="descargarArchivo()">Descargar</button>
+    <button color="secondary" mat-raised-button mat-dialog-close>Cerrar</button>
+    <button color="primary" mat-raised-button (click)="descargarArchivo()">Descargar</button>
 </mat-dialog-actions>
