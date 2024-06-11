@@ -7,7 +7,6 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { PuntosCodigoService } from 'src/app/_service/liquidacion-service/puntos-codigo.service';
-import { MatPaginator } from '@angular/material/paginator';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { lastValueFrom } from 'rxjs';
@@ -18,6 +17,8 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./puntos-codigo-tdv.component.css']
 })
 export class PuntosCodigoTdvComponent implements OnInit {
+
+  @ViewChild(MatSort) sort: MatSort;
 
   form: FormGroup;
   dataSourceCodigoPuntoTdv: MatTableDataSource<any>
@@ -46,10 +47,10 @@ export class PuntosCodigoTdvComponent implements OnInit {
   clienteSelect: boolean = false;
 
 
-  //Rgistros paginados
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  //Registros paginados
   cantidadRegistros: number;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  spinnerActive: boolean = false;
 
   constructor(
     private puntosCodigoService: PuntosCodigoService,
@@ -59,6 +60,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken();
     this.iniciarDesplegables();
     this.numPagina = 0;
@@ -97,35 +99,35 @@ export class PuntosCodigoTdvComponent implements OnInit {
     });
   }
 
-
-
   /**
    * Lista los puntos codigo TDV
    * @BayronPerez
    */
   listarPuntosCodigo(pagina = 0, tamanio = 10) {
+    this.spinnerActive = true;
     this.puntosCodigoService.obtenerPuntosCodigoTDV({
       page: pagina,
       size: tamanio,
       'bancos.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
       'codigoTDV': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
       'busqueda': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio
-
     }).subscribe({
       next: (page: any) => {
         this.dataSourceCodigoPuntoTdv = new MatTableDataSource(page.data.content);
         this.dataSourceCodigoPuntoTdv.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
-
+        this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
+        this.spinnerActive = false;
       },
       error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
+        this.spinnerActive = false;
       }
     });
   }
@@ -135,6 +137,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * @BayronPerez
    */
   persistir() {
+    this.spinnerActive = true;
     const puntoCodigo = {
       idPuntoCodigoTdv: null,
       codigoTDV: this.form.value['codigoTdv'].codigo,
@@ -155,24 +158,25 @@ export class PuntosCodigoTdvComponent implements OnInit {
       puntoCodigo.idPuntoCodigoTdv = this.form.value['idPuntoCodigo'];
       this.puntosCodigoService.actualizarPuntosCodigoTDV(puntoCodigo).subscribe({
         next: response => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
-          }); setTimeout(() => { alert.close() }, 4000);
+          });
           this.listarPuntosCodigo(this.numPagina, this.cantPagina);
-          this.initForm();
+          this.spinnerActive = false;
         },
         error: (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
+          this.spinnerActive = false;
         }
       });
     }
@@ -185,18 +189,19 @@ export class PuntosCodigoTdvComponent implements OnInit {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
-          }); setTimeout(() => { alert.close() }, 4000);
+          });
           this.listarPuntosCodigo(this.numPagina, this.cantPagina);
-          this.initForm();
+          this.spinnerActive = false;
         },
         error: (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
+          this.spinnerActive = false;
         }
       });
     }
@@ -404,19 +409,21 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async listarClientes(params: any){
+    this.spinnerActive = true;
     this.generalesService.listarClientes(params).subscribe({
       next: response => {
         this.clientes = response.data;
+        this.spinnerActive = false;
       },
       error: err => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn:  GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
+        this.spinnerActive = false;
       }
     });
   }
@@ -455,12 +462,24 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   changePunto(event) {
+    this.spinnerActive = true;
     this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
-    this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe(
-      response => {
+    this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe({
+      next: response => {
         this.form.controls['codigoDANE'].setValue(response.data[0].codigoDANE);
-        //this.form.controls['codigoDANE'].disable();
-      });
+        this.spinnerActive = false;
+      },
+      error: err => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn:  GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error.response.description,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        this.spinnerActive = false;
+      }
+    });
   }
 
   formatearEstadoPersistir(param: boolean): any {

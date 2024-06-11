@@ -17,12 +17,17 @@
 </div>
 <div class="row botonesClientes">
   <div class="col-2">
-  <button title="Crear punto" mat-raised-button color="primary"
-    (click)="openFormClienteCorporativo(null, 'create')">Nuevo</button>
+    <button title="Crear punto" mat-raised-button color="primary"
+      (click)="openFormClienteCorporativo(null, 'create')">Nuevo</button>
   </div>
   <div class="col-2">
-  <button mat-raised-button color="primary"
-    (click)="exporter.exportTable('xlsx', {fileName:'clientes_corporativos'})">Exportar</button>
+    <button mat-raised-button color="primary"
+      (click)="exporter.exportTable('xlsx', {fileName:'clientes_corporativos'})">Exportar</button>
+  </div>
+  <div class="col-8">
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="totalRegistros" showFirstLastButtons
+      (page)="mostrarMas($event)">
+  </mat-paginator>
   </div>
 </div>
 
@@ -76,9 +81,4 @@
     <tr mat-header-row *matHeaderRowDef="displayColumnsClientes"></tr>
     <tr mat-row *matRowDef="let row; columns: displayColumnsClientes;"></tr>
   </table>
-</div>
-<div>
-    <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="totalRegistros" showFirstLastButtons
-        (page)="mostrarMas($event)">
-    </mat-paginator>
 </div>

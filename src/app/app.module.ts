@@ -84,7 +84,6 @@ import { DialogEliminarIdentificadorComponent } from './pages/modules/administra
 import { DialogIdentificadorDominioComponent } from './pages/modules/administracion/administracion-dominios/dialog-identificador-dominio/dialog-identificador-dominio.component';
 import { DialogTablaDominioComponent } from './pages/modules/administracion/administracion-dominios/dialog-tabla-dominio/dialog-tabla-dominio.component';
 import { GestionPuntosComponent } from './pages/modules/administracion/gestion-puntos/gestion-puntos.component';
-import { ModificarPuntoComponent } from './pages/modules/administracion/gestion-puntos/modificar-punto/modificar-punto.component';
 import { CrearPuntoComponent } from './pages/modules/administracion/gestion-puntos/crear-punto/crear-punto.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -119,14 +118,7 @@ import { GestionUsuariosComponent } from './pages/modules/administracion/gestion
 import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
 import { EjecutarProcedimientoComponent } from './pages/modules/administracion/gestion-procedimientos/ejecutar-procedimiento/ejecutar-procedimiento.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { InfoDetallesPuntoComponent } from './pages/modules/administracion/gestion-puntos/info-detalles-punto/info-detalles-punto.component';
 import { CierreLiquidacionMensualComponent } from './pages/modules/liquidacion/cierre-liquidacion-mensual/cierre-liquidacion-mensual.component';
-import { DialogCajeroComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cajero/dialog-cajero.component';
-import { DialogFondoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-fondo/dialog-fondo.component';
-import { DialogOficinaComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-oficina/dialog-oficina.component';
-import { DialogClienteComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cliente/dialog-cliente.component';
-import { DialogBanRepComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
-import { DialogBancoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-banco/dialog-banco.component';
 import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
 import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
 import { DialogConfirmLlavesComponent } from './pages/modules/administracion/generar-llave-archivos/dialog-confirm-llaves/dialog-confirm-llaves.component';
@@ -227,7 +219,6 @@ import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/co
     DialogIdentificadorDominioComponent,
     DialogTablaDominioComponent,
     GestionPuntosComponent,
-    ModificarPuntoComponent,
     CrearPuntoComponent,
     GenerarContabilidadAmComponent,
     GenerarContabilidadPmComponent,
@@ -263,14 +254,7 @@ import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/co
     GestionUsuariosComponent,
     GestionProcedimientosComponent,
     EjecutarProcedimientoComponent,
-    InfoDetallesPuntoComponent,
     CierreLiquidacionMensualComponent,
-    DialogCajeroComponent,
-    DialogFondoComponent,
-    DialogOficinaComponent,
-    DialogClienteComponent,
-    DialogBanRepComponent,
-    DialogBancoComponent,
     AdministracionFestivosNacionalesComponent,
     GenerarLlaveArchivosComponent,
     DialogConfirmLlavesComponent,

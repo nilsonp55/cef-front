@@ -1,13 +1,7 @@
-<mat-card class="card-limites">
-    <mat-card-title>Puntos Codigo TDV</mat-card-title>
-
-    <ng-container *ngIf="mostrarTabla">
-      <!-- Content para mostrarTabla -->
-      <div class="division-btn">
-        <button mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearPuntoCodigo()">Crear Puntos Codigo TDV</button>
-      </div>
-
+<div *ngIf="spinnerActive" class="disenio-spinner">
+  <mat-spinner></mat-spinner>
+</div>
+  <!-- Content para mostrarTabla -->
       <div *ngIf="mostrarTabla" class="divTablaCerti">
         <div class="filtro">
           <mat-form-field appearance="fill">
@@ -26,17 +20,31 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field class="example-full-width">
+          <mat-form-field appearance="fill">
             <input type="text" matInput placeholder="Codigo Propio" [(ngModel)]="filtroCodigoPropio">
           </mat-form-field>
           <button title="Visualizar" mat-button (click)="filtrar($event)">
             <mat-icon style="color: green">search</mat-icon>
           </button>
         </div>
+        <div class="row">
+          <div class="col-2">
+            <button mat-raised-button class="ubicacion-btn-dominio" color="primary"
+                  (click)="crearPuntoCodigo()">Nuevo</button>
+          </div>
+          <div class="col-2">
+            <button mat-raised-button color="primary"
+                  (click)="exporter.exportTable('xlsx', {fileName:'puntos-codigo-tdv'})">Exportar</button>
+          </div>
+          <div class="col-8">
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
+                  (page)="mostrarMas($event)" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+        </div>
         <div class="configScroll">
           <table mat-table matTableExporter [dataSource]="dataSourceCodigoPuntoTdv" matSort
-                 #exporter="matTableExporter">
-            <caption></caption>
+                 #exporter="matTableExporter" class="mat-elevation-z8" aria-label="puntos-codigo-tdv">
             <tr>
               <ng-container matColumnDef="codigoPunto" class="mat-column-nombreCampo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO PUNTO</th>
@@ -70,16 +78,9 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumnsCodigoPuntoTdv"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsCodigoPuntoTdv;"></tr>
           </table>
-          <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
-                         (page)="mostrarMas($event)">
-          </mat-paginator>
         </div>
-        <br>
-        <button mat-raised-button color="primary"
-                (click)="exporter.exportTable('xlsx', {fileName:'puntos-codigo-tdv'})">Exportar tabla</button>
       </div>
       <!-- Fin content mostrarTabla-->
-    </ng-container>
 
     <ng-container *ngIf="mostrarFormulario">
       <!-- Content mostrarFormulario-->
@@ -185,5 +186,3 @@
       </div>
       <!--Fin content mostrarFOrmulario -->
     </ng-container>
-
-</mat-card>
