@@ -1,77 +1,92 @@
-    <div >
-        <h1 class="tituloTabla">Administración de puntos</h1>
-    </div>
-    
-        <div class="div-search">
-            <div>
-                <mat-form-field appearance="fill">
-                    <mat-label>Tipo Punto</mat-label>
-                    <mat-select [(ngModel)]="puntoSeleccionado" (selectionChange)="eventoClick($event)">
-                        <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto.valorTexto">
-                            {{tipoPunto.valorTexto}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
-                    <mat-label>Nombre punto</mat-label>
-                    <input type="text" matInput [(ngModel)]="nombrePuntoBusqueda">
-                </mat-form-field>
-                <button mat-icon-button color="primary" aria-label="Boton para buscar punto" (click)="filtrar($event)">
-                    <mat-icon>search</mat-icon>
-                </button>
-            </div>       
-        </div>
-        <div class="div-search">
-            <div><button title="Crear punto" mat-raised-button color="primary" (click)="crearPunto('crear', null)">Crear Punto</button></div>
-            <mat-checkbox class="margen-checkbox" color="primary" [(ngModel)]="isPointChecked">Incluir puntos
-                inactivos</mat-checkbox>
-        </div>
+<div *ngIf="spinnerActive" class="disenio-spinner">
+  <mat-spinner></mat-spinner>
+</div>
 
-        <div *ngIf="spinnerActive" class="disenio-spinner">
-            <mat-spinner></mat-spinner>
-          </div>
-        <div>    
-            <table mat-table [dataSource]="dataSourcePuntoSelect" matSort matTableExporter #exporter="matTableExporter">
-                <caption></caption>
-                <tr>
-                    <ng-container matColumnDef="codigo_punto" class="mat-column-codigo_punto">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Código punto</th>
-                        <td mat-cell *matCellDef="let element"> {{element.codigoPunto}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="tipo_punto" class="mat-column-tipo_punto">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo punto</th>
-                        <td mat-cell *matCellDef="let element"> {{element.tipoPunto}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="descripcion" class="mat-column-descripcion">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
-                        <td mat-cell *matCellDef="let element"> {{element.nombrePunto}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="ciudad" class="mat-column-ciudad">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
-                        <td mat-cell *matCellDef="let element"> {{element.codigoCiudad}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="detalle" class="mat-column-acciones">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Detalle</th>
-                        <td mat-cell *matCellDef="let element">
+<div>
+<div class="div-search">
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo Punto</mat-label>
+      <mat-select [(ngModel)]="puntoSeleccionado" (selectionChange)="eventoTipoPunto($event)">
+        <mat-option>Ninguno</mat-option>
+        <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto.valorTexto">
+          {{tipoPunto.valorTexto}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Banco</mat-label>
+      <mat-select [(ngModel)]="bancoSeleccionado" (selectionChange)="eventoBanco($event)"
+        [disabled]="puntoSeleccionado == 'CLIENTE' || puntoSeleccionado == 'BAN_REP' || puntoSeleccionado == 'BANCO'">
+        <mat-option>Ninguno</mat-option>
+        <mat-option *ngFor="let item of bancosAval" [value]="item.codigoPunto">
+          {{item.nombreBanco}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre punto</mat-label>
+      <input type="text" matInput [(ngModel)]="nombrePuntoBusqueda">
+    </mat-form-field>
+    <button mat-icon-button color="primary" aria-label="Boton para buscar punto" (click)="filtrar($event)">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-2">
+    <button title="Crear punto" mat-raised-button color="primary"
+      (click)="abrirDialogPunto('crear', null)">Nuevo</button>
+  </div>
+  <div class="col-2">
+    <button mat-raised-button color="primary"
+      (click)="exporter.exportTable('xlsx', {fileName:'puntos'})">Exportar</button>
+  </div>
+  <div class="col-8">
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
+      (page)="mostrarMas($event)" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>
 
-                            <button title="Modificar" mat-button (click)="modificarDetallePunto(element)">
-                                <mat-icon style="color: rgba(247, 124, 10, 0.938)">edit</mat-icon>
-                            </button>
-                        </td>
-                    </ng-container>
-                </tr>
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsPuntoSelect"></tr>
-                <tr mat-row (click)="eventoSelectionPuntoDetalleClick(row)"
-                    *matRowDef="let row; columns: displayedColumnsPuntoSelect;"></tr>
-            </table>
-            
-    <div>
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
-                (page)="mostrarMas($event)">
-            </mat-paginator>
-            <div>
-                <button mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'puntos'})">Exportar</button>
-            </div>
-    </div>
+<table mat-table [dataSource]="dataSourcePuntoSelect" matSort matTableExporter #exporter="matTableExporter"
+  class="mat-elevation-z8" aria-label="gestion-puntos">
+  <tr>
+    <ng-container matColumnDef="codigoPunto" class="mat-column-codigoPunto">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Código punto</th>
+      <td mat-cell *matCellDef="let element"> {{element.codigoPunto}} </td>
+    </ng-container>
+    <ng-container matColumnDef="tipoPunto" class="mat-column-tipoPunto">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo punto</th>
+      <td mat-cell *matCellDef="let element"> {{element.tipoPunto}} </td>
+    </ng-container>
+    <ng-container matColumnDef="banco_aval" class="mat-column-banco_aval">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
+      <td mat-cell *matCellDef="let element"> {{getNombreBanco(element)}} </td>
+    </ng-container>
+    <ng-container matColumnDef="nombrePunto" class="mat-column-nombrePunto">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+      <td mat-cell *matCellDef="let element"> {{element.nombrePunto}} </td>
+    </ng-container>
+    <ng-container matColumnDef="codigoCiudad" class="mat-column-codigoCiudad">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciiu - Ciudad</th>
+      <td mat-cell *matCellDef="let element"> {{getNombreCiudad(element.codigoCiudad)}} </td>
+    </ng-container>
+    <ng-container matColumnDef="detalle" class="mat-column-acciones">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Detalle</th>
+      <td mat-cell *matCellDef="let element">
+
+        <button title="Modificar" mat-button (click)="abrirDialogPunto('modif', element)">
+          <mat-icon style="color: rgba(247, 124, 10, 0.938)">edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsPuntoSelect"></tr>
+  <tr mat-row (click)="eventoSelectionPuntoDetalleClick(row)"
+    *matRowDef="let row; columns: displayedColumnsPuntoSelect;"></tr>
+</table>
