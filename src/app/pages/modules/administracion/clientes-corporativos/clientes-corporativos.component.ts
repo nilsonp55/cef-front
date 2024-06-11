@@ -49,7 +49,7 @@ export class ClientesCorporativosComponent implements OnInit {
     private generalesService: GeneralesService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken();
     this.listarBancos();
