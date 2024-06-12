@@ -1,0 +1,113 @@
+* {
+    background: #fff;
+}
+
+::ng-deep .divTabla {
+    padding: 1%;
+    margin: 1% 0 0 1%;
+    background-color: transparent;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.botones-tabla {
+    display: table-cell;
+    width: 100%;
+}
+
+.botones-tabla .mat-button-base {
+    margin: 8px 8px 8px 0;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-header-cell,
+.mat-cell {
+    padding: 0 5px;
+}
+
+.mat-paginator-container {
+    display: flex;
+    justify-content: normal;
+}
+
+.mat-column-aplicativo,
+.mat-column-tvd {
+    background: lightblue;
+}
+
+.content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disenio-spinner {
+    margin: 16px;
+}
+
+.mat-column-header-row-2,
+.mat-column-header-row-4,
+.mat-column-header-row-6,
+.mat-column-header-row-8,
+.mat-column-header-row-10,
+.mat-column-header-row-12,
+.mat-column-header-row-14,
+.mat-column-header-row-16,
+.mat-column-header-row-18,
+.mat-column-aplicativoTipoPedido,
+.mat-column-tvdTipoPedido,
+.mat-column-aplicativoTransportadoBilletePesos,
+.mat-column-tvdTransportadoBilletePesos,
+.mat-column-aplicativoTotalTransportado,
+.mat-column-tvdTotalTransportado,
+.mat-column-aplicativoCostoFijo,
+.mat-column-tvdCostoFijo,
+.mat-column-aplicativoCostoBolsa,
+.mat-column-tvdCostoBolsa,
+.mat-column-aplicativoOtros1,
+.mat-column-tvdOtros1,
+.mat-column-aplicativoOtros3,
+.mat-column-tvdOtros3,
+.mat-column-aplicativoOtros5,
+.mat-column-tvdOtros5,
+.mat-column-aplicativoIva,
+.mat-column-tvdIva {
+    background: lightblue;
+}
+
+.mat-column-aplicativoEscala,
+.mat-column-tvdEscala,
+.mat-column-aplicativoTransportadoMonedaPesos,
+.mat-column-tvdTransportadoMonedaPesos,
+.mat-column-aplicativoNumeroBolsasMoneda,
+.mat-column-tvdNumeroBolsasMoneda,
+.mat-column-aplicativoCostoMilaje,
+.mat-column-tvdCostoMilaje,
+.mat-column-aplicativoCostoFletes,
+.mat-column-tvdCostoFletes,
+.mat-column-aplicativoOtros2,
+.mat-column-tvdOtros2,
+.mat-column-aplicativoOtros4,
+.mat-column-tvdOtros4,
+.mat-column-aplicativoSubTotal,
+.mat-column-tvdSubTotal,
+.mat-column-aplicativoValorTotal,
+.mat-column-tvdValorTotal,
+.mat-column-header-row-3,
+.mat-column-header-row-5,
+.mat-column-header-row-7,
+.mat-column-header-row-9,
+.mat-column-header-row-11,
+.mat-column-header-row-13,
+.mat-column-header-row-15,
+.mat-column-header-row-17,
+.mat-column-header-row-19 {
+    background: lightgoldenrodyellow;
+}
+
+.text-no-equity{
+  color: red;
+}

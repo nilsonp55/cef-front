@@ -30,6 +30,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { FooterComponent } from './pages/shared/components/footer/footer.component';
+import { TablaConciliacion } from './pages/shared/components/tabla-conciliacion/tabla-conciliacion.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { DialogResultValidacionComponent } from './pages/shared/components/program-preliminar/archivos-cargados/dialog-result-validacion/dialog-result-validacion.component';
 import { VentanaEmergenteResponseComponent } from './pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -132,6 +133,31 @@ import { ArchivosPendienteCargaComponent } from './pages/modules/conciliacion-co
 import { VentanaEmergenteVerDetalleArchivoComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-detalle/ventana-emergente-detalle';
 import { VentanaEmergenteErrorComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-error/ventana-emergente-error.component';
 import { VentanaEmergenteEliminarComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-eliminar/ventana-emergente-eliminar.component';
+import { FiltroConciliacionTransporteComponent } from './pages/shared/components/filtro-conciliacion-transporte/filtro-conciliacion-transporte.component';
+import { ConciliacionTransporteComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/conciliacion-transporte.component';
+import { ConciliadasComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/conciliadas/conciliadas.component';
+import { CobradasTdvNoIdentificadasComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/cobradas-tdv-no-identificadas/cobradas-tdv-no-identificadas.component';
+import { LiquidadasNoCobradasTdvComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/liquidadas-no-cobradas-tdv/liquidadas-no-cobradas-tdv.component';
+import { IdentificadasConDiferenciaComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/identificadas-con-diferencia/identificadas-con-diferencia.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { VentanaEmergenteDesconciliarComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/conciliadas/ventana-emergente-desconciliar/ventana-emergente-desconciliar.component';
+import { VentanaEmergenteAceptarRechazarComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/cobradas-tdv-no-identificadas/ventana-emergente-aceptar-rechazar/ventana-emergente-aceptar-rechazar.component';
+import { VentanaEmergenteAceptarRechazarIdentificadasConDifComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/identificadas-con-diferencia/ventana-emergente-aceptar-rechazar/ventana-emergente-aceptar-rechazar.component';
+/*Procesamiento */
+import { ConciliacionProcesamientoComponent } from './pages/modules/conciliacion-costos/conciliacion-procesamiento/conciliacion-procesamiento.component';
+import { TablaConciliacionProcesamiento } from './pages/shared/components/tabla-conciliacion-procesamiento/tabla-conciliacion-procesamiento.component';
+import { ConciliadasProcesamientoComponent } from './pages/modules/conciliacion-costos/conciliacion-procesamiento/conciliadas-procesamiento/conciliadas-porcesamiento.component';
+import { VentanaEmergenteProcesamientoComponent } from './pages/modules/conciliacion-costos/conciliacion-procesamiento/ventana-emergente-procesamiento/ventana-emergente-procesamiento.component';
+import { CobradasTdvNoIdentificadasProcesamientoComponent } from './pages/modules/conciliacion-costos/conciliacion-procesamiento/cobradas-tdv-no-identificadas-procesamineto/cobradas-tdv-no-identificadas-procesamiento.component';
+import { LiquidadasNoCobradasTdvComponentProcesamiento } from './pages/modules/conciliacion-costos/conciliacion-procesamiento/liquidadas-no-cobradas-tdv-procesamiento/liquidadas-no-cobradas-tdv-procesamiento.component';
+import { IdentificadasConDiferenciaProcesamientoComponent } from './pages/modules/conciliacion-costos/conciliacion-procesamiento/identificadas-con-diferencia-procesamiento/identificadas-con-diferencia-procesamiento.component';
+import { RegistroEliminadosProcesamientoComponent } from './pages/modules/conciliacion-costos/conciliacion-procesamiento/registros-eliminados-procesamiento/registros-eliminados-procesamiento.component';
+import { VentanaEmergenteEliminarRechazarTComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/liquidadas-no-cobradas-tdv/ventana-emergente-eliminar-rechazar-t/ventana-emergente-eliminar-rechazar-t.component';
+import { RegistrosEliminadosComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/registros-eliminados/registros-eliminados.component';
+import { GestionArchivosComponent } from './pages/modules/conciliacion-costos/gestion-archivos/gestion-archivos.component';
+import { VentanaEmergenteDetalleGestionComponent } from './pages/modules/conciliacion-costos/gestion-archivos/ventana-emergente-detalle-gestion/ventana-emergente-detalle-gestion';
+import { VentanaEmergenteEliminarGestionComponent } from './pages/modules/conciliacion-costos/gestion-archivos/ventana-emergente-eliminar-gestion/ventana-emergente-eliminar-gestion.component';
+import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/registros-eliminados/ventana-emergente-reintegrar-registros/ventana-emergente-reintegrar-registros.component';
 
 @NgModule({
   declarations: [
@@ -242,7 +268,31 @@ import { VentanaEmergenteEliminarComponent } from './pages/modules/conciliacion-
     FiltroArchivosComponent,
     VentanaEmergenteVerDetalleArchivoComponent,
     VentanaEmergenteErrorComponent,
-    VentanaEmergenteEliminarComponent
+    VentanaEmergenteEliminarComponent,
+    FiltroConciliacionTransporteComponent,
+    TablaConciliacion,
+    ConciliacionTransporteComponent,
+    ConciliadasComponent,
+    CobradasTdvNoIdentificadasComponent,
+    LiquidadasNoCobradasTdvComponent,
+    IdentificadasConDiferenciaComponent,
+    VentanaEmergenteDesconciliarComponent,
+    VentanaEmergenteAceptarRechazarComponent,
+    ConciliacionProcesamientoComponent,
+    TablaConciliacionProcesamiento,
+    ConciliadasProcesamientoComponent,
+    VentanaEmergenteProcesamientoComponent,
+    CobradasTdvNoIdentificadasProcesamientoComponent,
+    LiquidadasNoCobradasTdvComponentProcesamiento,
+    IdentificadasConDiferenciaProcesamientoComponent,
+    RegistroEliminadosProcesamientoComponent,
+    VentanaEmergenteAceptarRechazarIdentificadasConDifComponent,
+    VentanaEmergenteEliminarRechazarTComponent,
+    RegistrosEliminadosComponent,
+    GestionArchivosComponent,
+    VentanaEmergenteDetalleGestionComponent,
+    VentanaEmergenteEliminarGestionComponent,
+    VentanaEmergenteReintegrarRegistrosComponent
   ],
 
   imports: [
@@ -282,7 +332,8 @@ import { VentanaEmergenteEliminarComponent } from './pages/modules/conciliacion-
     MatSelectModule,
     MatCheckboxModule,
     MatTableExporterModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTabsModule
   ],
   providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent],
   bootstrap: [AppComponent]
