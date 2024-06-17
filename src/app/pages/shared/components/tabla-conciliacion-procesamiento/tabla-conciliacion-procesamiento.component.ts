@@ -96,7 +96,7 @@ export class TablaConciliacionProcesamiento implements OnInit, AfterViewInit {
 
   emitirEvento(event) {
     this.eventoBoton.emit({
-      texto: event.target.textContent,
+      texto: event.target.textContent.trim(),
       items: this.seleccionadosTabla,
     });
   }
