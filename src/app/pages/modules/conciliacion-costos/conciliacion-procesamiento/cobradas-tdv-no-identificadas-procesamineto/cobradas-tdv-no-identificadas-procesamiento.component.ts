@@ -80,7 +80,6 @@ export class CobradasTdvNoIdentificadasProcesamientoComponent implements OnInit,
             showConfirmButton: true,
             allowOutsideClick: false
           }).then((result) => {
-            this.datosTabla.botones = ['Exportar tabla', 'Desconciliar'];
             this.load = false;
             Swal.close();
           });
