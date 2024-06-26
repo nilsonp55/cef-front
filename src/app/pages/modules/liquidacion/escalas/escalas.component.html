@@ -1,24 +1,12 @@
-<mat-card class="card-limites">
-    <mat-card-title style="display: flex; padding-right: 40%;">Escalas
-        <div class="division-btn">
-            <button *ngIf="habilitarBTN" class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearEscala()">Crear Escala</button>
-        </div>
-    </mat-card-title>
-    <div *ngIf="mostrarTabla">
-        
-    </div>
-    <div *ngIf="mostrarTabla == false">
-        <div class="division-btn">
-            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="irAtras()">Atras</button>
-        </div>
-    </div>
-    <br>
+<div *ngIf="spinnerActive" class="disenio-spinner">
+  <mat-spinner></mat-spinner>
+</div>
+  <div *ngIf="mostrarTabla" class="divTablaCerti">
     <div class="filtro">
         <mat-form-field >
             <mat-label>Bancos</mat-label>
-            <mat-select [(ngModel)]="filtroBancoSelect">
+            <mat-select [(ngModel)]="filtroBancoSelect" (selectionChange)="filtrar($event)">
+              <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let item of bancos" [value]="item">
                     {{item.nombreBanco}}
                 </mat-option>
@@ -26,7 +14,8 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Transporta Orige</mat-label>
-            <mat-select [(ngModel)]="filtroTransportaOrigSelect">
+            <mat-select [(ngModel)]="filtroTransportaOrigSelect" (selectionChange)="filtrar($event)">
+              <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let item of transportadoras" [value]="item">
                     {{item.nombreTransportadora}}
                 </mat-option>
@@ -34,33 +23,41 @@
         </mat-form-field>
         <mat-form-field >
             <mat-label>Ciudad Origen</mat-label>
-            <mat-select [(ngModel)]="filtroCiudadOrigSelect">
+            <mat-select [(ngModel)]="filtroCiudadOrigSelect" (selectionChange)="filtrar($event)">
+              <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let item of ciudades" [value]="item">
                     {{item.nombreCiudad}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-    </div>
-    <div class="filtro">
         <mat-form-field>
-            <mat-label>Ciudad Destino</mat-label>
-            <mat-select [(ngModel)]="filtroCiudadDestSelect">
-                <mat-option *ngFor="let ite of ciudades" [value]="ite">
-                    {{ite.nombreCiudad}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <button title="Visualizar" mat-button (click)="filtrar($event)">
-            <mat-icon style="color: green">search</mat-icon>
-        </button>
-        <button title="Limpiar" mat-button (click)="limpiar()">
-            <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
-        </button>
+          <mat-label>Ciudad Destino</mat-label>
+          <mat-select [(ngModel)]="filtroCiudadDestSelect" (selectionChange)="filtrar($event)">
+            <mat-option>Ninguno</mat-option>
+              <mat-option *ngFor="let ite of ciudades" [value]="ite">
+                  {{ite.nombreCiudad}}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
     </div>
-    <div *ngIf="mostrarTabla" class="divTablaCerti">
+
+    <div class="row division-btn">
+      <div class="col-2">
+        <button *ngIf="habilitarBTN" mat-raised-button color="primary"
+          (click)="crearEscala()">Nuevo</button>
+      </div>
+      <div class="col-2">
+        <button *ngIf="habilitarBTN" mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'escalas'})">Exportar</button>
+      </div>
+      <div class="col-8">
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
+                  (page)="mostrarMas($event)" showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+
         <div class="configScroll">
-            <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort matSortDirection="desc" matSortActive="idEscala" #exporter="matTableExporter">
-                <caption></caption>
+            <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort matSortDirection="desc" matSortActive="idEscala" #exporter="matTableExporter" class="mat-elevation-z8" aria-label="Escalas">
                 <tr>
                     <ng-container matColumnDef="idEscala" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID ESCALA</th>
@@ -110,16 +107,16 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsEscalas"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsEscalas;"></tr>
             </table>
-            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
-                (page)="mostrarMas($event)">
-            </mat-paginator>
         </div>
-        <br>
-        <button *ngIf="habilitarBTN" mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'escalas'})">Exportar
-            tabla</button>
     </div>
 
     <div class="ubicacionTablaCrear">
+      <div *ngIf="mostrarTabla == false">
+        <div class="division-btn">
+            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+                (click)="irAtras()">Atras</button>
+        </div>
+      </div>
         <div class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
@@ -179,7 +176,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                
+
                 <div class="division-estado">
                     <label class="switch" >
                         <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
@@ -193,4 +190,3 @@
                 [disabled]="frmPaciente.invalid">Aceptar</button>
         </div>
     </div>
-</mat-card>

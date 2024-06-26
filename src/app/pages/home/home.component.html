@@ -1,16 +1,17 @@
 <!--Banner superior-->
 <app-banner-supeior></app-banner-supeior>
 
-    <!--Botones de Menu-->
-    <div class="page-wrapper">
-        <section class="cards-section text-center">
-            <div>
-                <div id="cards-wrapper" class="cards-wrapper row">
-                    <!--Cargue programación-->
+<!--Botones de Menu-->
+<div >
+    <section class="cards-section text-center">
+        <div>
+            <div id="cards-wrapper" class="cards-wrapper row">
+                <!--Cargue programación-->
                 <div class="item item-green col-lg-4 col-6">
                     <button class="item-inner" routerLink="/cargue-programacion">
                         <div class="ubicacion-icon">
-                            <input class="img-input" type="image" src="assets/img/icono--01.png" alt="Cargue Programación"/>
+                            <input class="img-input" type="image" src="assets/img/icono--01.png"
+                                alt="Cargue Programación" />
                         </div>
                         <div>
                             <h3 class="title">Cargue Programación</h3>
@@ -18,41 +19,43 @@
                         <p class="intro">Cargue de archivos de programación preliminar y definitiva</p>
                     </button>
                 </div>
-                    
-                    <!--Cargue certificacion-->
-                    <div class="item item-pink item-2 col-lg-4 col-6">
+
+                <!--Cargue certificacion-->
+                <div class="item item-pink col-lg-4 col-6" >
                     <button class="item-inner" routerLink="/cargue-certificacion">
-                        <div class="ubicacion-icon" >
-                            <input class="img-input" type="image" src="assets/img/icono--03.png" alt="Cargue Certificación"/>
+                        <div class="ubicacion-icon">
+                            <input class="img-input" type="image" src="assets/img/icono--03.png"
+                                alt="Cargue Certificación" />
                         </div>
                         <h3 class="title">Cargue Certificación</h3>
-                        <p class="intro">Cargue de archivos de certificaciones enviados por las Transportadoras de valores</p>
+                        <p class="intro">Cargue de archivos de certificaciones enviados por las Transportadoras de
+                            valores</p>
                     </button>
                 </div>
-                
+
                 <!--Conciliacion-->
                 <div class="item item-blue col-lg-4 col-6">
                     <button class="item-inner" routerLink="/conciliacion">
                         <div class="ubicacion-icon">
-                            <input class="img-input" type="image" src="assets/img/icono--04.png" alt="Conciliación"/>
+                            <input class="img-input" type="image" src="assets/img/icono--04.png" alt="Conciliación" />
                         </div>
                         <h3 class="title">Conciliación</h3>
                         <p class="intro">Conciliación de operaciones programadas versus operaciones certificadas</p>
                     </button>
                 </div>
-                    
-                    <!--Contabilidad-->
-                    <div class="item item-purple col-lg-4 col-6">
-                        <button class="item-inner" routerLink="/contabilidad">
-                            <div class="ubicacion-icon">
-                                <input class="img-input" type="image" src="assets/img/icono--06.png" alt="Contabilidad" />
-                            </div>
-                            <h3 class="title">Contabilidad</h3>
-                            <p class="intro">Generación de contabilidad AM y PM</p>
-                        </button>
-                    </div>
-                    
-                    <!--Cierre fecha-->
+
+                <!--Contabilidad-->
+                <div class="item item-purple col-lg-4 col-6">
+                    <button class="item-inner" routerLink="/contabilidad">
+                        <div class="ubicacion-icon">
+                            <input class="img-input" type="image" src="assets/img/icono--06.png" alt="Contabilidad" />
+                        </div>
+                        <h3 class="title">Contabilidad</h3>
+                        <p class="intro">Generación de contabilidad AM y PM</p>
+                    </button>
+                </div>
+
+                <!--Cierre fecha-->
                 <div class="item item-primary col-lg-4 col-6">
                     <button class="item-inner" routerLink="/liquidacion">
                         <div class="ubicacion-icon">
@@ -62,8 +65,19 @@
                         <p class="intro">Cálculo de costos que se deben pagar a las Transportadoras de valores</p>
                     </button>
                 </div>
-                    
-                    <!--Administracion-->
+
+                <div class="item item-purple col-lg-4 col-6" *ngIf="ffConciliacionCostos">
+                    <button class="item-inner" routerLink="/conciliacion-costos">
+                        <div class="ubicacion-icon">
+                            <input class="img-input" type="image" src="assets/img/icono--02.png"
+                                alt="ConciliacionCostos" />
+                        </div>
+                        <h3 class="title">Conciliación Costos</h3>
+                        <p class="intro">Liquidados por la aplicación Vs TDVs</p>
+                    </button>
+                </div>
+
+                <!--Administracion-->
                 <div class="item item-purple col-lg-4 col-6">
                     <button class="item-inner" routerLink="/administracion">
                         <div class="ubicacion-icon">
@@ -73,10 +87,9 @@
                         <p class="intro">Cierre diario, Usuarios, roles, tablas de configuración y parámetros</p>
                     </button>
                 </div>
-                </div>
-
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
 
 <app-footer></app-footer>

@@ -13,11 +13,11 @@
                 <caption></caption>
                 <tr>
                     <ng-container matColumnDef="fecha" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID USUARIO</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
                         <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
                     </ng-container>
                     <ng-container matColumnDef="descripcion" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ROL</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
                         <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
                     </ng-container>
                 </tr>
@@ -37,6 +37,9 @@
         </div>
     </div>
     <div style="width: 70%" class="ubicacionTablas" *ngIf="mostrarFormulario">
+        <div *ngIf="spinnerActive" class="disenio-spinner">
+            <mat-spinner></mat-spinner>
+        </div>
         <div class="example-container" [formGroup]="form" #frmPaciente="ngForm">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">

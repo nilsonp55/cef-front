@@ -8,10 +8,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './pages/home/home.component';
 import { CargueProgramacionComponent } from './pages/modules/cargue-programacion/cargue-programacion.component';
@@ -20,17 +20,17 @@ import { ContabilizacionComponent } from './pages/modules/contabilizacion/contab
 import { LiquidacionComponent } from './pages/modules/liquidacion/liquidacion.component';
 import { AdministracionComponent } from './pages/modules/administracion/administracion.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BannerSupeiorComponent } from './pages/shared/components/banner-supeior/banner-supeior.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { FooterComponent } from './pages/shared/components/footer/footer.component';
-import { MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { DialogResultValidacionComponent } from './pages/shared/components/program-preliminar/archivos-cargados/dialog-result-validacion/dialog-result-validacion.component';
 import { VentanaEmergenteResponseComponent } from './pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { LogArchivosCargadosComponent } from './pages/shared/components/program-preliminar/historico-archivos-cargados/log-archivos-cargados/log-archivos-cargados.component';
@@ -43,10 +43,10 @@ import { OperacionesConciliadasComponent } from './pages/modules/conciliacion/op
 import { OperacionesNoConciliadasComponent } from './pages/modules/conciliacion/operaciones-no-conciliadas/operaciones-no-conciliadas.component';
 import { OperacionesFallidasComponent } from './pages/modules/conciliacion/operaciones-fallidas/operaciones-fallidas.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DialogDesconciliarComponent } from './pages/modules/conciliacion/operaciones-conciliadas/dialog-desconciliar/dialog-desconciliar.component';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerComponent } from './pages/shared/components/spinner/spinner.component';
 import { ArchivosCargadosDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/archivos-cargados-definitivo/archivos-cargados-definitivo.component';
 import { HistoricoArchivosCargadosDefinitivoComponent } from './pages/modules/cargue-programacion/cargue-definitivo/historico-archivos-cargados-definitivo/historico-archivos-cargados-definitivo.component';
@@ -83,7 +83,6 @@ import { DialogEliminarIdentificadorComponent } from './pages/modules/administra
 import { DialogIdentificadorDominioComponent } from './pages/modules/administracion/administracion-dominios/dialog-identificador-dominio/dialog-identificador-dominio.component';
 import { DialogTablaDominioComponent } from './pages/modules/administracion/administracion-dominios/dialog-tabla-dominio/dialog-tabla-dominio.component';
 import { GestionPuntosComponent } from './pages/modules/administracion/gestion-puntos/gestion-puntos.component';
-import { ModificarPuntoComponent } from './pages/modules/administracion/gestion-puntos/modificar-punto/modificar-punto.component';
 import { CrearPuntoComponent } from './pages/modules/administracion/gestion-puntos/crear-punto/crear-punto.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -118,20 +117,21 @@ import { GestionUsuariosComponent } from './pages/modules/administracion/gestion
 import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
 import { EjecutarProcedimientoComponent } from './pages/modules/administracion/gestion-procedimientos/ejecutar-procedimiento/ejecutar-procedimiento.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { InfoDetallesPuntoComponent } from './pages/modules/administracion/gestion-puntos/info-detalles-punto/info-detalles-punto.component';
 import { CierreLiquidacionMensualComponent } from './pages/modules/liquidacion/cierre-liquidacion-mensual/cierre-liquidacion-mensual.component';
-import { DialogCajeroComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cajero/dialog-cajero.component';
-import { DialogFondoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-fondo/dialog-fondo.component';
-import { DialogOficinaComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-oficina/dialog-oficina.component';
-import { DialogClienteComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cliente/dialog-cliente.component';
-import { DialogBanRepComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
-import { DialogBancoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-banco/dialog-banco.component';
 import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
 import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
 import { DialogConfirmLlavesComponent } from './pages/modules/administracion/generar-llave-archivos/dialog-confirm-llaves/dialog-confirm-llaves.component';
 import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
 import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
+import { ClientesCorporativosComponent } from './pages/modules/administracion/clientes-corporativos/clientes-corporativos.component';
+import { FormClientesCorpComponent } from './pages/modules/administracion/clientes-corporativos/form-clientes-corp/form-clientes-corp.component';
+import { ConciliacionCostosComponent } from './pages/modules/conciliacion-costos/conciliacion-costos.component';
+import { FiltroArchivosComponent } from './pages/shared/components/filtro-archivos/filtro-archivos.component';
+import { ArchivosPendienteCargaComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/archivos-pendientes-carga.component';
+import { VentanaEmergenteVerDetalleArchivoComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-detalle/ventana-emergente-detalle';
+import { VentanaEmergenteErrorComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-error/ventana-emergente-error.component';
+import { VentanaEmergenteEliminarComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/ventana-emergente-eliminar/ventana-emergente-eliminar.component';
 
 @NgModule({
   declarations: [
@@ -193,7 +193,6 @@ import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/
     DialogIdentificadorDominioComponent,
     DialogTablaDominioComponent,
     GestionPuntosComponent,
-    ModificarPuntoComponent,
     CrearPuntoComponent,
     GenerarContabilidadAmComponent,
     GenerarContabilidadPmComponent,
@@ -229,21 +228,22 @@ import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/
     GestionUsuariosComponent,
     GestionProcedimientosComponent,
     EjecutarProcedimientoComponent,
-    InfoDetallesPuntoComponent,
     CierreLiquidacionMensualComponent,
-    DialogCajeroComponent,
-    DialogFondoComponent,
-    DialogOficinaComponent,
-    DialogClienteComponent,
-    DialogBanRepComponent,
-    DialogBancoComponent,
     AdministracionFestivosNacionalesComponent,
     GenerarLlaveArchivosComponent,
     DialogConfirmLlavesComponent,
     CierreSesionComponent,
     AdministracionTasasCambioComponent,
-    ProcesarAlcancesComponent
-    ],
+    ProcesarAlcancesComponent,
+    ClientesCorporativosComponent,
+    FormClientesCorpComponent,
+    ConciliacionCostosComponent,
+    ArchivosPendienteCargaComponent,
+    FiltroArchivosComponent,
+    VentanaEmergenteVerDetalleArchivoComponent,
+    VentanaEmergenteErrorComponent,
+    VentanaEmergenteEliminarComponent
+  ],
 
   imports: [
     CommonModule,

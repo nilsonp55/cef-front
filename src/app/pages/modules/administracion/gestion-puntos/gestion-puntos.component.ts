@@ -6,26 +6,20 @@ import { CrearPuntoComponent } from './crear-punto/crear-punto.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
-import { DialogCajeroComponent } from './crear-puntos/dialog-cajero/dialog-cajero.component';
-import { DialogFondoComponent } from './crear-puntos/dialog-fondo/dialog-fondo.component';
-import { DialogBancoComponent } from './crear-puntos/dialog-banco/dialog-banco.component';
-import { DialogOficinaComponent } from './crear-puntos/dialog-oficina/dialog-oficina.component';
-import { DialogClienteComponent } from './crear-puntos/dialog-cliente/dialog-cliente.component';
-import { DialogBanRepComponent } from './crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+import { GeneralesService } from 'src/app/_service/generales.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-gestion-puntos',
   templateUrl: './gestion-puntos.component.html',
-  styleUrls: ['./gestion-puntos.component.css']
+  styleUrls: ['./gestion-puntos.component.css'],
 })
 export class GestionPuntosComponent implements OnInit {
-
   @ViewChild(MatSort) sort: MatSort;
 
-  isPointChecked = false;
   tipoPuntoSeleccionado: string;
-  puntoSeleccionado: string = "";
+  puntoSeleccionado: string = '';
   elementoPuntoActualizar: string;
   detallePuntoSeleccionado: any;
   estadoPuntos: boolean;
@@ -33,45 +27,94 @@ export class GestionPuntosComponent implements OnInit {
 
   //Registros paginados
   cantidadRegistros: number;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
 
   //Variable para activar spinner
   spinnerActive: boolean = false;
 
-  dataSourcePuntoSelect: MatTableDataSource<any>
-  displayedColumnsPuntoSelect: string[] = ['codigo_punto', 'tipo_punto', 'descripcion', 'ciudad', 'detalle'];
+  dataSourcePuntoSelect: MatTableDataSource<any>;
+  displayedColumnsPuntoSelect: string[] = [
+    'codigoPunto',
+    'tipoPunto',
+    'banco_aval',
+    'nombrePunto',
+    'codigoCiudad',
+    'detalle',
+  ];
 
   listPuntosSelect: any;
+  ciudades: any[] = [];
+  bancosAval: any[] = [];
+  bancoSeleccionado: string = '';
+  fondosBancoAVALSeleccionado: number;
+  oficinasBancoAVALSeleccionado: number;
+  cajerosATMBancoAvalSeleccionado: number;
 
   constructor(
     private dialog: MatDialog,
-    private gestionPuntosService: GestionPuntosService) { }
+    private gestionPuntosService: GestionPuntosService,
+    private generalServices: GeneralesService,
+  ) {}
 
-
-  ngOnInit(): void {
-    ManejoFechaToken.manejoFechaToken()
+  async ngOnInit(): Promise<void> {
+    this.spinnerActive = true;
+    ManejoFechaToken.manejoFechaToken();
     this.estadoPuntos = false;
     this.listarTiposPunto();
     this.listarPuntosSeleccionado();
+    this.listarCiudades();
+    this.listarBancos();
+  }
+
+  /**
+   * Retorna codigo ciiu y nombre de ciudad
+   * @prv_nparra
+   */
+  getNombreCiudad(codigoCiiu: number) {
+    const ciudad = this.ciudades.find((c) => c.codigoDANE === codigoCiiu);
+    return ciudad !== undefined ? codigoCiiu + ' - ' + ciudad.nombreCiudad : '';
+  }
+
+  /**
+   * Retorna nombre banco para puntos que tienen asignado un banco
+   * @prv_nparra
+   */
+  getNombreBanco(punto: any) {
+    let codigoBanco: any;
+    if (punto.tipoPunto === 'FONDO') {
+      codigoBanco = punto.fondos.bancoAVAL;
+    }
+    if (punto.tipoPunto === 'OFICINA') {
+      codigoBanco = punto.oficinas.bancoAVAL;
+    }
+    if (punto.tipoPunto === 'CAJERO') {
+      codigoBanco = punto.cajeroATM.bancoAval;
+    }
+    const banco = this.bancosAval.find((b) => b.codigoPunto === codigoBanco);
+    return banco !== undefined ? banco.nombreBanco : '';
   }
 
   listarTiposPunto() {
-    this.spinnerActive = true;
-    this.gestionPuntosService.listarTiposPuntos({
-      "dominioPK.dominio": "TIPOS_PUNTO"
-    }).subscribe(response => {     
-      this.spinnerActive = false;
-      this.listPuntosSelect = response.data;
-      this.cantidadRegistros = response.data.totalElements;
-    },
-      (err: any) => {
-        this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3500);
+    this.gestionPuntosService
+      .listarTiposPuntos({
+        'dominioPK.dominio': 'TIPOS_PUNTO',
+      })
+      .subscribe({
+        next: (page: any) => {
+          this.listPuntosSelect = page.data;
+        },
+        error: (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn:
+                GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE +
+                ' - ' +
+                err?.error?.response?.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+            },
+          });
+        },
       });
   }
 
@@ -81,58 +124,129 @@ export class GestionPuntosComponent implements OnInit {
    */
   listarPuntosSeleccionado(pagina = 0, tamanio = 10) {
     this.spinnerActive = true;
-    this.gestionPuntosService.listarPuntosCreados({
-      "tipoPunto": this.tipoPuntoSeleccionado === undefined ? "" : this.tipoPuntoSeleccionado,
-      page: pagina,
-      size: tamanio,
-      'busqueda': this.nombrePuntoBusqueda == undefined ? '' : this.nombrePuntoBusqueda
-    }).subscribe(data => {
-      this.estadoPuntos = true;
-      this.spinnerActive = false;
-      this.dataSourcePuntoSelect = new MatTableDataSource(data.data.content);
-      this.dataSourcePuntoSelect.sort = this.sort;
-      this.cantidadRegistros = data.data.totalElements;
-    },
-      (err: any) => {
-        this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3500);
+    this.gestionPuntosService
+      .listarPuntosCreados({
+        tipoPunto:
+          this.tipoPuntoSeleccionado !== undefined
+            ? this.tipoPuntoSeleccionado
+            : '',
+        'fondos.bancoAVAL':
+          this.fondosBancoAVALSeleccionado !== undefined
+            ? this.fondosBancoAVALSeleccionado
+            : '',
+        'oficinas.bancoAVAL':
+          this.oficinasBancoAVALSeleccionado !== undefined
+            ? this.oficinasBancoAVALSeleccionado
+            : '',
+        'cajeroATM.bancoAval':
+          this.cajerosATMBancoAvalSeleccionado !== undefined
+            ? this.cajerosATMBancoAvalSeleccionado
+            : '',
+        page: pagina,
+        size: tamanio,
+        busqueda:
+          this.nombrePuntoBusqueda == undefined ? '' : this.nombrePuntoBusqueda,
+      })
+      .subscribe({
+        next: (page: any) => {
+          this.estadoPuntos = true;
+          this.dataSourcePuntoSelect = new MatTableDataSource(
+            page.data.content
+          );
+          this.dataSourcePuntoSelect.sort = this.sort;
+          this.cantidadRegistros = page.data.totalElements;
+          this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
+          this.spinnerActive = false;
+        },
+        error: (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn:
+                GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE +
+                ' - ' +
+                err?.error?.response?.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+            },
+          });
+          this.spinnerActive = false;
+        },
       });
   }
 
+  /**
+   * Peticion al servicio de ciudades
+   * @prv_nparra
+   */
+  async listarCiudades() {
+    await lastValueFrom(this.generalServices.listarCiudades()).then(
+      (response) => {
+        this.ciudades = response.data;
+      }
+    );
+  }
 
   /**
-  * Evento que valida la selecciond un tipo de punto
-  * @BayronPerez
-  */
+   * Peticion al servicio de bancos
+   * @prv_nparra
+   */
+  async listarBancos() {
+    await lastValueFrom(this.generalServices.listarBancosAval()).then(
+      (response) => {
+        this.bancosAval = response.data;
+      }
+    );
+  }
+
+  /**
+   * Evento que valida la selecciond un tipo de punto
+   * @BayronPerez
+   */
   selectedTipoPunto(param: any) {
     if (param != undefined) {
       this.tipoPuntoSeleccionado = param;
     }
   }
 
-  eventoClick(element: any) {
+  eventoTipoPunto(element: any) {
     this.tipoPuntoSeleccionado = element.value;
     this.listarPuntosSeleccionado();
   }
 
+  eventoBanco(element: any) {
+    this.fondosBancoAVALSeleccionado = undefined;
+    this.oficinasBancoAVALSeleccionado = undefined;
+    this.cajerosATMBancoAvalSeleccionado = undefined;
 
-  /**
-  * Evento que levanta un openDialog para crear un punto segun el tipo de punto
-  * @BaironPerez
-  */
-  crearPunto() {
-    this.dialog.open(CrearPuntoComponent, {
-      width: '600PX',
-      data: { flag: "crear", listPuntos: this.listPuntosSelect }
-    });
+    if (this.tipoPuntoSeleccionado === 'FONDO') {
+      this.fondosBancoAVALSeleccionado = element.value;
+    }
+    if (this.tipoPuntoSeleccionado === 'OFICINA') {
+      this.oficinasBancoAVALSeleccionado = element.value;
+    }
+    if (this.tipoPuntoSeleccionado === 'CAJERO') {
+      this.cajerosATMBancoAvalSeleccionado = element.value;
+    }
+    this.listarPuntosSeleccionado();
   }
 
+  /**
+   * Evento que levanta un openDialog para crear un punto segun el tipo de punto
+   * @BaironPerez
+   */
+  async abrirDialogPunto(action: string, element: any) {
+    this.dialog.open(CrearPuntoComponent, {
+      width: '600PX',
+      data: {
+        flag: action,
+        listPuntos: this.listPuntosSelect,
+        element: element,
+      },
+    }).afterClosed()
+    .subscribe((result) => {
+      this.listarPuntosSeleccionado();
+    });
+  }
 
   /**
    * Evento que valida la selecciond un punto
@@ -145,91 +259,7 @@ export class GestionPuntosComponent implements OnInit {
   }
 
   eventoSelectionPuntoDetalleClick(element: any) {
-    this.detallePuntoSeleccionado = element
-  }
-  
-  modificarDetallePunto(element: any) {
-    if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
-      this.dialog.open(DialogBancoComponent, {
-        width: '600PX',
-        data: { element: element, flag: "modif" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.BAN_REP) {
-      this.dialog.open(DialogBanRepComponent, {
-        width: '600PX',
-        data: { element: element, flag: "modif" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CAJERO) {
-      this.dialog.open(DialogCajeroComponent, {
-        width: '600PX',
-        data: { element: element, flag: "modif" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.FONDO) {
-      this.dialog.open(DialogFondoComponent, {
-        width: '600PX',
-        data: { element: element, flag: "modif" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
-      this.dialog.open(DialogOficinaComponent, {
-        width: '600PX',
-        data: { element: element, flag: "modif" }
-      })
-    }
-    else if (element.tipoPunto == GENERALES.TIPO_PUNTOS.CLIENTE) {
-      this.dialog.open(DialogClienteComponent, {
-        width: '600PX',
-        data: { element: element, flag: "modif" }
-      })
-    }
-  }
-
-
-  /**
-   * Evento que levanta un openDialog para modificar un punto segun el tipo punto
-   * @BaironPerez
-   */
-  modificarPunto() {
-    this.gestionPuntosService.consultarPuntoCreadoById(this.puntoSeleccionado).subscribe(data => {
-      if (data.tipoPunto == GENERALES.TIPO_PUNTOS.BANCO) {
-        // TODO: debe aarecer la vetana para crear banco
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-      else if (data.tipoPunto == GENERALES.TIPO_PUNTOS.CAJERO) {
-        // TODO: debe aarecer la vetana para crear cajero
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-      else if (data.tipoPunto == GENERALES.TIPO_PUNTOS.FONDO) {
-        // TODO: debe aarecer la vetana para crear fondo
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-      else if (data.tipoPunto == GENERALES.TIPO_PUNTOS.OFICINA) {
-        // TODO: debe aarecer la vetana para crear oficina
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-      else if (data.tipoPunto == GENERALES.TIPO_PUNTOS.CLIENTE) {
-        // TODO: debe aarecer la vetana para crear cliente
-        this.dialog.open(CrearPuntoComponent, {
-          width: '600PX',
-          data: data
-        })
-      }
-    });
+    this.detallePuntoSeleccionado = element;
   }
 
   mostrarMas(e: any) {
@@ -239,5 +269,4 @@ export class GestionPuntosComponent implements OnInit {
   filtrar(event) {
     this.listarPuntosSeleccionado();
   }
-
 }

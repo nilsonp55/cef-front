@@ -12,10 +12,9 @@ import { CostosFleteCharterService } from 'src/app/_service/liquidacion-service/
 @Component({
   selector: 'app-costos-servicio-charter',
   templateUrl: './costos-servicio-charter.component.html',
-  styleUrls: ['./costos-servicio-charter.component.css']
+  styleUrls: ['./costos-servicio-charter.component.css'],
 })
 export class CostosServicioCharterComponent implements OnInit {
-
   @ViewChild(MatSort) sort: MatSort;
   //Rgistros paginados
   cantidadRegistros: number;
@@ -31,71 +30,97 @@ export class CostosServicioCharterComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['bancoAval', 'tdv', 'nombrePunto', 'nombreFondo', 'tipoServicioProvision', 'escala', 'valor', 'costoCharter', 'acciones'];
+  displayedColumnsInfoProcesos: string[] = [
+    'bancoAval',
+    'tdv',
+    'nombreFondo',
+    'nombrePunto',
+    'tipoServicioProvision',
+    'escala',
+    'valor',
+    'costoCharter',
+    'acciones',
+  ];
 
   constructor(
     private dialog: MatDialog,
-    private costosFleteCharterService: CostosFleteCharterService,
-  ) { }
+    private costosFleteCharterService: CostosFleteCharterService
+  ) {}
 
   async ngOnInit(): Promise<void> {
-    ManejoFechaToken.manejoFechaToken()
+    ManejoFechaToken.manejoFechaToken();
     this.serializedDate = new FormControl(new Date().toISOString());
   }
 
   /**
-  * Se realiza consumo de servicio para listar los costos flete chafter
-  * @BaironPerez
-  */
+   * Se realiza consumo de servicio para listar los costos flete chafter
+   * @BaironPerez
+   */
   listarCostosFleteCharter(fecha_inicial, fecha_final) {
-    this.costosFleteCharterService.obtenerCostosFleteCharter({
-      'fechaInicial': fecha_inicial,
-      'fechaFinal': fecha_final
-    }).subscribe((page: any) => {
-      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
-      this.dataSourceInfoProcesos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      this.mostrarTabla = true
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: 'Error al obtener los costos flete charter',
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
+    this.costosFleteCharterService
+      .obtenerCostosFleteCharter({
+        fechaInicial: fecha_inicial,
+        fechaFinal: fecha_final,
+      })
+      .subscribe({
+        next: (page: any) => {
+          this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
+          this.dataSourceInfoProcesos.sort = this.sort;
+          this.cantidadRegistros = page.data.totalElements;
+          this.mostrarTabla = true;
+        },
+        error: (err: ErrorService) => {
+          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: 'Error al obtener los costos flete charter',
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+            },
+          });
+          setTimeout(() => {
+            alert.close();
+          }, 3000);
+        },
       });
   }
 
   /**
-   * Metodo encargado de ejecutar el servicio de contabilidad para los 
+   * Metodo encargado de ejecutar el servicio de contabilidad para los
    * procesos activos
    * @BaironPerez
    */
   guardar(param: any) {
     const object = {
       idLiquidacion: param.idLiquidacion,
-      costosCharter: this.costoEditar
+      costosCharter: this.costoEditar,
     };
-    this.costosFleteCharterService.guardarCostosFleteCharter(object).subscribe(result => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: 'Se actualizó el costo charter exitosamente',
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 5000);
-      this.costoEditar = undefined;
-    }, (err: ErrorService) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: 'Error al guardar el nuevo costo charter',
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-    })
+    this.costosFleteCharterService.guardarCostosFleteCharter(object).subscribe({
+      next: (result) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: 'Se actualizó el costo charter exitosamente',
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+          },
+        });
+        setTimeout(() => {
+          alert.close();
+        }, 5000);
+        this.costoEditar = undefined;
+      },
+      error: (err: ErrorService) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: 'Error al guardar el nuevo costo charter',
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+          },
+        });
+        setTimeout(() => {
+          alert.close();
+        }, 3000);
+      },
+    });
   }
 
   /**
@@ -104,25 +129,28 @@ export class CostosServicioCharterComponent implements OnInit {
    * @BaironPerez
    */
   buscar() {
-    if(this.fecha1 !== undefined && this.fecha1 !== null && this.fecha2 !== undefined && this.fecha2 !== null) {
+    if (
+      this.fecha1 !== undefined &&
+      this.fecha1 !== null &&
+      this.fecha2 !== undefined &&
+      this.fecha2 !== null
+    ) {
       this.listarCostosFleteCharter(this.fecha1, this.fecha2);
     } else {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: 'Seleccione ambas fechas',
-          codigo: GENERALES.CODE_EMERGENT.WARNING
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
+          codigo: GENERALES.CODE_EMERGENT.WARNING,
+        },
+      });
+      setTimeout(() => {
+        alert.close();
+      }, 3000);
     }
   }
 
   changeValor(param: any) {
-    this.costoEditar = param.target.value;;
+    this.costoEditar = param.target.value;
   }
-
-  onKeypressEvent(event: any):  any {
-      if(event.charCode < 48 || event.charCode > 57) return false;
-  }
-  
 }
