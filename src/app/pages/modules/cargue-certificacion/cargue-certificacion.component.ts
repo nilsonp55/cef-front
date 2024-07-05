@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cargue-certificacion',
@@ -13,6 +14,8 @@ export class CargueCertificacionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +35,10 @@ export class CargueCertificacionComponent implements OnInit {
         });
       });
     })
+  }
+
+  gotToRoute(routeName: string) {
+    this.router.navigate([`${routeName}`], {relativeTo: this.route});
   }
 
 }
