@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 
@@ -20,8 +21,10 @@ export class AdministracionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
-
+  
   ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken()
     this.rolMenuService.obtenerUsuarios({
@@ -61,6 +64,10 @@ export class AdministracionComponent implements OnInit {
       (this.checkMenuLateral = $event).toString();
     }
 
+  }
+
+  gotToRoute(routeName: string) {
+    this.router.navigate([`${routeName}`], {relativeTo: this.route});
   }
 
 }
