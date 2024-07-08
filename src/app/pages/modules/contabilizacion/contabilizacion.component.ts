@@ -36,7 +36,7 @@ export class ContabilizacionComponent implements OnInit {
     })
   }
 
-  gotToRoute(routeName: string) {
+  gotToRouteCont(routeName: string) {
     this.router.navigate([`${routeName}`], {relativeTo: this.route});
   }
 }

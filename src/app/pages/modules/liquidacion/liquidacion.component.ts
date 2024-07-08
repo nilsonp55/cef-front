@@ -36,7 +36,7 @@ export class LiquidacionComponent implements OnInit {
     })
   }
 
-  gotToRoute(routeName: string) {
+  gotToRouteLiq(routeName: string) {
     this.router.navigate([`${routeName}`], {relativeTo: this.route});
   }
 
