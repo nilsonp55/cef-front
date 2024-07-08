@@ -43,12 +43,13 @@ export class ConciliacionCostosComponent implements OnInit {
         menusrol.data.forEach(itm => {
           this.menusConciliacionCostos.push(itm.menu);
         });
+        console.log(this.menusConciliacionCostos);
       });
     })
   }
 
   /**
-   * Metodo encargado de obtener el valor del check del Baner-Superior 
+   * Metodo encargado de obtener el valor del check del Baner-Superior
    * para cerrar o abrir  la barra lateral izquierda
    * @WilliamBecerra
    */
@@ -60,7 +61,7 @@ export class ConciliacionCostosComponent implements OnInit {
   }
 
   validarMenuProximo(menu) {
-    if (menu.nombre === "Conciliación transporte" || menu.nombre === "Conciliación procesamiento" || menu.nombre === "Gestión de archivos") {
+    if (menu.nombre === "Gestión de archivos") {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {

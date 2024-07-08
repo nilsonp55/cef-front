@@ -7,7 +7,7 @@
         <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 17%" mode="side">   
             <mat-divider></mat-divider>
             <div *ngFor="let item of menusCargueProgramacion">
-                <button mat-menu-item [routerLink]="[item.url]" style="cursor: pointer"
+                <button mat-menu-item (click)="gotToRoute(item.url)" style="cursor: pointer"
                     routerLinkActive="seleccion-activa">
                     <span class="material-icons">{{item.icono}}</span>
                     <span>{{item.nombre}}</span>

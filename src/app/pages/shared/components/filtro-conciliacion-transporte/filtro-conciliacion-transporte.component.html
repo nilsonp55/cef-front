@@ -1,0 +1,123 @@
+<div [formGroup]="filtrosFormGroup">
+<div class="division-busqueda">
+    <div class="ubicacionCentro">
+        <mat-form-field appearance="fill" class="camposIzquierda">
+            <mat-label>Entidad</mat-label>
+            <input type="text" matInput formControlName="entidad" [matAutocomplete]="autoEntidad">
+            <mat-autocomplete #autoEntidad="matAutocomplete">
+              <mat-option *ngFor="let option of entidadOptions | async" [value]="option.nombreBanco">
+                {{option.nombreBanco}}
+              </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha Servicio Transporte</mat-label>
+            <mat-date-range-input [rangePicker]="picker2">
+                <input matStartDate matInput placeholder="Fecha Incio" formControlName="fechaSerTrans" />
+                <input matEndDate matInput placeholder="Fecha Fin" (dateChange)="selectFechaServicioTransporteF($event)" formControlName="fechaSerTransFinal" />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matPrefix [for]="picker2"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker2></mat-date-range-picker>
+            <mat-icon rangepickerToggleIcon matSuffix (click)="clearDate($event)">clear</mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+        <mat-form-field appearance="fill" class="camposIzquierda">
+          <mat-label>Identificación Cliente</mat-label>
+          <input type="text" matInput formControlName="identificacionCliente" [matAutocomplete]="autoIdentificacionCliente">
+          <mat-autocomplete #autoIdentificacionCliente="matAutocomplete">
+            <mat-option *ngFor="let option of identificacionClienteOptions | async" [value]="option.identificacion">
+              {{option.identificacion}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+      <mat-form-field appearance="fill" class="camposIzquierda">
+        <mat-label>Razón Social</mat-label>
+        <input type="text" matInput formControlName="razonSocial" [matAutocomplete]="autoRazonSocial">
+        <mat-autocomplete #autoRazonSocial="matAutocomplete">
+          <mat-option *ngFor="let option of razonSocialOptions | async" [value]="option.nombreCliente">
+            {{option.nombreCliente}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+      <mat-form-field appearance="fill" class="camposIzquierda">
+        <mat-label>Codigo Punto Cargo</mat-label>
+        <input type="text" matInput formControlName="codigoPuntoCargo" [matAutocomplete]="autoCodigoPuntoCargo">
+        <mat-autocomplete #autoCodigoPuntoCargo="matAutocomplete">
+          <mat-option *ngFor="let option of codigoPuntoCargoOptions | async" [value]="option.codigoPunto">
+            {{option.codigoPunto}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+      <mat-form-field appearance="fill" class="camposIzquierda">
+        <mat-label>Nombre Punto Cargo</mat-label>
+        <input type="text" matInput formControlName="nombrePuntoCargo" [matAutocomplete]="autoNombrePuntoCargo">
+        <mat-autocomplete #autoNombrePuntoCargo="matAutocomplete">
+          <mat-option *ngFor="let option of nombrePuntoCargoOptions | async" [value]="option.codigoPropioTDV">
+            {{option.codigoPropioTDV}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+      <mat-form-field appearance="fill" class="camposIzquierda">
+        <mat-label>Ciudad Fondo</mat-label>
+        <input type="text" matInput formControlName="ciudadFondo" [matAutocomplete]="autoCiudadFondo">
+        <mat-autocomplete #autoCiudadFondo="matAutocomplete">
+          <mat-option *ngFor="let option of ciudadFondoOptions | async" [value]="option.nombreCiudad">
+            {{option.nombreCiudad}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+      <mat-form-field appearance="fill" class="camposIzquierda">
+        <mat-label>Nombre Tipo Servicio</mat-label>
+        <input type="text" matInput formControlName="nombreTipoServicio" [matAutocomplete]="autoNombreTipoServicio">
+        <mat-autocomplete #autoNombreTipoServicio="matAutocomplete">
+          <mat-option *ngFor="let option of nombreTipoServicioOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+      <mat-form-field appearance="fill" class="camposIzquierda">
+        <mat-label>Moneda Divisa</mat-label>
+        <input type="text" matInput formControlName="monedaDivisa" [matAutocomplete]="autoMonedaDivisa">
+        <mat-autocomplete #autoMonedaDivisa="matAutocomplete">
+          <mat-option *ngFor="let option of monedaDivisaOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="ubicacionCentro">
+      <mat-form-field appearance="fill" class="camposIzquierda">
+        <mat-label>Estado</mat-label>
+        <input type="text" matInput formControlName="estado" [matAutocomplete]="autoEstado">
+        <mat-autocomplete #autoEstado="matAutocomplete">
+          <mat-option *ngFor="let option of estadoOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <button title="Visualizar" mat-button (click)="filter()">
+      <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+    </button>
+    <button title="Limpiar" mat-button (click)="limpiar()">
+        <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+    </button>
+  </div>
+</div>
+
+

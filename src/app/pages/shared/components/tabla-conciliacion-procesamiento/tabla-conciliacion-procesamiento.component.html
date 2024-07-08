@@ -1,0 +1,231 @@
+<div>
+    <mat-grid-list cols="2" rowHeight="100px">
+        <mat-grid-tile colspan="1">
+            <div class="botones-tabla">
+                <button *ngIf="this.datosTabla.mostrarExportar" mat-raised-button color="primary"
+                    (click)="exporter.exportTable('xlsx', {fileName: datosTabla.nombreArchivoExportar})">
+                    Exportar tabla
+                </button>
+                <button *ngFor="let boton of datosTabla.botones; let i=index" mat-raised-button color="primary"
+                    (click)="emitirEvento($event)">
+                    {{boton}}
+                  </button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1">
+            <mat-paginator *ngIf="datosTabla.totalRegistros > 0" [pageSize]="10" [pageSizeOptions]="pageSizeList" [length]="datosTabla.totalRegistros"></mat-paginator>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <div class="divTabla">
+        <table mat-table [dataSource]="dataSource" matSort matTableExporter #exporter="matTableExporter" [hiddenColumns]="[0]" aria-label="tablaProcesamiento">
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? seleccion() : null"
+                            [checked]="selection.hasValue() && seleccionarTodo()"
+                            [indeterminate]="selection.hasValue() && !seleccionarTodo()"
+                            color="primary">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="seleccionRow($event, row)"
+                            [checked]="selection.isSelected(row)"
+                            color="primary">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="entidad">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ENTIDAD</th>
+                    <td mat-cell *matCellDef="let element"> {{element.entidad}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha_servicio_transporte" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA SERVICIO TRANSPORTE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha_servicio_transporte | date: 'dd/MM/YYYY' :'+00'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="identificacion_cliente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> IDENTIFICACOÓN CLIENTE</th>
+                    <td mat-cell *matCellDef="let element"> {{element.identificacion_cliente}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="razon_social">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> RAZÓN SOCIAL</th>
+                    <td mat-cell *matCellDef="let element"> {{element.razon_social}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigo_punto_cargo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO PUNTO CARGO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigo_punto_cargo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nombre_punto_cargo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE PUNTO CARGO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_punto_cargo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ciudad_fondo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CIUDAD FONDO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.ciudad_fondo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nombre_tipo_servicio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE TIPO SERVICIO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_tipo_servicio}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="moneda_divisa">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> MONEDA DIVISA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.moneda_divisa}} </td>
+                </ng-container>
+
+                <ng-container *ngIf="this.datosTabla.tipoTabla == 'conciliadas'  || this.datosTabla.tipoTabla == 'cobradasTDV' || this.datosTabla.tipoTabla == 'liquidadas'">
+                    <ng-container matColumnDef="aplicativo">
+                        <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.aplicativo === 1 ? "X" : " " }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="tvd">
+                        <th mat-header-cell *matHeaderCellDef> TVD</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tdv === 1 ? "X" : " " }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valorProcesadoBilletes">
+                        <th mat-header-cell *matHeaderCellDef> VALOR PROCESADO BILLETES</th>
+                        <td mat-cell *matCellDef="let element"> {{element.valor_procesado_billete | currency}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valorProcesadoMonedas">
+                        <th mat-header-cell *matHeaderCellDef> VALOR PROCESADO MONEDA</th>
+                        <td mat-cell *matCellDef="let element"> {{element.valor_procesado_moneda | currency}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valorTotalProcesado">
+                        <th mat-header-cell *matHeaderCellDef> VALOR TOTAL</th>
+                        <td mat-cell *matCellDef="let element"> {{element.valor_total | currency}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="subTotal">
+                        <th mat-header-cell *matHeaderCellDef> SUBTOTAL</th>
+                        <td mat-cell *matCellDef="let element"> {{element.subtotal | currency}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="iva">
+                        <th mat-header-cell *matHeaderCellDef> IVA</th>
+                        <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valorTotal">
+                        <th mat-header-cell *matHeaderCellDef> VALOR TOTAL</th>
+                        <td mat-cell *matCellDef="let element"> {{element.valor_total | currency}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef> ESTADO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="this.datosTabla.tipoTabla == 'identificadas'">
+                  <!--Columns secondary-->
+                  <ng-container matColumnDef="valor_procesado_billete">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_procesado_billete,element.valor_procesado_billete_tdv)"> {{element.valor_procesado_billete | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="valor_procesado_billete_tdv">
+                      <th mat-header-cell *matHeaderCellDef> TVD</th>
+                      <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_procesado_billete,element.valor_procesado_billete_tdv)"> {{element.valor_procesado_billete_tdv | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="valor_procesado_moneda">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_procesado_moneda,element.valor_procesado_moneda_tdv)"> {{element.valor_procesado_moneda | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="valor_procesado_moneda_tdv">
+                      <th mat-header-cell *matHeaderCellDef> TVD</th>
+                      <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_procesado_moneda,element.valor_procesado_moneda_tdv)"> {{element.valor_procesado_moneda_tdv | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="valor_total_procesado">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_total_procesado,element.valor_total_procesado_tdv)"> {{element.valor_total_procesado | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="valor_total_procesado_tdv">
+                      <th mat-header-cell *matHeaderCellDef> TVD</th>
+                      <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_total_procesado,element.valor_total_procesado_tdv)"> {{element.valor_total_procesado_tdv | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="subtotal">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.subtotal,element.subtotalTdv)"> {{element.subtotal | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="subtotalTdv">
+                      <th mat-header-cell *matHeaderCellDef> TVD</th>
+                      <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.subtotal,element.subtotalTdv)"> {{element.subtotalTdv | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="iva_p">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.iva)"> {{ 0 | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="iva_tdv">
+                      <th mat-header-cell *matHeaderCellDef> TVD</th>
+                      <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.iva)"> {{ element.iva | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="valor_total">
+                    <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.valor_total)"> {{ 0 | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="valor_total_tdv">
+                      <th mat-header-cell *matHeaderCellDef> TVD</th>
+                      <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.valor_total)"> {{ element.valor_total | currency}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef>ESTADO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                </ng-container>
+
+                  <!--Columns primary-->
+                  <ng-container matColumnDef="header-row">
+                    <th mat-header-cell *matHeaderCellDef [attr.colspan]="10"></th>
+                  </ng-container>
+
+                  <ng-container matColumnDef="header-row-group-1">
+                    <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">VALOR PROCESADO BILLETE PESOS</th>
+                  </ng-container>
+
+                  <ng-container matColumnDef="header-row-group-2">
+                    <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">VALOR PROCESADO MONEDA PESOS</th>
+                  </ng-container>
+
+                  <ng-container matColumnDef="header-row-group-3">
+                    <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">VALOR TOTAL PROCESADO PESOS</th>
+                  </ng-container>
+
+                  <ng-container matColumnDef="header-row-group-4">
+                    <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">COSTO SUBTOTAL</th>
+                  </ng-container>
+
+                  <ng-container matColumnDef="header-row-group-5">
+                    <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">IVA</th>
+                  </ng-container>
+
+                  <ng-container matColumnDef="header-row-group-6">
+                    <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">VALOR TOTAL</th>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="['header-row','header-row-group-1','header-row-group-2','header-row-group-3','header-row-group-4','header-row-group-5','header-row-group-6']"></tr>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>

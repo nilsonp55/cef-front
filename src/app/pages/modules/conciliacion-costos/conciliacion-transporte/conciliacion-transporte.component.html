@@ -1,0 +1,16 @@
+<app-filtro-conciliacion-transporte (filterData)="filter($event)">
+</app-filtro-conciliacion-transporte>
+
+<div class="container-fluid pt-2">
+    <div class="col-12">
+        <mat-tab-group (selectedIndexChange)="cambioTab($event)">
+            <mat-tab label="CONCILIADAS">
+                <app-conciliadas [filtro]="filtro" [idTab]="idTabSeleccionda"></app-conciliadas>
+            </mat-tab>
+            <mat-tab label="COBRADAS TDV NO IDENTIFICADAS">
+                <app-cobradas-tdv-no-identificadas [filtro]="filtro"
+                    [idTab]="idTabSeleccionda"></app-cobradas-tdv-no-identificadas>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

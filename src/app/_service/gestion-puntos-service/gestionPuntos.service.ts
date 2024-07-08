@@ -15,10 +15,11 @@ import { URLs } from 'src/app/pages/shared/constantes';
 export class GestionPuntosService {
 
     private url: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS}`;
+    private urlTDV: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS_TDV}`;
 
     constructor(private http: HttpClient) { }
 
-    /** 
+    /**
     * Servicio para listar los puntos
     */
     listarPuntosCreados(params: any): Observable<any> {
@@ -26,7 +27,7 @@ export class GestionPuntosService {
         return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}`, { params: params });
     }
 
-    /** 
+    /**
     * Servicio para listar los puntos
     */
      consultarPuntoCreadoById(idPunto: any): Observable<any> {
@@ -34,7 +35,7 @@ export class GestionPuntosService {
         return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}/${idPunto}`);
     }
 
-    /** 
+    /**
     * Servicio para listar los puntos
     */
      crearPunto(param: any): Observable<any> {
@@ -42,4 +43,11 @@ export class GestionPuntosService {
         return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`, { param });
     }
 
+    /**
+    * Servicio para listar los puntos tdv
+    */
+    listarPuntosCreadosTDV(params: any): Observable<any> {
+      const formData: FormData = new FormData();
+      return this.http.get<any>(`${this.urlTDV}${URLs.CONSULTAR_PUNTOS}`, { params: params });
+  }
 }
