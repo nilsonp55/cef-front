@@ -13,8 +13,8 @@ export class ContabilizacionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
-    private route: ActivatedRoute,
-    private router: Router
+    private routeCont: ActivatedRoute,
+    private routerCont: Router
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +37,6 @@ export class ContabilizacionComponent implements OnInit {
   }
 
   gotToRouteCont(routeName: string) {
-    this.router.navigate([`${routeName}`], {relativeTo: this.route});
+    this.routerCont.navigate([`${routeName}`], {relativeTo: this.routeCont});
   }
 }

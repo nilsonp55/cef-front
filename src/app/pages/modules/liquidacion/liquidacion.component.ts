@@ -13,8 +13,8 @@ export class LiquidacionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
-    private route: ActivatedRoute,
-    private router: Router
+    private routeLiq: ActivatedRoute,
+    private routerLiq: Router
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class LiquidacionComponent implements OnInit {
   }
 
   gotToRouteLiq(routeName: string) {
-    this.router.navigate([`${routeName}`], {relativeTo: this.route});
+    this.routerLiq.navigate([`${routeName}`], {relativeTo: this.routeLiq});
   }
 
 }
