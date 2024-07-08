@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-conciliacion',
@@ -15,6 +16,8 @@ export class ConciliacionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -54,6 +57,10 @@ export class ConciliacionComponent implements OnInit {
       (this.checkMenuLateral = $event).toString();
     }
 
+  }
+
+  gotToRoute(routeName: string) {
+    this.router.navigate([`${routeName}`], {relativeTo: this.route});
   }
   
 }
