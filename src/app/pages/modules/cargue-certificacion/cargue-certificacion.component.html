@@ -9,7 +9,7 @@
             <!--Secccion de Cargues certificacion-->
             <mat-divider></mat-divider>
             <div *ngFor="let item of menusCargueCertificacion">
-                <button mat-menu-item (click)="gotToRoute(item.url)" style="cursor: pointer"
+                <button mat-menu-item (click)="gotToRouteCert(item.url)" style="cursor: pointer"
                     routerLinkActive="seleccion-activa">
                     <span class="material-icons">{{item.icono}}</span>
                     <span>{{item.nombre}}</span>

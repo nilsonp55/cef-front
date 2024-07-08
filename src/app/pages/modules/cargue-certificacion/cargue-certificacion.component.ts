@@ -14,8 +14,8 @@ export class CargueCertificacionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
-    private route: ActivatedRoute,
-    private router: Router
+    private routeCert: ActivatedRoute,
+    private routerCert: Router
   ) { }
 
   ngOnInit(): void {
@@ -37,8 +37,8 @@ export class CargueCertificacionComponent implements OnInit {
     })
   }
 
-  gotToRoute(routeName: string) {
-    this.router.navigate([`${routeName}`], {relativeTo: this.route});
+  gotToRouteCert(routeName: string) {
+    this.routerCert.navigate([`${routeName}`], {relativeTo: this.routeCert});
   }
 
 }

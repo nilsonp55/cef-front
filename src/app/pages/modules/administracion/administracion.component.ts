@@ -21,8 +21,8 @@ export class AdministracionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
-    private route: ActivatedRoute,
-    private router: Router
+    private routeAdm: ActivatedRoute,
+    private routerAdm: Router
   ) { }
   
   ngOnInit(): void {
@@ -66,8 +66,8 @@ export class AdministracionComponent implements OnInit {
 
   }
 
-  gotToRoute(routeName: string) {
-    this.router.navigate([`${routeName}`], {relativeTo: this.route});
+  gotToRouteAdm(routeName: string) {
+    this.routerAdm.navigate([`${routeName}`], {relativeTo: this.routeAdm});
   }
 
 }
