@@ -47,15 +47,15 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Cuenta Auxiliar" required formControlName="cuentaAuxiliar">
+                    <input matInput placeholder="Cuenta Auxiliar" formControlName="cuentaAuxiliar">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Tipo Id" required formControlName="tipoId">
+                    <input matInput placeholder="Tipo Id" formControlName="tipoId">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Identificador" required formControlName="identificador">
+                    <input matInput placeholder="Identificador" formControlName="identificador">
                 </mat-form-field>
             </div>
             <div style="padding-left: 10%;">
@@ -64,10 +64,10 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Referencia1" required formControlName="referencia1">
+                    <input matInput placeholder="Referencia1" formControlName="referencia1">
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Referencia2" required formControlName="referencia2">
+                  <input matInput placeholder="Referencia2" formControlName="referencia2">
               </mat-form-field>
             </div>
             <button style="background-color: #C1DEAE" class="buttonsSaveOremove" mat-raised-button type="button" (click)="persistir()" [disabled]="frmPaciente.invalid">
