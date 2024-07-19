@@ -113,7 +113,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
       });
   }
 
@@ -145,10 +145,10 @@ export class AdministradorCuentasPucComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarCuntasPuc()
         this.initForm();
       },
@@ -169,7 +169,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarCuntasPuc()
         this.initForm();
       },
@@ -180,7 +180,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
         });
     }
    }

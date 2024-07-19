@@ -287,6 +287,7 @@ export const URLs = {
   DOMINIO_CREAR: '/guardar',
   DOMINIO_ACTUALIZAR: '/actualizar',
   DIMINIO_CONSULTAR: '/consultar-dominio',
+  DOMINIO_ELIMINAR: '/eliminar',
 
   //Listar clientes
   CLIENTE: '/clientes-corporativos',
@@ -322,7 +323,7 @@ export const URLs = {
   GESTION_PUNTOS_TDV: '/puntos-codigo-tdv',
 
   //Administración tipos cuentas
-  ADMIN_TIPOS_CUENTAS: '/tipos-cuentas',
+  ADMIN_TIPOS_CUENTAS: '/tipo-cuentas',
   ADMIN_TIPOS_CUENTAS_CONSULTAR: '/consultar',
   ADMIN_TIPOS_CUENTAS_GUARDAR: '/guardar',
   ADMIN_TIPOS_CUENTAS_ACTUALIZAR: '/actualizar',

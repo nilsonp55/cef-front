@@ -79,7 +79,7 @@ export class AdministracionContabilidadComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_TIPO_CUNTAS.ERROR_GET_TIPO_ADMIN_CUNTAS,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
       });
   }
 
@@ -103,10 +103,10 @@ export class AdministracionContabilidadComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarDominios();
         this.initForm();
       },
@@ -117,7 +117,7 @@ export class AdministracionContabilidadComponent implements OnInit {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
         });
     } else {
       this.tiposCuentasService.guardarTiposCuentas(tipoCuentas).subscribe(response => {
@@ -127,7 +127,7 @@ export class AdministracionContabilidadComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarDominios();
         this.initForm();
       },
@@ -138,7 +138,7 @@ export class AdministracionContabilidadComponent implements OnInit {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
         });
     }
 
