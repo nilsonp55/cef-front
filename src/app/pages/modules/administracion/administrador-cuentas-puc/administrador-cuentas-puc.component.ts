@@ -159,7 +159,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
         });
     } else {
       this.cuentasPucService.guardarCuentaPuc(cuentaPuc).subscribe(response => {
