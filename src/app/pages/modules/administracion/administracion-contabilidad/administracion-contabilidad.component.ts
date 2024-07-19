@@ -73,7 +73,7 @@ export class AdministracionContabilidadComponent implements OnInit {
       this.cantidadRegistros = page.data.totalElements;
     },
       (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_TIPO_CUNTAS.ERROR_GET_TIPO_ADMIN_CUNTAS,
@@ -100,7 +100,7 @@ export class AdministracionContabilidadComponent implements OnInit {
     if (this.esEdicion) {
       tipoCuentas.tipoCuenta = this.idTipoCuenta;
       this.tiposCuentasService.actualizarTiposCuentas(tipoCuentas).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
@@ -111,7 +111,7 @@ export class AdministracionContabilidadComponent implements OnInit {
         this.initForm();
       },
         (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
@@ -121,7 +121,7 @@ export class AdministracionContabilidadComponent implements OnInit {
         });
     } else {
       this.tiposCuentasService.guardarTiposCuentas(tipoCuentas).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
@@ -132,7 +132,7 @@ export class AdministracionContabilidadComponent implements OnInit {
         this.initForm();
       },
         (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,

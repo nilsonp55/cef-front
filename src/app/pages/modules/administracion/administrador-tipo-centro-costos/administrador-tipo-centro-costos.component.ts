@@ -94,7 +94,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
       this.cantidadRegistros = page.data.totalElements;
     },
       (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
@@ -122,7 +122,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
     if (this.esEdicion) {
       tiposCentrosCostosDTO.tipoCentro = this.idTipoCentro;
       this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
@@ -133,7 +133,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
         this.initForm();
       },
         (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
@@ -143,7 +143,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
         });
     } else {
       this.centroCostosService.guardarCentroCostos(tiposCentrosCostosDTO).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
@@ -154,7 +154,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
         this.initForm();
       },
         (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
