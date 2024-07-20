@@ -1,0 +1,28 @@
+<mat-toolbar class="toolbar">
+    <!--Icono zona izquierda-->
+    <button mat-icon-button (click)="eventoMenu($event)">
+        <mat-icon class="color">menu</mat-icon>
+    </button>
+    <div class="enlinea">
+      <!--Icono zona derecha (Menu descplegable)-->
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+      </button>
+      <mat-menu #menu="matMenu">
+      </mat-menu>
+  </div>
+    <div routerLink="active" >
+        <a [routerLink]="['/home']">
+            <img src="assets/img/logo_CE-1.png" width="240">
+        </a>
+    </div>
+
+    <!--Separar de esquina a esquina los 2 objetos-->
+    <span class="line-spacer"></span>
+
+    <div class="sesion">
+      <p class="sesion-item">{{ userName }}</p>
+      <p class="sesion-item">Fecha proceso: {{ fechaActual }}</p>
+      <div class="sesion-item" routerLink="active"><a [routerLink]="['/final-session']">Cerrar sesión</a></div>
+  </div>
+</mat-toolbar>
+

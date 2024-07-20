@@ -1,14 +1,14 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-banner-supeior',
-  templateUrl: './banner-supeior.component.html',
-  styleUrls: ['./banner-supeior.component.css']
+  selector: 'app-banner-superior',
+  templateUrl: './banner-superior.component.html',
+  styleUrls: ['./banner-superior.component.css']
 })
-export class BannerSupeiorComponent implements OnInit {
+export class BannerSuperiorComponent implements OnInit {
 
-  userName: String = "user@ath.com.co"
-  fechaActual : Date = new Date();
+  userName: String = "user@ath.com.co";
+  fechaActual : String = "dd/mm/yyyy";
 
   @Output() checkMenuLateral = new EventEmitter<boolean>();
   estadoMenu = true;
@@ -16,7 +16,8 @@ export class BannerSupeiorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.mostrarUsuario()
+    this.mostrarUsuario();
+    this.fechaActual = atob(sessionStorage.getItem('fechasistema'));
   }
 
   /**
@@ -29,7 +30,7 @@ export class BannerSupeiorComponent implements OnInit {
   }
 
   mostrarUsuario() {
-    this.userName = atob(sessionStorage.getItem('user'))
+    this.userName = atob(sessionStorage.getItem('user'));
   }
 
 }
