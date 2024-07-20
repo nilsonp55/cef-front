@@ -1,13 +1,15 @@
 <div class="contenedor">
+  <!--Sprinner-->
+<app-spinner *ngIf="spinnerActive"></app-spinner>
     <div class="fecha">
         <p>{{fechaSistema}}</p>
     </div>
 
     <div class="centrado">
         <div>
-            <button style="background-color: #C1DEAE; 
-            color: rgb(56, 56, 56); background-color: #ffffff; 
-            border-color: #665e74; font-size: 27px; padding: 2%;" 
+            <button style="background-color: #C1DEAE;
+            color: rgb(56, 56, 56); background-color: #ffffff;
+            border-color: #665e74; font-size: 27px; padding: 2%;"
             (click)="cierreFecha()">
                 <span>Cerrar Fecha</span>
             </button>

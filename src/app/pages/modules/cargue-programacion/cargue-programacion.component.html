@@ -1,10 +1,10 @@
 <div class="menu-container">
     <!--Banner superior-->
-    <app-banner-supeior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-supeior>
+    <app-banner-superior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-superior>
     <!--Componente barra lateral y area de ejecución-->
     <mat-sidenav-container class="sidenav-container">
         <!--Barra izquierda de opciones (Apodo id = sidenav)-->
-        <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 17%" mode="side">   
+        <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 17%" mode="side">
             <mat-divider></mat-divider>
             <div *ngFor="let item of menusCargueProgramacion">
                 <button mat-menu-item (click)="gotToRoute(item.url)" style="cursor: pointer"
@@ -13,7 +13,7 @@
                     <span>{{item.nombre}}</span>
                 </button>
                 <mat-divider></mat-divider>
-            </div>      
+            </div>
         </mat-sidenav>
 
         <!--Barra derecha de ejecución-->
