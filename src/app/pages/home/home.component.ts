@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
   }
 
   serializarToken(decodificado: any, tokenOficial: any) {
-    var _userName = decodificado.name;
+    let _userName = decodificado.name;
     this.tokenExpira = decodificado.exp;
 
     const auditoriaLoginDTO = {

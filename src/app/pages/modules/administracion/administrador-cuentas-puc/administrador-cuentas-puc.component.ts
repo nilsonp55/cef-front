@@ -61,7 +61,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
         'bancoAval': new FormControl(param? this.bancos.find((value) => value.codigoPunto === param.bancoAval.codigoPunto) : null),
         'nombreCuenta': new FormControl(param? param.nombreCuenta : null),
         'identificador': new FormControl(param? param.identificador : null),
-        'tiposCentrosCostos': new FormControl(param? this.tiposCostosCuentas.find((value) => {value.tipoCentro === param.tiposCentrosCostos.tipoCentro}) : null),
+        'tiposCentrosCostos': new FormControl(param? this.tiposCostosCuentas.find((value) => value.tipoCentro === param.tiposCentrosCostos.tipoCentro) : null),
         'tiposCuentas': new FormControl(param? this.tipoCuentas.find((value) => value.tipoCuenta === param.tiposCuentas.tipoCuenta) : null),
         'estado': new FormControl(param? param.estado : null)
       });

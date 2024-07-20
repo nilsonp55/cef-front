@@ -7,13 +7,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class BannerSuperiorComponent implements OnInit {
 
-  userName: String = "user@ath.com.co";
-  fechaActual : String = "dd/mm/yyyy";
+  userName: string = "user@ath.com.co";
+  fechaActual : string = "dd/mm/yyyy";
 
   @Output() checkMenuLateral = new EventEmitter<boolean>();
   estadoMenu = true;
-
-  constructor() { }
 
   ngOnInit(): void {
     this.mostrarUsuario();
