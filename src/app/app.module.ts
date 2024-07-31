@@ -24,7 +24,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BannerSupeiorComponent } from './pages/shared/components/banner-supeior/banner-supeior.component';
+import { BannerSuperiorComponent } from './pages/shared/components/banner-superior/banner-superior.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -169,7 +169,7 @@ import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/co
     LiquidacionComponent,
     AdministracionComponent,
     FooterComponent,
-    BannerSupeiorComponent,
+    BannerSuperiorComponent,
     LogArchivosCargadosComponent,
     HistoricoArchivosCargadosComponent,
     DialogValidarArchivoComponent,

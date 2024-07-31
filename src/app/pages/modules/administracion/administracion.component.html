@@ -1,12 +1,12 @@
 <div class="menu-container">
     <!--Banner superior-->
-    <app-banner-supeior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-supeior>
+    <app-banner-superior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-superior>
 
     <!--Componente barra lateral y area de ejecución-->
     <mat-sidenav-container class="sidenav-container">
         <!--Barra izquierda de opciones (Apodo id = sidenav)-->
         <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 21%" mode="side">
-            
+
             <!--Secccion de Parametrizacion-->
             <p style="color: rgb(71, 124, 240); margin-top: 2%">Parametrización</p>
             <mat-divider></mat-divider>

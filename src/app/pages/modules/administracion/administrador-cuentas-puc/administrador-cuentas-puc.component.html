@@ -36,7 +36,7 @@
                         <td *matCellDef="let element" mat-cell>
                             <button (click)="editar(element)" mat-button>
                                 <mat-icon style="color: green">edit</mat-icon>
-                            </button>    
+                            </button>
                         </td>
                     </ng-container>
                 </tr>
@@ -53,7 +53,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Cuenta Contable" required formControlName="cuentaContable">
+                    <input matInput placeholder="Cuenta Contable" formControlName="cuentaContable">
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -66,13 +66,13 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Nombre Cuenta" required formControlName="nombreCuenta">
+                    <input matInput placeholder="Nombre Cuenta" formControlName="nombreCuenta">
                 </mat-form-field>
             </div>
-            
+
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Identificador" required formControlName="identificador">
+                    <input matInput placeholder="Identificador" formControlName="identificador">
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -95,8 +95,8 @@
 
                 <label class="switch">
                     <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
-                    <span class="switch-label" data-on="On" data-off="Off"></span> 
-                    <span class="switch-handle"></span> 
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
                 </label>
             </div>
             <div class="tamanio-btn">

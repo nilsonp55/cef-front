@@ -11,6 +11,7 @@ import { GeneralesService } from 'src/app/_service/generales.service'
 import { CentroCostosService } from 'src/app/_service/contabilidad-service/tipo-centro-costos.service';
 import { TiposCuentasService } from 'src/app/_service/contabilidad-service/tipos-cuentas.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-administrador-cuentas-puc',
@@ -30,7 +31,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
   tiposCostosCuentas: any[] = [];
   tipoCuentas: any[] = [];
 
-  //Rgistros paginados
+  //Registros paginados
   @ViewChild(MatSort) sort: MatSort;
   cantidadRegistros: number;
 
@@ -50,47 +51,20 @@ export class AdministradorCuentasPucComponent implements OnInit {
   }
 
  /**
-   * Inicializaion formulario de creacion y edicion
+   * Inicializacion formulario de creacion y edicion
    * @BayronPerez
    */
   initForm(param?: any) {
       this.form = new FormGroup({
         'idCuentasPuc': new FormControl(param? param.idCuentasPuc : null),
         'cuentaContable': new FormControl(param? param.cuentaContable : null),
-        'bancoAval': new FormControl(param? this.selectBancoAval(param) : null),
+        'bancoAval': new FormControl(param? this.bancos.find((value) => value.codigoPunto === param.bancoAval.codigoPunto) : null),
         'nombreCuenta': new FormControl(param? param.nombreCuenta : null),
         'identificador': new FormControl(param? param.identificador : null),
-        'tiposCentrosCostos': new FormControl(param? this.selectTiposCostosCuentas(param) : null),
-        'tiposCuentas': new FormControl(param? this.selectTipoCuentas(param) : null),
+        'tiposCentrosCostos': new FormControl(param? this.tiposCostosCuentas.find((value) => value.tipoCentro === param.tiposCentrosCostos.tipoCentro) : null),
+        'tiposCuentas': new FormControl(param? this.tipoCuentas.find((value) => value.tipoCuenta === param.tiposCuentas.tipoCuenta) : null),
         'estado': new FormControl(param? param.estado : null)
       });
-  }
-
-  selectBancoAval(param: any): any {
-    for (let i = 0; i < this.bancos.length; i++) {
-      const element = this.bancos[i];
-      if(element.codigoPunto == param.bancoAval.codigoPunto) {
-        return element;
-      }
-    }
-  }
-
-  selectTipoCuentas(param: any): any {
-    for (let i = 0; i < this.tipoCuentas.length; i++) {
-      const element = this.tipoCuentas[i];
-      if(element.tipoCuenta == param.tiposCuentas.tipoCuenta) {
-        return element;
-      }
-    }
-  }
-
-  selectTiposCostosCuentas(param: any): any {
-    for (let i = 0; i < this.tiposCostosCuentas.length; i++) {
-      const element = this.tiposCostosCuentas[i];
-      if(element.tipoCentro == param.tiposCentrosCostos.tipoCentro) {
-        return element;
-      }
-    }
   }
 
   /**
@@ -101,20 +75,22 @@ export class AdministradorCuentasPucComponent implements OnInit {
     this.cuentasPucService.obtenerCuentasPuc({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({
+      next: (page: any) => {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+      },
+      error:  (err: ErrorService) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
+              codigo: GENERALES.CODE_EMERGENT.ERROR
+            }
+          });
+        }
+    });
   }
 
   /**
@@ -136,52 +112,56 @@ export class AdministradorCuentasPucComponent implements OnInit {
       tiposCuentas: {
         tipoCuenta: this.form.value['tiposCuentas'].tipoCuenta
       },
-      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
+      estado: Number(this.form.value['estado']),
     };
 
     if (this.esEdicion) {
       cuentaPuc.idCuentasPuc = this.idCuentaPuc;
-      this.cuentasPucService.actualizarCuentaPuc(cuentaPuc).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.cuentasPucService.actualizarCuentaPuc(cuentaPuc).subscribe({
+        next: (response) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarCuntasPuc()
         this.initForm();
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error:  (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
+          });
+        }
+      });
     } else {
-      this.cuentasPucService.guardarCuentaPuc(cuentaPuc).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.cuentasPucService.guardarCuentaPuc(cuentaPuc).subscribe({
+        next: (response) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarCuntasPuc()
         this.initForm();
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error:  (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
+          });
+        }
+      });
     }
    }
 
@@ -212,37 +192,24 @@ export class AdministradorCuentasPucComponent implements OnInit {
 
   async iniciarDesplegables() {
 
-    const _tipoCuentas = await this.tiposCuentasService.obtenerTiposCuentas({
+    await lastValueFrom(this.tiposCuentasService.obtenerTiposCuentas({
       page: 0,
       size: 500,
-    }).toPromise();
-    this.tipoCuentas = _tipoCuentas.data;
+    })).then((response) => {
+      this.tipoCuentas = response.data;
+    });
 
-    const _tipoCostosCuentas = await this.centroCostosService.obtenerCentroCostos({
+    await lastValueFrom(this.centroCostosService.obtenerCentroCostos({
       page: 0,
       size: 500,
-    }).toPromise();
-    this.tiposCostosCuentas = _tipoCostosCuentas.data;
+    })).then((response) => {
+      this.tiposCostosCuentas = response.data;
+    });
 
-    const _bancos = await this.generalesService.listarBancosAval().toPromise();
-    this.bancos = _bancos.data;
+    await lastValueFrom(this.generalesService.listarBancosAval()).then((response) => {
+      this.bancos = response.data;
+    });
 
-  }
-
-  formatearEstadoPersistir(param: boolean): any {
-    if(param==true){
-      return true
-    }else {
-      return false
-    }
-  }
-
-  formatearEstadoListar(param: any): any {
-    if(param==true){
-      return true
-    }else {
-      return false
-    }
   }
 
 }
