@@ -11,6 +11,14 @@
                 <app-cobradas-tdv-no-identificadas [filtro]="filtro"
                     [idTab]="idTabSeleccionda"></app-cobradas-tdv-no-identificadas>
             </mat-tab>
+            <mat-tab label="LIQUIDADAS NO COBRADAS POR TDV"><app-liquidadas-no-cobradas-tdv [filtro]="filtro"
+                    [idTab]="idTabSeleccionda"></app-liquidadas-no-cobradas-tdv></mat-tab>
+            <mat-tab label="IDENTIFICADAS CON DIFERENCIAS"><app-identificadas-con-diferencia [filtro]="filtro"
+                    [idTab]="idTabSeleccionda"></app-identificadas-con-diferencia>
+            </mat-tab>
+            <mat-tab label="REGISTROS ELIMINADOS"><app-registros-eliminados [filtro]="filtro"
+                    [idTab]="idTabSeleccionda"></app-registros-eliminados>
+            </mat-tab>
         </mat-tab-group>
     </div>
 </div>
