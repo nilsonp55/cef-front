@@ -1,0 +1,55 @@
+.division-busqueda {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.ubicacionBotonFiltrar {
+    margin-top: 8%;
+}
+
+.ubicacionDerecha {
+    text-align: right;
+}
+
+.ubicacionCentro {
+    text-align: center;
+}
+
+.ubicacionIzquierda {
+    text-align: left;
+}
+
+
+
+@media only screen and (min-width: 1330px) {
+    .camposIzquierda {
+        margin-right: 22px;
+        width: 67.5%;
+    }
+
+    .camposCentro {
+        width: 68.5%
+    }
+
+    .mat-form-field {
+        width: 79% !important;
+        margin-top: 3% !important;
+    }
+}
+
+
+@media only screen and (min-width: 1920px) {
+    .camposIzquierda {
+        margin-right: 45px;
+        width: 45.5%;
+    }
+
+    .camposCentro {
+        width: 48.5%;
+    }
+
+    .mat-form-field {
+        width: 76% !important;
+        margin-top: 2% !important;
+    }
+}

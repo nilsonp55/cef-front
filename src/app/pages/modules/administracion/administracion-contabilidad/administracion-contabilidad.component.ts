@@ -73,13 +73,13 @@ export class AdministracionContabilidadComponent implements OnInit {
       this.cantidadRegistros = page.data.totalElements;
     },
       (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_TIPO_CUNTAS.ERROR_GET_TIPO_ADMIN_CUNTAS,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
       });
   }
 
@@ -100,45 +100,45 @@ export class AdministracionContabilidadComponent implements OnInit {
     if (this.esEdicion) {
       tipoCuentas.tipoCuenta = this.idTipoCuenta;
       this.tiposCuentasService.actualizarTiposCuentas(tipoCuentas).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarDominios();
         this.initForm();
       },
         (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
         });
     } else {
       this.tiposCuentasService.guardarTiposCuentas(tipoCuentas).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarDominios();
         this.initForm();
       },
         (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
         });
     }
 

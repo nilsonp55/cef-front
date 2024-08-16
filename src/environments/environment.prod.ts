@@ -11,5 +11,8 @@ export const environment = {
   time_token_exp: "2055602383000",
 
   //feature-flag
-  featureFlag: { conciliacionCostos: false, clientesCorporativos: false }
+  featureFlag: {
+    conciliacionCostos: false, // habilita modulo en menu principal
+    clientesCorporativos: true // habilita menu en modulo administracion
+  }
 };

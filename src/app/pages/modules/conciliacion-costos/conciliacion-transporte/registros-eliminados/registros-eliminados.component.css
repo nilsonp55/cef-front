@@ -1,0 +1,49 @@
+* {
+    background: #fff;
+}
+
+::ng-deep .divTabla {
+    padding: 1%;
+    margin: 1% 0 0 1%;
+    background-color: transparent;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.botones-tabla {
+    display: table-cell;
+    width: 100%;
+}
+
+.botones-tabla .mat-button-base {
+    margin: 8px 8px 8px 0;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-header-cell,
+.mat-cell {
+    padding: 0 5px;
+}
+
+.mat-paginator-container {
+    display: flex;
+    justify-content: normal;
+}
+
+.mat-column-aplicativo,
+.mat-column-tvd {
+    background: lightblue;
+}
+
+.content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disenio-spinner {
+    margin: 16px;
+}

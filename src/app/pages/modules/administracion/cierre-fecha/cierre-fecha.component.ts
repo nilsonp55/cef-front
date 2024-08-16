@@ -6,6 +6,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { CierreFechaService } from 'src/app/_service/cierre-fecha.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-cierre-fecha',
@@ -33,10 +34,13 @@ export class CierreFechaComponent implements OnInit {
   }
 
   async consultaDatos(){
-    const _fecha = await this.generalServices.listarParametroByFiltro({
+    this.spinnerActive = true;
+    await lastValueFrom(this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
-    }).toPromise();
-    this.fechaSistema = _fecha.data[0].valor;
+    })).then((response) => {
+      this.fechaSistema = response.data[0].valor;
+      this.spinnerActive = false;
+    });
   }
 
   /**
@@ -45,27 +49,29 @@ export class CierreFechaComponent implements OnInit {
    */
   cierreFecha() {
     this.spinnerActive = true;
-    this.cierreFechaService.realizarCierreFecha().subscribe(data => {
-        this.spinnerActive = false;
+    this.cierreFechaService.realizarCierreFecha().subscribe({
+      next: (data) => {
         this.consultaDatos();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_FECHA.SUCCESFULL_CIERRE_FECHA,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3500);
-      },
-      (err: any) => {
+        });
         this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      },
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 6000);
-      });
+        });
+        this.spinnerActive = false;
+      }
+    });
   }
 
 }

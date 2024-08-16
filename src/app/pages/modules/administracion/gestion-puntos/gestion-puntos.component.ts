@@ -22,7 +22,6 @@ export class GestionPuntosComponent implements OnInit {
   puntoSeleccionado: string = '';
   elementoPuntoActualizar: string;
   detallePuntoSeleccionado: any;
-  estadoPuntos: boolean;
   nombrePuntoBusqueda: string;
 
   //Registros paginados
@@ -39,6 +38,7 @@ export class GestionPuntosComponent implements OnInit {
     'banco_aval',
     'nombrePunto',
     'codigoCiudad',
+    'estado',
     'detalle',
   ];
 
@@ -59,7 +59,6 @@ export class GestionPuntosComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken();
-    this.estadoPuntos = false;
     this.listarTiposPunto();
     this.listarPuntosSeleccionado();
     this.listarCiudades();
@@ -149,7 +148,6 @@ export class GestionPuntosComponent implements OnInit {
       })
       .subscribe({
         next: (page: any) => {
-          this.estadoPuntos = true;
           this.dataSourcePuntoSelect = new MatTableDataSource(
             page.data.content
           );
@@ -268,5 +266,12 @@ export class GestionPuntosComponent implements OnInit {
 
   filtrar(event) {
     this.listarPuntosSeleccionado();
+  }
+
+  /**
+   * @author prv_nparra
+   */
+  resolverEstado(estado: boolean): string {
+    return estado ? "Activo" : "Inactivo";
   }
 }

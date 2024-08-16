@@ -1,6 +1,6 @@
 <div class="menu-container">
     <!--Banner superior-->
-    <app-banner-supeior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-supeior>
+    <app-banner-superior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-superior>
 
     <!--Componente barra lateral y area de ejecución-->
     <mat-sidenav-container class="sidenav-container">
@@ -9,13 +9,13 @@
             <!--opciones de menu-->
             <mat-divider></mat-divider>
             <div *ngFor="let item of menusConsiliacion">
-                <button mat-menu-item [routerLink]="[item.url]" style="cursor: pointer"
+                <button mat-menu-item (click)="gotToRoute(item.url)" style="cursor: pointer"
                     routerLinkActive="seleccion-activa">
                     <span class="material-icons">{{item.icono}}</span>
                     <span>{{item.nombre}}</span>
                 </button>
                 <mat-divider></mat-divider>
-            </div>      
+            </div>
         </mat-sidenav>
 
         <!--Barra derecha de ejecución-->

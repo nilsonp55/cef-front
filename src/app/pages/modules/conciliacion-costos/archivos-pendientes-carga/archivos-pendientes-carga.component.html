@@ -1,23 +1,23 @@
 <app-filtro-archivos (filterData)="filter($event)" [showFechaProceso]="true">
 </app-filtro-archivos>
 <div class="divTituloTablas">
-    <h1 class="tituloTabla">ARCHIVOS PENDIENTES DE CARGA</h1>
+    <h1 class="tituloTabla"><strong>ARCHIVOS PENDIENTES DE CARGA</strong></h1>
     <span class="line-spacer"></span>
 </div>
 
-<mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros">
-</mat-paginator>
-<div class="row botonesArchivo">
-    <div class="col-2">
-        <button mat-raised-button color="primary" (click)="procesarArchivos()">Procesar archivos</button>
+<mat-grid-list cols="2" rowHeight="100px">
+  <mat-grid-tile colspan="1">
+    <div class="botones-tabla">
+      <button mat-raised-button color="primary" (click)="procesarArchivos()">Procesar archivos</button>
+      <button mat-raised-button color="primary" (click)="eliminarArchivo()">Eliminar archivos</button>
+      <button mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'archivos_pendiente_carga'})">Exportar tabla</button>
     </div>
-    <div class="col-2 botones">
-        <button mat-raised-button color="primary" (click)="eliminarArchivo()">Eliminar archivos</button>
-    </div>
-    <div class="col-2">
-        <button mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'archivos_pendiente_carga'})">Exportar tabla</button>
-    </div>
-</div>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1">
+    <mat-paginator *ngIf="cantidadRegistros > 0" [pageSize]="5" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros"></mat-paginator>
+  </mat-grid-tile>
+</mat-grid-list>
+
 
 <div class="divTabla">
     <table mat-table matTableExporter [hiddenColumns]="[0,8]" [dataSource]="dataSourceConciliadas" matSort

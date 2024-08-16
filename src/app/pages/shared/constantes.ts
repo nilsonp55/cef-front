@@ -1,4 +1,5 @@
 export const GENERALES = {
+
   //Mensajes de ventana de alerta global
   MESSAGE_ALERT: {
     SIZE_WINDOWS_ALERT: '500px',
@@ -122,12 +123,14 @@ export const GENERALES = {
     MESSAGE_GESTION_PUNTOS: {},
     MESSAGE_VLIDACION_FECHAS: {
       ERROR_DATE: 'La fecha inicial debe de ser menor a la fecha final',
-    },
+      REQUIRED_RANGE_DATE: 'Se requiere seleccionar un rango de fechas'
+    }
   },
 
   DIALOG_FORM: {
     SIZE_FORM: '60%',
   },
+
   //-----------------------------------------------------------------------------------------------------------------
   //Variables y constantes para parametrización
   //-----------------------------------------------------------------------------------------------------------------
@@ -189,6 +192,8 @@ export const GENERALES = {
 
   TIPO_IDENTIFICACION:  ['NIT', 'CC' ],
 
+  //Gestion Archvio
+  PARAMETRO_GESTION: 'LIQCO'
 };
 
 //-----------------------------------------------------------------------------------------------------------------
@@ -279,9 +284,10 @@ export const URLs = {
   DOMINIO_MAESTRO: '/dominios',
   DOMINIO_OBTENER: '/obtener',
   DOMINIOS_TODOS: '/obtener-todos',
-  DOMINIO_CREAR:'/guardar',
-  DOMINIO_ACTUALIZAR:'/actualizar',
-  DIMINIO_CONSULTAR:'/consultar-dominio',
+  DOMINIO_CREAR: '/guardar',
+  DOMINIO_ACTUALIZAR: '/actualizar',
+  DIMINIO_CONSULTAR: '/consultar-dominio',
+  DOMINIO_ELIMINAR: '/eliminar',
 
   //Listar clientes
   CLIENTE: '/clientes-corporativos',
@@ -303,9 +309,9 @@ export const URLs = {
   PROCESO_DIARIO: '/proceso-diario',
   PROCESO_DIARIO_CONSULTAR: '/consultar',
 
-   //Proceso diario
-   VALIDA_ESTADO_PROCESO: '/auditoria-procesos',
-   VALIDA_ESTADO_PROCESO_CONSULTAR: '/consultar-proceso',
+  //Proceso diario
+  VALIDA_ESTADO_PROCESO: '/auditoria-procesos',
+  VALIDA_ESTADO_PROCESO_CONSULTAR: '/consultar-proceso',
 
   //Gestion puntos
   GESTION_PUNTOS: '/punto',
@@ -314,9 +320,10 @@ export const URLs = {
   CONSULTAR_PUNTOS: '/consultar',
   GUARDAR_PUNTO: '/guardar',
   ACTUALIZAR_PUNTO: '/actualizar',
+  GESTION_PUNTOS_TDV: '/puntos-codigo-tdv',
 
   //Administración tipos cuentas
-  ADMIN_TIPOS_CUENTAS: '/tipos-cuentas',
+  ADMIN_TIPOS_CUENTAS: '/tipo-cuentas',
   ADMIN_TIPOS_CUENTAS_CONSULTAR: '/consultar',
   ADMIN_TIPOS_CUENTAS_GUARDAR: '/guardar',
   ADMIN_TIPOS_CUENTAS_ACTUALIZAR: '/actualizar',
@@ -402,11 +409,11 @@ export const URLs = {
   ADMIN_MENU_ROL_GUARDAR: '/guardar',
   ADMIN_MENU_ROL_ACTUALIZAR: '/actualizar',
 
-   //Administración festivos-nacionles
-   ADMIN_FESTIVOS_NACIONALES: '/festivos-nacionales',
-   ADMIN_FESTIVOS_NACIONALES_CONSULTAR: '/consultar',
-   ADMIN_FESTIVOS_NACIONALES_GUARDAR: '/guardar',
-   ADMIN_FESTIVOS_NACIONALES_ELIMINAR: '/eliminar',
+  //Administración festivos-nacionles
+  ADMIN_FESTIVOS_NACIONALES: '/festivos-nacionales',
+  ADMIN_FESTIVOS_NACIONALES_CONSULTAR: '/consultar',
+  ADMIN_FESTIVOS_NACIONALES_GUARDAR: '/guardar',
+  ADMIN_FESTIVOS_NACIONALES_ELIMINAR: '/eliminar',
 
   //Administración usuario
   ADMIN_USUARIO: '/usuario',
@@ -426,9 +433,9 @@ export const URLs = {
   ADMIN_ESCALAS_GUARDAR: '/guardar',
   ADMIN_ESCALAS_ACTUALIZAR: '/actualizar',
 
-   //Escalas
-   ADMIN_AUDITORIA: '/auditoria-login',
-   ADMIN_AUDITORIA_GUARDAR: '/guardar',
+  //Escalas
+  ADMIN_AUDITORIA: '/auditoria-login',
+  ADMIN_AUDITORIA_GUARDAR: '/guardar',
 
   //Puntos Codigos TDV
   PUNTOS_CODIGO: '/puntos-codigo-tdv',
@@ -461,7 +468,36 @@ export const URLs = {
   ARCHIVOS_PENDIENTE_CARGA_DETALLE_PROCESAR: '/archivos-liquidacion/detalle',
   ARCHIVOS_PENDIENTE_CARGA_DETALLE_ERROR_PROCESAR: '/archivos-liquidacion/detalle-error',
   ARCHIVOS_PENDIENTE_CARGA_ELIMINAR: '/archivos-liquidacion/eliminar',
-  ARCHIVOS_PENDIENTE_CARGA_DESCARGAR: '/descargar-idArchivo-liquidacion'
+  ARCHIVOS_PENDIENTE_CARGA_DESCARGAR: '/descargar-idArchivo-liquidacion',
+
+  //Conciliacion Transporte
+  CONCILIACION_TRANSPORTE_CONSULTAR_CONCILIADAS: '/conciliacion-transporte/consultar-conciliadas',
+  CONCILIACION_TRANSPORTE_CONSULTAR_COBRADAS_NO_IDENTIFICADAS: '/conciliacion-transporte/remitidas-no-identificadas',
+  CONCILIACION_TRANSPORTE_DESCONCILIAR: '/conciliacion-transporte/desconciliar',
+  CONCILIACION_TRANSPORTE_CONSULTAR_IDENTIFICADAS_CON_DIFERENCIAS: '/conciliacion-transporte/identificadas-con-diferencias',
+  CONCILIACION_TRANSPORTE_ACEPTADO_RECHAZADO_IDENTIFICADAS_CON_DIFERENCIA: '/conciliacion-transporte/identificadas-con-diferencia-aceptar-rechazar',
+  CONCILIACION_TRANSPORTE_ACEPTAR_RECHAZAR: '/conciliacion-transporte/remitidas-aceptar-rechazar',
+  CONCILIACION_TRANSPORTE_CONSULTAR_LIQUIDADAS_NO_COBRADAS: '/conciliacion-transporte/liquidadas-no-cobradas',
+  CONCILIACION_TRANSPORTE_ELIMINAR_RECHAZAR_LQUIDADAS_NO_COBRADAS: '/conciliacion-transporte/liquidadas-eliminar-rechazar',
+  CONCILIACION_TRANSPORTE_CONSULTAR_REGISTROS_ELIMINADOS: '/conciliacion-transporte/eliminadas',
+  CONCILIACION_TRANSPORTE_ELIMINADAS_REINTEGRAR: '/conciliacion-transporte/liquidadas-reintegrar',
+
+  //Conciliacion Procesamiento
+  CONCILIACION_PROCESAMIENTO_CONSULTAR_CONCILIADAS: '/conciliacion-procesamiento/consultar-conciliadas',
+  CONCILIACION_PROCESAMIENTO_DESCONCILIAR: '/conciliacion-procesamiento/desconciliar',
+  CONCILIACION_PROCESAMIENTO_CONSULTAR_COBRADAS_NO_IDENTIFICADAS: '/conciliacion-procesamiento/remitidas-no-identificadas',
+  CONCILIACION_PROCESAMIENTO_COBRADAS_NO_IDENTIFICADAS_ACEPTAR_RECHAZAR: '/conciliacion-procesamiento/remitidas-aceptar-rechazar',
+  CONCILIACION_PROCESAMIENTO_CONSULTAR_LIQUIDADAS_NO_COBRADAS: '/conciliacion-procesamiento/liquidadas-no-cobradas',
+  CONCILIACION_PROCESAMIENTO_LIQUIDADAS_NO_COBRADAS_ELIMINAR_RECHAZAR: '/conciliacion-procesamiento/liquidadas-eliminar-rechazar',
+  CONCILIACION_PROCESAMIENTO_CONSULTAR_IDENTIFICADAS_CON_DIFERENCIAS: '/conciliacion-procesamiento/identificadas-con-diferencias',
+  CONCILIACION_PROCESAMIENTO_IDENTIFICADAS_CON_DIFERENCIAS_ACEPTAR_RECHAZAR: '/conciliacion-procesamiento/identificadas-con-diferencia-aceptar-rechazar',
+  CONCILIACION_PROCESAMIENTO_CONSULTAR_ELIMINADAS: '/conciliacion-procesamiento/eliminadas',
+  CONCILIACION_PROCESAMIENTO_ELIMINADAS_REINTEGRAR: '/conciliacion-procesamiento/liquidadas-reintegrar',
+
+  //Gestion de archivos
+  GESTION_ARCHIVOS_CONSULTAR: '/gestion-archivos-liquidacion/consultar-agrupador',
+  GESTION_ARCHIVOS_DESCARGAR: '/archivos/descargar-gestion-archivos-liquidacion',
+  GESTION_ARCHIVOS_CERRAR: '/gestion-archivos-liquidacion/aceptar-archivos',
 };
 
 export const ROLES = [

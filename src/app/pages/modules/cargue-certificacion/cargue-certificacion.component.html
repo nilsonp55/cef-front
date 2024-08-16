@@ -1,6 +1,6 @@
 <div class="menu-container">
     <!--Banner superior-->
-    <app-banner-supeior></app-banner-supeior>
+    <app-banner-superior></app-banner-superior>
 
     <!--Componente barra lateral y area de ejecución-->
     <mat-sidenav-container class="sidenav-container">
@@ -9,7 +9,7 @@
             <!--Secccion de Cargues certificacion-->
             <mat-divider></mat-divider>
             <div *ngFor="let item of menusCargueCertificacion">
-                <button mat-menu-item [routerLink]="[item.url]" style="cursor: pointer"
+                <button mat-menu-item (click)="gotToRouteCert(item.url)" style="cursor: pointer"
                     routerLinkActive="seleccion-activa">
                     <span class="material-icons">{{item.icono}}</span>
                     <span>{{item.nombre}}</span>

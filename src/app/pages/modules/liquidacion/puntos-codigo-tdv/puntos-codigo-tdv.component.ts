@@ -22,7 +22,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   form: FormGroup;
   dataSourceCodigoPuntoTdv: MatTableDataSource<any>
-  displayedColumnsCodigoPuntoTdv: string[] = ['codigoPunto', 'codigoTdv', 'codigoPropioTdv', 'nombrePunto', 'nombreBanco', 'acciones'];
+  displayedColumnsCodigoPuntoTdv: string[] = ['idPuntoCodigoTdv', 'codigoPunto', 'tipoPunto', 'codigoTdv', 'codigoPropioTdv', 'nombrePunto', 'nombreBanco', 'codigoCiudad', 'estado', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   mostrarTabla = true;
@@ -161,7 +161,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           });
@@ -499,4 +499,19 @@ export class PuntosCodigoTdvComponent implements OnInit {
     this.filtroTransportaSelect;
     this.listarPuntosCodigo(this.numPagina, this.cantPagina);
   }
+
+  /**
+   * @author prv_nparra
+   */
+  resolverEstado(estado: boolean): string {
+    return estado ? "Activo" : "Inactivo";
+  }
+
+  /**
+   * @author prv_nparra
+   */
+  resolverCiudadFondo(ciiuFondo: any) {
+    return this.ciudades.find((value) => value.codigoDANE == ciiuFondo).nombreCiudad;
+  }
+
 }

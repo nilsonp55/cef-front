@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-contabilizacion',
@@ -12,6 +13,8 @@ export class ContabilizacionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
+    private routeCont: ActivatedRoute,
+    private routerCont: Router
   ) { }
 
   ngOnInit(): void {
@@ -33,4 +36,7 @@ export class ContabilizacionComponent implements OnInit {
     })
   }
 
+  gotToRouteCont(routeName: string) {
+    this.routerCont.navigate([`${routeName}`], {relativeTo: this.routeCont});
+  }
 }

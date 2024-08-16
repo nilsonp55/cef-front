@@ -1,0 +1,37 @@
+<div style="overflow-x: auto; overflow-y: auto; height: 300px;">
+    <div class="col-12 row">
+        <div class="col-12">
+          <div *ngIf="this.data.event == 'conciliadas_desconciliar'">
+            <h2>¿Desea <strong>Desconciliar</strong> {{data.msn.length}} registros que fueron conciliados?</h2>
+          </div>
+          <div *ngIf="this.data.event == 'cobradas_aceptar'">
+            <h2>¿Desea <strong>Aceptar</strong> {{data.msn.length}} registros que fueron remitidos por la TDV y no fueron identificados?</h2>
+          </div>
+          <div *ngIf="this.data.event == 'cobradas_rechazar'">
+            <h2>¿Desea <strong>Rechazar</strong> {{data.msn.length}} registros que fueron remitidos por la TDV y no fueron identificados?</h2>
+          </div>
+          <div *ngIf="this.data.event == 'liquidadas_eliminar'">
+            <h2>¿Desea <strong>Eliminar</strong> {{data.msn.length}} registros que fueron liquidados no cobrados por la TDV?</h2>
+          </div>
+          <div *ngIf="this.data.event == 'liquidadas_rechazar'">
+            <h2>¿Desea <strong>Rechazar</strong> {{data.msn.length}} registros que fueron liquidados no cobrados por la TDV?</h2>
+          </div>
+          <div *ngIf="this.data.event == 'identificadas_aceptar'">
+            <h2>¿Desea <strong>Aceptar</strong> {{data.msn.length}} registros que fueron identitifados con diferencias?</h2>
+          </div>
+          <div *ngIf="this.data.event == 'identificadas_rechazar'">
+            <h2>¿Desea <strong>Rechazar</strong> {{data.msn.length}} registros que fueron identitifados con diferencias?</h2>
+          </div>
+          <div *ngIf="this.data.event == 'eliminados_reintegrar_registros'">
+            <h2>¿Desea <strong>Reintegrar</strong> {{data.msn.length}} registros ?</h2>
+          </div>
+        </div>
+        <div class="col-12">
+            <textarea [(ngModel)]="observacion" cols="97" rows="10" placeholder="Observaciones" style="border: ridge; border-radius: 10px;"></textarea>
+        </div>
+    </div>
+</div>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="secondary" (click)="closeModal()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="procesar()">Aceptar</button>
+</mat-dialog-actions>
