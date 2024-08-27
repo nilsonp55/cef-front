@@ -97,9 +97,8 @@ export class GestionArchivosComponent implements OnInit {
 
   filter(event) {
     this.modalProcesoEjecucion();
-    var lista:any = this.datosServicio;
+    var lista: any = this.datosServicio;
     if (event !== undefined) {
-      debugger;
       const filters = {
         banco: event.banco === undefined ? [] : [event.banco],
         estado: event.estado === undefined ? [] : [event.estado],
@@ -122,16 +121,27 @@ export class GestionArchivosComponent implements OnInit {
       }
       if (listaFilter.length > 0) {
         this.dataSourceConciliadas = new MatTableDataSource(listaFilter);
+        this.selection.clear()
+        this.seleccionadosTabla = []
+        Swal.close();
       } else {
         this.dataSourceConciliadas = new MatTableDataSource([]);
+        Swal.fire({
+          title: "No existen registros que coincidan con los filtros seleccionados",
+          imageUrl: "assets/img/waring.jpg",
+          imageWidth: 80,
+          imageHeight: 80,
+          confirmButtonText: "Aceptar",
+          showConfirmButton: true,
+          allowOutsideClick: false
+        }).then((result) => {
+          Swal.close();
+        });
       }
       this.pageSizeList = [5, 10, 25, 100, listaFilter.length];
       this.dataSourceConciliadas.paginator = this.paginator;
       this.dataSourceConciliadas.sort = this.sort;
     }
-    this.selection.clear()
-    this.seleccionadosTabla = []
-    Swal.close();
   }
 
   getFecha(fecha: string): string {
@@ -169,7 +179,7 @@ export class GestionArchivosComponent implements OnInit {
 
   descargarArchivos() {
     this.modalProcesoEjecucion();
-    if(this.seleccionadosTabla.length == 0){
+    if (this.seleccionadosTabla.length == 0) {
       Swal.fire({
         title: "Seleccione al menos un registro de la tabla",
         imageUrl: "assets/img/waring.jpg",
@@ -187,11 +197,11 @@ export class GestionArchivosComponent implements OnInit {
     let idArchivos = this.seleccionadosTabla.map(archivo => archivo.idArchivo);
 
     this.opConciliacionCostosService.descargarGestionArchivos(
-      {idArchivos}
+      { idArchivos }
     ).subscribe({
       next: (response: any) => {
-        const blobFile  = this.base64toBlob(response.file, response.id ? 'text/plain' : 'application/zip')
-        if(blobFile)
+        const blobFile = this.base64toBlob(response.file, response.id ? 'text/plain' : 'application/zip')
+        if (blobFile)
           saveAs(blobFile, response.name);
         Swal.close();
       },
@@ -220,8 +230,8 @@ export class GestionArchivosComponent implements OnInit {
     });
   }
 
-  base64toBlob (b64Data, contentType, sliceSize=512) {
-    try{
+  base64toBlob(b64Data, contentType, sliceSize = 512) {
+    try {
       const byteCharacters = atob(b64Data);
       const byteArrays = [];
 
@@ -237,9 +247,9 @@ export class GestionArchivosComponent implements OnInit {
         byteArrays.push(byteArray);
       }
 
-      const blob = new Blob(byteArrays, {type: contentType});
+      const blob = new Blob(byteArrays, { type: contentType });
       return blob;
-    } catch(error){
+    } catch (error) {
       console.error('base64toBlob', error);
       return null;
     }
@@ -262,11 +272,11 @@ export class GestionArchivosComponent implements OnInit {
     }
     let registrosNoProcesados = false;
     let validacionArchivo = this.seleccionadosTabla.map(registro => {
-      if(registro.estado == 'ERROR') registrosNoProcesados = true;
-      return {"idArchivo" : registro.idArchivo }
+      if (registro.estado == 'ERROR') registrosNoProcesados = true;
+      return { "idArchivo": registro.idArchivo }
     });
     Swal.fire({
-      title: "¿Desea cerrar la conciliación de estos "+this.seleccionadosTabla.length+" archivos?",
+      title: "¿Desea cerrar la conciliación de estos " + this.seleccionadosTabla.length + " archivos?",
       imageUrl: "assets/img/waring.jpg",
       imageWidth: 80,
       imageHeight: 80,
@@ -276,37 +286,37 @@ export class GestionArchivosComponent implements OnInit {
       cancelButtonText: "Cancelar",
       allowOutsideClick: false
     }).then((result) => {
-      if(result.isConfirmed){
-        this.opConciliacionCostosService.cerrarGestionArchivos({validacionArchivo}).
-        subscribe({
-          next: (response: any) => {
-            if(response.response.description == "Success"){
-              let mensaje ='Se proceso correctamente el cierre de conciliación.';
-              mensaje = registrosNoProcesados ? mensaje + '\n\n Los registros seleccionados error  automático no han sido procesados.' : mensaje ;
-              registrosNoProcesados = response.data.content.some(reg => reg.estado == "NO CONCILIADO");
-              mensaje = registrosNoProcesados ? mensaje + '\n\n La operación solicitada no pudo completarse con algunos registros.' : mensaje ;
-              this.procesoExitoso(mensaje);
-            }
-
-          },
-          error: (err: any) => {
-            Swal.close();
-            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-              data: {
-                msn: err.error.response.description,
-                codigo: GENERALES.CODE_EMERGENT.ERROR
+      if (result.isConfirmed) {
+        this.opConciliacionCostosService.cerrarGestionArchivos({ validacionArchivo }).
+          subscribe({
+            next: (response: any) => {
+              if (response.response.description == "Success") {
+                let mensaje = 'Se proceso correctamente el cierre de conciliación.';
+                mensaje = registrosNoProcesados ? mensaje + '\n\n Los registros seleccionados error  automático no han sido procesados.' : mensaje;
+                registrosNoProcesados = response.data.content.some(reg => reg.estado == "NO CONCILIADO");
+                mensaje = registrosNoProcesados ? mensaje + '\n\n La operación solicitada no pudo completarse con algunos registros.' : mensaje;
+                this.procesoExitoso(mensaje);
               }
-            });
-            setTimeout(() => { alert.close(); }, 3000);
-          }
-        });
+
+            },
+            error: (err: any) => {
+              Swal.close();
+              const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+                width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                data: {
+                  msn: err.error.response.description,
+                  codigo: GENERALES.CODE_EMERGENT.ERROR
+                }
+              });
+              setTimeout(() => { alert.close(); }, 3000);
+            }
+          });
       }
       Swal.close();
     })
   }
 
-  procesoExitoso(message:string){
+  procesoExitoso(message: string) {
     Swal.fire({
       title: message,
       imageUrl: "assets/img/succesfull.png",
