@@ -61,7 +61,7 @@ export class ConciliacionCostosComponent implements OnInit {
   }
 
   validarMenuProximo(menu) {
-    if (menu.nombre === "Gestión de archivos") {
+    if (menu.nombre === "") {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
