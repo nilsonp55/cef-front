@@ -36,14 +36,16 @@ export class TiposCuentasService {
      * Servicio para gurdar un tipo cuenta
      */
      guardarTiposCuentas(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_GUARDAR}`, param);
+      const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+      return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_GUARDAR}`, param, {headers});
     }
 
     /**
      * Servicio para gurdar un tipo cuenta
      */
      actualizarTiposCuentas(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_ACTUALIZAR}`, param);
+      const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+      return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_ACTUALIZAR}`, param, {headers});
     }
 
 
