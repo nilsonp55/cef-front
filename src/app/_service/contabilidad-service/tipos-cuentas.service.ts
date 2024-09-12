@@ -18,31 +18,34 @@ export class TiposCuentasService {
 
     constructor(private http: HttpClient) { }
 
-    /** 
+    /**
      * Variable reactiva para optener la lista de procesos actualizados y volver a la pantalla principal
     */
     archivoActualizado: Subject<any[]> = new Subject<any[]>();
 
 
-    /** 
+    /**
      * Servicio para listar los tipos cuentas
     */
     obtenerTiposCuentas(params: any): Observable<any> {
-        return this.http.get<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_CONSULTAR}`, { params: params });
+      const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+      return this.http.get<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_CONSULTAR}`, { params: params, headers });
     }
 
     /**
      * Servicio para gurdar un tipo cuenta
      */
      guardarTiposCuentas(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_GUARDAR}`, param);
+      const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+      return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_GUARDAR}`, param, {headers});
     }
 
     /**
      * Servicio para gurdar un tipo cuenta
      */
      actualizarTiposCuentas(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_ACTUALIZAR}`, param);
+      const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+      return this.http.post<any>(`${this.url}${URLs.ADMIN_TIPOS_CUENTAS_ACTUALIZAR}`, param, {headers});
     }
 
 
