@@ -6,8 +6,12 @@
     </div>
     <table mat-table [dataSource]="dataSourceInfoArchivo" matSort class="mat-elevation-z8">
         <caption></caption>
+        <ng-container matColumnDef="fechaArchivo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA ARCHIVO</th>
+          <td mat-cell *matCellDef="let element"> {{element.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}} </td>
+      </ng-container>
         <ng-container matColumnDef="fechaInicioCargue">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA INICIO</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA CARGUE</th>
             <td mat-cell *matCellDef="let element"> {{element.fechaInicioCargue | date: 'dd/MM/YYYY' : '+00'}} </td>
             <!--medium'yyyy-MM-dd'-->
         </ng-container>
