@@ -34,7 +34,7 @@ export class HistoriArchiCargaCertifiComponent implements OnInit {
 
   //DataSource para pintar tabla de archivos cargados
   dataSourceInfoArchivo: MatTableDataSource<ArchivoCargadoModel>;
-  displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaInicioCargue', 'numeroRegistros', 'estado', 'acciones'];
+  displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaArchivo', 'fechaInicioCargue', 'numeroRegistros', 'estadoCargue', 'acciones'];
 
   constructor(
     private http: HttpClient,
