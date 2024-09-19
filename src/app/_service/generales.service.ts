@@ -67,7 +67,7 @@ export class GeneralesService {
     */
      listarDominioByDominio(dominio: any): Observable<any> {
         const headers = { 'Authorization': 'Bearer '+atob(sessionStorage.getItem('token'))}
-        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio},);
+        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio, headers},);
     }
 
     /** 
@@ -76,12 +76,12 @@ export class GeneralesService {
     */
      listarParametroByFiltro(param: any): Observable<any> {
         const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param });
+        return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param, headers });
     }
 
     listarDominioXDominio(dominio: any): Observable<any> {
         const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}        
-        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DIMINIO_CONSULTAR}`,{params:dominio},);
+        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DIMINIO_CONSULTAR}`,{params:dominio, headers},);
     }
 
     listarClientes(param?: any): Observable<any> {
