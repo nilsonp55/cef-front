@@ -93,7 +93,8 @@ export class VentanaEmergenteDetalleGestionComponent {
                             listaContenido.push(element.contenido)
                         });
                     }
-                    const blob = new Blob([listaContenido], { type: 'application/octet-stream' });
+                    const contenidoTexto = listaContenido.join('')
+                    const blob = new Blob([contenidoTexto], { type: 'text/plain' });
                     saveAs(blob, this.data.msn.nombreArchivoCompleto);
                     Swal.close();
                 },

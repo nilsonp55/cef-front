@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ErrorService } from 'src/app/_model/error.model';
 import { VentanaEmergenteResponseComponent } from '../ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from '../../constantes';
@@ -20,6 +20,7 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
 
   @Output()
   filterData = new EventEmitter<any>();
+  @Input() pantalla: any;
 
   filtrosFormGroup: FormGroup;
   btnBuscar: boolean = false;
@@ -33,6 +34,7 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
   nombreTipoServicioData: any[] = [];
   monedaDivisaData: any[] = [];
   estadoData: any[] = [];
+  nombreTipoOperacionData: any[] = [];
 
   /**Observables autocomplete */
   entidadOptions: Observable<any[]>;
@@ -44,6 +46,7 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
   nombreTipoServicioOptions: Observable<any[]>;
   monedaDivisaOptions: Observable<any[]>;
   estadoOptions: Observable<any[]>;
+  nombreTipoOperacionOptions: Observable<any[]>;
 
   constructor(
     private dialog: MatDialog,
@@ -61,12 +64,14 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
       nombrePuntoCargo: [''],
       ciudadFondo: [''],
       nombreTipoServicio: [''],
+      nombreTipoOperacion: [''],
       monedaDivisa: [''],
       estado: ['']
     });
   }
 
   ngOnInit(): void {
+    console.log(this.pantalla)
     this.entidadOptions = this.filtrosFormGroup.controls['entidad'].valueChanges.pipe(
       startWith(''),
       debounceTime(400),
@@ -112,6 +117,13 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
       startWith(''),
       debounceTime(400),
       switchMap(value => this.filtrarNombreTipoServicio(value)),
+      map(value => value.sort((a, b) => this.ordenarListado(a, b))),
+    );
+
+    this.nombreTipoOperacionOptions = this.filtrosFormGroup.controls['nombreTipoOperacion'].valueChanges.pipe(
+      startWith(''),
+      debounceTime(400),
+      switchMap(value => this.filtrarNombreTipoOperacion(value)),
       map(value => value.sort((a, b) => this.ordenarListado(a, b))),
     );
 
@@ -211,7 +223,20 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
   }
 
   private listarNombreTipoServicio() {
-    return this.nombreTipoServicioData.length ? of(this.nombreTipoServicioData) : this.generalesService.listarDominioByDominio({ 'dominio': "TIPO_OPERACION" }).pipe(tap((data: any) => this.nombreTipoServicioData = data.data));
+    return this.nombreTipoServicioData.length ? of(this.nombreTipoServicioData) : this.generalesService.listarDominioByDominio({ 'dominio': "TIPO_SERVICIO" }).pipe(tap((data: any) => this.nombreTipoServicioData = data.data));
+  }
+
+  private filtrarNombreTipoOperacion(value: string): Observable<any> {
+    return this.listarNombreTipoOperacion().pipe(
+      map((data: any) => {
+        console.log(data)
+        let options = data['data'] ? data['data'] : data;
+        return options.filter(option => { return option.toLowerCase().indexOf(value.toLowerCase()) >= 0 });
+      }));
+  }
+
+  private listarNombreTipoOperacion() {
+    return this.nombreTipoOperacionData.length ? of(this.nombreTipoOperacionData) : this.generalesService.listarDominioByDominio({ 'dominio': "TIPO_OPERACION" }).pipe(tap((data: any) => this.nombreTipoOperacionData = data.data));
   }
 
   private filtrarMonedaDivisa(value: string): Observable<any> {
@@ -267,6 +292,7 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
         nombrePuntoCargo: this.filtrosFormGroup.get('nombrePuntoCargo').value ? this.filtrosFormGroup.get('nombrePuntoCargo').value : undefined,
         ciudadFondo: this.filtrosFormGroup.get('ciudadFondo').value ? this.filtrosFormGroup.get('ciudadFondo').value : undefined,
         nombreTipoServicio: this.filtrosFormGroup.get('nombreTipoServicio').value ? this.filtrosFormGroup.get('nombreTipoServicio').value : undefined,
+        nombreTipoOperacion: this.filtrosFormGroup.get('nombreTipoOperacion').value ? this.filtrosFormGroup.get('nombreTipoOperacion').value : undefined,
         monedaDivisa: this.filtrosFormGroup.get('monedaDivisa').value ? this.filtrosFormGroup.get('monedaDivisa').value : undefined,
         estado: this.filtrosFormGroup.get('estado').value ? this.filtrosFormGroup.get('estado').value : undefined,
       });

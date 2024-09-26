@@ -9,6 +9,7 @@ export class ConciliacionProcesamientoComponent implements OnInit {
 
   @Output() filtro: any;
   idTabSeleccionda:number = 0;
+  @Output() Pantalla: any = 0;
 
   constructor() { }
 
