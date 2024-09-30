@@ -91,8 +91,8 @@
     </div>
     <div class="ubicacionCentro" *ngIf="pantalla === 0">
       <mat-form-field appearance="fill" class="camposIzquierda">
-        <mat-label>Nombre Tipo Operacion</mat-label>
-        <input type="text" matInput formControlName="nombreTipoOperacion" [matAutocomplete]="autoNombreTipoOperacion">
+        <mat-label>Nombre Tipo Servicio</mat-label>
+        <input type="text" matInput formControlName="nombreTipoServicio" [matAutocomplete]="autoNombreTipoOperacion">
         <mat-autocomplete #autoNombreTipoOperacion="matAutocomplete">
           <mat-option *ngFor="let option of nombreTipoOperacionOptions | async" [value]="option">
             {{option}}
