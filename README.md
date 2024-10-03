@@ -83,4 +83,3 @@ Para compilar el proyecto angular para ambiente produccion se debe ejcutar el si
 ```shell
 ng build --configuration production
 ```
-
