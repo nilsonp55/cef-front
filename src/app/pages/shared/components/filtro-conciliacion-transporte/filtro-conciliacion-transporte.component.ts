@@ -71,7 +71,6 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.pantalla)
     this.entidadOptions = this.filtrosFormGroup.controls['entidad'].valueChanges.pipe(
       startWith(''),
       debounceTime(400),
@@ -120,7 +119,7 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
       map(value => value.sort((a, b) => this.ordenarListado(a, b))),
     );
 
-    this.nombreTipoOperacionOptions = this.filtrosFormGroup.controls['nombreTipoOperacion'].valueChanges.pipe(
+    this.nombreTipoOperacionOptions = this.filtrosFormGroup.controls['nombreTipoServicio'].valueChanges.pipe(
       startWith(''),
       debounceTime(400),
       switchMap(value => this.filtrarNombreTipoOperacion(value)),
@@ -229,7 +228,6 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
   private filtrarNombreTipoOperacion(value: string): Observable<any> {
     return this.listarNombreTipoOperacion().pipe(
       map((data: any) => {
-        console.log(data)
         let options = data['data'] ? data['data'] : data;
         return options.filter(option => { return option.toLowerCase().indexOf(value.toLowerCase()) >= 0 });
       }));

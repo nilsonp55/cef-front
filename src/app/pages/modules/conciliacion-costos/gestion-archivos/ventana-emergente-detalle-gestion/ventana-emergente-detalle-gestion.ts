@@ -22,7 +22,7 @@ export class VentanaEmergenteDetalleGestionComponent {
 
     ngOnInit() {
         if (this.data.msn.estado !== "PENDIENTE") {
-          this.modalProcesoEjecucion();
+            this.modalProcesoEjecucion();
             this.opConciliacionCostosService.obtenerArchivoDetalleProcesar({
                 idArchivoCargado: this.data.msn.idArchivodb
             }).subscribe({
@@ -51,28 +51,6 @@ export class VentanaEmergenteDetalleGestionComponent {
         }
     }
 
-    consultarContenArchivo() {
-        this.modalProcesoEjecucion();
-        this.opConciliacionCostosService.obtenerListaArchivoPendienteCarga({
-            star: 0, end: 0, content: true, fileName: this.data.msn.nombreArchivo
-        }).subscribe({
-            next: (page: any) => {
-                this.data.msn.contenidoArchivo = page.data.content[0].contenidoArchivo
-                Swal.close();
-            },
-            error: (err: any) => {
-                const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-                    width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                    data: {
-                        msn: "err.error.response.description",
-                        codigo: GENERALES.CODE_EMERGENT.ERROR
-                    }
-                });
-                setTimeout(() => { alert.close() }, 3000);
-                Swal.close();
-            }
-        });
-    }
 
     descargarArchivo() {
         if (this.data.msn.estado === "PENDIENTE") {
@@ -121,6 +99,29 @@ export class VentanaEmergenteDetalleGestionComponent {
             imageHeight: 80,
             showConfirmButton: false,
             allowOutsideClick: false
+        });
+    }
+
+    consultarContenArchivo() {
+        this.modalProcesoEjecucion();
+        this.opConciliacionCostosService.obtenerListaArchivoPendienteCarga({
+            star: 0, end: 0, content: true, fileName: this.data.msn.nombreArchivo
+        }).subscribe({
+            next: (page: any) => {
+                this.data.msn.contenidoArchivo = page.data.content[0].contenidoArchivo
+                Swal.close();
+            },
+            error: (err: any) => {
+                const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+                    width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                    data: {
+                        msn: "err.error.response.description",
+                        codigo: GENERALES.CODE_EMERGENT.ERROR
+                    }
+                });
+                setTimeout(() => { alert.close() }, 3000);
+                Swal.close();
+            }
         });
     }
 
