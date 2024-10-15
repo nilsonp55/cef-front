@@ -40,13 +40,13 @@ export class TablaConciliacionProcesamiento implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (this.datosTabla) {
-      if(this.datosTabla.tipoTabla === 'eliminados')
-        this.displayedColumns = ['select', 'entidad', 'fecha_servicio_transporte', 'identificacion_cliente', 'razon_social', 'codigo_punto_cargo', 'nombre_punto_cargo', 'ciudad_fondo', 'nombre_tipo_servicio', 'moneda_divisa'];
-      else if(this.datosTabla.tipoTabla === 'identificadas')
-        this.displayedColumns = ['select', 'entidad', 'fecha_servicio_transporte', 'identificacion_cliente', 'razon_social', 'codigo_punto_cargo', 'nombre_punto_cargo', 'ciudad_fondo', 'nombre_tipo_servicio', 'moneda_divisa', 'valor_procesado_billete', 'valor_procesado_billete_tdv', 'valor_procesado_moneda', 'valor_procesado_moneda_tdv', 'valor_total_procesado', 'valor_total_procesado_tdv', 'subtotal', 'subtotalTdv', 'iva_p', 'iva_tdv', 'valor_total', 'valor_total_tdv', 'estado'];
+      this.mapDatos()
+      if (this.datosTabla.tipoTabla === 'eliminados')
+        this.displayedColumns = ['select', 'entidad', 'fecha_servicio_transporte', 'identificacion_cliente_procesamiento', 'razon_social_procesamiento', 'codigo_punto_cargo_procesamiento', 'nombre_punto_cargo_procesamiento', 'ciudad_fondo_procesamiento', 'nombre_tipo_servicio_procesamiento', 'moneda_divisa_procesamiento'];
+      else if (this.datosTabla.tipoTabla === 'identificadas')
+        this.displayedColumns = ['select', 'entidad', 'fecha_servicio_transporte', 'identificacion_cliente_procesamiento', 'razon_social_procesamiento', 'codigo_punto_cargo_procesamiento', 'nombre_punto_cargo_procesamiento', 'ciudad_fondo_procesamiento', 'nombre_tipo_servicio_procesamiento', 'moneda_divisa_procesamiento', 'valor_procesado_billete', 'valor_procesado_billete_tdv', 'valor_procesado_moneda', 'valor_procesado_moneda_tdv', 'valor_total_procesado', 'valor_total_procesado_tdv', 'subtotal', 'subtotalTdv', 'iva_p', 'iva_tdv', 'valor_total', 'valor_total_tdv', 'estado'];
       else
-        this.displayedColumns = ['select', 'entidad', 'fecha_servicio_transporte', 'identificacion_cliente', 'razon_social', 'codigo_punto_cargo', 'nombre_punto_cargo', 'ciudad_fondo', 'nombre_tipo_servicio', 'moneda_divisa', 'aplicativo', 'tvd', 'valorProcesadoBilletes', 'valorProcesadoMonedas', 'valorTotalProcesado', 'subTotal', 'iva', 'valorTotal', 'estado'];
-
+        this.displayedColumns = ['select', 'entidad', 'fecha_servicio_transporte', 'identificacion_cliente_procesamiento', 'razon_social_procesamiento', 'codigo_punto_cargo_procesamiento', 'nombre_punto_cargo_procesamiento', 'ciudad_fondo_procesamiento', 'nombre_tipo_servicio_procesamiento', 'moneda_divisa_procesamiento', 'aplicativo', 'tvd', 'valorProcesadoBilletes', 'valorProcesadoMonedas', 'valorTotalProcesado', 'subTotal', 'iva', 'valorTotal', 'estado'];
       this.dataSource = new MatTableDataSource(this.datosTabla.fuenteDatosTabla.content);
       this.pageSizeList.push(this.datosTabla.fuenteDatosTabla.totalElements);
     }
@@ -55,20 +55,20 @@ export class TablaConciliacionProcesamiento implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    }
+  }
 
-    compare(a, b, isAsc) {
-      return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-    }
+  compare(a, b, isAsc) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
 
-    validateTable(tipoCuerpo : number){
-      if(tipoCuerpo == 1 && (this.datosTabla.tipoTabla == 'conciliadas'  || this.datosTabla.tipoTabla == 'cobradasTDV' || this.datosTabla.tipoTabla == 'liquidadas'))
-        return true;
-      else if(tipoCuerpo == 2 && this.datosTabla.tipoTabla == 'identificadas')
-        return true;
-      else
-        return false;
-    }
+  validateTable(tipoCuerpo: number) {
+    if (tipoCuerpo == 1 && (this.datosTabla.tipoTabla == 'conciliadas' || this.datosTabla.tipoTabla == 'cobradasTDV' || this.datosTabla.tipoTabla == 'liquidadas'))
+      return true;
+    else if (tipoCuerpo == 2 && this.datosTabla.tipoTabla == 'identificadas')
+      return true;
+    else
+      return false;
+  }
 
   /**Metodos Generales */
   seleccionarTodo() {
@@ -90,8 +90,8 @@ export class TablaConciliacionProcesamiento implements OnInit, AfterViewInit {
     }
   }
 
-  validateEquity(value1, value2){
-    return value1 != value2 ? 'text-no-equity': '';
+  validateEquity(value1, value2) {
+    return value1 != value2 ? 'text-no-equity' : '';
   }
 
   emitirEvento(event) {
@@ -99,5 +99,19 @@ export class TablaConciliacionProcesamiento implements OnInit, AfterViewInit {
       texto: event.target.textContent.trim(),
       items: this.seleccionadosTabla,
     });
+  }
+
+  mapDatos() {
+    if (this.datosTabla.fuenteDatosTabla && this.datosTabla.fuenteDatosTabla.content) {
+      this.datosTabla.fuenteDatosTabla.content.forEach((element, i) => {
+        element.identificacion_cliente_procesamiento = element.identificacion_cliente
+        element.razon_social_procesamiento = element.razon_social
+        element.codigo_punto_cargo_procesamiento = element.codigo_punto_cargo
+        element.nombre_punto_cargo_procesamiento = element.nombre_punto_cargo
+        element.ciudad_fondo_procesamiento = element.ciudad_fondo
+        element.nombre_tipo_servicio_procesamiento = element.nombre_tipo_servicio
+        element.moneda_divisa_procesamiento = element.moneda_divisa
+      });
+    }
   }
 }

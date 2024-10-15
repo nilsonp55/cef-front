@@ -59,17 +59,17 @@ export class GestionArchivosComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.numPagina = 0;
-    this.cantPagina = 10;
-    this.listarArchivosPendienteCarga();
+    this.cantPagina = 5;
+    this.listarArchivosPendienteCarga(this.numPagina, this.cantPagina);
   }
 
-  listarArchivosPendienteCarga() {
+  listarArchivosPendienteCarga(numPagina = 0, cantPagina = 5) {
     this.modalProcesoEjecucion()
     this.dataSourceConciliadas = new MatTableDataSource();
     this.opConciliacionCostosService.obtenerRegistrosGestionArchivos({
       agrupador: GENERALES.PARAMETRO_GESTION,
-      page: 0,
-      size: 5
+      page: numPagina,
+      size: cantPagina
     }).subscribe({
       next: (page: any) => {
         this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
@@ -77,7 +77,6 @@ export class GestionArchivosComponent implements OnInit {
         this.cantidadRegistros = page.data.totalElements;
         this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
         this.dataSourceConciliadas.sort = this.sort;
-        this.dataSourceConciliadas.paginator = this.paginator;
         Swal.close();
       },
       error: (err: any) => {
@@ -329,5 +328,11 @@ export class GestionArchivosComponent implements OnInit {
       Swal.close();
       this.listarArchivosPendienteCarga();
     });
+  }
+
+  mostrarMasArchivosPendienteCarga(event: any){
+    this.numPagina = event.pageIndex;
+    this.cantPagina = event.pageSize;
+    this.listarArchivosPendienteCarga(this.numPagina, this.cantPagina);
   }
 }

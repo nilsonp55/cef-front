@@ -88,7 +88,7 @@ export class OpConciliadasService {
      */
     desconciliar(idConciliacion: any) {
         const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}/${URLs.DESCONCILIAR}`, idConciliacion)
+        return this.http.post<any>(`${this.url}/${URLs.DESCONCILIAR}`, [idConciliacion])
     }
 
     /** 
