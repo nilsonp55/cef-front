@@ -75,11 +75,11 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * @BayronPerez
    */
   async initForm(param?: any) {
-    let ciudad = null;
+    let ciudad = '';
     if(param) {
       this.selectedTipoPunto = param.puntosDTO.tipoPunto;
-      if(param.puntosDTO.codigoCiudad)
-        ciudad = this.ciudades.find((value) => value.codigoDANE == param.puntosDTO.codigoCiudad).codigoDANE;
+      if(param.ciudadFondo)
+        ciudad = this.ciudades.find((value) => value.codigoDANE == param.ciudadFondo)?.codigoDANE;
 
       await this.filtrarListaPuntos(param);
     }
@@ -93,7 +93,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
       'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null),
       'estado': new FormControl(param ? this.formatearEstadoListar(param.estado) : null),
-      'codigoDANE': new FormControl(ciudad),
+      'codigoDANE': new FormControl(ciudad ? ciudad : ""),
       'cliente': new FormControl(param ? clienteValueForm : null),
       'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null)
     });
@@ -139,7 +139,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   persistir() {
     this.spinnerActive = true;
     const puntoCodigo = {
-      idPuntoCodigoTdv: null,
+      idPuntoCodigoTdv: this.form.value['idPuntoCodigo'],
       codigoTDV: this.form.value['codigoTdv'].codigo,
       codigoPunto: this.form.value['codigoPunto'],
       codigoPropioTDV: this.form.value['codigoPropioTDV'],
@@ -155,7 +155,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
     };
 
     if(this.esEdicion) {
-      puntoCodigo.idPuntoCodigoTdv = this.form.value['idPuntoCodigo'];
       this.puntosCodigoService.actualizarPuntosCodigoTDV(puntoCodigo).subscribe({
         next: response => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -191,6 +190,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
             }
           });
           this.listarPuntosCodigo(this.numPagina, this.cantPagina);
+          this.form.value['idPuntoCodigo'] = response.data.idPuntoCodigoTdv;
+          this.form.controls['idPuntoCodigo'] = new FormControl(response.data.idPuntoCodigoTdv);
           this.spinnerActive = false;
         },
         error: (err: any) => {
@@ -267,6 +268,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async filtrarListaPuntos(paramn) {
+    
     let params;
     let tipoPunto1 = paramn.puntosDTO.tipoPunto;
     this.ciudadSelect = false;
@@ -430,9 +432,11 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
 
   async listarPuntos(params?: any) {
+    this.spinnerActive = true;
     await lastValueFrom(this.gestionPuntosService.listarPuntosCreados(params)).then(
       (response) => {
         this.puntos = response.data.content;
+        this.spinnerActive = false;
       }
     );
   }
@@ -511,7 +515,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * @author prv_nparra
    */
   resolverCiudadFondo(ciiuFondo: any) {
-    return this.ciudades.find((value) => value.codigoDANE == ciiuFondo).nombreCiudad;
+    const nombreCiudad = this.ciudades.find((value) => value.codigoDANE == ciiuFondo);
+    return nombreCiudad ? nombreCiudad.nombreCiudad : "";
   }
 
 }
