@@ -2,8 +2,17 @@
   <mat-spinner></mat-spinner>
 </div>
   <!-- Content para mostrarTabla -->
-      <div *ngIf="mostrarTabla" class="divTablaCerti">
+      <div *ngIf="mostrarTabla" class="divTablaCerti">        
         <div class="filtro">
+          <mat-form-field appearance="fill">
+            <mat-label>Tipo Punto</mat-label>
+            <mat-select [(ngModel)]="puntoSeleccionado" >
+              <mat-option>Ninguno</mat-option>
+              <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto">
+                {{tipoPunto.valorTexto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Bancos</mat-label>
             <mat-select [(ngModel)]="filtroBancoSelect">
@@ -17,6 +26,14 @@
             <mat-select [(ngModel)]="filtroTransportaSelect">
               <mat-option *ngFor="let item of transportadoras" [value]="item">
                 {{item.nombreTransportadora}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Ciudad</mat-label>
+            <mat-select [(ngModel)]="listCiudadSelect">
+              <mat-option *ngFor="let item of ciudades" [value]="item">
+                {{item.nombreCiudad}}
               </mat-option>
             </mat-select>
           </mat-form-field>

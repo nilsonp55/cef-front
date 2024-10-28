@@ -153,6 +153,7 @@
 }
 
 .filtro {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
+	display: flex grid;
+	flex-direction: row;
+	grid-auto-flow: dense;
 }

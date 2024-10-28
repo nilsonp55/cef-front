@@ -45,7 +45,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
   puntoSelect: boolean = false;
   ciudadSelect: boolean = false;
   clienteSelect: boolean = false;
-
+  listPuntosSelect: any;
+  puntoSeleccionado: any;
+  listCiudadSelect: any;
 
   //Registros paginados
   cantidadRegistros: number;
@@ -99,6 +101,30 @@ export class PuntosCodigoTdvComponent implements OnInit {
     });
   }
 
+  listarTiposPunto() {
+    this.gestionPuntosService
+      .listarTiposPuntos({
+        'dominioPK.dominio': 'TIPOS_PUNTO',
+      })
+      .subscribe({
+        next: (page: any) => {
+          this.listPuntosSelect = page.data;
+        },
+        error: (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn:
+                GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE +
+                ' - ' +
+                err?.error?.response?.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+            },
+          });
+        },
+      });
+  }
+
   /**
    * Lista los puntos codigo TDV
    * @BayronPerez
@@ -110,7 +136,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
       size: tamanio,
       'bancos.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
       'codigoTDV': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
-      'busqueda': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio
+      'busqueda': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio,
+      'puntos.tipoPunto': this.puntoSeleccionado == undefined ? '' : this.puntoSeleccionado.valorTexto
     }).subscribe({
       next: (page: any) => {
         this.dataSourceCodigoPuntoTdv = new MatTableDataSource(page.data.content);
@@ -244,6 +271,28 @@ export class PuntosCodigoTdvComponent implements OnInit {
     await lastValueFrom(this.generalesService.listarTransportadoras()).then((response) => {
       this.transportadoras = response.data;
     });
+
+    this.gestionPuntosService
+      .listarTiposPuntos({
+        'dominioPK.dominio': 'TIPOS_PUNTO',
+      })
+      .subscribe({
+        next: (page: any) => {
+          this.listPuntosSelect = page.data;
+        },
+        error: (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn:
+                GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE +
+                ' - ' +
+                err?.error?.response?.description,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+            },
+          });
+        },
+      });
 
   }
 
@@ -499,8 +548,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   filtrar(event) {
-    this.filtroBancoSelect;
-    this.filtroTransportaSelect;
     this.listarPuntosCodigo(this.numPagina, this.cantPagina);
   }
 
