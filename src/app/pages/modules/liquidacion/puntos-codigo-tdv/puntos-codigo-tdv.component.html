@@ -13,7 +13,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" id="field-bancos-list">
             <mat-label>Bancos</mat-label>
             <mat-select [(ngModel)]="filtroBancoSelect">
               <mat-option *ngFor="let item of bancos" [value]="item">
@@ -21,8 +21,8 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Transporta</mat-label>
+          <mat-form-field appearance="fill" id="field-transportadoras-list">
+            <mat-label >Transporta</mat-label>
             <mat-select [(ngModel)]="filtroTransportaSelect">
               <mat-option *ngFor="let item of transportadoras" [value]="item">
                 {{item.nombreTransportadora}}
