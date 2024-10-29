@@ -56,7 +56,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   constructor(
     private puntosCodigoService: PuntosCodigoService,
-    private gestionPuntosService: GestionPuntosService,
+    private puntosService: GestionPuntosService,
     private dialog: MatDialog,
     private generalesService: GeneralesService
   ) { }
@@ -101,30 +101,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
     });
   }
 
-  listarTiposPunto() {
-    this.gestionPuntosService
-      .listarTiposPuntos({
-        'dominioPK.dominio': 'TIPOS_PUNTO',
-      })
-      .subscribe({
-        next: (page: any) => {
-          this.listPuntosSelect = page.data;
-        },
-        error: (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn:
-                GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE +
-                ' - ' +
-                err?.error?.response?.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR,
-            },
-          });
-        },
-      });
-  }
-
   /**
    * Lista los puntos codigo TDV
    * @BayronPerez
@@ -148,7 +124,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         this.spinnerActive = false;
       },
       error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error.response.description,
@@ -210,7 +186,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     else {
       this.puntosCodigoService.guardarPuntosCodigoTDV(puntoCodigo).subscribe({
         next: response => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
@@ -273,22 +249,15 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.transportadoras = response.data;
     });
 
-    this.gestionPuntosService
-      .listarTiposPuntos({
-        'dominioPK.dominio': 'TIPOS_PUNTO',
-      })
-      .subscribe({
-        next: (page: any) => {
+    this.puntosService
+      .listarTiposPuntos({'dominioPK.dominio': 'TIPOS_PUNTO'})
+      .subscribe({next: (page: any) => {
           this.listPuntosSelect = page.data;
         },
-        error: (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
+        error: (err: any) => { this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn:
-                GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE +
-                ' - ' +
-                err?.error?.response?.description,
+            data: {msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE +
+                ' - ' + err?.error?.response?.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR,
             },
           });
@@ -299,7 +268,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   async iniciarPuntos() {
 
-    await lastValueFrom(this.gestionPuntosService.listarPuntosCreados()).then((response) => {
+    await lastValueFrom(this.puntosService.listarPuntosCreados()).then((response) => {
       this.puntos = response.content;
     });
 
@@ -483,7 +452,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   async listarPuntos(params?: any) {
     this.spinnerActive = true;
-    await lastValueFrom(this.gestionPuntosService.listarPuntosCreados(params)).then(
+    await lastValueFrom(this.puntosService.listarPuntosCreados(params)).then(
       (response) => {
         this.puntos = response.data.content;
         this.spinnerActive = false;
