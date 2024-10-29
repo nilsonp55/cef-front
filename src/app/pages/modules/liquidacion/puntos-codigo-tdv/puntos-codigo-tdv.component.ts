@@ -137,7 +137,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
       'bancos.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
       'codigoTDV': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
       'busqueda': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio,
-      'puntos.tipoPunto': this.puntoSeleccionado == undefined ? '' : this.puntoSeleccionado.valorTexto
+      'puntos.tipoPunto': this.puntoSeleccionado == undefined ? '' : this.puntoSeleccionado.valorTexto,
+      'ciudadFondo': this.listCiudadSelect == undefined ? '' : this.listCiudadSelect.codigoDANE
     }).subscribe({
       next: (page: any) => {
         this.dataSourceCodigoPuntoTdv = new MatTableDataSource(page.data.content);
@@ -317,7 +318,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   async filtrarListaPuntos(paramn) {
-    
+
     let params;
     let tipoPunto1 = paramn.puntosDTO.tipoPunto;
     this.ciudadSelect = false;

@@ -153,7 +153,15 @@
 }
 
 .filtro {
-	display: flex grid;
-	flex-direction: row;
-	grid-auto-flow: dense;
+	display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.mat-column-nombreCampo {
+  justify-content: left;
+}
+
+.mat-sort-header-container {
+  justify-content: center !important;
 }
