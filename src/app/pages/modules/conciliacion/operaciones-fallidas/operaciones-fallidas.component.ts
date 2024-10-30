@@ -12,6 +12,7 @@ import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/
 import { DialogInfoProgramadasFallidasComponent } from './dialog-info-programadas-fallidas/dialog-info-programadas-fallidas.component';
 import { DialogActualizarOpCertificadasComponent } from './dialog-actualizar-op-certificadas/dialog-actualizar-op-certificadas.component';
 import { DialogConciliacionManualComponent } from '../operaciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-operaciones-fallidas',
@@ -57,6 +58,10 @@ export class OperacionesFallidasComponent implements OnInit {
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
   displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'nombreFondoTDV', 'fechaEjecucion', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
+
+  // Selection
+  selectionProgramadas = new SelectionModel<ConciliacionesProgramadasNoConciliadasModel>(true, []);
+  seleccionadosProgramadasTabla: any = [];
 
   constructor(
     private dialog: MatDialog,
@@ -261,6 +266,38 @@ export class OperacionesFallidasComponent implements OnInit {
       this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
       this.numPaginaOpCer, this.cantPaginaOpCer
     );
+  }
+
+  /**
+   * @prv_nparra
+   */
+  seleccionarProgramadasTodo() {
+    const numSelected = this.selectionProgramadas.selected.length;
+    const numRows = this.dataSourceOperacionesProgramadas.data.length;
+    return numSelected === numRows;
+  }
+
+  /**
+   * @prv_nparra
+   */
+  seleccionProgramadas() {
+    this.seleccionarProgramadasTodo()
+      ? this.selectionProgramadas.clear()
+      : this.dataSourceOperacionesProgramadas.data.forEach((row) =>
+          this.selectionProgramadas.select(row)
+        );
+    this.seleccionadosProgramadasTabla = this.selectionProgramadas.selected;
+  }
+
+  seleccionProgramadasRow(event, row) {
+    if (event.checked === true) {
+      this.seleccionadosProgramadasTabla.push(row);
+    } else {
+      this.seleccionadosProgramadasTabla =
+        this.seleccionadosProgramadasTabla.filter(
+          (element) => element.idArchivo !== row.idArchivo
+        );
+    }
   }
 
 }

@@ -23,6 +23,20 @@
              #exporterProg="matTableExporter" [dataSource]="dataSourceOperacionesProgramadas">
         <caption></caption>
         <tr>
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox color="primary" (change)="$event ? seleccionProgramadas() : null"
+                    [checked]="selectionProgramadas.hasValue() && seleccionarProgramadasTodo()"
+                    [indeterminate]="selectionProgramadas.hasValue() && !seleccionarProgramadasTodo()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                    (change)="$event ? selectionProgramadas.toggle(row) : null; seleccionProgramadasRow($event, row)"
+                    [checked]="selectionProgramadas.isSelected(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
           <ng-container matColumnDef="nombreFondoTDV" class="mat-column-nombreCampo">
             <th id="nombreFondoTDV" mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE FONDO</th>
             <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
