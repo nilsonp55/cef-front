@@ -36,8 +36,11 @@ export class LiquidacionComponent implements OnInit {
     })
   }
 
-  gotToRouteLiq(routeName: string) {
-    this.routerLiq.navigate([`${routeName}`], {relativeTo: this.routeLiq});
+  gotToRouteLiq(menu: any) {
+    this.menusLiquidacion.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.routerLiq.navigate([`${menu.url}`], {relativeTo: this.routeLiq});
   }
 
 }

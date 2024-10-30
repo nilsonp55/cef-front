@@ -9,8 +9,8 @@
             <!--opciones de menu-->
             <mat-divider></mat-divider>
             <div *ngFor="let item of menusLiquidacion">
-                <button mat-menu-item (click)="gotToRouteLiq(item.url)" style="cursor: pointer"
-                    routerLinkActive="seleccion-activa">
+                <button mat-menu-item (click)="gotToRouteLiq(item)" style="cursor: pointer"
+                    [ngClass]="{'seleccion-activa': item.activo === 1}">
                     <span class="material-icons">{{item.icono}}</span>
                     <span>{{item.nombre}}</span>
                 </button>

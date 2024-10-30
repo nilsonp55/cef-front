@@ -37,8 +37,11 @@ export class CargueCertificacionComponent implements OnInit {
     })
   }
 
-  gotToRouteCert(routeName: string) {
-    this.routerCert.navigate([`${routeName}`], {relativeTo: this.routeCert});
+  gotToRouteCert(menu: any) {
+    this.menusCargueCertificacion.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.routerCert.navigate([`${menu.url}`], {relativeTo: this.routeCert});
   }
 
 }

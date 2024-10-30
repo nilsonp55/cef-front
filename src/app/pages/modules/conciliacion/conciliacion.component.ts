@@ -12,7 +12,7 @@ export class ConciliacionComponent implements OnInit {
   @Input() estadoMenu = true;
   isLinear = false;
   checkMenuLateral: boolean;
-  menusConsiliacion: any[] = [];
+  menusConciliacion: any[] = [];
 
   constructor(
     private rolMenuService: RolMenuService,
@@ -41,7 +41,7 @@ export class ConciliacionComponent implements OnInit {
           return a.menu.idMenu - b.menu.idMenu
         })
         menusrol.data.forEach(itm => {
-          this.menusConsiliacion.push(itm.menu);
+          this.menusConciliacion.push(itm.menu);
         });
       });
     })
@@ -59,8 +59,11 @@ export class ConciliacionComponent implements OnInit {
 
   }
 
-  gotToRoute(routeName: string) {
-    this.router.navigate([`${routeName}`], {relativeTo: this.route});
+  gotToRoute(menu: any) {
+    this.menusConciliacion.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.router.navigate([`${menu.url}`], {relativeTo: this.route});
   }
   
 }
