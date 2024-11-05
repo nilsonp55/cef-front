@@ -13,6 +13,7 @@ import { DialogInfoProgramadasFallidasComponent } from './dialog-info-programada
 import { DialogActualizarOpCertificadasComponent } from './dialog-actualizar-op-certificadas/dialog-actualizar-op-certificadas.component';
 import { DialogConciliacionManualComponent } from '../operaciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 import { SelectionModel } from '@angular/cdk/collections';
+import { DialogUpdateEstadoOperacionesComponent } from './dialog-update-estado-operaciones/dialog-update-estado-operaciones.component';
 
 @Component({
   selector: 'app-operaciones-fallidas',
@@ -52,7 +53,7 @@ export class OperacionesFallidasComponent implements OnInit {
   estadoConciliacionInicial: any[] = ['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'];
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['nombreFondoTDV', 'fechaOrigen', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesProgramadas: string[] = ['select', 'nombreFondoTDV', 'fechaOrigen', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
@@ -62,6 +63,9 @@ export class OperacionesFallidasComponent implements OnInit {
   // Selection
   selectionProgramadas = new SelectionModel<ConciliacionesProgramadasNoConciliadasModel>(true, []);
   seleccionadosProgramadasTabla: any = [];
+
+  selectionCertificadas = new SelectionModel<ConciliacionesCertificadaNoConciliadasModel>(true, []);
+  seleccionadosCertificadasTabla: any = [];
 
   constructor(
     private dialog: MatDialog,
@@ -251,6 +255,7 @@ export class OperacionesFallidasComponent implements OnInit {
 
     this.filterTables();
   }
+
   filterTables() {
     this.listarOpProgramadasFallidas(
       this.transportadora == undefined ? "" : this.transportadora,
@@ -269,7 +274,8 @@ export class OperacionesFallidasComponent implements OnInit {
   }
 
   /**
-   * @prv_nparra
+   * Logica para marcar registros de Programadas como seleccionados
+   * @author prv_nparra
    */
   seleccionarProgramadasTodo() {
     const numSelected = this.selectionProgramadas.selected.length;
@@ -278,7 +284,8 @@ export class OperacionesFallidasComponent implements OnInit {
   }
 
   /**
-   * @prv_nparra
+   * Logica para marcar registros de Programadas como seleccionados
+   * @author prv_nparra
    */
   seleccionProgramadas() {
     this.seleccionarProgramadasTodo()
@@ -289,15 +296,71 @@ export class OperacionesFallidasComponent implements OnInit {
     this.seleccionadosProgramadasTabla = this.selectionProgramadas.selected;
   }
 
+  /**
+   * Logica para marcar registros de Programadas como seleccionados
+   * @author prv_nparra
+   */
   seleccionProgramadasRow(event, row) {
     if (event.checked === true) {
       this.seleccionadosProgramadasTabla.push(row);
     } else {
       this.seleccionadosProgramadasTabla =
         this.seleccionadosProgramadasTabla.filter(
-          (element) => element.idArchivo !== row.idArchivo
+          (element) => element.idOperacion !== row.idOperacion
         );
     }
+  }
+
+  /**
+   * Logica para marcar registros de Certificadas como seleccionados
+   * @author prv_nparra
+   */
+  seleccionarCertificadasTodo() {
+    const numSelected = this.selectionCertificadas.selected.length;
+    const numRows = this.dataSourceOperacionesCertificadas.data.length;
+    return numSelected === numRows;
+  }
+
+  /**
+   * Logica para marcar registros de Certificadas como seleccionados
+   * @author prv_nparra
+   */
+  seleccionCertificadas() {
+    this.seleccionarCertificadasTodo()
+      ? this.selectionCertificadas.clear()
+      : this.dataSourceOperacionesCertificadas.data.forEach((row) =>
+          this.selectionCertificadas.select(row)
+        );
+    this.seleccionadosCertificadasTabla = this.selectionCertificadas.selected;
+  }
+
+  /**
+   * Logica para marcar registros de Certificadas como seleccionados
+   * @author prv_nparra
+   */
+  seleccionCertificadasRow(event, row) {
+    if (event.checked === true) {
+      this.seleccionadosCertificadasTabla.push(row);
+    } else {
+      this.seleccionadosCertificadasTabla =
+        this.seleccionadosCertificadasTabla.filter(
+          (element) => element.idCertificacion !== row.idCertificacion
+        );
+    }
+  }
+
+  /**
+   * Dialog para actualizar estado de operaciones programadas, de acuerdo 
+   * a los registros seleccionados con el checkbox
+   * @param operacion P para Programadas, C para Certificadas
+   * @author prv_nparra
+   */
+  openDialogUpdateEstadoProgramadas(operacion: string) {
+    const dialogRef = this.dialog.open(DialogUpdateEstadoOperacionesComponent, {
+      width: 'auto',
+      data: { listOperaciones: this.seleccionadosProgramadasTabla, operacion: operacion }
+    });
+
   }
 
 }

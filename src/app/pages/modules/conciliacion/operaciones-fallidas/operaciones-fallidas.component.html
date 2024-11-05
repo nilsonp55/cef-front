@@ -2,18 +2,25 @@
 <div class="division">
   <div>
     <div class="divTituloTablas">
-      <h1 class="tituloTabla">Operaciones programadas sin conciliar</h1>
-      <span class="line-spacer"></span>
+      <h3 class="tituloTabla">Operaciones programadas sin conciliar</h3>
     </div>
-    <div>
-      <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListProg"
-                     [length]="cantidadRegistrosOpProgramadasFallidas" (page)="mostrarMasOpProgramadasFallidas($event)">
-      </mat-paginator>
+    <div class="row">
+      <div class="col-2">
       <button mat-raised-button color="primary"
               (click)="exporterProg.exportTable('xlsx',
               {fileName:'operaciones_programadas_sin_conciliar'})">
-        Exportar tabla
+        Exportar
       </button>
+      </div>
+      <div class="col-2">
+      <button mat-raised-button color="primary" (click)="openDialogUpdateEstadoProgramadas('P')">
+        Cambiar estado</button>
+      </div>
+      <div class="col-8">
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListProg"
+                     [length]="cantidadRegistrosOpProgramadasFallidas" (page)="mostrarMasOpProgramadasFallidas($event)">
+      </mat-paginator>
+      </div>
     </div>
     <div class="divTablaProg">
       <div *ngIf="loadProg" class="disenio-spinner">
@@ -93,18 +100,25 @@
   </div>
   <div>
     <div class="divTituloTablas">
-      <h1 class="tituloTabla">Operaciones certificadas sin conciliar</h1>
-      <span class="line-spacer"></span>
+      <h3 class="tituloTabla">Operaciones certificadas sin conciliar</h3>
     </div>
-    <div>
+    <div class="row">
+      <div class="col-2">
+      <button (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_sin_conciliar'})"
+              mat-raised-button color="primary" >Exportar
+      </button>
+      </div>
+      <div class="col-2">
+        <button mat-raised-button color="primary" (click)="openDialogUpdateEstadoProgramadas('C')">
+          Cambiar estado</button>
+      </div>
+      <div class="col-8">
       <mat-paginator [pageSize]="10"
                      [pageSizeOptions]="pageSizeListCert"
                      [length]="cantidadRegistrosOpCertificadasFallidas"
                      (page)="mostrarMasOpCertificadasFallidas($event)">
       </mat-paginator>
-      <button (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_sin_conciliar'})"
-              mat-raised-button color="primary" >Exportar tabla
-      </button>
+      </div>
     </div>
     <div class="divTablaCerti">
       <div *ngIf="loadCert" class="disenio-spinner">
