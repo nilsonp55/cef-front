@@ -65,7 +65,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'tipoOperacion', 'oficina', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['relacion', 'acciones', 'idCertificacion', 'tipoOperacion', 'oficina', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   filtroBanco: string = '';
@@ -241,8 +241,8 @@ export class OperacionesNoConciliadasComponent implements OnInit {
 
   /**
    * Metodo que captura el id para comparar
-   * @param event 
-   * @param opeProgramada 
+   * @param event
+   * @param opeProgramada
    * @JuanMazo
    */
   getIdCompare(event: any, opeProgramada: any) {

@@ -1,7 +1,3 @@
-table {
-    width: 1280PX;
-}
-
 .configScroll {
     height: auto;
     overflow-x: scroll;
@@ -34,4 +30,12 @@ table {
     text-align: right;
     float:left;
     margin-top: 1%;
+}
+
+.verticalScroll {
+  width: auto;
+  height: auto;
+  overflow-y: scroll;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: proximity;
 }
