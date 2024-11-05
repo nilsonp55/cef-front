@@ -2,12 +2,10 @@
 <div class="divTablaProg">
     <div class="divTituloTablas">
         <h1 class="tituloTabla">¿Desea realizar la conciliación manual?</h1>
-        <span class="line-spacer"></span>
     </div>
     <div class="configScroll">
         <table mat-table [dataSource]="dataSourceInfoOpProgramadas" matSort>
             <caption></caption>
-            <tr>
                 <ng-container matColumnDef="id" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
                     <td mat-cell *matCellDef="let element"> {{element.idOperacion}} </td>
@@ -55,8 +53,6 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR TOTAL</th>
                     <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency}} </td>
                 </ng-container>
-
-            </tr>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoOpProgramadas"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoOpProgramadas;"></tr>
         </table>

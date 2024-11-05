@@ -65,7 +65,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['relacion', 'acciones', 'idCertificacion', 'tipoOperacion', 'oficina', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal'];
+  displayedColumnsOperacionesCertificadas: string[] = ['acciones', 'idCertificacion', 'tipoOperacion', 'oficina', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   filtroBanco: string = '';
@@ -124,7 +124,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   conciliacionManual() {
     this.reset()
     this.dialog.open(DialogConciliacionManualComponent, {
-      width: 'auto',
+      width: 'auto', height: 'auto',
       data: {
         origen: this.dataSourceOperacionesProgramadas.data,
         destino: this.dataSourceOperacionesCertificadas.data

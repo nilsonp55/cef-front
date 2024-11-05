@@ -1,14 +1,12 @@
 .configScroll {
-    height: auto;
+    height: fit-content;
     overflow-x: scroll;
     overscroll-behavior-x: contain;
     scroll-snap-type: proximity;
 }
 
 .tituloTabla {
-    padding-top: 2%;
     text-align: center;
-    margin-left: 30%;
 }
 
 .divTablaProg {
@@ -33,9 +31,9 @@
 }
 
 .verticalScroll {
-  width: auto;
-  height: auto;
+  height: fit-content;
+  width: fit-content;
   overflow-y: scroll;
-  overscroll-behavior-x: contain;
+  overscroll-behavior-y: contain;
   scroll-snap-type: proximity;
 }

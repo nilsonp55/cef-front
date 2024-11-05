@@ -134,4 +134,13 @@ export class OpConciliadasService {
         return this.http.get<any>(`${this.urlReabrir}${URLs.OPERACIONES_PROGRAMADAS_REABRIR}`, { params: param, headers });
     }
 
+    public updateEstadoProgramadas(param: any): Observable<any> {
+        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+        return this.http.post<any>(`${this.url}${URLs.UPDATE_ESTADO_PROGRAMADAS}`, param, {headers});
+    }
+
+    public updateEstadoCertificadas(param: any): Observable<any> {
+        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+        return this.http.post<any>(`${this.url}${URLs.UPDATE_ESTADO_CERTIFICADAS}`, param, {headers});
+    }
 }

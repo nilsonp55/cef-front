@@ -2,26 +2,33 @@
 <div class="division">
   <div>
     <div class="divTituloTablas">
-      <h1 class="tituloTabla">Operaciones programadas sin conciliar</h1>
-      <span class="line-spacer"></span>
+      <h3 class="tituloTabla">Operaciones programadas sin conciliar</h3>
     </div>
-    <div>
-      <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListProg"
-                     [length]="cantidadRegistrosOpProgramadasFallidas" (page)="mostrarMasOpProgramadasFallidas($event)">
-      </mat-paginator>
+    <div class="row">
+      <div class="col-2">
       <button mat-raised-button color="primary"
               (click)="exporterProg.exportTable('xlsx',
               {fileName:'operaciones_programadas_sin_conciliar'})">
-        Exportar tabla
+        Exportar
       </button>
+      </div>
+      <div class="col-2">
+      <button mat-raised-button color="primary" (click)="openDialogUpdateEstadoProgramadas('P')">
+        Cambiar estado</button>
+      </div>
+      <div class="col-8">
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListProg"
+                     [length]="cantidadRegistrosOpProgramadasFallidas" (page)="mostrarMasOpProgramadasFallidas($event)">
+      </mat-paginator>
+      </div>
     </div>
     <div class="divTablaProg">
       <div *ngIf="loadProg" class="disenio-spinner">
         <mat-spinner></mat-spinner>
       </div>
       <table mat-table matTableExporter matSort #sort1="matSort"
-             #exporterProg="matTableExporter" [dataSource]="dataSourceOperacionesProgramadas">
-        <caption></caption>
+             #exporterProg="matTableExporter" [dataSource]="dataSourceOperacionesProgramadas"
+             aria-label="OperacionesProgramadas">
         <tr>
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
@@ -38,38 +45,38 @@
             </td>
         </ng-container>
           <ng-container matColumnDef="nombreFondoTDV" class="mat-column-nombreCampo">
-            <th id="nombreFondoTDV" mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE FONDO</th>
+            <th id="nombreFondoTDV" mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Fondo</th>
             <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
           </ng-container>
 
           <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
-            <th id="fechaOrigen" mat-header-cell *matHeaderCellDef mat-sort-header>FECHA ORIGEN</th>
+            <th id="fechaOrigen" mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Origen</th>
             <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">
-            <th id="tipoOperacion" mat-header-cell *matHeaderCellDef mat-sort-header>TIPO OPERACIÓN</th>
+            <th id="tipoOperacion" mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Operacion</th>
             <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
           </ng-container>
 
           <ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
-            <th id="entradaSalida" mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA SALIDA</th>
+            <th id="entradaSalida" mat-header-cell *matHeaderCellDef mat-sort-header>Entrada Salida</th>
             <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
           </ng-container>
 
           <ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
-            <th id="estadoConciliacion" mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACION</th>
+            <th id="estadoConciliacion" mat-header-cell *matHeaderCellDef mat-sort-header>Estado Conciliacion</th>
             <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
           </ng-container>
 
           <ng-container matColumnDef="valorTotal" class="mat-column-nombreCampo">
-            <th id="valorTotal" mat-header-cell *matHeaderCellDef mat-sort-header>VALOR TOTAL</th>
+            <th id="valorTotal" mat-header-cell *matHeaderCellDef mat-sort-header>Valor Total</th>
             <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency}} </td>
           </ng-container>
 
           <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
-            <th id="acciones" mat-header-cell *matHeaderCellDef>MODIFICAR</th>
+            <th id="acciones" mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let element">
               <button mat-button (click)="infoOpProgramadas(element)">
                 <mat-icon style="color: yellowgreen">edit</mat-icon>
@@ -93,65 +100,71 @@
   </div>
   <div>
     <div class="divTituloTablas">
-      <h1 class="tituloTabla">Operaciones certificadas sin conciliar</h1>
-      <span class="line-spacer"></span>
+      <h3 class="tituloTabla">Operaciones certificadas sin conciliar</h3>
     </div>
-    <div>
+    <div class="row">
+      <div class="col-2">
+      <button (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_sin_conciliar'})"
+              mat-raised-button color="primary" >Exportar
+      </button>
+      </div>
+      <div class="col-2">
+        <button mat-raised-button color="primary" (click)="openDialogUpdateEstadoProgramadas('C')">
+          Cambiar estado</button>
+      </div>
+      <div class="col-8">
       <mat-paginator [pageSize]="10"
                      [pageSizeOptions]="pageSizeListCert"
                      [length]="cantidadRegistrosOpCertificadasFallidas"
                      (page)="mostrarMasOpCertificadasFallidas($event)">
       </mat-paginator>
-      <button (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_sin_conciliar'})"
-              mat-raised-button color="primary" >Exportar tabla
-      </button>
+      </div>
     </div>
     <div class="divTablaCerti">
       <div *ngIf="loadCert" class="disenio-spinner">
         <mat-spinner></mat-spinner>
       </div>
-      <table id="operacionesCertificadas" mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort #sort2="matSort"
-             #exporter="matTableExporter">
-        <caption>Operaciones Certificadas</caption>
+      <table id="operacionesCertificadas" mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas"
+        matSort #sort2="matSort" #exporter="matTableExporter" aria-label="OperacionesCertificadas">
         <tr>
           <ng-container class="mat-column-nombreCampo" matColumnDef="idCertificacion">
-            <th *matHeaderCellDef mat-sort-header id="idCertificacion" mat-header-cell>ID</th>
+            <th *matHeaderCellDef mat-sort-header id="idCertificacion" mat-header-cell>Id</th>
             <td *matCellDef="let element" mat-cell> {{element.idCertificacion}} </td>
           </ng-container>
 
           <ng-container class="mat-column-nombreCampo" matColumnDef="nombreFondoTDV">
-            <th *matHeaderCellDef mat-sort-header id="nombreFondoTDV2" mat-header-cell>NOMBRE FONDO</th>
+            <th *matHeaderCellDef mat-sort-header id="nombreFondoTDV2" mat-header-cell>Nombre Fondo</th>
             <td *matCellDef="let element" mat-cell> {{element.nombreFondoTDV}} </td>
           </ng-container>
 
           <ng-container class="mat-column-nombreCampo" matColumnDef="fechaEjecucion">
-            <th *matHeaderCellDef mat-sort-header id="fechaEjecucion" mat-header-cell>FECHA EJECUCIÓN</th>
+            <th *matHeaderCellDef mat-sort-header id="fechaEjecucion" mat-header-cell>Fecha Ejecucion</th>
             <td *matCellDef="let element" mat-cell> {{element.fechaEjecucion | date: 'dd/MM/YYYY' : '+00'}}
             </td>
           </ng-container>
 
           <ng-container class="mat-column-nombreCampo" matColumnDef="tipoOperacion">
-            <th *matHeaderCellDef mat-sort-header id="tipoOperacion2" mat-header-cell>TIPO OPERACIÓN</th>
+            <th *matHeaderCellDef mat-sort-header id="tipoOperacion2" mat-header-cell>Tipo Operacion</th>
             <td *matCellDef="let element" mat-cell> {{element.tipoOperacion}} </td>
           </ng-container>
 
           <ng-container class="mat-column-nombreCampo" matColumnDef="entradaSalida">
-            <th *matHeaderCellDef mat-sort-header id="entradaSalida2" mat-header-cell>ENTRADA SALIDA</th>
+            <th *matHeaderCellDef mat-sort-header id="entradaSalida2" mat-header-cell>Entrada Salida</th>
             <td *matCellDef="let element" mat-cell> {{element.entradaSalida}} </td>
           </ng-container>
 
           <ng-container class="mat-column-nombreCampo" matColumnDef="estadoConciliacion">
-            <th *matHeaderCellDef mat-sort-header id="estadoConciliacion2" mat-header-cell>ESTADO CONCILIACION</th>
+            <th *matHeaderCellDef mat-sort-header id="estadoConciliacion2" mat-header-cell>EstadoConciliacion</th>
             <td *matCellDef="let element" mat-cell> {{element.estadoConciliacion}} </td>
           </ng-container>
 
           <ng-container class="mat-column-nombreCampo" matColumnDef="valorTotal">
-            <th *matHeaderCellDef mat-sort-header id="valorTotal2" mat-header-cell>VALOR TOTAL</th>
+            <th *matHeaderCellDef mat-sort-header id="valorTotal2" mat-header-cell>ValorTotal</th>
             <td *matCellDef="let element" mat-cell> {{element.valorTotal | currency}} </td>
           </ng-container>
 
           <ng-container class="mat-column-nombreCampo" matColumnDef="acciones">
-            <th *matHeaderCellDef id="acciones2" mat-header-cell>MODIFICAR</th>
+            <th *matHeaderCellDef id="acciones2" mat-header-cell>Acciones</th>
             <td *matCellDef="let element" mat-cell>
               <button mat-button (click)="infoOpCertificadas(element)">
                 <mat-icon style="color: yellowgreen">edit</mat-icon>
