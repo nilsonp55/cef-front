@@ -31,9 +31,8 @@
 }
 
 .verticalScroll {
-  height: fit-content;
-  width: fit-content;
+  max-height: 500px;
   overflow-y: scroll;
   overscroll-behavior-y: contain;
-  scroll-snap-type: proximity;
+  scroll-snap-type: y mandatory;
 }

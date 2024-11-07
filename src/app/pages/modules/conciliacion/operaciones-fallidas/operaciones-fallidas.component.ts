@@ -350,13 +350,13 @@ export class OperacionesFallidasComponent implements OnInit {
   }
 
   /**
-   * Dialog para actualizar estado de operaciones programadas, de acuerdo 
+   * Dialog para actualizar estado de operaciones programadas, de acuerdo
    * a los registros seleccionados con el checkbox
    * @param operacion P para Programadas, C para Certificadas
    * @author prv_nparra
    */
   openDialogUpdateEstadoProgramadas(operacion: string) {
-    const dialogRef = this.dialog.open(DialogUpdateEstadoOperacionesComponent, {
+    this.dialog.open(DialogUpdateEstadoOperacionesComponent, {
       width: 'auto',
       data: { listOperaciones: this.seleccionadosProgramadasTabla, operacion: operacion }
     });

@@ -17,7 +17,6 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
 
   form: FormGroup;
   valorTotal: number;
-  estado: string;
   dataSourceInfoOpCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>;
   displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion', 'nombreFondoTDV', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'valorFaltante', 'valorSobrante'];
   dataElement: any;

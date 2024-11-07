@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -337,7 +337,7 @@ import { DialogUpdateEstadoOperacionesComponent } from './pages/modules/concilia
     MatSlideToggleModule,
     MatTabsModule
   ],
-  providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent],
+  providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

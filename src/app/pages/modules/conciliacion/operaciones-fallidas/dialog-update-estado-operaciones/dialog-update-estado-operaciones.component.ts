@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { OpConciliadasService } from "src/app/_service/conciliacion-service/op-conciliadas.service";
 
@@ -36,7 +36,9 @@ export class DialogUpdateEstadoOperacionesComponent implements OnInit {
     ngOnInit(): void {
         this.dataOperaciones = this.data.listOperaciones;
         this.operacion = this.data.operacion;
-        this.form = new FormGroup({});
+        this.form = new FormGroup({
+          estadoConciliacion: new FormControl(""),
+        });
     }
 
     actualizarOperaciones() {

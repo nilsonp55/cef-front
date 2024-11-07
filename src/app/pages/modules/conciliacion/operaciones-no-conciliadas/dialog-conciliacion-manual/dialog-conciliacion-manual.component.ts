@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
@@ -13,7 +14,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 
 /**
  * Comentario
- * @JuanMazo 
+ * @JuanMazo
  * @prv_nparra
  * @rparra
  */
@@ -28,12 +29,16 @@ export class DialogConciliacionManualComponent implements OnInit {
   paramsConciliacionManual: any[] = [];
   totalProg: number = 0;
   totalCertif: number = 0;
-  copFormat = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private opConciliadasService: OpConciliadasService,
-    private dialog: MatDialog,) {
+    private dialog: MatDialog,
+    private currencyPipe: CurrencyPipe,
+    private datePipe: DatePipe,
+  ) {}
+
+  ngOnInit(): void {
 
     let map = new Map<string, string>();
 
@@ -50,23 +55,21 @@ export class DialogConciliacionManualComponent implements OnInit {
       idCertificacion: " "
     })
     /* se procesan las operaciones programadas */
-    data.origen.forEach(element => {
-      if (element.relacion && element.relacion.length > 1) {
-        this.datosComparados.push({
-          tipoOperacion: element.tipoOperacion,
-          valorTotal: element.valorTotal,
-          nombreFondoTDV: element.nombreFondoTDV,
-          tipoPuntoDestino: element.tipoPuntoDestino,
-          nombrePuntoOrigen: element.nombrePuntoOrigen,
-          nombrePuntoDestino: element.nombrePuntoDestino,
-          fechaProgramacion: element.fechaProgramacion,
-          fechaOrigen: element.fechaOrigen ? element.fechaOrigen : "",
-          fechaDestino: element.fechaDestino,
-          entradaSalida: element.entradaSalida,
-          idOperacion: element.idOperacion
-        })
-        this.totalProg = this.totalProg + element.valorTotal;
-      }
+    this.data.programadas.forEach(element => {
+      this.datosComparados.push({
+        tipoOperacion: element.tipoOperacion,
+        valorTotal: this.currencyPipe.transform(element.valorTotal, '$', 'symbol', '1.0-0'),
+        nombreFondoTDV: element.nombreFondoTDV,
+        tipoPuntoDestino: element.tipoPuntoDestino,
+        nombrePuntoOrigen: element.nombrePuntoOrigen,
+        nombrePuntoDestino: element.nombrePuntoDestino,
+        fechaProgramacion: this.datePipe.transform(element.fechaProgramacion,'dd/MM/YYYY', '+00'),
+        fechaOrigen: element.fechaOrigen ? this.datePipe.transform(element.fechaOrigen,'dd/MM/YYYY', '+00') : "",
+        fechaDestino: this.datePipe.transform(element.fechaDestino,'dd/MM/YYYY', '+00'),
+        entradaSalida: element.entradaSalida,
+        idOperacion: element.idOperacion
+      })
+      this.totalProg = this.totalProg + element.valorTotal;
     });
 
     this.datosComparados.push({
@@ -80,44 +83,31 @@ export class DialogConciliacionManualComponent implements OnInit {
       entradaSalida: " ",
       idCertificacion: " "
     })
-    data.origen.forEach(element => {
-      if (element.relacion && element.relacion.length > 1) {
-        this.idsCertifica = [];
-        this.idsCertifica = element.relacion.split(',');
-        this.idsCertifica.forEach(idCerti => {
-          this.operacionCerfida = null
-          this.operacionCerfida = data.destino.filter(operacionProgramada => operacionProgramada.idCertificacion === parseInt(idCerti))
-          if (this.operacionCerfida.length > 0) {
-            if (!map.has(this.operacionCerfida[0].idCertificacion)) {
-              this.datosComparados.push({
-                tipoOperacion: this.operacionCerfida[0].tipoOperacion,
-                valorTotal: this.operacionCerfida[0].valorTotal,
-                nombreFondoTDV: this.operacionCerfida[0].nombreFondoTDV,
-                nombrePuntoOrigen: this.operacionCerfida[0].nombrePuntoOrigen,
-                fechaEjecucion: this.operacionCerfida[0].fechaEjecucion ? this.operacionCerfida[0].fechaEjecucion : " ",
-                nombrePuntoDestino: this.operacionCerfida[0].nombrePuntoDestino,
-                fechaProgramacion: this.operacionCerfida[0].fechaProgramacion,
-                entradaSalida: this.operacionCerfida[0].entradaSalida,
-                idCertificacion: this.operacionCerfida[0].idCertificacion
-              })
-              map.set(this.operacionCerfida[0].idCertificacion, element.idOperacion);
-              this.totalCertif = this.totalCertif + this.operacionCerfida[0].valorTotal;
-            }
-            this.paramsConciliacionManual.push({
-              idOperacion: element.idOperacion,
-              idCertificacion: idCerti
-            });
-          }
-        });
-      }
+    this.data.certificadas.forEach(element => {
+
+      this.datosComparados.push({
+        tipoOperacion: element.tipoOperacion,
+        valorTotal: this.currencyPipe.transform(element.valorTotal, '$', 'symbol', '1.0-0'),
+        nombreFondoTDV: element.nombreFondoTDV,
+        nombrePuntoOrigen: element.nombrePuntoOrigen,
+        fechaEjecucion: element.fechaEjecucion ? this.datePipe.transform(element.fechaEjecucion,'dd/MM/YYYY', '+00') : " ",
+        nombrePuntoDestino: element.nombrePuntoDestino,
+        fechaProgramacion: this.datePipe.transform(element.fechaProgramacion,'dd/MM/YYYY', '+00'),
+        entradaSalida: element.entradaSalida,
+        idCertificacion: element.idCertificacion
+      });
+      this.paramsConciliacionManual.push({
+        idOperacion: element.relacion,
+        idCertificacion: element.idCertificacion
+      });
     });
 
     this.datosComparados.push({
-      tipoOperacion: this.copFormat.format(this.totalProg),
+      tipoOperacion: this.currencyPipe.transform(this.totalProg, '$', 'symbol', '1.0-0'),
       valorTotal: " ",
       nombreFondoTDV: "Total Programadas:",
       nombrePuntoOrigen: "Total Certificadas:",
-      nombrePuntoDestino: this.copFormat.format(this.totalCertif),
+      nombrePuntoDestino: this.currencyPipe.transform(this.totalCertif, '$', 'symbol', '1.0-0'),
       fechaEjecucion: " ",
       fechaProgramacion: " ",
       entradaSalida: "",
@@ -125,9 +115,6 @@ export class DialogConciliacionManualComponent implements OnInit {
     });
 
     this.dataSourceInfoOpProgramadas = new MatTableDataSource(this.datosComparados)
-  }
-
-  ngOnInit(): void {
   }
 
 
@@ -139,7 +126,7 @@ export class DialogConciliacionManualComponent implements OnInit {
 
     this.opConciliadasService.conciliacionManual(this.paramsConciliacionManual).subscribe({
       next: (data: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.SUCCESFULL_CONCILIATION,
@@ -149,7 +136,7 @@ export class DialogConciliacionManualComponent implements OnInit {
 
       },
       error: (data: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_CONCILIATION + " code: " + data.error.response.code + " description: " + data.error.response.description,
