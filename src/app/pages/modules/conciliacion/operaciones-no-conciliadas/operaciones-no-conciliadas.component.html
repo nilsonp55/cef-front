@@ -13,7 +13,7 @@
             <div class="col-2">
                 <button mat-raised-button color="primary" (click)="conciliacionManual()">Comparar</button>
             </div>
-            <div class="col-6">
+            <div class="col-8">
             <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListProg"
                 [length]="cantidadRegistrosOpProgramadasSinConciliar"
                 (page)="mostrarMasOpProgramadasSinConciliar($event)">
@@ -91,7 +91,7 @@
         </div>
     </div>
     <div>
-        <div>
+        <div class="divTituloTablas">
             <h3 class="tituloTabla">Operaciones certificadas no conciliadas </h3>
         </div>
         <div class="row">
@@ -100,7 +100,7 @@
                 (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_no_conciliadas'})">Exportar
                 tabla</button>
             </div>
-            <div class="col-8">
+            <div class="col-10">
             <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListCert"
                 [length]="cantidadRegistrosOpCertificadasSinConciliar"
                 (page)="mostrarMasOpCertificadasSinConciliar($event)">

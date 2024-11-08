@@ -307,7 +307,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
     } else {
       this.selectionCertificadas.selected.filter(
         (element) => element.relacion ===  row.idOperacion
-      ).map((element) => {
+      ).forEach((element) => {
         element.relacion = '';
         this.selectionCertificadas.deselect(element);
       });

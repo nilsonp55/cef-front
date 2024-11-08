@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-ventana-emergente-response',
@@ -11,7 +12,14 @@ export class VentanaEmergenteResponseComponent implements OnInit {
   codigoIcono: number = 1;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { msn: string; codigo: number, showActions?: boolean },
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      msn: string;
+      codigo: number;
+      showActions?: boolean;
+      msgDetalles?: string;
+      showResume?: boolean;
+    },
     public dialogRef: MatDialogRef<VentanaEmergenteResponseComponent>
   ) {}
 

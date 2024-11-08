@@ -264,7 +264,7 @@ export const URLs = {
   CONCILIACION_CIERRE: '/cierre',
   OP_PROGRAMADAS_FALLIDAS: "?estadoConciliacion=FALLIDA&estadoConciliacion=CANCELADA&estadoConciliacion=POSPUESTA&estadoConciliacion=FUERA_DE_CONCILIACION",
   UPDATE_ESTADO_PROGRAMADAS: "/update-estado-programadas",
-  UPDATE_ESTADO_CERTIFICADAS: "/update-estada-certificadas",
+  UPDATE_ESTADO_CERTIFICADAS: "/update-estado-certificadas",
 
   //Listar transportadoras
   TRANSPORTADORA: '/transportadoras',

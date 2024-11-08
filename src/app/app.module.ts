@@ -159,6 +159,7 @@ import { VentanaEmergenteDetalleGestionComponent } from './pages/modules/concili
 import { VentanaEmergenteEliminarGestionComponent } from './pages/modules/conciliacion-costos/gestion-archivos/ventana-emergente-eliminar-gestion/ventana-emergente-eliminar-gestion.component';
 import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/registros-eliminados/ventana-emergente-reintegrar-registros/ventana-emergente-reintegrar-registros.component';
 import { DialogUpdateEstadoOperacionesComponent } from './pages/modules/conciliacion/operaciones-fallidas/dialog-update-estado-operaciones/dialog-update-estado-operaciones.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -335,7 +336,8 @@ import { DialogUpdateEstadoOperacionesComponent } from './pages/modules/concilia
     MatCheckboxModule,
     MatTableExporterModule,
     MatSlideToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    MatExpansionModule
   ],
   providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent, CurrencyPipe],
   bootstrap: [AppComponent]

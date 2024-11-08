@@ -40,8 +40,6 @@ export class DialogConciliacionManualComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let map = new Map<string, string>();
-
     this.datosComparados = [];
     this.datosComparados.push({
       tipoOperacion: " ",

@@ -4,16 +4,18 @@
         <h3>Actualizar estado de Operaciones</h3>
         <span class="line-spacer"></span>
     </div>
-    <mat-form-field appearance="fill">
-        <mat-label>Estado operacion</mat-label>
-        <mat-select formControlName="estadoConciliacion">
-            <mat-option *ngFor="let estado of estadosOperacion" [value]="estado">
-                {{estado.viewValue}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <div [formGroup]="form">
+      <mat-form-field appearance="fill">
+          <mat-label>Estado operacion</mat-label>
+          <mat-select formControlName="estadoConciliacion">
+              <mat-option *ngFor="let estado of estadosOperacion" [value]="estado">
+                  {{estado.value}}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
 </div>
 <div mat-dialog-actions>
     <button mat-raised-button mat-button color="primary" (click)="actualizarOperaciones()">Aceptar</button>
-    <button mat-raised-button mat-button>Cancelar</button>
+    <button mat-raised-button mat-button (click)="onCancel()">Cancelar</button>
 </div>

@@ -57,7 +57,7 @@ export class OperacionesFallidasComponent implements OnInit {
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'nombreFondoTDV', 'fechaEjecucion', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['select', 'idCertificacion', 'nombreFondoTDV', 'fechaEjecucion', 'tipoOperacion', 'entradaSalida', 'estadoConciliacion', 'valorTotal', 'acciones'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   // Selection
@@ -355,10 +355,13 @@ export class OperacionesFallidasComponent implements OnInit {
    * @param operacion P para Programadas, C para Certificadas
    * @author prv_nparra
    */
-  openDialogUpdateEstadoProgramadas(operacion: string) {
+  openDialogUpdateEstadoOperaciones(operacion: string) {
     this.dialog.open(DialogUpdateEstadoOperacionesComponent, {
       width: 'auto',
-      data: { listOperaciones: this.seleccionadosProgramadasTabla, operacion: operacion }
+      data: {
+        listOperaciones: operacion === 'P' ? this.seleccionadosProgramadasTabla : this.seleccionadosCertificadasTabla,
+        operacion: operacion
+      }
     });
 
   }
