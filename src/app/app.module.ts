@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -158,6 +158,8 @@ import { GestionArchivosComponent } from './pages/modules/conciliacion-costos/ge
 import { VentanaEmergenteDetalleGestionComponent } from './pages/modules/conciliacion-costos/gestion-archivos/ventana-emergente-detalle-gestion/ventana-emergente-detalle-gestion';
 import { VentanaEmergenteEliminarGestionComponent } from './pages/modules/conciliacion-costos/gestion-archivos/ventana-emergente-eliminar-gestion/ventana-emergente-eliminar-gestion.component';
 import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/registros-eliminados/ventana-emergente-reintegrar-registros/ventana-emergente-reintegrar-registros.component';
+import { DialogUpdateEstadoOperacionesComponent } from './pages/modules/conciliacion/operaciones-fallidas/dialog-update-estado-operaciones/dialog-update-estado-operaciones.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -292,7 +294,8 @@ import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/co
     GestionArchivosComponent,
     VentanaEmergenteDetalleGestionComponent,
     VentanaEmergenteEliminarGestionComponent,
-    VentanaEmergenteReintegrarRegistrosComponent
+    VentanaEmergenteReintegrarRegistrosComponent,
+    DialogUpdateEstadoOperacionesComponent
   ],
 
   imports: [
@@ -333,9 +336,10 @@ import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/co
     MatCheckboxModule,
     MatTableExporterModule,
     MatSlideToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    MatExpansionModule
   ],
-  providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent],
+  providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

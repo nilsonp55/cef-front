@@ -263,6 +263,8 @@ export const URLs = {
   ACTUALIZAR_OP_CERTIFICADAS: '/update-certificadas-fallidas',
   CONCILIACION_CIERRE: '/cierre',
   OP_PROGRAMADAS_FALLIDAS: "?estadoConciliacion=FALLIDA&estadoConciliacion=CANCELADA&estadoConciliacion=POSPUESTA&estadoConciliacion=FUERA_DE_CONCILIACION",
+  UPDATE_ESTADO_PROGRAMADAS: "/update-estado-programadas",
+  UPDATE_ESTADO_CERTIFICADAS: "/update-estado-certificadas",
 
   //Listar transportadoras
   TRANSPORTADORA: '/transportadoras',

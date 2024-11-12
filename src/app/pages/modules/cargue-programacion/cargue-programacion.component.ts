@@ -52,8 +52,11 @@ export class CargueProgramacionComponent implements OnInit {
     }
   }
 
-  gotToRoute(routeName: string) {
-    this.router.navigate([`${routeName}`], {relativeTo: this.route});
+  gotToRoute(menu: any) {
+    this.menusCargueProgramacion.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.router.navigate([`${menu.url}`], {relativeTo: this.route});
   }
 
 }

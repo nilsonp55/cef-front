@@ -1,18 +1,12 @@
-table {
-    width: 1280PX;
-}
-
 .configScroll {
-    height: auto;
+    height: fit-content;
     overflow-x: scroll;
     overscroll-behavior-x: contain;
     scroll-snap-type: proximity;
 }
 
 .tituloTabla {
-    padding-top: 2%;
     text-align: center;
-    margin-left: 30%;
 }
 
 .divTablaProg {
@@ -34,4 +28,11 @@ table {
     text-align: right;
     float:left;
     margin-top: 1%;
+}
+
+.verticalScroll {
+  max-height: 500px;
+  overflow-y: scroll;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
 }

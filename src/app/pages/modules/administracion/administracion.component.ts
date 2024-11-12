@@ -66,8 +66,14 @@ export class AdministracionComponent implements OnInit {
 
   }
 
-  gotToRouteAdm(routeName: string) {
-    this.routerAdm.navigate([`${routeName}`], {relativeTo: this.routeAdm});
+  gotToRouteAdm(menu: any) {
+    this.menusAdministracion.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.menusAdministracionTablsContables.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.routerAdm.navigate([`${menu.url}`], {relativeTo: this.routeAdm});
   }
 
 }

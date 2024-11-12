@@ -11,7 +11,14 @@ export class VentanaEmergenteResponseComponent implements OnInit {
   codigoIcono: number = 1;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { msn: string; codigo: number, showActions?: boolean },
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      msn: string;
+      codigo: number;
+      showActions?: boolean;
+      msgDetalles?: string;
+      showResume?: boolean;
+    },
     public dialogRef: MatDialogRef<VentanaEmergenteResponseComponent>
   ) {}
 

@@ -1,7 +1,3 @@
-table {
-  width: 690px;
-}
-
 .divTablaProg {
   background-color: rgb(226, 229, 229);
   padding: 1%;
@@ -34,15 +30,13 @@ table {
 }
 
 .division-busqueda {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  height: 20%;
+  display: inline-flex;
 }
 
 .tituloTabla {
   padding-top: 2%;
   text-align: center;
-  margin-left: 20%;
+  margin-left: 10%;
 }
 
 .example-form-field {

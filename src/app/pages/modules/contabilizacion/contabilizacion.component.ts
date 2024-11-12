@@ -36,7 +36,10 @@ export class ContabilizacionComponent implements OnInit {
     })
   }
 
-  gotToRouteCont(routeName: string) {
-    this.routerCont.navigate([`${routeName}`], {relativeTo: this.routeCont});
+  gotToRouteCont(menu: any) {
+    this.menusContabilidad.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.routerCont.navigate([`${menu.url}`], {relativeTo: this.routeCont});
   }
 }

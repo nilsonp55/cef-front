@@ -13,12 +13,7 @@ export class DialogInfoProgramadasNoConciliadasComponent implements OnInit {
 
   dataSourceInfoOpProgramadas: MatTableDataSource<ConciliacionesInfoProgramadasNoConciliadasModel>;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ConciliacionesInfoProgramadasNoConciliadasModel) { 
-    /*data.fechaProgramacion = moment(data.fechaProgramacion).format('DD/MM/YYYY')
-    data.fechaOrigen = moment(data.fechaOrigen).format('DD/MM/YYYY')
-    data.fechaCreacion = moment(data.fechaCreacion).format('DD/MM/YYYY')
-    data.fechaDestino =  moment(data.fechaDestino).format('DD/MM/YYYY')
-    data.fechaModificacion =  moment(data.fechaModificacion).format('DD/MM/YYYY')*/
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ConciliacionesInfoProgramadasNoConciliadasModel) {
     this.dataSourceInfoOpProgramadas = new MatTableDataSource([data]);
   }
 

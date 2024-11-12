@@ -8,9 +8,9 @@
         <mat-sidenav #sidenav opened="{{checkMenuLateral}}" style="width: 21%" mode="side">
             <!--opciones de menu-->
             <mat-divider></mat-divider>
-            <div *ngFor="let item of menusConsiliacion">
-                <button mat-menu-item (click)="gotToRoute(item.url)" style="cursor: pointer"
-                    routerLinkActive="seleccion-activa">
+            <div *ngFor="let item of menusConciliacion">
+                <button mat-menu-item (click)="gotToRoute(item)" style="cursor: pointer"
+                    [ngClass]="{'seleccion-activa': item.activo === 1}">
                     <span class="material-icons">{{item.icono}}</span>
                     <span>{{item.nombre}}</span>
                 </button>

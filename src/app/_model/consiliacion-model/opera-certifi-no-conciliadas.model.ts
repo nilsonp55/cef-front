@@ -3,7 +3,7 @@
 * @JuanMazo
 */
 export class ConciliacionesCertificadaNoConciliadasModel {
-    
+
     idCertificacion: string;
     codigoFondoTDV: number;
     codigoBanco: number;
@@ -28,4 +28,5 @@ export class ConciliacionesCertificadaNoConciliadasModel {
     bancoAVAL: string;
     tdv: string;
     codigoPropioTDV: string;
+    relacion: string;
 }
