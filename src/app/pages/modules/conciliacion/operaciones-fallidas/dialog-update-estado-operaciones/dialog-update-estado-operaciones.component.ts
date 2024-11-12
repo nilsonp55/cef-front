@@ -54,14 +54,14 @@ export class DialogUpdateEstadoOperacionesComponent implements OnInit {
     });
     if (this.data.operacion === 'C') {
       this.opConciliadasService.updateEstadoCertificadas(param).subscribe({
-        next: (page: any) => {
-          let msgDetalle: string = page.data
-            .map((e) => `ID: ${e.idOperacion} Resultado: ${e.resultadoFallido ? e.resultadoFallido : 'OK'}`)
+        next: (pageConciliadas: any) => {
+          let msgDetalle: string = pageConciliadas.data
+            .map((conciliadas) => `ID: ${conciliadas.idOperacion} Resultado: ${conciliadas.resultadoFallido ? conciliadas.resultadoFallido : 'OK'}`)
             .join(" - ");
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: page.response.description,
+              msn: pageConciliadas.response.description,
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
               showActions: false,
               msgDetalles: msgDetalle,
@@ -70,11 +70,11 @@ export class DialogUpdateEstadoOperacionesComponent implements OnInit {
           });
           this.dialogRef.close();
         },
-        error: (err: any) => {
+        error: (errConciliadas: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION + " - " + err.description,
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION + " - " + errConciliadas.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
@@ -83,14 +83,14 @@ export class DialogUpdateEstadoOperacionesComponent implements OnInit {
     }
     if (this.data.operacion === 'P') {
       this.opConciliadasService.updateEstadoProgramadas(param).subscribe({
-        next: (page: any) => {
-          let msgDetalle: string = page.data
-            .map((e) => `ID: ${e.idOperacion} Resultado: ${e.resultadoFallido ? e.resultadoFallido : 'OK'}`)
+        next: (pageProgramadas: any) => {
+          let msgDetalle: string = pageProgramadas.data
+            .map((programadas) => `ID: ${programadas.idOperacion} Resultado: ${programadas.resultadoFallido ? programadas.resultadoFallido : 'OK'}`)
             .join(" - ");
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: page.response.description,
+              msn: pageProgramadas.response.description,
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
               showActions: false,
               msgDetalles: msgDetalle,
@@ -99,11 +99,11 @@ export class DialogUpdateEstadoOperacionesComponent implements OnInit {
           });
           this.dialogRef.close();
         },
-        error: (err: any) => {
+        error: (errProgramadas: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION + " - " + err.description,
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION + " - " + errProgramadas.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
