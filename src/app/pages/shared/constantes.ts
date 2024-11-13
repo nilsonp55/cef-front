@@ -309,7 +309,7 @@ export const URLs = {
 
   //Proceso diario
   PROCESO_DIARIO: '/proceso-diario',
-  PROCESO_DIARIO_CONSULTAR: '/consultar',
+  PROCESO_DIARIO_CONSULTAR: '/consultar-fecha-proceso',
 
   //Proceso diario
   VALIDA_ESTADO_PROCESO: '/auditoria-procesos',
