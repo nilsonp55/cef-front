@@ -7,8 +7,8 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { ProcedimientosAlmacenadosService } from 'src/app/_service/administracion-service/procedimientos-almacenados.service';
-import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { EjecutarProcedimientoComponent } from './ejecutar-procedimiento/ejecutar-procedimiento.component';
+import { Overlay } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-gestion-procedimientos',
@@ -33,8 +33,8 @@ export class GestionProcedimientosComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private cierrecontabilidadService: CierreContabilidadService,
     private procedimientosAlmacenadosService: ProcedimientosAlmacenadosService,
+    private overlay: Overlay
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -74,10 +74,9 @@ export class GestionProcedimientosComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar(param) {
-    let data;
     const validateArchivo = this.dialog.open(EjecutarProcedimientoComponent, {
-      width: '800px',
-      height: '500px',
+      height: '95%',
+      width: '90%',
       data: {
         funcion: param.idFuncion,
         data: param.parametrosFuncionesDinamicasDTO,

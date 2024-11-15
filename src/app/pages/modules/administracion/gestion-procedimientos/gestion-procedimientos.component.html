@@ -2,10 +2,8 @@
 <div class="divTabla">
     <div class="divTituloTablas">
         <h1 class="tituloTablaProcedimientos">Gestión de Procedimientos Almacenados</h1>
-        <span class="line-spacer"></span>
     </div>
-    <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
-        <caption></caption>
+    <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8" aria-label="procedimientos">
         <ng-container matColumnDef="nombreFuncion">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE</th>
             <td mat-cell *matCellDef="let element"> {{element.nombreFuncion}} </td>

@@ -26,31 +26,33 @@ export class AdministracionComponent implements OnInit {
   ) { }
   
   ngOnInit(): void {
-    ManejoFechaToken.manejoFechaToken()
+    ManejoFechaToken.manejoFechaToken();
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {
       //Logica para capturar los menus para administracion
-      let rol = data.data[0].rol.idRol;
-      this.rolMenuService.obtenerMenuRol({
-        'rol.idRol': rol,
-        'estado': "1",
-        'menu.idMenuPadre': "administracion"
-      }).subscribe(menusrol => {
-        menusrol.data.forEach(itm => {
-          this.menusAdministracion.push(itm.menu);
+      if(data.data[0].estado === "1"){
+        let rol = data.data[0].rol.idRol;
+        this.rolMenuService.obtenerMenuRol({
+          'rol.idRol': rol,
+          'estado': "1",
+          'menu.idMenuPadre': "administracion"
+        }).subscribe(menusrol => {
+          menusrol.data.forEach(itm => {
+            this.menusAdministracion.push(itm.menu);
+          });
         });
-      });
-      //Logica para capturar los menus para administracion tablas contables
-      this.rolMenuService.obtenerMenuRol({
-        'rol.idRol': rol,
-        'estado': "1",
-        'menu.idMenuPadre': "administracionTabContables"
-      }).subscribe(menusrol => {
-        menusrol.data.forEach(itm => {
-          this.menusAdministracionTablsContables.push(itm.menu);
+        //Logica para capturar los menus para administracion tablas contables
+        this.rolMenuService.obtenerMenuRol({
+          'rol.idRol': rol,
+          'estado': "1",
+          'menu.idMenuPadre': "administracionTabContables"
+        }).subscribe(menusrol => {
+          menusrol.data.forEach(itm => {
+            this.menusAdministracionTablsContables.push(itm.menu);
+          });
         });
-      });
+      }
     })
   }
 
