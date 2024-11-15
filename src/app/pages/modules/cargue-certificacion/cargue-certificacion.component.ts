@@ -23,17 +23,19 @@ export class CargueCertificacionComponent implements OnInit {
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {
-      //Logica para capturar los menus para cargueCertificacion
-      let rol = data.data[0].rol.idRol;
-      this.rolMenuService.obtenerMenuRol({
-        'rol.idRol': rol,
-        'estado': "1",
-        'menu.idMenuPadre': "cargueCertificacion"
-      }).subscribe(menusrol => {
-        menusrol.data.forEach(itm => {
-          this.menusCargueCertificacion.push(itm.menu);
+      if(data.data[0].estado === "1"){
+        //Logica para capturar los menus para cargueCertificacion
+        let rol = data.data[0].rol.idRol;
+        this.rolMenuService.obtenerMenuRol({
+          'rol.idRol': rol,
+          'estado': "1",
+          'menu.idMenuPadre': "cargueCertificacion"
+        }).subscribe(menusrol => {
+          menusrol.data.forEach(itm => {
+            this.menusCargueCertificacion.push(itm.menu);
+          });
         });
-      });
+      }
     })
   }
 

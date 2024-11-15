@@ -29,22 +29,24 @@ export class ConciliacionCostosComponent implements OnInit {
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {
-      //Logica para capturar los menus para conciliacion-costos
-      let rol = data.data[0].rol.idRol;
-      this.rolMenuService.obtenerMenuRol({
-        'rol.idRol': rol,
-        'estado': "1",
-        'menu.idMenuPadre': "conciliacionCostos"
-      }).subscribe(menusrol => {
-        var menuOrdenado = menusrol.data
-        menuOrdenado.sort((a, b) => {
-          return a.menu.idMenu - b.menu.idMenu
-        })
-        menusrol.data.forEach(itm => {
-          this.menusConciliacionCostos.push(itm.menu);
+      if(data.data[0].estado === "1"){
+        //Logica para capturar los menus para conciliacion-costos
+        let rol = data.data[0].rol.idRol;
+        this.rolMenuService.obtenerMenuRol({
+          'rol.idRol': rol,
+          'estado': "1",
+          'menu.idMenuPadre': "conciliacionCostos"
+        }).subscribe(menusrol => {
+          var menuOrdenado = menusrol.data
+          menuOrdenado.sort((a, b) => {
+            return a.menu.idMenu - b.menu.idMenu
+          })
+          menusrol.data.forEach(itm => {
+            this.menusConciliacionCostos.push(itm.menu);
+          });
+          console.log(this.menusConciliacionCostos);
         });
-        console.log(this.menusConciliacionCostos);
-      });
+      }
     })
   }
 

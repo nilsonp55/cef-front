@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     if (environment.usesADD === true) {
       this.capturaToken();
     } else {
