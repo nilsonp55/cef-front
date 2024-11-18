@@ -116,7 +116,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    */
   infoOpCertificadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
     this.dialog.open(DialogInfoCertificadasNoConciliadasComponent, {
-      width: 'auto',
+      width: '90%',
       data: element
     })
   }
@@ -160,13 +160,13 @@ export class OperacionesNoConciliadasComponent implements OnInit {
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.loadProg = false;
       }
     });
@@ -198,14 +198,13 @@ export class OperacionesNoConciliadasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
         this.loadCert = false;
       }
     });
