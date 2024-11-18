@@ -66,7 +66,7 @@ export class DialogConciliacionManualComponent implements OnInit {
         fechaDestino: this.datePipe.transform(element.fechaDestino,'dd/MM/YYYY', '+00'),
         entradaSalida: element.entradaSalida,
         idOperacion: element.idOperacion
-      })
+      });
       this.totalProg = this.totalProg + element.valorTotal;
     });
 
@@ -80,7 +80,7 @@ export class DialogConciliacionManualComponent implements OnInit {
       fechaProgramacion: " ",
       entradaSalida: " ",
       idCertificacion: " "
-    })
+    });
     this.data.certificadas.forEach(element => {
 
       this.datosComparados.push({
@@ -94,6 +94,7 @@ export class DialogConciliacionManualComponent implements OnInit {
         entradaSalida: element.entradaSalida,
         idCertificacion: element.idCertificacion
       });
+      this.totalCertif += element.valorTotal;
       this.paramsConciliacionManual.push({
         idOperacion: element.relacion,
         idCertificacion: element.idCertificacion
