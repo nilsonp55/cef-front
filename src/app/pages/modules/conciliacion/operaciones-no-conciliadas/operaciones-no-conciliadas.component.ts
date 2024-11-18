@@ -105,7 +105,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    */
   infoOpProgramadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
     this.dialog.open(DialogInfoProgramadasNoConciliadasComponent, {
-      width: 'auto',
+      width: '90%',
       data: element
     })
   }
@@ -127,6 +127,8 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    */
   conciliacionManual() {
     this.dialog.open(DialogConciliacionManualComponent, {
+      width: '90%',
+      height: '90%',
       data: {
         programadas: this.selectionProgramadas.selected,
         certificadas: this.selectionCertificadas.selected
