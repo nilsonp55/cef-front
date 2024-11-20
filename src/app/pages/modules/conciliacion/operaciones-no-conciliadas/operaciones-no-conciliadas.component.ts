@@ -127,7 +127,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    */
   conciliacionManual() {
     this.dialog.open(DialogConciliacionManualComponent, {
-      width: '90%',
+      width: '95%',
       height: '90%',
       data: {
         programadas: this.selectionProgramadas.selected,

@@ -19,7 +19,7 @@ import { ConciliacionComponent } from './pages/modules/conciliacion/conciliacion
 import { ContabilizacionComponent } from './pages/modules/contabilizacion/contabilizacion.component';
 import { LiquidacionComponent } from './pages/modules/liquidacion/liquidacion.component';
 import { AdministracionComponent } from './pages/modules/administracion/administracion.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -160,6 +160,7 @@ import { VentanaEmergenteEliminarGestionComponent } from './pages/modules/concil
 import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/registros-eliminados/ventana-emergente-reintegrar-registros/ventana-emergente-reintegrar-registros.component';
 import { DialogUpdateEstadoOperacionesComponent } from './pages/modules/conciliacion/operaciones-fallidas/dialog-update-estado-operaciones/dialog-update-estado-operaciones.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { AuthInterceptor } from './_service/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -295,7 +296,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     VentanaEmergenteDetalleGestionComponent,
     VentanaEmergenteEliminarGestionComponent,
     VentanaEmergenteReintegrarRegistrosComponent,
-    DialogUpdateEstadoOperacionesComponent
+    DialogUpdateEstadoOperacionesComponent,
   ],
 
   imports: [
@@ -337,9 +338,20 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatTableExporterModule,
     MatSlideToggleModule,
     MatTabsModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
-  providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent, CurrencyPipe],
-  bootstrap: [AppComponent]
+  providers: [
+    DatePipe,
+    MatDatepickerModule,
+    SpinnerComponent,
+    FiltroBancoTdvComponent,
+    CurrencyPipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
