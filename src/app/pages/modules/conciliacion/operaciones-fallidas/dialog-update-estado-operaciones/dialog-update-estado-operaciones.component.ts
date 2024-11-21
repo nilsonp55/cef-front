@@ -68,7 +68,7 @@ export class DialogUpdateEstadoOperacionesComponent implements OnInit {
               showResume: true,
             },
           });
-          this.dialogRef.close();
+          this.dialogRef.close({data: pageConciliadas});
         },
         error: (errConciliadas: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -97,7 +97,7 @@ export class DialogUpdateEstadoOperacionesComponent implements OnInit {
               showResume: true,
             },
           });
-          this.dialogRef.close();
+          this.dialogRef.close({data: pageProgramadas});
         },
         error: (errProgramadas: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
