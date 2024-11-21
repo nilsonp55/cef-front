@@ -153,14 +153,13 @@ export class OperacionesFallidasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
         this.loadProg = false;
       }
     });
@@ -357,10 +356,17 @@ export class OperacionesFallidasComponent implements OnInit {
    */
   openDialogUpdateEstadoOperaciones(operacion: string) {
     this.dialog.open(DialogUpdateEstadoOperacionesComponent, {
-      width: 'auto',
       data: {
         listOperaciones: operacion === 'P' ? this.seleccionadosProgramadasTabla : this.seleccionadosCertificadasTabla,
         operacion: operacion
+      }
+    }).afterClosed().subscribe(result => {
+      if (result && result.data.response.code === 'S000') {
+        this.seleccionadosProgramadasTabla = [];
+        this.seleccionadosCertificadasTabla = [];
+        this.selectionCertificadas.clear();
+        this.selectionProgramadas.clear()
+        this.filterTables();
       }
     });
 
