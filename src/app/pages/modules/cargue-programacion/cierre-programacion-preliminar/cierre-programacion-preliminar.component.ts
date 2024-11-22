@@ -120,13 +120,13 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
       'agrupador': "IPP",
     }).subscribe({next: item => {
         this.listarProcesos();
-        let messageResponse: string = item.data
-        let messageValidate = messageResponse.indexOf('Error')
-        if(messageValidate == 1) {
+        let msgResponse: string = item.data
+        let msgValidate = msgResponse.indexOf('Error')
+        if(msgValidate == 1) {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.SUCCESFULL_CIERRE_PRELIMINAR,
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           });
@@ -134,7 +134,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: messageResponse,
+              msn: msgResponse,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
@@ -144,7 +144,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_REABRIR_CIERRE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.ERROR_CIERRE_FECHA_PRELIMINAR,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
             showResume: true,
             msgDetalle: err.error.response.description,
