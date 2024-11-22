@@ -90,6 +90,7 @@ import { ConciliacionProcesamientoGuard } from './wards/conciliacion-procesamien
 import { ConciliacionProcesamientoComponent } from './pages/modules/conciliacion-costos/conciliacion-procesamiento/conciliacion-procesamiento.component';
 import { GestionArchivosGuard } from './wards/gestion-archivos.guard';
 import { GestionArchivosComponent } from './pages/modules/conciliacion-costos/gestion-archivos/gestion-archivos.component';
+import { GenerarPoliticaRetencionComponent } from './pages/modules/administracion/generar-politica-retencion/generar-politica-retencion.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -170,6 +171,7 @@ const routes: Routes = [
       { path: 'administracion-festivos-nacionales', component: AdministracionFestivosNacionalesComponent, canActivate: [AdministracionFestivosNacionalesGuard] },
       { path: 'administracion-generar-llaves', component: GenerarLlaveArchivosComponent},
       { path: 'administracion-tasas-cambio', component: AdministracionTasasCambioComponent},
+      { path: 'administracion-generar-politica', component: GenerarPoliticaRetencionComponent},
       { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [AdministracionCodigoTdvGuard] },
     ]
   }

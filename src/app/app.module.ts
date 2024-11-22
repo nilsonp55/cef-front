@@ -164,6 +164,8 @@ import { GestionArchivosComponent } from './pages/modules/conciliacion-costos/ge
 import { VentanaEmergenteDetalleGestionComponent } from './pages/modules/conciliacion-costos/gestion-archivos/ventana-emergente-detalle-gestion/ventana-emergente-detalle-gestion';
 import { VentanaEmergenteEliminarGestionComponent } from './pages/modules/conciliacion-costos/gestion-archivos/ventana-emergente-eliminar-gestion/ventana-emergente-eliminar-gestion.component';
 import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/registros-eliminados/ventana-emergente-reintegrar-registros/ventana-emergente-reintegrar-registros.component';
+import { GenerarPoliticaRetencionComponent } from './pages/modules/administracion/generar-politica-retencion/generar-politica-retencion.component';
+import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/generar-politica-retencion/dialog-confirm-politica/dialog-confirm-politica.component';
 
 @NgModule({
   declarations: [
@@ -304,7 +306,9 @@ import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/co
     GestionArchivosComponent,
     VentanaEmergenteDetalleGestionComponent,
     VentanaEmergenteEliminarGestionComponent,
-    VentanaEmergenteReintegrarRegistrosComponent
+    VentanaEmergenteReintegrarRegistrosComponent,
+    GenerarPoliticaRetencionComponent,
+    DialogConfirmPoliticaComponent
   ],
 
   imports: [
