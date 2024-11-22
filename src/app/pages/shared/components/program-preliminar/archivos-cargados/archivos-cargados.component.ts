@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ErrorService } from 'src/app/_model/error.model';
 import { VentanaEmergenteResponseComponent } from '../../ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from '../../../constantes';
 import { DialogResultValidacionComponent } from './dialog-result-validacion/dialog-result-validacion.component';
@@ -58,7 +57,7 @@ export class ArchivosCargadosComponent implements OnInit {
     this.listarArchivosCargados();
   }
 
-  /** 
+  /**
   * Metodo encargado de realizar consumo de servicio para listar los archivos cargados
   * @param: pagina, tamanio
   * @BaironPerez
@@ -67,24 +66,25 @@ export class ArchivosCargadosComponent implements OnInit {
     this.cargueArchivosService.obtenerArchivosSubidosPendientesCarga({
       'idModeloArchivo': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP,
       'estado': GENERALES.ESTADO_PENDIENTE
-    }).subscribe((page: any) => {
-      //this.fechaDatoIni = page.data.fechaInicioCargue
+    }).subscribe({next: (page: any) => {
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
       this.dataSourceInfoArchivo.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: err.error.error + " - status: " + err.error.status
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+      }});
   }
 
-  /** 
+  /**
   * Metodo encargado de validar un archivo seleccionado y visualizar su resultado en log emergente
   * @param: Archivo seleccionado
   * @BaironPerez
@@ -101,61 +101,68 @@ export class ArchivosCargadosComponent implements OnInit {
         this.cargueProgramacionPreliminarService.validarArchivo({
           'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
           'nombreArchivo': archivo.nombreArchivo
-        }).subscribe((data: ValidacionArchivo) => {
+        }).subscribe({ next: (data: ValidacionArchivo) => {
           this.listarArchivosCargados();
           this.spinnerActive = false;
           this.dialog.open(DialogResultValidacionComponent, {
             height: '80%', width: '950px', data: {id: archivo.idModeloArchivo, data}
           });
         },
-          (err: any) => {
+        error:  (err: any) => {
             this.spinnerActive = false;
-            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: err.error.response.description, codigo: GENERALES.CODE_EMERGENT.ERROR
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_VALIDATED_FILE,
+                codigo: GENERALES.CODE_EMERGENT.ERROR,
+                showResume: true,
+                msgDetalle: err.error.response.description,
               }
-            }); setTimeout(() => { alert.close() }, 3500);
-          })
+            });
+          }})
       }
     })
   }
 
-  /** 
+  /**
   * Metodo encargado de procesar un archivo seleccionado y visualizar su resultado
   * @param: Archivo seleccionado
   * @BaironPerez
-  */  
+  */
   procesarArchivo(archivo: any) {
     this.spinnerActive = true;
     this.spinnerComponent.dateToString(true);
     this.cargueProgramacionPreliminarService.procesarArchivo({
       'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
       'nombreArchivo': archivo.nombreArchivo
-    }).subscribe((data: any) => {
+    }).subscribe({ next: (data: any) => {
       this.listarArchivosCargados();
       this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.SUCCESFULL_PROCESS_FILE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+          showResume: true,
+          msgDetalle: data.response.description
         }
-      }); setTimeout(() => { alert.close() }, 3500);
+      });
     },
-      (err: any) => {
+    error:  (err: any) => {
         this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_PROCESS_FILE,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalle: err.error.response.description,
           }
-        }); setTimeout(() => { alert.close() }, 3500);
-      })
+        });
+      }})
   }
 
-  /** 
+  /**
   * Metodo para gestionar la paginación de la tabla
   * @BaironPerez
   */
@@ -163,19 +170,19 @@ export class ArchivosCargadosComponent implements OnInit {
     this.listarArchivosCargados(e.pageIndex, e.pageSize);
   }
 
-  /** 
+  /**
   * Metodo para descargar y visualizar un archivo
   * @BaironPerez
   */
-  downloadFile(archivo: any): void { 
-      const verArchivo = this.dialog.open(DialogVerArchivoComponent, {
+  downloadFile(archivo: any): void {
+      this.dialog.open(DialogVerArchivoComponent, {
         height:'95%', width: '99%',
         data: archivo
       });
-    
+
   }
 
-  /** 
+  /**
   * Metodo para eliminar un registro de archivo previamente cargado
   * @BaironPerez
   */
@@ -183,20 +190,34 @@ export class ArchivosCargadosComponent implements OnInit {
     this.cargueProgramacionPreliminarService.deleteArchivo({
       'nombreArchivo': nombreArchivo,
       'idMaestroArchivo': idModeloArchivo
-    }).subscribe(item => {
+    }).subscribe({next: item => {
       this.listarArchivosCargados();
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.SUCCESFULL_DELETE_FILE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+          showResume: true,
+          msgDetalle: item.response.description,
         }
       });
-      setTimeout(() => { alert.close() }, 3000);
+    },
+    error: (err: any) => {
+      this.spinnerActive = false;
+      this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_PROCESS_FILE,
+          codigo: GENERALES.CODE_EMERGENT.ERROR,
+          showResume: true,
+          msgDetalle: err.error.response.description,
+        }
+      });
+    }
     })
   }
 
-  /** 
+  /**
   * Metodo para reabrir un registro de archivo previamente cargado
   * @BaironPerez
   */
@@ -204,26 +225,29 @@ export class ArchivosCargadosComponent implements OnInit {
     this.cargueProgramacionPreliminarService.reabrirArchivo({
       'nombreArchivo': nombreArchivo,
       'idModeloArchivo': idModeloArchivo
-    }).subscribe(item => {
+    }).subscribe({ next: item => {
       this.listarArchivosCargados();
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+          showResume: true,
+          msgDetalle: item.response.description
         }
       });
-      setTimeout(() => { alert.close() }, 3000);
     },
-    (err: any) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error: (err: any) => {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
-          msn: err.error.response.description,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_REABRIR_CIERRE,
+          codigo: GENERALES.CODE_EMERGENT.ERROR,
+          showResume: true,
+          msgDetalle: err.error.response.description,
         }
-      }); setTimeout(() => { alert.close() }, 3000);
-    })
+      });
+    }})
   }
 
 }

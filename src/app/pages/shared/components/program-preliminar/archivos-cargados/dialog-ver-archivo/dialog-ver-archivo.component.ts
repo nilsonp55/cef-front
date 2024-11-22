@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
-import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-dialog-ver-archivo',
@@ -12,9 +11,9 @@ export class DialogVerArchivoComponent implements OnInit {
 
   respuesta: String;
 
-  constructor(private dialog: MatDialog,
+  constructor(
     private cargueArchivosService: CargueArchivosService,
-    @Inject(MAT_DIALOG_DATA) public data: String) { 
+    @Inject(MAT_DIALOG_DATA) public data: String) {
     this.respuesta= data;
     }
 
@@ -22,14 +21,14 @@ export class DialogVerArchivoComponent implements OnInit {
     this.downloadFile(this.respuesta);
   }
 
-  downloadFile(archivo: any): void { 
+  downloadFile(archivo: any): void {
       this.cargueArchivosService.visializarArchivo2({
         'nombreArchivo': archivo.nombreArchivo,
         'idMaestroArchivo': archivo.idModeloArchivo,
       }).subscribe(blob => {
         this.respuesta=blob;
       });
-    
+
   }
 
 }
