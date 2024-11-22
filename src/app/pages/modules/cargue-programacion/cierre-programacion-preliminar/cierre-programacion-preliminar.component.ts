@@ -48,20 +48,22 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({ next: (page: any) => {
         this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
         this.dataSourceInfoProcesos.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
       },
-      (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.ERROR_CIERRE_FECHA_PRELIMINAR,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalle: err.error.response.description,
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+      }});
   }
 
 
@@ -74,27 +76,31 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
     this.spinnerActive = true;
     this.operacionesProgramadasService.procesar({
       'agrupador': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP
-    }).subscribe(data => {
+    }).subscribe({ next: data => {
         this.spinnerActive = false;
         this.listarProcesos();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.SUCCESFULL_CIERRE_PRELIMINAR,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalle: data.response.description
           }
-        }); setTimeout(() => { alert.close() }, 3500);
+        });
       },
-      (err: any) => {
+      error: (err: any) => {
         this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.ERROR_CIERRE_FECHA_PRELIMINAR,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalle: err.error.response.description,
           }
-        }); setTimeout(() => { alert.close() }, 5500);
-      });
+        });
+      }});
     }
 
     /**
@@ -112,39 +118,39 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
     this.cargueProgramacionPreliminarService.reabrirArchivo({
       'agrupador': "IPP",
-    }).subscribe(item => {
+    }).subscribe({next: item => {
         this.listarProcesos();
         let messageResponse: string = item.data
         let messageValidate = messageResponse.indexOf('Error')
         if(messageValidate == 1) {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
           });
-          setTimeout(() => { alert.close() }, 3000);
         }else {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: messageResponse,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
-          setTimeout(() => { alert.close() }, 3000);
         }
       },
-      (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_REABRIR_CIERRE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalle: err.error.response.description,
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      })
+        });
+      }})
   }
 
 }

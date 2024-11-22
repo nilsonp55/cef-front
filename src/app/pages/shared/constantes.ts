@@ -20,7 +20,7 @@ export const GENERALES = {
       SUCCESFULL_VALIDATED_FILE: 'El archivo se valido satisfactoriamente',
       SUCCESFULL_DELETE_FILE: 'El archivo se elimino satisfactoriamente',
       ERROR_UPLOAD_FILE: 'Error al cargar el archivo',
-      ERROR_VALIDATED_FILE: 'Error al validarl el archivo',
+      ERROR_VALIDATED_FILE: 'Error al validar el archivo',
       ERROR_PROCESS_FILE: 'Error al procesar el archivo',
     },
     MESSAGE_CONCILIATION: {

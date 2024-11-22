@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DialogResultValidacionComponent } from '../dialog-result-validacion/dialog-result-validacion.component';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-validar-archivo',
@@ -11,7 +10,6 @@ export class DialogValidarArchivoComponent implements OnInit {
   nombreArchivo: string;
 
   constructor(
-    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any
 
   ) { }
