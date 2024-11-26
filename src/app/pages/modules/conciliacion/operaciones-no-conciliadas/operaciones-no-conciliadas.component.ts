@@ -133,6 +133,24 @@ export class OperacionesNoConciliadasComponent implements OnInit {
         programadas: this.selectionProgramadas.selected,
         certificadas: this.selectionCertificadas.selected
       }
+    }).afterClosed().subscribe(result => {
+      if (result && result.data.response.code === 'S000') {
+        this.selectionProgramadas.clear();
+        this.selectionCertificadas.clear();
+
+        this.listarOpProgramadasSinConciliar(
+          this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
+          this.filtroBanco == undefined ? "" : this.filtroBanco,
+          this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
+          this.numPaginaOpPr, this.cantPaginaOpPr
+        );
+        this.listarOpCertificadasSinConciliar(
+          this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
+          this.filtroBanco == undefined ? "" : this.filtroBanco,
+          this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
+          this.numPaginaOpCer, this.cantPaginaOpCer
+        );
+      }
     });
   }
 

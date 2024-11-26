@@ -14,6 +14,5 @@ export const environment = {
   //feature-flag
   featureFlag: {
     conciliacionCostos: true, // habilita modulo en menu principal
-    clientesCorporativos: true // habilita menu en modulo administracion
   }
 };
