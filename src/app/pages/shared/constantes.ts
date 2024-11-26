@@ -124,7 +124,10 @@ export const GENERALES = {
     MESSAGE_VLIDACION_FECHAS: {
       ERROR_DATE: 'La fecha inicial debe de ser menor a la fecha final',
       REQUIRED_RANGE_DATE: 'Se requiere seleccionar un rango de fechas'
-    }
+    },
+    MESSAGE_POLITICA_RETENCION: {
+      SUCCESFULL_POLITICA_RETENCION: 'Se ejecuto la politica de retención exitosamente.',
+    },
   },
 
   DIALOG_FORM: {
@@ -500,6 +503,9 @@ export const URLs = {
   GESTION_ARCHIVOS_CONSULTAR: '/gestion-archivos-liquidacion/consultar-agrupador',
   GESTION_ARCHIVOS_DESCARGAR: '/archivos/descargar-gestion-archivos-liquidacion',
   GESTION_ARCHIVOS_CERRAR: '/gestion-archivos-liquidacion/aceptar-archivos',
+
+  //Generar Politica
+  GENERAR_POLITICA: '/gestion-retencion-archivos/eliminar',
 };
 
 export const ROLES = [
