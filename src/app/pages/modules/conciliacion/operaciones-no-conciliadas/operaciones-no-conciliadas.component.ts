@@ -121,6 +121,21 @@ export class OperacionesNoConciliadasComponent implements OnInit {
     })
   }
 
+  refreshOperacionesTablas() {
+    this.listarOpProgramadasSinConciliar(
+      this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
+      this.filtroBanco == undefined ? "" : this.filtroBanco,
+      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
+      this.numPaginaOpPr, this.cantPaginaOpPr
+    );
+    this.listarOpCertificadasSinConciliar(
+      this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
+      this.filtroBanco == undefined ? "" : this.filtroBanco,
+      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
+      this.numPaginaOpCer, this.cantPaginaOpCer
+    );
+  }
+
   /**
    * Metodo que llama al dialog de conciliacion manual
    * @JuanMazo
@@ -138,18 +153,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
         this.selectionProgramadas.clear();
         this.selectionCertificadas.clear();
 
-        this.listarOpProgramadasSinConciliar(
-          this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
-          this.filtroBanco == undefined ? "" : this.filtroBanco,
-          this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
-          this.numPaginaOpPr, this.cantPaginaOpPr
-        );
-        this.listarOpCertificadasSinConciliar(
-          this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
-          this.filtroBanco == undefined ? "" : this.filtroBanco,
-          this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
-          this.numPaginaOpCer, this.cantPaginaOpCer
-        );
+        this.refreshOperacionesTablas();
       }
     });
   }
@@ -291,18 +295,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
     this.filtroTrasportadora = event.trasportadora;
     this.filtroTipoPunto = event.tipoPuntoOrigen;
 
-    this.listarOpProgramadasSinConciliar(
-      this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
-      this.filtroBanco == undefined ? "" : this.filtroBanco,
-      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
-      this.numPaginaOpPr, this.cantPaginaOpPr
-    );
-    this.listarOpCertificadasSinConciliar(
-      this.filtroTrasportadora == undefined ? "" : this.filtroTrasportadora,
-      this.filtroBanco == undefined ? "" : this.filtroBanco,
-      this.filtroTipoPunto == undefined ? [""] : this.filtroTipoPunto,
-      this.numPaginaOpCer, this.cantPaginaOpCer
-    );
+    this.refreshOperacionesTablas();
 
   }
 
