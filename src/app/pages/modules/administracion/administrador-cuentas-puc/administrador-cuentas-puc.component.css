@@ -125,3 +125,9 @@
 	-moz-transition: All 0.3s ease;
 	-o-transition: All 0.3s ease;
 }
+
+/* Error message styling */
+mat-error {
+    color: red;
+    font-size: 12px;
+}

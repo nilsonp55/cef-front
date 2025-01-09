@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -28,7 +28,7 @@ export class AdministracionContabilidadComponent implements OnInit {
   esEdicion: boolean;
   idTipoCuenta: any;
 
-  //Rgistros paginados
+  //Registros paginados
   @ViewChild(MatSort) sort: MatSort;
   cantidadRegistros: number;
 
@@ -49,7 +49,8 @@ export class AdministracionContabilidadComponent implements OnInit {
     */
   initForm(param?: any) {
     this.form = new FormGroup({
-      'tipoCuenta': new FormControl(param ? param.tipoCuenta : null),
+      'tipoCuenta': new FormControl(param ? param.tipoCuenta : null,
+        [Validators.required, Validators.minLength(3)]),
       'cuentaAuxiliar': new FormControl(param ? param.cuentaAuxiliar : null),
       'tipoId': new FormControl(param ? param.tipoId : null),
       'identificador': new FormControl(param ? param.identificador : null),
@@ -67,20 +68,23 @@ export class AdministracionContabilidadComponent implements OnInit {
     this.tiposCuentasService.obtenerTiposCuentas({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({next: (page: any) => {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
+    error:  (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_TIPO_CUNTAS.ERROR_GET_TIPO_ADMIN_CUNTAS,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err)
           }
         });
-      });
+      }
+    });
   }
 
   /**
@@ -99,33 +103,39 @@ export class AdministracionContabilidadComponent implements OnInit {
     };
     if (this.esEdicion) {
       tipoCuentas.tipoCuenta = this.idTipoCuenta;
-      this.tiposCuentasService.actualizarTiposCuentas(tipoCuentas).subscribe(response => {
+      this.tiposCuentasService.actualizarTiposCuentas(tipoCuentas).subscribe({next: response => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response)
           }
         });
         this.listarDominios();
         this.initForm();
       },
-        (err: any) => {
+      error:  (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalle: JSON.stringify(err.error.response.description)
             }
           });
-        });
+        }
+      });
     } else {
       this.tiposCuentasService.guardarTiposCuentas(tipoCuentas).subscribe(response => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            msgDetalles: JSON.stringify(response)
           }
         });
         this.listarDominios();
@@ -135,7 +145,7 @@ export class AdministracionContabilidadComponent implements OnInit {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
+              msn: JSON.stringify(err.error.response.description),
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });

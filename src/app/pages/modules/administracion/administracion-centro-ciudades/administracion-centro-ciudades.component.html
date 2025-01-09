@@ -55,7 +55,8 @@
         <div class="example-container" [formGroup]="form" #frmCiudades="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Centro ciudad" required formControlName="idCentroCiudad">
+                  <input matInput placeholder="Centro ciudad" required formControlName="idCentroCiudad">
+                  <mat-error *ngIf="form.get('idCentroCiudad').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -65,6 +66,7 @@
                             {{item.nombreBanco}}
                         </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -78,6 +80,7 @@
 
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Código Centro" required formControlName="codigoCentro">
+                    <mat-error *ngIf="form.get('codigoCentro').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
             </div>
             <div  class="tamanio-btn">
