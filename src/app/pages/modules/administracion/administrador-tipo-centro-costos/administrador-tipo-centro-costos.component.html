@@ -4,7 +4,7 @@
     <div>
         <div class="division-btn">
             <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearCentroCostos()">Crear Tipo Centro Costos</button>
+                (click)="crearCentroCostos()">Crear</button>
         </div>
     </div>
 
@@ -49,7 +49,8 @@
         <div class="example-container" [formGroup]="form" #frmCentroCosto="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Tipo Centro" minlength="3" required formControlName="tipoCentro">
+                  <input matInput placeholder="Tipo Centro" formControlName="tipoCentro">
+                  <mat-error *ngIf="form.get('tipoCentro').hasError('min')">Longitud mínima es de 3 caracteres.</mat-error>
                   <mat-error *ngIf="form.get('tipoCentro').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
@@ -64,7 +65,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Nombre Centro" required formControlName="nombreCentro">
+                    <input matInput placeholder="Nombre Centro" formControlName="nombreCentro">
                     <mat-error *ngIf="form.get('nombreCentro').hasError('required')">Este campo es requerido</mat-error>
                   </mat-form-field>
 

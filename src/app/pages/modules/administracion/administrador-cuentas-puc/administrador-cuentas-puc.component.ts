@@ -56,11 +56,11 @@ export class AdministradorCuentasPucComponent implements OnInit {
    */
   initForm(param?: any) {
       this.form = new FormGroup({
-        'idCuentasPuc': new FormControl(param? param.idCuentasPuc : null, [Validators.required]),
+        'idCuentasPuc': new FormControl({value: param? param.idCuentasPuc : null, disabled: true}),
         'cuentaContable': new FormControl(param? param.cuentaContable : null, [Validators.required]),
         'bancoAval': new FormControl(param? this.bancos.find((value) => value.codigoPunto === param.bancoAval.codigoPunto) : null, [Validators.required]),
         'nombreCuenta': new FormControl(param? param.nombreCuenta : null, [Validators.required]),
-        'identificador': new FormControl(param? param.identificador : null, [Validators.required]),
+        'identificador': new FormControl(param? param.identificador : null, ),
         'tiposCentrosCostos': new FormControl(param? this.tiposCostosCuentas.find((value) => value.tipoCentro === param.tiposCentrosCostos.tipoCentro) : null, [Validators.required]),
         'tiposCuentas': new FormControl(param? this.tipoCuentas.find((value) => value.tipoCuenta === param.tiposCuentas.tipoCuenta) : null, [Validators.required]),
         'estado': new FormControl(param? param.estado : null, [Validators.required])
