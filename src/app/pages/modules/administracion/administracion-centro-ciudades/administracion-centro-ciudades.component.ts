@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -71,9 +71,9 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
   initForm(param?: any) {
     this.form = new FormGroup({
       'idCentroCiudad': new FormControl(param ? param.idCentroCiudad : null),
-      'bancoAval': new FormControl(param ? this.bancos.find((value) => value.codigoPunto === param.bancoAval.codigoPunto) : null),
-      'codigoDane': new FormControl(param ? this.ciudades.find((value) => value.codigoDANE === param.ciudadDane.codigoDANE) : null),
-      'codigoCentro': new FormControl(param ? param.codigoCentro : null),
+      'bancoAval': new FormControl(param ? this.bancos.find((value) => value.codigoPunto === param.bancoAval.codigoPunto) : null, [Validators.required]),
+      'codigoDane': new FormControl(param ? this.ciudades.find((value) => value.codigoDANE === param.ciudadDane.codigoDANE) : null, [Validators.required]),
+      'codigoCentro': new FormControl(param ? param.codigoCentro : null, [Validators.required, Validators.pattern('^[0-9]+$')]),
     });
   }
 

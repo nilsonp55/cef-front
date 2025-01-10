@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -60,20 +60,20 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
    * Inicializaion formulario de creacion y edicion
    * @BayronPerez
    */
-  initForm(param?: any) { 
+  initForm(param?: any) {
     this.selectNaturaleza = param != undefined ? param.naturaleza: null
       this.form = new FormGroup({
         'consecutivo': new FormControl(param? param.consecutivo : null),
-        'bancoAval': new FormControl(param? this.selectBancoAval(param) : null),
-        'tipoTransaccion': new FormControl(param? String(param.tipoTransaccion) : null),
+        'bancoAval': new FormControl(param? this.selectBancoAval(param) : null, [Validators.required]),
+        'tipoTransaccion': new FormControl(param? String(param.tipoTransaccion) : null, [Validators.required]),
         'tipoOperacion': new FormControl(param? String(param.tipoOperacion) : null),
         'codigoComision': new FormControl(param? String(param.codigoComision) : null),
         'tipoImpuesto': new FormControl(param? String(param.tipoImpuesto) : null),
         'medioPago': new FormControl(param? param.medioPago : null),
         'bancoExterno': new FormControl(param? this.selectBancoExterno(param) : null),
         'transportadora': new FormControl(param? this.selectTransportadora(param) : null),
-        'naturaleza': new FormControl(param? param.naturaleza : null),
-        'numeroCuenta': new FormControl(param? param.cuentaContable : null),
+        'naturaleza': new FormControl(param? param.naturaleza : null, [Validators.required]),
+        'numeroCuenta': new FormControl(param? param.cuentaContable : null, [Validators.required, Validators.pattern('^[0-9]+$')]),
       });
   }
 
@@ -255,7 +255,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
     }).toPromise();
     this.mediosPago = _mediosPago.data;
 
-    const _bancosTodos = await this.generalesService.listarBancos().toPromise(); 
+    const _bancosTodos = await this.generalesService.listarBancos().toPromise();
     const _bancosExterno1: any[] = _bancosTodos.data;
     const _bancosExternos = _bancosExterno1.filter(item=>
       item.codigoPunto != 297 && item.codigoPunto != 298 && item.codigoPunto != 299 && item.codigoPunto != 300

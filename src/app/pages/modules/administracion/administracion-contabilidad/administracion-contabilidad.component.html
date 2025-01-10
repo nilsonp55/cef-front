@@ -4,7 +4,7 @@
     <div>
         <div class="division-btn">
             <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearTiposCuentas()">Crear Tipo Cuenta</button>
+                (click)="crearTiposCuentas()">Crear</button>
         </div>
     </div>
 
@@ -43,7 +43,9 @@
         <div class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Tipo Cuenta" minlength="3" required formControlName="tipoCuenta">
+                  <input matInput placeholder="Tipo Cuenta" minlength="3" required formControlName="tipoCuenta">
+                  <mat-error *ngIf="form.get('tipoCuenta').hasError('required')">Valor es requerido</mat-error>
+                  <mat-error *ngIf="form.get('tipoCuenta').hasError('minlength')">Longitud minima es de 3 caracteres</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
@@ -61,6 +63,7 @@
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Descripción" required formControlName="descripcion">
+                    <mat-error>Valor es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
@@ -74,6 +77,6 @@
                 <mat-icon>done</mat-icon>
                 <span>Aceptar</span>
             </button>
-        </div>
+          </div>
     </div>
 </mat-card>

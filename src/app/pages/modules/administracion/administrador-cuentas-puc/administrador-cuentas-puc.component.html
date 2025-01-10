@@ -4,7 +4,7 @@
     <div>
         <div class="division-btn">
             <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearCuentasPuc()">Crear Cuenta Contable</button>
+                (click)="crearCuentasPuc()">Crear</button>
         </div>
     </div>
 
@@ -54,6 +54,7 @@
 
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Cuenta Contable" formControlName="cuentaContable">
+                    <mat-error *ngIf="form.get('cuentaContable').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -63,10 +64,12 @@
                             {{item.nombreBanco}}
                         </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Nombre Cuenta" formControlName="nombreCuenta">
+                    <mat-error *ngIf="form.get('nombreCuenta').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
             </div>
 
@@ -82,6 +85,7 @@
                             {{item.tipoCentro}}
                         </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="form.get('tiposCentrosCostos').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -91,6 +95,7 @@
                             {{cuenta.tipoCuenta}}
                         </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="form.get('tiposCuentas').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <label class="switch">

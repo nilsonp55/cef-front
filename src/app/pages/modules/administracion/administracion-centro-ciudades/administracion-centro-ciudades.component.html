@@ -6,7 +6,7 @@
     <div>
         <div class="division-btn">
             <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearCentroCiudad()">Crear Centro Ciudad</button>
+                (click)="crearCentroCiudad()">Crear</button>
         </div>
     </div>
 
@@ -55,7 +55,7 @@
         <div class="example-container" [formGroup]="form" #frmCiudades="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Centro ciudad" required formControlName="idCentroCiudad">
+                  <input matInput placeholder="Centro ciudad" formControlName="idCentroCiudad">
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -65,6 +65,7 @@
                             {{item.nombreBanco}}
                         </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -74,10 +75,13 @@
                             {{ciudad.nombreCiudad}}
                         </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="form.get('codigoDane').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Código Centro" required formControlName="codigoCentro">
+                    <input matInput placeholder="Código Centro" formControlName="codigoCentro">
+                    <mat-error *ngIf="form.get('codigoCentro').hasError('required')">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('codigoCentro').hasError('pattern')">Ingresar únicamente valores numéricos</mat-error>
                 </mat-form-field>
             </div>
             <div  class="tamanio-btn">
