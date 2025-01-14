@@ -21,7 +21,7 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['banco', ' ', 'ciudad', 'codigoCentro', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['idCentroCiudad', 'bancoAval', 'ciudad', 'codigoCentro', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   bancos: any[] = [];

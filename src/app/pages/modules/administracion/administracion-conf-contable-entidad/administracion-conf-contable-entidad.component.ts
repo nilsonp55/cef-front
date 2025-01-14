@@ -19,12 +19,13 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['banco', 'tipoTr', 'dc', 'tOpera', 'cuenta', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['consecutivo', 'cuentaContable', 'esCambio', 'medioPago', 'naturaleza', 'tipoOperacion', 'bancoAval', 'codigoPuntoBancoExt', 'codigoTdv', 'tipoTransaccion', 'codigoComision', 'tipoImpuesto', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   esEdicion: boolean;
   idCuentaPuc: any;
   selectNaturaleza: any;
+  selectEsCambio: any;
   idConfEntity: any;
   bancos: any[] = [];
   tiposCostosCuentas: any[] = [];
@@ -37,7 +38,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   transportadoras: any [] = [];
   tipoTransaccion: any [] = [];
   filtroBancoSelect: any;
-  //Rgistros paginados
+  //Registros paginados
   @ViewChild(MatSort) sort: MatSort;
   cantidadRegistros: number;
   registros: any[] =[];
@@ -61,19 +62,21 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
    * @BayronPerez
    */
   initForm(param?: any) {
-    this.selectNaturaleza = param != undefined ? param.naturaleza: null
+    this.selectNaturaleza = param != undefined ? param.naturaleza: null;
+    this.selectEsCambio = param != undefined ? String(param.esCambio): null;
       this.form = new FormGroup({
-        'consecutivo': new FormControl(param? param.consecutivo : null),
-        'bancoAval': new FormControl(param? this.selectBancoAval(param) : null, [Validators.required]),
-        'tipoTransaccion': new FormControl(param? String(param.tipoTransaccion) : null, [Validators.required]),
-        'tipoOperacion': new FormControl(param? String(param.tipoOperacion) : null),
-        'codigoComision': new FormControl(param? String(param.codigoComision) : null),
-        'tipoImpuesto': new FormControl(param? String(param.tipoImpuesto) : null),
+        'consecutivo': new FormControl({value: param? param.consecutivo : null, disabled: true}),
+        'cuentaContable': new FormControl(param? param.cuentaContable : null, [Validators.required, Validators.pattern('^[0-9]+$')]),
+        'esCambio': new FormControl(param? String(param.esCambio) : null),
         'medioPago': new FormControl(param? param.medioPago : null),
+        'naturaleza': new FormControl(param? param.naturaleza : null, [Validators.required]),
+        'tipoOperacion': new FormControl(param? String(param.tipoOperacion) : null),
+        'bancoAval': new FormControl(param? this.selectBancoAval(param) : null, [Validators.required]),
         'bancoExterno': new FormControl(param? this.selectBancoExterno(param) : null),
         'transportadora': new FormControl(param? this.selectTransportadora(param) : null),
-        'naturaleza': new FormControl(param? param.naturaleza : null, [Validators.required]),
-        'numeroCuenta': new FormControl(param? param.cuentaContable : null, [Validators.required, Validators.pattern('^[0-9]+$')]),
+        'tipoTransaccion': new FormControl(param? this.tipoTransaccion.find((t) => t === String(param.tipoTransaccion)) : null, [Validators.required]),
+        'codigoComision': new FormControl(param? this.codigosComiciones.find((c) => c === String(param.codigoComision)) : null),
+        'tipoImpuesto': new FormControl(param? this.tiposImpuestos.find((i) => i === String(param.tipoImpuesto)) : null),
       });
   }
 

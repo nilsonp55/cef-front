@@ -22,7 +22,7 @@ export class AdministracionContabilidadComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['tipoId', 'name', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['tipoCuenta', 'cuentaAuxiliar', 'tipoId', 'identificador', 'descripcion', 'referencia1', 'referencia2', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   esEdicion: boolean;

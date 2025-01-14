@@ -22,7 +22,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['identi','numeroCuenta','name', 'tipoCuenta','acciones'];
+  displayedColumnsTiposCuentas: string[] = ['idCuentasPuc','cuentaContable','bancoAval','nombreCuenta','identificador','tipoCentro','tipoCuenta','estado','acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   esEdicion: boolean;
