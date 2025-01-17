@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -47,8 +47,8 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
     */
   initForm(param?: any) {
     this.form = new FormGroup({
-      'fecha': new FormControl(param ? param.fecha : null),
-      'descripcion': new FormControl(param ? param.descripcion : null),
+      'fecha': new FormControl(param ? param.fecha : null, [Validators.required]),
+      'descripcion': new FormControl(param ? param.descripcion : null, [Validators.required]),
     });
   }
 

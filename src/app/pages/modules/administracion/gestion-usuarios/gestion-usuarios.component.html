@@ -1,21 +1,81 @@
-<mat-card class="card-limites">
-    <mat-card-title>Gestión de Usuarios</mat-card-title>
     <div>
+      <h2>Gestión de Usuarios</h2>
         <div class="division-btn">
-            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearUsuario()">Crear Usuario</button>
+            <button mat-raised-button color="primary"
+                (click)="crearUsuario()">Crear</button>
         </div>
     </div>
 
-    <div style="width: 30%; margin-top: 3%" class="ubicacionTablas">
+    <div class="ubicacionTablas">
+      <div class="example-container" [formGroup]="form" *ngIf="mostrarFormulario">
+          <div style="padding-left: 10%;">
+              <mat-form-field class="example-full-width">
+                  <input type="email" matInput placeholder="Email Usuario" formControlName="idUsuario">
+                  <mat-error *ngIf="form.get('idUsuario').hasError('required')">Este campo es requerido</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Nombres" formControlName="nombres">
+                  <mat-error *ngIf="form.get('nombres').hasError('required')">Este campo es requerido</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Apellidos" formControlName="apellidos">
+                  <mat-error *ngIf="form.get('apellidos').hasError('required')">Este campo es requerido</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Tipo Usuario" formControlName="tipoUsuario">
+                  <mat-error *ngIf="form.get('tipoUsuario').hasError('required')">Este campo es requerido</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                  <mat-label>Rol</mat-label>
+                  <mat-select formControlName="rol">
+                      <mat-option *ngFor="let item of roles" [value]="item">
+                          {{item.idRol}}
+                      </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="form.get('rol').hasError('required')">Este campo es requerido</mat-error>
+              </mat-form-field>
+
+              <div class="division-estado">
+                  <label class="switch" >
+                      <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                      <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                      <span class="switch-handle"></span>
+                  </label>
+                  <p>ESTADO</p>
+              </div>
+          </div>
+          <div  class="tamanio-btn">
+          <button mat-raised-button color="primary" type="button" [disabled]="form.invalid" (click)="persistir()">
+              Aceptar
+          </button>
+          </div>
+      </div>
+  </div>
+
+    <div class="ubicacionTablas">
         <div class="div-tabla-dominio">
-            <table mat-table [dataSource]="dataSourceUsuarios" matSort class="configScroll">
-                <caption></caption>
+            <table mat-table [dataSource]="dataSourceUsuarios" matSort class="configScroll" aria-label="gestionUsuarios">
                 <tr>
                     <ng-container matColumnDef="idUsuario" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID USUARIO</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
                         <td mat-cell *matCellDef="let element"> {{element.idUsuario}} </td>
                     </ng-container>
+                    <ng-container matColumnDef="nombres" class="mat-column-nombreCampo">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombres</th>
+                      <td mat-cell *matCellDef="let element"> {{element.nombres}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="apellidos" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellidos</th>
+                    <td mat-cell *matCellDef="let element"> {{element.apellidos}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="tipoUsuario" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Usuario</th>
+                    <td mat-cell *matCellDef="let element"> {{element.tipoUsuario}} </td>
+                  </ng-container>
                     <ng-container matColumnDef="rol" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ROL</th>
                         <td mat-cell *matCellDef="let element"> {{element.rol.idRol}} </td>
@@ -31,14 +91,12 @@
                             </button>
                         </td>
                     </ng-container>
-                </tr>
-                <tr>
                     <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
                         <td mat-cell *matCellDef="let element">
                             <button mat-button (click)="editar(element)">
                                 <mat-icon style="color: green">edit</mat-icon>
-                            </button>    
+                            </button>
                         </td>
                     </ng-container>
                 </tr>
@@ -47,51 +105,3 @@
             </table>
         </div>
     </div>
-    <div style="width: 70%" class="ubicacionTablas">
-        <div class="example-container" [formGroup]="form" #frmUsuario="ngForm" *ngIf="mostrarFormulario">
-            <div style="padding-left: 10%;">
-                <mat-form-field class="example-full-width">
-                    <input type="email" matInput placeholder="Id Usuario" formControlName="idUsuario">
-                </mat-form-field>
-
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Nombres" onkeydown="return /[a-z ]/i.test(event.key)" required formControlName="nombres">
-                </mat-form-field>
-            </div>
-            
-            <div style="padding-left: 10%;">
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Apellidos" onkeydown="return /[a-z ]/i.test(event.key)" required formControlName="apellidos">
-                </mat-form-field>
-
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Tipo Usuario" onkeydown="return /[a-z ]/i.test(event.key)" required formControlName="tipoUsario">
-                </mat-form-field>
-            </div>
-            <div style="padding-left: 10%;">
-                <mat-form-field appearance="fill">
-                    <mat-label>Rol</mat-label>
-                    <mat-select formControlName="rol">
-                        <mat-option *ngFor="let item of roles" [value]="item">
-                            {{item.idRol}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <div class="division-estado">
-                    <label class="switch" >
-                        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
-                        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
-                        <span class="switch-handle"></span>
-                    </label>
-                    <p>ESTADO</p>
-                </div>
-            </div>
-            <div  class="tamanio-btn">
-            <button mat-raised-button color="primary" type="button" [disabled]="frmUsuario.invalid" (click)="persistir()">
-                Aceptar
-            </button>
-            </div>
-        </div>
-    </div>
-</mat-card>

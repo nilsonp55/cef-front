@@ -18,7 +18,7 @@ export class GestionUsuariosComponent implements OnInit {
 
   form: FormGroup;
   dataSourceUsuarios: MatTableDataSource<any>
-  displayedColumnsUsuarios: string[] = ['idUsuario','rol', 'estado', 'acciones'];
+  displayedColumnsUsuarios: string[] = ['idUsuario', 'nombres', 'apellidos', 'tipoUsuario' ,'rol', 'estado', 'acciones'];
   mostrarFormulario = false;
   esEdicion: boolean;
   idUsuario: any;
@@ -44,13 +44,13 @@ export class GestionUsuariosComponent implements OnInit {
    * Inicializaion formulario de creacion y edicion
    * @BayronPerez
    */
-  initForm(param?: any) { 
+  initForm(param?: any) {
       this.form = new FormGroup({
-        'idUsuario': new FormControl(param? param.idUsuario : null, Validators.email),
-        'nombres': new FormControl(param? param.nombres : null),
-        'apellidos': new FormControl(param? param.apellidos : null),
-        'tipoUsario': new FormControl(param? param.tipoUsario : null),
-        'rol': new FormControl(param? this.selectRol(param) : null),
+        'idUsuario': new FormControl(param? param.idUsuario : null, [Validators.email, Validators.required]),
+        'nombres': new FormControl(param? param.nombres : null, [Validators.required]),
+        'apellidos': new FormControl(param? param.apellidos : null, [Validators.required]),
+        'tipoUsuario': new FormControl(param? param.tipoUsuario : null, [Validators.required]),
+        'rol': new FormControl(param? this.selectRol(param) : null, [Validators.required]),
         'estado': new FormControl(param?.estado === "1" ? true : false),
       });
   }
@@ -98,7 +98,7 @@ export class GestionUsuariosComponent implements OnInit {
       idUsuario: this.form.value['idUsuario'],
       nombres: this.form.value['nombres'],
       apellidos: this.form.value['apellidos'],
-      tipoUsario: this.form.value['tipoUsario'],
+      tipoUsuario: this.form.value['tipoUsuario'],
       rol: {
         idRol: this.form.value['rol'].idRol
       },

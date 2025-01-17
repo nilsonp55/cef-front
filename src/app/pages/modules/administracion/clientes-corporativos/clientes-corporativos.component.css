@@ -23,7 +23,9 @@
   }
 
   .botonesClientes {
+    display: flex;
     padding-left: 2%;
+    flex-wrap: nowrap;
   }
 
 

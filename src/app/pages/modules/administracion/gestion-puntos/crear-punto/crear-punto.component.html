@@ -1,55 +1,46 @@
 <div class="titulo-tabla">
-    <h1>{{titulo}} punto</h1>
+    <h2>{{titulo}} punto</h2>
 </div>
 <div *ngIf="spinnerActive" class="disenio-spinner">
   <mat-spinner></mat-spinner>
 </div>
-<div class="example-container" [formGroup]="form" >
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Tipo Punto</h2>
-        </div>
+<div class="example-container div-division" [formGroup]="form" >
+    <div>
         <mat-form-field appearance="fill">
+          <mat-label>Tipo Punto</mat-label>
             <mat-select formControlName="tipoPunto" (selectionChange)="changeTipoPunto($event)">
                 <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto.valorTexto">
                     {{tipoPunto.valorTexto}}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="form.get('tipoPunto').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
     </div>
 
-    <div class="div-division"
+    <div
       *ngIf="puntoSeleccionado=='FONDO' || puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'  || puntoSeleccionado=='CLIENTE'">
-      <div class="ubica">
-        <h2>Banco Aval</h2>
-      </div>
       <mat-form-field appearance="fill">
-        <mat-label>Seleccione un banco</mat-label>
+        <mat-label>Banco Aval</mat-label>
         <mat-select formControlName="bancoAval">
           <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval">
             {{bancoAval.nombreBanco}}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
       </mat-form-field>
     </div>
 
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Nombre</h2>
-        </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input class="mayusculas" formControlName="nombre" matInput #input required>
-            </mat-form-field>
-        </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre Punto</mat-label>
+          <input class="mayusculas" formControlName="nombre" matInput #input required>
+          <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+      </mat-form-field>
     </div>
 
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Ciudad</h2>
-        </div>
+    <div>
         <mat-form-field appearance="fill">
-            <mat-label>Seleccione una ciudad</mat-label>
+            <mat-label>Ciudad</mat-label>
             <mat-select formControlName="ciudad">
                 <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad" required>
                     {{ciudad.nombreCiudad}}
@@ -58,119 +49,90 @@
         </mat-form-field>
     </div>
 
-    <div class="div-division" *ngIf="puntoSeleccionado=='CLIENTE'">
-        <div class="ubica">
-            <h2>Cliente</h2>
-        </div>
+    <div *ngIf="puntoSeleccionado=='CLIENTE'">
         <mat-form-field appearance="fill">
-            <mat-label>Seleccione un cliente</mat-label>
+            <mat-label>Cliente</mat-label>
             <mat-select formControlName="cliente">
                 <mat-option *ngFor="let cliente of clientes" [value]="cliente" required>
                     {{cliente.nombreCliente}}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
     </div>
-    <div class="div-division" *ngIf="puntoSeleccionado=='FONDO'">
-        <div class="ubica">
-            <h2>Transpoortadora</h2>
-        </div>
+    <div *ngIf="puntoSeleccionado=='FONDO'">
         <mat-form-field appearance="fill">
-            <mat-label>Seleccione una transportadora</mat-label>
+            <mat-label>Transportadora</mat-label>
             <mat-select formControlName="transportadora">
                 <mat-option *ngFor="let transportadora of tdvs" [value]="transportadora">
                     {{transportadora.nombreTransportadora}}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
     </div>
 
-    <div class="div-division" *ngIf="puntoSeleccionado=='OFICINA'">
-        <div class="ubica">
-            <h2>Código oficina</h2>
-        </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input type="number" step="0.01" pattern="^[0-9]+" formControlName="codigoOficina" matInput #input required>
-            </mat-form-field>
-        </div>
+    <div *ngIf="puntoSeleccionado=='OFICINA'">
+      <mat-form-field appearance="fill">
+        <mat-label>Código oficina</mat-label>
+          <input type="number" step="0.01" pattern="^[0-9]+" formControlName="codigoOficina" matInput #input required>
+          <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+      </mat-form-field>
     </div>
 
-    <div class="div-division" *ngIf="puntoSeleccionado=='CAJERO'">
-        <div class="ubica">
-            <h2>Código cajero</h2>
-        </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input formControlName="codigoCajero" matInput #input>
-            </mat-form-field>
-        </div>
+    <div *ngIf="puntoSeleccionado=='CAJERO'">
+      <mat-form-field appearance="fill">
+        <mat-label>Código cajero</mat-label>
+          <input formControlName="codigoCajero" matInput #input>
+          <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+      </mat-form-field>
     </div>
 
-    <div class="div-division" *ngIf="puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
-        <div class="ubica">
-            <h2>Tarifa ruteo</h2>
-        </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input type="number" step="0.01" pattern="^[0-9]+" formControlName="tarifaRuteo" matInput #input required>
-            </mat-form-field>
-        </div>
+    <div *ngIf="puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
+      <mat-form-field appearance="fill">
+        <mat-label>Tarifa ruteo</mat-label>
+          <input type="number" step="0.01" pattern="^[0-9]+" formControlName="tarifaRuteo" matInput #input required>
+      </mat-form-field>
     </div>
 
-    <div class="div-division" *ngIf="puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
-        <div class="ubica">
-            <h2>Tarifa Verificación</h2>
-        </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input type="number" step="0.01" pattern="^[0-9]+" formControlName="tarifaVerificacion" matInput #input required>
-            </mat-form-field>
-        </div>
+    <div *ngIf="puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
+      <mat-form-field appearance="fill">
+        <mat-label>Tarifa Verificación</mat-label>
+          <input type="number" step="0.01" pattern="^[0-9]+" formControlName="tarifaVerificacion" matInput #input required>
+      </mat-form-field>
     </div>
 
-    <div class="div-division" *ngIf="puntoSeleccionado=='BANCO'">
-        <div class="ubica">
-            <h2>Codigo de compensación</h2>
-        </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input formControlName="codigoCompensacion" matInput #input>
-            </mat-form-field>
-        </div>
+    <div *ngIf="puntoSeleccionado=='BANCO'">
+      <mat-form-field appearance="fill">
+        <mat-label>Codigo de compensación</mat-label>
+          <input formControlName="codigoCompensacion" matInput #input>
+          <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+      </mat-form-field>
     </div>
 
-    <div class="div-division" *ngIf="puntoSeleccionado=='BANCO'">
-        <div class="ubica">
-            <h2>Identificación (NIT)</h2>
-        </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input formControlName="identificacion" matInput #input>
-            </mat-form-field>
-        </div>
+    <div *ngIf="puntoSeleccionado=='BANCO'">
+      <mat-form-field appearance="fill">
+        <mat-label>Identificación (NIT)</mat-label>
+          <input formControlName="identificacion" matInput #input>
+          <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+      </mat-form-field>
     </div>
 
-    <div class="div-division" *ngIf="puntoSeleccionado=='BANCO'">
-        <div class="ubica">
-            <h2>Abreviatura</h2>
-        </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input formControlName="abreviatura" matInput #input>
-            </mat-form-field>
-        </div>
+    <div *ngIf="puntoSeleccionado=='BANCO'">
+      <mat-form-field appearance="fill">
+        <mat-label>Abreviatura</mat-label>
+          <input formControlName="abreviatura" matInput #input>
+          <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+      </mat-form-field>
     </div>
 
     <div class="div-division">
-        <div class="ubica">
-            <h2>Estado</h2>
-        </div>
-            <label class="switch" appearance="outline">
-                <input class="switch-input" type="checkbox" formControlName="estado" id="estado" required/>
-                <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
-                <span class="switch-handle"></span>
-            </label>
+      <h3>Estado</h3>
+      <label class="switch" appearance="outline">
+        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" required/>
+        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+        <span class="switch-handle"></span>
+    </label>
     </div>
 
     <div *ngIf="puntoSeleccionado=='CLIENTE' || puntoSeleccionado=='OFICINA'">
@@ -187,7 +149,7 @@
     <div class="division-btn-ident">
         <div>
             <button mat-raised-button color="primary"
-                (click)="persistir()">Guardar</button>
+                (click)="persistir()" [disabled]="form.invalid">Guardar</button>
         </div>
         <div>
             <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>

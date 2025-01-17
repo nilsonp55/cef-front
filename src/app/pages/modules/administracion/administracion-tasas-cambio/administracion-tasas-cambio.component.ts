@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -50,7 +50,7 @@ export class AdministracionTasasCambioComponent implements OnInit {
   initForm(param?: any) {
       this.form = new FormGroup({
         'fechaTasa': new FormControl(param? param.tasasCambioPK.fechaTasa : null),
-        'codigoMoneda': new FormControl(param? param.tasasCambioPK.codigoMoneda : null),
+        'codigoMoneda': new FormControl(param? param.tasasCambioPK.codigoMoneda : null, [Validators.required]),
         'tasaCambio': new FormControl(param? param.tasaCambio : null),
       });
   }
@@ -111,7 +111,7 @@ export class AdministracionTasasCambioComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           }); setTimeout(() => { alert.close() }, 3000);
-        }); 
+        });
    }
 
   /**

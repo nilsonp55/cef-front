@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -20,7 +20,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  form: FormGroup;
+  form: FormGroup = new FormGroup({});
   dataSourceCodigoPuntoTdv: MatTableDataSource<any>
   displayedColumnsCodigoPuntoTdv: string[] = ['idPuntoCodigoTdv', 'codigoPunto', 'tipoPunto', 'codigoTdv', 'codigoPropioTdv', 'nombrePunto', 'nombreBanco', 'codigoCiudad', 'estado', 'acciones'];
   isDominioChecked = false;
@@ -91,13 +91,13 @@ export class PuntosCodigoTdvComponent implements OnInit {
       'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
       'punto': new FormControl(param ? puntoValueForm : null),
       'codigoPunto': new FormControl(param ? param.codigoPunto : null),
-      'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null),
-      'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null),
-      'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null),
+      'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null, [Validators.required]),
+      'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null, [Validators.required]),
+      'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null, [Validators.required]),
       'estado': new FormControl(param ? this.formatearEstadoListar(param.estado) : null),
       'codigoDANE': new FormControl(ciudad ? ciudad : ""),
       'cliente': new FormControl(param ? clienteValueForm : null),
-      'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null)
+      'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null,  [Validators.required])
     });
   }
 
