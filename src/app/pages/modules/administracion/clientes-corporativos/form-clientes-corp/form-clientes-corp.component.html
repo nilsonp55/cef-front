@@ -15,11 +15,13 @@
                 {{item.nombreBanco}}
             </mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('codigoBancoAval').hasError('required')">Este campo es requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Nombre Cliente Corporativo</mat-label>
         <input matInput required formControlName="nombreCliente">
+        <mat-error *ngIf="form.get('nombreCliente').hasError('required')">Este campo es requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -29,16 +31,19 @@
           {{item}}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="form.get('tipoId').hasError('required')">Este campo es requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Numero de identificación</mat-label>
         <input matInput required formControlName="identificacion">
+        <mat-error *ngIf="form.get('identificacion').hasError('required')">Este campo es requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Tarifa separación</mat-label>
         <input matInput required placeholder="0" type="number" formControlName="tarifaSeparacion">
+        <mat-error *ngIf="form.get('tarifaSeparacion').hasError('required')">Este campo es requerido</mat-error>
     </mat-form-field>
 
     <div class="mat-form-field-wrapper">
