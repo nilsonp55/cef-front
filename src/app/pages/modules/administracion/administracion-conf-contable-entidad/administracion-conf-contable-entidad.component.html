@@ -5,7 +5,7 @@
   </div>
 </div>
 <div class="ubicacionTablas">
-  <div class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
+  <div class="example-container" [formGroup]="form" *ngIf="mostrarFormulario">
     <div style="padding-left: 10%;">
       <mat-form-field appearance="fill">
         <input matInput placeholder="ID" formControlName="consecutivo">
@@ -110,7 +110,7 @@
 
     </div>
     <div class="tamanio-btn">
-      <button mat-raised-button color="primary" type="button" (click)="persistir()" [disabled]="frmPaciente.invalid">
+      <button mat-raised-button color="primary" type="button" (click)="persistir()" [disabled]="form.invalid">
         Aceptar
       </button>
     </div>

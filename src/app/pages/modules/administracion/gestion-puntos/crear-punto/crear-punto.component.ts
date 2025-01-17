@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
@@ -103,19 +103,19 @@ export class CrearPuntoComponent implements OnInit {
     }
 
     this.form = new FormGroup({
-      'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param ? true : false,}),
+      'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param ? true : false,}, [Validators.required]),
       'nombre': new FormControl(param != null ? param.nombrePunto : null),
       'ciudad': new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null),
-      'cliente': new FormControl(param ? this.clientes.find(value => value.codigoCliente === param?.sitiosClientes?.codigoCliente) : null),
-      'transportadora': new FormControl(param ? this.tdvs.find(value => value.codigo === param?.fondos?.tdv) : null),
-      'codigoOficina': new FormControl(param ? valCodigoOficina : null),
-      'bancoAval': new FormControl(param ? this.bancosAval.find(value => value.codigoPunto === valBancoAval) : null),
+      'cliente': new FormControl(param ? this.clientes.find(value => value.codigoCliente === param?.sitiosClientes?.codigoCliente) : null, [Validators.required]),
+      'transportadora': new FormControl(param ? this.tdvs.find(value => value.codigo === param?.fondos?.tdv) : null, [Validators.required]),
+      'codigoOficina': new FormControl(param ? valCodigoOficina : null, [Validators.required]),
+      'bancoAval': new FormControl(param ? this.bancosAval.find(value => value.codigoPunto === valBancoAval) : null, [Validators.required]),
       'tarifaRuteo': new FormControl(param ? valTarifaRuteo : null),
       'tarifaVerificacion': new FormControl(param ? valTarifaVerificacion : null),
-      'codigoCompensacion': new FormControl(param != undefined ? param != null ? param.codigoCompensacion : null : null),
-      'codigoCajero': new FormControl(param ? param.cajeroATM?.codigoATM : null),
-      'identificacion': new FormControl(param != undefined ? param != null ? param.numeroNit : null : null),
-      'abreviatura': new FormControl(param != undefined ? param != null ? param.abreviatura : null : null),
+      'codigoCompensacion': new FormControl(param != undefined ? param != null ? param.codigoCompensacion : null : null, [Validators.required]),
+      'codigoCajero': new FormControl(param ? param.cajeroATM?.codigoATM : null, [Validators.required]),
+      'identificacion': new FormControl(param != undefined ? param != null ? param.numeroNit : null : null, [Validators.required]),
+      'abreviatura': new FormControl(param != undefined ? param != null ? param.abreviatura : null : null, [Validators.required]),
       'fajado': new FormControl(param ? valFajado : null),
       'refajillado': new FormControl(param != undefined ? param != null ? param.refajillado : null : null),
       'esAval': new FormControl(param != undefined ? param != null ? param.esAVAL : null : null),

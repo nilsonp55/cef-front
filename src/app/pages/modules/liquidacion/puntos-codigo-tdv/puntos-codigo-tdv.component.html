@@ -123,7 +123,7 @@
       </div>
 
       <div >
-        <div [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
+        <div [formGroup]="form" *ngIf="mostrarFormulario">
           <div class="">
             <!--Id Punto Codigo TDV-->
             <mat-form-field appearance="outline" >
@@ -138,6 +138,7 @@
                   {{item.nombreBanco}}
                 </mat-option>
               </mat-select>
+              <mat-error *ngIf="form.get('banco').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>
 
             <!--Transportadora-->
@@ -148,11 +149,13 @@
                   {{item.nombreTransportadora}}
                 </mat-option>
               </mat-select>
+              <mat-error *ngIf="form.get('codigoTdv').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>
 
             <!--Codigo Propio TDV-->
             <mat-form-field appearance="outline" class="example-full-width">
-              <input matInput placeholder="Codigo Propio TDV" formControlName="codigoPropioTDV" required>
+              <input matInput placeholder="Codigo Propio TDV" formControlName="codigoPropioTDV">
+              <mat-error *ngIf="form.get('codigoPropioTDV').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>
 
             <!--Tipo Punto-->
@@ -167,6 +170,7 @@
                 <mat-option value="FONDO">FONDO</mat-option>
                 <mat-option value="CLIENTE">CLIENTE</mat-option>
               </mat-select>
+              <mat-error *ngIf="form.get('tipoPunto').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>
 
             <!--Cliente-->
@@ -214,7 +218,7 @@
           </div>
 
           <button mat-raised-button type="button" (click)="persistir()" class="ubicacion-btn" color="primary"
-                  [disabled]="frmPaciente.invalid">Aceptar</button>
+                  [disabled]="form.invalid">Aceptar</button>
         </div>
       </div>
       <!--Fin content mostrarFOrmulario -->

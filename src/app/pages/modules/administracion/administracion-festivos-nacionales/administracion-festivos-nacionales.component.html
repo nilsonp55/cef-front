@@ -1,13 +1,12 @@
-<mat-card class="card-limites">
-    <mat-card-title>Festivos Nacionales</mat-card-title>
     <div>
+      <h2>Festivos Nacionales</h2>
         <div class="division-btn">
-            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearUsuario()">Crear Festivo Nacional</button>
+            <button mat-raised-button color="primary"
+                (click)="crearUsuario()">Crear</button>
         </div>
     </div>
 
-    <div style="width: 30%; margin-top: 3%" class="ubicacionTablas">
+    <div class="ubicacionTablas">
         <div class="div-tabla-dominio">
             <table mat-table [dataSource]="dataSourceUsuarios" matSort class="configScroll">
                 <caption></caption>
@@ -36,29 +35,31 @@
             </table>
         </div>
     </div>
-    <div style="width: 70%" class="ubicacionTablas" *ngIf="mostrarFormulario">
+    <div class="ubicacionTablas" *ngIf="mostrarFormulario">
         <div *ngIf="spinnerActive" class="disenio-spinner">
             <mat-spinner></mat-spinner>
         </div>
-        <div class="example-container" [formGroup]="form" #frmPaciente="ngForm">
+        <div class="example-container" [formGroup]="form">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
                     <mat-label>Fecha</mat-label>
                     <input required matInput [matDatepicker]="picker1" readonly="true" formControlName="fecha">
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error *ngIf="form.get('fecha').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Descripción" required formControlName="descripcion">
+                    <mat-error *ngIf="form.get('descripcion').hasError('required')">Este campo es requerido</mat-error>
                 </mat-form-field>
             </div>
             <br>
             <div class="tamanio-btn">
-                <button mat-raised-button color="primary" type="button" (click)="persistir()" [disabled]="frmPaciente.invalid">
+                <button mat-raised-button color="primary" type="button" (click)="persistir()" [disabled]="form.invalid">
                     Aceptar
                 </button>
             </div>
         </div>
     </div>
-</mat-card>
+
