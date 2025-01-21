@@ -31,7 +31,7 @@ export class ArchivosCargadosComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   fechaDatoIni: Date;
@@ -41,7 +41,7 @@ export class ArchivosCargadosComponent implements OnInit {
 
   //DataSource para pintar tabla de archivos cargados
   dataSourceInfoArchivo: MatTableDataSource<ArchivoCargadoModel>;
-  displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaInicioCargue', 'estado', 'acciones'];
+  displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaArchivo', 'estado', 'acciones'];
 
 
   constructor(private http: HttpClient,
@@ -78,7 +78,7 @@ export class ArchivosCargadosComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
             showResume: true,
-            msgDetalles: err.error.error + " - status: " + err.error.status
+            msgDetalle: err.error.error + " - status: " + err.error.status
           }
         });
       }});
@@ -92,7 +92,7 @@ export class ArchivosCargadosComponent implements OnInit {
   validarArchivo(archivo: any) {
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogValidarArchivoComponent, {
-      width: '750px', data: {nombreArchivo: archivo.nombreArchivo},
+      data: {nombreArchivo: archivo.nombreArchivo},
     });
     validateArchivo.afterClosed().subscribe(result => {
       if (result) {
@@ -105,7 +105,7 @@ export class ArchivosCargadosComponent implements OnInit {
           this.listarArchivosCargados();
           this.spinnerActive = false;
           this.dialog.open(DialogResultValidacionComponent, {
-            height: '80%', width: '950px', data: {id: archivo.idModeloArchivo, data}
+            height: '90%', width: '90%', data: {id: archivo.idModeloArchivo, data}
           });
         },
         error:  (err: any) => {
@@ -116,7 +116,7 @@ export class ArchivosCargadosComponent implements OnInit {
                 msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_VALIDATED_FILE,
                 codigo: GENERALES.CODE_EMERGENT.ERROR,
                 showResume: true,
-                msgDetalle: err.error.response.description,
+                msgDetalles: JSON.stringify(err.error),
               }
             });
           }})

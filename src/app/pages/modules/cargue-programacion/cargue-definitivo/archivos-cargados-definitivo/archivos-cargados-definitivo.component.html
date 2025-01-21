@@ -13,8 +13,8 @@
             <td mat-cell *matCellDef="let element"> {{element.nombreArchivo}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="fechaInicioCargue">
-            <th mat-header-cell mat-sort-header *matHeaderCellDef> FECHA DATOS</th>
+        <ng-container matColumnDef="fechaArchivo">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>FECHA DATOS</th>
             <td mat-cell *matCellDef="let element"> {{element.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}} </td>
         </ng-container>
 
