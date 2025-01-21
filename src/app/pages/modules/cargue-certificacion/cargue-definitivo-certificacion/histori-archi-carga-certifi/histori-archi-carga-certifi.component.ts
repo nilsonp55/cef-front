@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -8,10 +7,8 @@ import { LogArchivosCargadosComponent } from 'src/app/pages/shared/components/pr
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ArchivoCargadoModel } from 'src/app/_model/cargue-preliminar-model/archivo-cargado.model';
-import { ErrorService } from 'src/app/_model/error.model';
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
 import { CargueProgramacionDefinitivaService } from 'src/app/_service/programacion-definitiva-service/programacion-definitiva-service';
-import { LogArchivosCargadosCertificacionComponent } from './log-cargados-certificacion/log-certificacion.component';
 
 /**
  * Componente para gestionar el historico de los cargues preliminares
@@ -27,7 +24,7 @@ export class HistoriArchiCargaCertifiComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   idArchivo: any;
@@ -37,7 +34,6 @@ export class HistoriArchiCargaCertifiComponent implements OnInit {
   displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaArchivo', 'fechaInicioCargue', 'numeroRegistros', 'estadoCargue', 'acciones'];
 
   constructor(
-    private http: HttpClient,
     private dialog: MatDialog,
     private cargueProgramacionDefinitivoService: CargueProgramacionDefinitivaService,
     private cargueArchivosService: CargueArchivosService
@@ -56,20 +52,23 @@ export class HistoriArchiCargaCertifiComponent implements OnInit {
       'agrupador': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({ next: (page: any) => {
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data.content);
       this.dataSourceInfoArchivo.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            codigo: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_PROCESS_FILE,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+      }
+    });
   }
 
   /**
@@ -81,8 +80,8 @@ export class HistoriArchiCargaCertifiComponent implements OnInit {
       'idArchivoCargado': idArchivoCargado
     }).subscribe(data => {
       this.idArchivo = idArchivoCargado
-      const validateArchivo = this.dialog.open(LogArchivosCargadosComponent, {
-        width: '950px', height: '400', data: {id: this.idArchivo, data},
+      this.dialog.open(LogArchivosCargadosComponent, {
+        width: '80%', height: '80%', data: {id: this.idArchivo, data},
       });
     });
   }//

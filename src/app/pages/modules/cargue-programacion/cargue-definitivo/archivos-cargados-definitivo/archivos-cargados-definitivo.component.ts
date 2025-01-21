@@ -24,7 +24,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   //Variable para activar spinner
@@ -32,7 +32,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
 
   //DataSource para pintar tabla de archivos cargados
   dataSourceInfoArchivo: MatTableDataSource<ArchivoCargadoModel>;
-  displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaInicioCargue', 'estado', 'acciones'];
+  displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaArchivo', 'estado', 'acciones'];
 
 
   constructor(private http: HttpClient,
@@ -80,7 +80,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   validarArchivo(archivo: any) {
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogValidarArchivoComponent, {
-      width: '750px', data: {nombreArchivo: archivo.nombreArchivo}
+      data: {nombreArchivo: archivo.nombreArchivo}
     });
     validateArchivo.afterClosed().subscribe(result => {
       if (result) {
@@ -93,7 +93,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
           this.listarArchivosCargados();
           this.spinnerActive = false;
           this.dialog.open(DialogResultValidacionComponent, {
-            width: '950px', height: '60%', data: {id: archivo.idModeloArchivo, data},
+            width: '90%', height: '80%', data: {id: archivo.idModeloArchivo, data},
           });
         },
         error:  (err: any) => {
@@ -101,8 +101,10 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
             this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: err.error.response.description,
-                codigo: GENERALES.CODE_EMERGENT.ERROR
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_VALIDATED_FILE,
+                codigo: GENERALES.CODE_EMERGENT.ERROR,
+                showResume: true,
+                msgDetalles: JSON.stringify(err.error),
               }
             });
           }})

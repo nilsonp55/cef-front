@@ -23,7 +23,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
   //Variable para activar spinner
   spinnerActive: boolean = false;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
   fechaSistemaSelect: any;
 
@@ -72,7 +72,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_CIERRE_FECHA_DEFINITIVA,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
             showResume: true,
-            msgDetalle: err.error.response.description,
+            msgDetalles: JSON.stringify(err.error),
           }
         });
       }});
@@ -147,7 +147,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.SUCCESFULL_CIERRE_DEFINITIVA,
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
           showResume: true,
-          msgDetalle: data.response.description
+          msgDetalles: JSON.stringify(data)
         }
       });
     },
@@ -159,7 +159,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_CIERRE_FECHA_DEFINITIVA,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
             showResume: true,
-            msgDetalle: err.error.response.description,
+            msgDetalles: JSON.stringify(err.error),
           }
         });
       }});
@@ -174,25 +174,15 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
     'agrupador': "DEFIN",
   }).subscribe({next: item => {
     this.listarProcesos();
-    let messageResponse: string = item.data
-    let messageValidate = messageResponse.indexOf('Error')
-      if(messageValidate == 1) {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        });
-      }else {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: messageResponse,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
+    this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
+        codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+        showResume: true,
+        msgDetalles: JSON.stringify(item.data),
       }
+    });
   },
   error: (err: any) => {
     this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -201,7 +191,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
         msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_REABRIR_CIERRE,
         codigo: GENERALES.CODE_EMERGENT.ERROR,
         showResume: true,
-        msgDetalle: err.error.response.description,
+        msgDetalles: JSON.stringify(err.error),
       }
     });
   }})

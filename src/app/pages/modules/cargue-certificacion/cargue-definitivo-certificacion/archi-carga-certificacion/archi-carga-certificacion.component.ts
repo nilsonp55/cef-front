@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -30,7 +29,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   //Variable para activar spinner
@@ -41,7 +40,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaInicioCargue', 'estado', 'acciones'];
 
 
-  constructor(private http: HttpClient,
+  constructor(
     private dialog: MatDialog,
     private cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
     public spinnerComponent: SpinnerComponent
@@ -65,20 +64,23 @@ export class ArchiCargaCertificacionComponent implements OnInit {
       'estado': GENERALES.ESTADO_PENDIENTE,
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({next: (page: any) => {
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
       this.dataSourceInfoArchivo.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error:  (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response? err.error.response.description : err.error.error,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_PROCESS_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+      }
+    });
   }
 
   /**
@@ -89,7 +91,6 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   validarArchivo(archivo: any) {
     //ventana de confirmacion
     const validateArchivo = this.dialog.open(DialogValidarArchivoComponent, {
-      width: '750px',
       data: { nombreArchivo: archivo.nombreArchivo }
     });
     validateArchivo.afterClosed().subscribe(result => {
@@ -100,21 +101,25 @@ export class ArchiCargaCertificacionComponent implements OnInit {
         this.cargueProgramacionCertificadaService.validarArchivo({
           'idMaestroDefinicion': archivo.idModeloArchivo,
           'nombreArchivo': archivo.nombreArchivo
-        }).subscribe((data: ValidacionArchivo) => {
+        }).subscribe({next: (data: ValidacionArchivo) => {
           this.spinnerActive = false;
           this.dialog.open(DialogResultValidacionCertificacionComponent, {
-            width: '950px', height: '60%', data: { id: archivo.idModeloArchivo, data },
+            width: '90%', height: '90%', data: { id: archivo.idModeloArchivo, data },
           });
         },
-          (err: any) => {
+        error: (err: any) => {
             this.spinnerActive = false;
-            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: err.error.response.description,
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_VALIDATED_FILE,
+                codigo: GENERALES.CODE_EMERGENT.ERROR,
+                showResume: true,
+                msgDetalles: JSON.stringify(err.error)
               }
-            }); setTimeout(() => { alert.close() }, 3500);
-          })
+            });
+          }
+        })
       }
     })
   }
@@ -130,27 +135,32 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     this.cargueProgramacionCertificadaService.procesarArchivo({
       'idMaestroDefinicion': archivo.idModeloArchivo,
       'nombreArchivo': archivo.nombreArchivo
-    }).subscribe((data: any) => {
+    }).subscribe({ next: (data: any) => {
       this.listarArchivosCargados();
       this.spinnerActive = false;
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.SUCCESFULL_PROCESS_FILE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+          showResume: true,
+          msgDetalles: JSON.stringify(data)
         }
-      }); setTimeout(() => { alert.close() }, 3500);
+      });
     },
-      (err: any) => {
+    error: (err: any) => {
         this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_PROCESS_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
-        }); setTimeout(() => { alert.close() }, 3500);
-      })
+        });
+      }
+    })
   }
 
 
@@ -169,7 +179,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   * @BaironPerez
   */
   downloadFile(archivo: ArchivoCargadoModel): void {
-    const verArchivo = this.dialog.open(DialogVerArchivoComponent, {
+    this.dialog.open(DialogVerArchivoComponent, {
       height: '90%', width: '90%', data: archivo
     });
   }
@@ -182,16 +192,30 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     this.cargueProgramacionCertificadaService.deleteArchivo({
       'nombreArchivo': nombreArchivo,
       'idModeloArchivo': idModeloArchivo
-    }).subscribe(item => {
+    }).subscribe({ next: item => {
       this.listarArchivosCargados();
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.SUCCESFULL_DELETE_FILE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+          showResume: true,
+          msgDetalles: JSON.stringify(item.data)
         }
       });
-      setTimeout(() => { alert.close() }, 3000);
+    },
+    error: (err: any) => {
+      this.spinnerActive = false;
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_PROCESS_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
+          }
+        });
+    }
     })
   }
 
@@ -203,38 +227,29 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     this.cargueProgramacionCertificadaService.reabrirArchivo({
       'nombreArchivo': nombreArchivo,
       'idModeloArchivo': idModeloArchivo
-    }).subscribe(item => {
+    }).subscribe({ next: item => {
       this.listarArchivosCargados();
-      let messageResponse: string = item.data
-      let messageValidate = messageResponse.indexOf('Error')
-      if (messageValidate == 1) {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      } else {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: messageResponse,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
-      }
+      this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_CERTIFICACION.SUCCESFULL_CIERRE_CERTIFICACION,
+          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+          showResume: true,
+          msgDetalles: JSON.stringify(item.data)
+        }
+      });
     },
-      (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_CERTIFICACION.ERROR_CIERRE_FECHA_CERTIFICACION,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      })
+        });
+      }
+    })
   }
 }

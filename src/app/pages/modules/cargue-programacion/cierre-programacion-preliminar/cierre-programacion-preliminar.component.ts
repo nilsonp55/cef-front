@@ -21,7 +21,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
   //Variable para activar spinner
   spinnerActive: boolean = false;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   //DataSource para pintar tabla de los procesos a ejecutar
@@ -60,7 +60,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.ERROR_CIERRE_FECHA_PRELIMINAR,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
             showResume: true,
-            msgDetalle: err.error.response.description,
+            msgDetalles: JSON.stringify(err.error),
           }
         });
       }});
@@ -85,7 +85,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.SUCCESFULL_CIERRE_PRELIMINAR,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
             showResume: true,
-            msgDetalle: data.response.description
+            msgDetalles: JSON.stringify(data)
           }
         });
       },
@@ -97,7 +97,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.ERROR_CIERRE_FECHA_PRELIMINAR,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
             showResume: true,
-            msgDetalle: err.error.response.description,
+            msgDetalles: JSON.stringify(err.error),
           }
         });
       }});
@@ -120,25 +120,15 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
       'agrupador': "IPP",
     }).subscribe({next: item => {
         this.listarProcesos();
-        let msgResponse: string = item.data
-        let msgValidate = msgResponse.indexOf('Error')
-        if(msgValidate == 1) {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.SUCCESFULL_CIERRE_PRELIMINAR,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-            }
-          });
-        }else {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: msgResponse,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-        }
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.SUCCESFULL_CIERRE_PRELIMINAR,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(item.data),
+          }
+        });
       },
       error: (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -147,7 +137,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_PRELIMINAR.ERROR_CIERRE_FECHA_PRELIMINAR,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
             showResume: true,
-            msgDetalle: err.error.response.description,
+            msgDetalles: JSON.stringify(err.error),
           }
         });
       }})
