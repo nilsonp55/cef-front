@@ -27,7 +27,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   //Variable para activar spinner
@@ -87,13 +87,15 @@ export class GenerarContabilidadPmComponent implements OnInit {
       this.spinnerActive = false;
     },
     error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_PM.ERROR__GENERATE_PM,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
-        }); setTimeout(() => { alert.close() }, 10000);
+        });
         this.spinnerActive = false;
       }
     });
@@ -106,7 +108,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
    * @BaironPerez
    */
   verTransactContables() {
-    const respuesta = this.dialog.open(ResultadoContabilidadComponent, {//generar
+    this.dialog.open(ResultadoContabilidadComponent, {//generar
       width: '100%',
       height: '90%',
       data: {
@@ -124,7 +126,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
   * @BaironPerez
   */
   verErrores() {
-    const respuesta = this.dialog.open(ErroresContabilidadComponent, {
+    this.dialog.open(ErroresContabilidadComponent, {
       width: '100%',
       height: '90%',
       data: {

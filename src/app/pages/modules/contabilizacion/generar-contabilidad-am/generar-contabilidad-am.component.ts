@@ -10,8 +10,6 @@ import { GenerarContabilidadService } from 'src/app/_service/contabilidad-servic
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { ErroresContabilidadComponent } from '../errores-contabilidad/errores-contabilidad.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
-import { ValidacionEstadoProcesosService } from 'src/app/_service/valida-estado-proceso.service';
-
 
 @Component({
   selector: 'app-generar-contabilidad-am',
@@ -28,7 +26,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   //Variable para activar spinner
@@ -44,7 +42,6 @@ export class GenerarContabilidadAmComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private validacionEstadoProcesosService: ValidacionEstadoProcesosService,
     private generarContabilidadService: GenerarContabilidadService,
     private generalServices: GeneralesService,
   ) { }
@@ -58,40 +55,9 @@ export class GenerarContabilidadAmComponent implements OnInit {
   intervalGeneralContabilidad() {
     this.spinnerActive = true;
     this.generarContabilidad();
-    /*setInterval(() => {
-      this.validacionEstadoProceso();
-    }, 10000);*/
   }
 
-  /**
-   * Metodo encargado de validar el estado de un proceso en particular
-   */
-  validacionEstadoProceso() {
-    this.validacionEstadoProcesosService.validarEstadoProceso({
-      'codigoProceso': "codigoProcesoDuvan",
-      "fechaSIstema": this.fechaSistemaSelect
-    }).subscribe((data: any) => {
-      if(data.estado == "CERRADO"){
-        this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: "Se generó la contabilidad AM exitosamente",
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      }
-      if(data.estado == "ERROR"){
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: data.mensaje,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      }
-    });
-  }
+
 
   /**
  * Se cargan datos para el inicio de la pantalla
@@ -126,13 +92,15 @@ export class GenerarContabilidadAmComponent implements OnInit {
       this.spinnerActive = false;
     },
     error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_AM.ERROR__GENERATE_AM,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
-        }); setTimeout(() => { alert.close() }, 10000);
+        });
         this.spinnerActive = false;
       }
     });
@@ -145,7 +113,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
    * @BaironPerez
    */
   verTransactContables() {
-    const resp = this.dialog.open(ResultadoContabilidadComponent, {
+    this.dialog.open(ResultadoContabilidadComponent, {
       width: '100%',
       data: {
         respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
@@ -162,7 +130,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
   * @BaironPerez
   */
   verErrores() {
-    const respuesta = this.dialog.open(ErroresContabilidadComponent, {
+    this.dialog.open(ErroresContabilidadComponent, {
       width: '100%',
       data: {
         respuesta: this.dataGenerateContabilidad.erroresContablesDTO,

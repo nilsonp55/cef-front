@@ -4,7 +4,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
-import { ErrorService } from 'src/app/_model/error.model';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 
@@ -20,7 +19,7 @@ export class CierreConciliacionComponent implements OnInit {
   //Variable para activar spinner
   spinnerActive: boolean = false;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   //DataSource para pintar tabla de los procesos a ejecutar
@@ -52,15 +51,16 @@ export class CierreConciliacionComponent implements OnInit {
         this.dataSourceInfoProcesos.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
       },
-      error: (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: 'Error al obtener los procesos de contabilidad a ejecutar',
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.MESSAGE_CIERRE_CONCILIACION.ERROR_CIERRE_FECHA_CONCILIACION,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
         });
-        this.closeDialog(alert);
       }
     });
   }
@@ -72,29 +72,32 @@ export class CierreConciliacionComponent implements OnInit {
    */
   ejecutar() {
     this.spinnerActive = true;
-    this.opConciliadasService.procesar().subscribe(data => {
+    this.opConciliadasService.procesar().subscribe({ next: data => {
         this.spinnerActive = false;
         this.listarProcesos();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.MESSAGE_CIERRE_CONCILIACION.SUCCESFULL_CIERRE_CONCILIACION,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(data)
           }
         });
-        this.closeDialog(alert);
       },
-      (err: any) => {
+      error: (err: any) => {
         this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.MESSAGE_CIERRE_CONCILIACION.ERROR_CIERRE_FECHA_CONCILIACION,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
         });
-        this.closeDialog(alert);
-      });
+      }
+    });
   }
 
 
@@ -105,45 +108,30 @@ export class CierreConciliacionComponent implements OnInit {
   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
     this.opConciliadasService.reabrirArchivo({
       'agrupador': "CONCI",
-    }).subscribe(item => {
+    }).subscribe({ next: item => {
         this.listarProcesos();
-        let messageResponse: string = item.data
-        let messageValidate = messageResponse.indexOf('Error')
-        if (messageValidate == 1) {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-            }
-          });
-          this.closeDialog(alert);
-        } else {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: messageResponse,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-          this.closeDialog(alert);
-        }
-      },
-      (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(item)
           }
         });
-        this.closeDialog(alert);
-      })
+      },
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.MESSAGE_CIERRE_CONCILIACION.ERROR_CIERRE_FECHA_CONCILIACION,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
+          }
+        });
+      }
+    })
   }
 
-  closeDialog(alert: any) {
-    setTimeout(() => {
-      alert.close()
-    }, 3000);
-  }
 }
