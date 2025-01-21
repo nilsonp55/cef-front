@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
-import { ErrorService } from 'src/app/_model/error.model';
 import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
@@ -31,7 +29,7 @@ export class ContabilidadPmComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  //Rgistros paginados
+  //Registros paginados
   cantidadRegistros: number;
 
   //Variable para activar spinner
@@ -63,27 +61,30 @@ export class ContabilidadPmComponent implements OnInit {
   }
 
   /**
-   * Se realiza consumo de servicio para listr los procesos a ejectar
+   * Se realiza consumo de servicio para listar los procesos a ejectar
    * @BaironPerez
    */
   listarProcesos(pagina = 0, tamanio = 5) {
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({next: (page: any) => {
         this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
         this.dataSourceInfoProcesos.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
       },
-      (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.descripcion,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+      }
+    });
   }
 
   /**
@@ -93,14 +94,12 @@ export class ContabilidadPmComponent implements OnInit {
    */
   ejecutar() {
     //ventana de confirmacion
-    const validateArchivo = this.dialog.open(DialogConfirmEjecutarComponentComponent, {
-      width: '750px',
+    this.dialog.open(DialogConfirmEjecutarComponentComponent, {
+      width: '50%',
       data: {
         tipoContabilidad: "PM"
       }
-    });
-
-    validateArchivo.afterClosed().subscribe(result => {
+    }).afterClosed().subscribe(result => {
       //Si presiona click en aceptar
       if (result.data.check) {
         this.spinnerActive = true;
@@ -111,9 +110,9 @@ export class ContabilidadPmComponent implements OnInit {
           'tipoContabilidad': tipoContabilida,
           'codBanco': codBanco,
           'fase': "INICIAL"
-        }).subscribe(data => {
+        }).subscribe({ next: data => {
             //Ensayo re respuesta
-            const respuesta = this.dialog.open(ResultadoContabilidadComponent, {
+            this.dialog.open(ResultadoContabilidadComponent, {
               width: '100%',
               data: {
                 respuesta: data.data,
@@ -123,16 +122,19 @@ export class ContabilidadPmComponent implements OnInit {
               }
             });
           },
-          (err: any) => {
+          error: (err: any) => {
             this.spinnerActive = false;
-            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: err.error.response.description,
-                codigo: GENERALES.CODE_EMERGENT.ERROR
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_PM.ERROR__GENERATE_PM,
+                codigo: GENERALES.CODE_EMERGENT.ERROR,
+                showResume: true,
+                msgDetalles: JSON.stringify(err.error)
               }
-            }); setTimeout(() => { alert.close() }, 3500);
-          });
+            });
+          }
+        });
       }
     })
   }
@@ -153,14 +155,15 @@ export class ContabilidadPmComponent implements OnInit {
           }
         },
         error => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + error.message,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(error)
             }
           });
-          setTimeout(() => { alert.close() }, 5000);
         }
       );
     });
@@ -168,19 +171,21 @@ export class ContabilidadPmComponent implements OnInit {
   }
 
   listarBancos() {
-    this.generalServices.listarBancosAval().subscribe(data => {
+    this.generalServices.listarBancosAval().subscribe({next: data => {
         this.bancoOptions = data.data
       },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_BANCO.ERROR_BANCO,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
-      });
+      }
+    });
   }
 
 }

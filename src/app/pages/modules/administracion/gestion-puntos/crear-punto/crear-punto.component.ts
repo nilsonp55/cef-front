@@ -112,13 +112,13 @@ export class CrearPuntoComponent implements OnInit {
       'bancoAval': new FormControl(param ? this.bancosAval.find(value => value.codigoPunto === valBancoAval) : null, [Validators.required]),
       'tarifaRuteo': new FormControl(param ? valTarifaRuteo : null),
       'tarifaVerificacion': new FormControl(param ? valTarifaVerificacion : null),
-      'codigoCompensacion': new FormControl(param != undefined ? param != null ? param.codigoCompensacion : null : null, [Validators.required]),
+      'codigoCompensacion': new FormControl(param ? param.codigoCompensacion : null, [Validators.required]),
       'codigoCajero': new FormControl(param ? param.cajeroATM?.codigoATM : null, [Validators.required]),
-      'identificacion': new FormControl(param != undefined ? param != null ? param.numeroNit : null : null, [Validators.required]),
-      'abreviatura': new FormControl(param != undefined ? param != null ? param.abreviatura : null : null, [Validators.required]),
+      'identificacion': new FormControl(param ? param.numeroNit : null, [Validators.required]),
+      'abreviatura': new FormControl(param ? param.abreviatura : null, [Validators.required]),
       'fajado': new FormControl(param ? valFajado : null),
-      'refajillado': new FormControl(param != undefined ? param != null ? param.refajillado : null : null),
-      'esAval': new FormControl(param != undefined ? param != null ? param.esAVAL : null : null),
+      'refajillado': new FormControl(param ? param.refajillado : null),
+      'esAval': new FormControl(param ? param.esAVAL : null),
       'estado': new FormControl(param?.estado === "1" ? true : false),
     });
   }
