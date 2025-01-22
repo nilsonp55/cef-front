@@ -77,6 +77,7 @@ import { ResultadoContabilidadComponent } from './pages/modules/contabilizacion/
 import { MenuContabilidadComponent } from './pages/modules/contabilizacion/menu-contabilidad/menu-contabilidad.component';
 import { DialogConfirmEjecutarComponentComponent } from './pages/modules/contabilizacion/dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { CierreProgramacionPreliminarComponent } from './pages/modules/cargue-programacion/cierre-programacion-preliminar/cierre-programacion-preliminar.component';
+import { ContabilidadBaseComponent } from './pages/modules/contabilizacion/contabilidad-base/contabilidad-base.component';
 import { ContabilidadPmComponent } from './pages/modules/contabilizacion/contabilidad-pm/contabilidad-pm.component';
 import { ContabilidadAmComponent } from './pages/modules/contabilizacion/contabilidad-am/contabilidad-am.component';
 import { AdministracionDominiosComponent } from './pages/modules/administracion/administracion-dominios/administracion-dominios.component';
@@ -217,6 +218,7 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
     MenuContabilidadComponent,
     CierreProgramacionPreliminarComponent,
     DialogConfirmEjecutarComponentComponent,
+    ContabilidadBaseComponent,
     ContabilidadPmComponent,
     ContabilidadAmComponent,
     AdministracionDominiosComponent,

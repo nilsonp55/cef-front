@@ -1,0 +1,42 @@
+<div class="divTabla">
+  <div class="divTituloTablas">
+    <h1 class="tituloTabla">Cierre Contabilidad {{tipoContabilidad}}</h1>
+    <span class="line-spacer"></span>
+  </div>
+  <div *ngIf="load" class="disenio-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
+    <caption></caption>
+    <ng-container class="text-bg-light" matColumnDef="fechaCreacion" >
+      <th id="fechaCreacion" mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">FECHA PROCESO</th>
+      <td mat-cell *matCellDef="let element"> {{element.fechaCreacion | date: 'dd/MM/YYYY' : '+00'}} </td>
+    </ng-container>
+
+    <ng-container class="text-bg-light" matColumnDef="codigoProceso">
+      <th id="codigoProceso" mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">ACTIVIDAD</th>
+      <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+    </ng-container>
+
+    <ng-container class="text-bg-light" matColumnDef="estadoProceso">
+      <th id="estadoProceso" mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">ESTADO</th>
+      <td mat-cell *matCellDef="let element"> {{element.estadoProceso}} </td>
+    </ng-container>
+
+    <ng-container class="text-bg-light" matColumnDef="acciones">
+      <th id="acciones" mat-header-cell *matHeaderCellDef class="text-bg-light">Acciones</th>
+      <td mat-cell *matCellDef="let element" disabled = "codigoProceso">
+        <button title="Ejecutar" *ngIf="element.codigoProceso == ('CONTABILIDAD_'+ tipoContabilidad)" (click)="ejecutar()" mat-icon-button>
+          <mat-icon style="color: rgb(29, 39, 170)">play_circle_outline</mat-icon>
+        </button>
+        <button title="Descargar" *ngIf="element.codigoProceso == ('CONTABILIDAD_'+ tipoContabilidad)" (click)="descargarArchivoContabilidad()"
+mat-icon-button>
+          <mat-icon style="color: green">cloud_download</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+  </table>
+
+</div>
