@@ -4,9 +4,9 @@
 <div *ngIf="spinnerActive" class="disenio-spinner">
   <mat-spinner></mat-spinner>
 </div>
-<div class="example-container div-division" [formGroup]="form" >
+<div class="div-division" [formGroup]="form" >
     <div>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Tipo Punto</mat-label>
             <mat-select formControlName="tipoPunto" (selectionChange)="changeTipoPunto($event)">
                 <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto.valorTexto">
@@ -19,7 +19,7 @@
 
     <div
       *ngIf="puntoSeleccionado=='FONDO' || puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'  || puntoSeleccionado=='CLIENTE'">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Banco Aval</mat-label>
         <mat-select formControlName="bancoAval">
           <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval">
@@ -31,18 +31,18 @@
     </div>
 
     <div>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Nombre Punto</mat-label>
-          <input class="mayusculas" formControlName="nombre" matInput #input required>
+          <input class="mayusculas" formControlName="nombre" matInput #input>
           <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
       </mat-form-field>
     </div>
 
     <div>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
             <mat-label>Ciudad</mat-label>
             <mat-select formControlName="ciudad">
-                <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad" required>
+                <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
                     {{ciudad.nombreCiudad}}
                 </mat-option>
             </mat-select>
@@ -50,10 +50,10 @@
     </div>
 
     <div *ngIf="puntoSeleccionado=='CLIENTE'">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
             <mat-label>Cliente</mat-label>
             <mat-select formControlName="cliente">
-                <mat-option *ngFor="let cliente of clientes" [value]="cliente" required>
+                <mat-option *ngFor="let cliente of clientes" [value]="cliente">
                     {{cliente.nombreCliente}}
                 </mat-option>
             </mat-select>
@@ -61,7 +61,7 @@
         </mat-form-field>
     </div>
     <div *ngIf="puntoSeleccionado=='FONDO'">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
             <mat-label>Transportadora</mat-label>
             <mat-select formControlName="transportadora">
                 <mat-option *ngFor="let transportadora of tdvs" [value]="transportadora">
@@ -73,15 +73,15 @@
     </div>
 
     <div *ngIf="puntoSeleccionado=='OFICINA'">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Código oficina</mat-label>
-          <input type="number" step="0.01" pattern="^[0-9]+" formControlName="codigoOficina" matInput #input required>
+          <input type="number" formControlName="codigoOficina" matInput #input>
           <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
       </mat-form-field>
     </div>
 
     <div *ngIf="puntoSeleccionado=='CAJERO'">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Código cajero</mat-label>
           <input formControlName="codigoCajero" matInput #input>
           <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
@@ -89,21 +89,21 @@
     </div>
 
     <div *ngIf="puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Tarifa ruteo</mat-label>
-          <input type="number" step="0.01" pattern="^[0-9]+" formControlName="tarifaRuteo" matInput #input required>
+          <input type="number" formControlName="tarifaRuteo" matInput #input>
       </mat-form-field>
     </div>
 
     <div *ngIf="puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Tarifa Verificación</mat-label>
-          <input type="number" step="0.01" pattern="^[0-9]+" formControlName="tarifaVerificacion" matInput #input required>
+          <input type="number" formControlName="tarifaVerificacion" matInput #input>
       </mat-form-field>
     </div>
 
     <div *ngIf="puntoSeleccionado=='BANCO'">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Codigo de compensación</mat-label>
           <input formControlName="codigoCompensacion" matInput #input>
           <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
@@ -111,7 +111,7 @@
     </div>
 
     <div *ngIf="puntoSeleccionado=='BANCO'">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Identificación (NIT)</mat-label>
           <input formControlName="identificacion" matInput #input>
           <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
@@ -119,7 +119,7 @@
     </div>
 
     <div *ngIf="puntoSeleccionado=='BANCO'">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Abreviatura</mat-label>
           <input formControlName="abreviatura" matInput #input>
           <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
@@ -129,7 +129,7 @@
     <div class="div-division">
       <h3>Estado</h3>
       <label class="switch" appearance="outline">
-        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" required/>
+        <input class="switch-input" type="checkbox" formControlName="estado" id="estado"/>
         <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
         <span class="switch-handle"></span>
     </label>
