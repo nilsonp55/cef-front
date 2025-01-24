@@ -72,10 +72,10 @@ export class CrearPuntoComponent implements OnInit {
   }
 
   initForm(param?: any) {
-    let valCodigoOficina = '';
-    let valTarifaRuteo = '';
-    let valTarifaVerificacion = '';
-    let valBancoAval: number;
+    let valCodigoOficina: any;
+    let valTarifaRuteo: any;
+    let valTarifaVerificacion: any;
+    let valBancoAval: any;
     let valFajado: any;
 
     this.puntoSeleccionado = param ? param?.tipoPunto : null;
@@ -104,14 +104,14 @@ export class CrearPuntoComponent implements OnInit {
 
     this.form = new FormGroup({
       'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param ? true : false,}, [Validators.required]),
-      'nombre': new FormControl(param != null ? param.nombrePunto : null),
+      'nombre': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),
       'ciudad': new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null),
       'cliente': new FormControl(param ? this.clientes.find(value => value.codigoCliente === param?.sitiosClientes?.codigoCliente) : null, [Validators.required]),
       'transportadora': new FormControl(param ? this.tdvs.find(value => value.codigo === param?.fondos?.tdv) : null, [Validators.required]),
       'codigoOficina': new FormControl(param ? valCodigoOficina : null, [Validators.required]),
       'bancoAval': new FormControl(param ? this.bancosAval.find(value => value.codigoPunto === valBancoAval) : null, [Validators.required]),
-      'tarifaRuteo': new FormControl(param ? valTarifaRuteo : null),
-      'tarifaVerificacion': new FormControl(param ? valTarifaVerificacion : null),
+      'tarifaRuteo': new FormControl(param ? valTarifaRuteo : 0),
+      'tarifaVerificacion': new FormControl(param ? valTarifaVerificacion : 0),
       'codigoCompensacion': new FormControl(param ? param.codigoCompensacion : null, [Validators.required]),
       'codigoCajero': new FormControl(param ? param.cajeroATM?.codigoATM : null, [Validators.required]),
       'identificacion': new FormControl(param ? param.numeroNit : null, [Validators.required]),
@@ -119,8 +119,12 @@ export class CrearPuntoComponent implements OnInit {
       'fajado': new FormControl(param ? valFajado : null),
       'refajillado': new FormControl(param ? param.refajillado : null),
       'esAval': new FormControl(param ? param.esAVAL : null),
-      'estado': new FormControl(param?.estado === "1" ? true : false),
+      'estado': new FormControl(param? param.estado === "1" : true),
     });
+
+    if (param) {
+      this.changeTipoPunto({value: param?.tipoPunto});
+    }
   }
 
   persistir() {
@@ -160,8 +164,10 @@ export class CrearPuntoComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: messagePersistirSuccesful + " - " + page.response.description,
+            msn: messagePersistirSuccesful,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(page.response)
           },
         })
         .afterClosed()
@@ -173,8 +179,10 @@ export class CrearPuntoComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: messagePersistirError + " - " + err?.error?.response?.description,
+            msn: messagePersistirError,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           },
         });
         this.spinnerActive = false;
@@ -210,5 +218,55 @@ export class CrearPuntoComponent implements OnInit {
 
   changeTipoPunto(element: any) {
     this.puntoSeleccionado = element.value;
+
+    this.form.controls['codigoOficina'].setValidators(Validators.required);
+    this.form.controls['transportadora'].setValidators(Validators.required);
+    this.form.controls['codigoCompensacion'].setValidators(Validators.required);
+    this.form.controls['codigoCajero'].setValidators(Validators.required);
+    this.form.controls['identificacion'].setValidators(Validators.required);
+    this.form.controls['abreviatura'].setValidators(Validators.required);
+    this.form.controls['bancoAval'].setValidators(Validators.required);
+    this.form.controls['cliente'].setValidators(Validators.required);
+
+    if (element.value === 'CLIENTE' || element.value === 'FONDO' || element.value === 'BAN_REP' 
+      || element.value === 'CAJERO' || element.value === 'BANCO') {
+      this.form.controls['codigoOficina'].removeValidators(Validators.required);
+    }
+
+    if (element.value === 'CLIENTE' || element.value === 'BAN_REP' || element.value === 'OFICINA'
+      || element.value === 'CAJERO' || element.value === 'BANCO') {
+        this.form.controls['transportadora'].removeValidators(Validators.required);
+    }
+
+    if (element.value === 'CLIENTE' || element.value === 'FONDO' || element.value === 'BAN_REP' 
+      || element.value === 'OFICINA' || element.value === 'CAJERO') {
+        this.form.controls['codigoCompensacion'].removeValidators(Validators.required);
+        this.form.controls['identificacion'].removeValidators(Validators.required);
+        this.form.controls['abreviatura'].removeValidators(Validators.required);
+    }
+
+    if (element.value === 'CLIENTE' || element.value === 'FONDO' || element.value === 'BAN_REP' 
+      || element.value === 'OFICINA' || element.value === 'BANCO') {
+        this.form.controls['codigoCajero'].removeValidators(Validators.required);
+    }
+
+    if (element.value === 'FONDO' || element.value === 'BAN_REP' || element.value === 'OFICINA'
+      || element.value === 'CAJERO' || element.value === 'BANCO') {   
+        this.form.controls['cliente'].removeValidators(Validators.required);
+    }
+
+    if (element.value === 'BAN_REP' || element.value === 'BANCO') {
+      this.form.controls['bancoAval'].removeValidators(Validators.required);
+    }
+
+    this.form.controls['codigoOficina'].updateValueAndValidity();
+    this.form.controls['transportadora'].updateValueAndValidity();
+    this.form.controls['codigoCompensacion'].updateValueAndValidity();
+    this.form.controls['codigoCajero'].updateValueAndValidity();
+    this.form.controls['identificacion'].updateValueAndValidity();
+    this.form.controls['abreviatura'].updateValueAndValidity();
+    this.form.controls['bancoAval'].updateValueAndValidity();
+    this.form.controls['cliente'].updateValueAndValidity();
+
   }
 }

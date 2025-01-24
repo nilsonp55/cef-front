@@ -88,17 +88,17 @@ export class PuntosCodigoTdvComponent implements OnInit {
     const puntoValueForm = this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto);
     const clienteValueForm = this.clientes.find((value) => value.codigoCliente == param.puntosDTO.sitiosClientes.codigoCliente);
     this.form = new FormGroup({
-      'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
+      'idPuntoCodigo': new FormControl({value: param ? param.idPuntoCodigoTdv : null, disabled: true}),
       'punto': new FormControl(param ? puntoValueForm : null),
-      'codigoPunto': new FormControl(param ? param.codigoPunto : null),
+      'codigoPunto': new FormControl(param ? param.codigoPunto : null, [Validators.required]),
       'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null, [Validators.required]),
       'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null, [Validators.required]),
       'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null, [Validators.required]),
-      'estado': new FormControl(param ? this.formatearEstadoListar(param.estado) : null),
+      'estado': new FormControl(param ? param.estado === 1 : true),
       'codigoDANE': new FormControl(ciudad ? ciudad : ""),
       'cliente': new FormControl(param ? clienteValueForm : null),
       'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null,  [Validators.required])
-    });
+    }); 
   }
 
   /**
@@ -127,8 +127,10 @@ export class PuntosCodigoTdvComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
         });
         this.spinnerActive = false;
@@ -154,7 +156,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       puntosDTO: {
         codigoPunto: Number(this.form.value['punto'].codigoPunto)
       },
-      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
+      estado: Number(this.form.value['estado'] ? 1 : 2),
 
     };
 
@@ -165,7 +167,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+              showResume: true,
+              msgDetalles: JSON.stringify(response)
             }
           });
           this.listarPuntosCodigo(this.numPagina, this.cantPagina);
@@ -175,8 +179,10 @@ export class PuntosCodigoTdvComponent implements OnInit {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error)
             }
           });
           this.spinnerActive = false;
@@ -190,20 +196,23 @@ export class PuntosCodigoTdvComponent implements OnInit {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+              showResume: true,
+              msgDetalles: JSON.stringify(response)
             }
           });
           this.listarPuntosCodigo(this.numPagina, this.cantPagina);
-          this.form.value['idPuntoCodigo'] = response.data.idPuntoCodigoTdv;
-          this.form.controls['idPuntoCodigo'] = new FormControl(response.data.idPuntoCodigoTdv);
+          this.form.controls['idPuntoCodigo'].setValue(response.data.idPuntoCodigoTdv);
           this.spinnerActive = false;
         },
         error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error)
             }
           });
           this.spinnerActive = false;
@@ -256,9 +265,11 @@ export class PuntosCodigoTdvComponent implements OnInit {
         },
         error: (err: any) => { this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE +
-                ' - ' + err?.error?.response?.description,
+            data: {
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
               codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error)
             },
           });
         },
@@ -280,10 +291,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   selectedTdv(event) {
     this.tipoPuntoSelect = true;
-  }
-
-  async filtrarPuntos(event: any) {
-    this.filtrarListaPuntosCambio(event.value);
   }
 
   async filtrarListaPuntos(paramn) {
@@ -363,10 +370,13 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   }
 
-  async filtrarListaPuntosCambio(tipoPunto1) {
+  async changeTipoPunto(event: any) {
+
     let params;
     this.ciudadSelect = false;
     this.clienteSelect = false;
+    let tipoPunto1 = event.value;
+
     if(tipoPunto1 == "BAN_REP"){
       this.puntoSelect = true;
       this.ciudadSelect = true;
@@ -427,6 +437,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       await this.listarClientes(params);
     }
 
+    this.form.controls['codigoPunto'].setValue('');
   }
 
   async listarClientes(params: any){
@@ -440,8 +451,10 @@ export class PuntosCodigoTdvComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn:  GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn:  GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
           }
         });
         this.spinnerActive = false;
@@ -485,36 +498,17 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   changePunto(event) {
+    debugger;
     this.spinnerActive = true;
     this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
-    this.generalesService.listarCiudadesByParams({'codigoDANE':event.value.codigoCiudad}).subscribe({
-      next: response => {
-        this.form.controls['codigoDANE'].setValue(response.data[0].codigoDANE);
-        this.spinnerActive = false;
-      },
-      error: err => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn:  GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        this.spinnerActive = false;
-      }
-    });
-  }
 
-  formatearEstadoPersistir(param: boolean): any {
-    if(param==true){
-      return 1
-    }else {
-      return 2
+    if(this.form.controls['tipoPunto'].value === 'BAN_REP') {
+      this.form.controls['codigoDANE'].setValue(event.value.codigoCiudad);
+    } else {
+      this.form.controls['codigoDANE'].setValue('0');
     }
-  }
-
-  formatearEstadoListar(param: any): any {
-    return param == 1;
+    
+    this.spinnerActive = false;
   }
 
   filtrar(event) {

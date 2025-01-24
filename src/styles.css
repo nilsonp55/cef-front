@@ -139,7 +139,7 @@ table.mat-table {
     width: 100%;
 }
 
-form {
+.form {
     margin: 1em;
     padding: 1em;
     border-color: rgb(112, 187, 116);
@@ -165,8 +165,7 @@ mat-form-field {
 }
   
 .mat-form-field {
-    margin-top: 6%;
-
+    margin-top: 2%;
 }
 
 .mat-step-header {  

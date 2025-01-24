@@ -44,8 +44,7 @@ export class GestionPuntosService {
     * Servicio para listar los puntos
     */
     crearPunto(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`, { param }, { headers } );
+        return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`, param);
     }
 
     actualizarPunto(param: any): Observable<any> {
