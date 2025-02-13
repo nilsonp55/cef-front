@@ -26,10 +26,10 @@
     <ng-container class="text-bg-light" matColumnDef="acciones">
       <th id="acciones" mat-header-cell *matHeaderCellDef class="text-bg-light">Acciones</th>
       <td mat-cell *matCellDef="let element" disabled = "codigoProceso">
-        <button title="Ejecutar" *ngIf="element.codigoProceso == ('CONTABILIDAD_'+ tipoContabilidad)" (click)="ejecutar()" mat-icon-button>
+        <button title="Ejecutar" *ngIf="element.codigoProceso === ('CONTABILIDAD_'+ tipoContabilidad) && element.estadoProceso !== 'CERRADO'" (click)="ejecutar()" mat-icon-button>
           <mat-icon style="color: rgb(29, 39, 170)">play_circle_outline</mat-icon>
         </button>
-        <button title="Descargar" *ngIf="element.codigoProceso == ('CONTABILIDAD_'+ tipoContabilidad)" (click)="descargarArchivoContabilidad()"
+        <button title="Descargar" *ngIf="element.codigoProceso === ('CONTABILIDAD_'+ tipoContabilidad)" (click)="descargarArchivoContabilidad()"
 mat-icon-button>
           <mat-icon style="color: green">cloud_download</mat-icon>
         </button>

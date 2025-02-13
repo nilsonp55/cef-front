@@ -144,7 +144,7 @@ export class ArchivosCargadosComponent implements OnInit {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.SUCCESFULL_PROCESS_FILE,
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
           showResume: true,
-          msgDetalle: data.response.description
+          msgDetalle: JSON.stringify(data.data)
         }
       });
     },
@@ -156,7 +156,7 @@ export class ArchivosCargadosComponent implements OnInit {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_PROCESS_FILE,
             codigo: GENERALES.CODE_EMERGENT.ERROR,
             showResume: true,
-            msgDetalle: err.error.response.description,
+            msgDetalle: JSON.stringify(err.error.response),
           }
         });
       }})
@@ -198,7 +198,7 @@ export class ArchivosCargadosComponent implements OnInit {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.SUCCESFULL_DELETE_FILE,
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
           showResume: true,
-          msgDetalle: item.response.description,
+          msgDetalle: JSON.stringify(item.response),
         }
       });
     },
@@ -210,7 +210,7 @@ export class ArchivosCargadosComponent implements OnInit {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_LOAD_FILE.ERROR_PROCESS_FILE,
           codigo: GENERALES.CODE_EMERGENT.ERROR,
           showResume: true,
-          msgDetalle: err.error.response.description,
+          msgDetalle: JSON.stringify(err.error),
         }
       });
     }
@@ -233,7 +233,7 @@ export class ArchivosCargadosComponent implements OnInit {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
           showResume: true,
-          msgDetalle: item.response.description
+          msgDetalle: JSON.stringify(item.response)
         }
       });
     },
@@ -244,7 +244,7 @@ export class ArchivosCargadosComponent implements OnInit {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_REABRIR_CIERRE,
           codigo: GENERALES.CODE_EMERGENT.ERROR,
           showResume: true,
-          msgDetalle: err.error.response.description,
+          msgDetalle: JSON.stringify(err.error),
         }
       });
     }})
