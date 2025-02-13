@@ -34,7 +34,7 @@
         <button title="Ejecutar" *ngIf="element.codigoProceso == 'CARG_PRELIMINAR' && element.estadoProceso !== 'CERRADO'" mat-button color="primary" (click)="ejecutar()">
           <mat-icon style="color: rgb(29, 39, 170)">play_circle_outline</mat-icon>
         </button>
-        <button title="Reabrir" *ngIf="element.codigoProceso == 'CARG_PRELIMINAR'" mat-button (click)="reabrirCargue(element.nombreArchivo, element.idModeloArchivo)">
+        <button title="Reabrir" *ngIf="element.codigoProceso == 'CARG_PRELIMINAR' && element.estadoProceso === 'CERRADO'" mat-button (click)="reabrirCargue(element.nombreArchivo, element.idModeloArchivo)">
           <mat-icon style="color: rgb(255, 217, 0)">cached icon</mat-icon>
         </button>
       </td>

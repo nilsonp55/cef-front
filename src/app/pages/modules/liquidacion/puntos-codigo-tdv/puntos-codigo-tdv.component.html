@@ -63,39 +63,39 @@
           <table mat-table matTableExporter [dataSource]="dataSourceCodigoPuntoTdv" matSort
                  #exporter="matTableExporter" class="mat-elevation-z8" aria-label="puntos-codigo-tdv">
             <tr>
-              <ng-container matColumnDef="idPuntoCodigoTdv" class="mat-column-nombreCampo" >
+              <ng-container matColumnDef="idPuntoCodigoTdv">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-                <td mat-cell *matCellDef="let element"> {{element.idPuntoCodigoTdv}} </td>
+                <td mat-cell *matCellDef="let element" > {{element.idPuntoCodigoTdv}} </td>
               </ng-container>
-              <ng-container matColumnDef="codigoPunto" class="mat-column-nombreCampo">
+              <ng-container matColumnDef="codigoPunto" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Punto</th>
                 <td mat-cell *matCellDef="let element"> {{element.codigoPunto}} </td>
               </ng-container>
-              <ng-container matColumnDef="tipoPunto" class="mat-column-nombreCampo">
+              <ng-container matColumnDef="tipoPunto" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Punto</th>
                 <td mat-cell *matCellDef="let element"> {{element.puntosDTO.tipoPunto}} </td>
               </ng-container>
-              <ng-container matColumnDef="codigoTdv" class="mat-column-nombreCampo">
+              <ng-container matColumnDef="codigoTdv" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Código TDV</th>
                 <td mat-cell *matCellDef="let element"> {{element.codigoTDV}} </td>
               </ng-container>
-              <ng-container matColumnDef="codigoPropioTdv" class="mat-column-nombreCampo">
+              <ng-container matColumnDef="codigoPropioTdv" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Propio TDV</th>
                 <td mat-cell *matCellDef="let element"> {{element.codigoPropioTDV}} </td>
               </ng-container>
-              <ng-container matColumnDef="nombrePunto" class="mat-column-nombreCampo">
+              <ng-container matColumnDef="nombrePunto" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Punto</th>
                 <td mat-cell *matCellDef="let element"> {{element.puntosDTO.nombrePunto}} </td>
               </ng-container>
-              <ng-container matColumnDef="nombreBanco" class="mat-column-nombreCampo">
+              <ng-container matColumnDef="nombreBanco" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
                 <td mat-cell *matCellDef="let element"> {{element.bancosDTO.nombreBanco}} </td>
               </ng-container>
-              <ng-container matColumnDef="codigoCiudad" class="mat-column-nombreCampo">
+              <ng-container matColumnDef="codigoCiudad" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad Fondo</th>
                 <td mat-cell *matCellDef="let element"> {{resolverCiudadFondo(element.ciudadFondo)}} </td>
               </ng-container>
-              <ng-container matColumnDef="estado" class="mat-column-nombreCampo">
+              <ng-container matColumnDef="estado" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
                 <td mat-cell *matCellDef="let element"> {{resolverEstado(element.estado)}} </td>
               </ng-container>

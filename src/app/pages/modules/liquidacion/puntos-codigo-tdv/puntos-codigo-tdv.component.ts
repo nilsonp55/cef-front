@@ -88,14 +88,14 @@ export class PuntosCodigoTdvComponent implements OnInit {
     const puntoValueForm = this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto);
     const clienteValueForm = this.clientes.find((value) => value.codigoCliente == param.puntosDTO.sitiosClientes.codigoCliente);
     this.form = new FormGroup({
-      'idPuntoCodigo': new FormControl({value: param ? param.idPuntoCodigoTdv : null, disabled: true}),
+      'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
       'punto': new FormControl(param ? puntoValueForm : null),
       'codigoPunto': new FormControl(param ? param.codigoPunto : null, [Validators.required]),
       'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null, [Validators.required]),
       'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null, [Validators.required]),
       'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null, [Validators.required]),
       'estado': new FormControl(param ? param.estado === 1 : true),
-      'codigoDANE': new FormControl(ciudad ? ciudad : ""),
+      'codigoDANE': new FormControl(ciudad ? ciudad : "0"),
       'cliente': new FormControl(param ? clienteValueForm : null),
       'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null,  [Validators.required])
     }); 
