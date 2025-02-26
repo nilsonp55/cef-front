@@ -9,31 +9,31 @@ import { RolMenuService } from '../_service/roles-usuarios-service/roles-usuario
 })
 export class CentroCiudadPpalGuard implements CanActivate {
 
-  menusLiquidacion: any[] = [];
-  menus: any[] = [];
+  menusAdminPpal: any[] = [];
+  menusPpal: any[] = [];
 
   constructor(
-    private rolMenuService: RolMenuService,
-    private router: Router
+    private rolMenuServicePpal: RolMenuService,
+    private routerPpal: Router
   ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return new Promise((resolve, reject) => {
-      this.rolMenuService.obtenerUsuarios({
+      this.rolMenuServicePpal.obtenerUsuarios({
         'idUsuario': atob(sessionStorage.getItem('user'))
       }).subscribe(data => {
         //Logica para capturar los menus para cargueCertificacion
-        let rol = data.data[0].rol.idRol;
-        this.rolMenuService.obtenerMenuRol({
-          'rol.idRol': rol,
+        let rolPpal = data.data[0].rol.idRol;
+        this.rolMenuServicePpal.obtenerMenuRol({
+          'rol.idRol': rolPpal,
           'estado': "1",
           'menu.idMenuPadre': "administracionTabContables"
         }).subscribe(menusrol => {
-          this.menus = menusrol;
+          this.menusPpal = menusrol;
           menusrol.data.forEach(itm => {
-            this.menusLiquidacion.push(itm.menu);
+            this.menusAdminPpal.push(itm.menu);
           });
           //console.log(menusrol)
           //validation guard
@@ -46,7 +46,7 @@ export class CentroCiudadPpalGuard implements CanActivate {
           if (guardOk) {
             resolve(true);
           } else {
-            this.router.navigate(['/administracion']);
+            this.routerPpal.navigate(['/administracion']);
             resolve(false);
           }
         });
