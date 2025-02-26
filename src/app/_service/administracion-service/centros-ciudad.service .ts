@@ -46,6 +46,13 @@ export class CentrosCiudadService {
         return this.http.post<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_ACTUALIZAR}`, param);
     }
 
+    /**
+     * Servicio para eliminar una Centro ciudades Principal
+     */
+    eliminarCentroCiudad(param: any): Observable<any> {
+        return this.http.delete<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_ELIMINAR}/${param}`);
+    }
+
     /** 
      * Servicio para listar las Centro ciudades Principal
     */

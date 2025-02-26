@@ -9,7 +9,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { CentrosCiudadService } from 'src/app/_service/administracion-service/centros-ciudad.service ';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 
 @Component({
     selector: 'app-centro-ciudad-base',
@@ -83,56 +83,39 @@ export class CentroCiudadBaseComponent implements OnInit {
      * @BayronPerez
      */
     listarCentrosCiudades(pagina = 0, tamanio = 5) {
+        let serviceCall: Observable<any>;
         this.spinnerActive = true;
-        if (!this.tipoCentroCiudad.includes('Principal')) {
-            this.centroCiudadesService.obtenerCentrosCiudades({
-                page: pagina,
-                size: tamanio,
-            }).subscribe({
-                next: (page: any) => {
-                    this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
-                    this.dataSourceTiposCuentas.sort = this.sort;
-                    this.cantidadRegistros = page.data.totalElements;
-                    this.spinnerActive = false;
-                },
-                error: (err: any) => {
-                    this.dialog.open(VentanaEmergenteResponseComponent, {
-                        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                        data: {
-                            msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CENTRO_CIUDAD.ERROR_GET_TIPO_ADMIN_CENTRO_CIUDAD,
-                            codigo: GENERALES.CODE_EMERGENT.ERROR,
-                            showResume: true,
-                            msgDetalles: JSON.stringify(err.response)
-                        }
-                    });
-                    this.spinnerActive = false;
-                }
-            });
-        } else {
-            this.centroCiudadesService.obtenerCentrosCiudadesPpal({
+        if (this.tipoCentroCiudad.includes('Principal')) {
+            serviceCall = this.centroCiudadesService.obtenerCentrosCiudadesPpal({
                 page: pagina,
                 size: tamanio
-            }).subscribe({
-                next: (page: any) => {
-                    this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
-                    this.dataSourceTiposCuentas.sort = this.sort;
-                    this.cantidadRegistros = page.data.totalElements;
-                    this.spinnerActive = false;
-                },
-                error: (err: any) => {
-                    this.dialog.open(VentanaEmergenteResponseComponent, {
-                        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                        data: {
-                            msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CENTRO_CIUDAD.ERROR_GET_TIPO_ADMIN_CENTRO_CIUDAD,
-                            codigo: GENERALES.CODE_EMERGENT.ERROR,
-                            showResume: true,
-                            msgDetalles: JSON.stringify(err.response)
-                        }
-                    });
-                    this.spinnerActive = false;
-                }
             });
+        } else {
+            serviceCall = this.centroCiudadesService.obtenerCentrosCiudades({
+                page: pagina,
+                size: tamanio,
+            });            
         }
+        serviceCall.subscribe({
+            next: (page: any) => {
+                this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
+                this.dataSourceTiposCuentas.sort = this.sort;
+                this.cantidadRegistros = page.data.totalElements;
+                this.spinnerActive = false;
+            },
+            error: (err: any) => {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
+                    width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                    data: {
+                        msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CENTRO_CIUDAD.ERROR_GET_TIPO_ADMIN_CENTRO_CIUDAD,
+                        codigo: GENERALES.CODE_EMERGENT.ERROR,
+                        showResume: true,
+                        msgDetalles: JSON.stringify(err.response)
+                    }
+                });
+                this.spinnerActive = false;
+            }
+        });
     }
 
     /**
@@ -140,6 +123,9 @@ export class CentroCiudadBaseComponent implements OnInit {
       * @BayronPerez
       */
     persistir() {
+        let serviceCall: Observable<any>;
+        let msgCrudSuccessfull: string;
+        let msgCrudError: string;
         this.spinnerActive = true;
         const centrociudad = {
             idCentroCiudad: null,
@@ -154,126 +140,58 @@ export class CentroCiudadBaseComponent implements OnInit {
 
         if (this.esEdicion) {
             centrociudad.idCentroCiudad = this.idCentroCiudad;
-            if (!this.tipoCentroCiudad.includes('Principal')) {
-                this.centroCiudadesService.actualizarCentroCiudade(centrociudad).subscribe({
-                    next: (response: any) => {
-                        this.dialog.open(VentanaEmergenteResponseComponent, {
-                            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                            data: {
-                                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-                                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-                                showResume: true,
-                                msgDetalles: JSON.stringify(response.response)
-                            }
-                        });
-                        this.listarCentrosCiudades()
-                        this.initForm();
-                        this.spinnerActive = false;
-                    },
-                    error: (err: any) => {
-                        this.dialog.open(VentanaEmergenteResponseComponent, {
-                            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                            data: {
-                                msn: err.error.response.description,
-                                codigo: GENERALES.CODE_EMERGENT.ERROR,
-                                showResume: true,
-                                msgDetalles: JSON.stringify(err.response)
-                            }
-                        });
-                        this.spinnerActive = false;
-                    }
-                });
+        }
+
+        if (this.tipoCentroCiudad.includes('Principal')) {
+            if (this.esEdicion) {
+                msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE;
+                msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE;
+                serviceCall = this.centroCiudadesService.actualizarCentroCiudadePpal(centrociudad);
             } else {
-                this.centroCiudadesService.actualizarCentroCiudadePpal(centrociudad).subscribe({
-                    next: (response: any) => {
-                        this.dialog.open(VentanaEmergenteResponseComponent, {
-                            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                            data: {
-                                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-                                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-                                showResume: true,
-                                msgDetalles: JSON.stringify(response.response)
-                            }
-                        });
-                        this.listarCentrosCiudades()
-                        this.initForm();
-                        this.spinnerActive = false;
-                    },
-                    error: (err: any) => {
-                        this.dialog.open(VentanaEmergenteResponseComponent, {
-                            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                            data: {
-                                msn: err.error.response.description,
-                                codigo: GENERALES.CODE_EMERGENT.ERROR,
-                                showResume: true,
-                                msgDetalles: JSON.stringify(err.response)
-                            }
-                        });
-                        this.spinnerActive = false;
-                    }
-                });
+                msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
+                msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
+                serviceCall = this.centroCiudadesService.guardarCentroCiudadePpal(centrociudad);
             }
         } else {
-            if (!this.tipoCentroCiudad.includes('Principal')) {
-                this.centroCiudadesService.guardarCentroCiudade(centrociudad).subscribe({
-                    next: (response: any) => {
-                        this.dialog.open(VentanaEmergenteResponseComponent, {
-                            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                            data: {
-                                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-                                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-                                showResume: true,
-                                msgDetalles: JSON.stringify(response.response)
-                            }
-                        });
-                        this.listarCentrosCiudades()
-                        this.initForm();
-                        this.spinnerActive = false;
-                    },
-                    error: (err: any) => {
-                        this.dialog.open(VentanaEmergenteResponseComponent, {
-                            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                            data: {
-                                msn: err.error.response.description,
-                                codigo: GENERALES.CODE_EMERGENT.ERROR,
-                                showResume: true,
-                                msgDetalles: JSON.stringify(err.response)
-                            }
-                        });
-                        this.spinnerActive = false;
-                    }
-                });
+            if (this.esEdicion) {
+                msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE;
+                msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE;
+                serviceCall = this.centroCiudadesService.actualizarCentroCiudade(centrociudad);
             } else {
-                this.centroCiudadesService.guardarCentroCiudadePpal(centrociudad).subscribe({
-                    next: (response: any) => {
-                        this.dialog.open(VentanaEmergenteResponseComponent, {
-                            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                            data: {
-                                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-                                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-                                showResume: true,
-                                msgDetalles: JSON.stringify(response.response)
-                            }
-                        });
-                        this.listarCentrosCiudades()
-                        this.initForm();
-                        this.spinnerActive = false;
-                    },
-                    error: (err: any) => {
-                        this.dialog.open(VentanaEmergenteResponseComponent, {
-                            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                            data: {
-                                msn: err.error.response.description,
-                                codigo: GENERALES.CODE_EMERGENT.ERROR,
-                                showResume: true,
-                                msgDetalles: JSON.stringify(err.response)
-                            }
-                        });
-                        this.spinnerActive = false;
-                    }
-                });
+                msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
+                msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
+                serviceCall = this.centroCiudadesService.guardarCentroCiudade(centrociudad);
             }
         }
+        serviceCall.subscribe({
+            next: (page: any) => {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
+                    width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                    data: {
+                        msn: msgCrudSuccessfull,
+                        codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+                        showResume: true,
+                        msgDetalles: JSON.stringify(page.response)
+                    }
+                });
+                this.listarCentrosCiudades()
+                this.initForm();
+                this.spinnerActive = false;
+            },
+            error: (err: any) => {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
+                    width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                    data: {
+                        msn: msgCrudError,
+                        codigo: GENERALES.CODE_EMERGENT.ERROR,
+                        showResume: true,
+                        msgDetalles: JSON.stringify(err.response)
+                    }
+                });
+                this.spinnerActive = false;
+            }
+        });
+
     }
 
     /**
@@ -331,37 +249,42 @@ export class CentroCiudadBaseComponent implements OnInit {
      * @author prv_nparra
      */
     eliminar(registro: any) {
+        let serviceCall: Observable<any>;
         this.spinnerActive = false;
         if(this.tipoCentroCiudad === 'Principal') {
-            this.centroCiudadesService.eliminarCentroCiudadePpal(registro.idCentroCiudad).subscribe({
-                next: (page: any) => {
-                    this.dialog.open(VentanaEmergenteResponseComponent, {
-                        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                        data: {
-                            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_DELETE,
-                            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-                            showResume: true,
-                            msgDetalles: JSON.stringify(page)
-                        }
-                    });
-                    this.listarCentrosCiudades()
-                    this.initForm();
-                    this.spinnerActive = false;
-                },
-                error: (err: any) => {
-                    this.dialog.open(VentanaEmergenteResponseComponent, {
-                        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                        data: {
-                            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DELETE,
-                            codigo: GENERALES.CODE_EMERGENT.ERROR,
-                            showResume: true,
-                            msgDetalles: JSON.stringify(err)
-                        }
-                    });
-                    this.spinnerActive = false;
-                }
-            });
+            serviceCall = this.centroCiudadesService.eliminarCentroCiudadePpal(registro.idCentroCiudad);
+        } else {
+            serviceCall = this.centroCiudadesService.eliminarCentroCiudad(registro.idCentroCiudad);
         }
+
+        serviceCall.subscribe({
+            next: (page: any) => {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
+                    width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                    data: {
+                        msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_DELETE,
+                        codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+                        showResume: true,
+                        msgDetalles: JSON.stringify(page)
+                    }
+                });
+                this.listarCentrosCiudades()
+                this.initForm();
+                this.spinnerActive = false;
+            },
+            error: (err: any) => {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
+                    width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+                    data: {
+                        msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DELETE,
+                        codigo: GENERALES.CODE_EMERGENT.ERROR,
+                        showResume: true,
+                        msgDetalles: JSON.stringify(err)
+                    }
+                });
+                this.spinnerActive = false;
+            }
+        });
     }
 
 }
