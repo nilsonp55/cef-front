@@ -29,7 +29,6 @@ export class CentrosCiudadService {
     * Servicio para obtener una Centro ciudades
     */
      consultarCentroCiudadById(idCIudad: any, idBanco: any): Observable<any> {
-        const formData: FormData = new FormData();
         return this.http.get<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_CONSULTAR}/${idCIudad}/${idBanco}`);
     }
 
