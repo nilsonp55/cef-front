@@ -363,6 +363,7 @@ export const URLs = {
   ADMIN_CENTRO_CIUDAD_CONSULTAR: '/consultar',
   ADMIN_CENTRO_CIUDAD_GUARDAR: '/guardar',
   ADMIN_CENTRO_CIUDAD_ACTUALIZAR: '/actualizar',
+  ADMIN_CENTRO_CIUDAD_ELIMINAR: '/eliminar',
   ADMIN_CENTRO_CIUDAD_CONSULTAR_ID: '/consultar-id',
   ADMIN_CENTRO_CIUDAD_PPAL: '/ppal',
 
