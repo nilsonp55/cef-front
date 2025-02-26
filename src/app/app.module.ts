@@ -70,7 +70,9 @@ import { ArchiCargaCertificacionComponent } from './pages/modules/cargue-certifi
 import { AdministracionContabilidadComponent } from './pages/modules/administracion/administracion-contabilidad/administracion-contabilidad.component';
 import { AdministradorCuentasPucComponent } from './pages/modules/administracion/administrador-cuentas-puc/administrador-cuentas-puc.component';
 import { AdministradorTipoCentroCostosComponent } from './pages/modules/administracion/administrador-tipo-centro-costos/administrador-tipo-centro-costos.component';
+import { CentroCiudadBaseComponent } from './pages/modules/administracion/centro-ciudad-base/centro-ciudad-base.component'; 
 import { AdministracionCentroCiudadesComponent } from './pages/modules/administracion/administracion-centro-ciudades/administracion-centro-ciudades.component';
+import { CentroCiudadPrincipalComponent } from './pages/modules/administracion/centro-ciudad-principal/centro-ciudad-principal.component';
 import { AdministracionConfContableEntidadComponent } from './pages/modules/administracion/administracion-conf-contable-entidad/administracion-conf-contable-entidad.component';
 import { CierreFechaComponent } from './pages/modules/administracion/cierre-fecha/cierre-fecha.component';
 import { ResultadoContabilidadComponent } from './pages/modules/contabilizacion/resultado-contabilidad/resultado-contabilidad.component';
@@ -211,7 +213,9 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
     AdministracionContabilidadComponent,
     AdministradorCuentasPucComponent,
     AdministradorTipoCentroCostosComponent,
+    CentroCiudadBaseComponent,
     AdministracionCentroCiudadesComponent,
+    CentroCiudadPrincipalComponent,
     AdministracionConfContableEntidadComponent,
     CierreFechaComponent,
     ResultadoContabilidadComponent,

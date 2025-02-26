@@ -18,6 +18,7 @@ import { AdministracionContabilidadComponent } from './pages/modules/administrac
 import { AdministradorCuentasPucComponent } from './pages/modules/administracion/administrador-cuentas-puc/administrador-cuentas-puc.component';
 import { AdministradorTipoCentroCostosComponent } from './pages/modules/administracion/administrador-tipo-centro-costos/administrador-tipo-centro-costos.component';
 import { AdministracionCentroCiudadesComponent } from './pages/modules/administracion/administracion-centro-ciudades/administracion-centro-ciudades.component';
+import { CentroCiudadPrincipalComponent } from './pages/modules/administracion/centro-ciudad-principal/centro-ciudad-principal.component';
 import { ContabilizacionComponent } from './pages/modules/contabilizacion/contabilizacion.component';
 import { CierreProgramacionPreliminarComponent } from './pages/modules/cargue-programacion/cierre-programacion-preliminar/cierre-programacion-preliminar.component';
 import { ContabilidadPmComponent } from './pages/modules/contabilizacion/contabilidad-pm/contabilidad-pm.component';
@@ -63,6 +64,7 @@ import { AdministracionTipoCuentasGuard } from './wards/administracion-tipo-cuen
 import { LiquidacionCuentasPucGuard } from './wards/liquidacion-cuentas-puc.guard';
 import { AdministracionTipoCentroCostosGuard } from './wards/liquidacion-tipo-centro-costos.guard';
 import { AdministracionCentroCiudadGuard } from './wards/administracion-centro-ciudad.guard';
+import { CentroCiudadPpalGuard } from './wards/centro-ciudad-ppal.guard';
 import { AdministracionConfEntiContablesGuard } from './wards/administracion-conf-enti-contables.guard';
 import { AdministracionRolesGuard } from './wards/administracion-roles.guard';
 import { AdministracionUsuariosGuard } from './wards/administracion-usuarios.guard';
@@ -166,6 +168,7 @@ const routes: Routes = [
       { path: 'administracion-cuentas-puc', component: AdministradorCuentasPucComponent, canActivate: [LiquidacionCuentasPucGuard] },
       { path: 'administracion-tipo-centro-costos', component: AdministradorTipoCentroCostosComponent, canActivate: [AdministracionTipoCentroCostosGuard] },
       { path: 'administracion-centro-ciudad', component: AdministracionCentroCiudadesComponent, canActivate: [AdministracionCentroCiudadGuard] },
+      { path: 'centro-ciudad-ppal', component: CentroCiudadPrincipalComponent, canActivate: [CentroCiudadPpalGuard]},
       { path: 'administracion-conf-contable-entidad', component: AdministracionConfContableEntidadComponent, canActivate: [AdministracionConfEntiContablesGuard] },
       { path: 'administracion-roles', component: GestionRolesUsuariosComponent, canActivate: [AdministracionRolesGuard] },
       { path: 'administracion-usuarios', component: GestionUsuariosComponent, canActivate: [AdministracionUsuariosGuard] },

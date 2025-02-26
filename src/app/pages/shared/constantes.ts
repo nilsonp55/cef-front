@@ -364,6 +364,7 @@ export const URLs = {
   ADMIN_CENTRO_CIUDAD_GUARDAR: '/guardar',
   ADMIN_CENTRO_CIUDAD_ACTUALIZAR: '/actualizar',
   ADMIN_CENTRO_CIUDAD_CONSULTAR_ID: '/consultar-id',
+  ADMIN_CENTRO_CIUDAD_PPAL: '/ppal',
 
   //Admin configuracion contable entiudades
   ADMIN_CONF_CONTABLE_ENTIDADES: '/conf-contable-entidades',

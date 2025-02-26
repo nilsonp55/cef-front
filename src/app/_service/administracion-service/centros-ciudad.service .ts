@@ -14,29 +14,65 @@ import { URLs } from 'src/app/pages/shared/constantes';
  */
 export class CentrosCiudadService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE}${URLs.ADMIN_CENTRO_CIUDAD}`;
+    private url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_CENTRO_CIUDAD}`;//
 
     constructor(private http: HttpClient) { }
 
     /** 
-    * Servicio para listar los puntos
+     * Servicio para listar las Centro ciudades
     */
-    listarCentrosCiudad(): Observable<any> {
-        return this.http.get<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_CONSULTAR}`, null);
+    obtenerCentrosCiudades(params: any): Observable<any> {
+        return this.http.get<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_CONSULTAR}`, { params: params });
     }
 
     /** 
-    * Servicio para listar los puntos
+    * Servicio para obtener una Centro ciudades
     */
-     consultarCentroCiudadById(idPunto: any): Observable<any> {
-        return this.http.get<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_CONSULTAR_ID}`,{params: idPunto});
+     consultarCentroCiudadById(idCIudad: any, idBanco: any): Observable<any> {
+        const formData: FormData = new FormData();
+        return this.http.get<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_CONSULTAR}/${idCIudad}/${idBanco}`);
     }
 
-    /** 
-    * Servicio para listar los puntos
-    */
-     crearCentroCiudad(param: any): Observable<any> {
+    /**
+     * Servicio para gurdar una Centro ciudades
+     */
+     guardarCentroCiudade(param: any): Observable<any> {
         return this.http.post<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_GUARDAR}`, param);
+    }
+
+    /**
+     * Servicio para gurdar una Centro ciudades
+     */
+     actualizarCentroCiudade(param: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_ACTUALIZAR}`, param);
+    }
+
+    /** 
+     * Servicio para listar las Centro ciudades Principal
+    */
+    obtenerCentrosCiudadesPpal(params: any): Observable<any> {
+        return this.http.get<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_PPAL}`, { params: params });
+    }
+
+    /**
+     * Servicio para gurdar una Centro ciudades Principal
+     */
+    guardarCentroCiudadePpal(param: any): Observable<any> {
+        return this.http.post<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_PPAL}`, param);
+    }
+
+    /**
+     * Servicio para gurdar una Centro ciudades Principal
+     */
+     actualizarCentroCiudadePpal(param: any): Observable<any> {
+        return this.http.put<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_PPAL}`, param);
+    }
+
+    /**
+     * Servicio para eliminar una Centro ciudades Principal
+     */
+    eliminarCentroCiudadePpal(param: any): Observable<any> {
+        return this.http.delete<any>(`${this.url}${URLs.ADMIN_CENTRO_CIUDAD_PPAL}/${param}`);
     }
 
 }
