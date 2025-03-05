@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
     if (this.respuestaUrl.length > 0) {
       const _respuesta = this.respuestaUrl.split(/[=,&]/)
       this.tokenOficial = _respuesta[3]
-      var decodificado = jwt_decode(this.tokenOficial);
+      let decodificado = jwt_decode(this.tokenOficial);
       this.serializarToken(decodificado, this.tokenOficial)
     } else {
       ManejoFechaToken.manejoFechaToken()

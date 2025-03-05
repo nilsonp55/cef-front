@@ -44,7 +44,6 @@ export class CargueProgramacionDefinitivaService {
      */
      public consultarArchivosCargaDefinitiva(params: any): Observable<any> {
         const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        //return this.http.get<any>(`${environment.HOST+URLs.STAGE}${URLs.PROGRAMACION_CERTIFICACION+URLs.PROGRAMACION_CERTIFICACION_CONSULTAR}`, { params: params });
         return this.http.get<any>(`${this.url}${URLs.PROGRAMACION_DEFINITIVA_CONSULTAR}`, { params: params, headers });
     }
 

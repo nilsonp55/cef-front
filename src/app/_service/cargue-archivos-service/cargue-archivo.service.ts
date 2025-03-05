@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { URLs } from '../../pages/shared/constantes';
 import { saveAs } from 'file-saver';
@@ -100,12 +100,7 @@ export class CargueArchivosService {
         for (const file of files) {
             formData.append('file', file, file.name);
             formData.append('tipoCargue', tipoCargue);
-        }
-        const object = {
-            file: formData,
-            tipoCargue: tipoCargue
-        }
-        
+        }        
         return this.http.post<any>(`${this.urlFile}${URLs.CARGUE_ARCHIVO_GUARDAR}`, formData);
         
     }

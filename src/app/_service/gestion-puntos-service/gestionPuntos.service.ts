@@ -23,7 +23,6 @@ export class GestionPuntosService {
     * Servicio para listar los puntos
     */
     listarPuntosCreados(params: any): Observable<any> {
-        const formData: FormData = new FormData();
         return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}`, { params: params });
     }
 
@@ -31,7 +30,6 @@ export class GestionPuntosService {
     * Servicio para listar los puntos
     */
      consultarPuntoCreadoById(idPunto: any): Observable<any> {
-        const formData: FormData = new FormData();
         return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}/${idPunto}`);
     }
 
@@ -39,7 +37,6 @@ export class GestionPuntosService {
     * Servicio para listar los puntos
     */
      crearPunto(param: any): Observable<any> {
-        const formData: FormData = new FormData();
         return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`, { param });
     }
 
@@ -47,7 +44,6 @@ export class GestionPuntosService {
     * Servicio para listar los puntos tdv
     */
     listarPuntosCreadosTDV(params: any): Observable<any> {
-      const formData: FormData = new FormData();
       return this.http.get<any>(`${this.urlTDV}${URLs.CONSULTAR_PUNTOS}`, { params: params });
   }
 }

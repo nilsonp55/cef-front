@@ -23,7 +23,6 @@ export class GestionPuntosService {
     * Servicio para listar los puntos
     */
     listarPuntosCreados(params?: any): Observable<any> {
-        const formData: FormData = new FormData();
         return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}`, { params: params });
     }
 

@@ -23,7 +23,6 @@ export class ValidacionEstadoProcesosService {
      * @returns 
      */
     validarEstadoProceso(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.get(`${this.url}${URLs.VALIDA_ESTADO_PROCESO_CONSULTAR}`, { params: param });
     }
     

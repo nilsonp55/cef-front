@@ -35,7 +35,6 @@ export class CuentasPucService {
     * Servicio para obtener una cunta puc
     */
      consultarCuentaPucById(idCuentaPuc: any): Observable<any> {
-        const formData: FormData = new FormData();
         return this.http.get<any>(`${this.url}${URLs.ADMIN_CUENTAS_PUC_CONSULTAR}/${idCuentaPuc}`);
     }
 

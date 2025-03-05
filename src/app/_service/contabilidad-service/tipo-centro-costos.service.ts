@@ -35,7 +35,6 @@ export class CentroCostosService {
     * Servicio para obtener un Tipo centro costos
     */
      consultarCentroCostosById(idCuentaPuc: any): Observable<any> {
-        const formData: FormData = new FormData();
         return this.http.get<any>(`${this.url}${URLs.ADMIN_TIPO_CENTRO_COSTOS_CONSULTAR}/${idCuentaPuc}`);
     }
 

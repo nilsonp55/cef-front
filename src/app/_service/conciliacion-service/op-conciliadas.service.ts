@@ -30,7 +30,6 @@ export class OpConciliadasService {
      * Servicio para listar conciliados
     */
     obtenerConciliados(params: any) {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.get<any>(`${this.url}${URLs.CONCILIACION_CONSULTA}`, { params: params });
     }
 
@@ -60,7 +59,6 @@ export class OpConciliadasService {
      * @JuanMazo
      */
     conciliacionManual(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.post<any>(`${this.url}${URLs.CONCILIACION_MANUAL}`, param );
     }
 
@@ -78,7 +76,6 @@ export class OpConciliadasService {
      * @JuanMazo
      */
     listarOpCertificadasFallidas(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.post<any>(`${this.url + '/certificadas-no-conciliadas-estadoconciliacion-no_conciliada-estadoconciliacion-fallida-estadoconciliacion-cancelada-estadoconciliacion-pospuesta-estadoconciliacion-fuera_de_conciliacion'}`, { params: params });
     }
 
@@ -87,7 +84,6 @@ export class OpConciliadasService {
      * @param idConciliacion Recibe un parametro con el cual se hace la desociliación
      */
     desconciliar(idConciliacion: any) {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.post<any>(`${this.url}/${URLs.DESCONCILIAR}`, [idConciliacion])
     }
 
@@ -96,7 +92,6 @@ export class OpConciliadasService {
     *@BaironPerez
     */
     obtenerResumen(data: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.post<any>(`${this.url}${URLs.OP_RESUMEN}`, data);
     }
 
@@ -105,7 +100,6 @@ export class OpConciliadasService {
      * @JuanMazo
      */
     actualizarOpProgramadas(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.post(`${this.url}${URLs.ACTUALIZAR_OP_PROGRAMADAS}`, params);
     }
 
@@ -114,7 +108,6 @@ export class OpConciliadasService {
      * @JuanMazo
      */
     actualizarOpCertificadas(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.post(`${this.url}${URLs.ACTUALIZAR_OP_CERTIFICADAS}`, params);
     }
 
@@ -122,7 +115,6 @@ export class OpConciliadasService {
      * Servicio para cerrar el proceso de conciliación
      */
     public procesar(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.post<any>(`${this.url}${URLs.CONCILIACION_CIERRE}`, null);
     }
 

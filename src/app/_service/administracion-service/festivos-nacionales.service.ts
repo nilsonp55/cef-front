@@ -23,9 +23,6 @@ export class FestivosNacionalesService {
    * Servicio para listar menu rol
    */
   obtenerFestivosNaciones(): Observable<any> {
-    const headers = {
-      Authorization: 'Bearer ' + atob(sessionStorage.getItem('token')),
-    };
     return this.http.get<any>(
       `${this.url}${URLs.ADMIN_FESTIVOS_NACIONALES_CONSULTAR}`
     );
@@ -45,12 +42,9 @@ export class FestivosNacionalesService {
    * Servicio para listar usuario
    */
   eliminarFestivosNacionales(param?: any): Observable<any> {
-    const headers = {
-      Authorization: 'Bearer ' + atob(sessionStorage.getItem('token')),
-    };
     return this.http.delete<any>(
       `${this.url}${URLs.ADMIN_FESTIVOS_NACIONALES_ELIMINAR}`,
-      { headers, params: param }
+      { params: param }
     );
   }
 }

@@ -112,10 +112,10 @@ export class CrearPuntoComponent implements OnInit {
       'bancoAval': new FormControl(param ? this.bancosAval.find(value => value.codigoPunto === valBancoAval) : null, [Validators.required]),
       'tarifaRuteo': new FormControl(param ? valTarifaRuteo : 0),
       'tarifaVerificacion': new FormControl(param ? valTarifaVerificacion : 0),
-      'codigoCompensacion': new FormControl(param ? param.codigoCompensacion : null, [Validators.required]),
+      'codigoCompensacion': new FormControl(param ? param.codigoCompensacion : null),
       'codigoCajero': new FormControl(param ? param.cajeroATM?.codigoATM : null, [Validators.required]),
-      'identificacion': new FormControl(param ? param.numeroNit : null, [Validators.required]),
-      'abreviatura': new FormControl(param ? param.abreviatura : null, [Validators.required]),
+      'identificacion': new FormControl(param ? param.numeroNit : null),
+      'abreviatura': new FormControl(param ? param.abreviatura : null),
       'fajado': new FormControl(param ? valFajado : null),
       'refajillado': new FormControl(param ? param.refajillado : null),
       'esAval': new FormControl(param ? param.esAVAL : null),
@@ -221,10 +221,7 @@ export class CrearPuntoComponent implements OnInit {
 
     this.form.controls['codigoOficina'].setValidators(Validators.required);
     this.form.controls['transportadora'].setValidators(Validators.required);
-    this.form.controls['codigoCompensacion'].setValidators(Validators.required);
     this.form.controls['codigoCajero'].setValidators(Validators.required);
-    this.form.controls['identificacion'].setValidators(Validators.required);
-    this.form.controls['abreviatura'].setValidators(Validators.required);
     this.form.controls['bancoAval'].setValidators(Validators.required);
     this.form.controls['cliente'].setValidators(Validators.required);
 
@@ -236,13 +233,6 @@ export class CrearPuntoComponent implements OnInit {
     if (element.value === 'CLIENTE' || element.value === 'BAN_REP' || element.value === 'OFICINA'
       || element.value === 'CAJERO' || element.value === 'BANCO') {
         this.form.controls['transportadora'].removeValidators(Validators.required);
-    }
-
-    if (element.value === 'CLIENTE' || element.value === 'FONDO' || element.value === 'BAN_REP' 
-      || element.value === 'OFICINA' || element.value === 'CAJERO') {
-        this.form.controls['codigoCompensacion'].removeValidators(Validators.required);
-        this.form.controls['identificacion'].removeValidators(Validators.required);
-        this.form.controls['abreviatura'].removeValidators(Validators.required);
     }
 
     if (element.value === 'CLIENTE' || element.value === 'FONDO' || element.value === 'BAN_REP' 
@@ -261,10 +251,7 @@ export class CrearPuntoComponent implements OnInit {
 
     this.form.controls['codigoOficina'].updateValueAndValidity();
     this.form.controls['transportadora'].updateValueAndValidity();
-    this.form.controls['codigoCompensacion'].updateValueAndValidity();
     this.form.controls['codigoCajero'].updateValueAndValidity();
-    this.form.controls['identificacion'].updateValueAndValidity();
-    this.form.controls['abreviatura'].updateValueAndValidity();
     this.form.controls['bancoAval'].updateValueAndValidity();
     this.form.controls['cliente'].updateValueAndValidity();
 

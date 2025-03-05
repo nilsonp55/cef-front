@@ -1,5 +1,5 @@
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable, Subject } from 'rxjs';
@@ -47,7 +47,6 @@ export class OpConciliacionCostosService {
        * Servicio para ver los errores resultado del procesamiento
       */
     verErroresArchivos(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
         return this.http.post<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_PROCESAR}`, param);
     }
 
