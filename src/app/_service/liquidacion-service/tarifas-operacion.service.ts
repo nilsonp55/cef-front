@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { URLs } from '../../pages/shared/constantes';
 
 @Injectable({
@@ -37,7 +37,6 @@ export class TarifasOperacionService {
      * Servicio para gurdar una Centro ciudades
      */
      guardarTarifasOperacion(param: any): Observable<any> {
-        //const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
         return this.http.post<any>(`${this.url}${URLs.TARIFAS_OPERACION_GUARDAR}`, param);
     }
 
@@ -49,8 +48,4 @@ export class TarifasOperacionService {
         return this.http.put<any>(`${this.url}${URLs.TARIFAS_OPERACION_ACTUALIZAR}`, param, {headers});
     }
 
-    /*eliminarTarifasOperacion(param: any):Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.delete<any>(`${this.url}${URLs.TARIFAS_OPERACION_ELIMINAR}`, param, headers);
-    }*/
 }
