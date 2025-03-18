@@ -48,7 +48,7 @@ export class EjecutarProcedimientoComponent implements OnInit {
    */
   ejecutar() {
     let parametrosFuncion = '';
-    this.parametrosFuncionesDinamicasDTO.map(e => parametrosFuncion += e.valorDefecto + ',');
+    this.parametrosFuncionesDinamicasDTO.forEach(e => parametrosFuncion += e.valorDefecto + ',');
     parametrosFuncion = parametrosFuncion.substring(0, parametrosFuncion.length-1);
     const body ={
       "idFuncion": this.idFuncion,
