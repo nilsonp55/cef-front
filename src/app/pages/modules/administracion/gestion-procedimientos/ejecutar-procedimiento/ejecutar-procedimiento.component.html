@@ -6,13 +6,8 @@
                 <mat-form-field class="listados-otros-full-width" appearance="fill">
                     <mat-label>{{item.nombreParametro}}</mat-label>
                     <input matInput placeholder="Tipo Parametro: {{item.tipoDatoParametro}} - Posibles Valores: {{item.posiblesValores}}" id="{{item.nombreParametro}}" value="{{item.valorDefecto}}"
-                        (change)="changeValor($event)">
+                        (change)="changeValor($event, item)">
                 </mat-form-field>
-
-                <button mat-button color="primary" id="{{item.numeroParametro}}" 
-                    (click)="confirmValor(item.nombreParametro, item.numeroParametro, item.valorDefecto)" mat-raised-button>
-                    <span>Confirmar</span>
-                </button>
             </div>
             <mat-divider></mat-divider>
             <button mat-button color="primary"
