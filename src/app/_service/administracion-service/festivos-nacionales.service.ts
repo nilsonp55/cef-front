@@ -13,7 +13,7 @@ import { URLs } from '../../pages/shared/constantes';
  * @BaironPerez
  */
 export class FestivosNacionalesService {
-  private url: string = `${environment.HOST}${
+  private readonly url: string = `${environment.HOST}${
     URLs.STAGE + URLs.ADMIN_FESTIVOS_NACIONALES
   }`;
 

@@ -15,12 +15,9 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class OpConciliacionCostosService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE}`;
-    private urlReabrir: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRAMADAS}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE}`;
 
-    //private url: string = `${environment.HOST}${URLs.API_VERSION}${URLs.CONCILIACION}`;
-
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /**
      * Variable reactiva para optener la lista de archivos actualizados y volver a la pantalla principal
@@ -31,16 +28,14 @@ export class OpConciliacionCostosService {
      * Servicio para listar archivos pendiente carga
     */
     obtenerListaArchivoPendienteCarga(params: any) {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_CONSULTA}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_CONSULTA}`, { params: params });
     }
 
     /**
        * Servicio para ejecutar proceso archivos pendiente carga
       */
     procesarArchivos(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_PROCESAR}`, param, {headers});
+        return this.http.post<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_PROCESAR}`, param);
     }
 
     /**
@@ -51,145 +46,117 @@ export class OpConciliacionCostosService {
     }
 
     obtenerArchivoDetalleProcesar(params: any) {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_DETALLE_PROCESAR}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_DETALLE_PROCESAR}`, { params: params});
     }
 
     obtenerArchivoDetalleErrorProcesar(params: any) {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_DETALLE_ERROR_PROCESAR}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_DETALLE_ERROR_PROCESAR}`, { params: params});
     }
 
     eliminarArchivo(param: any) {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_ELIMINAR}`, param, {headers});
+        return this.http.post<any>(`${this.url}${URLs.ARCHIVOS_PENDIENTE_CARGA_ELIMINAR}`, param);
     }
 
     obtenerConciliadasTransporte(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_CONCILIADAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_CONCILIADAS}`, { params: params });
     }
 
     descargarArchivoError(params: any) {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get(`${this.url}${URLs.CARGUE_FILE + URLs.ARCHIVOS_PENDIENTE_CARGA_DESCARGAR}`, { params: params, observe: 'response', responseType: 'blob', headers });
+        return this.http.get(`${this.url}${URLs.CARGUE_FILE + URLs.ARCHIVOS_PENDIENTE_CARGA_DESCARGAR}`, { params: params, observe: 'response', responseType: 'blob' });
     }
 
     obtenerConciliadasNoIdentificadas(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_COBRADAS_NO_IDENTIFICADAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_COBRADAS_NO_IDENTIFICADAS}`, { params: params});
     }
 
     desconciliarConciliadasTransporte(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_DESCONCILIAR}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_DESCONCILIAR}`, params );
     }
 
     aceptarRechazarCobradasTDVNoIdentificadasTransporte(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_ACEPTAR_RECHAZAR}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_ACEPTAR_RECHAZAR}`, params );
     }
 
     obtenerLiquidadasNoCobradas(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_LIQUIDADAS_NO_COBRADAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_LIQUIDADAS_NO_COBRADAS}`, { params: params });
     }
 
     obtenerIdentificadasConDiferenciaTransporte(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_IDENTIFICADAS_CON_DIFERENCIAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_IDENTIFICADAS_CON_DIFERENCIAS}`, { params: params });
     }
 
     obtenerIdentificadasConDiferencia(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_LIQUIDADAS_NO_COBRADAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_LIQUIDADAS_NO_COBRADAS}`, { params: params });
     }
 
     eliminarRechazarLiquidadasNoCobradasTransporte(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_ELIMINAR_RECHAZAR_LQUIDADAS_NO_COBRADAS}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_ELIMINAR_RECHAZAR_LQUIDADAS_NO_COBRADAS}`, params);
     }
 
     obtenerRegistrosEliminadosTransporte(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_REGISTROS_ELIMINADOS}`, { params: params, headers});
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_CONSULTAR_REGISTROS_ELIMINADOS}`, { params: params });
     }
 
     aceptadoRechazadoIdentificadasConDifTransporte(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_ACEPTADO_RECHAZADO_IDENTIFICADAS_CON_DIFERENCIA}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_ACEPTADO_RECHAZADO_IDENTIFICADAS_CON_DIFERENCIA}`, params );
     }
 
     reintegrarRegistrosEliminadosTransporte(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_ELIMINADAS_REINTEGRAR}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_TRANSPORTE_ELIMINADAS_REINTEGRAR}`, params );
     }
     /*Procesamiento */
     obtenerConciliadasProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_CONCILIADAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_CONCILIADAS}`, { params: params });
     }
 
     desconciliarConciliadasProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_DESCONCILIAR}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_DESCONCILIAR}`, params );
     }
 
     obtenerCobradasTDVNoIdentificadasProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_COBRADAS_NO_IDENTIFICADAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_COBRADAS_NO_IDENTIFICADAS}`, { params: params });
     }
 
     aceptarRechazarCobradasTDVNoIdentificadasProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_COBRADAS_NO_IDENTIFICADAS_ACEPTAR_RECHAZAR}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_COBRADAS_NO_IDENTIFICADAS_ACEPTAR_RECHAZAR}`, params );
     }
 
     obtenerLiquidadasNoCobradasTDVProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_LIQUIDADAS_NO_COBRADAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_LIQUIDADAS_NO_COBRADAS}`, { params: params });
     }
 
     eliminarRechazarLiquidadasNoCobradasTDVProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_LIQUIDADAS_NO_COBRADAS_ELIMINAR_RECHAZAR}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_LIQUIDADAS_NO_COBRADAS_ELIMINAR_RECHAZAR}`, params, );
     }
 
     obtenerIdentificadasConDiferenciasProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_IDENTIFICADAS_CON_DIFERENCIAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_IDENTIFICADAS_CON_DIFERENCIAS}`, { params: params });
     }
 
     aceptarRechazarIdentificadasConDiferenciasProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_IDENTIFICADAS_CON_DIFERENCIAS_ACEPTAR_RECHAZAR}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_IDENTIFICADAS_CON_DIFERENCIAS_ACEPTAR_RECHAZAR}`, params );
     }
 
     obtenerRegistrosEliminadosProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_ELIMINADAS}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_CONSULTAR_ELIMINADAS}`, { params: params });
     }
 
     reintegrarRegistrosEliminadosProcesamiento(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_ELIMINADAS_REINTEGRAR}`, params, { headers });
+        return this.http.put<any>(`${this.url}${URLs.CONCILIACION_PROCESAMIENTO_ELIMINADAS_REINTEGRAR}`, params );
     }
 
     /** Gestion archivos - Servicio para listar archivos liquidacion*/
     obtenerRegistrosGestionArchivos(params: any) {
-      const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-      return this.http.get<any>(`${this.url}${URLs.GESTION_ARCHIVOS_CONSULTAR}`, { params: params, headers });
+      return this.http.get<any>(`${this.url}${URLs.GESTION_ARCHIVOS_CONSULTAR}`, { params: params });
     }
 
     /** Gestion archivos - Servicio para descargar archivos */
     descargarGestionArchivos(param: any): Observable<any> {
-      const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-      return this.http.post<any>(`${this.url}${URLs.GESTION_ARCHIVOS_DESCARGAR}`,  param, {headers});
+      return this.http.post<any>(`${this.url}${URLs.GESTION_ARCHIVOS_DESCARGAR}`,  param );
     }
 
     /** Cerrar archivos - Servicio para descargar archivos */
     cerrarGestionArchivos(param: any): Observable<any> {
-      const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-      return this.http.post<any>(`${this.url}${URLs.GESTION_ARCHIVOS_CERRAR}`,  param, {headers});
+      return this.http.post<any>(`${this.url}${URLs.GESTION_ARCHIVOS_CERRAR}`,  param );
     }
 }
