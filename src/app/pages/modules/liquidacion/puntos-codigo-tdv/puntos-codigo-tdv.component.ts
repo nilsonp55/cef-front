@@ -156,7 +156,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       puntosDTO: {
         codigoPunto: Number(this.form.value['punto'].codigoPunto)
       },
-      estado: Number(this.form.value['estado'] ? 1 : 2),
+      estado: Number(this.form.value['estado'] ? 1 : 0),
 
     };
 
@@ -518,8 +518,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
   /**
    * @author prv_nparra
    */
-  resolverEstado(estado: boolean): string {
-    return estado ? "Activo" : "Inactivo";
+  resolverEstado(estado: number): string {
+    return estado === 1 ? "Activo" : "Inactivo";
   }
 
   /**
