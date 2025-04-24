@@ -271,7 +271,7 @@ export class GestionPuntosComponent implements OnInit {
   /**
    * @author prv_nparra
    */
-  resolverEstado(estado: boolean): string {
-    return estado ? "Activo" : "Inactivo";
+  resolverEstado(estado: string): string {
+    return estado === "1" ? "Activo" : "Inactivo";
   }
 }
