@@ -9,9 +9,9 @@ import { environment } from 'src/environments/environment';
 })
 export class GenerarPoliticaService {
 
-  private url: string = `${environment.HOST}${URLs.STAGE}`;
+  private readonly url: string = `${environment.HOST}${URLs.STAGE}`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   generarPolitica(): Observable<any>{
       return this.http.get<any>(`${this.url}${URLs.GENERAR_POLITICA}`);

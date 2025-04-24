@@ -14,7 +14,7 @@ import { URLs } from 'src/app/pages/shared/constantes';
  */
 export class CentrosCiudadService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_CENTRO_CIUDAD}`;//
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_CENTRO_CIUDAD}`;//
 
     constructor(private http: HttpClient) { }
 

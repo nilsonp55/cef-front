@@ -14,12 +14,10 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class OpConciliadasService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE}${URLs.CONCILIACION}`;
-    private urlReabrir: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRAMADAS}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE}${URLs.CONCILIACION}`;
+    private readonly urlReabrir: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRAMADAS}`;
 
-    //private url: string = `${environment.HOST}${URLs.API_VERSION}${URLs.CONCILIACION}`;
-
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /** 
      * Variable reactiva para optener la lista de archivos actualizados y volver a la pantalla principal
@@ -38,8 +36,7 @@ export class OpConciliadasService {
      * @returns 
      */
     obtenerOpProgramadasSinconciliar(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR}`, { params: params });
     }
 
     /**
@@ -48,8 +45,7 @@ export class OpConciliadasService {
      * @returns 
      */
     obtenerOpCertificadasSinconciliar(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.OP_CERTIFICADAS_SIN_CONCILIAR}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.OP_CERTIFICADAS_SIN_CONCILIAR}`, { params: params });
     }
 
     /**
@@ -67,8 +63,7 @@ export class OpConciliadasService {
      * @JuanMazo
      */
     listarOpProgrmadasFallidas(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR + '?estadoConciliacion=FALLIDA&estadoConciliacion=CANCELADA&estadoConciliacion=POSPUESTA&estadoConciliacion=FUERA_DE_CONCILIACION'}`, { params: params, headers });
+        return this.http.post<any>(`${this.url}${URLs.OP_PROGRAMADAS_SIN_CONCILIAR + '?estadoConciliacion=FALLIDA&estadoConciliacion=CANCELADA&estadoConciliacion=POSPUESTA&estadoConciliacion=FUERA_DE_CONCILIACION'}`, { params: params });
     }
 
     /**
@@ -122,17 +117,14 @@ export class OpConciliadasService {
  * Metodo para eliminar un registro de archivo previamente cargado
 */
     reabrirArchivo(param: any) {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.urlReabrir}${URLs.OPERACIONES_PROGRAMADAS_REABRIR}`, { params: param, headers });
+        return this.http.get<any>(`${this.urlReabrir}${URLs.OPERACIONES_PROGRAMADAS_REABRIR}`, { params: param });
     }
 
     public updateEstadoProgramadas(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.UPDATE_ESTADO_PROGRAMADAS}`, param, {headers});
+        return this.http.post<any>(`${this.url}${URLs.UPDATE_ESTADO_PROGRAMADAS}`, param);
     }
 
     public updateEstadoCertificadas(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.UPDATE_ESTADO_CERTIFICADAS}`, param, {headers});
+        return this.http.post<any>(`${this.url}${URLs.UPDATE_ESTADO_CERTIFICADAS}`, param);
     }
 }
