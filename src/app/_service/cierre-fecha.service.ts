@@ -14,17 +14,16 @@ import { Injectable } from '@angular/core';
  */
 export class CierreFechaService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.CIERRE_FECHA}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.CIERRE_FECHA}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /**
      * Servicio para cerrar el ciclo de periodo del dia
      * @returns 
      */
     realizarCierreFecha(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.post<any>(`${this.url}${URLs.CIERRE_FECHA_CIERRE}`, null, {headers});
+        return this.http.post<any>(`${this.url}${URLs.CIERRE_FECHA_CIERRE}`, null );
     }
     
 }

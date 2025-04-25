@@ -32,8 +32,8 @@ export class DialogTablaDominioComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dominioMaestroService: DominioMaestroService,
-    private dialog: MatDialog,
+    private readonly dominioMaestroService: DominioMaestroService,
+    private readonly dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -75,7 +75,7 @@ export class DialogTablaDominioComponent implements OnInit {
       'estado': this.estado
     }).subscribe({
       next: (page: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response?.description,
@@ -84,7 +84,7 @@ export class DialogTablaDominioComponent implements OnInit {
         });
       },
       error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err.error?.response?.description,
@@ -103,7 +103,7 @@ export class DialogTablaDominioComponent implements OnInit {
       'estado': this.estado
     }).subscribe({
       next: (page: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE + " - " + page.response?.description,
@@ -112,7 +112,7 @@ export class DialogTablaDominioComponent implements OnInit {
         });
       },
       error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err.error?.response?.description,

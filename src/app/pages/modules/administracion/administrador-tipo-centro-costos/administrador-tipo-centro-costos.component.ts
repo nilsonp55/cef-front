@@ -32,9 +32,9 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
   cantidadRegistros: number;
 
   constructor(
-    private centroCostosService: CentroCostosService,
-    public generalServices: GeneralesService,
-    private dialog: MatDialog
+    private readonly centroCostosService: CentroCostosService,
+    public readonly generalServices: GeneralesService,
+    private readonly dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -88,12 +88,12 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
     this.centroCostosService.obtenerCentroCostos({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({ next: (page: any) => {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
+    error: (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -101,7 +101,8 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-      });
+      }
+    });
   }
 
   /**
@@ -121,7 +122,8 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
 
     if (this.esEdicion) {
       tiposCentrosCostosDTO.tipoCentro = this.idTipoCentro;
-      this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO).subscribe(response => {
+      this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO).subscribe({
+        next: response => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -132,7 +134,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
         this.listarCentroCostos()
         this.initForm();
       },
-        (err: any) => {
+      error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -140,9 +142,11 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
-        });
+        }
+      });
     } else {
-      this.centroCostosService.guardarCentroCostos(tiposCentrosCostosDTO).subscribe(response => {
+      this.centroCostosService.guardarCentroCostos(tiposCentrosCostosDTO).subscribe({
+        next: response => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -153,7 +157,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
         this.listarCentroCostos()
         this.initForm();
       },
-        (err: any) => {
+      error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -161,7 +165,8 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
-        });
+        }
+      });
     }
   }
 

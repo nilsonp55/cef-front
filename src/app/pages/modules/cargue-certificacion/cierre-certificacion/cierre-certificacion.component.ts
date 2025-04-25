@@ -33,13 +33,13 @@ export class CierreCertificacionComponent implements OnInit {
   displayedColumnsInfoProcesos: string[] = ['idLogProceso', 'fechaCreacion', 'codigoProceso', 'estadoProceso', 'acciones'];
 
   constructor(
-    private dialog: MatDialog,
-    private logProcesoDiarioService: LogProcesoDiarioService,
-    private cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
-    private cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
-    private validacionEstadoProcesosService: ValidacionEstadoProcesosService,
+    private readonly dialog: MatDialog,
+    private readonly logProcesoDiarioService: LogProcesoDiarioService,
+    private readonly cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
+    private readonly cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
+    private readonly validacionEstadoProcesosService: ValidacionEstadoProcesosService,
     public spinnerComponent: SpinnerComponent,
-    private generalServices: GeneralesService
+    private readonly generalServices: GeneralesService
   ) { }
 
   ngOnInit(): void {

@@ -16,7 +16,7 @@ export class CentrosCiudadService {
 
     private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_CENTRO_CIUDAD}`;//
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /** 
      * Servicio para listar las Centro ciudades

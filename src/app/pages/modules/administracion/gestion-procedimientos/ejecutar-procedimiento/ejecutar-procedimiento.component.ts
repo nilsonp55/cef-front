@@ -27,9 +27,9 @@ export class EjecutarProcedimientoComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {funcion:any, data: any},
-    private procedimientosAlmacenadosService: ProcedimientosAlmacenadosService,
+    private readonly procedimientosAlmacenadosService: ProcedimientosAlmacenadosService,
     public dialogRef: MatDialogRef<EjecutarProcedimientoComponent>,
-    private dialog: MatDialog,
+    private readonly dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {

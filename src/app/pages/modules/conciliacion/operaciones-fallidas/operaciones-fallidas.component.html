@@ -39,7 +39,7 @@
                 </mat-checkbox>
             </th>
             <td mat-cell *matCellDef="let row">
-                <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                <mat-checkbox color="primary" onClick="$event.stopPropagation()"
                     (change)="$event ? selectionProgramadas.toggle(row) : null; seleccionProgramadasRow($event, row)"
                     [checked]="selectionProgramadas.isSelected(row)">
                 </mat-checkbox>
@@ -128,7 +128,7 @@
                 </mat-checkbox>
             </th>
             <td mat-cell *matCellDef="let row">
-                <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                <mat-checkbox color="primary" onClick="$event.stopPropagation()"
                     (change)="$event ? selectionCertificadas.toggle(row) : null; seleccionCertificadasRow($event, row)"
                     [checked]="selectionCertificadas.isSelected(row)">
                 </mat-checkbox>

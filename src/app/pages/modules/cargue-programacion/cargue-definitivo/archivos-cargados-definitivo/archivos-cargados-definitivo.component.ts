@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -35,9 +34,9 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaArchivo', 'estado', 'acciones'];
 
 
-  constructor(private http: HttpClient,
-    private dialog: MatDialog,
-    private cargueProgramacionDefinitivaService: CargueProgramacionDefinitivaService,
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly cargueProgramacionDefinitivaService: CargueProgramacionDefinitivaService,
     public spinnerComponent: SpinnerComponent
   ) { }
 

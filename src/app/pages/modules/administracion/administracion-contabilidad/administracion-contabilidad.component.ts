@@ -33,8 +33,8 @@ export class AdministracionContabilidadComponent implements OnInit {
   cantidadRegistros: number;
 
   constructor(
-    private tiposCuentasService: TiposCuentasService,
-    private dialog: MatDialog
+    private readonly tiposCuentasService: TiposCuentasService,
+    private readonly dialog: MatDialog
   ) { }
 
   ngOnInit(): void {

@@ -61,9 +61,9 @@ export class AdministracionComponent implements OnInit {
    * para cerrar o abrir  la barra lateral izquierda
    * @BayronPerez
    */
-   onCheckMenuLateral($event) {
+   onCheckMenuLateral($event: any) {
     if ($event !== undefined) {
-      (this.checkMenuLateral = $event).toString();
+      this.checkMenuLateral = $event;
     }
 
   }

@@ -50,7 +50,7 @@ export class CargueProgramacionComponent implements OnInit {
    */
   onCheckMenuLateral($event) {
     if ($event !== undefined) {
-      (this.checkMenuLateral = $event).toString();
+      this.checkMenuLateral = $event;
     }
   }
 

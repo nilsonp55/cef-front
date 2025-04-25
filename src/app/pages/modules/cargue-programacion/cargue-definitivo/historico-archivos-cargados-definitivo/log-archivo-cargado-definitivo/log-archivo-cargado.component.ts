@@ -22,8 +22,8 @@ export class LogArchivoCargadoDefinitivoComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private cargueProgramacionDefinitivaService: CargueProgramacionDefinitivaService,
-    private dialog: MatDialog,
+    private readonly cargueProgramacionDefinitivaService: CargueProgramacionDefinitivaService,
+    private readonly dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {

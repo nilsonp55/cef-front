@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OpConciliacionCostosService } from 'src/app/_service/conciliacion-costos-services/op-conciliacion-costos';
-import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import Swal from 'sweetalert2';
@@ -116,9 +115,6 @@ export class CobradasTdvNoIdentificadasComponent implements OnInit, OnChanges {
         Swal.close();
       });
     } else {
-      if (event.items.length > 0) {
-        event = event
-      }
       const alert = this.dialog.open(VentanaEmergenteAceptarRechazarComponent, {
         width: "800px",
         data: {

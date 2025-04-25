@@ -39,9 +39,9 @@ export class AdministracionDominiosComponent implements OnInit {
   displayedColumnsIdent: string[] = ['identificador', 'descripcion'];
 
   constructor(
-    private dominioMaestroService: DominioMaestroService,
-    private generalesService: GeneralesService,
-    private dialog: MatDialog) { }
+    private readonly dominioMaestroService: DominioMaestroService,
+    private readonly generalesService: GeneralesService,
+    private readonly dialog: MatDialog) { }
 
   ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken();
@@ -64,12 +64,7 @@ export class AdministracionDominiosComponent implements OnInit {
   }
 
   interpretaCheckBox(){
-    if(this.isIdentChecked==true){
-      this.valorEstado = "1"
-    }
-    if(this.isIdentChecked==false){
-      this.valorEstado = ""
-    }
+    this.isIdentChecked ? this.valorEstado = "1" : this.valorEstado = "";
     return this.valorEstado
   }
 
@@ -84,7 +79,7 @@ export class AdministracionDominiosComponent implements OnInit {
         this.cantidadRegistros = page.data.totalElements;
       },
       error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
@@ -109,7 +104,7 @@ export class AdministracionDominiosComponent implements OnInit {
         this.cantidadRegistros = page.data.totalElements;
       },
       error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
@@ -121,7 +116,7 @@ export class AdministracionDominiosComponent implements OnInit {
   }
 
   listarDominios() {
-    if (this.isDominioChecked == true) {
+    if (this.isDominioChecked) {
       this.listarDominiosMaestroTrue()
     } else {
       this.dominioMaestroService.listarDominios().subscribe({
@@ -131,7 +126,7 @@ export class AdministracionDominiosComponent implements OnInit {
           this.cantidadRegistros = page.data.totalElements;
         },
         error: (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
@@ -153,7 +148,7 @@ export class AdministracionDominiosComponent implements OnInit {
         this.cantidadRegistros = page.data.totalElements;
       },
       error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
@@ -210,17 +205,7 @@ export class AdministracionDominiosComponent implements OnInit {
 * Evento que levanta un openDialog para crear un identificador segun el id de un dominio
 * @JuanMazo
 */
-  crearCodigo() {
-    this.dialog.open(DialogIdentificadorDominioComponent, {
-      width: '700PX'
-    })
-  }
-
-  /**
-* Evento que levanta un openDialog para modificar un identificador segun el id de un dominio
-* @JuanMazo
-*/
-  modificarIdentificador() {
+  mostrarCodigo() {
     this.dialog.open(DialogIdentificadorDominioComponent, {
       width: '700PX'
     })

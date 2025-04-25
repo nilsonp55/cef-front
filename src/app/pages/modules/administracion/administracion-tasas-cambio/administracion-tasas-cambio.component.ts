@@ -31,9 +31,9 @@ export class AdministracionTasasCambioComponent implements OnInit {
   cantidadRegistros: number;
 
   constructor(
-    private tasasCostoService: TasasCostoService,
-    private generalesService: GeneralesService,
-    private dialog: MatDialog
+    private readonly tasasCostoService: TasasCostoService,
+    private readonly generalesService: GeneralesService,
+    private readonly dialog: MatDialog
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -63,20 +63,21 @@ export class AdministracionTasasCambioComponent implements OnInit {
     this.tasasCostoService.listarTasasCosto({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({ next: (page: any) => {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error:  (err: ErrorService) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+      }
+    });
   }
 
   /**
@@ -92,26 +93,28 @@ export class AdministracionTasasCambioComponent implements OnInit {
       tasasCambioPK: tasasCambioPK,
       tasaCambio: this.form.value['tasaCambio']
     };
-      this.tasasCostoService.crearTasasCosto(tasasCambioDTO).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.tasasCostoService.crearTasasCosto(tasasCambioDTO).subscribe({
+        next: response => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); 
         this.listarTasasCambio()
         this.initForm();
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
+          }); 
+        }
+      });
    }
 
   /**
@@ -141,22 +144,6 @@ export class AdministracionTasasCambioComponent implements OnInit {
       'dominio':"DIVISAS"
     }).toPromise();
     this.monedas = _moneda.data;
-  }
-
-  formatearEstadoPersistir(param: boolean): any {
-    if(param==true){
-      return true
-    }else {
-      return false
-    }
-  }
-
-  formatearEstadoListar(param: any): any {
-    if(param==true){
-      return true
-    }else {
-      return false
-    }
   }
 
 }

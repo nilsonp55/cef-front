@@ -1,4 +1,4 @@
-import { Component, IterableDiffers, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -7,12 +7,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { ErrorService } from 'src/app/_model/error.model';
-import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
-import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
-import { GeneralesService } from 'src/app/_service/generales.service';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
-import { DialogConfirmEjecutarComponentComponent } from '../../contabilizacion/dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
-import { ResultadoContabilidadComponent } from '../../contabilizacion/resultado-contabilidad/resultado-contabilidad.component';
 
 @Component({
   selector: 'app-gestion-roles-usuarios',
@@ -62,8 +57,8 @@ export class GestionRolesUsuariosComponent implements OnInit {
   displayedColumnsAdministracionContable: string[] = ['codigo', 'idRol', 'menuPadre', 'nombreMenu', 'estado', 'acciones'];
 
   constructor(
-    private dialog: MatDialog,
-    private rolMenuService: RolMenuService,
+    private readonly dialog: MatDialog,
+    private readonly rolMenuService: RolMenuService,
   ) { }
 
   ngOnInit(): void {
@@ -77,18 +72,19 @@ export class GestionRolesUsuariosComponent implements OnInit {
   * @BaironPerez
   */
   listarRoles() {
-    this.rolMenuService.obtenerRoles().subscribe(data => {
+    this.rolMenuService.obtenerRoles().subscribe({ next: data => {
       this.listaRoles = data.data;
     },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error: (err: ErrorService) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: 'Error al cargar los roles',
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 4000);
-      })
+        });
+      }
+    })
   }
 
 
@@ -98,7 +94,7 @@ export class GestionRolesUsuariosComponent implements OnInit {
   */
   listarMenusRolUsuario() {
     this.rolMenuService.obtenerMenuRol({'rol.idRol': this.rolSelect.idRol })
-      .subscribe((page: any) => {
+      .subscribe({ next: (page: any) => {
 
         const listPreliminar: any[] = [];
         const listCertificacion: any[] = [];
@@ -164,15 +160,16 @@ export class GestionRolesUsuariosComponent implements OnInit {
         //Mostramos la vista de tablas
         this.mostrarTablasRoles = true;
       },
-        (err: ErrorService) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: ErrorService) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: 'Error al cargar la relación de roles con menus',
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 5000);
-        });
+          });
+        }
+      });
   }
 
   /**
@@ -217,31 +214,26 @@ export class GestionRolesUsuariosComponent implements OnInit {
       fechaModificacion: new Date(),
       usuarioModificacion: "baironperez12"
     }
-    this.rolMenuService.actualizarMenuRol(menuRol).subscribe(data => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    this.rolMenuService.actualizarMenuRol(menuRol).subscribe({ next: data => {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: 'Se actualizó el registro correctamente',
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
         }
-      }); setTimeout(() => { alert.close() }, 2000);
+      });
       this.listarMenusRolUsuario();
-    }, (err: ErrorService) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    }, 
+    error: (err: ErrorService) => {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: 'Error al actualizar el registro',
           codigo: GENERALES.CODE_EMERGENT.ERROR
         }
-      }); setTimeout(() => { alert.close() }, 3000);
+      });
+    }
     });
-  }
-
-  /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-  mostrarMas(e: any) {
   }
 
 }

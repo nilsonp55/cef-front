@@ -14,9 +14,9 @@ import { URLs } from '../pages/shared/constantes';
  */
 export class AuditoriaService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_AUDITORIA}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_AUDITORIA}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /**
      * Servicio para gurdar una escala

@@ -17,7 +17,7 @@ export class FestivosNacionalesService {
     URLs.STAGE + URLs.ADMIN_FESTIVOS_NACIONALES
   }`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   /**
    * Servicio para listar menu rol

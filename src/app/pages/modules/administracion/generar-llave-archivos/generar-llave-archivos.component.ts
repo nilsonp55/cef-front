@@ -3,10 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
-import { CierreFechaService } from 'src/app/_service/cierre-fecha.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { DesencriptarLlavesService } from 'src/app/_service/administracion-service/generar-llaves.service';
-import { DialogConfirmEjecutarComponentComponent } from '../../contabilizacion/dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { DialogConfirmLlavesComponent } from './dialog-confirm-llaves/dialog-confirm-llaves.component';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
@@ -25,8 +23,8 @@ export class GenerarLlaveArchivosComponent implements OnInit {
   constructor(
     public desencriptarLlavesService: DesencriptarLlavesService,
     public spinnerComponent: SpinnerComponent,
-    private generalServices: GeneralesService,
-    private dialog: MatDialog,
+    private readonly generalServices: GeneralesService,
+    private readonly dialog: MatDialog,
   ) { }
 
 
@@ -57,23 +55,23 @@ export class GenerarLlaveArchivosComponent implements OnInit {
         this.spinnerActive = true;
         this.desencriptarLlavesService.generarLlaves().subscribe(data => {
           this.spinnerActive = false;
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_FECHA.SUCCESFULL_CIERRE_FECHA,
               codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
             }
-          }); setTimeout(() => { alert.close() }, 3500);
+          });
         },
           (err: any) => {
             this.spinnerActive = false;
-            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
                 msn: err.error.response.description,
                 codigo: GENERALES.CODE_EMERGENT.ERROR
               }
-            }); setTimeout(() => { alert.close() }, 6000);
+            });
           });
       }
     })
