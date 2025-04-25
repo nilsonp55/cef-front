@@ -16,7 +16,7 @@ export class ClientesCorporativosService {
 
   private readonly url: string = `${environment.HOST}${URLs.STAGE}`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   /**
    * @author prv_nparra

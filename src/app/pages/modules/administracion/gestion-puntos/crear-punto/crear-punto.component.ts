@@ -49,8 +49,8 @@ export class CrearPuntoComponent implements OnInit {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CrearPuntoComponent>,
-    private generalServices: GeneralesService,
-    private gestionPuntosService: GestionPuntosService,
+    private readonly generalServices: GeneralesService,
+    private readonly gestionPuntosService: GestionPuntosService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -67,7 +67,7 @@ export class CrearPuntoComponent implements OnInit {
     if (this.data.flag == "modif") {
       this.titulo = "Modificación de "
     }
-    await this.initForm(this.dataElement);
+    this.initForm(this.dataElement);
     this.spinnerActive = false;
   }
 
@@ -103,7 +103,7 @@ export class CrearPuntoComponent implements OnInit {
     }
 
     this.form = new FormGroup({
-      'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param ? true : false,}, [Validators.required]),
+      'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param}, [Validators.required]),
       'nombre': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),
       'ciudad': new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null),
       'cliente': new FormControl(param ? this.clientes.find(value => value.codigoCliente === param?.sitiosClientes?.codigoCliente) : null, [Validators.required]),

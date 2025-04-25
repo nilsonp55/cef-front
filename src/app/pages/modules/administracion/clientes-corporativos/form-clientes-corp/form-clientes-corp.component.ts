@@ -20,8 +20,8 @@ export class FormClientesCorpComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<FormClientesCorpComponent>,
-    private clientesCorporativosServices: ClientesCorporativosService,
-    private dialog: MatDialog
+    private readonly clientesCorporativosServices: ClientesCorporativosService,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {

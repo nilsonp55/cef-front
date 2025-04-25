@@ -46,9 +46,9 @@ export class OperacionesConciliadasComponent implements OnInit {
   displayedColumnsConciliadas: string[] = ['Banco', 'Transportadora', 'tipoOperacion', 'puntoOrigen', 'puntoDestino', 'ciudadOrigen', 'ciudadDestino', 'valorTotal', 'tipoConciliacion', 'fechaEjecucion', 'acciones'];
 
   constructor(
-    private dialog: MatDialog,
-    private opConciliadasService: OpConciliadasService,
-    private generalServices: GeneralesService) {
+    private readonly dialog: MatDialog,
+    private readonly opConciliadasService: OpConciliadasService,
+    private readonly generalServices: GeneralesService) {
 
   }
 
@@ -115,10 +115,10 @@ export class OperacionesConciliadasComponent implements OnInit {
     this.numPagina = e.pageIndex;
     this.cantPagina = e.pageSize;
     this.listarConciliados(this.estadoConciliacion,
-      this.bancoAVAL == undefined ? [] : this.bancoAVAL,
+      this.bancoAVAL ?? [],
       this.getFechaOrigen(this.fechaOrigen.value),
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.transportadora ?? "",
+      this.tipoPuntoOrigen ?? [""],
       e.pageIndex, e.pageSize);
   }
 
@@ -136,10 +136,10 @@ export class OperacionesConciliadasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.listarConciliados(this.estadoConciliacion,
-        this.bancoAVAL == undefined ? [""] : this.bancoAVAL,
+        this.bancoAVAL ?? [""],
         this.fechaOrigen == undefined ? "" : this.getFechaOrigen(this.fechaOrigen.value),
-        this.transportadora == undefined ? "" : this.transportadora,
-        this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+        this.transportadora ?? "",
+        this.tipoPuntoOrigen ?? [""],
         this.numPagina, this.cantPagina)
     });
   }
@@ -152,10 +152,10 @@ export class OperacionesConciliadasComponent implements OnInit {
     this.fechaProceso = event.fechaSelected;
     this.listarConciliados(
       this.estadoConciliacion,
-      this.bancoAVAL == undefined ? [""] : this.bancoAVAL,
+      this.bancoAVAL ?? [""],
       this.fechaOrigen == undefined ? "" : pipe.transform(this.fechaProceso, 'yyyy/MM/dd'),
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.transportadora ?? "",
+      this.tipoPuntoOrigen ?? [""],
       this.numPagina, this.cantPagina
     );
   }

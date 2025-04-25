@@ -20,9 +20,9 @@ export class AdministracionComponent implements OnInit {
 
 
   constructor(
-    private rolMenuService: RolMenuService,
-    private routeAdm: ActivatedRoute,
-    private routerAdm: Router
+    private readonly rolMenuService: RolMenuService,
+    private readonly routeAdm: ActivatedRoute,
+    private readonly routerAdm: Router
   ) { }
   
   ngOnInit(): void {

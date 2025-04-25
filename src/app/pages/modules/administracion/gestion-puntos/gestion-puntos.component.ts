@@ -51,9 +51,9 @@ export class GestionPuntosComponent implements OnInit {
   cajerosATMBancoAvalSeleccionado: number;
 
   constructor(
-    private dialog: MatDialog,
-    private gestionPuntosService: GestionPuntosService,
-    private generalServices: GeneralesService,
+    private readonly dialog: MatDialog,
+    private readonly gestionPuntosService: GestionPuntosService,
+    private readonly generalServices: GeneralesService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -125,26 +125,13 @@ export class GestionPuntosComponent implements OnInit {
     this.spinnerActive = true;
     this.gestionPuntosService
       .listarPuntosCreados({
-        tipoPunto:
-          this.tipoPuntoSeleccionado !== undefined
-            ? this.tipoPuntoSeleccionado
-            : '',
-        'fondos.bancoAVAL':
-          this.fondosBancoAVALSeleccionado !== undefined
-            ? this.fondosBancoAVALSeleccionado
-            : '',
-        'oficinas.bancoAVAL':
-          this.oficinasBancoAVALSeleccionado !== undefined
-            ? this.oficinasBancoAVALSeleccionado
-            : '',
-        'cajeroATM.bancoAval':
-          this.cajerosATMBancoAvalSeleccionado !== undefined
-            ? this.cajerosATMBancoAvalSeleccionado
-            : '',
+        tipoPunto: this.tipoPuntoSeleccionado ?? '',
+        'fondos.bancoAVAL': this.fondosBancoAVALSeleccionado ?? '',
+        'oficinas.bancoAVAL': this.oficinasBancoAVALSeleccionado ?? '',
+        'cajeroATM.bancoAval': this.cajerosATMBancoAvalSeleccionado ?? '',
         page: pagina,
         size: tamanio,
-        busqueda:
-          this.nombrePuntoBusqueda == undefined ? '' : this.nombrePuntoBusqueda,
+        busqueda: this.nombrePuntoBusqueda ?? '',
       })
       .subscribe({
         next: (page: any) => {

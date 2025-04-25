@@ -18,9 +18,9 @@ export class ProcesarAlcancesComponent implements OnInit {
   fechaSistemaSelect: string;
 
   constructor(
-    private dialog: MatDialog,
-    private generalServices: GeneralesService,
-    private cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
+    private readonly dialog: MatDialog,
+    private readonly generalServices: GeneralesService,
+    private readonly cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -37,25 +37,23 @@ export class ProcesarAlcancesComponent implements OnInit {
     this.cargueProgramacionCertificadaService.procesarAlcances().subscribe({
       next: (response: any) => {
         this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: response.data + ": " + response.response.description,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         });
-        setTimeout(() => { alert.close() }, 5000);
       },
       error: (response: any) => {
         this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: response.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 5000);
       }
     });
   }

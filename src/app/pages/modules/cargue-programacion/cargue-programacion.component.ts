@@ -13,9 +13,9 @@ export class CargueProgramacionComponent implements OnInit {
   checkMenuLateral: boolean;
 
   constructor(
-    private rolMenuService: RolMenuService,
-    private route: ActivatedRoute,
-    private router: Router
+    private readonly rolMenuService: RolMenuService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {

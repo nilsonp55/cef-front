@@ -29,8 +29,8 @@ export class GestionUsuariosComponent implements OnInit {
   cantidadRegistros: number;
 
   constructor(
-    private rolMenuService: RolMenuService,
-    private dialog: MatDialog
+    private readonly rolMenuService: RolMenuService,
+    private readonly dialog: MatDialog
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -51,7 +51,7 @@ export class GestionUsuariosComponent implements OnInit {
         'apellidos': new FormControl(param? param.apellidos : null, [Validators.required]),
         'tipoUsuario': new FormControl(param? param.tipoUsuario : null, [Validators.required]),
         'rol': new FormControl(param? this.selectRol(param) : null, [Validators.required]),
-        'estado': new FormControl(param?.estado === "1" ? true : false),
+        'estado': new FormControl(param?.estado === "1"),
       });
   }
 

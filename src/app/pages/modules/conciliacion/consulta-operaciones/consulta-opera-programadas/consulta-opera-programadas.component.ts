@@ -53,8 +53,8 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
 
 
   constructor(
-    private dialog: MatDialog,
-    private opConciliadasService: OpConciliadasService
+    private readonly dialog: MatDialog,
+    private readonly opConciliadasService: OpConciliadasService
   ) { }
 
   ngOnInit(): void {
@@ -67,9 +67,9 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
 */
   mostrarMas(e: any) {
     this.listarOpProgramadasSinConciliar(
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.transportadora ?? "",
+      this.bancoAVAL ?? "",
+      this.tipoPuntoOrigen ?? [""],
       e.pageIndex, e.pageSize
     );
   }
@@ -99,14 +99,13 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
         this.load = false;
       }
     });
@@ -117,9 +116,9 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
     this.bancoAVAL = event.banco;
     this.tipoPuntoOrigen = event.tipoPuntoOrigen;
     this.listarOpProgramadasSinConciliar(
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
+      this.transportadora ?? "",
+      this.bancoAVAL ?? "",
+      this.tipoPuntoOrigen ?? [""]
     );
   }
 

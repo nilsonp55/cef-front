@@ -18,7 +18,11 @@ export class VentanaEmergenteVerDetalleArchivoComponent {
 
     dataNoPendiente: any = [];
 
-    constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private cargueArchivosService: CargueArchivosService, private opConciliacionCostosService: OpConciliacionCostosService) { }
+    constructor(
+        @Inject(MAT_DIALOG_DATA) public data: any, 
+        private readonly dialog: MatDialog, 
+        private readonly cargueArchivosService: CargueArchivosService, 
+        private readonly opConciliacionCostosService: OpConciliacionCostosService) { }
 
     ngOnInit() {
         if (this.data.msn.estado !== "PENDIENTE") {
@@ -33,14 +37,13 @@ export class VentanaEmergenteVerDetalleArchivoComponent {
                     }
                 },
                 error: (err: any) => {
-                    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+                    this.dialog.open(VentanaEmergenteResponseComponent, {
                         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
                         data: {
                             msn: "err.error.response.description",
                             codigo: GENERALES.CODE_EMERGENT.ERROR
                         }
                     });
-                    setTimeout(() => { alert.close() }, 3000);
                     Swal.close();
                 }
             });
@@ -59,14 +62,13 @@ export class VentanaEmergenteVerDetalleArchivoComponent {
                 Swal.close();
             },
             error: (err: any) => {
-                const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+                this.dialog.open(VentanaEmergenteResponseComponent, {
                     width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
                     data: {
                         msn: "err.error.response.description",
                         codigo: GENERALES.CODE_EMERGENT.ERROR
                     }
                 });
-                setTimeout(() => { alert.close() }, 3000);
                 Swal.close();
             }
         });
@@ -97,14 +99,13 @@ export class VentanaEmergenteVerDetalleArchivoComponent {
                     Swal.close();
                 },
                 error: (err: any) => {
-                    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+                    this.dialog.open(VentanaEmergenteResponseComponent, {
                         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
                         data: {
                             msn: "err.error.response.description",
                             codigo: GENERALES.CODE_EMERGENT.ERROR
                         }
                     });
-                    setTimeout(() => { alert.close() }, 3000);
                     Swal.close();
                 }
             });

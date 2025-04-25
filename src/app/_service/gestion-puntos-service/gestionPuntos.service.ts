@@ -14,10 +14,10 @@ import { URLs } from 'src/app/pages/shared/constantes';
  */
 export class GestionPuntosService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS}`;
-    private urlTDV: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS_TDV}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS}`;
+    private readonly urlTDV: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS_TDV}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /**
     * Servicio para listar los puntos

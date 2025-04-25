@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { URLs } from 'src/app/pages/shared/constantes';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
@@ -10,13 +10,11 @@ import { Observable } from 'rxjs';
 
 export class GenerarArchivoService {
 
-  private url: string = `${environment.HOST}${URLs.STAGE + URLs.GENERAR_ARCHIVO}`;
+  private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.GENERAR_ARCHIVO}`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   generarArchivo(param): Observable<any> {
-    let headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer '+ atob(sessionStorage.getItem('token')));
     return this.http.get(
       `${this.url}${URLs.GENERAR}`, 
       {params: param, observe: 'response', responseType: 'blob' }

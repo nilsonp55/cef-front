@@ -15,9 +15,9 @@ export class ConciliacionComponent implements OnInit {
   menusConciliacion: any[] = [];
 
   constructor(
-    private rolMenuService: RolMenuService,
-    private route: ActivatedRoute,
-    private router: Router
+    private readonly rolMenuService: RolMenuService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {

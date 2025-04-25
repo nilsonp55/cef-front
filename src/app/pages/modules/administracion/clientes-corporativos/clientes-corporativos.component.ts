@@ -29,7 +29,7 @@ export class ClientesCorporativosComponent implements OnInit {
   pSize: number = 10;
   spinnerActive: boolean = false;
   dsClientesCorporativos: MatTableDataSource<any>;
-  displayColumnsClientes: String[] = [
+  displayColumnsClientes: string[] = [
     'codigoCliente',
     'codigoBancoAval',
     'nombreCliente',
@@ -44,9 +44,9 @@ export class ClientesCorporativosComponent implements OnInit {
   pBusqueda: string;
 
   constructor(
-    private dialog: MatDialog,
-    private clientesCorporativosServices: ClientesCorporativosService,
-    private generalesService: GeneralesService
+    private readonly dialog: MatDialog,
+    private readonly clientesCorporativosServices: ClientesCorporativosService,
+    private readonly generalesService: GeneralesService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -67,13 +67,6 @@ export class ClientesCorporativosComponent implements OnInit {
   /**
    * @author prv_nparra
    */
-  resolveAmparado(amparado: boolean): string {
-    return amparado ? "Si" : "No";
-  }
-
-  /**
-   * @author prv_nparra
-   */
   listarClientesCorporativos(pagina = this.pIndex, tamanio = this.pSize) {
     this.spinnerActive = true;
     this.dsClientesCorporativos = new MatTableDataSource();
@@ -81,8 +74,8 @@ export class ClientesCorporativosComponent implements OnInit {
       .listarClientesCorporativos({
         page: pagina,
         size: tamanio,
-        codigoBancoAval: this.pCodigoBanco === undefined ? '' : this.pCodigoBanco,
-        busqueda: this.pBusqueda === undefined ? '' : this.pBusqueda,
+        codigoBancoAval: this.pCodigoBanco ?? '',
+        busqueda: this.pBusqueda ?? '',
       })
       .subscribe({
         next: (page: any) => {

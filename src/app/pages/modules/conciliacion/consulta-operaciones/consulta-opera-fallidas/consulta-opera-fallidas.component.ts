@@ -58,8 +58,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   estadoConciliacionInicial: any[] = ['NO_CONCILIADA', 'FALLIDA', 'FUERA_DE_CONCILIACION', 'POSPUESTA', 'CANCELADA'];
 
   constructor(
-    private dialog: MatDialog,
-    private opConciliadasService: OpConciliadasService) { }
+    private readonly dialog: MatDialog,
+    private readonly opConciliadasService: OpConciliadasService) { }
 
 
   ngOnInit(): void {
@@ -131,14 +131,13 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         this.loadProg = false;
       },
       error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
         this.loadProg = false;
       }
     });
@@ -171,14 +170,13 @@ export class ConsultaOperaFallidasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
         this.loadCert = false;
       }
     });
@@ -192,10 +190,10 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     this.numPaginaOpPr = e.pageIndex;
     this.cantPaginaOpPr = e.pageSize;
     this.listarOpProgramadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
-      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
+      this.transportadora ?? "",
+      this.bancoAVAL ?? "",
+      this.tipoPuntoOrigen ?? [""],
+      this.estadoConciliacionInicial ?? [""],
       e.pageIndex, e.pageSize
     );
   }
@@ -208,10 +206,10 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     this.numPaginaOpCer = e.pageIndex;
     this.cantPaginaOpCer = e.pageSize;
     this.listarOpCertificadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
-      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
+      this.transportadora ?? "",
+      this.bancoAVAL ?? "",
+      this.tipoPuntoOrigen ?? [""],
+      this.estadoConciliacionInicial ?? [""],
       e.pageIndex, e.pageSize
     );
   }
@@ -223,18 +221,18 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     this.estadoConciliacionInicial = event.estadoConciliacion;
 
     this.listarOpProgramadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
-      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
+      this.transportadora ?? "",
+      this.bancoAVAL ?? "",
+      this.tipoPuntoOrigen ?? [""],
+      this.estadoConciliacionInicial ?? [""],
       this.numPaginaOpPr, this.cantPaginaOpPr
     );
 
     this.listarOpCertificadasFallidas(
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
-      this.estadoConciliacionInicial == undefined ? [""] : this.estadoConciliacionInicial,
+      this.transportadora ?? "",
+      this.bancoAVAL ?? "",
+      this.tipoPuntoOrigen ?? [""],
+      this.estadoConciliacionInicial ?? [""],
       this.numPaginaOpCer, this.cantPaginaOpCer
     );
 
