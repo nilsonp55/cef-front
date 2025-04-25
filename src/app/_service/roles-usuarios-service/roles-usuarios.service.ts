@@ -14,19 +14,18 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class RolMenuService {
 
-    private urlMenuRol: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_MENU_ROL}`;
-    private urlUsuario: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_USUARIO}`;
-    private urlRol: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_ROL}`;
+    private readonly urlMenuRol: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_MENU_ROL}`;
+    private readonly urlUsuario: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_USUARIO}`;
+    private readonly urlRol: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_ROL}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
 
     /** 
      * Servicio para listar menu rol
     */
     obtenerMenuRol(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.urlMenuRol}${URLs.ADMIN_MENU_ROL_CONSULTAR}`, { params: params, headers });
+        return this.http.get<any>(`${this.urlMenuRol}${URLs.ADMIN_MENU_ROL_CONSULTAR}`, { params: params });
     }
 
     /**
@@ -40,8 +39,7 @@ export class RolMenuService {
      * Servicio para listar usuario
     */
     obtenerUsuarios(params?: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.urlUsuario}${URLs.ADMIN_USUARIO_CONSULTAR}`, { params: params, headers });
+        return this.http.get<any>(`${this.urlUsuario}${URLs.ADMIN_USUARIO_CONSULTAR}`, { params: params });
     }
 
     /**

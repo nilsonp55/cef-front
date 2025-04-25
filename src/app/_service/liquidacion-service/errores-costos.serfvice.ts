@@ -14,9 +14,9 @@ import { Injectable } from '@angular/core';
  */
 export class ErroresCostosService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.ERRORES_COSTOS}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.ERRORES_COSTOS}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /**
      * Servicio para gurdar un registros de Costos flete charter

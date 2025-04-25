@@ -14,10 +14,10 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class LiquidacionMensualService {
 
-    private urlLiquidacionMensaul: string = `${environment.HOST}${URLs.STAGE + URLs.LIQUIDACION_MENSUAL}`;
-    private urlCierreLiquidacionMensual: string = `${environment.HOST}${URLs.STAGE + URLs.LIQUIDACION_MENSUAL}`;
+    private readonly urlLiquidacionMensaul: string = `${environment.HOST}${URLs.STAGE + URLs.LIQUIDACION_MENSUAL}`;
+    private readonly urlCierreLiquidacionMensual: string = `${environment.HOST}${URLs.STAGE + URLs.LIQUIDACION_MENSUAL}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
 
     /** 

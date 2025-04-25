@@ -15,9 +15,9 @@ import { saveAs } from 'file-saver';
  */
  export class GenerarContabilidadService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.CONTABILIDAD}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.CONTABILIDAD}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /** 
      * Servicio para general contabilidad AM o PM
@@ -39,16 +39,5 @@ import { saveAs } from 'file-saver';
             map(() => true)
         );
     }
-
-    /*descargarArchivoContabilidad1(params: any): Observable<any> {
-        return this.http.get(`${this.urlFile}${URLs.CARGUE_ID_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
-        .pipe(
-            tap(content => {
-                const blob = new Blob([content], { type: 'text/plain'});
-                saveAs(blob, params.nombreArchivo);
-            }),
-            map(() => true)
-        );
-    }*/
 
 }

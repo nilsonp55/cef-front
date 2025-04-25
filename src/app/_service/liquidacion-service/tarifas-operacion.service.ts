@@ -14,23 +14,15 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class TarifasOperacionService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.TARIFAS_OPERACION}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.TARIFAS_OPERACION}`;
 
-    constructor(private http: HttpClient) { }
-
-    /** 
-     * Variable reactiva para optener la lista de procesos actualizados y volver a la pantalla principal
-    */
-    
-    //archivoActualizado: Subject<any[]> = new Subject<any[]>();
-
+    constructor(private readonly http: HttpClient) { }
 
     /** 
      * Servicio para listar las Centro ciudades
     */
     consultarTarifasOperacion(params: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get<any>(`${this.url}${URLs.TARIFAS_OPERACION_CONSULTAR}`, { params: params, headers });
+        return this.http.get<any>(`${this.url}${URLs.TARIFAS_OPERACION_CONSULTAR}`, { params: params });
     }
 
     /**
@@ -44,8 +36,7 @@ export class TarifasOperacionService {
      * Servicio para gurdar una Centro ciudades
      */
      actualizarTarifasOperacion(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.put<any>(`${this.url}${URLs.TARIFAS_OPERACION_ACTUALIZAR}`, param, {headers});
+        return this.http.put<any>(`${this.url}${URLs.TARIFAS_OPERACION_ACTUALIZAR}`, param);
     }
 
 }

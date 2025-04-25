@@ -15,16 +15,15 @@ import { Injectable } from '@angular/core';
 export class GeneralesService {
 
     //private url: string = `${environment.HOST}${URLs.URI}`;
-    private url: string = `${environment.HOST}${URLs.STAGE}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /** 
     * Servicio para listar las transpordadoras
     */
     listarTransportadoras(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get(`${this.url}${URLs.TRANSPORTADORA}${URLs.TRANSPORTADORA_CONSULTA}`,{headers});
+        return this.http.get(`${this.url}${URLs.TRANSPORTADORA}${URLs.TRANSPORTADORA_CONSULTA}`);
     }
 
 
@@ -33,8 +32,7 @@ export class GeneralesService {
     * @JuanMazo
     */
     listarBancosAval(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}?esAVAL=true`,{headers});
+        return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}?esAVAL=true`);
 
     }
 
@@ -43,8 +41,7 @@ export class GeneralesService {
     * @JuanMazo
     */
     listarBancos(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}`,{headers});
+        return this.http.get(`${this.url}${URLs.BANCOS}${URLs.BANCO_CONSULTA}`);
     }
 
     /** 
@@ -52,13 +49,11 @@ export class GeneralesService {
     * @BayronPerez
     */
       listarCiudades(): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`,{headers});
+        return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`);
     }
     
     listarCiudadesByParams(param?: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`,{headers, params:param});
+        return this.http.get(`${this.url}${URLs.CIUDADES}${URLs.CIUDADES_CONSULTA}`,{params:param});
     }
 
     /** 
@@ -66,8 +61,7 @@ export class GeneralesService {
     * @BayronPerez
     */
      listarDominioByDominio(dominio: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+atob(sessionStorage.getItem('token'))}
-        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio, headers},);
+        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DOMINIO_CONSULTA}`,{params:dominio},);
     }
 
     /** 
@@ -75,18 +69,15 @@ export class GeneralesService {
     * @BayronPerez
     */
      listarParametroByFiltro(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param, headers });
+        return this.http.get(`${this.url}${URLs.PARAMETRO}${URLs.PARAMETRO_CONSULTA}`, { params: param });
     }
 
-    listarDominioXDominio(dominio: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}        
-        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DIMINIO_CONSULTAR}`,{params:dominio, headers},);
+    listarDominioXDominio(dominio: any): Observable<any> {       
+        return this.http.get<any>(`${this.url}${URLs.DOMINIO}${URLs.DIMINIO_CONSULTAR}`,{params:dominio},);
     }
 
     listarClientes(param?: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get<any>(`${this.url}${URLs.CLIENTE}${URLs.CLIENTE_CONSULTAR}`,{params:param, headers},);
+        return this.http.get<any>(`${this.url}${URLs.CLIENTE}${URLs.CLIENTE_CONSULTAR}`,{params:param},);
     }
 
 }

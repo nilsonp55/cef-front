@@ -14,9 +14,9 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class LiquidarCostosService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.LIQUIDACION}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.LIQUIDACION}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /**
      * Servicio para gurdar un registros de Costos flete charter

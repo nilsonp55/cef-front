@@ -14,9 +14,9 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class DenominacionCantidadService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.DENOMINACION_CANTIDAD}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.DENOMINACION_CANTIDAD}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
 
     /** 

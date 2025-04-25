@@ -14,9 +14,9 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class EscalasService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_ESCALAS}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_ESCALAS}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
 
     /** 

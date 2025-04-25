@@ -14,10 +14,10 @@ import { URLs } from '../../pages/shared/constantes';
  */
  export class CierreContabilidadService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.CONTABILIDAD}`;
-    private url2: string =  `${environment.HOST}${URLs.STAGE + URLs.AUTORIZACION_CIERRE_CONTABILIDAD}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.CONTABILIDAD}`;
+    private readonly url2: string =  `${environment.HOST}${URLs.STAGE + URLs.AUTORIZACION_CIERRE_CONTABILIDAD}`;
     
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /** 
      * Servicio para cierre de contabilidad AM o PM
