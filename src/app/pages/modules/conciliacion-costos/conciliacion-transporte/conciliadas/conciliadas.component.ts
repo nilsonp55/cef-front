@@ -120,9 +120,6 @@ export class ConciliadasComponent implements OnInit {
         Swal.close();
       });
     } else {
-      if (event.length > 0) {
-        event = event
-      }
       const alert = this.dialog.open(VentanaEmergenteDesconciliarComponent, {
         width: "800px",
         data: {

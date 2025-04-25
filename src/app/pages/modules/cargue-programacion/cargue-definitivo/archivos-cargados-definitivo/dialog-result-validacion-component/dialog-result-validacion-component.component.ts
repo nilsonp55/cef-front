@@ -15,7 +15,7 @@ export class DialogResultValidacionComponentComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private  cargueArchivosService: CargueArchivosService
+    private readonly cargueArchivosService: CargueArchivosService
   ) { }
 
   

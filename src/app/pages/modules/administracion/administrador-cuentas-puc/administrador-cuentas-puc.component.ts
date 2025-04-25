@@ -36,11 +36,11 @@ export class AdministradorCuentasPucComponent implements OnInit {
   cantidadRegistros: number;
 
   constructor(
-    private cuentasPucService: CuentasPucService,
-    private generalesService: GeneralesService,
-    private tiposCuentasService: TiposCuentasService,
-    private centroCostosService: CentroCostosService,
-    private dialog: MatDialog
+    private readonly cuentasPucService: CuentasPucService,
+    private readonly generalesService: GeneralesService,
+    private readonly tiposCuentasService: TiposCuentasService,
+    private readonly centroCostosService: CentroCostosService,
+    private readonly dialog: MatDialog
   ) { }
 
   async ngOnInit(): Promise<void> {

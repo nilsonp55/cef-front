@@ -31,8 +31,8 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
   cantidadRegistros: number;
 
   constructor(
-    private festivosNacionalesService: FestivosNacionalesService,
-    private dialog: MatDialog
+    private readonly festivosNacionalesService: FestivosNacionalesService,
+    private readonly dialog: MatDialog
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -66,7 +66,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
         this.spinnerActive = false;
       },
       error: (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: "Error al listar los Festivos Nacionales",
@@ -99,7 +99,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
 
     this.festivosNacionalesService.guardarFestivosNacionales(festivosNacionales).subscribe({
     next: (page: any) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + page?.response?.description,
@@ -112,7 +112,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
       this.spinnerActive = false;
     },
     error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
@@ -138,7 +138,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
     this.spinnerActive = true;
     this.festivosNacionalesService.eliminarFestivosNacionales({'idFecha': param.fecha}).subscribe({
       next: (page: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_DELETE + page?.response?.description,
@@ -151,7 +151,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
         this.spinnerActive = false;
       },
       error: (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DELETE + err.error?.response?.description,

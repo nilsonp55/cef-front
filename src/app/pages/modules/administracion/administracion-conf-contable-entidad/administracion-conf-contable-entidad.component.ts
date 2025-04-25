@@ -45,9 +45,9 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   mostrarTabla: boolean = true;
 
   constructor(
-    private generalesService: GeneralesService,
-    private confContablesEntidadesService: ConfContablesEntidadesService,
-    private dialog: MatDialog
+    private readonly generalesService: GeneralesService,
+    private readonly confContablesEntidadesService: ConfContablesEntidadesService,
+    private readonly dialog: MatDialog
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -137,7 +137,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
     this.confContablesEntidadesService.obtenerConfContablesEntidades({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
+    }).subscribe({ next: (page: any) => {
       this.registros = page.data;
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
@@ -145,15 +145,16 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
       this.mostrarTabla = true;
       this.mostrarFormulario = false;
     },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error: (err: ErrorService) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+      }
+    });
   }
 
   /**
@@ -184,46 +185,48 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
     if (this.esEdicion) {
       confEntity.consecutivo = this.idConfEntity;
       this.confContablesEntidadesService.actualizarConfContablesEntidades(confEntity).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarConfEntitis()
         this.initForm();
       },
         (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
         });
     } else {
-      this.confContablesEntidadesService.guardarConfContablesEntidades(confEntity).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.confContablesEntidadesService.guardarConfContablesEntidades(confEntity).subscribe({
+        next: response => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarConfEntitis()
         this.initForm();
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
+          });
+        }
+      });
     }
     this.ngOnInit();
    }

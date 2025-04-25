@@ -64,7 +64,7 @@ export class FormClientesCorpComponent implements OnInit {
 
   async saveClienteCorporativo() {
     if(this.form.invalid) {
-      this.form.markAllAsTouched;
+      this.form.markAllAsTouched();
       return;
     }
     this.spinnerActive = true;

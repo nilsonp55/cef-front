@@ -46,7 +46,7 @@ export class CrearPuntoComponent implements OnInit {
   tdvs: any[] = [];
 
   constructor(
-    private dialog: MatDialog,
+    private readonly dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CrearPuntoComponent>,
     private readonly generalServices: GeneralesService,

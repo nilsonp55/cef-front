@@ -14,9 +14,9 @@ import { Injectable } from '@angular/core';
  */
 export class ValidacionEstadoProcesosService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.VALIDA_ESTADO_PROCESO}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.VALIDA_ESTADO_PROCESO}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /**
      * Servicio para cerrar el ciclo de periodo del dia

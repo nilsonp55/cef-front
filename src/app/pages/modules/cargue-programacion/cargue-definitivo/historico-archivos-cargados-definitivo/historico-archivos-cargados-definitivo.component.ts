@@ -35,9 +35,9 @@ export class HistoricoArchivosCargadosDefinitivoComponent implements OnInit {
   displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaInicioCargue', 'numeroRegistros', 'estado', 'acciones'];
 
   constructor(
-    private dialog: MatDialog,
-    private cargueProgramacionDefinitivoService: CargueProgramacionDefinitivaService,
-    private cargueArchivosService: CargueArchivosService
+    private readonly dialog: MatDialog,
+    private readonly cargueProgramacionDefinitivoService: CargueProgramacionDefinitivaService,
+    private readonly cargueArchivosService: CargueArchivosService
   ) { }
 
   ngOnInit(): void {

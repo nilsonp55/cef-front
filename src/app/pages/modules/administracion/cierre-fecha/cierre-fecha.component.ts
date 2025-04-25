@@ -23,8 +23,8 @@ export class CierreFechaComponent implements OnInit {
   constructor(
     public cierreFechaService: CierreFechaService,
     public spinnerComponent: SpinnerComponent,
-    private generalServices: GeneralesService,
-    private dialog: MatDialog,
+    private readonly generalServices: GeneralesService,
+    private readonly dialog: MatDialog,
   ) { }
 
 

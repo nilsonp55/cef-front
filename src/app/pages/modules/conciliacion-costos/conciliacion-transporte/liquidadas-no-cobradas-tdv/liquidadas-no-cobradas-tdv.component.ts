@@ -4,7 +4,6 @@ import { OpConciliacionCostosService } from 'src/app/_service/conciliacion-costo
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import Swal from 'sweetalert2';
-import { VentanaEmergenteAceptarRechazarComponent } from '../cobradas-tdv-no-identificadas/ventana-emergente-aceptar-rechazar/ventana-emergente-aceptar-rechazar.component';
 import { VentanaEmergenteEliminarRechazarTComponent } from './ventana-emergente-eliminar-rechazar-t/ventana-emergente-eliminar-rechazar-t.component';
 
 @Component({
@@ -112,9 +111,6 @@ export class LiquidadasNoCobradasTdvComponent implements OnInit {
         Swal.close();
       });
     } else {
-      if (event.items.length > 0) {
-        event = event
-      }
       const alert = this.dialog.open(VentanaEmergenteEliminarRechazarTComponent, {
         width: "800px",
         data: {

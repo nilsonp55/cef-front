@@ -91,6 +91,6 @@
     </ng-container>
   </tr>
   <tr mat-header-row *matHeaderRowDef="displayedColumnsPuntoSelect"></tr>
-  <tr mat-row (click)="eventoSelectionPuntoDetalleClick(row)"
+  <tr mat-row onClick="eventoSelectionPuntoDetalleClick(row)"
     *matRowDef="let row; columns: displayedColumnsPuntoSelect;"></tr>
 </table>

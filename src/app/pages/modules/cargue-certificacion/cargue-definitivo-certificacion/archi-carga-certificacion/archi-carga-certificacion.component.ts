@@ -41,8 +41,8 @@ export class ArchiCargaCertificacionComponent implements OnInit {
 
 
   constructor(
-    private dialog: MatDialog,
-    private cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
+    private readonly dialog: MatDialog,
+    private readonly cargueProgramacionCertificadaService: CargueProgramacionCertificadaService,
     public spinnerComponent: SpinnerComponent
   ) { }
 

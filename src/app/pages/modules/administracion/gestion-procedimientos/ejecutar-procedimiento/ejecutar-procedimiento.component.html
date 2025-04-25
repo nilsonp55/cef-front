@@ -1,7 +1,7 @@
 <div>
     <h3>Generar listado y otros</h3>
     <div >
-        <form>
+        <div>
             <div *ngFor="let item of parametrosFuncionesDinamicasDTO">
                 <mat-form-field class="listados-otros-full-width" appearance="fill">
                     <mat-label>{{item.nombreParametro}}</mat-label>
@@ -16,7 +16,7 @@
             </button>
             <button *ngIf="mostrarTabla" mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'procedimientos_almacenados'})">Exportar tabla</button>
             <mat-divider></mat-divider>
-        </form>
+        </div>
         <div>
             <table mat-table matTableExporter [dataSource]="dataSourceResponse" #exporter="matTableExporter" matSort class="mat-elevation-z8">
                 <caption></caption>
