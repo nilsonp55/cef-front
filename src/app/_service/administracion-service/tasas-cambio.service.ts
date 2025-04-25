@@ -14,9 +14,9 @@ import { URLs } from 'src/app/pages/shared/constantes';
  */
 export class TasasCostoService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE}${URLs.ADMIN_TASAS_COSTO}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE}${URLs.ADMIN_TASAS_COSTO}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /** 
     * Servicio para listar los tasas costos

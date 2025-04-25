@@ -14,10 +14,10 @@ import { URLs } from 'src/app/pages/shared/constantes';
  */
 export class GestionPuntosService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS}`;
-    private url2: string = `${environment.HOST}${URLs.STAGE}${URLs.DOMINIO_FUNCIONAL}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS}`;
+    private readonly url2: string = `${environment.HOST}${URLs.STAGE}${URLs.DOMINIO_FUNCIONAL}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /** 
     * Servicio para listar los puntos
@@ -27,16 +27,14 @@ export class GestionPuntosService {
     }
 
     listarTiposPuntos(params?: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url2}${URLs.CONSULTAR_DOMINIO}`, { headers: headers, params: params });
+        return this.http.get<any>(`${this.url2}${URLs.CONSULTAR_DOMINIO}`, { params: params });
     }
 
     /** 
     * Servicio para listar los puntos
     */
     consultarPuntoCreadoById(idPunto: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}/${idPunto}`, { headers });
+        return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}/${idPunto}` );
     }
 
     /** 
@@ -47,8 +45,6 @@ export class GestionPuntosService {
     }
 
     actualizarPunto(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
-        return this.http.post<any>(`${this.url}${URLs.ACTUALIZAR_PUNTO}`, { param }, { headers });
+        return this.http.post<any>(`${this.url}${URLs.ACTUALIZAR_PUNTO}`, { param } );
     }
-
 }

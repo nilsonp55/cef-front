@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 export class DesencriptarLlavesService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE}${URLs.LLAVES}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE}${URLs.LLAVES}`;
 
     constructor(private http: HttpClient) { }
 

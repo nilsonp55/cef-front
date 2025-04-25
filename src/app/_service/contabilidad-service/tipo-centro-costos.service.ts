@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { URLs } from '../../pages/shared/constantes';
 
 @Injectable({
@@ -14,15 +14,9 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class CentroCostosService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_TIPO_CENTRO_COSTOS}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.ADMIN_TIPO_CENTRO_COSTOS}`;
 
-    constructor(private http: HttpClient) { }
-
-    /** 
-     * Variable reactiva para optener la lista de procesos actualizados y volver a la pantalla principal
-    */
-    archivoActualizado: Subject<any[]> = new Subject<any[]>();
-
+    constructor(private readonly http: HttpClient) { }
 
     /** 
      * Servicio para listar los Tipos centro costos

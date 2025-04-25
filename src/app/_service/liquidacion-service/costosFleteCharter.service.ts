@@ -14,9 +14,9 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class CostosFleteCharterService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.COSTOS_FLETE_CHARTER}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.COSTOS_FLETE_CHARTER}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /** 
      * Servicio para listar los Costos flete charter

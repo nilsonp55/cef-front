@@ -14,9 +14,9 @@ import { URLs } from '../../pages/shared/constantes';
  */
 export class PuntosCodigoService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.PUNTOS_CODIGO}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.PUNTOS_CODIGO}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
 
     /**
