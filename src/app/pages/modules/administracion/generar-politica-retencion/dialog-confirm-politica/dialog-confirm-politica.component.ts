@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-dialog-confirm-politica',
@@ -9,11 +10,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class DialogConfirmPoliticaComponent implements OnInit {
 
   constructor(
-    private dialogRef: MatDialogRef<DialogConfirmPoliticaComponent>,
+    private readonly dialogRef: MatDialogRef<DialogConfirmPoliticaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { tipoContabilidad: string }
   ) { }
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken();
   }
 
   confirm() {

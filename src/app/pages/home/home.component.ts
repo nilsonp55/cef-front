@@ -1,6 +1,5 @@
-import { DOCUMENT } from '@angular/common';
 import jwt_decode from "jwt-decode";
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ManejoFechaToken } from '../shared/utils/manejo-fecha-token';
 import { AuditoriaService } from 'src/app/_service/auditoria-login.service';
 import { environment } from 'src/environments/environment';
@@ -22,9 +21,8 @@ export class HomeComponent implements OnInit {
 
 
   constructor(
-    @Inject(DOCUMENT) document: any,
-    private auditoriaService: AuditoriaService,
-    private generalServices: GeneralesService,
+    private readonly auditoriaService: AuditoriaService,
+    private readonly generalServices: GeneralesService,
   ) { }
 
   ngOnInit(): void {

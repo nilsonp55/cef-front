@@ -48,8 +48,8 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   displayedColumnsOperacionesCertificadas: string[] = ['codigoFondoTDV', 'bancoAVAL', 'tdv', 'nombreFondoTDV', 'codigoPropioTDV', 'tipoOperacion', 'entradaSalida', 'oficina', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'valorTotal', 'valorFaltante', 'valorSobrante', 'fechaEjecucion', 'estadoConciliacion', 'fallidaOficina'];
 
   constructor(
-    private dialog: MatDialog,
-    private opConciliadasService: OpConciliadasService,
+    private readonly dialog: MatDialog,
+    private readonly opConciliadasService: OpConciliadasService,
     ) { }
 
   ngOnInit(): void {
@@ -70,9 +70,9 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   */
   mostrarMas(e: any) {
     this.listarOpCertificadasSinConciliar(
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen,
+      this.transportadora ?? "",
+      this.bancoAVAL ?? "",
+      this.tipoPuntoOrigen ?? [""],
       e.pageIndex, e.pageSize);
   }
 
@@ -102,13 +102,13 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); 
         this.load = false;
       }
     });
@@ -119,9 +119,9 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
     this.bancoAVAL = event.banco;
     this.tipoPuntoOrigen = event.tipoPuntoOrigen;
     this.listarOpCertificadasSinConciliar(
-      this.transportadora == undefined ? "" : this.transportadora,
-      this.bancoAVAL == undefined ? "" : this.bancoAVAL,
-      this.tipoPuntoOrigen == undefined ? [""] : this.tipoPuntoOrigen
+      this.transportadora ?? "",
+      this.bancoAVAL ?? "",
+      this.tipoPuntoOrigen ?? [""]
     );
   }
 

@@ -36,9 +36,9 @@ export class CentroCiudadBaseComponent implements OnInit {
     cantidadRegistros: number;
 
     constructor(
-        private centroCiudadesService: CentrosCiudadService,
-        private generalServices: GeneralesService,
-        private dialog: MatDialog,
+        private readonly centroCiudadesService: CentrosCiudadService,
+        private readonly generalServices: GeneralesService,
+        private readonly dialog: MatDialog,
         public spinnerComponent: SpinnerComponent
     ) { }
 
@@ -140,29 +140,19 @@ export class CentroCiudadBaseComponent implements OnInit {
 
         if (this.esEdicion) {
             centrociudad.idCentroCiudad = this.idCentroCiudad;
+            msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE;
+            msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE;
+            serviceCall = this.centroCiudadesService.actualizarCentroCiudade(centrociudad, 
+                this.tipoCentroCiudad.includes('Principal')
+            );
+        } else {
+            msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
+            msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
+            serviceCall = this.centroCiudadesService.guardarCentroCiudade(centrociudad, 
+                this.tipoCentroCiudad.includes('Principal')
+            );
         }
 
-        if (this.tipoCentroCiudad.includes('Principal')) {
-            if (this.esEdicion) {
-                msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE;
-                msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE;
-                serviceCall = this.centroCiudadesService.actualizarCentroCiudadePpal(centrociudad);
-            } else {
-                msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
-                msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
-                serviceCall = this.centroCiudadesService.guardarCentroCiudadePpal(centrociudad);
-            }
-        } else {
-            if (this.esEdicion) {
-                msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE;
-                msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE;
-                serviceCall = this.centroCiudadesService.actualizarCentroCiudade(centrociudad);
-            } else {
-                msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
-                msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
-                serviceCall = this.centroCiudadesService.guardarCentroCiudade(centrociudad);
-            }
-        }
         serviceCall.subscribe({
             next: (page: any) => {
                 this.dialog.open(VentanaEmergenteResponseComponent, {

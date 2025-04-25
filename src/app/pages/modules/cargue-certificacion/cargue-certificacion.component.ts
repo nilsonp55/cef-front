@@ -13,9 +13,9 @@ export class CargueCertificacionComponent implements OnInit {
 
 
   constructor(
-    private rolMenuService: RolMenuService,
-    private routeCert: ActivatedRoute,
-    private routerCert: Router
+    private readonly rolMenuService: RolMenuService,
+    private readonly routeCert: ActivatedRoute,
+    private readonly routerCert: Router
   ) { }
 
   ngOnInit(): void {

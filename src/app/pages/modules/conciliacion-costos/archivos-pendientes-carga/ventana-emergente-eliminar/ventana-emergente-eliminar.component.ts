@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OpConciliacionCostosService } from 'src/app/_service/conciliacion-costos-services/op-conciliacion-costos';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -8,13 +8,15 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-ventana-emergente-eliminar',
   templateUrl: './ventana-emergente-eliminar.component.html',
-  styleUrls: ['./ventana-emergente-eliminar.component.css']
 })
 export class VentanaEmergenteEliminarComponent implements OnInit {
   observacion: any;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private dialogRef: MatDialogRef<VentanaEmergenteEliminarComponent>,
-    private opConciliacionCostosService: OpConciliacionCostosService) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private readonly dialog: MatDialog, 
+    private readonly dialogRef: MatDialogRef<VentanaEmergenteEliminarComponent>,
+    private readonly opConciliacionCostosService: OpConciliacionCostosService) { }
 
   ngOnInit(): void {
   }

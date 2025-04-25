@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GeneralesService } from 'src/app/_service/generales.service';
 import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
 import { DialogConfirmPoliticaComponent } from './dialog-confirm-politica/dialog-confirm-politica.component';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { GenerarPoliticaService } from 'src/app/_service/administracion-service/generar-politica.service';
+import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
   selector: 'app-generar-politica-retencion',
@@ -17,13 +17,14 @@ export class GenerarPoliticaRetencionComponent implements OnInit {
   constructor(
     public generarPoliticaService: GenerarPoliticaService,
     public spinnerComponent: SpinnerComponent,
-    private dialog: MatDialog,
+    private readonly dialog: MatDialog,
   ) { }
 
   spinnerActive: boolean = false;
 
 
   ngOnInit(): void {
+    ManejoFechaToken.manejoFechaToken();
   }
 
   generarPolitica() {

@@ -54,8 +54,8 @@ export class ArchivosPendienteCargaComponent implements OnInit {
   moment: any = 1;
 
   constructor(
-    private dialog: MatDialog,
-    private opConciliacionCostosService: OpConciliacionCostosService) {
+    private readonly dialog: MatDialog,
+    private readonly opConciliacionCostosService: OpConciliacionCostosService) {
 
   }
 
@@ -84,14 +84,13 @@ export class ArchivosPendienteCargaComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceConciliadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: "err.error.response.description",
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
         Swal.close();
       }
     });
@@ -99,7 +98,7 @@ export class ArchivosPendienteCargaComponent implements OnInit {
 
   async filter(event) {
     this.modalProcesoEjecucion();
-    var lista = this.listData
+    let lista = this.listData
     if (event !== undefined) {
       const filters = {
         banco: event.banco === undefined ? [] : [event.banco],
@@ -160,7 +159,7 @@ export class ArchivosPendienteCargaComponent implements OnInit {
 
 
   verDetalle(event) {
-    const alert = this.dialog.open(VentanaEmergenteVerDetalleArchivoComponent, {
+    this.dialog.open(VentanaEmergenteVerDetalleArchivoComponent, {
       width: "1000px",
       data: {
         msn: event
@@ -169,7 +168,7 @@ export class ArchivosPendienteCargaComponent implements OnInit {
   }
 
   verError(event) {
-    const alert = this.dialog.open(VentanaEmergenteErrorComponent, {
+    this.dialog.open(VentanaEmergenteErrorComponent, {
       width: "1000px",
       data: {
         msn: event
@@ -245,14 +244,13 @@ export class ArchivosPendienteCargaComponent implements OnInit {
         },
         error: (err: any) => {
           Swal.close();
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: "err.error.response.description",
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
-          setTimeout(() => { alert.close() }, 3000);
         }
       });
     }
@@ -261,7 +259,7 @@ export class ArchivosPendienteCargaComponent implements OnInit {
 
 
   modalProximoDesarrollo() {
-    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    this.dialog.open(VentanaEmergenteResponseComponent, {
       width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
       data: {
         msn: "Este elemento no forma parte del alcance de esta versión.",
@@ -313,9 +311,6 @@ export class ArchivosPendienteCargaComponent implements OnInit {
           this.seleccionadosTabla = []
           this.listarArchivosPendienteCarga();
           this.modalProcesoEjecucion();
-          setTimeout(() => {
-            this.filter(this.filtros)
-          }, 2000);
         }
       });
     }

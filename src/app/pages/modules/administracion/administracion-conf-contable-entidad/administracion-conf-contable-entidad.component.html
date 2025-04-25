@@ -5,8 +5,8 @@
   </div>
 </div>
 <div class="ubicacionTablas">
-  <div class="example-container" [formGroup]="form" *ngIf="mostrarFormulario">
-    <div style="padding-left: 10%;">
+  <div [formGroup]="form" *ngIf="mostrarFormulario">
+
       <mat-form-field appearance="fill">
         <input matInput placeholder="ID" formControlName="consecutivo">
       </mat-form-field>
@@ -91,23 +91,21 @@
         </mat-select>
       </mat-form-field>
 
-      <section class="example-section">
-        <label class="example-margin">Naturaleza: </label>
+      <div>
+        <mat-label>Naturaleza:</mat-label>
         <mat-radio-group formControlName="naturaleza" [(ngModel)]="selectNaturaleza">
           <mat-radio-button class="example-margin" value="C">Credito</mat-radio-button>
           <mat-radio-button class="example-margin" value="D">Debito</mat-radio-button>
         </mat-radio-group>
         <mat-error *ngIf="form.get('naturaleza').hasError('required')">Este campo es requerido</mat-error>
-      </section>
-
-      <section class="example-section">
-        <label class="example-margin">Es Cambio: </label>
+      </div>
+      <div>
+        <mat-label>Es Cambio:</mat-label>
         <mat-radio-group formControlName="esCambio" [(ngModel)]="selectEsCambio">
           <mat-radio-button class="example-margin" value="true">Si</mat-radio-button>
           <mat-radio-button class="example-margin" value="false">No</mat-radio-button>
         </mat-radio-group>
-      </section>
-
+      
     </div>
     <div class="tamanio-btn">
       <button mat-raised-button color="primary" type="button" (click)="persistir()" [disabled]="form.invalid">

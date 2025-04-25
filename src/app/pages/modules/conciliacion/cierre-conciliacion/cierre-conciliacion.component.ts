@@ -27,9 +27,9 @@ export class CierreConciliacionComponent implements OnInit {
   displayedColumnsInfoProcesos: string[] = ['idLogProceso', 'fechaCreacion', 'codigoProceso', 'estadoProceso', 'acciones'];
 
   constructor(
-    private dialog: MatDialog,
-    private logProcesoDiarioService: LogProcesoDiarioService,
-    private opConciliadasService: OpConciliadasService
+    private readonly dialog: MatDialog,
+    private readonly logProcesoDiarioService: LogProcesoDiarioService,
+    private readonly opConciliadasService: OpConciliadasService
   ) {
   }
 

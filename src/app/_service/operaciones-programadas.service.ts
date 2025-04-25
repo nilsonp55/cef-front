@@ -14,9 +14,9 @@ import { URLs } from '../pages/shared/constantes';
  */
 export class OperacionesProgramadasService {
 
-    private url: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRAMADAS}`;
+    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.OPERACIONES_PROGRAMADAS}`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
     /** 
      * Variable reactiva para optener la lista de archivos actualizados y volver a la pantalla principal
@@ -28,8 +28,7 @@ export class OperacionesProgramadasService {
      * Servicio para cerrar el proceso de carga preliminar
      */
     public procesar(param: any): Observable<any> {
-        const headers = { 'Authorization': 'Bearer '+ atob(sessionStorage.getItem('token'))}
-        return this.http.get<any>(`${this.url}${URLs.OPERACIONES_PROGRAMADAS_PROCESAR}`,{ params: param, headers });
+        return this.http.get<any>(`${this.url}${URLs.OPERACIONES_PROGRAMADAS_PROCESAR}`,{ params: param });
     }
 
 }
