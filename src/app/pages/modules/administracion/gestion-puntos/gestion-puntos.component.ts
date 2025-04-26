@@ -243,10 +243,6 @@ export class GestionPuntosComponent implements OnInit {
     }
   }
 
-  eventoSelectionPuntoDetalleClick(element: any) {
-    this.detallePuntoSeleccionado = element;
-  }
-
   mostrarMas(e: any) {
     this.listarPuntosSeleccionado(e.pageIndex, e.pageSize);
   }

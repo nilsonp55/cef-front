@@ -34,7 +34,7 @@
                         <mat-checkbox color="primary"
                           (change)="seleccionRow($event, row)"
                           [checked]="selection.isSelected(row)"
-                          onClick="$event.stopPropagation()">
+                          (click)="$event.stopPropagation()">
                         </mat-checkbox>
                     </td>
                 </ng-container>

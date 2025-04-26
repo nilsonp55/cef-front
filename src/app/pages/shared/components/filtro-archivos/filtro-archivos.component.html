@@ -28,7 +28,7 @@
         </mat-date-range-input>
         <mat-datepicker-toggle matPrefix [for]="picker1"></mat-datepicker-toggle>
         <mat-date-range-picker #picker1></mat-date-range-picker>
-        <mat-icon rangepickerToggleIcon matSuffix onClick="clearDateTrans($event)">clear</mat-icon>
+        <mat-icon rangepickerToggleIcon matSuffix (click)="clearDateTrans($event)">clear</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Fecha del Archivo</mat-label>
@@ -40,7 +40,7 @@
         </mat-date-range-input>
         <mat-datepicker-toggle matPrefix [for]="picker2"></mat-datepicker-toggle>
         <mat-date-range-picker #picker2></mat-date-range-picker>
-        <mat-icon rangepickerToggleIcon matSuffix onClick="clearDateArchivo($event)">clear</mat-icon>
+        <mat-icon rangepickerToggleIcon matSuffix (click)="clearDateArchivo($event)">clear</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Estado</mat-label>
