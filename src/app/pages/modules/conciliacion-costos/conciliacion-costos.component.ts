@@ -44,7 +44,6 @@ export class ConciliacionCostosComponent implements OnInit {
           menusrol.data.forEach(itm => {
             this.menusConciliacionCostos.push(itm.menu);
           });
-          console.log(this.menusConciliacionCostos);
         });
       }
     })
@@ -64,7 +63,7 @@ export class ConciliacionCostosComponent implements OnInit {
 
   validarMenuProximo(menu) {
     if (menu.nombre === "") {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: "Este elemento no forma parte del alcance de esta versión.",
