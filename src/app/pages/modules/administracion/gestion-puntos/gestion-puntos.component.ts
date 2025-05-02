@@ -49,6 +49,7 @@ export class GestionPuntosComponent implements OnInit {
   fondosBancoAVALSeleccionado: number;
   oficinasBancoAVALSeleccionado: number;
   cajerosATMBancoAvalSeleccionado: number;
+  clientes: any[] = [];
 
   constructor(
     private readonly dialog: MatDialog,
@@ -59,10 +60,11 @@ export class GestionPuntosComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken();
-    this.listarTiposPunto();
-    this.listarPuntosSeleccionado();
-    this.listarCiudades();
-    this.listarBancos();
+    await this.listarTiposPunto();
+    await this.listarPuntosSeleccionado();
+    await this.listarCiudades();
+    await this.listarBancos();
+    await this.listarClientes();
   }
 
   /**
@@ -89,7 +91,12 @@ export class GestionPuntosComponent implements OnInit {
     if (punto.tipoPunto === 'CAJERO') {
       codigoBanco = punto.cajeroATM.bancoAval;
     }
+    if (punto.tipoPunto === 'CLIENTE') {
+      codigoBanco = this.clientes.find((v) => v.codigoCliente === punto.sitiosClientes.codigoCliente)?.codigoBancoAval;
+    }
+
     const banco = this.bancosAval.find((b) => b.codigoPunto === codigoBanco);
+    console.debug('idPunto: ' + punto.codigoPunto);
     return banco !== undefined ? banco.nombreBanco : '';
   }
 
@@ -183,6 +190,14 @@ export class GestionPuntosComponent implements OnInit {
     );
   }
 
+  async listarClientes() {
+    await lastValueFrom(this.generalServices.listarClientes()).then(
+      (response) => {
+        this.clientes = response.data;
+      }
+    );
+  }
+
   /**
    * Evento que valida la selecciond un tipo de punto
    * @BayronPerez
@@ -256,5 +271,5 @@ export class GestionPuntosComponent implements OnInit {
    */
   resolverEstado(estado: string): string {
     return estado === "1" ? "Activo" : "Inactivo";
-  }
+  }  
 }
