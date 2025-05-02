@@ -71,7 +71,7 @@ export class CrearPuntoComponent implements OnInit {
     this.spinnerActive = false;
   }
 
-  initForm(param?: any) {
+  async initForm(param?: any) {
     let valCodigoOficina: any;
     let valTarifaRuteo: any;
     let valTarifaVerificacion: any;
@@ -81,9 +81,12 @@ export class CrearPuntoComponent implements OnInit {
     this.puntoSeleccionado = param ? param?.tipoPunto : null;
 
     if (param?.tipoPunto === 'CLIENTE') {
-      const cliente = this.clientes.find(value => value.codigoCliente === param.sitiosClientes.codigoCliente)
-      valBancoAval = cliente.codigoBancoAval;
+      await this.getClientes({"codigoCliente": param.sitiosClientes.codigoCliente});
+      
+      const cliente = this.clientes.find(value => value.codigoCliente === param.sitiosClientes.codigoCliente);
+      valBancoAval = cliente?.codigoBancoAval;
       valFajado = param?.sitiosClientes?.fajado;
+      await this.getClientes({"codigobancoAval": valBancoAval ?? ''});
     }
 
     if(param?.tipoPunto === 'OFICINA') {
@@ -197,12 +200,6 @@ export class CrearPuntoComponent implements OnInit {
       }
     );
 
-    await lastValueFrom(this.generalServices.listarClientes()).then(
-      (response) => {
-        this.clientes = response.data;
-      }
-    );
-
     await lastValueFrom(this.generalServices.listarBancosAval()).then(
       (response) => {
         this.bancosAval = response.data;
@@ -256,4 +253,30 @@ export class CrearPuntoComponent implements OnInit {
     this.form.controls['cliente'].updateValueAndValidity();
 
   }
+  
+  /**
+   * Realiza la peticion al servicio de Clientes Corporativos con 
+   * parametros para filtrar resultados
+   * @param params 
+   * @author prv_nparra
+   */
+  async getClientes(params: any) {
+
+    await lastValueFrom(this.generalServices.listarClientes(params)).then(
+      (response) => {
+        this.clientes = response.data;
+      }
+    );
+
+  }
+
+  /**
+   * Evento lanzado por cambio en valor de combo de Bancos
+   * @param element 
+   * @author prv_nparra
+   */
+  changeBancoAval(element: any) {
+    this.getClientes({"codigoBancoAval": element.value.codigoPunto});
+  }
+
 }

@@ -19,7 +19,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Banco</mat-label>
       <mat-select [(ngModel)]="bancoSeleccionado" (selectionChange)="eventoBanco($event)"
-        [disabled]="puntoSeleccionado == 'CLIENTE' || puntoSeleccionado == 'BAN_REP' || puntoSeleccionado == 'BANCO'">
+        [disabled]="puntoSeleccionado === 'BAN_REP' || puntoSeleccionado === 'BANCO'">
         <mat-option>Ninguno</mat-option>
         <mat-option *ngFor="let item of bancosAval" [value]="item.codigoPunto">
           {{item.nombreBanco}}
