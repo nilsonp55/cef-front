@@ -167,6 +167,7 @@ export class ClientesCorporativosComponent implements OnInit {
     this.dialog
       .open(FormClientesCorpComponent, {
         width: GENERALES.DIALOG_FORM.SIZE_FORM,
+        height: GENERALES.DIALOG_FORM.SIZE_FORM,
         data: { flag: action, row: element, bancos: this.bancos },
       }).afterClosed()
       .subscribe((result) => {

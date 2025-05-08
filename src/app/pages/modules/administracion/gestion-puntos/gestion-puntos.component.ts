@@ -96,7 +96,6 @@ export class GestionPuntosComponent implements OnInit {
     }
 
     const banco = this.bancosAval.find((b) => b.codigoPunto === codigoBanco);
-    console.debug('idPunto: ' + punto.codigoPunto);
     return banco !== undefined ? banco.nombreBanco : '';
   }
 
@@ -236,7 +235,8 @@ export class GestionPuntosComponent implements OnInit {
    */
   async abrirDialogPunto(action: string, element: any) {
     this.dialog.open(CrearPuntoComponent, {
-      width: '600PX',
+      width: GENERALES.DIALOG_FORM.SIZE_FORM,
+      height: GENERALES.DIALOG_FORM.SIZE_FORM,
       data: {
         flag: action,
         listPuntos: this.listPuntosSelect,

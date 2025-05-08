@@ -35,7 +35,6 @@ export class CentroCiudadPpalGuard implements CanActivate {
           menusrol.data.forEach(itm => {
             this.menusAdminPpal.push(itm.menu);
           });
-          //console.log(menusrol)
           //validation guard
           let guardOk: boolean = false;
           menusrol.data.forEach(itm => {
