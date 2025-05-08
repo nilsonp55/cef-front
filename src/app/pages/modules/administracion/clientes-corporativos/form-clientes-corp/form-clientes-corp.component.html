@@ -3,6 +3,7 @@
 </div>
 
 <div [formGroup]="form">
+  <div class="flex">
     <mat-form-field appearance="outline">
         <mat-label>Código Cliente</mat-label>
         <input formControlName="codigoCliente" matInput #input>
@@ -17,7 +18,8 @@
         </mat-select>
         <mat-error *ngIf="form.get('codigoBancoAval').hasError('required')">Este campo es requerido</mat-error>
     </mat-form-field>
-
+  </div>
+  <div class="flex">
     <mat-form-field appearance="outline">
         <mat-label>Nombre Cliente Corporativo</mat-label>
         <input matInput required formControlName="nombreCliente">
@@ -33,7 +35,8 @@
       </mat-select>
       <mat-error *ngIf="form.get('tipoId').hasError('required')">Este campo es requerido</mat-error>
     </mat-form-field>
-
+  </div>
+  <div class="flex">
     <mat-form-field appearance="outline">
         <mat-label>Numero de identificación</mat-label>
         <input matInput required formControlName="identificacion">
@@ -45,10 +48,12 @@
         <input matInput required placeholder="0" type="number" formControlName="tarifaSeparacion">
         <mat-error *ngIf="form.get('tarifaSeparacion').hasError('required')">Este campo es requerido</mat-error>
     </mat-form-field>
-
+  </div>
+  <div class="flex">
     <div class="mat-form-field-wrapper">
       <mat-checkbox formControlName="amparado" labelPosition="before">Amparado</mat-checkbox>
     </div>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button class="division-btn1" mat-raised-button color="primary" (click)="saveClienteCorporativo()">Aceptar</button>

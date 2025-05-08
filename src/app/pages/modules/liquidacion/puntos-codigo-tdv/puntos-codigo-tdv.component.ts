@@ -40,11 +40,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
   cantPagina : any;
 
   clientes: any[] = [];
-  tdvSelect: boolean = false;
-  tipoPuntoSelect: boolean = false;
-  puntoSelect: boolean = false;
-  ciudadSelect: boolean = false;
-  clienteSelect: boolean = false;
   listPuntosSelect: any;
   puntoSeleccionado: any;
   listCiudadSelect: any;
@@ -85,19 +80,26 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
       await this.filtrarListaPuntos(param);
     }
+
     const puntoValueForm = this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto);
     const clienteValueForm = this.clientes.find((value) => value.codigoCliente == param.puntosDTO.sitiosClientes.codigoCliente);
+    const bancoValueForm = this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto);
+    const tdvValueForm = this.transportadoras.find((value) => value.codigo == param.codigoTDV);
     this.form = new FormGroup({
       'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
       'punto': new FormControl(param ? puntoValueForm : null),
-      'codigoPunto': new FormControl(param ? param.codigoPunto : null, [Validators.required]),
-      'codigoTdv': new FormControl(param ? this.transportadoras.find((value) => value.codigo == param.codigoTDV) : null, [Validators.required]),
-      'codigoPropioTDV': new FormControl(param ? param.codigoPropioTDV : null, [Validators.required]),
-      'banco': new FormControl(param ? this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto) : null, [Validators.required]),
+      'codigoPunto': new FormControl(
+        param ? param.codigoPunto : null, 
+        [Validators.required]),
+      'codigoTdv': new FormControl(tdvValueForm ?? null, [Validators.required]),
+      'codigoPropioTDV': new FormControl(param?.codigoPropioTDV ?? null, [Validators.required]),
+      'banco': new FormControl(bancoValueForm ?? null, [Validators.required]),
       'estado': new FormControl(param ? param.estado === 1 : true),
       'codigoDANE': new FormControl(ciudad ? ciudad : "0"),
       'cliente': new FormControl(param ? clienteValueForm : null),
-      'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null,  [Validators.required])
+      'tipoPunto': new FormControl(
+        {value: param ? param.puntosDTO.tipoPunto : null, disabled: false}, 
+        [Validators.required])
     }); 
   }
 
@@ -110,11 +112,11 @@ export class PuntosCodigoTdvComponent implements OnInit {
     this.puntosCodigoService.obtenerPuntosCodigoTDV({
       page: pagina,
       size: tamanio,
-      'bancos.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
-      'codigoTDV': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
-      'busqueda': this.filtroCodigoPropio == undefined ? '': this.filtroCodigoPropio,
-      'puntos.tipoPunto': this.puntoSeleccionado == undefined ? '' : this.puntoSeleccionado.valorTexto,
-      'ciudadFondo': this.listCiudadSelect == undefined ? '' : this.listCiudadSelect.codigoDANE
+      'bancos.codigoPunto': this.filtroBancoSelect === undefined ? '': this.filtroBancoSelect.codigoPunto,
+      'codigoTDV': this.filtroTransportaSelect === undefined ? '': this.filtroTransportaSelect.codigo,
+      'busqueda': this.filtroCodigoPropio === undefined ? '': this.filtroCodigoPropio,
+      'puntos.tipoPunto': this.puntoSeleccionado === undefined ? '' : this.puntoSeleccionado.valorTexto,
+      'ciudadFondo': this.listCiudadSelect === undefined ? '' : this.listCiudadSelect.codigoDANE
     }).subscribe({
       next: (page: any) => {
         this.dataSourceCodigoPuntoTdv = new MatTableDataSource(page.data.content);
@@ -147,7 +149,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
     const puntoCodigo = {
       idPuntoCodigoTdv: this.form.value['idPuntoCodigo'],
       codigoTDV: this.form.value['codigoTdv'].codigo,
-      codigoPunto: this.form.value['codigoPunto'],
+      codigoPunto: Number(this.form.value['punto'].codigoPunto),
       codigoPropioTDV: this.form.value['codigoPropioTDV'],
       ciudadFondo: this.form.value['codigoDANE'],
       bancosDTO: {
@@ -228,7 +230,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
    */
   crearPuntoCodigo() {
     this.mostrarFormulario = true;
-    this.form.get('idPuntoCodigo').disable();
     this.esEdicion = false;
     this.mostrarTabla = false;
   }
@@ -285,159 +286,84 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   }
 
-  selectedBanco(event) {
-    this.tdvSelect = true;
+  async filtrarListaPuntos(codigoTdv: any) {
+    this.spinnerActive = true;
+    let params = {
+      tipoPunto: this.selectedTipoPunto,
+      page: 0,
+      size: 5000
+    };
+    
+    this.form.controls['banco'].setValidators(Validators.required);
+
+    if(codigoTdv.puntosDTO.tipoPunto === "FONDO"){
+      params['fondos.bancoAVAL'] = Number(codigoTdv.bancosDTO.codigoPunto);
+    }
+    if(codigoTdv.puntosDTO.tipoPunto === "OFICINA"){
+      params['oficinas.bancoAVAL'] = Number(codigoTdv.bancosDTO.codigoPunto);
+    }
+    if(codigoTdv.puntosDTO.tipoPunto === "CAJERO"){
+      params['cajerosAtm.codBancoAval'] = Number(codigoTdv.bancosDTO.codigoPunto);
+    }
+    if(codigoTdv.puntosDTO.tipoPunto === "CLIENTE"){
+      let paramsClientes = {
+        'fondos.bancoAVAL': Number(codigoTdv.bancosDTO.codigoPunto),
+        page: 0,
+        size: 5000
+      };
+      await this.listarClientes(paramsClientes);
+
+      params['cliente'] = codigoTdv.puntosDTO.sitiosClientes.codigoCliente;
+    }
+
+    if(codigoTdv.puntosDTO.tipoPunto === "BAN_REP" || codigoTdv.puntosDTO.tipoPunto === "BANCO") {
+      this.form.controls['banco'].removeValidators(Validators.required);
+    }
+
+    await this.listarPuntos(params);
+    this.spinnerActive = false;
+    this.form.controls['banco'].updateValueAndValidity();
   }
 
-  selectedTdv(event) {
-    this.tipoPuntoSelect = true;
-  }
+  async changeBanco(event: any) {
+    let params = {
+      tipoPunto: this.selectedTipoPunto,
+      page: 0,
+      size: 5000
+    };
 
-  async filtrarListaPuntos(paramn) {
-
-    let params;
-    let tipoPunto1 = paramn.puntosDTO.tipoPunto;
-    this.ciudadSelect = false;
-    this.clienteSelect = false;
-    if(tipoPunto1 == "BAN_REP"){
-      this.puntoSelect = true;
-      this.ciudadSelect = true;
-      params = {
-        tipoPunto: this.selectedTipoPunto,
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(params);
+    if(this.selectedTipoPunto === "FONDO"){
+      params['fondos.bancoAVAL'] = Number(event.value?.codigoPunto);
     }
-    if(tipoPunto1 == "BANCO"){
-      this.puntoSelect = true;
-      params = {
-        tipoPunto: this.selectedTipoPunto,
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(params);
+    if(this.selectedTipoPunto === "OFICINA"){
+      params['oficinas.bancoAVAL'] = Number(event.value?.codigoPunto);
     }
-    if(tipoPunto1 == "FONDO"){
-      this.puntoSelect = true;
-      params = {
-        'fondos.bancoAVAL': Number(paramn.bancosDTO.codigoPunto),
-        tipoPunto: this.selectedTipoPunto,
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(params);
+    if(this.selectedTipoPunto === "CAJERO"){
+      params['cajerosAtm.codBancoAval'] = Number(event.value?.codigoPunto);
     }
-    if(tipoPunto1 == "OFICINA"){
-      this.puntoSelect = true;
-      params = {
-        'oficinas.bancoAVAL': Number(paramn.bancosDTO.codigoPunto),
-        tipoPunto: this.selectedTipoPunto,
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(params);
-    }
-    if(tipoPunto1 == "CAJERO"){
-      this.puntoSelect = true;
-      params = {
-        tipoPunto: this.selectedTipoPunto,
-        'cajerosAtm.codBancoAval': Number(paramn.bancosDTO.codigoPunto),
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(params);
-    }
-    if(tipoPunto1 == "CLIENTE"){
-      this.puntoSelect = true;
-      this.ciudadSelect = true;
-      this.clienteSelect = true;
-      params = {
-        'fondos.bancoAVAL': Number(paramn.bancosDTO.codigoPunto),
-        page: 0,
-        size: 5000
-      };
+    if(this.selectedTipoPunto === "CLIENTE"){
+      params['codigoBancoAval'] = Number(event.value?.codigoPunto);
       await this.listarClientes(params);
-
-      let paramPuntos = {
-        tipoPunto: this.selectedTipoPunto,
-        cliente: paramn.puntosDTO.sitiosClientes.codigoCliente,
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(paramPuntos);
-    }
-
-  }
-
-  async changeTipoPunto(event: any) {
-
-    let params;
-    this.ciudadSelect = false;
-    this.clienteSelect = false;
-    let tipoPunto1 = event.value;
-
-    if(tipoPunto1 == "BAN_REP"){
-      this.puntoSelect = true;
-      this.ciudadSelect = true;
-      params = {
-        tipoPunto: this.selectedTipoPunto,
-        page: 0,
-        size: 5000
-      };
+    } else {
       await this.listarPuntos(params);
-    }
-    if(tipoPunto1 == "BANCO"){
-      this.puntoSelect = true;
-      params = {
-        tipoPunto: this.selectedTipoPunto,
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(params);
-    }
-    if(tipoPunto1 == "FONDO"){
-      this.puntoSelect = true;
-      params = {
-        'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
-        tipoPunto: this.selectedTipoPunto,
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(params);
-    }
-    if(tipoPunto1 == "OFICINA"){
-      this.puntoSelect = true;
-      params = {
-        'oficinas.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
-        tipoPunto: this.selectedTipoPunto,
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(params);
-    }
-    if(tipoPunto1 == "CAJERO"){
-      this.puntoSelect = true;
-      params = {
-        tipoPunto: this.selectedTipoPunto,
-        'cajerosAtm.codBancoAval': Number(this.form.value['banco'].codigoPunto),
-        page: 0,
-        size: 5000
-      };
-      await this.listarPuntos(params);
-    }
-    if(tipoPunto1 == "CLIENTE"){
-      this.puntoSelect = false;
-      this.clienteSelect = true;
-      params = {
-        'fondos.bancoAVAL': Number(this.form.value['banco'].codigoPunto),
-        page: 0,
-        size: 5000
-      };
-      await this.listarClientes(params);
     }
 
     this.form.controls['codigoPunto'].setValue('');
+  }
+
+  async changeTipoPunto(event: any) {  
+    let params = {
+      tipoPunto: event?.value,
+      page: 0,
+      size: 5000
+    };
+    
+    if (event?.value === 'BAN_REP' || event?.value === 'BANCO') {
+      await this.listarPuntos(params);
+      this.form.controls['codigoPunto'].setValue('');
+    }
+    this.form.controls['banco'].setValue('');
+    
   }
 
   async listarClientes(params: any){
@@ -474,11 +400,9 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   filtrarPuntosCliente(event: any) {
-    this.puntoSelect = true;
-    this.ciudadSelect = true;
     let params = {
       tipoPunto: this.selectedTipoPunto,
-      cliente: this.form.value['cliente'].codigo,
+      'sitiosClientes.codigoCliente': event.value.codigoCliente,
     };
     this.listarPuntos(params);
   }
@@ -498,7 +422,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   changePunto(event) {
-    debugger;
     this.spinnerActive = true;
     this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
 
@@ -506,8 +429,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       this.form.controls['codigoDANE'].setValue(event.value.codigoCiudad);
     } else {
       this.form.controls['codigoDANE'].setValue('0');
-    }
-    
+    }    
     this.spinnerActive = false;
   }
 
