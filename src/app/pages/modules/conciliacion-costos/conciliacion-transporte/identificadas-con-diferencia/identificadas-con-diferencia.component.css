@@ -57,33 +57,13 @@ table {
 .mat-column-header-row-14,
 .mat-column-header-row-16,
 .mat-column-header-row-18,
+.mat-column-header-row-20,
 .mat-column-aplicativoTipoPedido,
 .mat-column-tvdTipoPedido,
 .mat-column-aplicativoTransportadoBilletePesos,
 .mat-column-tvdTransportadoBilletePesos,
 .mat-column-aplicativoTotalTransportado,
 .mat-column-tvdTotalTransportado,
-.mat-column-aplicativoCostoFijo,
-.mat-column-tvdCostoFijo,
-.mat-column-aplicativoCostoBolsa,
-.mat-column-tvdCostoBolsa,
-.mat-column-aplicativoOtros1,
-.mat-column-tvdOtros1,
-.mat-column-aplicativoOtros3,
-.mat-column-tvdOtros3,
-.mat-column-aplicativoOtros5,
-.mat-column-tvdOtros5,
-.mat-column-aplicativoIva,
-.mat-column-tvdIva {
-    background: lightblue;
-}
-
-.mat-column-aplicativoEscala,
-.mat-column-tvdEscala,
-.mat-column-aplicativoTransportadoMonedaPesos,
-.mat-column-tvdTransportadoMonedaPesos,
-.mat-column-aplicativoNumeroBolsasMoneda,
-.mat-column-tvdNumeroBolsasMoneda,
 .mat-column-aplicativoCostoMilaje,
 .mat-column-tvdCostoMilaje,
 .mat-column-aplicativoCostoFletes,
@@ -96,6 +76,29 @@ table {
 .mat-column-tvdSubTotal,
 .mat-column-aplicativoValorTotal,
 .mat-column-tvdValorTotal,
+.mat-column-aplicativoNumeroBolsasMoneda,
+.mat-column-tvdNumeroBolsasMoneda {
+    background: lightblue;
+}
+
+.mat-column-aplicativoEscala,
+.mat-column-tvdEscala,
+.mat-column-aplicativoTransportadoMonedaPesos,
+.mat-column-tvdTransportadoMonedaPesos,
+.mat-column-aplicativoNumeroFajos,
+.mat-column-tvdNumeroFajos,
+.mat-column-aplicativoCostoFijo,
+.mat-column-tvdCostoFijo,
+.mat-column-aplicativoCostoBolsa,
+.mat-column-tvdCostoBolsa,
+.mat-column-aplicativoOtros1,
+.mat-column-tvdOtros1,
+.mat-column-aplicativoOtros3,
+.mat-column-tvdOtros3,
+.mat-column-aplicativoOtros5,
+.mat-column-tvdOtros5,
+.mat-column-aplicativoIva,
+.mat-column-tvdIva,
 .mat-column-header-row-3,
 .mat-column-header-row-5,
 .mat-column-header-row-7,
@@ -108,6 +111,6 @@ table {
     background: lightgoldenrodyellow;
 }
 
-.text-no-equity{
-  color: red;
+.text-no-equity {
+    color: red;
 }
