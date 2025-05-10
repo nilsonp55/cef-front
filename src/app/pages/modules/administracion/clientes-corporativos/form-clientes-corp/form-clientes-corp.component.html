@@ -1,0 +1,51 @@
+<div class="titulo-tabla">
+    <h1>Cliente Corporativo</h1>
+</div>
+
+<div [formGroup]="form">
+    <mat-form-field appearance="outline">
+        <mat-label>Código Cliente</mat-label>
+        <input formControlName="codigoCliente" matInput #input>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Banco Aval</mat-label>
+        <mat-select required formControlName="codigoBancoAval">
+            <mat-option *ngFor="let item of bancos" [value]="item">
+                {{item.nombreBanco}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre Cliente Corporativo</mat-label>
+        <input matInput required formControlName="nombreCliente">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo de identificación</mat-label>
+      <mat-select required formControlName="tipoId">
+        <mat-option *ngFor="let item of tiposIdentificacion" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Numero de identificación</mat-label>
+        <input matInput required formControlName="identificacion">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Tarifa separación</mat-label>
+        <input matInput required placeholder="0" type="number" formControlName="tarifaSeparacion">
+    </mat-form-field>
+
+    <div class="mat-form-field-wrapper">
+      <mat-checkbox formControlName="amparado" labelPosition="before">Amparado</mat-checkbox>
+    </div>
+</div>
+<div mat-dialog-actions>
+  <button class="division-btn1" mat-raised-button color="primary" (click)="saveClienteCorporativo()">Aceptar</button>
+  <button mat-raised-button (click)="onCancel()">Cancelar</button>
+</div>

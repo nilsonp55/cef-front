@@ -1,7 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ErroresCampos } from 'src/app/_model/cargue-preliminar-model/error-campo.model';
-import { ValidacionLineaArchivo } from 'src/app/_model/cargue-preliminar-model/validacion-linea-archivo.model';
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
 
 @Component({
@@ -10,8 +8,8 @@ import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/
   styleUrls: ['./dialog-ver-archivo-def.component.css']
 })
 export class DialogVerArchivoDefComponent implements OnInit {
-  
-  tablaValidacionError: any[] = [{ 
+
+  tablaValidacionError: any[] = [{
     linea: "1",
     campo: "1",
     descripcion: "1",
@@ -23,7 +21,7 @@ export class DialogVerArchivoDefComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private cargueArchivosService: CargueArchivosService
-  ) { 
+  ) {
     this.tablaValidacionError=data.tableData
     this.tableData=data.tableData
     this.prueba=this.tableData.length

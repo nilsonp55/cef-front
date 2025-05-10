@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { ErrorService } from 'src/app/_model/error.model';
-import { CuentasPucService } from 'src/app/_service/contabilidad-service/cuentas-puc.service';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
@@ -52,8 +51,7 @@ export class GestionUsuariosComponent implements OnInit {
         'apellidos': new FormControl(param? param.apellidos : null),
         'tipoUsario': new FormControl(param? param.tipoUsario : null),
         'rol': new FormControl(param? this.selectRol(param) : null),
-        'estado': new FormControl(param? param.estado : null),
-
+        'estado': new FormControl(param?.estado === "1" ? true : false),
       });
   }
 
@@ -92,21 +90,10 @@ export class GestionUsuariosComponent implements OnInit {
     * @BayronPerez
     */
    persistir() {
-     /*
-    let mailValido = false;
-      'use strict';
-
-      var EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-      let email = this.form.value['idUsuario']
-      if (email.match(EMAIL_REGEX)){
-        mailValido = true;
-      }
-     if(!mailValido){
-      let lasa;
-     } else {
-       let loso;
-     }
-     */
+    let valorEstado = '0';
+    if(this.form.value['estado']){
+     valorEstado = '1';
+    }
     const usuarioDTO = {
       idUsuario: this.form.value['idUsuario'],
       nombres: this.form.value['nombres'],
@@ -115,7 +102,7 @@ export class GestionUsuariosComponent implements OnInit {
       rol: {
         idRol: this.form.value['rol'].idRol
       },
-      estado: this.form.value['estado'],
+      estado: valorEstado,
     };
 
     if (this.esEdicion) {
@@ -124,7 +111,7 @@ export class GestionUsuariosComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         }); setTimeout(() => { alert.close() }, 3000);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 
@@ -20,34 +21,38 @@ export class AdministracionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
+    private routeAdm: ActivatedRoute,
+    private routerAdm: Router
   ) { }
-
+  
   ngOnInit(): void {
-    ManejoFechaToken.manejoFechaToken()
+    ManejoFechaToken.manejoFechaToken();
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {
       //Logica para capturar los menus para administracion
-      let rol = data.data[0].rol.idRol;
-      this.rolMenuService.obtenerMenuRol({
-        'rol.idRol': rol,
-        'estado': "1",
-        'menu.idMenuPadre': "administracion"
-      }).subscribe(menusrol => {
-        menusrol.data.forEach(itm => {
-          this.menusAdministracion.push(itm.menu);
+      if(data.data[0].estado === "1"){
+        let rol = data.data[0].rol.idRol;
+        this.rolMenuService.obtenerMenuRol({
+          'rol.idRol': rol,
+          'estado': "1",
+          'menu.idMenuPadre': "administracion"
+        }).subscribe(menusrol => {
+          menusrol.data.forEach(itm => {
+            this.menusAdministracion.push(itm.menu);
+          });
         });
-      });
-      //Logica para capturar los menus para administracion tablas contables
-      this.rolMenuService.obtenerMenuRol({
-        'rol.idRol': rol,
-        'estado': "1",
-        'menu.idMenuPadre': "administracionTabContables"
-      }).subscribe(menusrol => {
-        menusrol.data.forEach(itm => {
-          this.menusAdministracionTablsContables.push(itm.menu);
+        //Logica para capturar los menus para administracion tablas contables
+        this.rolMenuService.obtenerMenuRol({
+          'rol.idRol': rol,
+          'estado': "1",
+          'menu.idMenuPadre': "administracionTabContables"
+        }).subscribe(menusrol => {
+          menusrol.data.forEach(itm => {
+            this.menusAdministracionTablsContables.push(itm.menu);
+          });
         });
-      });
+      }
     })
   }
 
@@ -61,6 +66,16 @@ export class AdministracionComponent implements OnInit {
       (this.checkMenuLateral = $event).toString();
     }
 
+  }
+
+  gotToRouteAdm(menu: any) {
+    this.menusAdministracion.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.menusAdministracionTablsContables.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.routerAdm.navigate([`${menu.url}`], {relativeTo: this.routeAdm});
   }
 
 }

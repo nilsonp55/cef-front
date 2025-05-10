@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-liquidacion',
@@ -12,6 +13,8 @@ export class LiquidacionComponent implements OnInit {
 
   constructor(
     private rolMenuService: RolMenuService,
+    private routeLiq: ActivatedRoute,
+    private routerLiq: Router
   ) { }
 
   ngOnInit(): void {
@@ -31,6 +34,13 @@ export class LiquidacionComponent implements OnInit {
         });
       });
     })
+  }
+
+  gotToRouteLiq(menu: any) {
+    this.menusLiquidacion.forEach(element => {
+      element.activo = element.idMenu === menu.idMenu ? 1 : 0;
+    });
+    this.routerLiq.navigate([`${menu.url}`], {relativeTo: this.routeLiq});
   }
 
 }

@@ -9,6 +9,8 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { CentroCiudadesService } from 'src/app/_service/contabilidad-service/centro-ciudades.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-administracion-centro-ciudades',
@@ -26,15 +28,17 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
   ciudades: any[] = [];
   idCentroCiudad: any;
   esEdicion: boolean;
+  spinnerActive: boolean = false;
 
-  //Rgistros paginados
+  //Registros paginados
   @ViewChild(MatSort) sort: MatSort;
   cantidadRegistros: number;
 
   constructor(
     private centroCiudadesService: CentroCiudadesService,
     private generalServices: GeneralesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public spinnerComponent: SpinnerComponent
   ) { }
 
   ngOnInit(): void {
@@ -48,11 +52,16 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
     * @BayronPerez
     */
   async datosDesplegables() {
-    const _bancos = await this.generalServices.listarBancosAval().toPromise();
-    this.bancos = _bancos.data;
+    this.spinnerActive = true;
+    await lastValueFrom(this.generalServices.listarBancosAval()).then((response) => {
+      this.bancos = response.data;
+      this.spinnerActive = false;
+    });
 
-    const _ciudades = await this.generalServices.listarCiudades().toPromise();
-    this.ciudades = _ciudades.data;
+    lastValueFrom(this.generalServices.listarCiudades()).then((response) => {
+      this.ciudades = response.data;
+      this.spinnerActive = false;
+    });
   }
 
   /**
@@ -62,27 +71,10 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
   initForm(param?: any) {
     this.form = new FormGroup({
       'idCentroCiudad': new FormControl(param ? param.idCentroCiudad : null),
-      'bancoAval': new FormControl(param ? this.selectBancoAval(param) : null),
-      'codigoDane': new FormControl(param ? this.selectCiudad(param) : null),
+      'bancoAval': new FormControl(param ? this.bancos.find((value) => value.codigoPunto === param.bancoAval.codigoPunto) : null),
+      'codigoDane': new FormControl(param ? this.ciudades.find((value) => value.codigoDANE === param.ciudadDane.codigoDANE) : null),
       'codigoCentro': new FormControl(param ? param.codigoCentro : null),
     });
-  }
-
-  selectBancoAval(param: any): any {
-    for (let i = 0; i < this.bancos.length; i++) {
-      const element = this.bancos[i];
-      if(element.codigoPunto == param.bancoAval.codigoPunto) {
-        return element;
-      }
-    }
-  }
-  selectCiudad(param: any): any {
-    for (let i = 0; i < this.ciudades.length; i++) {
-      const element = this.ciudades[i];
-      if(element.codigoDANE == param.ciudadDane.codigoDANE) {
-        return element;
-      }
-    }
   }
 
   /**
@@ -90,23 +82,28 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
    * @BayronPerez
    */
   listarCentrosCiudades(pagina = 0, tamanio = 5) {
+    this.spinnerActive = true;
     this.centroCiudadesService.obtenerCentrosCiudades({
       page: pagina,
       size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
-      this.dataSourceTiposCuentas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
+        this.dataSourceTiposCuentas.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+        this.spinnerActive = false;
+      },
+      error: (err: ErrorService) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CENTRO_CIUDAD.ERROR_GET_TIPO_ADMIN_CENTRO_CIUDAD,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+        this.spinnerActive = false;
+      }
+    });
   }
 
   /**
@@ -114,6 +111,7 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
     * @BayronPerez
     */
   persistir() {
+    this.spinnerActive = true;
     const centrociudad = {
       idCentroCiudad: null,
       ciudadDane: {
@@ -127,49 +125,57 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
 
     if (this.esEdicion) {
       centrociudad.idCentroCiudad = this.idCentroCiudad;
-      this.centroCiudadesService.actualizarCentroCiudade(centrociudad).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.centroCiudadesService.actualizarCentroCiudade(centrociudad).subscribe({
+        next: response => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarCentrosCiudades()
         this.initForm();
+        this.spinnerActive = false;
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
+          });
+          this.spinnerActive = false;
+        }
+      });
     } else {
-      this.centroCiudadesService.guardarCentroCiudade(centrociudad).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.centroCiudadesService.guardarCentroCiudade(centrociudad).subscribe({
+        next: response => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarCentrosCiudades()
         this.initForm();
+        this.spinnerActive = false;
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error:  (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
+          });
+          this.spinnerActive = false;
+        }
+      });
     }
-    
+
   }
 
   /**
@@ -180,7 +186,7 @@ export class AdministracionCentroCiudadesComponent implements OnInit {
     this.initForm();
     this.form.get('idCentroCiudad').disable();
     this.mostrarFormulario = true;
-    this.esEdicion = true;
+    this.esEdicion = false;
   }
 
   /**

@@ -28,7 +28,8 @@ export class GestionPuntosService {
     }
 
     listarTiposPuntos(params?: any): Observable<any> {
-        return this.http.get<any>(`${this.url2}${URLs.CONSULTAR_DOMINIO}`, { params: params });
+        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+        return this.http.get<any>(`${this.url2}${URLs.CONSULTAR_DOMINIO}`, { headers: headers, params: params });
     }
 
     /** 
@@ -43,11 +44,13 @@ export class GestionPuntosService {
     * Servicio para listar los puntos
     */
     crearPunto(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`, param);
+        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+        return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`, { param }, { headers } );
     }
 
     actualizarPunto(param: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.ACTUALIZAR_PUNTO}`, { param });
+        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+        return this.http.post<any>(`${this.url}${URLs.ACTUALIZAR_PUNTO}`, { param }, { headers });
     }
 
 }

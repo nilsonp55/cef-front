@@ -17,7 +17,6 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
 
   form: FormGroup;
   valorTotal: number;
-  estado: string;
   dataSourceInfoOpCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>;
   displayedColumnsInfoOpCertificadas: string[] = ['idCertificacion', 'nombreFondoTDV', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'valorFaltante', 'valorSobrante'];
   dataElement: any;
@@ -68,24 +67,23 @@ export class DialogActualizarOpCertificadasComponent implements OnInit {
     }
     this.opConciliadasService.actualizarOpCertificadas(estadoActualizar).subscribe({
       next: (page: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: "Se realizo la actualización exitosamente",
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 3500);
+        });
         this.dialogRef.close({ data: page });
       },
       error: (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.ERROR_MODIFICACION + " - " + err.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
       }
     });
   }

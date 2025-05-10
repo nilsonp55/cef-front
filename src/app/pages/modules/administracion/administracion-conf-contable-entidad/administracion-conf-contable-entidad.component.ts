@@ -1,16 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { GENERALES } from 'src/app/pages/shared/constantes';
-import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { ErrorService } from 'src/app/_model/error.model';
-import { CuentasPucService } from 'src/app/_service/contabilidad-service/cuentas-puc.service';
-import { GeneralesService } from 'src/app/_service/generales.service'
-import { CentroCostosService } from 'src/app/_service/contabilidad-service/tipo-centro-costos.service';
-import { TiposCuentasService } from 'src/app/_service/contabilidad-service/tipos-cuentas.service';
 import { ConfContablesEntidadesService } from 'src/app/_service/contabilidad-service/conf-contables-entidades.service';
+import { GeneralesService } from 'src/app/_service/generales.service';
+import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
+import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
@@ -22,7 +19,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['banco', ' ', 'tipoTr', ' ','dc', ' ', 'tOpera', ' ', 'cuenta', ' ', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['banco', 'tipoTr', 'dc', 'tOpera', 'cuenta', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   esEdicion: boolean;

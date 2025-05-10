@@ -1,16 +1,19 @@
-<mat-card class="card-limites">
-    <mat-card-title>Puntos Codigo TDV</mat-card-title>
-
-    <ng-container *ngIf="mostrarTabla">
-      <!-- Content para mostrarTabla -->
-      <div class="division-btn">
-        <button mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="crearPuntoCodigo()">Crear Puntos Codigo TDV</button>
-      </div>
-
+<div *ngIf="spinnerActive" class="disenio-spinner">
+  <mat-spinner></mat-spinner>
+</div>
+  <!-- Content para mostrarTabla -->
       <div *ngIf="mostrarTabla" class="divTablaCerti">
         <div class="filtro">
           <mat-form-field appearance="fill">
+            <mat-label>Tipo Punto</mat-label>
+            <mat-select [(ngModel)]="puntoSeleccionado" >
+              <mat-option>Ninguno</mat-option>
+              <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto">
+                {{tipoPunto.valorTexto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" id="field-bancos-list">
             <mat-label>Bancos</mat-label>
             <mat-select [(ngModel)]="filtroBancoSelect">
               <mat-option *ngFor="let item of bancos" [value]="item">
@@ -18,29 +21,59 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Transporta</mat-label>
+          <mat-form-field appearance="fill" id="field-transportadoras-list">
+            <mat-label >Transporta</mat-label>
             <mat-select [(ngModel)]="filtroTransportaSelect">
               <mat-option *ngFor="let item of transportadoras" [value]="item">
                 {{item.nombreTransportadora}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field class="example-full-width">
+          <mat-form-field appearance="fill">
+            <mat-label>Ciudad</mat-label>
+            <mat-select [(ngModel)]="listCiudadSelect">
+              <mat-option *ngFor="let item of ciudades" [value]="item">
+                {{item.nombreCiudad}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
             <input type="text" matInput placeholder="Codigo Propio" [(ngModel)]="filtroCodigoPropio">
           </mat-form-field>
           <button title="Visualizar" mat-button (click)="filtrar($event)">
             <mat-icon style="color: green">search</mat-icon>
           </button>
         </div>
+        <div class="row">
+          <div class="col-2">
+            <button mat-raised-button class="ubicacion-btn-dominio" color="primary"
+                  (click)="crearPuntoCodigo()">Nuevo</button>
+          </div>
+          <div class="col-2">
+            <button mat-raised-button color="primary"
+                  (click)="exporter.exportTable('xlsx', {fileName:'puntos-codigo-tdv'})">Exportar</button>
+          </div>
+          <div class="col-8">
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
+                  (page)="mostrarMas($event)" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+        </div>
         <div class="configScroll">
           <table mat-table matTableExporter [dataSource]="dataSourceCodigoPuntoTdv" matSort
-                 #exporter="matTableExporter">
-            <caption></caption>
+                 #exporter="matTableExporter" class="mat-elevation-z8" aria-label="puntos-codigo-tdv">
             <tr>
+              <ng-container matColumnDef="idPuntoCodigoTdv" class="mat-column-nombreCampo" >
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                <td mat-cell *matCellDef="let element"> {{element.idPuntoCodigoTdv}} </td>
+              </ng-container>
               <ng-container matColumnDef="codigoPunto" class="mat-column-nombreCampo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO PUNTO</th>
                 <td mat-cell *matCellDef="let element"> {{element.codigoPunto}} </td>
+              </ng-container>
+              <ng-container matColumnDef="tipoPunto" class="mat-column-nombreCampo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO PUNTO</th>
+                <td mat-cell *matCellDef="let element"> {{element.puntosDTO.tipoPunto}} </td>
               </ng-container>
               <ng-container matColumnDef="codigoTdv" class="mat-column-nombreCampo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>TDV</th>
@@ -58,6 +91,14 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO</th>
                 <td mat-cell *matCellDef="let element"> {{element.bancosDTO.nombreBanco}} </td>
               </ng-container>
+              <ng-container matColumnDef="codigoCiudad" class="mat-column-nombreCampo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>CIUDAD FONDO</th>
+                <td mat-cell *matCellDef="let element"> {{resolverCiudadFondo(element.ciudadFondo)}} </td>
+              </ng-container>
+              <ng-container matColumnDef="estado" class="mat-column-nombreCampo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                <td mat-cell *matCellDef="let element"> {{resolverEstado(element.estado)}} </td>
+              </ng-container>
               <ng-container matColumnDef="acciones">
                 <th mat-header-cell *matHeaderCellDef> Acciones</th>
                 <td mat-cell *matCellDef="let element">
@@ -70,30 +111,22 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumnsCodigoPuntoTdv"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsCodigoPuntoTdv;"></tr>
           </table>
-          <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
-                         (page)="mostrarMas($event)">
-          </mat-paginator>
         </div>
-        <br>
-        <button mat-raised-button color="primary"
-                (click)="exporter.exportTable('xlsx', {fileName:'puntos-codigo-tdv'})">Exportar tabla</button>
       </div>
       <!-- Fin content mostrarTabla-->
-    </ng-container>
 
-    <ng-container *ngIf="mostrarFormulario">
+    <ng-container *ngIf="mostrarFormulario" class="flex">
       <!-- Content mostrarFormulario-->
       <div class="division-btn" >
         <button mat-raised-button class="ubicacion-btn-dominio" color="primary"
                 (click)="irAtras()">Atras</button>
       </div>
 
-      <div style="width: 80%" class="ubicacionTablas">
-        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
-              (ngSubmit)="persistir()">
-          <div >
+      <div >
+        <div [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
+          <div class="">
             <!--Id Punto Codigo TDV-->
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" >
               <input matInput placeholder="Id Punto Codigo TDV" formControlName="idPuntoCodigo">
             </mat-form-field>
 
@@ -165,8 +198,8 @@
 
             <!--Ciudad-->
             <mat-form-field appearance="outline" *ngIf="selectedTipoPunto=='BAN_REP'">
-              <mat-label>Ciudad</mat-label>
-              <input type="text" matInput placeholder="Ciudad" formControlName="codigoDANE" readonly>
+              <mat-label>Ciudad Fondo</mat-label>
+              <input type="text" matInput placeholder="Ciudad Fondo" formControlName="codigoDANE" readonly>
             </mat-form-field>
 
             <!--Estado-->
@@ -180,11 +213,9 @@
             </div>
           </div>
 
-          <button mat-raised-button type="submit" class="ubicacion-btn" color="primary"
+          <button mat-raised-button type="button" (click)="persistir()" class="ubicacion-btn" color="primary"
                   [disabled]="frmPaciente.invalid">Aceptar</button>
-        </form>
+        </div>
       </div>
       <!--Fin content mostrarFOrmulario -->
     </ng-container>
-
-</mat-card>

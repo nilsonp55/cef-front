@@ -21,7 +21,7 @@ export class LogArchivoCargadoDefinitivoComponent implements OnInit {
   idDatas: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private cargueProgramacionDefinitivaService: CargueProgramacionDefinitivaService,
     private dialog: MatDialog,
   ) { }
@@ -33,22 +33,20 @@ export class LogArchivoCargadoDefinitivoComponent implements OnInit {
   validarErrores() {
     this.cargueProgramacionDefinitivaService.verDetalleArchivo({
       'idArchivoCargado': this.data.id
-    }).subscribe((data: ValidacionArchivo) => {
+    }).subscribe({next: (data: ValidacionArchivo) => {
         this.dialog.open(DialogVerArchDefiComponent, {//
           height:'70%', width: '950px', data: {idModArch: this.idDatas, idData: this.data.id, data},//
-          
+
         });
-      
-      
     },
-    (err: any) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error: (err: any) => {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: err.error.response.description, codigo: GENERALES.CODE_EMERGENT.ERROR
         }
-      }); setTimeout(() => { alert.close() }, 3500);
-    })
+      });
+    }})
   }
 
 }

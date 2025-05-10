@@ -23,7 +23,7 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 
 /**
  *Clase encargada de gestionar los archivos cargados certificados pendientes
- *@BaironPerez 
+ *@BaironPerez
  */
 export class ArchiCargaCertificacionComponent implements OnInit {
 
@@ -54,7 +54,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     this.listarArchivosCargados();
   }
 
-  /** 
+  /**
   * Metodo encargado de realizar consumo de servicio para listar los archivos cargados definitivos
   * @param: pagina, tamanio
   * @BaironPerez
@@ -74,14 +74,14 @@ export class ArchiCargaCertificacionComponent implements OnInit {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: err.error.response? err.error.response.description : err.error.error,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
       });
   }
 
-  /** 
+  /**
   * Metodo encargado de validar un archivo seleccionado y visualizar su resultado en log emergente
   * @param: Archivo seleccionado
   * @BaironPerez*
@@ -119,7 +119,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     })
   }
 
-  /** 
+  /**
   * Metodo encargado de procesar un archivo seleccionado y visualizar su resultado
   * @param: Archivo seleccionado
   * @BaironPerez
@@ -154,7 +154,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   }
 
 
-  /** 
+  /**
   * Metodo para gestionar la paginación de la tabla
   * @BaironPerez
   */
@@ -164,7 +164,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
 
 
 
-  /** 
+  /**
   * Metodo para descargar y visualizar un archivo
   * @BaironPerez
   */
@@ -174,7 +174,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     });
   }
 
-  /** 
+  /**
   * Metodo para eliminar un registro de archivo previamente cargado
   * @BaironPerez
   */
@@ -195,7 +195,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     })
   }
 
-  /** 
+  /**
   * Metodo para reabrir un registro de archivo previamente cargado
   * @BaironPerez
   */

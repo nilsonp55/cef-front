@@ -16,6 +16,7 @@ import { ConciliacionesInfoProgramadasNoConciliadasModel } from 'src/app/_model/
 import { DialogConciliacionManualComponent } from './dialog-conciliacion-manual/dialog-conciliacion-manual.component';
 import { DialogInfoCertificadasNoConciliadasComponent } from './dialog-info-certificadas-no-conciliadas/dialog-info-certificadas-no-conciliadas.component';
 import { DialogInfoProgramadasNoConciliadasComponent } from './dialog-info-programadas-no-conciliadas/dialog-info-programadas-no-conciliadas.component';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-operaciones-no-conciliadas',
@@ -49,8 +50,6 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   numPaginaOpCer: any;
   cantPaginaOpCer: any;
 
-  idsValue: string;
-
   transportadoraForm = new FormControl();
   bancosForm = new FormControl();
 
@@ -61,16 +60,20 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   filteredOptionsBancos: Observable<BancoModel[]>;
 
   dataSourceOperacionesProgramadas: MatTableDataSource<ConciliacionesProgramadasNoConciliadasModel>;
-  displayedColumnsOperacionesProgramadas: string[] = ['idOperacion', 'tipoOperacion', 'oficina', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaOrigen', 'entradaSalida', 'valorTotal', 'acciones', 'relacion'];
+  displayedColumnsOperacionesProgramadas: string[] = ['idOperacion', 'tipoOperacion', 'oficina', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaOrigen', 'entradaSalida', 'valorTotal', 'acciones', 'seleccion'];
   dataSourceOperacionesProgramadasComplet: ConciliacionesProgramadasNoConciliadasModel[];
 
   dataSourceOperacionesCertificadas: MatTableDataSource<ConciliacionesCertificadaNoConciliadasModel>
-  displayedColumnsOperacionesCertificadas: string[] = ['idCertificacion', 'tipoOperacion', 'oficina', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal', 'acciones'];
+  displayedColumnsOperacionesCertificadas: string[] = ['seleccion', 'acciones', 'relacion', 'idCertificacion', 'tipoOperacion', 'oficina', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'fechaEjecucion', 'entradaSalida', 'valorTotal'];
   dataSourceOperacionesCertificadasComplet: ConciliacionesCertificadaNoConciliadasModel[];
 
   filtroBanco: string = '';
   filtroTrasportadora: string = '';
   filtroTipoPunto: string[] = [""];
+
+  selectionCertificadas = new SelectionModel<ConciliacionesCertificadaNoConciliadasModel>(true, []);
+  selectionProgramadas = new SelectionModel<ConciliacionesProgramadasNoConciliadasModel>(true, []);
+  selectedIdProgramadas: number;
 
   constructor(
     private dialog: MatDialog,
@@ -85,6 +88,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
     this.cantPaginaOpCer = 10;
     this.listarOpProgramadasSinConciliar("", "", [""]);
     this.listarOpCertificadasSinConciliar("", "", [""]);
+    this.selectedIdProgramadas = 0;
   }
 
   displayFn(banco: any): string {
@@ -101,7 +105,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    */
   infoOpProgramadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
     this.dialog.open(DialogInfoProgramadasNoConciliadasComponent, {
-      width: 'auto',
+      width: '90%',
       data: element
     })
   }
@@ -112,7 +116,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    */
   infoOpCertificadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
     this.dialog.open(DialogInfoCertificadasNoConciliadasComponent, {
-      width: 'auto',
+      width: '90%',
       data: element
     })
   }
@@ -122,12 +126,12 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    * @JuanMazo
    */
   conciliacionManual() {
-    this.reset()
     this.dialog.open(DialogConciliacionManualComponent, {
-      width: 'auto',
+      width: '95%',
+      height: '90%',
       data: {
-        origen: this.dataSourceOperacionesProgramadas.data,
-        destino: this.dataSourceOperacionesCertificadas.data
+        programadas: this.selectionProgramadas.selected,
+        certificadas: this.selectionCertificadas.selected
       }
     });
   }
@@ -158,13 +162,13 @@ export class OperacionesNoConciliadasComponent implements OnInit {
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.loadProg = false;
       }
     });
@@ -196,14 +200,13 @@ export class OperacionesNoConciliadasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        setTimeout(() => { alert.close() }, 3000);
         this.loadCert = false;
       }
     });
@@ -241,8 +244,8 @@ export class OperacionesNoConciliadasComponent implements OnInit {
 
   /**
    * Metodo que captura el id para comparar
-   * @param event 
-   * @param opeProgramada 
+   * @param event
+   * @param opeProgramada
    * @JuanMazo
    */
   getIdCompare(event: any, opeProgramada: any) {
@@ -285,8 +288,30 @@ export class OperacionesNoConciliadasComponent implements OnInit {
 
   }
 
-  reset() {
-    this.idsValue = "";
+  /**
+   * @author prv_nparra
+   */
+  seleccionCertificada(event, row) {
+    if (event.checked) {
+      row.relacion = this.selectedIdProgramadas;
+    } else {
+      row.relacion = '';
+    }
   }
 
+  /**
+   * @author prv_nparra
+   */
+  seleccionProgramada(event: any, row: any) {
+    if (event.checked) {
+      this.selectedIdProgramadas = row.idOperacion;
+    } else {
+      this.selectionCertificadas.selected.filter(
+        (element) => element.relacion ===  row.idOperacion
+      ).forEach((element) => {
+        element.relacion = '';
+        this.selectionCertificadas.deselect(element);
+      });
+    }
+  }
 }

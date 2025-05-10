@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,12 +19,12 @@ import { ConciliacionComponent } from './pages/modules/conciliacion/conciliacion
 import { ContabilizacionComponent } from './pages/modules/contabilizacion/contabilizacion.component';
 import { LiquidacionComponent } from './pages/modules/liquidacion/liquidacion.component';
 import { AdministracionComponent } from './pages/modules/administracion/administracion.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BannerSupeiorComponent } from './pages/shared/components/banner-supeior/banner-supeior.component';
+import { BannerSuperiorComponent } from './pages/shared/components/banner-superior/banner-superior.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -84,7 +84,6 @@ import { DialogEliminarIdentificadorComponent } from './pages/modules/administra
 import { DialogIdentificadorDominioComponent } from './pages/modules/administracion/administracion-dominios/dialog-identificador-dominio/dialog-identificador-dominio.component';
 import { DialogTablaDominioComponent } from './pages/modules/administracion/administracion-dominios/dialog-tabla-dominio/dialog-tabla-dominio.component';
 import { GestionPuntosComponent } from './pages/modules/administracion/gestion-puntos/gestion-puntos.component';
-import { ModificarPuntoComponent } from './pages/modules/administracion/gestion-puntos/modificar-punto/modificar-punto.component';
 import { CrearPuntoComponent } from './pages/modules/administracion/gestion-puntos/crear-punto/crear-punto.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -119,20 +118,15 @@ import { GestionUsuariosComponent } from './pages/modules/administracion/gestion
 import { GestionProcedimientosComponent } from './pages/modules/administracion/gestion-procedimientos/gestion-procedimientos.component';
 import { EjecutarProcedimientoComponent } from './pages/modules/administracion/gestion-procedimientos/ejecutar-procedimiento/ejecutar-procedimiento.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { InfoDetallesPuntoComponent } from './pages/modules/administracion/gestion-puntos/info-detalles-punto/info-detalles-punto.component';
 import { CierreLiquidacionMensualComponent } from './pages/modules/liquidacion/cierre-liquidacion-mensual/cierre-liquidacion-mensual.component';
-import { DialogCajeroComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cajero/dialog-cajero.component';
-import { DialogFondoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-fondo/dialog-fondo.component';
-import { DialogOficinaComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-oficina/dialog-oficina.component';
-import { DialogClienteComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-cliente/dialog-cliente.component';
-import { DialogBanRepComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-ban-rep/dialog-ban-rep.component';
-import { DialogBancoComponent } from './pages/modules/administracion/gestion-puntos/crear-puntos/dialog-banco/dialog-banco.component';
 import { AdministracionFestivosNacionalesComponent } from './pages/modules/administracion/administracion-festivos-nacionales/administracion-festivos-nacionales.component';
 import { GenerarLlaveArchivosComponent } from './pages/modules/administracion/generar-llave-archivos/generar-llave-archivos.component';
 import { DialogConfirmLlavesComponent } from './pages/modules/administracion/generar-llave-archivos/dialog-confirm-llaves/dialog-confirm-llaves.component';
 import { CierreSesionComponent } from './pages/cierre-sesion/cierre-sesion.component';
 import { AdministracionTasasCambioComponent } from './pages/modules/administracion/administracion-tasas-cambio/administracion-tasas-cambio.component';
 import { ProcesarAlcancesComponent } from './pages/modules/cargue-certificacion/procesar-alcances/procesar-alcances.component';
+import { ClientesCorporativosComponent } from './pages/modules/administracion/clientes-corporativos/clientes-corporativos.component';
+import { FormClientesCorpComponent } from './pages/modules/administracion/clientes-corporativos/form-clientes-corp/form-clientes-corp.component';
 import { ConciliacionCostosComponent } from './pages/modules/conciliacion-costos/conciliacion-costos.component';
 import { FiltroArchivosComponent } from './pages/shared/components/filtro-archivos/filtro-archivos.component';
 import { ArchivosPendienteCargaComponent } from './pages/modules/conciliacion-costos/archivos-pendientes-carga/archivos-pendientes-carga.component';
@@ -164,6 +158,9 @@ import { GestionArchivosComponent } from './pages/modules/conciliacion-costos/ge
 import { VentanaEmergenteDetalleGestionComponent } from './pages/modules/conciliacion-costos/gestion-archivos/ventana-emergente-detalle-gestion/ventana-emergente-detalle-gestion';
 import { VentanaEmergenteEliminarGestionComponent } from './pages/modules/conciliacion-costos/gestion-archivos/ventana-emergente-eliminar-gestion/ventana-emergente-eliminar-gestion.component';
 import { VentanaEmergenteReintegrarRegistrosComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/registros-eliminados/ventana-emergente-reintegrar-registros/ventana-emergente-reintegrar-registros.component';
+import { DialogUpdateEstadoOperacionesComponent } from './pages/modules/conciliacion/operaciones-fallidas/dialog-update-estado-operaciones/dialog-update-estado-operaciones.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { AuthInterceptor } from './_service/auth.interceptor';
 import { GenerarPoliticaRetencionComponent } from './pages/modules/administracion/generar-politica-retencion/generar-politica-retencion.component';
 import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/generar-politica-retencion/dialog-confirm-politica/dialog-confirm-politica.component';
 
@@ -177,7 +174,7 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
     LiquidacionComponent,
     AdministracionComponent,
     FooterComponent,
-    BannerSupeiorComponent,
+    BannerSuperiorComponent,
     LogArchivosCargadosComponent,
     HistoricoArchivosCargadosComponent,
     DialogValidarArchivoComponent,
@@ -227,7 +224,6 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
     DialogIdentificadorDominioComponent,
     DialogTablaDominioComponent,
     GestionPuntosComponent,
-    ModificarPuntoComponent,
     CrearPuntoComponent,
     GenerarContabilidadAmComponent,
     GenerarContabilidadPmComponent,
@@ -263,20 +259,15 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
     GestionUsuariosComponent,
     GestionProcedimientosComponent,
     EjecutarProcedimientoComponent,
-    InfoDetallesPuntoComponent,
     CierreLiquidacionMensualComponent,
-    DialogCajeroComponent,
-    DialogFondoComponent,
-    DialogOficinaComponent,
-    DialogClienteComponent,
-    DialogBanRepComponent,
-    DialogBancoComponent,
     AdministracionFestivosNacionalesComponent,
     GenerarLlaveArchivosComponent,
     DialogConfirmLlavesComponent,
     CierreSesionComponent,
     AdministracionTasasCambioComponent,
     ProcesarAlcancesComponent,
+    ClientesCorporativosComponent,
+    FormClientesCorpComponent,
     ConciliacionCostosComponent,
     ArchivosPendienteCargaComponent,
     FiltroArchivosComponent,
@@ -307,6 +298,7 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
     VentanaEmergenteDetalleGestionComponent,
     VentanaEmergenteEliminarGestionComponent,
     VentanaEmergenteReintegrarRegistrosComponent,
+    DialogUpdateEstadoOperacionesComponent,
     GenerarPoliticaRetencionComponent,
     DialogConfirmPoliticaComponent
   ],
@@ -349,9 +341,21 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
     MatCheckboxModule,
     MatTableExporterModule,
     MatSlideToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    MatExpansionModule,
   ],
-  providers: [DatePipe, MatDatepickerModule, SpinnerComponent, FiltroBancoTdvComponent],
-  bootstrap: [AppComponent]
+  providers: [
+    DatePipe,
+    MatDatepickerModule,
+    SpinnerComponent,
+    FiltroBancoTdvComponent,
+    CurrencyPipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

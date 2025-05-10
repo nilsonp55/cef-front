@@ -76,39 +76,31 @@ intervalGeneralContabilidad() {
 /**
  * Metodo encargado de validar el estado de un proceso en particular
  */
-validacionEstadoProceso() {
-  
+validacionEstadoProceso() {  
   this.validacionEstadoProcesosService.validarEstadoProceso({
     'codigoProceso': "LIQUIDACION",
     "fechaSistema": this.fechaSistemaSelect
   }).subscribe({
     next: (response: any) => {
-      var dataAlert = {
-        msn: "Se generó la liquidacion exitosamente",
-        codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-      };
-      if(response.data.estadoProceso == "PROCESADO"){
-        this.spinnerActive = false;
-        clearInterval(this.idInterval);
-      }
-      if(response.data.estadoProceso == "PENDIENTE"){
-        dataAlert = {
-          msn: "Error al generar el cierre definitivo",
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        };
-      }
-      if(response.data.estadoProceso == "ERROR"){
-        dataAlert = {
-          msn: response.data.mensaje,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        };
-        this.spinnerActive = false;
-        clearInterval(this.idInterval);
-      }
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: dataAlert
-      }); setTimeout(() => { alert.close() }, 5000);
+      var estadoProceso = GENERALES.CODE_EMERGENT.WARNING;
+        if (response.data.estadoProceso == 'PROCESADO')
+          estadoProceso = GENERALES.CODE_EMERGENT.SUCCESFULL;
+        if (response.data.estadoProceso == 'ERROR')
+          estadoProceso = GENERALES.CODE_EMERGENT.ERROR;
+        if (response.data.estadoProceso == 'EN PROCESO')
+          estadoProceso = GENERALES.CODE_EMERGENT.ESPERAR;
+
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: response.data.estadoProceso + " - " + response.data.mensaje,
+            codigo: estadoProceso
+          }
+        }); setTimeout(() => { alert.close() }, 5000);
+        if (response.data.estadoProceso == 'PROCESADO' || response.data.estadoProceso == 'ERROR'){
+          clearInterval(this.idInterval);
+          this.spinnerActive = false;
+        }
     },
     error: (data: any) => {
       this.spinnerActive = false;

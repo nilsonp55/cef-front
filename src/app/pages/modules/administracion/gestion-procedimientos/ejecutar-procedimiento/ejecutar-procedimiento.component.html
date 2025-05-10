@@ -1,40 +1,27 @@
-<div class="divTablaBancos">
-    <div class="example-container mat-elevation-z8">
-        <section>
-            <mat-card *ngFor="let item of parametrosFuncionesDinamicasDTO">
-                <div style="padding-left: 5%;">
-                    <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Nombre Parametro" id="nombreParametro"
-                            value="{{item.nombreParametro}}" disabled>
-                    </mat-form-field>
+<div>
+    <h3>Generar listado y otros</h3>
+    <div >
+        <form>
+            <div *ngFor="let item of parametrosFuncionesDinamicasDTO">
+                <mat-form-field class="listados-otros-full-width" appearance="fill">
+                    <mat-label>{{item.nombreParametro}}</mat-label>
+                    <input matInput placeholder="Tipo Parametro: {{item.tipoDatoParametro}} - Posibles Valores: {{item.posiblesValores}}" id="{{item.nombreParametro}}" value="{{item.valorDefecto}}"
+                        (change)="changeValor($event)">
+                </mat-form-field>
 
-                    <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Tipo Parametro" id="tipoDatoParametro"
-                            value="{{item.tipoDatoParametro}}" disabled>
-                    </mat-form-field>
-
-                    <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Valor" id="{{item.nombreParametro}}" value="{{item.valorDefecto}}"
-                            (change)="changeValor($event)">
-                    </mat-form-field>
-
-                    <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Posibles Valores" id="posiblesValores"
-                            value="{{item.posiblesValores}}" disabled>
-                    </mat-form-field>
-
-                    <button id="{{item.numeroParametro}}" style="background-color: #C1DEAE" class="buttonsSaveOremove"
-                        (click)="confirmValor(item.nombreParametro, item.numeroParametro, item.valorDefecto)" mat-raised-button>
-                        <span>Confirmar</span>
-                    </button>
-                </div>
-            </mat-card>
-        </section>
-        <button style="background-color: #C1DEAE" class="buttonsSaveOremove"
-            (click)="ejecutar()" mat-raised-button>
-            <span>Ejecutar</span>
-        </button>
-        <button *ngIf="mostrarTabla" mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'procedimientos_almacenados'})">Exportar tabla</button>
+                <button mat-button color="primary" id="{{item.numeroParametro}}" 
+                    (click)="confirmValor(item.nombreParametro, item.numeroParametro, item.valorDefecto)" mat-raised-button>
+                    <span>Confirmar</span>
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <button mat-button color="primary"
+                (click)="ejecutar()" mat-raised-button>
+                <span>Ejecutar</span>
+            </button>
+            <button *ngIf="mostrarTabla" mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'procedimientos_almacenados'})">Exportar tabla</button>
+            <mat-divider></mat-divider>
+        </form>
         <div>
             <table mat-table matTableExporter [dataSource]="dataSourceResponse" #exporter="matTableExporter" matSort class="mat-elevation-z8">
                 <caption></caption>

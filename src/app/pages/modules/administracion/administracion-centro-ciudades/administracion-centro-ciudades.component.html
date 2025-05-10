@@ -1,4 +1,6 @@
 <mat-card class="card-limites">
+  <!--Sprinner-->
+  <app-spinner *ngIf="spinnerActive"></app-spinner>
     <br><br>
     <mat-card-title>Gestión Centros Ciudades</mat-card-title>
     <div>
@@ -50,8 +52,7 @@
         </div>
     </div>
     <div style="width: 70%" class="ubicacionTablas">
-        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
-            (ngSubmit)="persistir()">
+        <div class="example-container" [formGroup]="form" #frmCiudades="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Centro ciudad" required formControlName="idCentroCiudad">
@@ -80,10 +81,10 @@
                 </mat-form-field>
             </div>
             <div  class="tamanio-btn">
-                <button mat-raised-button color="primary" type="submit" [disabled]="frmPaciente.invalid">
+                <button mat-raised-button color="primary" type="button" (click)="persistir()" [disabled]="frmCiudades.invalid">
                     Aceptar
                 </button>
                 </div>
-        </form>
+            </div>
     </div>
 </mat-card>

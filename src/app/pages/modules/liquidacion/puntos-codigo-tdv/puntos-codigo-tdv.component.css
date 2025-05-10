@@ -16,11 +16,6 @@
 
 }
 
-.ubicacionTablas {
-	width: 30%;
-	margin-top: 3%
-}
-
 .card-limites {
 	margin: 2%;
 }
@@ -38,7 +33,6 @@
 .switch {
 	position: relative;
 	display: block;
-	vertical-align: top;
 	width: 100px;
 	height: 30px;
 	padding: 3px;
@@ -154,6 +148,19 @@
 }
 
 .filtro {
-	display: flex;
-	margin-right: 35% ;
+	display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
 }
+
+.mat-column-nombreCampo {
+  justify-content: left;
+}
+
+.mat-sort-header-container {
+  justify-content: center !important;
+}
+
+.example-full-width {
+	width: auto;
+  }

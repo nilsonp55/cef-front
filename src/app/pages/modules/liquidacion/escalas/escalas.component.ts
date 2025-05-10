@@ -1,15 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { GENERALES } from 'src/app/pages/shared/constantes';
-import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
-import { EscalasService } from 'src/app/_service/liquidacion-service/escalas.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { Location } from '@angular/common';
-import { Route, Router } from '@angular/router';
-import { MatPaginator } from '@angular/material/paginator';
+import { EscalasService } from 'src/app/_service/liquidacion-service/escalas.service';
+import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
+import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 @Component({
@@ -18,6 +15,8 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
   styleUrls: ['./escalas.component.css']
 })
 export class EscalasComponent implements OnInit {
+
+  @ViewChild(MatSort) sort: MatSort;
 
   form: FormGroup;
   dataSourceEscalas: MatTableDataSource<any>
@@ -38,14 +37,20 @@ export class EscalasComponent implements OnInit {
   filtroCiudadOrigSelect: any;
   filtroCiudadDestSelect: any;
 
+  cantidadRegistros: number;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  spinnerActive: boolean = false;
+  pIndex: number = 0;
+  pSize: number = 10;
+
   constructor(
     private escalasService: EscalasService,
     private dialog: MatDialog,
     private generalesService: GeneralesService,
-    private router: Router
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
@@ -53,9 +58,6 @@ export class EscalasComponent implements OnInit {
     this.initForm();
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  cantidadRegistros: number;
   /**
     * Inicializaion formulario de creacion y edicion
     * @BayronPerez
@@ -122,7 +124,8 @@ export class EscalasComponent implements OnInit {
    * Lista los Escalas
    * @BayronPerez
    */
-  listarEscalas(pagina = 0, tamanio = 5) {
+  listarEscalas(pagina = this.pIndex, tamanio = this.pSize) {
+    this.spinnerActive = true;
     this.escalasService.obtenerEscalas({
       page: pagina,
       size: tamanio,
@@ -130,21 +133,25 @@ export class EscalasComponent implements OnInit {
       'transportadoraOrigen.codigo': this.filtroTransportaOrigSelect == undefined ? '': this.filtroTransportaOrigSelect.codigo,
       'ciudadDestino.codigoDANE': this.filtroCiudadDestSelect == undefined ? '': this.filtroCiudadDestSelect.codigoDANE,
       'ciudadOrigen.codigoDANE': this.filtroCiudadOrigSelect== undefined ? '': this.filtroCiudadOrigSelect.codigoDANE
-    }).subscribe((page: any) => {
+    }).subscribe({next: (page: any) => {
       this.dataSourceEscalas = new MatTableDataSource(page.data.content);
       this.dataSourceEscalas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
       this.habilitarBTN = true;
+      this.spinnerActive = false;
     },
-      (err: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    error:  (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+        this.spinnerActive = false;
+      }
+    });
   }
 
   /**
@@ -152,6 +159,7 @@ export class EscalasComponent implements OnInit {
     * @BayronPerez
     */
   persistir() {
+    this.spinnerActive = true;
     let escala = {
       idEscala: 0,
       bancosDTO: {
@@ -176,56 +184,60 @@ export class EscalasComponent implements OnInit {
 
     if(this.esEdicion) {
       escala.idEscala = Number(this.idEscala);
-      this.escalasService.actualizarEscala(escala).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.escalasService.actualizarEscala(escala).subscribe({ next: (response: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 4000);
+        });
         this.listarEscalas();
-        this.initForm();
+        this.spinnerActive = false;
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error: (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
-        this.mostrarFormulario = false;
-        this.mostrarTabla = true;
-    } 
+          });
+          this.spinnerActive = false;
+        }
+      });
+      this.mostrarFormulario = false;
+      this.mostrarTabla = true;
+    }
     else {
       escala.idEscala = this.form.value['idEscala']
-      this.escalasService.guardarEscala(escala).subscribe(response => {
+      this.escalasService.guardarEscala(escala).subscribe({ next: (response: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
-        }); setTimeout(() => { alert.close() }, 4000);
+        });
         this.listarEscalas();
-        this.initForm();
+        this.spinnerActive = false;
       },
-        (err: any) => {
+      error: (err: any) => {
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
-        this.mostrarFormulario = false;
-        this.mostrarTabla = true;
+          });
+          this.spinnerActive = false;
+        }
+      });
+      this.mostrarFormulario = false;
+      this.mostrarTabla = true;
     }
 
-    
+
   }
 
   /**
@@ -286,6 +298,8 @@ export class EscalasComponent implements OnInit {
   }
 
   mostrarMas(e: any) {
+    this.pIndex = e.pageIndex;
+    this.pSize = e.pageSize;
     this.listarEscalas(e.pageIndex, e.pageSize);
   }
 
@@ -293,11 +307,8 @@ export class EscalasComponent implements OnInit {
     window.location.reload();
   }
 
-  filtrar(event) {
-    this.filtroBancoSelect;
-    this.filtroTransportaOrigSelect;
-    this.filtroCiudadOrigSelect;
-    this.listarEscalas();
+  filtrar(e: any) {
+    this.listarEscalas(e.pageIndex, e.pageSize);
   }
 
   limpiar(){

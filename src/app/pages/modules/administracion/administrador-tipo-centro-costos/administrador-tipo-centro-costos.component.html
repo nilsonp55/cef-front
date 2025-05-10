@@ -20,34 +20,33 @@
                 </tr>
                 <tr>
                     <ng-container matColumnDef="tipo" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Tipo</th>
                         <td mat-cell *matCellDef="let element"> {{element.tipoCentro}} </td>
                     </ng-container>
                 </tr>
                 <tr>
                     <ng-container matColumnDef="nombre" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Nombre</th>
                         <td mat-cell *matCellDef="let element"> {{element.nombreCentro}} </td>
                     </ng-container>
                 </tr>
                 <tr>
                     <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Acciones</th>
                         <td mat-cell *matCellDef="let element">
                             <button mat-button (click)="editar(element)">
                                 <mat-icon style="color: green">edit</mat-icon>
-                            </button>    
+                            </button>
                         </td>
                     </ng-container>
                 </tr>
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
+                <tr *matHeaderRowDef="displayedColumnsTiposCuentas" mat-header-row></tr>
+                <tr *matRowDef="let row; columns: displayedColumnsTiposCuentas;" mat-row></tr>
             </table>
         </div>
     </div>
     <div style="width: 70%" class="ubicacionTablas">
-        <form class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario"
-            (ngSubmit)="persistir()">
+        <div class="example-container" [formGroup]="form" #frmCentroCosto="ngForm" *ngIf="mostrarFormulario">
             <div style="padding-left: 10%;">
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Tipo Centro" minlength="3" required formControlName="tipoCentro">
@@ -67,7 +66,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Codigo Centro" required formControlName="codigoCentro">
+                    <input matInput placeholder="Codigo Centro" formControlName="codigoCentro">
                 </mat-form-field>
             </div>
             <div style="padding-left: 10%;">
@@ -82,10 +81,10 @@
             </div>
 
             <div  class="tamanio-btn">
-                <button mat-raised-button color="primary" type="submit" [disabled]="frmPaciente.invalid">
+                <button mat-raised-button color="primary" type="button" (click)="persistir()" [disabled]="frmCentroCosto.invalid">
                     Aceptar
                 </button>
                 </div>
-        </form>
+            </div>
     </div>
 </mat-card>

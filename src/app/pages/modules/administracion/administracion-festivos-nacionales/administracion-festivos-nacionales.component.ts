@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { GENERALES } from 'src/app/pages/shared/constantes';
-import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { ErrorService } from 'src/app/_model/error.model';
-import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { FestivosNacionalesService } from 'src/app/_service/administracion-service/festivos-nacionales.service';
+import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
+import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 
 
@@ -25,8 +24,9 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
   esEdicion: boolean;
   idFecha: any;
   roles: any[] = [];
+  spinnerActive: boolean = false;
 
-  //Rgistros paginados
+  //Registros paginados
   @ViewChild(MatSort) sort: MatSort;
   cantidadRegistros: number;
 
@@ -57,20 +57,25 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
    * @BayronPerez
    */
   listarFestivosNacionales() {
-    this.festivosNacionalesService.obtenerFestivosNaciones().subscribe((page: any) => {
-      this.dataSourceUsuarios = new MatTableDataSource(page.data);
-      this.dataSourceUsuarios.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: ErrorService) => {
+    this.spinnerActive = true;
+    this.festivosNacionalesService.obtenerFestivosNaciones().subscribe({
+      next: (page: any) => {
+        this.dataSourceUsuarios = new MatTableDataSource(page.data);
+        this.dataSourceUsuarios.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+        this.spinnerActive = false;
+      },
+      error: (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: "Error al listar los Festivos Nacionales",
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+        this.spinnerActive = false;
+      }
+    });
   }
 
   /**
@@ -80,38 +85,43 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
    crearUsuario() {
     this.mostrarFormulario = true;
   }
-  
+
   /**
     * Se realiza persistencia del formulario de usuarios
     * @BayronPerez
     */
   persistir() {
+    this.spinnerActive = true;
     const festivosNacionales = {
       fecha: this.form.value['fecha'],
       descripcion: this.form.value['descripcion'],
     };
 
-    this.festivosNacionalesService.guardarFestivosNacionales(festivosNacionales).subscribe(response => {
+    this.festivosNacionalesService.guardarFestivosNacionales(festivosNacionales).subscribe({
+    next: (page: any) => {
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + page?.response?.description,
           codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
         }
-      }); setTimeout(() => { alert.close() }, 3000);
+      });
       this.listarFestivosNacionales()
       this.initForm();
       this.mostrarFormulario = false;
+      this.spinnerActive = false;
     },
-      (err: any) => {
+    error: (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+        this.spinnerActive = false;
+      }
+    });
 
   }
 
@@ -125,31 +135,32 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
   }
 
   eliminar(param: any) {
-    const para = {
-      fecha: param.fecha,
-      descripcion: param.descripcion
-  }
-    this.festivosNacionalesService.eliminarFestivosNacionales(para).subscribe(response => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_DELETE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-      this.listarFestivosNacionales()
-      this.initForm();
-      this.mostrarFormulario = false;
-    },
-      (err: any) => {
+    this.spinnerActive = true;
+    this.festivosNacionalesService.eliminarFestivosNacionales({'idFecha': param.fecha}).subscribe({
+      next: (page: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_DELETE + page?.response?.description,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        });
+        this.listarFestivosNacionales()
+        this.initForm();
+        this.mostrarFormulario = false;
+        this.spinnerActive = false;
+      },
+      error: (err: any) => {
+        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DELETE + err.error?.response?.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+        });
+        this.spinnerActive = false;
+      }
+    });
   }
 
 }
