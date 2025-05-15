@@ -81,12 +81,10 @@ export class CrearPuntoComponent implements OnInit {
     this.puntoSeleccionado = param ? param?.tipoPunto : null;
 
     if (param?.tipoPunto === 'CLIENTE') {
-      await this.getClientes({"codigoCliente": param.sitiosClientes.codigoCliente});
-      
-      const cliente = this.clientes.find(value => value.codigoCliente === param.sitiosClientes.codigoCliente);
-      valBancoAval = cliente?.codigoBancoAval;
+      await this.getClientes({ "codigoCliente": param.sitiosClientes?.codigoCliente ?? '' });
+      valBancoAval = this.clientes.find(value => value.codigoCliente === param.sitiosClientes?.codigoCliente)?.codigoBancoAval;
       valFajado = param?.sitiosClientes?.fajado;
-      await this.getClientes({"codigobancoAval": valBancoAval ?? ''});
+      await this.getClientes({ "codigoBancoAval": valBancoAval ?? '' });
     }
 
     if(param?.tipoPunto === 'OFICINA') {

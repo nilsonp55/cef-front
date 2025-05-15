@@ -30,11 +30,8 @@
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Nombre punto</mat-label>
-      <input type="text" matInput [(ngModel)]="nombrePuntoBusqueda">
+      <input type="text" matInput [(ngModel)]="nombrePuntoBusqueda" (blur)="filtrar($event)">
     </mat-form-field>
-    <button mat-icon-button color="primary" aria-label="Boton para buscar punto" (click)="filtrar($event)">
-      <mat-icon>search</mat-icon>
-    </button>
   </div>
 </div>
 <div class="row">
