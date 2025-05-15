@@ -36,8 +36,8 @@ export class PuntosCodigoTdvComponent implements OnInit {
   filtroCodigoPropio: any;
   selectedTipoPunto = "";
   ciudades: any[] = [];
-  numPagina : any;
-  cantPagina : any;
+  numPagina : number = 0;
+  cantPagina : number = 10;
 
   clientes: any[] = [];
   listPuntosSelect: any;
@@ -63,7 +63,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
     this.numPagina = 0;
 	  this.cantPagina = 10;
     this.listarPuntosCodigo(this.numPagina, this.cantPagina);
-    this.iniciarPuntos();
     this.initForm();
   }
 
@@ -73,18 +72,24 @@ export class PuntosCodigoTdvComponent implements OnInit {
    */
   async initForm(param?: any) {
     let ciudad = '';
+    let puntoValueForm: any;
+    let clienteValueForm: any;
+    let bancoValueForm: any;
+    let tdvValueForm: any;
+
     if(param) {
       this.selectedTipoPunto = param.puntosDTO.tipoPunto;
       if(param.ciudadFondo)
         ciudad = this.ciudades.find((value) => value.codigoDANE == param.ciudadFondo)?.codigoDANE;
 
       await this.filtrarListaPuntos(param);
+
+      puntoValueForm = this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto);
+      clienteValueForm = this.clientes.find((value) => value.codigoCliente == param.puntosDTO.sitiosClientes.codigoCliente);
+      bancoValueForm = this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto);
+      tdvValueForm = this.transportadoras.find((value) => value.codigo == param.codigoTDV);
     }
 
-    const puntoValueForm = this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto);
-    const clienteValueForm = this.clientes.find((value) => value.codigoCliente == param.puntosDTO.sitiosClientes.codigoCliente);
-    const bancoValueForm = this.bancos.find((value) => value.codigoPunto == param.bancosDTO.codigoPunto);
-    const tdvValueForm = this.transportadoras.find((value) => value.codigo == param.codigoTDV);
     this.form = new FormGroup({
       'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
       'punto': new FormControl(param ? puntoValueForm : null),
@@ -108,10 +113,12 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * @BayronPerez
    */
   listarPuntosCodigo(pagina = 0, tamanio = 10) {
+    this.numPagina = pagina;
+    this.cantPagina = tamanio;
     this.spinnerActive = true;
     this.puntosCodigoService.obtenerPuntosCodigoTDV({
-      page: pagina,
-      size: tamanio,
+      page: this.numPagina,
+      size: this.cantPagina,
       'bancos.codigoPunto': this.filtroBancoSelect === undefined ? '': this.filtroBancoSelect.codigoPunto,
       'codigoTDV': this.filtroTransportaSelect === undefined ? '': this.filtroTransportaSelect.codigo,
       'busqueda': this.filtroCodigoPropio === undefined ? '': this.filtroCodigoPropio,
@@ -277,15 +284,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       });
 
   }
-
-  async iniciarPuntos() {
-
-    await lastValueFrom(this.puntosService.listarPuntosCreados()).then((response) => {
-      this.puntos = response.content;
-    });
-
-  }
-
+  
   async filtrarListaPuntos(codigoTdv: any) {
     this.spinnerActive = true;
     let params = {
@@ -303,7 +302,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       params['oficinas.bancoAVAL'] = Number(codigoTdv.bancosDTO.codigoPunto);
     }
     if(codigoTdv.puntosDTO.tipoPunto === "CAJERO"){
-      params['cajerosAtm.codBancoAval'] = Number(codigoTdv.bancosDTO.codigoPunto);
+      params['cajeroATM.bancoAval'] = Number(codigoTdv.bancosDTO.codigoPunto);
     }
     if(codigoTdv.puntosDTO.tipoPunto === "CLIENTE"){
       let paramsClientes = {
@@ -339,7 +338,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
       params['oficinas.bancoAVAL'] = Number(event.value?.codigoPunto);
     }
     if(this.selectedTipoPunto === "CAJERO"){
-      params['cajerosAtm.codBancoAval'] = Number(event.value?.codigoPunto);
+      params['cajeroATM.bancoAval'] = Number(event.value?.codigoPunto);
     }
     if(this.selectedTipoPunto === "CLIENTE"){
       params['codigoBancoAval'] = Number(event.value?.codigoPunto);

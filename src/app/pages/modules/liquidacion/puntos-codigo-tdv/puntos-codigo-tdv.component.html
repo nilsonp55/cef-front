@@ -6,7 +6,7 @@
         <div class="filtro">
           <mat-form-field appearance="fill">
             <mat-label>Tipo Punto</mat-label>
-            <mat-select [(ngModel)]="puntoSeleccionado" >
+            <mat-select [(ngModel)]="puntoSeleccionado" (selectionChange)="filtrar($event)">
               <mat-option>Ninguno</mat-option>
               <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto">
                 {{tipoPunto.valorTexto}}
@@ -15,7 +15,8 @@
           </mat-form-field>
           <mat-form-field appearance="fill" id="field-bancos-list">
             <mat-label>Banco</mat-label>
-            <mat-select [(ngModel)]="filtroBancoSelect">
+            <mat-select [(ngModel)]="filtroBancoSelect" (selectionChange)="filtrar($event)">
+              <mat-option>Ninguno</mat-option>
               <mat-option *ngFor="let item of bancos" [value]="item">
                 {{item.nombreBanco}}
               </mat-option>
@@ -23,7 +24,8 @@
           </mat-form-field>
           <mat-form-field appearance="fill" id="field-transportadoras-list">
             <mat-label >Transportadora</mat-label>
-            <mat-select [(ngModel)]="filtroTransportaSelect">
+            <mat-select [(ngModel)]="filtroTransportaSelect" (selectionChange)="filtrar($event)">
+              <mat-option>Ninguno</mat-option>
               <mat-option *ngFor="let item of transportadoras" [value]="item">
                 {{item.nombreTransportadora}}
               </mat-option>
@@ -31,18 +33,17 @@
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Ciudad</mat-label>
-            <mat-select [(ngModel)]="listCiudadSelect">
+            <mat-select [(ngModel)]="listCiudadSelect" (selectionChange)="filtrar($event)">
+              <mat-option>Ninguno</mat-option>
               <mat-option *ngFor="let item of ciudades" [value]="item">
                 {{item.nombreCiudad}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill">
-            <input type="text" matInput placeholder="Código Propio" [(ngModel)]="filtroCodigoPropio">
+            <input type="text" matInput placeholder="Código Propio" [(ngModel)]="filtroCodigoPropio"
+              (blur)="filtrar($event)">
           </mat-form-field>
-          <button title="Visualizar" mat-button (click)="filtrar($event)">
-            <mat-icon style="color: green">search</mat-icon>
-          </button>
         </div>
         <div class="row">
           <div class="col-2">

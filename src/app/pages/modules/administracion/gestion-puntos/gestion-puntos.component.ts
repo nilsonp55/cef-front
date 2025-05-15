@@ -27,6 +27,8 @@ export class GestionPuntosComponent implements OnInit {
   //Registros paginados
   cantidadRegistros: number;
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  paginaActual: number = 0;
+  tamanioActual: number = 10;
 
   //Variable para activar spinner
   spinnerActive: boolean = false;
@@ -92,7 +94,7 @@ export class GestionPuntosComponent implements OnInit {
       codigoBanco = punto.cajeroATM.bancoAval;
     }
     if (punto.tipoPunto === 'CLIENTE') {
-      codigoBanco = this.clientes.find((v) => v.codigoCliente === punto.sitiosClientes.codigoCliente)?.codigoBancoAval;
+      codigoBanco = this.clientes.find((v) => v.codigoCliente === punto.sitiosClientes?.codigoCliente)?.codigoBancoAval;
     }
 
     const banco = this.bancosAval.find((b) => b.codigoPunto === codigoBanco);
@@ -128,6 +130,8 @@ export class GestionPuntosComponent implements OnInit {
    * @BayronPerez
    */
   listarPuntosSeleccionado(pagina = 0, tamanio = 10) {
+    this.paginaActual = pagina;
+    this.tamanioActual = tamanio;
     this.spinnerActive = true;
     this.gestionPuntosService
       .listarPuntosCreados({
@@ -135,8 +139,8 @@ export class GestionPuntosComponent implements OnInit {
         'fondos.bancoAVAL': this.fondosBancoAVALSeleccionado ?? '',
         'oficinas.bancoAVAL': this.oficinasBancoAVALSeleccionado ?? '',
         'cajeroATM.bancoAval': this.cajerosATMBancoAvalSeleccionado ?? '',
-        page: pagina,
-        size: tamanio,
+        page: this.paginaActual,
+        size: this.tamanioActual,
         busqueda: this.nombrePuntoBusqueda ?? '',
       })
       .subscribe({
@@ -244,7 +248,7 @@ export class GestionPuntosComponent implements OnInit {
       },
     }).afterClosed()
     .subscribe((result) => {
-      this.listarPuntosSeleccionado();
+      this.listarPuntosSeleccionado(this.paginaActual, this.tamanioActual);
     });
   }
 
