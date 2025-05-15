@@ -113,9 +113,14 @@
                     <td *matCellDef="let element" mat-cell> {{element.valor_total | currency}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="numeroFajos">
+                    <th *matHeaderCellDef mat-header-cell> NÚMERO FAJOS</th>
+                    <td *matCellDef="let element" mat-cell> {{element.numero_fajos}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="numeroBolsas">
-                    <th *matHeaderCellDef mat-header-cell> NUMERO BOLSAS MONEDA</th>
-                    <td *matCellDef="let element" mat-cell> {{element.numero_bolsas | currency}} </td>
+                    <th *matHeaderCellDef mat-header-cell> NÚMERO BOLSAS MONEDA</th>
+                    <td *matCellDef="let element" mat-cell> {{element.numero_bolsas}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="costoFijo">

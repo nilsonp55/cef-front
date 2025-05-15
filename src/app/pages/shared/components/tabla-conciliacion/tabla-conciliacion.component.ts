@@ -14,7 +14,7 @@ import { ConciliacionesModel } from 'src/app/_model/consiliacion-model/conciliac
 export class TablaConciliacion implements OnInit, AfterViewInit {
 
   dataSource: MatTableDataSource<any>;
-  displayedColumnsConciliadas: string[] = ['select', 'entidad', 'fecha_servicio_transporte', 'identificacion_cliente', 'razon_social', 'codigo_punto_cargo', 'nombre_punto_cargo', 'ciudad_fondo', 'nombre_tipo_servicio', 'moneda_divisa', 'aplicativo', 'tvd', 'tipoPedido', 'escala', 'valorTransportadoBilletes', 'valorTransportadoMonedas', 'valorTotalTransportado', 'numeroBolsas', 'costoFijo', 'costoPorMilaje', 'costoPorBolsa', 'costoFletes', 'costoEmisarios', 'otros_1', 'otros_2', 'otros_3', 'otros_4', 'otros_5', 'subTotal', 'iva', 'valorTotal', 'estado'];
+  displayedColumnsConciliadas: string[] = ['select', 'entidad', 'fecha_servicio_transporte', 'identificacion_cliente', 'razon_social', 'codigo_punto_cargo', 'nombre_punto_cargo', 'ciudad_fondo', 'nombre_tipo_servicio', 'moneda_divisa', 'aplicativo', 'tvd', 'tipoPedido', 'escala', 'valorTransportadoBilletes', 'valorTransportadoMonedas', 'valorTotalTransportado', 'numeroFajos', 'numeroBolsas', 'costoFijo', 'costoPorMilaje', 'costoPorBolsa', 'costoFletes', 'costoEmisarios', 'otros_1', 'otros_2', 'otros_3', 'otros_4', 'otros_5', 'subTotal', 'iva', 'valorTotal', 'estado'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
