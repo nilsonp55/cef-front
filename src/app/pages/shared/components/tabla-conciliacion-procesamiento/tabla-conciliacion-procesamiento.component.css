@@ -15,7 +15,7 @@
   width: 100%;
 }
 
-.botones-tabla .mat-button-base  {
+.botones-tabla .mat-button-base {
   margin: 8px 8px 8px 0;
 }
 
@@ -23,7 +23,8 @@ table {
   width: 100%;
 }
 
-.mat-header-cell, .mat-cell {
+.mat-header-cell,
+.mat-cell {
   padding: 0 5px;
 }
 
@@ -36,20 +37,45 @@ table {
 }
 
 
-.mat-column-header-row-group-1, .mat-column-header-row-group-3, .mat-column-header-row-group-5,
-.mat-column-valor_procesado_billete, .mat-column-valor_total_procesado, .mat-column-iva_p,
-.mat-column-valor_procesado_billete_tdv, .mat-column-valor_total_procesado_tdv, .mat-column-iva_tdv
-{
+.mat-column-header-row-group-1,
+.mat-column-header-row-group-3,
+.mat-column-header-row-group-5,
+.mat-column-header-row-group-7,
+.mat-column-header-row-group-9,
+.mat-column-header-row-group-11,
+.mat-column-valor_procesado_billete,
+.mat-column-valor_total_procesado,
+.mat-column-iva_p,
+.mat-column-valor_procesado_billete_tdv,
+.mat-column-valor_total_procesado_tdv,
+.mat-column-clasificacion_fajado,
+.mat-column-clasificacion_fajado_tdv,
+.mat-column-costo_paqueteo,
+.mat-column-costo_paqueteo_tdv,
+.mat-column-moneda_residuo,
+.mat-column-moneda_residuo_tdv,
+.mat-column-iva_tdv {
   background: lightblue;
 }
 
-.mat-column-header-row-group-2, .mat-column-header-row-group-4, .mat-column-header-row-group-6,
-.mat-column-valor_procesado_moneda, .mat-column-subtotal, .mat-column-valor_total,
-.mat-column-valor_procesado_moneda_tdv, .mat-column-subtotalTdv, .mat-column-valor_total_tdv
-{
+.mat-column-header-row-group-2,
+.mat-column-header-row-group-4,
+.mat-column-header-row-group-6,
+.mat-column-header-row-group-8,
+.mat-column-header-row-group-10,
+.mat-column-valor_procesado_moneda,
+.mat-column-subtotal,
+.mat-column-valor_total,
+.mat-column-valor_procesado_moneda_tdv,
+.mat-column-subtotalTdv,
+.mat-column-clasificacion_no_fajado,
+.mat-column-clasificacion_no_fajado_tdv,
+.mat-column-billete_residuo,
+.mat-column-billete_residuo_tdv,
+.mat-column-valor_total_tdv {
   background: lightgoldenrodyellow;
 }
 
-.text-no-equity{
+.text-no-equity {
   color: red;
 }
