@@ -1,0 +1,123 @@
+<div [formGroup]="form" #frmPaciente="ngForm">
+  <div style="padding-left: 10%;">
+
+    <mat-form-field class="example-full-width">
+      <input type="number" matInput placeholder="Id" formControlName="idTarifasOperacion">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Bancos</mat-label>
+      <mat-select required formControlName="bancoAval">
+        <mat-option *ngFor="let item of bancos" [value]="item">
+          {{item.nombreBanco}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo operaciones</mat-label>
+      <mat-select formControlName="tipoOperacion">
+        <mat-option *ngFor="let item of tipoOperaciones" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo servicio</mat-label>
+      <mat-select required formControlName="tipoServicio">
+        <mat-option *ngFor="let item of tipoServicios" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Escala</mat-label>
+      <mat-select formControlName="escala">
+        <mat-option *ngFor="let item of escalas" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Transportadoras</mat-label>
+      <mat-select required formControlName="transportadora">
+        <mat-option *ngFor="let item of transportadoras" [value]="item">
+          {{item.nombreTransportadora}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Comision Aplicar</mat-label>
+      <mat-select required formControlName="comisionAplicar">
+        <mat-option *ngFor="let item of comisionesAplicar" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Fecha Inicial</mat-label>
+      <input required matInput [matDatepicker]="picker1" readonly="true" formControlName="fechaVigenciaIni" value="now">
+
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Fecha final</mat-label>
+      <input required matInput [matDatepicker]="picker2" readonly="true" formControlName="fechaVigenciaFin">
+
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Valor tarifa</mat-label>
+      <input type="number" step="0.01" pattern="^[0-9]+" matInput placeholder="Valor tarifa" formControlName="valorTarifa" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Billetes</mat-label>
+      <select matNativeControl formControlName="billetes">
+        <option value="si">SI</option>
+        <option value="no">NO</option>
+        <option value="null">NINGUNO</option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Monedas</mat-label>
+      <select matNativeControl formControlName="monedas">
+        <option value="si">SI</option>
+        <option value="no">NO</option>
+        <option value="null">NINGUNO</option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fajado</mat-label>
+      <select matNativeControl formControlName="fajado">
+        <option value="si">SI</option>
+        <option value="no">NO</option>
+        <option value="null">NINGUNO</option>
+        <option value="mixto">MIXTO</option>
+      </select>
+    </mat-form-field>
+
+    <div class="division-estado">
+      <label class="switch" >
+        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+        <span class="switch-handle"></span>
+      </label>
+      <p>ESTADO</p>
+    </div>
+  </div>
+  <button mat-raised-button type="button" (click)="onGuardar()" class="ubicacion-btn" color="primary"
+    [disabled]="form.invalid">Aceptar</button>
+  <button mat-raised-button type="button" (click)="onCancelar()" color="warn">Cancelar</button>
+</div>

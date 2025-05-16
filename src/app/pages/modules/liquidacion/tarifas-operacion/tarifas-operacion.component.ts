@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ErrorService } from 'src/app/_model/error.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { EscalasService } from 'src/app/_service/liquidacion-service/escalas.service';
 import { TarifasOperacionService } from 'src/app/_service/liquidacion-service/tarifas-operacion.service';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
@@ -53,13 +52,14 @@ export class TarifasOperacionComponent implements OnInit {
   public fechaVigenciaIni: Date;
   public fechaVigenciaFin: Date;
 
-  //Rgistros paginados
+  registroSeleccionado: any = null;
+
+  //Registros paginados
   @ViewChild(MatSort) sort: MatSort;
   cantidadRegistros: number;
 
   constructor(
     private generalesService: GeneralesService,
-    private escalasService: EscalasService,
     private tarifasOperacionService: TarifasOperacionService,
     private dialog: MatDialog
   ) { }
@@ -355,6 +355,25 @@ export class TarifasOperacionComponent implements OnInit {
     this.filtroTipOperacionSelect = null;
     this.filtroEscalaSelect = null;
     this.filtroTipoServicioSelect = null;
+  }
+
+  abrirFormulario(registro) {
+    this.registroSeleccionado = registro;
+    this.mostrarTabla = false;
+    this.mostrarFormulario = true;
+  }
+
+  cerrarFormulario() {
+    this.mostrarFormulario = false;
+    this.mostrarTabla = true;
+    this.registroSeleccionado = null;
+    // Recargar tabla si es necesario
+  }
+
+  onGuardar(registro) {
+    // Guardar o actualizar registro
+    this.cerrarFormulario();
+    // Recargar tabla si es necesario
   }
 
 }
