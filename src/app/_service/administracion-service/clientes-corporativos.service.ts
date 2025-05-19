@@ -42,7 +42,7 @@ export class ClientesCorporativosService {
   /**
    * @author prv_nparra
    */
-  async actualizarClientesCorporativos(params: any): Promise<Observable<any>> {
+  actualizarClientesCorporativos(params: any): Observable<any> {
     return this.http.put<any>(`${this.url}${URLs.CLIENTE}/`, params);
   }
 
