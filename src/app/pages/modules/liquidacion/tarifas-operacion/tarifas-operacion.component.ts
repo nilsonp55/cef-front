@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { lastValueFrom } from 'rxjs';
 import { ErrorService } from 'src/app/_model/error.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { TarifasOperacionService } from 'src/app/_service/liquidacion-service/tarifas-operacion.service';
@@ -17,15 +18,11 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 })
 export class TarifasOperacionComponent implements OnInit {
 
-  form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['banco','tdv', 'tOperacion', 'tServicio', 'escala', 'tipoPunto', 'comisionAplicar', 'billetes', 'monedas', 'fajado', 'valorTarifa', 'estado', 'acciones'];
-  isDominioChecked = false;
+  displayedColumnsTiposCuentas: string[] = ['banco', 'tdv', 'tipoPunto', 'tOperacion', 'tServicio', 'escala', 'comisionAplicar', 'billetes', 'monedas', 'fajado', 'valorTarifa', 'estado', 'acciones'];
   mostrarFormulario = false;
   mostrarTabla = true;
   esEdicion: boolean;
-  idCuentaPuc: any;
-  idConfEntity: any;
   tipoServicio: any;
   bancos: any[] = [];
   tiposCostosCuentas: any[] = [];
@@ -35,9 +32,7 @@ export class TarifasOperacionComponent implements OnInit {
   tipoServicios: any[] = [];
   escalas: any[] = [];
   transportadoras: any [] = [];
-  idTarifasOperacion: any;
-  valorEstado = "";
-  habilitarBTN: boolean;
+  tiposPuntos: any;
 
   filtroTipOperacionSelect: any;
   filtroBancoSelect: any;
@@ -45,9 +40,6 @@ export class TarifasOperacionComponent implements OnInit {
   filtroEscalaSelect: any;
   filtroTipoPuntoSelect: any;
   filtroTipoServicioSelect: any;
-
-  date: any;
-  serializedDate: any;
 
   public fechaVigenciaIni: Date;
   public fechaVigenciaFin: Date;
@@ -65,71 +57,9 @@ export class TarifasOperacionComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    ManejoFechaToken.manejoFechaToken()
-    this.habilitarBTN = false;
+    ManejoFechaToken.manejoFechaToken();
     await this.iniciarDesplegables();
     this.listarTarifaOperacion();
-    this.initForm();
-  }
-
- /**
-   * Inicializaion formulario de creacion y edicion
-   * @BayronPerez
-   */
-  initForm(param?: any) {
-      this.form = new FormGroup({
-        'idTarifasOperacion': new FormControl(param? param.idTarifasOperacion : null),
-        'bancoAval': new FormControl(param? this.selectBancoAval(param) : null),
-        'tipoOperacion': new FormControl(param? param.tipoOperacion : null),
-        'tipoServicio': new FormControl(param? param.tipoServicio : null),
-        'escala': new FormControl(param? this.selectEscalas(param) : null),
-        'comisionAplicar': new FormControl(param? param.comisionAplicar : null),
-        'valorTarifa': new FormControl(param? param.valorTarifa : null),
-        'billetes': new FormControl(param? param.billetes : null),
-        'monedas': new FormControl(param? param.monedas : null),
-        'fajado': new FormControl(param? param.fajado : null),
-        'transportadora': new FormControl(param? this.selectTransportadora(param) : null),
-        'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
-        'fechaVigenciaIni': new FormControl(param? param.fechaVigenciaIni : null),
-        'fechaVigenciaFin': new FormControl(param? param.fechaVigenciaFin : null),
-      });
-  }
-
-  selectBancoAval(param: any): any {
-    for (let i = 0; i < this.bancos.length; i++) {
-      const element = this.bancos[i];
-      if(element.codigoPunto == param.bancoDTO.codigoPunto) {
-        return element;
-      }
-    }
-  }
-
-
-  selectTransportadora(param: any): any {
-    for (let i = 0; i < this.transportadoras.length; i++) {
-      const element = this.transportadoras[i];
-      if(element.codigo == param.transportadoraDTO.codigo) {
-        return element;
-      }
-    }
-  }
-
-  selectTipoCuentas(param: any): any {
-    for (let i = 0; i < this.tipoCuentas.length; i++) {
-      const element = this.tipoCuentas[i];
-      if(element.tipoCuenta == param.tiposCuentas.tipoCuenta) {
-        return element;
-      }
-    }
-  }
-
-  selectEscalas(param: any): any {
-    for (let i = 0; i < this.escalas.length; i++) {
-      const element = this.escalas[i];
-      if(element.escala == param.escala) {
-        return element;
-      }
-    }
   }
 
   /**
@@ -137,154 +67,165 @@ export class TarifasOperacionComponent implements OnInit {
    * @BayronPerez
    */
    listarTarifaOperacion(pagina = 0, tamanio = 5) {
-    this.tarifasOperacionService.consultarTarifasOperacion({
-      page: pagina,
-      size: tamanio,
-      'banco.codigoPunto': this.filtroBancoSelect == undefined ? '': this.filtroBancoSelect.codigoPunto,
-      'transportadora.codigo': this.filtroTransportaSelect == undefined ? '': this.filtroTransportaSelect.codigo,
-      'tipoOperacion': this.filtroTipOperacionSelect == undefined ? '': this.filtroTipOperacionSelect,
-      'escala': this.filtroEscalaSelect == undefined ? '': this.filtroEscalaSelect,
-      'tipoServicio': this.filtroTipoServicioSelect == undefined ? '': this.filtroTipoServicioSelect
-    }).subscribe((page: any) => {
-      this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
-      this.dataSourceTiposCuentas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      this.habilitarBTN = true;
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
+     this.tarifasOperacionService.consultarTarifasOperacion({
+       page: pagina,
+       size: tamanio,
+       'banco.codigoPunto': this.filtroBancoSelect == undefined ? '' : this.filtroBancoSelect.codigoPunto,
+       'transportadora.codigo': this.filtroTransportaSelect == undefined ? '' : this.filtroTransportaSelect.codigo,
+       'tipoOperacion': this.filtroTipOperacionSelect == undefined ? '' : this.filtroTipOperacionSelect,
+       'escala': this.filtroEscalaSelect == undefined ? '' : this.filtroEscalaSelect,
+       'tipoServicio': this.filtroTipoServicioSelect == undefined ? '' : this.filtroTipoServicioSelect
+     }).subscribe({
+       next: (page: any) => {
+         this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
+         this.dataSourceTiposCuentas.sort = this.sort;
+         this.cantidadRegistros = page.data.totalElements;
+       },
+       error: (err: ErrorService) => {
+         this.dialog.open(VentanaEmergenteResponseComponent, {
+           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+           data: {
+             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
+             codigo: GENERALES.CODE_EMERGENT.ERROR
+           }
+         });
+       }
+     });
   }
 
   /**
     * Se realiza persistencia del formulario de cuentas puc
     * @BayronPerez
     */
-   persistir() {
+  persistir(form: FormGroup) {
     const tarifa = {
-      idTarifasOperacion: this.form.value['idTarifasOperacion'],
+      idTarifasOperacion: form.value['idTarifasOperacion'],
       bancoDTO: {
-        codigoPunto: this.form.value['bancoAval'].codigoPunto
+        codigoPunto: form.value['bancoAval'].codigoPunto
       },
-      tipoOperacion: this.form.value['tipoOperacion'],
-      tipoServicio: this.form.value['tipoServicio'],
-      escala: this.form.value['escala'],
-      comisionAplicar: this.form.value['comisionAplicar'],
-      tipoImpuesto: Number(this.form.value['tipoImpuesto']),
-      medioPago: this.form.value['medioPago'],
+      tipoOperacion: form.value['tipoOperacion'],
+      tipoServicio: form.value['tipoServicio'],
+      escala: form.value['escala'],
+      comisionAplicar: form.value['comisionAplicar'],
+      tipoImpuesto: Number(form.value['tipoImpuesto']),
+      medioPago: form.value['medioPago'],
       transportadoraDTO: {
-        codigo: this.form.value['transportadora'].codigo
+        codigo: form.value['transportadora'].codigo
       },
-      valorTarifa: Number(this.form.value['valorTarifa']),
+      valorTarifa: Number(form.value['valorTarifa']),
 
-      estado: Number(this.formatearEstadoPersistir(this.form.value['estado'])),
-      billetes: this.form.value['billetes'] == "null" ? null: this.form.value['billetes'],
-      monedas: this.form.value['monedas'] == "null" ? null: this.form.value['monedas'],
-      fajado: this.form.value['fajado'] == "null" ? null: this.form.value['fajado'],
-      fechaVigenciaIni: this.form.value['fechaVigenciaIni'],
-      fechaVigenciaFin: this.form.value['fechaVigenciaFin'],
+      estado: form.value['estado'].value ? 1 : 0,
+      billetes: form.value['billetes'] == "null" ? null : form.value['billetes'],
+      monedas: form.value['monedas'] == "null" ? null : form.value['monedas'],
+      fajado: form.value['fajado'] == "null" ? null : form.value['fajado'],
+      fechaVigenciaIni: form.value['fechaVigenciaIni'],
+      fechaVigenciaFin: form.value['fechaVigenciaFin'],
       usuarioCreacion: atob(sessionStorage.getItem('user')),
       fechaModificacion: new Date(),
       fechaCreacion: new Date()
     };
-    if(this.comparaFechas(this.form.value['fechaVigenciaIni'],this.form.value['fechaVigenciaFin'])) {
+    if (this.comparaFechas(form.value['fechaVigenciaIni'], form.value['fechaVigenciaFin'])) {
       if (this.esEdicion) {
-        tarifa.idTarifasOperacion = this.idTarifasOperacion;
-        this.tarifasOperacionService.actualizarTarifasOperacion(tarifa).subscribe(response => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
-          this.listarTarifaOperacion()
-          this.initForm();
-        },
-          (err: any) => {
-            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.tarifasOperacionService.actualizarTarifasOperacion(tarifa).subscribe({
+          next: response => {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
+              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+              data: {
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+              }
+            });
+          },
+          error: (err: any) => {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
                 msn: err.error.response.description,
                 codigo: GENERALES.CODE_EMERGENT.ERROR
               }
-            }); setTimeout(() => { alert.close() }, 3000);
-          });
+            });
+          }
+        });
       } else {
-        this.tarifasOperacionService.guardarTarifasOperacion(tarifa).subscribe(response => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-            }
-          }); setTimeout(() => { alert.close() }, 3000);
-          this.listarTarifaOperacion()
-          this.initForm();
-        },
-          (err: any) => {
-            const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.tarifasOperacionService.guardarTarifasOperacion(tarifa).subscribe({
+          next: response => {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
+              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+              data: {
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+              }
+            });
+          },
+          error: (err: any) => {
+            this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
                 msn: err.error.response.description,
                 codigo: GENERALES.CODE_EMERGENT.ERROR
               }
-            }); setTimeout(() => { alert.close() }, 3000);
-          });
+            });
+          }
+        });
       }
-    }else {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.listarTarifaOperacion();
+    } else {
+      this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
           msn: GENERALES.MESSAGE_ALERT.MESSAGE_VLIDACION_FECHAS.ERROR_DATE,
           codigo: GENERALES.CODE_EMERGENT.WARNING
         }
-      }); setTimeout(() => { alert.close() }, 3000);
+      });
     }
 
-
-   }
+  }
 
   async iniciarDesplegables() {
 
-    const _bancos = await this.generalesService.listarBancosAval().toPromise();
-    this.bancos = _bancos.data;
+    await lastValueFrom(this.generalesService.listarBancosAval()).then(
+      response => this.bancos = response.data
+    );
 
-    const _tipoOperaciones = await this.generalesService.listarDominioByDominio({
+    await lastValueFrom(this.generalesService.listarDominioByDominio({
       'dominio':"TIPO_OPERACION"
-    }).toPromise();
-    this.tipoOperaciones = _tipoOperaciones.data;
+    })).then(
+      response => this.tipoOperaciones = response.data
+    );
 
-    const _tipoServicio = await this.generalesService.listarDominioByDominio({
+    await lastValueFrom(this.generalesService.listarDominioByDominio({
       'dominio':"TIPO_SERVICIO"
-    }).toPromise();
-    this.tipoServicios = _tipoServicio.data;
+    })).then(
+      response => this.tipoServicios = response.data
+    );
 
-    const _comisionAplicar = await this.generalesService.listarDominioByDominio({
+    await lastValueFrom(this.generalesService.listarDominioByDominio({
       'dominio':"COMISION_APLICAR"
-    }).toPromise();
-    this.comisionesAplicar = _comisionAplicar.data;
+    })).then(
+      response => this.comisionesAplicar = response.data
+    );    
 
-    const _escalas = await this.generalesService.listarDominioByDominio({
+    await lastValueFrom(this.generalesService.listarDominioByDominio({
       'dominio':"ESCALA"
-    }).toPromise();
-    this.escalas = _escalas.data;
+    })).then(
+      response => this.escalas = response.data
+    );
 
-    const _transportadoras = await this.generalesService.listarTransportadoras().toPromise();
-    this.transportadoras = _transportadoras.data;
+    await lastValueFrom(this.generalesService.listarTransportadoras()).then(
+      response => this.transportadoras = response.data
+    );
+
+    await lastValueFrom(this.generalesService.listarDominioByDominio({ 
+      'dominio': 'TIPOS_PUNTO' 
+    })).then(
+      response => this.tiposPuntos = response.data
+    );
 
   }
 
   crearTarifaOperacion() {
     this.mostrarFormulario = true;
     this.esEdicion = false;
-    this.form.get('idTarifasOperacion').disable();
     this.mostrarTabla = false;
 
   }
@@ -294,39 +235,13 @@ export class TarifasOperacionComponent implements OnInit {
   }
 
   editar(registro: any) {
-    this.initForm(registro);
     this.mostrarFormulario = true;
-    this.idTarifasOperacion = this.form.get('idTarifasOperacion').value;
-    this.form.get('idTarifasOperacion').disable();
     this.esEdicion = true;
     this.mostrarTabla = false;
   }
 
-  irAtras() {
-    window.location.reload();
-  }
-
   mostrarMas(e: any) {
     this.listarTarifaOperacion(e.pageIndex, e.pageSize);
-  }
-
-  changeEstado(event) {
-  }
-
-  formatearEstadoPersistir(param: boolean): any {
-    if(param==true){
-      return 1
-    }else {
-      return 2
-    }
-  }
-
-  formatearEstadoListar(param: any): any {
-    if(param==1){
-      return true
-    }else {
-      return false
-    }
   }
 
   comparaFechas(fInicial: any, fFinal: any): boolean {
@@ -338,23 +253,11 @@ export class TarifasOperacionComponent implements OnInit {
     }
   }
 
-  onKeypressEvent(event: any):  any {
-    if(event.charCode < 48 || event.charCode > 57) return false;
-  }
-
   filtrar(event) {
     this.filtroBancoSelect;
     this.filtroTransportaSelect;
     this.filtroTipOperacionSelect;
     this.listarTarifaOperacion();
-  }
-
-  limpiar(){
-    this.filtroBancoSelect = null;
-    this.filtroTransportaSelect = null;
-    this.filtroTipOperacionSelect = null;
-    this.filtroEscalaSelect = null;
-    this.filtroTipoServicioSelect = null;
   }
 
   abrirFormulario(registro) {
@@ -370,8 +273,9 @@ export class TarifasOperacionComponent implements OnInit {
     // Recargar tabla si es necesario
   }
 
-  onGuardar(registro) {
+  onGuardar(form: FormGroup) {
     // Guardar o actualizar registro
+    this.persistir(form);
     this.cerrarFormulario();
     // Recargar tabla si es necesario
   }

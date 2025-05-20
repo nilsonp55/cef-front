@@ -173,3 +173,21 @@
     margin-right: 2%;
     margin-left: 0%; 
 }
+
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.form-grid mat-form-field {
+  flex: 1 1 45%;
+  min-width: 250px;
+}
+
+@media (max-width: 900px) {
+  .form-grid mat-form-field {
+    flex: 1 1 100%;
+    min-width: 180px;
+  }
+}

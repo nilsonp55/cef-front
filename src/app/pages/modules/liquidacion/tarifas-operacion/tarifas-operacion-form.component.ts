@@ -15,6 +15,7 @@ export class TarifasOperacionFormComponent implements OnInit {
   @Input() tipoServicios: any[] = [];
   @Input() escalas: any[] = [];
   @Input() comisionesAplicar: any[] = [];
+  @Input() tiposPuntos: any;
 
   @Output() guardar = new EventEmitter<any>();
   @Output() cancelar = new EventEmitter<void>();
@@ -28,19 +29,20 @@ export class TarifasOperacionFormComponent implements OnInit {
   initForm(param?: any) {
     this.form = new FormGroup({
       'idTarifasOperacion': new FormControl({value: param ? param.idTarifasOperacion : null, disabled: true,}),
-      'bancoAval': new FormControl(param ? param.bancoAval : null),
-      'tipoOperacion': new FormControl(param ? param.tipoOperacion : null),
-      'tipoServicio': new FormControl(param ? param.tipoServicio : null),
-      'escala': new FormControl(param ? param.escala : null),
-      'comisionAplicar': new FormControl(param ? param.comisionAplicar : null),
-      'valorTarifa': new FormControl(param ? param.valorTarifa : null),
-      'billetes': new FormControl(param ? param.billetes : null),
-      'monedas': new FormControl(param ? param.monedas : null),
-      'fajado': new FormControl(param ? param.fajado : null),
-      'transportadora': new FormControl(param ? param.transportadora : null),
-      'estado': new FormControl(param ? param.estado : null),
-      'fechaVigenciaIni': new FormControl(param ? param.fechaVigenciaIni : null),
-      'fechaVigenciaFin': new FormControl(param ? param.fechaVigenciaFin : null),
+      'bancoAval': new FormControl(this.bancos.find(e => e.codigoPunto === param?.bancoDTO?.codigoPunto) ?? null),
+      'tipoOperacion': new FormControl(param?.tipoOperacion ?? null),
+      'tipoServicio': new FormControl(param?.tipoServicio ?? null),
+      'escala': new FormControl(this.escalas.find(e => e === param?.escala ) ?? null),
+      'comisionAplicar': new FormControl(param?.comisionAplicar ?? null),
+      'valorTarifa': new FormControl(param?.valorTarifa ?? null),
+      'billetes': new FormControl(param?.billetes ?? null),
+      'monedas': new FormControl(param?.monedas ?? null),
+      'fajado': new FormControl(param?.fajado ?? null),
+      'transportadora': new FormControl(this.transportadoras.find(e => e.codigo === param?.transportadoraDTO.codigo) ?? null),
+      'estado': new FormControl(param?.estado ?? 1),
+      'fechaVigenciaIni': new FormControl(param?.fechaVigenciaIni ?? null),
+      'fechaVigenciaFin': new FormControl(param?.fechaVigenciaFin ?? null),
+      'tipoPunto': new FormControl(this.tiposPuntos.find(e => e === param?.tipoPunto) ?? null),
     });
   }
 

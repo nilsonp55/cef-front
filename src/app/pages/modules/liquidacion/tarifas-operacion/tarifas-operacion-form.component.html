@@ -1,7 +1,7 @@
-<div [formGroup]="form" #frmPaciente="ngForm">
+<div [formGroup]="form" #frmPaciente="ngForm" class="form-grid">
   <div style="padding-left: 10%;">
 
-    <mat-form-field class="example-full-width">
+    <mat-form-field hidden>
       <input type="number" matInput placeholder="Id" formControlName="idTarifasOperacion">
     </mat-form-field>
 
@@ -10,6 +10,24 @@
       <mat-select required formControlName="bancoAval">
         <mat-option *ngFor="let item of bancos" [value]="item">
           {{item.nombreBanco}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Transportadora</mat-label>
+      <mat-select required formControlName="transportadora">
+        <mat-option *ngFor="let item of transportadoras" [value]="item">
+          {{item.nombreTransportadora}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo punto</mat-label>
+      <mat-select required formControlName="tipoPunto">
+        <mat-option *ngFor="let item of tiposPuntos" [value]="item">
+          {{item}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -25,7 +43,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Tipo servicio</mat-label>
-      <mat-select required formControlName="tipoServicio">
+      <mat-select formControlName="tipoServicio">
         <mat-option *ngFor="let item of tipoServicios" [value]="item">
           {{item}}
         </mat-option>
@@ -42,15 +60,6 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Transportadoras</mat-label>
-      <mat-select required formControlName="transportadora">
-        <mat-option *ngFor="let item of transportadoras" [value]="item">
-          {{item.nombreTransportadora}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
       <mat-label>Comision Aplicar</mat-label>
       <mat-select required formControlName="comisionAplicar">
         <mat-option *ngFor="let item of comisionesAplicar" [value]="item">
@@ -59,25 +68,9 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Fecha Inicial</mat-label>
-      <input required matInput [matDatepicker]="picker1" readonly="true" formControlName="fechaVigenciaIni" value="now">
-
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <mat-label>Fecha final</mat-label>
-      <input required matInput [matDatepicker]="picker2" readonly="true" formControlName="fechaVigenciaFin">
-
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
-
     <mat-form-field appearance="fill">
       <mat-label>Valor tarifa</mat-label>
-      <input type="number" step="0.01" pattern="^[0-9]+" matInput placeholder="Valor tarifa" formControlName="valorTarifa" required>
+      <input type="number" pattern="^[0-9]+" matInput placeholder="Valor tarifa" formControlName="valorTarifa" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -108,13 +101,29 @@
       </select>
     </mat-form-field>
 
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha Inicial</mat-label>
+      <input required matInput [matDatepicker]="picker1" readonly="true" formControlName="fechaVigenciaIni" value="now">
+
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha final</mat-label>
+      <input required matInput [matDatepicker]="picker2" readonly="true" formControlName="fechaVigenciaFin">
+
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
     <div class="division-estado">
+      <p>Estado</p>
       <label class="switch" >
         <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
         <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
         <span class="switch-handle"></span>
       </label>
-      <p>ESTADO</p>
     </div>
   </div>
   <button mat-raised-button type="button" (click)="onGuardar()" class="ubicacion-btn" color="primary"
