@@ -38,6 +38,7 @@
         <mat-form-field appearance="outline">
             <mat-label>Ciudad</mat-label>
             <mat-select formControlName="ciudad">
+              <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
                     {{ciudad.nombreCiudad}}
                 </mat-option>
@@ -46,7 +47,7 @@
     </div>
 
     <div class="flex">
-        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado=='CLIENTE'">
+        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'CLIENTE'">
             <mat-label>Cliente</mat-label>
             <mat-select formControlName="cliente">
                 <mat-option *ngFor="let cliente of clientes" [value]="cliente">
@@ -56,7 +57,7 @@
             <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
     
-        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado=='FONDO'">
+        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'FONDO'">
             <mat-label>Transportadora</mat-label>
             <mat-select formControlName="transportadora">
                 <mat-option *ngFor="let transportadora of tdvs" [value]="transportadora">
@@ -68,13 +69,13 @@
     </div>
 
     <div class="flex">
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado=='OFICINA'">
+      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'OFICINA'">
         <mat-label>Código oficina</mat-label>
           <input type="number" formControlName="codigoOficina" matInput #input>
           <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
       </mat-form-field>
     
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado=='CAJERO'">
+      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'CAJERO'">
         <mat-label>Código cajero</mat-label>
           <input formControlName="codigoCajero" matInput #input>
           <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
@@ -82,44 +83,44 @@
     </div>
 
     <div class="flex">
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
+      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'OFICINA' || puntoSeleccionado === 'CAJERO'">
         <mat-label>Tarifa ruteo</mat-label>
           <input type="number" formControlName="tarifaRuteo" matInput #input>
       </mat-form-field>
     
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado=='OFICINA' || puntoSeleccionado=='CAJERO'">
+      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'OFICINA' || puntoSeleccionado === 'CAJERO'">
         <mat-label>Tarifa Verificación</mat-label>
           <input type="number" formControlName="tarifaVerificacion" matInput #input>
       </mat-form-field>
     </div>
 
     <div class="flex">
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado=='BANCO'">
+      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'BANCO'">
         <mat-label>Codigo de compensación</mat-label>
           <input formControlName="codigoCompensacion" matInput #input>
       </mat-form-field>
     
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado=='BANCO'">
+      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'BANCO'">
         <mat-label>Identificación (NIT)</mat-label>
           <input formControlName="identificacion" matInput #input>
       </mat-form-field>
     </div>
 
     <div>      
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado=='BANCO'">
+      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'BANCO'">
         <mat-label>Abreviatura</mat-label>
           <input formControlName="abreviatura" matInput #input>
       </mat-form-field>
     </div>
 
-    <div *ngIf="puntoSeleccionado=='BANCO'">
+    <div *ngIf="puntoSeleccionado === 'BANCO'">
       <mat-checkbox formControlName="esAval" class="margen-checkbox" color="primary">
         Es del Grupo Aval</mat-checkbox>
     </div>
-    <div *ngIf="puntoSeleccionado=='CLIENTE' || puntoSeleccionado=='OFICINA'">
+    <div *ngIf="puntoSeleccionado === 'CLIENTE' || puntoSeleccionado === 'OFICINA'">
       <mat-checkbox class="margen-checkbox" formControlName="fajado" color="primary">Fajado</mat-checkbox>
     </div>
-    <div *ngIf="puntoSeleccionado=='OFICINA'">
+    <div *ngIf="puntoSeleccionado === 'OFICINA'">
       <mat-checkbox formControlName="refajillado" class="margen-checkbox" color="primary">Refajillado</mat-checkbox>
     </div>
 
