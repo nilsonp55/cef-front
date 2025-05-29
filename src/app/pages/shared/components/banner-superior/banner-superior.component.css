@@ -1,0 +1,32 @@
+
+.example-app-name {
+    margin-left: 1cm;
+    color: #fff;
+}
+/*Estilo para la linea separadora de options */
+.line-spacer {
+    flex: 1 1 auto;
+}
+.enlinea {
+    grid-template-columns: 1fr;
+}
+.color {
+    color: #fff
+}
+
+.toolbar {
+  background-color: #26213d;
+  align-items: flex-start;
+  height: auto;
+}
+
+.sesion {
+    color: #fff;
+    text-align: right;
+    font: 500 16px/20px Roboto, "Helvetica Neue", sans-serif;
+    font-size: small;
+}
+
+.sesion-item {
+  margin: 0%;
+}

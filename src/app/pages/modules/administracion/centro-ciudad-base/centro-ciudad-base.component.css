@@ -1,0 +1,23 @@
+.division-btn {
+    margin-left: 5%;
+}
+
+.division-btn2 {
+    margin-left: 2em;
+}
+
+.ubicacion-btn-dominio {
+    margin-left: 50%;
+}
+
+.ubicacionTablas {
+    text-align: left;
+    float: left;
+    margin-top: 1%;
+}
+
+
+.tamanio-btn {
+    width: auto !important;
+    text-align: center;
+}

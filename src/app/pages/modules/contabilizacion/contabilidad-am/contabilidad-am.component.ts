@@ -1,0 +1,31 @@
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
+import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
+import { GeneralesService } from 'src/app/_service/generales.service';
+import { GenerarArchivoService } from 'src/app/_service/contabilidad-service/generar-archivo.service';
+import { ContabilidadBaseComponent } from '../contabilidad-base/contabilidad-base.component';
+
+@Component({
+  selector: 'app-contabilidad-am',
+  templateUrl: './contabilidad-am.component.html',
+  styleUrls: ['./contabilidad-am.component.css']
+})
+
+/**
+ * Componente para gestionar el menu de contabilidad PM
+ * @BaironPerez
+ */
+export class ContabilidadAmComponent extends ContabilidadBaseComponent {
+
+  constructor(
+    dialog: MatDialog,
+    generalServices: GeneralesService,
+    cierreContabilidadService: CierreContabilidadService,
+    logProcesoDiarioService: LogProcesoDiarioService,
+    generarArchivoService: GenerarArchivoService
+  ) {
+    super(dialog, generalServices, cierreContabilidadService, logProcesoDiarioService, generarArchivoService);
+    this.tipoContabilidad = 'AM';
+  }
+}

@@ -1,0 +1,8 @@
+<div *ngIf="load">
+  <div class="content-center">
+    <mat-spinner class="disenio-spinner"></mat-spinner>
+  </div>
+</div>
+<div *ngIf="!load">
+  <app-tabla-conciliacion [datosTabla]="datosTabla" (eventoBoton)="eventoBotones($event)"></app-tabla-conciliacion>
+</div>

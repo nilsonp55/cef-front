@@ -1,0 +1,38 @@
+.configScroll {
+    height: fit-content;
+    overflow-x: scroll;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: proximity;
+}
+
+.tituloTabla {
+    text-align: center;
+}
+
+.divTablaProg {
+    background-color: rgb(226, 229, 229);
+    padding: 1%;
+    margin-top: 2%;
+    margin-left: 4%;
+    margin-right: 2%;
+    margin-bottom: auto;
+}
+
+.division {
+    display: flex;
+    text-align: center;
+    padding-left: 5%;
+}
+
+.ubicacionBotones {
+    text-align: right;
+    float:left;
+    margin-top: 1%;
+}
+
+.verticalScroll {
+  max-height: '100%';
+  overflow-y: scroll;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+}

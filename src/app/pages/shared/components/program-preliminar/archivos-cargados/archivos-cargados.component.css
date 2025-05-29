@@ -1,0 +1,20 @@
+/*
+* ESTILOS PARA LA TABLA DE  CARGUE ARCHIVOS STEPER #1
+*/
+
+.tituloTabla {
+    padding: 2%;
+    padding-top: 2%;
+    text-align: center;
+}
+
+.divMessageTableOK {
+    background-color: rgb(253, 226, 153);
+    padding: 0.3em;
+    margin-right: 50%;
+}
+.divMessageTableErr {
+    background-color: rgb(153, 253, 153);
+    padding: 0.3em;
+    margin-right: 60%;
+}

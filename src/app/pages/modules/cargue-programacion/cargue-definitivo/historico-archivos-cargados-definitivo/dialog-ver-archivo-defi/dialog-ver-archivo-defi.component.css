@@ -1,0 +1,25 @@
+.row {
+    display: block;
+}
+
+input { 
+    margin: 4px
+}
+
+.column-linea {
+    width: 80px;
+}
+
+.column-des-error {
+    width: 360px;
+}
+
+.ubicacion-btn {
+    margin-left: 85%;
+    margin-bottom: 2%;
+}
+
+.scrollDiv {
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
