@@ -3,9 +3,9 @@
   "version": "1.1.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration dev",
+    "start": "ng serve --configuration dev --port 4300",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "watch": "ng build --watch --configuration dev",
     "test": "ng test"
   },
   "private": true,
