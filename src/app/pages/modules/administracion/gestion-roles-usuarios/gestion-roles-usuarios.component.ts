@@ -35,26 +35,8 @@ export class GestionRolesUsuariosComponent implements OnInit {
   spinnerActive: boolean = false;
 
   //DataSource para pintar tabla de los procesos a ejecutar
-  dataSourcePreliminar: MatTableDataSource<any>;
-  displayedColumnsPreliminar: string[] = ['codigo', 'idRol', 'menuPadre', 'nombreMenu', 'estado', 'acciones'];
-
-  dataSourceCertificacion: MatTableDataSource<any>;
-  displayedColumnsCertificacion: string[] = ['codigo', 'idRol', 'menuPadre', 'nombreMenu', 'estado', 'acciones'];
-
-  dataSourceLiquidar: MatTableDataSource<any>;
-  displayedColumnsLiquidar: string[] = ['codigo', 'idRol', 'menuPadre', 'nombreMenu', 'estado', 'acciones'];
-
-  dataSourceConciliacion: MatTableDataSource<any>;
-  displayedColumnsConciliacion: string[] = ['codigo', 'idRol', 'menuPadre', 'nombreMenu', 'estado', 'acciones'];
-
-  dataSourceContabilidad: MatTableDataSource<any>;
-  displayedColumnsContabilidad: string[] = ['codigo', 'idRol', 'menuPadre', 'nombreMenu', 'estado', 'acciones'];
-
-  dataSourceAdministracion: MatTableDataSource<any>;
-  displayedColumnsAdministracion: string[] = ['codigo', 'idRol', 'menuPadre', 'nombreMenu', 'estado', 'acciones'];
-
-  dataSourceAdministracionContable: MatTableDataSource<any>;
-  displayedColumnsAdministracionContable: string[] = ['codigo', 'idRol', 'menuPadre', 'nombreMenu', 'estado', 'acciones'];
+  dataSourceMenuRol: MatTableDataSource<any>;
+  displayedColumnsMenuRol: string[] = ['codigo', 'idRol', 'menuPadre', 'nombreMenu', 'estado', 'acciones'];
 
   constructor(
     private readonly dialog: MatDialog,
@@ -96,66 +78,16 @@ export class GestionRolesUsuariosComponent implements OnInit {
     this.rolMenuService.obtenerMenuRol({'rol.idRol': this.rolSelect.idRol })
       .subscribe({ next: (page: any) => {
 
-        const listPreliminar: any[] = [];
-        const listCertificacion: any[] = [];
-        const listConciliacion: any[] = [];
-        const listContabilidad: any[] = [];
-        const listLiquidacion: any[] = [];
-        const listAdministracion: any[] = [];
-        const listAdministracionContabilidad: any[] = [];
-
+        const consolidatedList: any[] = [];
 
         page.data.forEach(element => {
-          if (element.menu.idMenuPadre == "carguePreliminar") {
-            this.validarEstado(element);
-            listPreliminar.push(element);
-          }
-          if (element.menu.idMenuPadre == "cargueCertificacion") {
-            this.validarEstado(element);
-            listCertificacion.push(element);
-          }
-          if (element.menu.idMenuPadre == "conciliacion") {
-            this.validarEstado(element);
-            listConciliacion.push(element);
-          }
-          if (element.menu.idMenuPadre == "contabilidad") {
-            this.validarEstado(element);
-            listContabilidad.push(element);
-          }
-          if (element.menu.idMenuPadre == "liquidacion") {
-            this.validarEstado(element);
-            listLiquidacion.push(element);
-          }
-          if (element.menu.idMenuPadre == "administracion") {
-            this.validarEstado(element);
-            listAdministracion.push(element);
-          }
-          if (element.menu.idMenuPadre == "administracionTabContables") {
-            this.validarEstado(element);
-            listAdministracionContabilidad.push(element);
-          }
+          this.validarEstado(element);
+          consolidatedList.push(element);
         });
 
-        this.dataSourcePreliminar = new MatTableDataSource(listPreliminar);
-        this.dataSourcePreliminar.sort = this.sort;
-
-        this.dataSourceCertificacion = new MatTableDataSource(listCertificacion);
-        this.dataSourceCertificacion.sort = this.sort;
-
-        this.dataSourceConciliacion = new MatTableDataSource(listConciliacion);
-        this.dataSourceConciliacion.sort = this.sort;
-
-        this.dataSourceContabilidad = new MatTableDataSource(listContabilidad);
-        this.dataSourceContabilidad.sort = this.sort;
-
-        this.dataSourceLiquidar = new MatTableDataSource(listLiquidacion);
-        this.dataSourceLiquidar.sort = this.sort;
-
-        this.dataSourceAdministracion = new MatTableDataSource(listAdministracion);
-        this.dataSourceAdministracion.sort = this.sort;
-
-        this.dataSourceAdministracionContable = new MatTableDataSource(listAdministracionContabilidad);
-        this.dataSourceAdministracionContable.sort = this.sort;
+        this.dataSourceMenuRol = new MatTableDataSource(consolidatedList);
+        this.dataSourceMenuRol.sort = this.sort;
+        this.dataSourceMenuRol.paginator = this.paginator;
 
         //Mostramos la vista de tablas
         this.mostrarTablasRoles = true;
