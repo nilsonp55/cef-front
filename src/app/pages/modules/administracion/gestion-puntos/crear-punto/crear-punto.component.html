@@ -31,7 +31,7 @@
     <div class="flex">
         <mat-form-field appearance="outline">
             <mat-label>Ciudad</mat-label>
-            <input type="text" matInput formControlName="ciudad" [matAutocomplete]="auto">
+            <input type="text" matInput formControlName="ciudad" [matAutocomplete]="auto" (blur)="changeCiudad($event)">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCiudad">
                 <mat-option *ngFor="let ciudad of ciudadesFiltradas | async" [value]="ciudad">
                     {{ciudad.codigoDANE + " - " + ciudad.nombreCiudad}}
@@ -42,14 +42,19 @@
         <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'OFICINA'">
           <mat-label>Código oficina</mat-label>
             <input formControlName="codigoOficina" matInput #input>
-            <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+            <mat-error *ngIf="form.get('codigoOficina').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
       
         <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'CAJERO'">
           <mat-label>Código cajero</mat-label>
             <input formControlName="codigoCajero" matInput #input>
-            <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+            <mat-error *ngIf="form.get('codigoCajero').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'BANCO'">
+          <mat-label>Abreviatura</mat-label>
+            <input formControlName="abreviatura" matInput #input>
+        </mat-form-field> 
     </div>
 
     <div class="flex">
@@ -61,17 +66,17 @@
                     {{cliente.identificacion + " : " + cliente.nombreCliente}}
                 </mat-option>
             </mat-autocomplete>
-            <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+            <mat-error *ngIf="form.get('cliente').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
     
         <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'FONDO'">
             <mat-label>Transportadora</mat-label>
-            <mat-select formControlName="transportadora">
+            <mat-select formControlName="transportadora" (selectionChange)="changeTransportadora($event)">
                 <mat-option *ngFor="let transportadora of tdvs" [value]="transportadora">
                     {{transportadora.nombreTransportadora}}
                 </mat-option>
             </mat-select>
-            <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+            <mat-error *ngIf="form.get('transportadora').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
     </div>
 
@@ -99,18 +104,11 @@
       </mat-form-field>
     </div>
 
-    <div class="flex">      
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'BANCO'">
-        <mat-label>Abreviatura</mat-label>
-          <input formControlName="abreviatura" matInput #input>
-      </mat-form-field>          
-    </div>
-
     <div class="flex">
       <mat-form-field appearance="outline">
         <mat-label>Nombre Punto</mat-label>
-          <input formControlName="nombre" matInput #input>
-          <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+          <input formControlName="nombrePunto" matInput #input [readonly]="puntoSeleccionado === 'FONDO' || puntoSeleccionado === 'BAN_REP'">
+          <mat-error *ngIf="form.get('nombrePunto').hasError('required')">Este campo es requerido</mat-error>
       </mat-form-field>
     </div>
 

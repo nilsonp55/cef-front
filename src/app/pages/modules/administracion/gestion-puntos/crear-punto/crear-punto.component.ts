@@ -22,7 +22,7 @@ export class CrearPuntoComponent implements OnInit {
   clientesFiltrados: Observable<any[]>;
   form: FormGroup = new FormGroup({
     'tipoPunto': new FormControl(),
-    'nombre': new FormControl(),
+    'nombrePunto': new FormControl(),
     'ciudad': this.ciudadControl,
     'cliente': this.clientesControl,
     'transportadora': new FormControl(),
@@ -124,7 +124,7 @@ export class CrearPuntoComponent implements OnInit {
     this.clientesControl = new FormControl(param ? this.clientes.find(value => value.codigoCliente === param?.sitiosClientes?.codigoCliente) : null, [Validators.required]);
     this.form = new FormGroup({
       'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param}, [Validators.required]),
-      'nombre': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),
+      'nombrePunto': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),
       'ciudad': this.ciudadControl,
       'cliente': this.clientesControl,
       'transportadora': new FormControl(param ? this.tdvs.find(value => value.codigo === param?.fondos?.tdv) : null, [Validators.required]),
@@ -152,7 +152,7 @@ export class CrearPuntoComponent implements OnInit {
     let cliente = {
       codigoPunto: this.dataElement?.codigoPunto,
       tipoPunto: this.puntoSeleccionado,
-      nombrePunto: this.form.value['nombre'],
+      nombrePunto: this.form.value['nombrePunto'],
       codigoDANE: this.form.value['ciudad']?.codigoDANE,
       nombreCiudad: this.form.value['ciudad']?.nombreCiudad,
       codigoCliente: Number(this.form.value['cliente']?.codigoCliente),
@@ -293,7 +293,13 @@ export class CrearPuntoComponent implements OnInit {
    * @author prv_nparra
    */
   changeBancoAval(element: any) {
-    this.getClientes({"codigoBancoAval": element.value.codigoPunto});
+    if(this.puntoSeleccionado === "CLIENTE") {
+      this.getClientes({"codigoBancoAval": element.value.codigoPunto});
+    }
+
+    if(this.puntoSeleccionado === "FONDO") {
+      this.concatenarNombrePuntoFondo(element);
+    }
   }
 
   /**
@@ -322,5 +328,39 @@ export class CrearPuntoComponent implements OnInit {
    */
   displayCliente(c: any): string {
     return c && c.identificacion ? c.identificacion : '';
+  }
+
+  /**
+   * Para tipo fondo se concatena la abreviatura de banco, nombre ciudad y codigo transportadora
+   * @param field 
+   * @author prv_nparra
+   */
+  concatenarNombrePuntoFondo(value: any) {
+    this.form.controls['bancoAval'];
+    this.form.controls['ciudad'];
+    this.form.controls['transportadora'];
+
+    const bancoAbre = this.form.controls['bancoAval'].value?.abreviatura ?? '';
+    const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? ''; 
+    const codigoTdv = this.form.controls['transportadora'].value?.codigo ?? '';
+
+    this.form.controls['nombrePunto'].setValue(bancoAbre + '-' + nombreCiudad + '-' + codigoTdv);
+  }
+
+  /**
+   * 
+   * @param value 
+   * @author prv_nparra
+   */
+  changeTransportadora(value: any) {
+    if(this.puntoSeleccionado === "FONDO") {
+      this.concatenarNombrePuntoFondo(value);
+    }
+  }
+
+  changeCiudad(value: any) {
+    if(this.puntoSeleccionado === "FONDO") {
+      this.concatenarNombrePuntoFondo(value);
+    }
   }
 }
