@@ -336,9 +336,6 @@ export class CrearPuntoComponent implements OnInit {
    * @author prv_nparra
    */
   concatenarNombrePuntoFondo(value: any) {
-    this.form.controls['bancoAval'];
-    this.form.controls['ciudad'];
-    this.form.controls['transportadora'];
 
     const bancoAbre = this.form.controls['bancoAval'].value?.abreviatura ?? '';
     const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? ''; 
