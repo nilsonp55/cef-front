@@ -5,22 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "npm start",
-            "name": "Run npm start",
+            "name": "Launch Chrome",
             "request": "launch",
-            "type": "node-terminal"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}\\src\\environments\\environment.pt.ts",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
+            "type": "chrome",
+            "url": "http://localhost:4300",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "npm: start",
+            "sourceMaps": true
         }
     ]
 }

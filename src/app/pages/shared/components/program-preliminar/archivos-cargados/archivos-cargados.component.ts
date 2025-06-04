@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -44,7 +43,7 @@ export class ArchivosCargadosComponent implements OnInit {
   displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaArchivo', 'estado', 'acciones'];
 
 
-  constructor(private http: HttpClient,
+  constructor(
     private dialog: MatDialog,
     private cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
     private cargueArchivosService: CargueArchivosService,
