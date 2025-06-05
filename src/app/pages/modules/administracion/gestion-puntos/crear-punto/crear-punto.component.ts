@@ -5,8 +5,9 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
-import { GeneralesService } from 'src/app/_service/generales.service';
-import { lastValueFrom } from 'rxjs';
+import { GeneralesService }  from 'src/app/_service/generales.service';
+import { lastValueFrom, Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-crear-punto',
@@ -15,11 +16,15 @@ import { lastValueFrom } from 'rxjs';
 })
 export class CrearPuntoComponent implements OnInit {
   spinnerActive: boolean = false;
+  ciudadControl = new FormControl();
+  ciudadesFiltradas: Observable<any[]>;
+  clientesControl = new FormControl();
+  clientesFiltrados: Observable<any[]>;
   form: FormGroup = new FormGroup({
     'tipoPunto': new FormControl(),
-    'nombre': new FormControl(),
-    'ciudad': new FormControl(),
-    'cliente': new FormControl(),
+    'nombrePunto': new FormControl(),
+    'ciudad': this.ciudadControl,
+    'cliente': this.clientesControl,
     'transportadora': new FormControl(),
     'codigoOficina': new FormControl(),
     'bancoAval': new FormControl(),
@@ -43,7 +48,7 @@ export class CrearPuntoComponent implements OnInit {
   puntoSeleccionado: string = '';
   listPuntosSelect: any;
   bancosAval: any[] = [];
-  tdvs: any[] = [];
+  tdvs: any[] = []; 
 
   constructor(
     private readonly dialog: MatDialog,
@@ -69,6 +74,18 @@ export class CrearPuntoComponent implements OnInit {
     }
     this.initForm(this.dataElement);
     this.spinnerActive = false;
+
+    this.ciudadesFiltradas = this.ciudadControl.valueChanges.pipe(
+      startWith(''),
+      map(v => (typeof v === 'string' ? v : v.nombreCiudad)),
+      map(n => (n ? this._filterCiudad(n) : this.ciudades.slice()))
+    );
+
+    this.clientesFiltrados = this.clientesControl.valueChanges.pipe(
+      startWith(''),
+      map(v => (typeof v === 'string' ? v : v.identificacion)),
+      map(n => (n ? this._filterCliente(n) : this.clientes.slice()))
+    );
   }
 
   async initForm(param?: any) {
@@ -103,20 +120,22 @@ export class CrearPuntoComponent implements OnInit {
       valBancoAval = param?.cajeroATM?.bancoAval;
     }
 
+    this.ciudadControl = new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null);
+    this.clientesControl = new FormControl(param ? this.clientes.find(value => value.codigoCliente === param?.sitiosClientes?.codigoCliente) : null, [Validators.required]);
     this.form = new FormGroup({
       'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param}, [Validators.required]),
-      'nombre': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),
-      'ciudad': new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null),
-      'cliente': new FormControl(param ? this.clientes.find(value => value.codigoCliente === param?.sitiosClientes?.codigoCliente) : null, [Validators.required]),
+      'nombrePunto': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),
+      'ciudad': this.ciudadControl,
+      'cliente': this.clientesControl,
       'transportadora': new FormControl(param ? this.tdvs.find(value => value.codigo === param?.fondos?.tdv) : null, [Validators.required]),
       'codigoOficina': new FormControl(param ? valCodigoOficina : null, [Validators.required]),
       'bancoAval': new FormControl(param ? this.bancosAval.find(value => value.codigoPunto === valBancoAval) : null, [Validators.required]),
       'tarifaRuteo': new FormControl(param ? valTarifaRuteo : 0),
       'tarifaVerificacion': new FormControl(param ? valTarifaVerificacion : 0),
-      'codigoCompensacion': new FormControl(param ? param.codigoCompensacion : null),
+      'codigoCompensacion': new FormControl(param ? param.bancos?.codigoCompensacion : null),
       'codigoCajero': new FormControl(param ? param.cajeroATM?.codigoATM : null, [Validators.required]),
-      'identificacion': new FormControl(param ? param.numeroNit : null),
-      'abreviatura': new FormControl(param ? param.abreviatura : null),
+      'identificacion': new FormControl(param ? param.bancos?.numeroNit : null),
+      'abreviatura': new FormControl(param ? param.bancos?.abreviatura : null),
       'fajado': new FormControl(param ? valFajado : null),
       'refajillado': new FormControl(param ? param.refajillado : null),
       'esAval': new FormControl(param ? param.esAVAL : null),
@@ -133,7 +152,7 @@ export class CrearPuntoComponent implements OnInit {
     let cliente = {
       codigoPunto: this.dataElement?.codigoPunto,
       tipoPunto: this.puntoSeleccionado,
-      nombrePunto: this.form.value['nombre'],
+      nombrePunto: this.form.value['nombrePunto'],
       codigoDANE: this.form.value['ciudad']?.codigoDANE,
       nombreCiudad: this.form.value['ciudad']?.nombreCiudad,
       codigoCliente: Number(this.form.value['cliente']?.codigoCliente),
@@ -274,7 +293,71 @@ export class CrearPuntoComponent implements OnInit {
    * @author prv_nparra
    */
   changeBancoAval(element: any) {
-    this.getClientes({"codigoBancoAval": element.value.codigoPunto});
+    if(this.puntoSeleccionado === "CLIENTE") {
+      this.getClientes({"codigoBancoAval": element.value.codigoPunto});
+    }
+
+    if(this.puntoSeleccionado === "FONDO") {
+      this.concatenarNombrePuntoFondo(element);
+    }
   }
 
+  /**
+   * @author prv_nparra
+   */
+  private _filterCiudad(name: string): any[] {
+    return this.ciudades.filter(c => c.nombreCiudad.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  /**
+   * @author prv_nparra
+   */
+  displayCiudad(c: any): string {
+    return c && c.nombreCiudad ? c.nombreCiudad : '';
+  }
+
+  /**
+   * @author prv_nparra
+   */
+  private _filterCliente(identificacion: string): any[] {
+    return this.clientes.filter(c => c.identificacion.includes(identificacion));
+  }
+
+  /**
+   * @author prv_nparra
+   */
+  displayCliente(c: any): string {
+    return c && c.identificacion ? c.identificacion : '';
+  }
+
+  /**
+   * Para tipo fondo se concatena la abreviatura de banco, nombre ciudad y codigo transportadora
+   * @param field 
+   * @author prv_nparra
+   */
+  concatenarNombrePuntoFondo(value: any) {
+
+    const bancoAbre = this.form.controls['bancoAval'].value?.abreviatura ?? '';
+    const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? ''; 
+    const codigoTdv = this.form.controls['transportadora'].value?.codigo ?? '';
+
+    this.form.controls['nombrePunto'].setValue(bancoAbre + '-' + nombreCiudad + '-' + codigoTdv);
+  }
+
+  /**
+   * 
+   * @param value 
+   * @author prv_nparra
+   */
+  changeTransportadora(value: any) {
+    if(this.puntoSeleccionado === "FONDO") {
+      this.concatenarNombrePuntoFondo(value);
+    }
+  }
+
+  changeCiudad(value: any) {
+    if(this.puntoSeleccionado === "FONDO") {
+      this.concatenarNombrePuntoFondo(value);
+    }
+  }
 }

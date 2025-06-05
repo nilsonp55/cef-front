@@ -125,7 +125,7 @@
               "optimization": false,
               "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": false,
+              "sourceMap": true,
               "namedChunks": true,
               "fileReplacements": [
                 {
@@ -135,7 +135,7 @@
               ]
             }
           },
-          "defaultConfiguration": "pruebastecnicas"
+          "defaultConfiguration": "dev"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",

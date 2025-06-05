@@ -1,0 +1,135 @@
+<div>
+    <div class="row">
+      <mat-form-field class="col-2" appearance="fill">
+        <mat-label>Bancos</mat-label>
+        <mat-select [(ngModel)]="filtroBancoSelect" (selectionChange)="filtrar($event)">
+          <mat-option>Ninguno</mat-option>
+          <mat-option *ngFor="let item of bancos" [value]="item">
+            {{item.nombreBanco}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-2" appearance="fill">
+        <mat-label>Transporta</mat-label>
+        <mat-select [(ngModel)]="filtroTransportaSelect" (selectionChange)="filtrar($event)">
+          <mat-option>Ninguno</mat-option>
+          <mat-option *ngFor="let item of transportadoras" [value]="item">
+            {{item.nombreTransportadora}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-2" appearance="fill">
+        <mat-label>Tipo Operación</mat-label>
+        <mat-select [(ngModel)]="filtroTipOperacionSelect" (selectionChange)="filtrar($event)">
+          <mat-option>Ninguno</mat-option>
+          <mat-option *ngFor="let item of tipoOperaciones" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-2" appearance="fill">
+        <mat-label>Tipo Servicio</mat-label>
+        <mat-select [(ngModel)]="filtroTipoServicioSelect" (selectionChange)="filtrar($event)">
+          <mat-option>Ninguno</mat-option>
+          <mat-option *ngFor="let item of tipoServicios" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-2" appearance="fill">
+        <mat-label>Escala</mat-label>
+        <mat-select [(ngModel)]="filtroEscalaSelect" (selectionChange)="filtrar($event)">
+          <mat-option>Ninguno</mat-option>
+          <mat-option *ngFor="let item of escalas" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="filtro">
+      <button class="col-2" *ngIf="habilitarBTN" mat-raised-button color="primary"
+        (click)="editarRegistro.emit(null)">Nuevo</button>
+      <button class="col-2" *ngIf="habilitarBTN" mat-raised-button color="primary"
+        (click)="exporter.exportTable('xlsx', {fileName:'tarifas-operaciones'})">Exportar</button>
+      <mat-paginator class="col-7" [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros" showFirstLastButtons
+          (page)="mostrarMas($event)">
+        </mat-paginator>
+    </div>
+    <div>
+      <div *ngIf="spinnerActive" class="disenio-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+      <table mat-table matTableExporter [dataSource]="dataSourceTiposCuentas" matSort class="mat-elevation-z8"
+        #exporter="matTableExporter" aria-label="tarifasOperacion">
+        <tr>
+          <ng-container matColumnDef="banco" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
+            <td mat-cell *matCellDef="let element"> {{element.bancoDTO.nombreBanco}} </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container matColumnDef="tdv" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Transportadora</th>
+            <td mat-cell *matCellDef="let element"> {{element.transportadoraDTO.nombreTransportadora}} </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container matColumnDef="tOperacion" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>T. Operacion</th>
+            <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container matColumnDef="tServicio" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>T. Servicio</th>
+            <td mat-cell *matCellDef="let element"> {{element.tipoServicio}} </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container matColumnDef="escala" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Escala</th>
+            <td mat-cell *matCellDef="let element"> {{element.escala}} </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container matColumnDef="tipoPunto" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo punto</th>
+            <td mat-cell *matCellDef="let element"> {{element.tipoPunto}} </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container matColumnDef="comisionAplicar" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Comisión</th>
+            <td mat-cell *matCellDef="let element"> {{element.comisionAplicar}} </td>
+          </ng-container>
+        </tr>        
+        <tr>
+          <ng-container matColumnDef="valorTarifa" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarifa</th>
+            <td mat-cell *matCellDef="let element"> {{element.valorTarifa}} </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container matColumnDef="fechaVigenciaFin" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vigencia Fin</th>
+            <td mat-cell *matCellDef="let element"> {{element.fechaVigenciaFin|date}} </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-button (click)="editar(element)">
+                <mat-icon style="color: green">edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+        </tr>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsTiposCuentas"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
+      </table>
+      
+    </div>    
+
+</div>

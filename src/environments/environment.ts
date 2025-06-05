@@ -8,7 +8,7 @@ export const environment = {
   //Configuracion No AAD
   usesADD: true,
   token: "",
-  user: "prv_nparra@ath.com.co",
+  user: "",
   time_token_exp: "",
 
   //feature-flag

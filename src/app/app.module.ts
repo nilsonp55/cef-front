@@ -166,6 +166,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { AuthInterceptor } from './_service/auth.interceptor';
 import { GenerarPoliticaRetencionComponent } from './pages/modules/administracion/generar-politica-retencion/generar-politica-retencion.component';
 import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/generar-politica-retencion/dialog-confirm-politica/dialog-confirm-politica.component';
+import { TarifasOperacionTablaComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-tabla.component';
+import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-form.component';
 
 @NgModule({
   declarations: [
@@ -306,7 +308,9 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
     VentanaEmergenteReintegrarRegistrosComponent,
     DialogUpdateEstadoOperacionesComponent,
     GenerarPoliticaRetencionComponent,
-    DialogConfirmPoliticaComponent
+    DialogConfirmPoliticaComponent,
+    TarifasOperacionTablaComponent,
+    TarifasOperacionFormComponent
   ],
 
   imports: [

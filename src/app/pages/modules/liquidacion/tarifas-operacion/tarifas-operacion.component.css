@@ -54,7 +54,6 @@
 .switch {
 	position: relative;
 	display: block;
-	vertical-align: top;
 	width: 100px;
 	height: 30px;
 	padding: 3px;
@@ -156,7 +155,39 @@
 	-o-transition: All 0.3s ease;
 }
 
+.row {
+	display: flex;	
+	flex-wrap: nowrap;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
 .filtro {
 	display: flex;
-	margin-right: 35% ;
+	flex-direction: row;
+	align-items: center;
+	gap: 3rem;
+}
+
+.mat-form-field {
+    margin-right: 2%;
+    margin-left: 0%; 
+}
+
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.form-grid mat-form-field {
+  flex: 1 1 45%;
+  min-width: 250px;
+}
+
+@media (max-width: 900px) {
+  .form-grid mat-form-field {
+    flex: 1 1 100%;
+    min-width: 180px;
+  }
 }
