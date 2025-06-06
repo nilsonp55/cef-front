@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { PuntosCodigoService } from 'src/app/_service/liquidacion-service/puntos-codigo.service';
+import { PuntosCodigoService } from 'src/app/_service/administracion-service/puntos-codigo.service';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { lastValueFrom } from 'rxjs';
