@@ -298,7 +298,7 @@ export class CrearPuntoComponent implements OnInit {
     }
 
     if(this.puntoSeleccionado === "FONDO") {
-      this.concatenarNombrePuntoFondo(element);
+      this.concatenarNombrePuntoFondo();
     }
   }
 
@@ -335,13 +335,13 @@ export class CrearPuntoComponent implements OnInit {
    * @param field 
    * @author prv_nparra
    */
-  concatenarNombrePuntoFondo(value: any) {
+  concatenarNombrePuntoFondo() {
 
-    const bancoAbre = this.form.controls['bancoAval'].value?.abreviatura ?? '';
+    const bancoAbreviatura = this.form.controls['bancoAval'].value?.abreviatura ?? '';
     const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? ''; 
     const codigoTdv = this.form.controls['transportadora'].value?.codigo ?? '';
 
-    this.form.controls['nombrePunto'].setValue(bancoAbre + '-' + nombreCiudad + '-' + codigoTdv);
+    this.form.controls['nombrePunto'].setValue(bancoAbreviatura + '-' + nombreCiudad + '-' + codigoTdv);
   }
 
   /**
@@ -351,13 +351,22 @@ export class CrearPuntoComponent implements OnInit {
    */
   changeTransportadora(value: any) {
     if(this.puntoSeleccionado === "FONDO") {
-      this.concatenarNombrePuntoFondo(value);
+      this.concatenarNombrePuntoFondo();
     }
   }
 
   changeCiudad(value: any) {
     if(this.puntoSeleccionado === "FONDO") {
-      this.concatenarNombrePuntoFondo(value);
+      this.concatenarNombrePuntoFondo();
     }
+
+    if(this.puntoSeleccionado === "BAN_REP") {
+      this.concatenarNombreBanrep();
+    }
+  }
+
+  concatenarNombreBanrep() {
+    const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? ''; 
+    this.form.controls['nombrePunto'].setValue(GENERALES.NOMBRE_TIPO_BANREP + nombreCiudad);
   }
 }

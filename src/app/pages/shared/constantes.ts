@@ -193,6 +193,8 @@ export const GENERALES = {
     OFICINA: 'OFICINA',
   },
 
+  NOMBRE_TIPO_BANREP: 'BANCO REPUBLICA-',
+
   TIPO_IDENTIFICACION:  ['NIT', 'CC' ],
 
   //Gestion Archvio
