@@ -112,7 +112,7 @@ import { ErroresCostosComponent } from './pages/modules/liquidacion/liquida-cost
 import { InitAppComponent } from './pages/shared/components/init-app/init-app.component';
 import { TarifasOperacionComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion.component';
 import { EscalasComponent } from './pages/modules/liquidacion/escalas/escalas.component';
-import { PuntosCodigoTdvComponent } from './pages/modules/liquidacion/puntos-codigo-tdv/puntos-codigo-tdv.component';
+import { PuntosCodigoTdvComponent } from './pages/modules/administracion/puntos-codigo-tdv/puntos-codigo-tdv.component';
 import { LiquidacionMensualComponent } from './pages/modules/liquidacion/liquidacion-mensual/liquidacion-mensual.component';
 import { DetalleGuardarLiquidacionComponent } from './pages/modules/liquidacion/liquidacion-mensual/detalle-guardar-liquidacion/detalle-guardar-liquidacion.component';
 import { GuardarLiquidacionComponent } from './pages/modules/liquidacion/liquidacion-mensual/guardar-liquidacion/guardar-liquidacion.component';

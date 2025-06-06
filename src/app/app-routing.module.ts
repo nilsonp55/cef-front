@@ -41,7 +41,7 @@ import { CostosServicioCharterComponent } from './pages/modules/liquidacion/cost
 import { AdministracionConfContableEntidadComponent } from './pages/modules/administracion/administracion-conf-contable-entidad/administracion-conf-contable-entidad.component';
 import { InitAppComponent } from './pages/shared/components/init-app/init-app.component';
 import { TarifasOperacionComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion.component';
-import { PuntosCodigoTdvComponent } from './pages/modules/liquidacion/puntos-codigo-tdv/puntos-codigo-tdv.component';
+import { PuntosCodigoTdvComponent } from './pages/modules/administracion/puntos-codigo-tdv/puntos-codigo-tdv.component';
 import { EscalasComponent } from './pages/modules/liquidacion/escalas/escalas.component';
 import { LiquidacionMensualComponent } from './pages/modules/liquidacion/liquidacion-mensual/liquidacion-mensual.component';
 import { DetalleGuardarLiquidacionComponent } from './pages/modules/liquidacion/liquidacion-mensual/detalle-guardar-liquidacion/detalle-guardar-liquidacion.component';
