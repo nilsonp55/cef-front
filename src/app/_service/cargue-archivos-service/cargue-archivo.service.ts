@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { URLs } from '../../pages/shared/constantes';
 import { saveAs } from 'file-saver';
-
+import { HttpBaseService } from '../http-base.service'; // Adjusted path
+import { HttpClient } from '@angular/common/http'; // Keep HttpClient for constructor super call
 
 @Injectable({
     providedIn: 'root'
@@ -15,33 +14,34 @@ import { saveAs } from 'file-saver';
  * Clase service para consumir los servicios de información y cargue de arhivos 
  * @BaironPerez
  */
-export class CargueArchivosService {
+export class CargueArchivosService extends HttpBaseService { // Extend HttpBaseService
 
-    private readonly urlFiles: string = `${environment.HOST}${URLs.STAGE}`;
-    private readonly urlFile: string = `${environment.HOST}${URLs.STAGE + URLs.CARGUE_FILE}`;
-    private readonly urlFileLoad: string = `${environment.HOST}${URLs.STAGE + URLs.ARCHIVO_CARGADO}`;
+    private readonly urlFile: string = `${URLs.CARGUE_FILE}`; // Relative URL
+    private readonly urlFileLoad: string = `${URLs.ARCHIVO_CARGADO}`; // Relative URL
 
-    constructor(private readonly http: HttpClient) { }
+    constructor(http: HttpClient) { // Keep HttpClient for super call
+        super(http); // Call super constructor
+    }
 
     /** 
      * Servicio para listar los archivos cargados para el historial paginados
     */
      obtenerArchivosCargados(params: any): Observable<any> {
-        return this.http.get(`${this.urlFileLoad}${URLs.CONSULTAR_X_AGRUPADOR}`, { params: params });
+        return this.get<any>(`${this.urlFileLoad}${URLs.CONSULTAR_X_AGRUPADOR}`, params); // Use inherited get method
     }
 
     /** 
      * Servicio para listar los archivos subidos para listar los arhivos pendientes de carga
     */
      obtenerArchivosSubidosPendientesCarga(params: any): Observable<any> {
-        return this.http.get(`${this.urlFiles}${URLs.PROGRAMACION_PRELIMINAR}${URLs.PROGRAMACION_PRELIMINAR_CONSULTAR}`, { params: params });
+        return this.get<any>(`${URLs.PROGRAMACION_PRELIMINAR}${URLs.PROGRAMACION_PRELIMINAR_CONSULTAR}`, params); // Use inherited get method
     }
 
     /** 
      * Servicio para obtener un archivo por su id y descargarlo o visualizarlo
     */
      visializarArchivo1(idArchivo: any) {
-        return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}/${idArchivo}`, { responseType: 'blob' })
+        return this.downloadFile(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}/${idArchivo}`) // Use inherited downloadFile method
             .pipe(
                 tap(content => {
                     const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
@@ -52,7 +52,8 @@ export class CargueArchivosService {
     }
 
     visializarArchivo2(params: any): Observable<any> {
-        return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'text' })
+        // Assuming this is a text file download, adjust if necessary
+        return this.http.get(`${this.baseUrl}${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'text' })
     }
 
     /**
@@ -61,7 +62,7 @@ export class CargueArchivosService {
      * @returns 
      */
     visializarArchivo3(params: any): Observable<any> {
-        return this.http.get(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
+        return this.downloadFile(`${this.urlFile}${URLs.CARGUE_ARCHIVO_DESCARGAR}`, params) // Use inherited downloadFile method
         .pipe(
             tap(content => {
                 const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
@@ -76,7 +77,7 @@ export class CargueArchivosService {
  * @returns 
  */
     visializarArchivo4(params: any): Observable<any> {
-        return this.http.get(`${this.urlFile}${URLs.CARGUE_ID_ARCHIVO_DESCARGAR}`, { params: params, responseType: 'blob' })
+        return this.downloadFile(`${this.urlFile}${URLs.CARGUE_ID_ARCHIVO_DESCARGAR}`, params) // Use inherited downloadFile method
         .pipe(
             tap(content => {
                 const blob = new Blob([content], { type: 'text/plain'});
@@ -96,7 +97,7 @@ export class CargueArchivosService {
             formData.append('tipoCargue', tipoCargue);
         }
         
-        return this.http.post<any>(`${this.urlFile}${URLs.CARGUE_ARCHIVO_GUARDAR}`, formData);
+        return this.post<any>(`${this.urlFile}${URLs.CARGUE_ARCHIVO_GUARDAR}`, formData); // Use inherited post method
         
     }
 
