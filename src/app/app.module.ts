@@ -169,6 +169,10 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
 import { TarifasOperacionTablaComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-tabla.component';
 import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-form.component';
 
+// Imports for the newly created components
+import { DotsCodeFormComponent } from './pages/modules/liquidacion/dots-code-form/dots-code-form';
+import { DotsCodeTableComponent } from './pages/modules/liquidacion/dots-code-table/dots-code-table';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -310,7 +314,9 @@ import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarif
     GenerarPoliticaRetencionComponent,
     DialogConfirmPoliticaComponent,
     TarifasOperacionTablaComponent,
-    TarifasOperacionFormComponent
+    TarifasOperacionFormComponent,
+    DotsCodeFormComponent, // Declare DotsCodeFormComponent
+    DotsCodeTableComponent   // Declare DotsCodeTableComponent
   ],
 
   imports: [
