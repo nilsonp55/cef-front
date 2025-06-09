@@ -98,8 +98,4 @@ export class TarifasOperacionTablaComponent implements OnInit {
     this.filtroEscalaSelect = null;
     this.filtroTipoServicioSelect = null;
   }
-
-  editar(element: any) {
-    this.editarRegistro.emit(element);
-  }
 }

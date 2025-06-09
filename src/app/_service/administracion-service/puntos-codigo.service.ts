@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { URLs } from '../../pages/shared/constantes';
+import { HttpBaseService } from '../http-base.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,31 +12,30 @@ import { URLs } from '../../pages/shared/constantes';
  * Clase service para consumir los servicios de Puntos codigo
  * @BaironPerez
  */
-export class PuntosCodigoService {
+export class PuntosCodigoService extends HttpBaseService {
 
-    private readonly url: string = `${environment.HOST}${URLs.STAGE + URLs.PUNTOS_CODIGO}`;
-
-    constructor(private readonly http: HttpClient) { }
-
+    constructor(http: HttpClient) { 
+        super(http);
+    }
 
     /**
      * Servicio para listar los puntos codigo TDV
     */
     obtenerPuntosCodigoTDV(params?: any): Observable<any> {
-        return this.http.get<any>(`${this.url}${URLs.PUNTOS_CODIGO_CONSULTAR}`, { params: params });
+        return this.get<any>(`${URLs.PUNTOS_CODIGO}${URLs.PUNTOS_CODIGO_CONSULTAR}`, { params: params });
     }
 
     /**
      * Servicio para gurdar un punto codigo TDV
      */
     guardarPuntosCodigoTDV(params: any): Observable<any> {
-        return this.http.post<any>(`${this.url}${URLs.PUNTOS_CODIGO_GUARDAR}`, params);
+        return this.post<any>(`${URLs.PUNTOS_CODIGO}${URLs.PUNTOS_CODIGO_GUARDAR}`, params);
     }
 
     /**
      * Servicio para gurdar una Punto Codigo TDV
      */
     actualizarPuntosCodigoTDV(params: any): Observable<any> {
-        return this.http.put<any>(`${this.url}${URLs.PUNTOS_CODIGO_ACTUALIZAR}`, params);
+        return this.put<any>(`${URLs.PUNTOS_CODIGO}${URLs.PUNTOS_CODIGO_ACTUALIZAR}`, params);
     }
 }

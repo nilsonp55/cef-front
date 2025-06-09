@@ -9,6 +9,7 @@ import { GestionPuntosService } from 'src/app/_service/administracion-service/ge
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { lastValueFrom } from 'rxjs';
+import { DominioFuncionalService } from 'src/app/_service/administracion-service/dominio-funcional.service';
 
 @Component({
   selector: 'app-gestion-puntos',
@@ -57,6 +58,7 @@ export class GestionPuntosComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly gestionPuntosService: GestionPuntosService,
     private readonly generalServices: GeneralesService,
+    private readonly dominioFuncionalService: DominioFuncionalService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -102,7 +104,7 @@ export class GestionPuntosComponent implements OnInit {
   }
 
   listarTiposPunto() {
-    this.gestionPuntosService
+    this.dominioFuncionalService
       .listarTiposPuntos({
         'dominioPK.dominio': 'TIPOS_PUNTO',
       })
