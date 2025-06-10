@@ -19,7 +19,7 @@ export class DominioFuncionalService extends HttpBaseService {
     }
 
     listarTiposPuntos(params?: any): Observable<any> {
-        return this.get<any>(`${URLs.DOMINIO}${URLs.CONSULTAR_DOMINIO}`, { params: params });
+        return this.get<any>(`${URLs.DOMINIO}${URLs.CONSULTAR_DOMINIO}`, params);
     }
 
 }

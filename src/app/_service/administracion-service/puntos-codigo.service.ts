@@ -22,7 +22,7 @@ export class PuntosCodigoService extends HttpBaseService {
      * Servicio para listar los puntos codigo TDV
     */
     obtenerPuntosCodigoTDV(params?: any): Observable<any> {
-        return this.get<any>(`${URLs.PUNTOS_CODIGO}${URLs.PUNTOS_CODIGO_CONSULTAR}`, { params: params });
+        return this.get<any>(`${URLs.PUNTOS_CODIGO}${URLs.PUNTOS_CODIGO_CONSULTAR}`, params);
     }
 
     /**

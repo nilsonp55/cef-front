@@ -20,6 +20,7 @@ export class FormCodigoTdvComponent implements OnInit {
     @Input() bancos: any[] = [];
     @Input() transportadoras: any[] = [];
     @Input() ciudades: any[] = [];
+    @Input() tiposPunto: any[] = []; 
 
     @Output() formSubmit = new EventEmitter<any>();
     @Output() cancel = new EventEmitter<void>();

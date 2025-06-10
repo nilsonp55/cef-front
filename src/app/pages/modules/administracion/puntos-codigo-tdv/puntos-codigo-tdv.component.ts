@@ -43,7 +43,6 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   constructor(
     private puntosCodigoService: PuntosCodigoService,
-    private puntosService: GestionPuntosService,
     private dialog: MatDialog,
     private generalesService: GeneralesService,
     private dominioFuncionalService: DominioFuncionalService
