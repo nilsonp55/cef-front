@@ -2,9 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { lastValueFrom, map, Observable, startWith } from "rxjs";
+import { ClientesCorporativosService } from "src/app/_service/administracion-service/clientes-corporativos.service";
 import { GestionPuntosService } from "src/app/_service/administracion-service/gestionPuntos.service";
-import { PuntosCodigoService } from "src/app/_service/administracion-service/puntos-codigo.service";
-import { GeneralesService } from "src/app/_service/generales.service";
 import { VentanaEmergenteResponseComponent } from "src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component";
 import { GENERALES } from "src/app/pages/shared/constantes";
 
@@ -40,9 +39,8 @@ export class FormCodigoTdvComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private puntosCodigoService: PuntosCodigoService,
         private puntosService: GestionPuntosService,
-        private generalesService: GeneralesService,
+        private clientesCorporativosService: ClientesCorporativosService,
         private dialog: MatDialog
     ) { }
 
@@ -139,9 +137,7 @@ export class FormCodigoTdvComponent implements OnInit {
                 initialParams['cajeroATM.bancoAval'] = Number(param.bancosDTO.codigoPunto);
             } else if (this.selectedTipoPunto === "CLIENTE") {
                 let clienteParams = {
-                    'fondos.bancoAVAL': Number(param.bancosDTO.codigoPunto),
-                    // Or however the bank is identified for clients, this might need adjustment based on data structure
-                    // 'codigoBancoAval': Number(param.bancosDTO.codigoPunto),
+                    'codigoBancoAVAL': Number(param.bancosDTO.codigoPunto),
                     page: 0,
                     size: 5000
                 };
@@ -229,17 +225,33 @@ export class FormCodigoTdvComponent implements OnInit {
         this.form.get('punto').setValue(null); // Reset punto selection
         this.puntos = []; // Clear previous puntos
 
+        const bancoCodigoPunto = event.value?.codigoPunto;
+        if (!bancoCodigoPunto && this.selectedTipoPunto !== 'BAN_REP' && this.selectedTipoPunto !== 'BANCO') {
+            // If no bank selected and it's required for the current tipoPunto, clear puntos and return.
+            this.spinnerActive = false;
+            return;
+        }
+
         let params: any = {
             tipoPunto: this.selectedTipoPunto,
             page: 0,
             size: 5000 // Assuming a large enough size
         };
 
-        const bancoCodigoPunto = event.value?.codigoPunto;
-        if (!bancoCodigoPunto && this.selectedTipoPunto !== 'BAN_REP' && this.selectedTipoPunto !== 'BANCO') {
-            // If no bank selected and it's required for the current tipoPunto, clear puntos and return.
-            this.spinnerActive = false;
-            return;
+        if (this.selectedTipoPunto === 'BAN_REP' || this.selectedTipoPunto === 'BANCO') {
+            // For these types, puntos can be listed directly, bank is not a prerequisite for listing puntos
+            // Bank might be optional or not applicable for filtering puntos themselves.
+            this.form.controls['banco'].removeValidators(Validators.required);
+            this.form.controls['banco'].updateValueAndValidity();
+            await this.listarPuntos(params);
+        } else if (this.selectedTipoPunto === 'CLIENTE') {
+            // For CLIENTE, bank selection is usually first, then client, then punto.
+            // So, changing tipoPunto to CLIENTE doesn't load puntos yet.
+            // It might load banks if they are not already an @Input.
+            // For now, we assume banks are @Input.
+        } else {
+            // For other types like FONDO, OFICINA, CAJERO, bank is required.
+            // Puntos will be loaded after bank is selected.
         }
 
         if (this.selectedTipoPunto === "FONDO") {
@@ -264,7 +276,7 @@ export class FormCodigoTdvComponent implements OnInit {
     }
 
     async changeTipoPunto(event: any) {
-        this.selectedTipoPunto = event?.value;
+        this.selectedTipoPunto = event?.value.valorTexto;
         this.form.get('banco').setValue(null);
         this.form.get('punto').setValue(null);
         this.form.get('cliente').setValue(null);
@@ -282,28 +294,7 @@ export class FormCodigoTdvComponent implements OnInit {
             return;
         }
 
-        this.spinnerActive = true;
-        let params = {
-            tipoPunto: this.selectedTipoPunto,
-            page: 0,
-            size: 5000
-        };
-
-        if (this.selectedTipoPunto === 'BAN_REP' || this.selectedTipoPunto === 'BANCO') {
-            // For these types, puntos can be listed directly, bank is not a prerequisite for listing puntos
-            // Bank might be optional or not applicable for filtering puntos themselves.
-            this.form.controls['banco'].removeValidators(Validators.required);
-            this.form.controls['banco'].updateValueAndValidity();
-            await this.listarPuntos(params);
-        } else if (this.selectedTipoPunto === 'CLIENTE') {
-            // For CLIENTE, bank selection is usually first, then client, then punto.
-            // So, changing tipoPunto to CLIENTE doesn't load puntos yet.
-            // It might load banks if they are not already an @Input.
-            // For now, we assume banks are @Input.
-        } else {
-            // For other types like FONDO, OFICINA, CAJERO, bank is required.
-            // Puntos will be loaded after bank is selected.
-        }
+        this.spinnerActive = true;        
 
         this.form.controls['codigoPunto'].setValue('');
         this.spinnerActive = false;
@@ -312,7 +303,7 @@ export class FormCodigoTdvComponent implements OnInit {
     async listarClientes(params: any) {
         this.spinnerActive = true;
         try {
-            const response = await lastValueFrom(this.generalesService.listarClientes(params));
+            const response = await lastValueFrom(this.clientesCorporativosService.listarClientesCorporativos(params));
             this.clientes = response.data;
         } catch (err) {
             this.dialog.open(VentanaEmergenteResponseComponent, {
