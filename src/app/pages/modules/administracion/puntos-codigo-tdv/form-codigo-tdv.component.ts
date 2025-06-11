@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { lastValueFrom, map, Observable, startWith } from "rxjs";
+import { catchError, debounceTime, distinctUntilChanged, lastValueFrom, map, Observable, of, startWith, switchMap } from "rxjs";
 import { ClientesCorporativosService } from "src/app/_service/administracion-service/clientes-corporativos.service";
 import { GestionPuntosService } from "src/app/_service/administracion-service/gestionPuntos.service";
 import { VentanaEmergenteResponseComponent } from "src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component";
@@ -57,9 +57,14 @@ export class FormCodigoTdvComponent implements OnInit {
 
         this.clientesFiltrados = this.clientesControl.valueChanges.pipe(
             startWith(''),
-            map(v => (typeof v === 'string' ? v : v.identificacion)),
-            map(n => (n ? this._filterCliente(n) : this.clientes.slice()))
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap( value => {
+                const searchTerm = typeof value === 'string' ? value : value?.identificacion;
+                return searchTerm ? this._filterCliente(searchTerm) : of([])
+            })
         );
+        console.log(this.clientesFiltrados);
     }
 
     async initForm(param?: any) {
@@ -218,11 +223,38 @@ export class FormCodigoTdvComponent implements OnInit {
         this.cancel.emit();
     }
 
+    /**
+     * Asigna valor a propiedad global con el tipo de punto seleccionado
+     * hacwe reset al formulario
+     * @param event 
+     * @returns 
+     */
+    async changeTipoPunto(event: any) {
+        this.selectedTipoPunto = event?.value.valorTexto;
+        this.form.get('banco').setValue(null);
+        this.form.get('punto').setValue(null);
+        this.form.get('cliente').setValue(null);
+        this.form.get('codigoDANE').setValue('0');
+
+        this.puntos = [];
+        this.clientes = [];
+
+        this.form.controls['banco'].setValidators(Validators.required);
+        this.form.controls['banco'].updateValueAndValidity();       
+
+        this.form.controls['codigoPunto'].setValue('');
+    }
+
+    /**
+     * Filtrar puntos por tipo de punto y banco, en los casos que aplique
+     * @param event 
+     * @returns 
+     */
     async changeBanco(event: any) {
         if (!this.selectedTipoPunto) return;
 
         this.spinnerActive = true;
-        this.form.get('punto').setValue(null); // Reset punto selection
+        this.form.get('punto').setValue(null); 
         this.puntos = []; // Clear previous puntos
 
         const bancoCodigoPunto = event.value?.codigoPunto;
@@ -235,7 +267,7 @@ export class FormCodigoTdvComponent implements OnInit {
         let params: any = {
             tipoPunto: this.selectedTipoPunto,
             page: 0,
-            size: 5000 // Assuming a large enough size
+            size: 5000 
         };
 
         if (this.selectedTipoPunto === 'BAN_REP' || this.selectedTipoPunto === 'BANCO') {
@@ -244,15 +276,7 @@ export class FormCodigoTdvComponent implements OnInit {
             this.form.controls['banco'].removeValidators(Validators.required);
             this.form.controls['banco'].updateValueAndValidity();
             await this.listarPuntos(params);
-        } else if (this.selectedTipoPunto === 'CLIENTE') {
-            // For CLIENTE, bank selection is usually first, then client, then punto.
-            // So, changing tipoPunto to CLIENTE doesn't load puntos yet.
-            // It might load banks if they are not already an @Input.
-            // For now, we assume banks are @Input.
-        } else {
-            // For other types like FONDO, OFICINA, CAJERO, bank is required.
-            // Puntos will be loaded after bank is selected.
-        }
+        } 
 
         if (this.selectedTipoPunto === "FONDO") {
             params['fondos.bancoAVAL'] = Number(bancoCodigoPunto);
@@ -260,43 +284,12 @@ export class FormCodigoTdvComponent implements OnInit {
             params['oficinas.bancoAVAL'] = Number(bancoCodigoPunto);
         } else if (this.selectedTipoPunto === "CAJERO") {
             params['cajeroATM.bancoAval'] = Number(bancoCodigoPunto);
-        } else if (this.selectedTipoPunto === "CLIENTE") {
-            // For CLIENTE, changing bank means reloading the list of clients for that bank
-            params['codigoBancoAval'] = Number(bancoCodigoPunto); // Or however bank is identified for clients
-            await this.listarClientes(params);
-            // Puntos will be loaded when a client is selected, see filtrarPuntosCliente
         } else {
             // For BAN_REP, BANCO, or other types not dependent on bank for puntos list,
             // or if bank is optional for them.
             await this.listarPuntos(params);
         }
 
-        this.form.controls['codigoPunto'].setValue('');
-        this.spinnerActive = false;
-    }
-
-    async changeTipoPunto(event: any) {
-        this.selectedTipoPunto = event?.value.valorTexto;
-        this.form.get('banco').setValue(null);
-        this.form.get('punto').setValue(null);
-        this.form.get('cliente').setValue(null);
-        this.form.get('codigoDANE').setValue('0');
-
-        this.puntos = [];
-        this.clientes = [];
-
-        this.form.controls['banco'].setValidators(Validators.required);
-        this.form.controls['banco'].updateValueAndValidity();
-
-
-        if (!this.selectedTipoPunto) {
-            this.spinnerActive = false;
-            return;
-        }
-
-        this.spinnerActive = true;        
-
-        this.form.controls['codigoPunto'].setValue('');
         this.spinnerActive = false;
     }
 
@@ -382,8 +375,21 @@ export class FormCodigoTdvComponent implements OnInit {
     /**
      * @author prv_nparra
      */
-    private _filterCliente(identificacion: string): any[] {
-        return this.clientes.filter(c => c.identificacion.includes(identificacion));
+    private _filterCliente(value: string): Observable<any[]> {
+        if(value.length < 3) return of([]);
+
+        const params = {
+            tipoPunto: this.selectedTipoPunto,
+            codigoBancoAval: this.form.get('banco').value.codigoPunto,
+            busqueda: value,
+            page: 0,
+            size: 100
+        };
+
+        return this.clientesCorporativosService.listarClientesCorporativos(params).pipe(
+            map(response => response.data),
+            catchError(() => of([]))
+        );
     }
 
     /**

@@ -7,8 +7,7 @@
         <!--Tipo Punto-->
         <mat-form-field appearance="outline">
             <mat-label>Tipo Punto</mat-label>
-            <mat-select formControlName="tipoPunto" [(value)]="selectedTipoPunto" [disabled]="esEdicion"
-                (selectionChange)="changeTipoPunto($event)">
+            <mat-select formControlName="tipoPunto" (selectionChange)="changeTipoPunto($event)">
                 <mat-option *ngFor="let item of tiposPunto" [value]="item">
                     {{item.valorTexto}}
                 </mat-option>
@@ -53,8 +52,9 @@
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
                 <mat-option *ngFor="let item of clientesFiltrados | async" [value]="item">
                     {{item.identificacion + " : " + item.nombreCliente}}
-                </mat-option>
+                </mat-option>                
             </mat-autocomplete>
+            <mat-spinner *ngIf="spinnerActive" matSuffix diameter="20"></mat-spinner>
         </mat-form-field>
     </div>
 
