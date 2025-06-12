@@ -1,12 +1,11 @@
-<div [formGroup]="form" #frmPaciente="ngForm" class="form-grid">
-  <div style="padding-left: 10%;">
+<div [formGroup]="form" #frmPaciente="ngForm">
 
+  <div class="flex">
     <mat-form-field hidden>
       <input type="number" matInput placeholder="Id" formControlName="idTarifasOperacion">
     </mat-form-field>
-
     <mat-form-field appearance="fill">
-      <mat-label>Bancos</mat-label>
+      <mat-label>Banco</mat-label>
       <mat-select required formControlName="bancoAval">
         <mat-option *ngFor="let item of bancos" [value]="item">
           {{item.nombreBanco}}
@@ -22,7 +21,9 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
 
+  <div class="flex">
     <mat-form-field appearance="fill">
       <mat-label>Tipo punto</mat-label>
       <mat-select required formControlName="tipoPunto">
@@ -40,7 +41,9 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
 
+  <div class="flex">
     <mat-form-field appearance="fill">
       <mat-label>Tipo servicio</mat-label>
       <mat-select formControlName="tipoServicio">
@@ -58,7 +61,9 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
 
+  <div class="flex">
     <mat-form-field appearance="fill">
       <mat-label>Comision Aplicar</mat-label>
       <mat-select required formControlName="comisionAplicar">
@@ -70,9 +75,11 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Valor tarifa</mat-label>
-      <input type="number" pattern="^[0-9]+" matInput placeholder="Valor tarifa" formControlName="valorTarifa" required>
+      <input type="number" matInput placeholder="Valor tarifa" formControlName="valorTarifa" required>
     </mat-form-field>
+  </div>
 
+  <div class="flex">
     <mat-form-field appearance="fill">
       <mat-label>Billetes</mat-label>
       <select matNativeControl formControlName="billetes">
@@ -90,7 +97,9 @@
         <option value="null">NINGUNO</option>
       </select>
     </mat-form-field>
+  </div>
 
+  <div class="flex">
     <mat-form-field appearance="fill">
       <mat-label>Fajado</mat-label>
       <select matNativeControl formControlName="fajado">
@@ -108,7 +117,9 @@
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
+  </div>
 
+  <div class="flex">
     <mat-form-field appearance="fill">
       <mat-label>Fecha final</mat-label>
       <input required matInput [matDatepicker]="picker2" readonly="true" formControlName="fechaVigenciaFin">
@@ -119,14 +130,15 @@
 
     <div class="division-estado">
       <p>Estado</p>
-      <label class="switch" >
+      <label class="switch">
         <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
         <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
         <span class="switch-handle"></span>
       </label>
     </div>
   </div>
-  <button mat-raised-button type="button" (click)="onGuardar()" class="ubicacion-btn" color="primary"
+
+  <button mat-raised-button type="button" (click)="onGuardar()" color="primary"
     [disabled]="form.invalid">Aceptar</button>
   <button mat-raised-button type="button" (click)="onCancelar()" color="warn">Cancelar</button>
 </div>

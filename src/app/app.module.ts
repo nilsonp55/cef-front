@@ -113,6 +113,8 @@ import { InitAppComponent } from './pages/shared/components/init-app/init-app.co
 import { TarifasOperacionComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion.component';
 import { EscalasComponent } from './pages/modules/liquidacion/escalas/escalas.component';
 import { PuntosCodigoTdvComponent } from './pages/modules/administracion/puntos-codigo-tdv/puntos-codigo-tdv.component';
+import { FormCodigoTdvComponent } from './pages/modules/administracion/puntos-codigo-tdv/form-codigo-tdv.component';
+import { TableCodigoTdvComponent } from './pages/modules/administracion/puntos-codigo-tdv/table-codigo-tdv.component';
 import { LiquidacionMensualComponent } from './pages/modules/liquidacion/liquidacion-mensual/liquidacion-mensual.component';
 import { DetalleGuardarLiquidacionComponent } from './pages/modules/liquidacion/liquidacion-mensual/detalle-guardar-liquidacion/detalle-guardar-liquidacion.component';
 import { GuardarLiquidacionComponent } from './pages/modules/liquidacion/liquidacion-mensual/guardar-liquidacion/guardar-liquidacion.component';
@@ -260,6 +262,8 @@ import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarif
     TarifasOperacionComponent,
     EscalasComponent,
     PuntosCodigoTdvComponent,
+    FormCodigoTdvComponent,
+    TableCodigoTdvComponent,
     LiquidacionMensualComponent,
     DetalleGuardarLiquidacionComponent,
     GuardarLiquidacionComponent,
@@ -310,7 +314,7 @@ import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarif
     GenerarPoliticaRetencionComponent,
     DialogConfirmPoliticaComponent,
     TarifasOperacionTablaComponent,
-    TarifasOperacionFormComponent
+    TarifasOperacionFormComponent,
   ],
 
   imports: [

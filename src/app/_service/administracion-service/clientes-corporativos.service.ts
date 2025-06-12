@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpBaseService } from 'src/app/_service/http-base.service'; 
 import { URLs } from 'src/app/pages/shared/constantes';
+import { HttpClient } from '@angular/common/http'; // Keep HttpClient for constructor super call
 
 @Injectable({
   providedIn: 'root'
@@ -12,44 +12,44 @@ import { URLs } from 'src/app/pages/shared/constantes';
  * Clase service para servicios de clientes corporativos
  * @author prv_nparra
  */
-export class ClientesCorporativosService {
+export class ClientesCorporativosService extends HttpBaseService{
 
-  private readonly url: string = `${environment.HOST}${URLs.STAGE}`;
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(http: HttpClient) { 
+    super(http);
+  }
 
   /**
    * @author prv_nparra
    */
   listarClientesCorporativos(param?: any): Observable<any> {
-    return this.http.get<any>(`${this.url}${URLs.CLIENTE}/`, { params: param });
+    return this.get<any>(`${URLs.CLIENTE}/`, param);
   }
 
   /**
    * @author prv_nparra
    */
   obtenerClienteCorporativo(codigoCliente: number): Observable<any> {
-    return this.http.get<any>(`${this.url}${URLs.CLIENTE}/${codigoCliente}`);
+    return this.get<any>(`${URLs.CLIENTE}/${codigoCliente}`);
   }
 
   /**
    * @author prv_nparra
    */
   guardarClientesCorporativos(param: any): Observable<any> {
-    return this.http.post<any>(`${this.url}${URLs.CLIENTE}/`, param);
+     return this.post<any>(`${URLs.CLIENTE}/`, param);
   }
 
   /**
    * @author prv_nparra
    */
   actualizarClientesCorporativos(params: any): Observable<any> {
-    return this.http.put<any>(`${this.url}${URLs.CLIENTE}/`, params);
+    return this.put<any>(`${URLs.CLIENTE}/`, params);
   }
 
   /**
    * @author prv_nparra
    */
   eliminarClientesCorporativos(codigoCliente: number): Observable<any> {
-    return this.http.delete<any>(`${this.url}${URLs.CLIENTE}/${codigoCliente}`);
+    return this.delete<any>(`${URLs.CLIENTE}/${codigoCliente}`);
   }
 }

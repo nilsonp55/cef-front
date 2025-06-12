@@ -1,0 +1,111 @@
+<div *ngIf="spinnerActive" class="disenio-spinner">
+    <mat-spinner></mat-spinner>
+</div>
+<!-- Content mostrarFormulario-->
+<div [formGroup]="form">
+    <div class="flex">
+        <!--Tipo Punto-->
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo Punto</mat-label>
+            <mat-select formControlName="tipoPunto" (selectionChange)="changeTipoPunto($event)">
+                <mat-option *ngFor="let item of tiposPunto" [value]="item">
+                    {{item.valorTexto}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('tipoPunto').hasError('required')">Este campo es requerido</mat-error>
+        </mat-form-field>
+        <!--Banco-->
+        <mat-form-field appearance="outline">
+            <mat-label>Banco</mat-label>
+            <mat-select required formControlName="banco" (selectionChange)="changeBanco($event)">
+                <mat-option *ngFor="let item of bancos" [value]="item">
+                    {{item.nombreBanco}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('banco').hasError('required')">Este campo es requerido</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="flex">
+        <!--Transportadora-->
+        <mat-form-field appearance="outline">
+            <mat-label>TDV</mat-label>
+            <mat-select required formControlName="codigoTdv">
+                <mat-option *ngFor="let item of transportadoras" [value]="item">
+                    {{item.nombreTransportadora}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('codigoTdv').hasError('required')">Este campo es requerido</mat-error>
+        </mat-form-field>
+        <!--Ciudad-->
+        <mat-form-field appearance="outline" *ngIf="selectedTipoPunto=='BAN_REP'">
+            <mat-label>Ciudad Fondo</mat-label>
+            <input type="text" matInput placeholder="Ciudad Fondo" formControlName="codigoDANE" readonly>
+        </mat-form-field>
+    </div>
+
+    <div class="flex">
+        <!--Cliente-->
+        <mat-form-field appearance="outline" *ngIf="selectedTipoPunto==='CLIENTE'">
+            <mat-label>Cliente</mat-label>
+            <input type="text" matInput formControlName="cliente" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
+                <mat-option *ngFor="let item of clientesFiltrados | async" [value]="item">
+                    {{item.identificacion + " : " + item.nombreCliente}}
+                </mat-option>                
+            </mat-autocomplete>
+            <mat-spinner *ngIf="spinnerActive" matSuffix diameter="20"></mat-spinner>
+        </mat-form-field>
+    </div>
+
+    <div class="flex">
+        <!--Punto-->
+        <mat-form-field appearance="outline" *ngIf="selectedTipoPunto || esEdicion">
+            <mat-label>Punto</mat-label>
+            <mat-select required formControlName="punto" (selectionChange)="changePunto($event)">
+                <mat-option *ngFor="let item of puntos" [value]="item">
+                    {{item.nombrePunto}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="flex">
+        <!--Codigo Propio TDV-->
+        <mat-form-field appearance="outline">
+            <mat-label>Código Propio TDV</mat-label>
+            <input matInput placeholder="Código Propio TDV" formControlName="codigoPropioTDV">
+            <mat-error *ngIf="form.get('codigoPropioTDV').hasError('required')">Este campo es requerido</mat-error>
+        </mat-form-field>
+    </div>
+
+    <!--Estado-->
+    <div class="flex">
+        <div class="division-estado">
+            <h3>Estado</h3>
+            <label class="switch">
+                <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                <span class="switch-handle"></span>
+            </label>
+        </div>
+    </div>
+
+    <!--Id Punto Codigo TDV-->
+    <mat-form-field appearance="outline" hidden>
+        <mat-label>Id Punto Código TDV</mat-label>
+        <input matInput placeholder="Id Punto Código TDV" formControlName="idPuntoCodigo" readonly>
+    </mat-form-field>
+
+    <!--Codigo Punto-->
+    <mat-form-field appearance="outline" hidden>
+        <mat-label>Código Punto</mat-label>
+        <input type="number" matInput placeholder="Código Punto" formControlName="codigoPunto" readonly>
+    </mat-form-field>
+
+
+    <button mat-raised-button type="button" (click)="onSubmit()" color="primary"
+        [disabled]="form.invalid">Aceptar</button>
+    <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
+</div>
+<!--Fin content mostrarFormulario -->

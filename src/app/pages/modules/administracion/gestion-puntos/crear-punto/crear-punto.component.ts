@@ -8,6 +8,7 @@ import { GestionPuntosService } from 'src/app/_service/administracion-service/ge
 import { GeneralesService }  from 'src/app/_service/generales.service';
 import { lastValueFrom, Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { ClientesCorporativosService } from 'src/app/_service/administracion-service/clientes-corporativos.service';
 
 @Component({
   selector: 'app-crear-punto',
@@ -56,6 +57,7 @@ export class CrearPuntoComponent implements OnInit {
     public dialogRef: MatDialogRef<CrearPuntoComponent>,
     private readonly generalServices: GeneralesService,
     private readonly gestionPuntosService: GestionPuntosService,
+    private readonly clientesCorporativosService: ClientesCorporativosService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -279,7 +281,7 @@ export class CrearPuntoComponent implements OnInit {
    */
   async getClientes(params: any) {
 
-    await lastValueFrom(this.generalServices.listarClientes(params)).then(
+    await lastValueFrom(this.clientesCorporativosService.listarClientesCorporativos(params)).then(
       (response) => {
         this.clientes = response.data;
       }

@@ -119,7 +119,7 @@
           <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
             <td mat-cell *matCellDef="let element">
-              <button mat-button (click)="editar(element)">
+              <button mat-button (click)="editarRegistro.emit(element)">
                 <mat-icon style="color: green">edit</mat-icon>
               </button>
             </td>
