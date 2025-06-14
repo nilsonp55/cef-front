@@ -4,12 +4,20 @@
 		{
 			"type": "npm",
 			"script": "start",
-			"label": "npm: start",
 			"isBackground": true,
 			"problemMatcher": {
-				
+				"owner": "typescript",
+				"pattern": "$tsc",
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": {
+						"regexp": "(.*?)"
+					},
+					"endsPattern": {
+						"regexp": "bundle generation complete"
+					}
+				}
 			},
-			"detail": "ng serve --configuration dev --port 4300"
 		}
 	]
 }

@@ -198,9 +198,9 @@ export class GestionPuntosComponent implements OnInit {
   }
 
   async listarClientes() {
-    await lastValueFrom(this.clientesCorporativosService.listarClientesCorporativos()).then(
+    await lastValueFrom(this.clientesCorporativosService.listarClientesCorporativos({page: 0, size: 5000})).then(
       (response) => {
-        this.clientes = response.data;
+        this.clientes = response.data.content;
       }
     );
   }

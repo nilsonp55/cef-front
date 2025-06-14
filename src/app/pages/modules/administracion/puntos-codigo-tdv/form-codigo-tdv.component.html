@@ -62,11 +62,12 @@
         <!--Punto-->
         <mat-form-field appearance="outline" *ngIf="selectedTipoPunto || esEdicion">
             <mat-label>Punto</mat-label>
-            <mat-select required formControlName="punto" (selectionChange)="changePunto($event)">
-                <mat-option *ngFor="let item of puntos" [value]="item">
+            <input type="text" matInput formControlName="punto" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayPunto">
+                <mat-option *ngFor="let item of puntosFiltrados | async" [value]="item">
                     {{item.nombrePunto}}
                 </mat-option>
-            </mat-select>
+            </mat-autocomplete>
         </mat-form-field>
     </div>
 

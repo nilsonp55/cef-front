@@ -30,6 +30,8 @@ export class FormCodigoTdvComponent implements OnInit {
 
     // Puntos deben ser cargados con base en tipo punto y criterio de tipo (por definir cada uno)
     puntos: any[] = [];
+    puntosFiltrados: Observable<any[]>;
+    puntosControl = new FormControl();
     // clientes deben ser cargados con base en tipo punto y banco
     clientes: any[] = [];
     clientesFiltrados: Observable<any[]>;
@@ -48,8 +50,7 @@ export class FormCodigoTdvComponent implements OnInit {
         this.initForm(this.initialData);
         if (this.initialData) {
             this.esEdicion = true;
-            // Potentially pre-load some dropdowns based on initialData
-            // For example, if initialData.puntosDTO.tipoPunto is CLIENTE, load relevant clientes and puntos.
+            // Cargar cliente y punto del registro seleccionado para editar
             this.loadInitialDropDowns();
         } else {
             this.esEdicion = false;
@@ -64,7 +65,15 @@ export class FormCodigoTdvComponent implements OnInit {
                 return searchTerm ? this._filterCliente(searchTerm) : of([])
             })
         );
-        console.log(this.clientesFiltrados);
+        this.puntosFiltrados = this.puntosControl.valueChanges.pipe(
+            startWith(''),
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap( value => {
+                const searchTerm = typeof value === 'string' ? value : value?.codigoPunto;
+                return searchTerm ? this._filterPunto(searchTerm) : of([])
+            })
+        );
     }
 
     async initForm(param?: any) {
@@ -99,9 +108,10 @@ export class FormCodigoTdvComponent implements OnInit {
             }
         }
         this.clientesControl = new FormControl([param ? clienteValueForm : null]); // Puede requerir ajustar
+        this.puntosControl = new FormControl([param ? puntoValueForm : null]);  // Puede requerir ajustar de acuerdo a comos e carga la lista de puntos
         this.form = this.fb.group({
             'idPuntoCodigo': [param ? param.idPuntoCodigoTdv : null],
-            'punto': [param ? puntoValueForm : null], // Might need to adjust based on how 'puntos' list is populated
+            'punto': this.puntosControl,
             'codigoPunto': [param ? param.codigoPunto : null, [Validators.required]],
             'codigoTdv': [tdvValueForm ?? null, [Validators.required]],
             'codigoPropioTDV': [param?.codigoPropioTDV ?? null, [Validators.required]],
@@ -143,10 +153,13 @@ export class FormCodigoTdvComponent implements OnInit {
             } else if (this.selectedTipoPunto === "CLIENTE") {
                 let clienteParams = {
                     'codigoBancoAVAL': Number(param.bancosDTO.codigoPunto),
+                    'codigoCliente': Number(param.puntosDTO.sitiosClientes.codigoCliente),
                     page: 0,
                     size: 5000
                 };
+                // se espera retorne 1 unico cliente
                 await this.listarClientes(clienteParams);
+                
                 // Once clientes are loaded, set the initial value for the client dropdown
                 if (param.puntosDTO.sitiosClientes?.codigoCliente && this.clientes.length > 0) {
                     const clienteValue = this.clientes.find(c => c.codigoCliente === param.puntosDTO.sitiosClientes.codigoCliente);
@@ -196,16 +209,14 @@ export class FormCodigoTdvComponent implements OnInit {
 
         const puntoCodigoPayload = {
             idPuntoCodigoTdv: formData.idPuntoCodigo,
-            codigoTDV: formData.codigoTdv.codigo, // Assuming codigoTdv is an object
-            codigoPunto: Number(formData.punto.codigoPunto), // Assuming punto is an object
+            codigoTDV: formData.codigoTdv.codigo, 
+            codigoPunto: Number(formData.punto.codigoPunto), 
             codigoPropioTDV: formData.codigoPropioTDV,
             ciudadFondo: formData.codigoDANE,
             bancosDTO: {
-                codigoPunto: Number(formData.banco.codigoPunto) // Assuming banco is an object
+                codigoPunto: Number(formData.banco.codigoPunto) 
             },
             puntosDTO: {
-                // This needs to be constructed carefully based on what punto object contains
-                // It might just be codigoPunto, or more complex if tipoPunto is also needed here
                 codigoPunto: Number(formData.punto.codigoPunto)
             },
             estado: Number(formData.estado ? 1 : 0),
@@ -216,7 +227,6 @@ export class FormCodigoTdvComponent implements OnInit {
         // For now, using a simplified version.
 
         this.formSubmit.emit(puntoCodigoPayload);
-        // Spinner will be handled by the parent component after submission
     }
 
     onCancel() {
@@ -225,7 +235,7 @@ export class FormCodigoTdvComponent implements OnInit {
 
     /**
      * Asigna valor a propiedad global con el tipo de punto seleccionado
-     * hacwe reset al formulario
+     * hacer reset al formulario
      * @param event 
      * @returns 
      */
@@ -246,7 +256,7 @@ export class FormCodigoTdvComponent implements OnInit {
     }
 
     /**
-     * Filtrar puntos por tipo de punto y banco, en los casos que aplique
+     * Filtrar puntos por tipo, en los casos que aplique
      * @param event 
      * @returns 
      */
@@ -255,7 +265,7 @@ export class FormCodigoTdvComponent implements OnInit {
 
         this.spinnerActive = true;
         this.form.get('punto').setValue(null); 
-        this.puntos = []; // Clear previous puntos
+        this.puntos = []; 
 
         const bancoCodigoPunto = event.value?.codigoPunto;
         if (!bancoCodigoPunto && this.selectedTipoPunto !== 'BAN_REP' && this.selectedTipoPunto !== 'BANCO') {
@@ -264,32 +274,14 @@ export class FormCodigoTdvComponent implements OnInit {
             return;
         }
 
-        let params: any = {
-            tipoPunto: this.selectedTipoPunto,
-            page: 0,
-            size: 5000 
-        };
-
         if (this.selectedTipoPunto === 'BAN_REP' || this.selectedTipoPunto === 'BANCO') {
             // For these types, puntos can be listed directly, bank is not a prerequisite for listing puntos
             // Bank might be optional or not applicable for filtering puntos themselves.
             this.form.controls['banco'].removeValidators(Validators.required);
             this.form.controls['banco'].updateValueAndValidity();
-            await this.listarPuntos(params);
-        } 
-
-        if (this.selectedTipoPunto === "FONDO") {
-            params['fondos.bancoAVAL'] = Number(bancoCodigoPunto);
-        } else if (this.selectedTipoPunto === "OFICINA") {
-            params['oficinas.bancoAVAL'] = Number(bancoCodigoPunto);
-        } else if (this.selectedTipoPunto === "CAJERO") {
-            params['cajeroATM.bancoAval'] = Number(bancoCodigoPunto);
-        } else {
-            // For BAN_REP, BANCO, or other types not dependent on bank for puntos list,
-            // or if bank is optional for them.
-            await this.listarPuntos(params);
+            
         }
-
+        
         this.spinnerActive = false;
     }
 
@@ -297,7 +289,7 @@ export class FormCodigoTdvComponent implements OnInit {
         this.spinnerActive = true;
         try {
             const response = await lastValueFrom(this.clientesCorporativosService.listarClientesCorporativos(params));
-            this.clientes = response.data;
+            this.clientes = response.data.content;
         } catch (err) {
             this.dialog.open(VentanaEmergenteResponseComponent, {
                 width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -357,7 +349,7 @@ export class FormCodigoTdvComponent implements OnInit {
     }
 
     changePunto(event: any) {
-        this.spinnerActive = true; // Although this is mostly synchronous, keep for consistency
+        this.spinnerActive = true; 
         if (event.value) {
             this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
             if (this.form.controls['tipoPunto'].value === 'BAN_REP') {
@@ -379,7 +371,6 @@ export class FormCodigoTdvComponent implements OnInit {
         if(value.length < 3) return of([]);
 
         const params = {
-            tipoPunto: this.selectedTipoPunto,
             codigoBancoAval: this.form.get('banco').value.codigoPunto,
             busqueda: value,
             page: 0,
@@ -387,7 +378,7 @@ export class FormCodigoTdvComponent implements OnInit {
         };
 
         return this.clientesCorporativosService.listarClientesCorporativos(params).pipe(
-            map(response => response.data),
+            map(response => response.data.content),
             catchError(() => of([]))
         );
     }
@@ -397,5 +388,49 @@ export class FormCodigoTdvComponent implements OnInit {
     */
     displayCliente(c: any): string {
         return c && c.identificacion ? c.identificacion : '';
+    }
+
+    /**
+     * @author prv_nparra
+     */
+    private _filterPunto(value: string): Observable<any[]> {
+        if(value.length < 3) return of([]);
+
+        const bancoCodigoPunto = this.form.get('banco').value.codigoPunto;
+        const params = {
+            tipoPunto: this.selectedTipoPunto,
+            busqueda: value,
+            page: 0,
+            size: 100
+        };
+        
+        switch (this.selectedTipoPunto) {
+            case "FONDO":
+                params['fondos.bancoAVAL'] = bancoCodigoPunto;
+                break;
+            case "OFICINA":
+                params['oficinas.bancoAVAL'] = bancoCodigoPunto;
+                break;
+            case "CAJERO":
+                params['cajeroATM.bancoAval'] = bancoCodigoPunto;
+                break;
+            case "CLIENTE":
+                params['sitiosClientes.codigoCliente'] = this.form.get('cliente').value.codigoCliente;
+                break;
+            default:
+                break;
+        }
+        
+        return this.puntosService.listarPuntosCreados(params).pipe(
+            map(response => response.data.content),
+            catchError(() => of([]))
+        );
+    }
+
+    /**
+    * @author prv_nparra
+    */
+    displayPunto(c: any): string {
+        return c && c.codigoPunto ? c.codigoPunto : '';
     }
 }
