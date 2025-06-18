@@ -283,7 +283,7 @@ export class CrearPuntoComponent implements OnInit {
 
     await lastValueFrom(this.clientesCorporativosService.listarClientesCorporativos(params)).then(
       (response) => {
-        this.clientes = response.data;
+        this.clientes = response.data.content;
       }
     );
 
