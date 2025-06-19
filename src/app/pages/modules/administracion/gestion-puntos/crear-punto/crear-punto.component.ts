@@ -6,8 +6,8 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 import { GeneralesService }  from 'src/app/_service/generales.service';
-import { lastValueFrom, Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { lastValueFrom, Observable, of } from 'rxjs';
+import { startWith, map, catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ClientesCorporativosService } from 'src/app/_service/administracion-service/clientes-corporativos.service';
 
 @Component({
@@ -85,8 +85,12 @@ export class CrearPuntoComponent implements OnInit {
 
     this.clientesFiltrados = this.clientesControl.valueChanges.pipe(
       startWith(''),
-      map(v => (typeof v === 'string' ? v : v.identificacion)),
-      map(n => (n ? this._filterCliente(n) : this.clientes.slice()))
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(value => {
+        const searchTerm = typeof value === 'string' ? value : value?.identificacion;
+        return searchTerm ? this._filterCliente(searchTerm) : of([])
+      })
     );
   }
 
@@ -129,6 +133,7 @@ export class CrearPuntoComponent implements OnInit {
       'nombrePunto': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),
       'ciudad': this.ciudadControl,
       'cliente': this.clientesControl,
+      'codigoPuntoCliente': new FormControl(param ? param.sitiosClientes?.codigoPuntoCliente : null, [Validators.required]),
       'transportadora': new FormControl(param ? this.tdvs.find(value => value.codigo === param?.fondos?.tdv) : null, [Validators.required]),
       'codigoOficina': new FormControl(param ? valCodigoOficina : null, [Validators.required]),
       'bancoAval': new FormControl(param ? this.bancosAval.find(value => value.codigoPunto === valBancoAval) : null, [Validators.required]),
@@ -158,6 +163,7 @@ export class CrearPuntoComponent implements OnInit {
       codigoDANE: this.form.value['ciudad']?.codigoDANE,
       nombreCiudad: this.form.value['ciudad']?.nombreCiudad,
       codigoCliente: Number(this.form.value['cliente']?.codigoCliente),
+      codigoPuntoCliente: this.form.value['codigoPuntoCliente'],
       codigoTDV: this.form.value['transportadora']?.codigo,
       codigoPropioTDV: this.form.value['transportadora']?.codigo,
       codigoOficina: Number(this.form.value['codigoOficina']),
@@ -283,7 +289,7 @@ export class CrearPuntoComponent implements OnInit {
 
     await lastValueFrom(this.clientesCorporativosService.listarClientesCorporativos(params)).then(
       (response) => {
-        this.clientes = response.data;
+        this.clientes = response.data.content;
       }
     );
 
@@ -295,10 +301,7 @@ export class CrearPuntoComponent implements OnInit {
    * @author prv_nparra
    */
   changeBancoAval(element: any) {
-    if(this.puntoSeleccionado === "CLIENTE") {
-      this.getClientes({"codigoBancoAval": element.value.codigoPunto});
-    }
-
+    
     if(this.puntoSeleccionado === "FONDO") {
       this.concatenarNombrePuntoFondo();
     }
@@ -321,15 +324,27 @@ export class CrearPuntoComponent implements OnInit {
   /**
    * @author prv_nparra
    */
-  private _filterCliente(identificacion: string): any[] {
-    return this.clientes.filter(c => c.identificacion.includes(identificacion));
+  private _filterCliente(value: string): Observable<any[]> {
+    if (value.length < 3) return of([]);
+
+    const params = {
+      codigoBancoAval: this.form.get('bancoAval').value.codigoPunto,
+      busqueda: value,
+      page: 0,
+      size: 100
+    };
+
+    return this.clientesCorporativosService.listarClientesCorporativos(params).pipe(
+      map(response => response.data.content),
+      catchError(() => of([]))
+    );
   }
 
   /**
    * @author prv_nparra
    */
   displayCliente(c: any): string {
-    return c && c.identificacion ? c.identificacion : '';
+    return c && c.identificacion ? c.identificacion + ' - ' + c.nombreCliente : '';
   }
 
   /**
