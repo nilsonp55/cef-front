@@ -18,7 +18,7 @@
 
       <mat-form-field appearance="outline" >
         <mat-label>Banco Aval</mat-label>
-        <mat-select formControlName="bancoAval" (selectionChange)="changeBancoAval($event)" 
+        <mat-select formControlName="bancoAval" (selectionChange)="changeBancoTrans($event)" 
           [disabled]="puntoSeleccionado=='BAN_REP' || puntoSeleccionado=='BANCO'">
           <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval" >
             {{bancoAval.nombreBanco}}
@@ -75,7 +75,7 @@
     
         <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'FONDO'">
             <mat-label>Transportadora</mat-label>
-            <mat-select formControlName="transportadora" (selectionChange)="changeTransportadora($event)">
+            <mat-select formControlName="transportadora" (selectionChange)="changeBancoTrans($event)">
                 <mat-option *ngFor="let transportadora of tdvs" [value]="transportadora">
                     {{transportadora.nombreTransportadora}}
                 </mat-option>

@@ -127,7 +127,7 @@ export class FormCodigoTdvComponent implements OnInit {
             'codigoPropioTDV': new FormControl(param?.codigoPropioTDV ?? null, [Validators.required]),
             'banco': new FormControl(bancoValueForm ?? null, [Validators.required]),
             'estado': new FormControl(param ? param.estado === 1 : true),
-            'codigoDANE': new FormControl(ciudad ? ciudad : "0"),
+            'codigoDANE': new FormControl(ciudad ?? "0"),
             'cliente': this.clientesControl,
             'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null, [Validators.required])
         });
@@ -387,7 +387,7 @@ export class FormCodigoTdvComponent implements OnInit {
     * @author prv_nparra
     */
     displayCliente(c: any): string {
-        return c && c.identificacion ? c.identificacion + ' - ' + c.nombreCliente : '';
+        return c?.identificacion ? c.identificacion + ' - ' + c.nombreCliente : '';
     }
 
     /**
@@ -431,6 +431,6 @@ export class FormCodigoTdvComponent implements OnInit {
     * @author prv_nparra
     */
     displayPunto(c: any): string {
-        return c && c.codigoPunto ? c.sitiosClientes?.codigoPuntoCliente + '' + c.nombrePunto : '';
+        return c?.codigoPunto ? c.sitiosClientes?.codigoPuntoCliente + '' + c.nombrePunto : '';
     }
 }

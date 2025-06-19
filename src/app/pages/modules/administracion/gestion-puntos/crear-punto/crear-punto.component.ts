@@ -296,11 +296,11 @@ export class CrearPuntoComponent implements OnInit {
   }
 
   /**
-   * Evento lanzado por cambio en valor de combo de Bancos
+   * Evento lanzado por cambio en valor de combo de Bancos y Transportadoras
    * @param element 
    * @author prv_nparra
    */
-  changeBancoAval(element: any) {
+  changeBancoTrans(element: any) {
     
     if(this.puntoSeleccionado === "FONDO") {
       this.concatenarNombrePuntoFondo();
@@ -344,7 +344,7 @@ export class CrearPuntoComponent implements OnInit {
    * @author prv_nparra
    */
   displayCliente(c: any): string {
-    return c && c.identificacion ? c.identificacion + ' - ' + c.nombreCliente : '';
+    return c?.identificacion ? c.identificacion + ' - ' + c.nombreCliente : '';
   }
 
   /**
@@ -359,17 +359,6 @@ export class CrearPuntoComponent implements OnInit {
     const codigoTdv = this.form.controls['transportadora'].value?.codigo ?? '';
 
     this.form.controls['nombrePunto'].setValue(bancoAbreviatura + '-' + nombreCiudad + '-' + codigoTdv);
-  }
-
-  /**
-   * 
-   * @param value 
-   * @author prv_nparra
-   */
-  changeTransportadora(value: any) {
-    if(this.puntoSeleccionado === "FONDO") {
-      this.concatenarNombrePuntoFondo();
-    }
   }
 
   changeCiudad(value: any) {
