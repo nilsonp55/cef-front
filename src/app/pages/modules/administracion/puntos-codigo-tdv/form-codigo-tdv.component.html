@@ -54,7 +54,7 @@
                     {{item.identificacion + " : " + item.nombreCliente}}
                 </mat-option>                
             </mat-autocomplete>
-            <mat-spinner *ngIf="spinnerActive" matSuffix diameter="20"></mat-spinner>
+            <mat-error *ngIf="form.get('cliente').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
     </div>
 
@@ -68,6 +68,7 @@
                     {{item.nombrePunto}}
                 </mat-option>
             </mat-autocomplete>
+            <mat-error *ngIf="form.get('punto').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
     </div>
 
@@ -104,9 +105,14 @@
         <input type="number" matInput placeholder="Código Punto" formControlName="codigoPunto" readonly>
     </mat-form-field>
 
-
-    <button mat-raised-button type="button" (click)="onSubmit()" color="primary"
-        [disabled]="form.invalid">Aceptar</button>
-    <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
+    <div class="division-btn-ident flex">
+        <div>
+            <button mat-raised-button type="button" (click)="onSubmit()" color="primary"
+                [disabled]="form.invalid">Guardar</button>
+        </div>
+        <div>
+            <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
+        </div>
+    </div>
 </div>
 <!--Fin content mostrarFormulario -->

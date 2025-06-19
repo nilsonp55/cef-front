@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { catchError, debounceTime, distinctUntilChanged, lastValueFrom, map, Observable, of, startWith, switchMap } from "rxjs";
 import { ClientesCorporativosService } from "src/app/_service/administracion-service/clientes-corporativos.service";
@@ -24,7 +24,18 @@ export class FormCodigoTdvComponent implements OnInit {
     @Output() formSubmit = new EventEmitter<any>();
     @Output() cancel = new EventEmitter<void>();
 
-    form: FormGroup = new FormGroup({});
+    form: FormGroup = new FormGroup({
+        'idPuntoCodigo': new FormControl(),
+        'punto': new FormControl(),
+        'codigoPunto': new FormControl(),
+        'codigoTdv': new FormControl(),
+        'codigoPropioTDV': new FormControl(),
+        'banco': new FormControl(),
+        'estado': new FormControl(),
+        'codigoDANE': new FormControl(),
+        'cliente': new FormControl(),
+        'tipoPunto': new FormControl()
+    });
     esEdicion: boolean = false;
     selectedTipoPunto: string = "";
 
@@ -40,7 +51,6 @@ export class FormCodigoTdvComponent implements OnInit {
     spinnerActive: boolean = false;
 
     constructor(
-        private fb: FormBuilder,
         private puntosService: GestionPuntosService,
         private clientesCorporativosService: ClientesCorporativosService,
         private dialog: MatDialog
@@ -107,22 +117,22 @@ export class FormCodigoTdvComponent implements OnInit {
                 tdvValueForm = this.transportadoras.find((value) => value.codigo == param.codigoTDV);
             }
         }
-        this.clientesControl = new FormControl([param ? clienteValueForm : null]); // Puede requerir ajustar
-        this.puntosControl = new FormControl([param ? puntoValueForm : null]);  // Puede requerir ajustar de acuerdo a comos e carga la lista de puntos
-        this.form = this.fb.group({
-            'idPuntoCodigo': [param ? param.idPuntoCodigoTdv : null],
+        this.clientesControl = new FormControl(param ? clienteValueForm : null, [Validators.required]); 
+        this.puntosControl = new FormControl(param ? puntoValueForm : null, [Validators.required]);
+        this.form = new FormGroup({
+            'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
             'punto': this.puntosControl,
-            'codigoPunto': [param ? param.codigoPunto : null, [Validators.required]],
-            'codigoTdv': [tdvValueForm ?? null, [Validators.required]],
-            'codigoPropioTDV': [param?.codigoPropioTDV ?? null, [Validators.required]],
-            'banco': [bancoValueForm ?? null, [Validators.required]],
-            'estado': [param ? param.estado === 1 : true],
-            'codigoDANE': [ciudad ? ciudad : "0"],
+            'codigoPunto': new FormControl(param ? param.codigoPunto : null),
+            'codigoTdv': new FormControl(tdvValueForm ?? null, [Validators.required]),
+            'codigoPropioTDV': new FormControl(param?.codigoPropioTDV ?? null, [Validators.required]),
+            'banco': new FormControl(bancoValueForm ?? null, [Validators.required]),
+            'estado': new FormControl(param ? param.estado === 1 : true),
+            'codigoDANE': new FormControl(ciudad ? ciudad : "0"),
             'cliente': this.clientesControl,
-            'tipoPunto': [{ value: param ? param.puntosDTO.tipoPunto : null, disabled: this.esEdicion && param?.puntosDTO.tipoPunto }, [Validators.required]]
+            'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null, [Validators.required])
         });
 
-        // If editing, the tipoPunto field is usually disabled or handled carefully.
+        // En edicion, no permite cmabiar tipo de punto
         if (this.esEdicion && param?.puntosDTO.tipoPunto) {
             this.form.get('tipoPunto').disable();
         }
@@ -248,9 +258,19 @@ export class FormCodigoTdvComponent implements OnInit {
 
         this.puntos = [];
         this.clientes = [];
-
         this.form.controls['banco'].setValidators(Validators.required);
-        this.form.controls['banco'].updateValueAndValidity();       
+        this.form.controls['cliente'].setValidators(Validators.required);
+
+        if (this.selectedTipoPunto === 'BAN_REP' || this.selectedTipoPunto === 'BANCO') {
+            this.form.controls['banco'].removeValidators(Validators.required);            
+        }
+
+        if (this.selectedTipoPunto !== 'CLIENTE') {
+            this.form.controls['cliente'].removeValidators(Validators.required);
+        }
+        
+        this.form.controls['banco'].updateValueAndValidity();
+        this.form.controls['cliente'].updateValueAndValidity();
 
         this.form.controls['codigoPunto'].setValue('');
     }
@@ -261,28 +281,8 @@ export class FormCodigoTdvComponent implements OnInit {
      * @returns 
      */
     async changeBanco(event: any) {
-        if (!this.selectedTipoPunto) return;
-
-        this.spinnerActive = true;
-        this.form.get('punto').setValue(null); 
-        this.puntos = []; 
-
-        const bancoCodigoPunto = event.value?.codigoPunto;
-        if (!bancoCodigoPunto && this.selectedTipoPunto !== 'BAN_REP' && this.selectedTipoPunto !== 'BANCO') {
-            // If no bank selected and it's required for the current tipoPunto, clear puntos and return.
-            this.spinnerActive = false;
+        if (!this.selectedTipoPunto) 
             return;
-        }
-
-        if (this.selectedTipoPunto === 'BAN_REP' || this.selectedTipoPunto === 'BANCO') {
-            // For these types, puntos can be listed directly, bank is not a prerequisite for listing puntos
-            // Bank might be optional or not applicable for filtering puntos themselves.
-            this.form.controls['banco'].removeValidators(Validators.required);
-            this.form.controls['banco'].updateValueAndValidity();
-            
-        }
-        
-        this.spinnerActive = false;
     }
 
     async listarClientes(params: any) {
@@ -387,7 +387,7 @@ export class FormCodigoTdvComponent implements OnInit {
     * @author prv_nparra
     */
     displayCliente(c: any): string {
-        return c && c.identificacion ? c.identificacion : '';
+        return c && c.identificacion ? c.identificacion + ' - ' + c.nombreCliente : '';
     }
 
     /**
@@ -431,6 +431,6 @@ export class FormCodigoTdvComponent implements OnInit {
     * @author prv_nparra
     */
     displayPunto(c: any): string {
-        return c && c.codigoPunto ? c.codigoPunto : '';
+        return c && c.codigoPunto ? c.sitiosClientes?.codigoPuntoCliente + '' + c.nombrePunto : '';
     }
 }
