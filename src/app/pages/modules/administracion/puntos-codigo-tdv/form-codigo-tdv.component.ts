@@ -307,7 +307,6 @@ export class FormCodigoTdvComponent implements OnInit {
 
     async listarPuntos(params?: any) {
         if (!params.tipoPunto && !this.selectedTipoPunto) {
-            // console.warn("listarPuntos called without tipoPunto");
             this.puntos = []; // Clear puntos if tipoPunto is not set
             return;
         }
@@ -328,26 +327,7 @@ export class FormCodigoTdvComponent implements OnInit {
             this.spinnerActive = false;
         }
     }
-
-    async filtrarPuntosCliente(event: any) {
-        if (!event.value || !this.selectedTipoPunto) {
-            this.puntos = [];
-            this.form.get('punto').setValue(null);
-            return;
-        }
-        this.spinnerActive = true;
-        this.form.get('punto').setValue(null); // Reset punto selection
-
-        let params = {
-            tipoPunto: this.selectedTipoPunto,
-            'sitiosClientes.codigoCliente': event.value.codigoCliente,
-            page: 0, // It's good practice to include pagination params
-            size: 5000
-        };
-        await this.listarPuntos(params);
-        this.spinnerActive = false;
-    }
-
+    
     changePunto(event: any) {
         this.spinnerActive = true; 
         if (event.value) {

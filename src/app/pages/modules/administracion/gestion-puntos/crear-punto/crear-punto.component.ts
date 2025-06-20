@@ -7,7 +7,7 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
 import { GeneralesService }  from 'src/app/_service/generales.service';
 import { lastValueFrom, Observable, of } from 'rxjs';
-import { startWith, map, catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { startWith, map, catchError, debounceTime, distinctUntilChanged, switchMap, finalize } from 'rxjs/operators';
 import { ClientesCorporativosService } from 'src/app/_service/administracion-service/clientes-corporativos.service';
 
 @Component({
@@ -57,7 +57,7 @@ export class CrearPuntoComponent implements OnInit {
     public dialogRef: MatDialogRef<CrearPuntoComponent>,
     private readonly generalServices: GeneralesService,
     private readonly gestionPuntosService: GestionPuntosService,
-    private readonly clientesCorporativosService: ClientesCorporativosService
+    private readonly clientesService: ClientesCorporativosService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -297,7 +297,7 @@ export class CrearPuntoComponent implements OnInit {
    */
   async getClientes(params: any) {
 
-    await lastValueFrom(this.clientesCorporativosService.listarClientesCorporativos(params)).then(
+    await lastValueFrom(this.clientesService.listarClientesCorporativos(params)).then(
       (response) => {
         this.clientes = response.data.content;
       }
@@ -328,25 +328,40 @@ export class CrearPuntoComponent implements OnInit {
    * @author prv_nparra
    */
   displayCiudad(c: any): string {
-    return c && c.nombreCiudad ? c.nombreCiudad : '';
+    return c?.nombreCiudad ? c.nombreCiudad : '';
   }
 
   /**
    * @author prv_nparra
    */
   private _filterCliente(value: string): Observable<any[]> {
+    
     if (value.length < 3) return of([]);
 
-    const params = {
-      codigoBancoAval: this.form.get('bancoAval').value.codigoPunto,
+    this.spinnerActive = true;
+    const param = {
       busqueda: value,
-      page: 0,
-      size: 100
+      codigoBancoAval: this.form.get('bancoAval').value.codigoPunto,
+      size: 100,
+      page: 0
     };
 
-    return this.clientesCorporativosService.listarClientesCorporativos(params).pipe(
+    return this.clientesService.listarClientesCorporativos(param).pipe(
       map(response => response.data.content),
-      catchError(() => of([]))
+      catchError(error => {
+        console.error('Error filtrando clientes: ', error);
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(error)
+          },
+        });
+        return of([]);
+      }),
+      finalize(() => this.spinnerActive = false)
     );
   }
 
