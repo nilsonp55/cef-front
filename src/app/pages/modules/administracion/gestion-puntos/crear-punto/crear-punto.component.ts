@@ -241,41 +241,51 @@ export class CrearPuntoComponent implements OnInit {
   changeTipoPunto(element: any) {
     this.puntoSeleccionado = element.value;
 
-    this.form.controls['codigoOficina'].setValidators(Validators.required);
-    this.form.controls['transportadora'].setValidators(Validators.required);
-    this.form.controls['codigoCajero'].setValidators(Validators.required);
-    this.form.controls['bancoAval'].setValidators(Validators.required);
-    this.form.controls['cliente'].setValidators(Validators.required);
+    const controlesConfig: { [key: string]: { required: string[], noRequired: string[] } } = {
+      'CLIENTE': {
+        required: ['cliente', 'codigoPuntoCliente'],
+        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero']
+      },
+      'FONDO': {
+        required: ['transportadora'],
+        noRequired: ['codigoOficina', 'codigoCajero', 'cliente']
+      },
+      'BAN_REP': {
+        required: [],
+        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'bancoAval']
+      },
+      'OFICINA': {
+        required: ['codigoOficina'],
+        noRequired: ['transportadora', 'cliente']
+      },
+      'CAJERO': {
+        required: ['codigoCajero'],
+        noRequired: ['transportadora', 'cliente']
+      },
+      'BANCO': {
+        required: [],
+        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'bancoAval']
+      }
+    };
 
-    if (element.value === 'CLIENTE' || element.value === 'FONDO' || element.value === 'BAN_REP' 
-      || element.value === 'CAJERO' || element.value === 'BANCO') {
-      this.form.controls['codigoOficina'].removeValidators(Validators.required);
+    const config = controlesConfig[this.puntoSeleccionado] || { required: [], noRequired: [] };
+
+    // Remover validadores de controles no requeridos
+    config.noRequired.forEach(controlName => {
+        this.form.get(controlName)?.removeValidators(Validators.required);
+        this.form.get(controlName)?.updateValueAndValidity();
+    });
+
+    // Agregar validadores a controles requeridos
+    config.required.forEach(controlName => {
+        this.form.get(controlName)?.addValidators(Validators.required);
+        this.form.get(controlName)?.updateValueAndValidity();
+    });
+
+    if (['BAN_REP', 'BANCO'].includes(this.puntoSeleccionado)) {
+        this.form.get('bancoAval')?.removeValidators(Validators.required);
+        this.form.get('bancoAval')?.updateValueAndValidity();
     }
-
-    if (element.value === 'CLIENTE' || element.value === 'BAN_REP' || element.value === 'OFICINA'
-      || element.value === 'CAJERO' || element.value === 'BANCO') {
-        this.form.controls['transportadora'].removeValidators(Validators.required);
-    }
-
-    if (element.value === 'CLIENTE' || element.value === 'FONDO' || element.value === 'BAN_REP' 
-      || element.value === 'OFICINA' || element.value === 'BANCO') {
-        this.form.controls['codigoCajero'].removeValidators(Validators.required);
-    }
-
-    if (element.value === 'FONDO' || element.value === 'BAN_REP' || element.value === 'OFICINA'
-      || element.value === 'CAJERO' || element.value === 'BANCO') {   
-        this.form.controls['cliente'].removeValidators(Validators.required);
-    }
-
-    if (element.value === 'BAN_REP' || element.value === 'BANCO') {
-      this.form.controls['bancoAval'].removeValidators(Validators.required);
-    }
-
-    this.form.controls['codigoOficina'].updateValueAndValidity();
-    this.form.controls['transportadora'].updateValueAndValidity();
-    this.form.controls['codigoCajero'].updateValueAndValidity();
-    this.form.controls['bancoAval'].updateValueAndValidity();
-    this.form.controls['cliente'].updateValueAndValidity();
 
   }
   
