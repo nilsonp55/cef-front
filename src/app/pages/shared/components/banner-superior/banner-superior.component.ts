@@ -15,7 +15,7 @@ export class BannerSuperiorComponent implements OnInit {
 
   ngOnInit(): void {
     this.mostrarUsuario();
-    this.fechaActual = atob(sessionStorage.getItem('fechasistema'));
+    this.fechaActual = atob(sessionStorage.getItem('fechasistema')) as string;
   }
 
   /**
