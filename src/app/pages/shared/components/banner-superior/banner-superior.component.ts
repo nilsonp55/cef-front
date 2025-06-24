@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, SecurityContext } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-banner-superior',
@@ -6,6 +7,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./banner-superior.component.css']
 })
 export class BannerSuperiorComponent implements OnInit {
+  constructor(private sanitizer: DomSanitizer) {}
 
   userName: string = "user@ath.com.co";
   fechaActual : string = "dd/mm/yyyy";
@@ -28,7 +30,8 @@ export class BannerSuperiorComponent implements OnInit {
   }
 
   mostrarUsuario() {
-    this.userName = atob(sessionStorage.getItem('user'));
+    const userData = atob(sessionStorage.getItem('user') as string);
+    this.userName = this.sanitizer.sanitize(SecurityContext.HTML, userData) || '';
   }
 
 }
