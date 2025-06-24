@@ -9,8 +9,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class BannerSuperiorComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer) {}
 
-  userName: string = "user@ath.com.co";
-  fechaActual : string = "dd/mm/yyyy";
+  userName: string = "";
+  fechaActual : string = "";
 
   @Output() checkMenuLateral = new EventEmitter<boolean>();
   estadoMenu = true;
