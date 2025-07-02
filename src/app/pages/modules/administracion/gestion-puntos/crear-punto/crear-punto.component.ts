@@ -33,6 +33,7 @@ export class CrearPuntoComponent implements OnInit {
     'tarifaVerificacion': new FormControl(),
     'codigoCompensacion': new FormControl(),
     'codigoCajero': new FormControl(),
+    'codigoPuntoCliente': new FormControl(),
     'identificacion': new FormControl(),
     'abreviatura': new FormControl(),
     'fajado': new FormControl(),
@@ -248,23 +249,23 @@ export class CrearPuntoComponent implements OnInit {
       },
       'FONDO': {
         required: ['transportadora'],
-        noRequired: ['codigoOficina', 'codigoCajero', 'cliente']
+        noRequired: ['codigoOficina', 'codigoCajero', 'cliente', 'codigoPuntoCliente']
       },
       'BAN_REP': {
         required: [],
-        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'bancoAval']
+        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'codigoPuntoCliente', 'bancoAval']
       },
       'OFICINA': {
         required: ['codigoOficina'],
-        noRequired: ['transportadora', 'cliente']
+        noRequired: ['codigoCajero', 'transportadora', 'cliente', 'codigoPuntoCliente']
       },
       'CAJERO': {
         required: ['codigoCajero'],
-        noRequired: ['transportadora', 'cliente']
+        noRequired: ['codigoOficina', 'transportadora', 'cliente', 'codigoPuntoCliente']
       },
       'BANCO': {
         required: [],
-        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'bancoAval']
+        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'bancoAval', 'codigoPuntoCliente']
       }
     };
 
