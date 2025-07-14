@@ -105,10 +105,8 @@ export class CrearPuntoComponent implements OnInit {
     this.puntoSeleccionado = param ? param?.tipoPunto : null;
 
     if (param?.tipoPunto === 'CLIENTE') {
-      await this.getClientes({ "codigoCliente": param.sitiosClientes?.codigoCliente ?? '' });
-      valBancoAval = this.clientes.find(value => value.codigoCliente === param.sitiosClientes?.codigoCliente)?.codigoBancoAval;
+      valBancoAval = param?.sitiosClientes?.codigoCliente?.codigoBancoAval;
       valFajado = param?.sitiosClientes?.fajado;
-      await this.getClientes({ "codigoBancoAval": valBancoAval ?? '' });
     }
 
     if(param?.tipoPunto === 'OFICINA') {
@@ -128,7 +126,7 @@ export class CrearPuntoComponent implements OnInit {
     }
 
     this.ciudadControl = new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null);
-    this.clientesControl = new FormControl(param ? this.clientes.find(value => value.codigoCliente === param?.sitiosClientes?.codigoCliente) : null, [Validators.required]);
+    this.clientesControl = new FormControl(param?.sitiosClientes?.codigoCliente, [Validators.required]);
     this.form = new FormGroup({
       'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param}, [Validators.required]),
       'nombrePunto': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),

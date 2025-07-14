@@ -99,16 +99,11 @@ export class FormCodigoTdvComponent implements OnInit {
                 ciudad = this.ciudades.find((value) => value.codigoDANE == param.ciudadFondo)?.codigoDANE;
             }
 
-            // It's important that 'this.puntos', 'this.clientes', 'this.bancos', 'this.transportadoras'
-            // are populated before trying to find values in them.
-            // This might require awaiting data loading if not passed as Inputs.
-            // For now, assuming they are available or will be loaded by loadInitialDropDowns or similar.
-
             if (this.puntos.length > 0) {
                 puntoValueForm = this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto);
             }
             if (this.clientes.length > 0) {
-                clienteValueForm = this.clientes.find((value) => value.codigoCliente == param.puntosDTO.sitiosClientes?.codigoCliente);
+                clienteValueForm = param.puntosDTO.sitiosClientes?.codigoCliente;
             }
             if (this.bancos.length > 0) {
                 bancoValueForm = this.bancos.find((value) => value.codigoPunto == param.bancosDTO?.codigoPunto);
@@ -132,9 +127,23 @@ export class FormCodigoTdvComponent implements OnInit {
             'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null, [Validators.required])
         });
 
-        // En edicion, no permite cmabiar tipo de punto
+        // En edicion, no permite cambiar tipo de punto
         if (this.esEdicion && param?.puntosDTO.tipoPunto) {
             this.form.get('tipoPunto').disable();
+
+            this.form.controls['banco'].setValidators(Validators.required);
+            this.form.controls['cliente'].setValidators(Validators.required);
+
+            if (this.selectedTipoPunto === 'BAN_REP' || this.selectedTipoPunto === 'BANCO') {
+                this.form.controls['banco'].removeValidators(Validators.required);            
+            }
+
+            if (this.selectedTipoPunto !== 'CLIENTE') {
+                this.form.controls['cliente'].removeValidators(Validators.required);
+            }
+            
+            this.form.controls['banco'].updateValueAndValidity();
+            this.form.controls['cliente'].updateValueAndValidity();
         }
     }
 
@@ -144,12 +153,12 @@ export class FormCodigoTdvComponent implements OnInit {
         this.spinnerActive = true;
         try {
             const param = this.initialData;
-            this.selectedTipoPunto = param.puntosDTO.tipoPunto; // Ensure this is set first
+            this.selectedTipoPunto = param.puntosDTO.tipoPunto; 
 
             let initialParams: any = {
                 tipoPunto: this.selectedTipoPunto,
                 page: 0,
-                size: 5000 // Assuming a large enough size to get all relevant items
+                size: 5000 
             };
 
             this.form.controls['banco'].setValidators(Validators.required);
@@ -163,14 +172,13 @@ export class FormCodigoTdvComponent implements OnInit {
             } else if (this.selectedTipoPunto === "CLIENTE") {
                 let clienteParams = {
                     'codigoBancoAVAL': Number(param.bancosDTO.codigoPunto),
-                    'codigoCliente': Number(param.puntosDTO.sitiosClientes.codigoCliente),
+                    'codigoCliente': Number(param.puntosDTO.sitiosClientes.codigoCliente.codigoCliente),
                     page: 0,
                     size: 5000
                 };
                 // se espera retorne 1 unico cliente
                 await this.listarClientes(clienteParams);
                 
-                // Once clientes are loaded, set the initial value for the client dropdown
                 if (param.puntosDTO.sitiosClientes?.codigoCliente && this.clientes.length > 0) {
                     const clienteValue = this.clientes.find(c => c.codigoCliente === param.puntosDTO.sitiosClientes.codigoCliente);
                     this.form.get('cliente').setValue(clienteValue);
@@ -184,19 +192,14 @@ export class FormCodigoTdvComponent implements OnInit {
 
             this.form.controls['banco'].updateValueAndValidity();
 
-            // Always list puntos based on the selectedTipoPunto and other relevant filters from initialData
-            // This ensures the 'punto' dropdown is populated correctly for editing.
-            if (this.selectedTipoPunto) { // Only list puntos if a tipoPunto is defined
+            if (this.selectedTipoPunto) { 
                 await this.listarPuntos(initialParams);
             }
 
-            // After all dropdown data is potentially loaded, re-initialize the form
-            // This ensures that dropdowns find their values correctly.
             this.initForm(this.initialData);
 
         } catch (error) {
             console.error("Error loading initial dropdowns: ", error);
-            // Handle error appropriately, perhaps show a dialog
         } finally {
             this.spinnerActive = false;
         }
@@ -232,10 +235,6 @@ export class FormCodigoTdvComponent implements OnInit {
             estado: Number(formData.estado ? 1 : 0),
         };
 
-        // The original component had different DTO structures for punto depending on tipoPunto
-        // This might need to be adjusted here if the payload to the backend needs that.
-        // For now, using a simplified version.
-
         this.formSubmit.emit(puntoCodigoPayload);
     }
 
@@ -250,7 +249,7 @@ export class FormCodigoTdvComponent implements OnInit {
      * @returns 
      */
     async changeTipoPunto(event: any) {
-        this.selectedTipoPunto = event?.value.valorTexto;
+        this.selectedTipoPunto = event?.value;
         this.form.get('banco').setValue(null);
         this.form.get('punto').setValue(null);
         this.form.get('cliente').setValue(null);
@@ -395,7 +394,7 @@ export class FormCodigoTdvComponent implements OnInit {
                 params['cajeroATM.bancoAval'] = bancoCodigoPunto;
                 break;
             case "CLIENTE":
-                params['sitiosClientes.codigoCliente'] = this.form.get('cliente').value.codigoCliente;
+                params['sitiosClientes.codigoCliente.codigoCliente'] = this.form.get('cliente').value.codigoCliente;
                 break;
             default:
                 break;
@@ -411,6 +410,15 @@ export class FormCodigoTdvComponent implements OnInit {
     * @author prv_nparra
     */
     displayPunto(c: any): string {
-        return c?.codigoPunto ? c.sitiosClientes?.codigoPuntoCliente + '' + c.nombrePunto : '';
+        let codigo = '';
+        switch (this.selectedTipoPunto) {
+            case "CLIENTE":
+                codigo = c.sitiosClientes?.identificadorCliente;
+                break;
+            default:
+                break;
+        }
+        
+        return c?.codigoPunto ? codigo + '' + c.nombrePunto : '';
     }
 }
