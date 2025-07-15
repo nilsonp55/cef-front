@@ -3,54 +3,57 @@
   <button mat-raised-button color="primary" (click)="crearTiposCuentas()">Crear</button>
 </div>
 
-  <div class="row" [formGroup]="form" *ngIf="mostrarFormulario">
+  <div [formGroup]="form" *ngIf="mostrarFormulario">
     <div >
       <mat-form-field appearance="fill">
         <mat-label>Tipo Cuenta</mat-label>
         <input matInput placeholder="Tipo Cuenta" minlength="3" required formControlName="tipoCuenta">
         <mat-error *ngIf="form.get('tipoCuenta').hasError('required')">Valor es requerido</mat-error>
         <mat-error *ngIf="form.get('tipoCuenta').hasError('minlength')">Longitud minima es de 3 caracteres</mat-error>
+        <mat-icon matSuffix ></mat-icon>
       </mat-form-field>
-    </div>
-    <div>
+          
       <mat-form-field appearance="fill">
         <mat-label>Cuenta Auxiliar</mat-label>
         <input matInput placeholder="Cuenta Auxiliar" formControlName="cuentaAuxiliar">
-        <mat-icon matSuffix style="cursor:pointer" (click)="showHelpField('Cuenta Auxiliar')">question_mark</mat-icon>
+        <mat-icon matSuffix (click)="showHelpField('Cuenta Auxiliar')">question_mark</mat-icon>
       </mat-form-field>
     </div>
+
     <div>      
       <mat-form-field appearance="fill">
-        <mat-label >Tipo Id</mat-label>
+        <mat-label>Tipo Id</mat-label>
         <input matInput placeholder="Tipo Id" formControlName="tipoId">
-        <mat-icon matSuffix style="cursor:pointer" (click)="showHelpField('Tipo Id')">question_mark</mat-icon>
+        <mat-icon matSuffix (click)="showHelpField('Tipo Id')">question_mark</mat-icon>
       </mat-form-field>
-    </div>
-    <div>
+    
       <mat-form-field appearance="fill">
         <mat-label>Identificador</mat-label>
         <input matInput placeholder="Identificador" formControlName="identificador">
-        <mat-icon matSuffix style="cursor:pointer" (click)="showHelpField('Identificador')">question_mark</mat-icon>
+        <mat-icon matSuffix (click)="showHelpField('Identificador')">question_mark</mat-icon>
       </mat-form-field>
     </div>
+
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Descripción</mat-label>
         <input matInput placeholder="Descripción" required formControlName="descripcion">
-        <mat-error>Valor es requerido</mat-error>      
-        <mat-icon matSuffix style="cursor:pointer" (click)="showHelpField('Descripción')">question_mark</mat-icon>  
+        <mat-error>Valor es requerido</mat-error>        
+        <mat-icon matSuffix (click)="showHelpField('Descripción')">question_mark</mat-icon>
       </mat-form-field>
-    </div>
-    <div>      
+      
       <mat-form-field appearance="fill">
         <mat-label>Referencia1</mat-label>
         <input matInput placeholder="Referencia1" formControlName="referencia1">
+        <mat-icon matSuffix ></mat-icon>
       </mat-form-field>
     </div>
+
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Referencia2</mat-label>
         <input matInput placeholder="Referencia2" formControlName="referencia2">
+        <mat-icon matSuffix ></mat-icon>
       </mat-form-field>
     </div>
     <div>
