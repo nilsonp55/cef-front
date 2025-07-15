@@ -4,9 +4,8 @@
     <button mat-raised-button color="primary" (click)="crearConfEntity()">Crear</button>
   </div>
 </div>
-<div class="ubicacionTablas">
-  <div [formGroup]="form" *ngIf="mostrarFormulario">
 
+  <div [formGroup]="form" *ngIf="mostrarFormulario">
       <mat-form-field appearance="fill">
         <input matInput placeholder="ID" formControlName="consecutivo">
       </mat-form-field>
@@ -113,7 +112,7 @@
       </button>
     </div>
   </div>
-</div>
+
 <div class="ubicacionTablas">
   <div *ngIf="mostrarTabla">
     <div class="filtro">

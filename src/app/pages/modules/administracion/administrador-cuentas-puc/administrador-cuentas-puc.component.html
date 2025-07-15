@@ -5,19 +5,19 @@
   </div>
 </div>
 
-<div class="ubicacionTablas">
-  <div class="example-container" [formGroup]="form" #frmCuentasPuc="ngForm" *ngIf="mostrarFormulario">
+  <div [formGroup]="form" *ngIf="mostrarFormulario">
     <div>
-      <mat-form-field class="fill">
+      <mat-form-field appearance="fill">
         <input matInput placeholder="Id Cuenta Puc" formControlName="idCuentasPuc">
       </mat-form-field>
 
-      <mat-form-field class="fill">
+      <mat-form-field appearance="fill">
         <input matInput placeholder="Cuenta Contable" formControlName="cuentaContable">
         <mat-error *ngIf="form.get('cuentaContable').hasError('required')">Este campo es requerido</mat-error>
       </mat-form-field>
-
-      <mat-form-field class="fill">
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
         <mat-label>Bancos</mat-label>
         <mat-select formControlName="bancoAval">
           <mat-option *ngFor="let item of bancos" [value]="item">
@@ -27,18 +27,18 @@
         <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
       </mat-form-field>
 
-      <mat-form-field class="fill">
+      <mat-form-field appearance="fill">
         <input matInput placeholder="Nombre Cuenta" formControlName="nombreCuenta">
         <mat-error *ngIf="form.get('nombreCuenta').hasError('required')">Este campo es requerido</mat-error>
       </mat-form-field>
     </div>
 
     <div>
-      <mat-form-field class="fill">
+      <mat-form-field appearance="fill">
         <input matInput placeholder="Identificador" formControlName="identificador">
       </mat-form-field>
 
-      <mat-form-field class="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Tipos Centros Costos</mat-label>
         <mat-select formControlName="tiposCentrosCostos">
           <mat-option *ngFor="let item of tiposCostosCuentas" [value]="item">
@@ -47,8 +47,9 @@
         </mat-select>
         <mat-error *ngIf="form.get('tiposCentrosCostos').hasError('required')">Este campo es requerido</mat-error>
       </mat-form-field>
-
-      <mat-form-field class="fill">
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
         <mat-label>Tipo Cuenta</mat-label>
         <mat-select formControlName="tiposCuentas">
           <mat-option *ngFor="let cuenta of tipoCuentas" [value]="cuenta">
@@ -67,12 +68,11 @@
 
     </div>
     <div class="tamanio-btn">
-      <button mat-raised-button type="button" (click)="persistir()" [disabled]="frmCuentasPuc.invalid">
+      <button mat-raised-button type="button" color="primary" (click)="persistir()" [disabled]="form.invalid">
         Aceptar
       </button>
     </div>
   </div>
-</div>
 
 <div class="ubicacionTablas">
   <div class="div-tabla-dominio">
