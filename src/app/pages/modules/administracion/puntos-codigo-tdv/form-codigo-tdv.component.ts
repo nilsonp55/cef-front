@@ -51,9 +51,9 @@ export class FormCodigoTdvComponent implements OnInit {
     spinnerActive: boolean = false;
 
     constructor(
-        private puntosService: GestionPuntosService,
-        private clientesCorporativosService: ClientesCorporativosService,
-        private dialog: MatDialog
+        private readonly puntosService: GestionPuntosService,
+        private readonly clientesCorporativosService: ClientesCorporativosService,
+        private readonly dialog: MatDialog
     ) { }
 
     ngOnInit(): void {
@@ -131,19 +131,7 @@ export class FormCodigoTdvComponent implements OnInit {
         if (this.esEdicion && param?.puntosDTO.tipoPunto) {
             this.form.get('tipoPunto').disable();
 
-            this.form.controls['banco'].setValidators(Validators.required);
-            this.form.controls['cliente'].setValidators(Validators.required);
-
-            if (this.selectedTipoPunto === 'BAN_REP' || this.selectedTipoPunto === 'BANCO') {
-                this.form.controls['banco'].removeValidators(Validators.required);            
-            }
-
-            if (this.selectedTipoPunto !== 'CLIENTE') {
-                this.form.controls['cliente'].removeValidators(Validators.required);
-            }
-            
-            this.form.controls['banco'].updateValueAndValidity();
-            this.form.controls['cliente'].updateValueAndValidity();
+            this.updateValidatorsForm();
         }
     }
 
@@ -257,6 +245,13 @@ export class FormCodigoTdvComponent implements OnInit {
 
         this.puntos = [];
         this.clientes = [];
+        this.updateValidatorsForm();
+
+        this.form.controls['codigoPunto'].setValue('');
+    }
+
+    updateValidatorsForm() {
+
         this.form.controls['banco'].setValidators(Validators.required);
         this.form.controls['cliente'].setValidators(Validators.required);
 
@@ -270,8 +265,6 @@ export class FormCodigoTdvComponent implements OnInit {
         
         this.form.controls['banco'].updateValueAndValidity();
         this.form.controls['cliente'].updateValueAndValidity();
-
-        this.form.controls['codigoPunto'].setValue('');
     }
 
     /**
@@ -411,12 +404,9 @@ export class FormCodigoTdvComponent implements OnInit {
     */
     displayPunto(c: any): string {
         let codigo = '';
-        switch (this.selectedTipoPunto) {
-            case "CLIENTE":
-                codigo = c.sitiosClientes?.identificadorCliente;
-                break;
-            default:
-                break;
+        
+        if(this.selectedTipoPunto === 'CLIENTE') {
+            codigo = c.sitiosClientes?.identificadorCliente;
         }
         
         return c?.codigoPunto ? codigo + '' + c.nombrePunto : '';

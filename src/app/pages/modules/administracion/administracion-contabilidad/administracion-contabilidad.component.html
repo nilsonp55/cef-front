@@ -10,7 +10,7 @@
         <input matInput placeholder="Tipo Cuenta" minlength="3" required formControlName="tipoCuenta">
         <mat-error *ngIf="form.get('tipoCuenta').hasError('required')">Valor es requerido</mat-error>
         <mat-error *ngIf="form.get('tipoCuenta').hasError('minlength')">Longitud minima es de 3 caracteres</mat-error>
-        <mat-icon matSuffix ></mat-icon>
+        <mat-icon matSuffix (keydown)="showHelpField('')"></mat-icon>
       </mat-form-field>
           
       <mat-form-field appearance="fill">
@@ -24,7 +24,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Tipo Id</mat-label>
         <input matInput placeholder="Tipo Id" formControlName="tipoId">
-        <mat-icon matSuffix (click)="showHelpField('Tipo Id')">question_mark</mat-icon>
+        <mat-icon matSuffix (click)="showHelpField('Tipo Id')" (keydown)="showHelpField('')">question_mark</mat-icon>
       </mat-form-field>
     
       <mat-form-field appearance="fill">

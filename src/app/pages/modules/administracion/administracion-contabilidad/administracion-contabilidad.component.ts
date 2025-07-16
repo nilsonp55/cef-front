@@ -192,7 +192,7 @@ export class AdministracionContabilidadComponent implements OnInit {
       case 'Cuenta Auxiliar':
         ayudaHtml = "<p style='text-align: left; font-size: 0.75em'>"+
         "Numero de cuenta auxiliar, o la etiqueta "+
-        "<b>{NOBR-00129}</b> si es un egreso diferente a la comisión Banco República lleva el valor 00129."
+        "<b>{NOBR-00129}</b> si es un egreso diferente a la comisión Banco República lleva el valor 00129."+
         "</p>";
         break;
       case 'Identificador':
