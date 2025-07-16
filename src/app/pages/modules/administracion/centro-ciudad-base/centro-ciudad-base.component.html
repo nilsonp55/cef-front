@@ -3,14 +3,13 @@
 <h2>Gestión Centros Ciudades {{tipoCentroCiudad}}</h2>
 <div>
     <div class="division-btn">
-        <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
+        <button class="division-btn1" mat-raised-button color="primary"
             (click)="crearCentroCiudad()">Crear</button>
     </div>
 </div>
 
-<div class="ubicacionTablas">
-    <div class="example-container" [formGroup]="form" #frmCiudades="ngForm" *ngIf="mostrarFormulario">
-        <div style="padding-left: 10%;">
+    <div [formGroup]="form" *ngIf="mostrarFormulario">
+        <div>
             <mat-form-field appearance="fill">
                 <input matInput placeholder="Centro ciudad" formControlName="idCentroCiudad">
             </mat-form-field>
@@ -24,7 +23,8 @@
                 </mat-select>
                 <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>
-
+        </div>
+        <div>
             <mat-form-field appearance="fill">
                 <mat-label>Ciudad</mat-label>
                 <mat-select formControlName="codigoDane">
@@ -35,7 +35,7 @@
                 <mat-error *ngIf="form.get('codigoDane').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>
 
-            <mat-form-field class="example-full-width">
+            <mat-form-field appearance="fill">
                 <input matInput placeholder="Código Centro" formControlName="codigoCentro">
                 <mat-error *ngIf="form.get('codigoCentro').hasError('required')">Este campo es requerido</mat-error>
                 <mat-error *ngIf="form.get('codigoCentro').hasError('pattern')">Ingresar únicamente valores
@@ -44,12 +44,11 @@
         </div>
         <div class="tamanio-btn">
             <button mat-raised-button color="primary" type="button" (click)="persistir()"
-                [disabled]="frmCiudades.invalid">
+                [disabled]="form.invalid">
                 Aceptar
             </button>
         </div>
     </div>
-</div>
 
 <div class="ubicacionTablas">
     <div class="div-tabla-dominio">

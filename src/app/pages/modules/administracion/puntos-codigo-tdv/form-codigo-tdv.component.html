@@ -8,7 +8,7 @@
         <mat-form-field appearance="outline">
             <mat-label>Tipo Punto</mat-label>
             <mat-select formControlName="tipoPunto" (selectionChange)="changeTipoPunto($event)">
-                <mat-option *ngFor="let item of tiposPunto" [value]="item">
+                <mat-option *ngFor="let item of tiposPunto" [value]="item.valorTexto">
                     {{item.valorTexto}}
                 </mat-option>
             </mat-select>
@@ -29,7 +29,7 @@
     <div class="flex">
         <!--Transportadora-->
         <mat-form-field appearance="outline">
-            <mat-label>TDV</mat-label>
+            <mat-label>Transportadora</mat-label>
             <mat-select required formControlName="codigoTdv">
                 <mat-option *ngFor="let item of transportadoras" [value]="item">
                     {{item.nombreTransportadora}}
@@ -51,7 +51,7 @@
             <input type="text" matInput formControlName="cliente" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
                 <mat-option *ngFor="let item of clientesFiltrados | async" [value]="item">
-                    {{item.identificacion + " : " + item.nombreCliente}}
+                    {{item.identificacion +" - "+ item.nombreCliente}}
                 </mat-option>                
             </mat-autocomplete>
             <mat-error *ngIf="form.get('cliente').hasError('required')">Este campo es requerido</mat-error>
@@ -65,7 +65,7 @@
             <input type="text" matInput formControlName="punto" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayPunto">
                 <mat-option *ngFor="let item of puntosFiltrados | async" [value]="item">
-                    {{item.nombrePunto}}
+                    {{item.codigoPunto +" - "+ item.nombrePunto}}
                 </mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="form.get('punto').hasError('required')">Este campo es requerido</mat-error>

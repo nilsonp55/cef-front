@@ -3,47 +3,65 @@
   <button mat-raised-button color="primary" (click)="crearTiposCuentas()">Crear</button>
 </div>
 
-<div class="ubicacionTablas">
-  <div class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
-    <div>
-      <mat-form-field class="example-full-width">
+  <div [formGroup]="form" *ngIf="mostrarFormulario">
+    <div >
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo Cuenta</mat-label>
         <input matInput placeholder="Tipo Cuenta" minlength="3" required formControlName="tipoCuenta">
         <mat-error *ngIf="form.get('tipoCuenta').hasError('required')">Valor es requerido</mat-error>
         <mat-error *ngIf="form.get('tipoCuenta').hasError('minlength')">Longitud minima es de 3 caracteres</mat-error>
+        <mat-icon matSuffix ></mat-icon>
       </mat-form-field>
-
-      <mat-form-field class="example-full-width">
+          
+      <mat-form-field appearance="fill">
+        <mat-label>Cuenta Auxiliar</mat-label>
         <input matInput placeholder="Cuenta Auxiliar" formControlName="cuentaAuxiliar">
+        <mat-icon matSuffix (click)="showHelpField('Cuenta Auxiliar')">question_mark</mat-icon>
       </mat-form-field>
+    </div>
 
-      <mat-form-field class="example-full-width">
+    <div>      
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo Id</mat-label>
         <input matInput placeholder="Tipo Id" formControlName="tipoId">
+        <mat-icon matSuffix (click)="showHelpField('Tipo Id')">question_mark</mat-icon>
       </mat-form-field>
-
-      <mat-form-field class="example-full-width">
+    
+      <mat-form-field appearance="fill">
+        <mat-label>Identificador</mat-label>
         <input matInput placeholder="Identificador" formControlName="identificador">
+        <mat-icon matSuffix (click)="showHelpField('Identificador')">question_mark</mat-icon>
       </mat-form-field>
     </div>
-    <div>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Descripción" required formControlName="descripcion">
-        <mat-error>Valor es requerido</mat-error>
-      </mat-form-field>
 
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Referencia1" formControlName="referencia1">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Descripción</mat-label>
+        <input matInput placeholder="Descripción" required formControlName="descripcion">
+        <mat-error>Valor es requerido</mat-error>        
+        <mat-icon matSuffix (click)="showHelpField('Descripción')">question_mark</mat-icon>
       </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Referencia2" formControlName="referencia2">
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Referencia1</mat-label>
+        <input matInput placeholder="Referencia1" formControlName="referencia1">
+        <mat-icon matSuffix ></mat-icon>
       </mat-form-field>
     </div>
-    <button style="background-color: #C1DEAE" class="buttonsSaveOremove" mat-raised-button type="button"
-      (click)="persistir()" [disabled]="frmPaciente.invalid">
-      <mat-icon>done</mat-icon>
-      <span>Aceptar</span>
-    </button>
+
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Referencia2</mat-label>
+        <input matInput placeholder="Referencia2" formControlName="referencia2">
+        <mat-icon matSuffix ></mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="tamanio-btn">
+      <button mat-raised-button type="button" color="primary" (click)="persistir()" [disabled]="form.invalid">
+        Aceptar
+      </button>
+    </div>
   </div>
-</div>
 
 <div class="ubicacionTablas">
   <div class="div-tabla-dominio">

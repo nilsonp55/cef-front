@@ -33,7 +33,7 @@ export class CrearPuntoComponent implements OnInit {
     'tarifaVerificacion': new FormControl(),
     'codigoCompensacion': new FormControl(),
     'codigoCajero': new FormControl(),
-    'codigoPuntoCliente': new FormControl(),
+    'identificadorCliente': new FormControl(),
     'identificacion': new FormControl(),
     'abreviatura': new FormControl(),
     'fajado': new FormControl(),
@@ -105,10 +105,8 @@ export class CrearPuntoComponent implements OnInit {
     this.puntoSeleccionado = param ? param?.tipoPunto : null;
 
     if (param?.tipoPunto === 'CLIENTE') {
-      await this.getClientes({ "codigoCliente": param.sitiosClientes?.codigoCliente ?? '' });
-      valBancoAval = this.clientes.find(value => value.codigoCliente === param.sitiosClientes?.codigoCliente)?.codigoBancoAval;
+      valBancoAval = param?.sitiosClientes?.codigoCliente?.codigoBancoAval;
       valFajado = param?.sitiosClientes?.fajado;
-      await this.getClientes({ "codigoBancoAval": valBancoAval ?? '' });
     }
 
     if(param?.tipoPunto === 'OFICINA') {
@@ -128,13 +126,13 @@ export class CrearPuntoComponent implements OnInit {
     }
 
     this.ciudadControl = new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null);
-    this.clientesControl = new FormControl(param ? this.clientes.find(value => value.codigoCliente === param?.sitiosClientes?.codigoCliente) : null, [Validators.required]);
+    this.clientesControl = new FormControl(param?.sitiosClientes?.codigoCliente, [Validators.required]);
     this.form = new FormGroup({
       'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param}, [Validators.required]),
       'nombrePunto': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),
       'ciudad': this.ciudadControl,
       'cliente': this.clientesControl,
-      'codigoPuntoCliente': new FormControl(param ? param.sitiosClientes?.codigoPuntoCliente : null, [Validators.required]),
+      'identificadorCliente': new FormControl(param ? param.sitiosClientes?.identificadorCliente : null, Validators.maxLength(50)),
       'transportadora': new FormControl(param ? this.tdvs.find(value => value.codigo === param?.fondos?.tdv) : null, [Validators.required]),
       'codigoOficina': new FormControl(param ? valCodigoOficina : null, [Validators.required]),
       'bancoAval': new FormControl(param ? this.bancosAval.find(value => value.codigoPunto === valBancoAval) : null, [Validators.required]),
@@ -164,7 +162,7 @@ export class CrearPuntoComponent implements OnInit {
       codigoDANE: this.form.value['ciudad']?.codigoDANE,
       nombreCiudad: this.form.value['ciudad']?.nombreCiudad,
       codigoCliente: Number(this.form.value['cliente']?.codigoCliente),
-      codigoPuntoCliente: this.form.value['codigoPuntoCliente'],
+      identificadorCliente: this.form.value['identificadorCliente'],
       codigoTDV: this.form.value['transportadora']?.codigo,
       codigoPropioTDV: this.form.value['transportadora']?.codigo,
       codigoOficina: Number(this.form.value['codigoOficina']),
@@ -244,28 +242,28 @@ export class CrearPuntoComponent implements OnInit {
 
     const controlesConfig: { [key: string]: { required: string[], noRequired: string[] } } = {
       'CLIENTE': {
-        required: ['cliente', 'codigoPuntoCliente'],
+        required: ['cliente'],
         noRequired: ['codigoOficina', 'transportadora', 'codigoCajero']
       },
       'FONDO': {
         required: ['transportadora'],
-        noRequired: ['codigoOficina', 'codigoCajero', 'cliente', 'codigoPuntoCliente']
+        noRequired: ['codigoOficina', 'codigoCajero', 'cliente', 'identificadorCliente']
       },
       'BAN_REP': {
         required: [],
-        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'codigoPuntoCliente', 'bancoAval']
+        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'identificadorCliente', 'bancoAval']
       },
       'OFICINA': {
         required: ['codigoOficina'],
-        noRequired: ['codigoCajero', 'transportadora', 'cliente', 'codigoPuntoCliente']
+        noRequired: ['codigoCajero', 'transportadora', 'cliente', 'identificadorCliente']
       },
       'CAJERO': {
         required: ['codigoCajero'],
-        noRequired: ['codigoOficina', 'transportadora', 'cliente', 'codigoPuntoCliente']
+        noRequired: ['codigoOficina', 'transportadora', 'cliente', 'identificadorCliente']
       },
       'BANCO': {
         required: [],
-        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'bancoAval', 'codigoPuntoCliente']
+        noRequired: ['codigoOficina', 'transportadora', 'codigoCajero', 'cliente', 'bancoAval', 'identificadorCliente']
       }
     };
 
@@ -315,6 +313,10 @@ export class CrearPuntoComponent implements OnInit {
     
     if(this.puntoSeleccionado === "FONDO") {
       this.concatenarNombrePuntoFondo();
+    }
+
+    if(this.puntoSeleccionado == "CLIENTE") {
+      this.form.get('cliente').setValue('');
     }
   }
 

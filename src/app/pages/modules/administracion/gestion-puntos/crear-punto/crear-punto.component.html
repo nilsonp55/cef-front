@@ -68,9 +68,9 @@
       </div>
       <div class="flex">  
         <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'CLIENTE'">
-          <mat-label>Codigo Punto Cliente</mat-label>
-          <input formControlName="codigoPuntoCliente" matInput #input >
-          <mat-error *ngIf="form.get('codigoPuntoCliente').hasError('required')">Este campo es requerido</mat-error>
+          <mat-label>Identificador Cliente</mat-label>
+          <input formControlName="identificadorCliente" matInput #input >
+          <mat-error *ngIf="form.get('identificadorCliente').hasError('maxlength')">Longitud maxima es de 50 caracteres.</mat-error>
       </mat-form-field>
     
         <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'FONDO'">

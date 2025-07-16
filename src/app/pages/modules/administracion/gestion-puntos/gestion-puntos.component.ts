@@ -53,6 +53,7 @@ export class GestionPuntosComponent implements OnInit {
   fondosBancoAVALSeleccionado: number;
   oficinasBancoAVALSeleccionado: number;
   cajerosATMBancoAvalSeleccionado: number;
+  clienteBancoAvalSeleccionado: number;
   clientes: any[] = [];
 
   constructor(
@@ -143,6 +144,7 @@ export class GestionPuntosComponent implements OnInit {
         'fondos.bancoAVAL': this.fondosBancoAVALSeleccionado ?? '',
         'oficinas.bancoAVAL': this.oficinasBancoAVALSeleccionado ?? '',
         'cajeroATM.bancoAval': this.cajerosATMBancoAvalSeleccionado ?? '',
+        'sitiosClientes.codigoCliente.codigoBancoAval': this.clienteBancoAvalSeleccionado ?? '',
         page: this.paginaActual,
         size: this.tamanioActual,
         busqueda: this.nombrePuntoBusqueda ?? '',
@@ -224,6 +226,7 @@ export class GestionPuntosComponent implements OnInit {
     this.fondosBancoAVALSeleccionado = undefined;
     this.oficinasBancoAVALSeleccionado = undefined;
     this.cajerosATMBancoAvalSeleccionado = undefined;
+    this.clienteBancoAvalSeleccionado = undefined;
 
     if (this.tipoPuntoSeleccionado === 'FONDO') {
       this.fondosBancoAVALSeleccionado = element.value;
@@ -233,6 +236,9 @@ export class GestionPuntosComponent implements OnInit {
     }
     if (this.tipoPuntoSeleccionado === 'CAJERO') {
       this.cajerosATMBancoAvalSeleccionado = element.value;
+    }
+    if (this.tipoPuntoSeleccionado == 'CLIENTE') {
+      this.clienteBancoAvalSeleccionado = element.value;
     }
     this.listarPuntosSeleccionado();
   }
