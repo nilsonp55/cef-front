@@ -16,7 +16,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Cuenta Auxiliar</mat-label>
         <input matInput placeholder="Cuenta Auxiliar" formControlName="cuentaAuxiliar">
-        <mat-icon matSuffix (click)="showHelpField('Cuenta Auxiliar')">question_mark</mat-icon>
+        <mat-icon matSuffix (click)="showHelpField('Cuenta Auxiliar')" (keydown)="showHelpField('')">question_mark</mat-icon>
       </mat-form-field>
     </div>
 
@@ -30,7 +30,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Identificador</mat-label>
         <input matInput placeholder="Identificador" formControlName="identificador">
-        <mat-icon matSuffix (click)="showHelpField('Identificador')">question_mark</mat-icon>
+        <mat-icon matSuffix (click)="showHelpField('Identificador')" (keydown)="showHelpField('')">question_mark</mat-icon>
       </mat-form-field>
     </div>
 
@@ -39,7 +39,7 @@
         <mat-label>Descripción</mat-label>
         <input matInput placeholder="Descripción" required formControlName="descripcion">
         <mat-error>Valor es requerido</mat-error>        
-        <mat-icon matSuffix (click)="showHelpField('Descripción')">question_mark</mat-icon>
+        <mat-icon matSuffix (click)="showHelpField('Descripción')" (keydown)="showHelpField('')">question_mark</mat-icon>
       </mat-form-field>
       
       <mat-form-field appearance="fill">
