@@ -20,7 +20,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
 
   form: FormGroup;
   dataSourceDenominacion: MatTableDataSource<any>
-  displayedColumnsDenominacion: string[] = ['idTdvDenCant', 'transportadora', 'moneda', 'denominacion', 'familia', 'cantidadDenom', 'estado', 'acciones'];
+  displayedColumnsDenominacion: string[] = ['idTdvDenCant', 'transportadora', 'moneda', 'denominacion', 'familia', 'cantidadPorDenom', 'estado', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   mostrarTabla = true;
@@ -39,6 +39,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   cantidadRegistros: number;
+  pageSizeOptions: number[] = [5, 10, 25, 100, 500];
 
   constructor(
     private eenominacionCantidadService: DenominacionCantidadService,
@@ -66,7 +67,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       'moneda': new FormControl(param ? param.moneda : null),
       'denominacion': new FormControl(param ? String(param.denominacion) : null),
       'familia': new FormControl(param ? param.familia : null),
-      'cantidadDenom': new FormControl(param ? param.cantidad_por_denom : null),
+      'cantidadPorDenom': new FormControl(param ? param.cantidadPorDenom : null),
       'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
     });
   }
@@ -119,31 +120,35 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       moneda: this.form.value['moneda'],
       denominacion: Number(this.form.value['denominacion']),
       familia: this.form.value['familia'],
-      cantidad_por_denom: this.form.value['cantidadDenom'],
+      cantidadPorDenom: this.form.value['cantidadPorDenom'],
       estado: Number(this.form.value['estado']),
     };
 
     if(this.esEdicion) {
       denominacionCantidad.idTdvDenCant = Number(this.idTdvDenCant);
       this.eenominacionCantidadService.actualizarDenominacionCantidad(denominacionCantidad).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response.response)
           }
-        }); setTimeout(() => { alert.close() }, 4000);
+        });
         this.listarDenominacion();
         this.initForm();
       },
         (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: "Error al actualizar una Denominación Cantidad",
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error.response)
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
         });
         this.mostrarFormulario = false;
         this.mostrarTabla = true;
@@ -151,24 +156,28 @@ export class TdvDenominacionCantidadComponent implements OnInit {
     else {
       denominacionCantidad.idTdvDenCant = this.form.value['idTdvDenCant']
       this.eenominacionCantidadService.guardarDenominacionCantidad(denominacionCantidad).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response.response)
           }
-        }); setTimeout(() => { alert.close() }, 4000);
+        });
         this.listarDenominacion();
         this.initForm();
       },
         (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: "Error al guardar una Denominación Cantidad",
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error.response)
             }
-          }); setTimeout(() => { alert.close() }, 3000);
+          });
         });
         this.mostrarFormulario = false;
         this.mostrarTabla = true;

@@ -96,7 +96,7 @@ export class FormCodigoTdvComponent implements OnInit {
         if (param) {
             this.selectedTipoPunto = param.puntosDTO.tipoPunto;
             if (param.ciudadFondo && this.ciudades.length > 0) {
-                ciudad = this.ciudades.find((value) => value.codigoDANE == param.ciudadFondo)?.codigoDANE;
+                ciudad = this.ciudades.find((value) => value.codigoDANE == param.ciudadFondo);
             }
 
             if (this.puntos.length > 0) {
@@ -213,7 +213,7 @@ export class FormCodigoTdvComponent implements OnInit {
             codigoTDV: formData.codigoTdv.codigo, 
             codigoPunto: Number(formData.punto.codigoPunto), 
             codigoPropioTDV: formData.codigoPropioTDV,
-            ciudadFondo: formData.codigoDANE,
+            ciudadFondo: formData.codigoDANE.codigoDANE ?? '0',
             bancosDTO: {
                 codigoPunto: Number(formData.banco.codigoPunto) 
             },

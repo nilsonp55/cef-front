@@ -48,7 +48,7 @@ export class TarifasOperacionFormComponent implements OnInit {
 
   onGuardar() {
     if (this.form.valid) {
-      this.guardar.emit(this.form.value);
+      this.guardar.emit(this.form);
     }
   }
 
