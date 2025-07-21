@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { lastValueFrom } from 'rxjs';
-import { ErrorService } from 'src/app/_model/error.model';
+import { ErrorResponse } from 'src/app/_model/error-response.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { TarifasOperacionService } from 'src/app/_service/liquidacion-service/tarifas-operacion.service';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -81,12 +81,14 @@ export class TarifasOperacionComponent implements OnInit {
          this.dataSourceTiposCuentas.sort = this.sort;
          this.cantidadRegistros = page.data.totalElements;
        },
-       error: (err: ErrorService) => {
+       error: (err: ErrorResponse) => {
          this.dialog.open(VentanaEmergenteResponseComponent, {
            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
            data: {
              msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
-             codigo: GENERALES.CODE_EMERGENT.ERROR
+             codigo: GENERALES.CODE_EMERGENT.ERROR,
+             showResume: true,
+             msgDetalles: JSON.stringify(err.response)
            }
          });
        }
@@ -99,10 +101,11 @@ export class TarifasOperacionComponent implements OnInit {
     */
   persistir(form: FormGroup) {
     const tarifa = {
-      idTarifasOperacion: form.value['idTarifasOperacion'],
+      idTarifasOperacion: form.controls['idTarifasOperacion'].value,
       bancoDTO: {
         codigoPunto: form.value['bancoAval'].codigoPunto
       },
+      tipoPunto: form.value['tipoPunto'],
       tipoOperacion: form.value['tipoOperacion'],
       tipoServicio: form.value['tipoServicio'],
       escala: form.value['escala'],
@@ -131,17 +134,22 @@ export class TarifasOperacionComponent implements OnInit {
             this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+                msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
+                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+                showResume: true,
+                msgDetalles: JSON.stringify(response.response)
               }
             });
           },
           error: (err: any) => {
+            console.debug(err);
             this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
                 msn: err.error.response.description,
-                codigo: GENERALES.CODE_EMERGENT.ERROR
+                codigo: GENERALES.CODE_EMERGENT.ERROR,
+                showResume: true,
+                msgDetalles: JSON.stringify(err.error.response)
               }
             });
           }
@@ -153,16 +161,20 @@ export class TarifasOperacionComponent implements OnInit {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
                 msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+                showResume: true,
+                msgDetalles: JSON.stringify(response.response)
               }
             });
           },
-          error: (err: any) => {
+          error: (err: ErrorResponse) => {
             this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn: err.error.response.description,
-                codigo: GENERALES.CODE_EMERGENT.ERROR
+                msn: err.response.description,
+                codigo: GENERALES.CODE_EMERGENT.ERROR,
+                showResume: true,
+                msgDetalles: JSON.stringify(err.response)
               }
             });
           }
@@ -264,13 +276,14 @@ export class TarifasOperacionComponent implements OnInit {
     this.registroSeleccionado = registro;
     this.mostrarTabla = false;
     this.mostrarFormulario = true;
+    this.esEdicion = true;
   }
 
   cerrarFormulario() {
     this.mostrarFormulario = false;
     this.mostrarTabla = true;
     this.registroSeleccionado = null;
-    // Recargar tabla si es necesario
+    // this.esEdicion = false;
   }
 
   onGuardar(form: FormGroup) {

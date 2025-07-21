@@ -26,7 +26,7 @@
   <div class="flex">
     <mat-form-field appearance="fill">
       <mat-label>Tipo punto</mat-label>
-      <mat-select required formControlName="tipoPunto">
+      <mat-select formControlName="tipoPunto">
         <mat-option *ngFor="let item of tiposPuntos" [value]="item">
           {{item}}
         </mat-option>
@@ -112,7 +112,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Fecha Inicial</mat-label>
-      <input required matInput [matDatepicker]="picker1" readonly="true" formControlName="fechaVigenciaIni" value="now">
+      <input required matInput [matDatepicker]="picker1" readonly="true" formControlName="fechaVigenciaIni">
 
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>

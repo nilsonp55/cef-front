@@ -15,7 +15,7 @@
   </app-table-codigo-tdv>
 </div>
 
-<!-- Container for the FormCodigoTdvComponent (already refactored) -->
+<!-- Container for the FormCodigoTdvComponent -->
 <div *ngIf="mostrarFormulario">
   <app-form-codigo-tdv
     [initialData]="currentPuntoCodigoData"
@@ -23,7 +23,7 @@
     [transportadoras]="transportadoras"
     [ciudades]="ciudades"
     [tiposPunto]="tiposPuntoParaFiltro"
-    (formSubmit)="handleFormSubmit($event)"Add commentMore actions
+    (formSubmit)="handleFormSubmit($event)"
     (cancel)="handleCancelForm()">
   </app-form-codigo-tdv>
 </div>

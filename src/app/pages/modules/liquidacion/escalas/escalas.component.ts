@@ -63,6 +63,7 @@ export class EscalasComponent implements OnInit {
     * @BayronPerez
     */
   initForm(param?: any) {
+    const e = this.escalas.find( v => v === param.escala);
     this.form = new FormGroup({
       'idEscala': new FormControl(param ? param.idEscala : null),
       'banco': new FormControl(param ? this.selectBanco(param) : null),
@@ -70,7 +71,7 @@ export class EscalasComponent implements OnInit {
       'transportadoraDestino': new FormControl(param ? this.selectTransportadorasDestino(param) : null),
       'ciudadOrigen': new FormControl(param ? this.selectCiudadOrigen(param) : null),
       'ciudadDestino': new FormControl(param ? this.selectCiudadDestino(param) : null),
-      'escala': new FormControl(param ? param.escala : null),
+      'escala': new FormControl(param ? this.escalas.find( v => v === param.escala ) : null),
       'estado': new FormControl(param? this.formatearEstadoListar(param.estado) : null),
     });
   }
@@ -189,7 +190,9 @@ export class EscalasComponent implements OnInit {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response.response)
           }
         });
         this.listarEscalas();
@@ -200,7 +203,9 @@ export class EscalasComponent implements OnInit {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error.response)
             }
           });
           this.spinnerActive = false;
@@ -212,22 +217,26 @@ export class EscalasComponent implements OnInit {
     else {
       escala.idEscala = this.form.value['idEscala']
       this.escalasService.guardarEscala(escala).subscribe({ next: (response: any) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response.response)
           }
         });
         this.listarEscalas();
         this.spinnerActive = false;
       },
       error: (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error.response)
             }
           });
           this.spinnerActive = false;

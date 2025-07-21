@@ -38,9 +38,13 @@
             <mat-error *ngIf="form.get('codigoTdv').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
         <!--Ciudad-->
-        <mat-form-field appearance="outline" *ngIf="selectedTipoPunto=='BAN_REP'">
+        <mat-form-field appearance="outline" *ngIf="selectedTipoPunto==='BAN_REP'">
             <mat-label>Ciudad Fondo</mat-label>
-            <input type="text" matInput placeholder="Ciudad Fondo" formControlName="codigoDANE" readonly>
+            <mat-select formControlName="codigoDANE">
+                <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
+                    {{ciudad.nombreCiudad}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
     </div>
 

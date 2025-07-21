@@ -117,9 +117,8 @@
                 (click)="irAtras()">Atras</button>
         </div>
       </div>
-        <div class="example-container" [formGroup]="form" #frmPaciente="ngForm" *ngIf="mostrarFormulario">
-            <div style="padding-left: 10%;">
-                <mat-form-field class="example-full-width">
+        <div [formGroup]="form" *ngIf="mostrarFormulario">
+                <mat-form-field appearance="fill">
                     <input type="number" matInput placeholder="Id Escala" formControlName="idEscala">
                 </mat-form-field>
 
@@ -185,8 +184,7 @@
                     </label>
                     <p>ESTADO</p>
                 </div>
-            </div>
-            <button mat-raised-button type="button" (click)="persistir()" class="ubicacion-btn" color="primary"
-                [disabled]="frmPaciente.invalid">Aceptar</button>
+            <button mat-raised-button type="button" (click)="persistir()" color="primary"
+                [disabled]="form.invalid">Aceptar</button>
         </div>
     </div>
