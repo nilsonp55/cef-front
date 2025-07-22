@@ -107,49 +107,57 @@ export class GestionUsuariosComponent implements OnInit {
 
     if (this.esEdicion) {
       usuarioDTO.idUsuario = this.idUsuario;
-      this.rolMenuService.actualizarUsuario(usuarioDTO).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.rolMenuService.actualizarUsuario(usuarioDTO).subscribe({next : response => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response)
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        });
         this.listarUsuarios()
         this.initForm();
         this.mostrarFormulario = false;
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error:  (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.response)
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
+          });
+        }});
     } else {
-      this.rolMenuService.guardarUsuario(usuarioDTO).subscribe(response => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      this.rolMenuService.guardarUsuario(usuarioDTO).subscribe({next: response => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response.response)
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); 
         this.listarUsuarios()
         this.initForm();
         this.mostrarFormulario = false;
       },
-        (err: any) => {
-          const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      error:  (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.response)
             }
-          }); setTimeout(() => { alert.close() }, 3000);
-        });
+          }); 
+        }});
     }
    }
 

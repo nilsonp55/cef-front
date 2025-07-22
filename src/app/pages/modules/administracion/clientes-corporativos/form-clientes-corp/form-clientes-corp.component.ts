@@ -78,20 +78,21 @@ export class FormClientesCorpComponent implements OnInit {
       amparado: this.form.controls['amparado'].value,
     };
 
-    if (this.data.flag === 'create') {
-      this.clientesCorporativosServices
-        .guardarClientesCorporativos(rowSave)
-        .subscribe({
+    const serviceCall = this.data.flag === 'create'
+      ? this.clientesCorporativosServices.guardarClientesCorporativos(rowSave)
+      : this.clientesCorporativosServices.actualizarClientesCorporativos(rowSave);
+
+      serviceCall.subscribe({
           next: (page: any) => {
             this.dialog
               .open(VentanaEmergenteResponseComponent, {
                 width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
                 data: {
-                  msn:
-                    GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE +
-                    ' - ' +
-                    page.response.description,
+                  msn: this.data.flag === 'create' ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE 
+                    : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
                   codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+                  showResume: true,
+                  msgDetalles: JSON.stringify(page.response)
                 },
               })
               .afterClosed()
@@ -104,57 +105,17 @@ export class FormClientesCorpComponent implements OnInit {
             this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
-                msn:
-                  GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE +
-                  ' - ' +
-                  err.mensaje,
+                msn: this.data.flag === 'create' ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE 
+                  : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE,
                 codigo: GENERALES.CODE_EMERGENT.ERROR,
+                showResume: true,
+                msgDetalles: JSON.stringify(err.error.response)
               },
             });
             this.spinnerActive = false;
           },
         });
-    }
 
-    if (this.data.flag === 'edit') {
-      (
-        await this.clientesCorporativosServices.actualizarClientesCorporativos(
-          rowSave
-        )
-      ).subscribe({
-        next: (page: any) => {
-          this.dialog
-            .open(VentanaEmergenteResponseComponent, {
-              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-              data: {
-                msn:
-                  GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE +
-                  ' - ' +
-                  page.response.description,
-                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-              },
-            })
-            .afterClosed()
-            .subscribe((result) => {
-              this.dialogRef.close(rowSave);
-            });
-          this.spinnerActive = false;
-        },
-        error: (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn:
-                GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE +
-                ' - ' +
-                err.mensaje,
-              codigo: GENERALES.CODE_EMERGENT.ERROR,
-            },
-          });
-          this.spinnerActive = false;
-        },
-      });
-    }
   }
 
   onCancel(): void {

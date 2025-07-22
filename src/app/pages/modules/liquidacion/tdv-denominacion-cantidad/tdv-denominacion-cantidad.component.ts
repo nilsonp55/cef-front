@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { Router } from '@angular/router';
 import { DenominacionCantidadService } from 'src/app/_service/liquidacion-service/denominacion-cantidad.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
@@ -42,10 +41,9 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100, 500];
 
   constructor(
-    private eenominacionCantidadService: DenominacionCantidadService,
+    private denominacionCantidadService: DenominacionCantidadService,
     private dialog: MatDialog,
-    private generalesService: GeneralesService,
-    private router: Router
+    private generalesService: GeneralesService
   ) { }
 
   ngOnInit(): void {
@@ -86,7 +84,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
    * @BayronPerez
    */
   listarDenominacion(pagina = 0, tamanio = 5) {
-    this.eenominacionCantidadService.obtenerDenominacionCantidad({
+    this.denominacionCantidadService.obtenerDenominacionCantidad({
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
@@ -124,66 +122,38 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       estado: Number(this.form.value['estado']),
     };
 
-    if(this.esEdicion) {
-      denominacionCantidad.idTdvDenCant = Number(this.idTdvDenCant);
-      this.eenominacionCantidadService.actualizarDenominacionCantidad(denominacionCantidad).subscribe(response => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-            showResume: true,
-            msgDetalles: JSON.stringify(response.response)
-          }
-        });
-        this.listarDenominacion();
-        this.initForm();
-      },
-        (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: "Error al actualizar una Denominación Cantidad",
-              codigo: GENERALES.CODE_EMERGENT.ERROR,
-              showResume: true,
-              msgDetalles: JSON.stringify(err.error.response)
-            }
-          });
-        });
-        this.mostrarFormulario = false;
-        this.mostrarTabla = true;
-    } 
-    else {
-      denominacionCantidad.idTdvDenCant = this.form.value['idTdvDenCant']
-      this.eenominacionCantidadService.guardarDenominacionCantidad(denominacionCantidad).subscribe(response => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-            showResume: true,
-            msgDetalles: JSON.stringify(response.response)
-          }
-        });
-        this.listarDenominacion();
-        this.initForm();
-      },
-        (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: "Error al guardar una Denominación Cantidad",
-              codigo: GENERALES.CODE_EMERGENT.ERROR,
-              showResume: true,
-              msgDetalles: JSON.stringify(err.error.response)
-            }
-          });
-        });
-        this.mostrarFormulario = false;
-        this.mostrarTabla = true;
-    }
+    const serviceCall = this.esEdicion 
+      ? this.denominacionCantidadService.actualizarDenominacionCantidad(denominacionCantidad) : 
+      this.denominacionCantidadService.guardarDenominacionCantidad(denominacionCantidad);
 
-    
+      denominacionCantidad.idTdvDenCant = Number(this.idTdvDenCant);
+      serviceCall.subscribe({next: response => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response.response)
+          }
+        });
+        this.listarDenominacion();
+        this.initForm();
+      },
+      error:  (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error.response)
+            }
+          });
+        }});
+        this.mostrarFormulario = false;
+        this.mostrarTabla = true;
+        
   }
 
   /**

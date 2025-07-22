@@ -93,7 +93,9 @@ export class ClientesCorporativosComponent implements OnInit {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + errors.mensaje,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(errors.error.response)
             }
           });
           this.spinnerActive = false;
@@ -209,7 +211,9 @@ export class ClientesCorporativosComponent implements OnInit {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_DELETE,
-              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+              showResume: true,
+              msgDetalles: JSON.stringify(response?.response)
             }
           });
           this.listarClientesCorporativos(this.pIndex, this.pSize);
@@ -218,8 +222,10 @@ export class ClientesCorporativosComponent implements OnInit {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DELETE + " - " + err.mensaje,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DELETE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error.response)
             }
           });
           this.spinnerActive = false;
