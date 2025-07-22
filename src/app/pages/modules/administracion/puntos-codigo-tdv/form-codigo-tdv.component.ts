@@ -57,7 +57,7 @@ export class FormCodigoTdvComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.initForm(this.initialData);
+        
         if (this.initialData) {
             this.esEdicion = true;
             // Cargar cliente y punto del registro seleccionado para editar
@@ -65,6 +65,7 @@ export class FormCodigoTdvComponent implements OnInit {
         } else {
             this.esEdicion = false;
         }
+        this.initForm(this.initialData);
 
         this.clientesFiltrados = this.clientesControl.valueChanges.pipe(
             startWith(''),
@@ -122,7 +123,7 @@ export class FormCodigoTdvComponent implements OnInit {
             'codigoPropioTDV': new FormControl(param?.codigoPropioTDV ?? null, [Validators.required]),
             'banco': new FormControl(bancoValueForm ?? null, [Validators.required]),
             'estado': new FormControl(param ? param.estado === 1 : true),
-            'codigoDANE': new FormControl(ciudad ?? "0"),
+            'codigoDANE': new FormControl(ciudad ?? "0", [Validators.required]),
             'cliente': this.clientesControl,
             'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null, [Validators.required])
         });
@@ -184,7 +185,7 @@ export class FormCodigoTdvComponent implements OnInit {
                 await this.listarPuntos(initialParams);
             }
 
-            this.initForm(this.initialData);
+            //this.initForm(this.initialData);
 
         } catch (error) {
             console.error("Error loading initial dropdowns: ", error);

@@ -19,7 +19,7 @@ export class AdministracionTasasCambioComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['fecha','espacio1','moneda','espacio2','tasa', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['tasasCambioPK.fechaTasa','espacio1','moneda','espacio2','tasaCambio', 'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   esEdicion: boolean;
@@ -53,18 +53,24 @@ export class AdministracionTasasCambioComponent implements OnInit {
         'codigoMoneda': new FormControl(param? param.tasasCambioPK.codigoMoneda : null, [Validators.required]),
         'tasaCambio': new FormControl(param? param.tasaCambio : null),
       });
+
+      if(this.esEdicion) {
+        this.form.get('fechaTasa').disable();
+        this.form.get('codigoMoneda').disable();
+      }
   }
 
   /**
    * Lista los Tasas cambio
    * @BayronPerez
    */
-  listarTasasCambio(pagina = 0, tamanio = 5) {
+  listarTasasCambio(pagina = 0, tamanio = 100) {
     this.tasasCostoService.listarTasasCosto({
       page: pagina,
       size: tamanio,
+      sort: 'tasasCambioPK.fechaTasa,desc'
     }).subscribe({ next: (page: any) => {
-      this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
+      this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
@@ -86,20 +92,27 @@ export class AdministracionTasasCambioComponent implements OnInit {
     */
    persistir() {
     const tasasCambioPK = {
-      fechaTasa: this.form.value['fechaTasa'],
-      codigoMoneda: this.form.value['codigoMoneda']
+      fechaTasa: this.form.controls['fechaTasa'].value,
+      codigoMoneda: this.form.controls['codigoMoneda'].value
     }
     const tasasCambioDTO = {
       tasasCambioPK: tasasCambioPK,
       tasaCambio: this.form.value['tasaCambio']
     };
-      this.tasasCostoService.crearTasasCosto(tasasCambioDTO).subscribe({
+
+    const serviceCall = this.esEdicion
+      ? this.tasasCostoService.actualizarTasasCosto(tasasCambioDTO)
+      : this.tasasCostoService.crearTasasCosto(tasasCambioDTO)
+
+      serviceCall.subscribe({
         next: response => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response.response)
           }
         }); 
         this.listarTasasCambio()
@@ -109,8 +122,10 @@ export class AdministracionTasasCambioComponent implements OnInit {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error.response)
             }
           }); 
         }
@@ -135,8 +150,9 @@ export class AdministracionTasasCambioComponent implements OnInit {
   }
 
   editar(registro: any) {
-    this.initForm(registro);
     this.mostrarFormulario = true;
+    this.esEdicion = true;
+    this.initForm(registro);
   }
 
   async iniciarDesplegables() {
@@ -144,6 +160,12 @@ export class AdministracionTasasCambioComponent implements OnInit {
       'dominio':"DIVISAS"
     }).toPromise();
     this.monedas = _moneda.data;
+  }
+
+  onCancel() {
+    this.mostrarFormulario = false;
+    this.esEdicion = false;
+    this.initForm(undefined);
   }
 
 }

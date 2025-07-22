@@ -40,11 +40,12 @@
         <!--Ciudad-->
         <mat-form-field appearance="outline" *ngIf="selectedTipoPunto==='BAN_REP'">
             <mat-label>Ciudad Fondo</mat-label>
-            <mat-select formControlName="codigoDANE">
+            <mat-select required formControlName="codigoDANE">
                 <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
                     {{ciudad.nombreCiudad}}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="form.get('codigoDANE').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
     </div>
 
