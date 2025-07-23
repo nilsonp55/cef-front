@@ -45,10 +45,11 @@
       </mat-form-field>
     </div>
 
-    <div class="tamanio-btn">
+    <div >
       <button mat-raised-button color="primary" type="button" (click)="persistir()" [disabled]="form.invalid">
         Aceptar
       </button>
+      <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
     </div>
   </div>
 

@@ -277,4 +277,9 @@ export class CentroCiudadBaseComponent implements OnInit {
         });
     }
 
+    onCancel() {
+        this.mostrarFormulario = false;
+        this.esEdicion = false;
+        this.initForm(undefined);
+    }
 }

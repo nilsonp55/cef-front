@@ -120,15 +120,24 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
       tablaCentros: this.form.value['tablaCentros'],
     };
 
+    const serviceCall = this.esEdicion 
+      ? this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO)
+      : this.centroCostosService.guardarCentroCostos(tiposCentrosCostosDTO);
+
     if (this.esEdicion) {
       tiposCentrosCostosDTO.tipoCentro = this.idTipoCentro;
+    }
+
       this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO).subscribe({
         next: response => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE 
+              : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response?.response)
           }
         });
         this.listarCentroCostos()
@@ -138,36 +147,16 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
+                : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err.error)
             }
           });
         }
       });
-    } else {
-      this.centroCostosService.guardarCentroCostos(tiposCentrosCostosDTO).subscribe({
-        next: response => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        });
-        this.listarCentroCostos()
-        this.initForm();
-      },
-      error: (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-        }
-      });
-    }
+    
   }
 
   /**
@@ -195,6 +184,12 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
     this.idTipoCentro = this.form.get('tipoCentro').value;
     this.form.get('tipoCentro').disable();
     this.esEdicion = true;
+  }
+
+  onCancel() {
+    this.mostrarFormulario = false;
+    this.esEdicion = false;
+    this.initForm(undefined);
   }
 
 }

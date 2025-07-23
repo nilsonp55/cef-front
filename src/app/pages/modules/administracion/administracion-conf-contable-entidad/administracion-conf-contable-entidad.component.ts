@@ -172,62 +172,59 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
       codigoComision: Number(this.form.value['codigoComision']),
       tipoImpuesto: Number(this.form.value['tipoImpuesto']),
       medioPago: this.form.value['medioPago'],
-      codigoPuntoBancoExt: {
-        codigoPunto: this.form.value['bancoExterno'].codigoPunto
-      },
-      transportadora: {
-        codigo: this.form.value['transportadora'].codigo
-      },
+      codigoPuntoBancoExt: null,
+      transportadora: null,
       naturaleza: this.selectNaturaleza,
-      cuentaContable: this.form.value['numeroCuenta'],
+      cuentaContable: this.form.value['cuentaContable'],
     };
+
+    if(this.form.value['bancoExterno']) {
+      confEntity.codigoPuntoBancoExt = {
+        codigoPunto: this.form.value['bancoExterno'].codigoPunto
+      };
+    }
+
+    if(this.form.value['transportadora']) {
+      confEntity.transportadora = {
+        codigo: this.form.value['transportadora'].codigo
+      };
+    }
 
     if (this.esEdicion) {
       confEntity.consecutivo = this.idConfEntity;
-      this.confContablesEntidadesService.actualizarConfContablesEntidades(confEntity).subscribe(response => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        });
-        this.listarConfEntitis()
-        this.initForm();
-      },
-        (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-        });
-    } else {
-      this.confContablesEntidadesService.guardarConfContablesEntidades(confEntity).subscribe({
-        next: response => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        });
-        this.listarConfEntitis()
-        this.initForm();
-      },
-      error: (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-        }
-      });
     }
+
+    const serviceCall = this.esEdicion 
+      ? this.confContablesEntidadesService.actualizarConfContablesEntidades(confEntity) 
+      : this.confContablesEntidadesService.guardarConfContablesEntidades(confEntity);
+
+      serviceCall.subscribe({next: response => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE 
+              : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response?.response)
+          }
+        });
+        this.listarConfEntitis()
+        this.initForm();
+      },
+      error:  (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE 
+                : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err?.error.response)
+            }
+          });
+        }});
+
     this.ngOnInit();
    }
 
@@ -307,6 +304,13 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   limpiar() {
     this.filtroBancoSelect = null;
     this.listarConfEntitis();
+  }
+
+  onCancel() {
+    this.mostrarFormulario = false;
+    this.esEdicion = false;
+    this.mostrarTabla = true;
+    this.initForm(undefined);
   }
 
 }
