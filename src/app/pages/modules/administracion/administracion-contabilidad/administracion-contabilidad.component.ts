@@ -102,56 +102,41 @@ export class AdministracionContabilidadComponent implements OnInit {
       referencia1: this.form.value['referencia1'],
       referencia2: this.form.value['referencia2'],
     };
+
+    const serviceCall = this.esEdicion 
+        ? this.tiposCuentasService.actualizarTiposCuentas(tipoCuentas)
+        : this.tiposCuentasService.guardarTiposCuentas(tipoCuentas);
+
     if (this.esEdicion) {
       tipoCuentas.tipoCuenta = this.idTipoCuenta;
-      this.tiposCuentasService.actualizarTiposCuentas(tipoCuentas).subscribe({next: response => {
+    }
+      
+      serviceCall.subscribe({next: response => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE 
+              : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
             showResume: true,
-            msgDetalles: JSON.stringify(response)
+            msgDetalles: JSON.stringify(response?.response)
           }
         });
         this.listarDominios();
         this.initForm();
       },
-      error:  (err: any) => {
+      error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE,
+              msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
+                : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
               codigo: GENERALES.CODE_EMERGENT.ERROR,
               showResume: true,
-              msgDetalle: JSON.stringify(err.error.response.description)
+              msgDetalles: JSON.stringify(err.error)
             }
           });
-        }
-      });
-    } else {
-      this.tiposCuentasService.guardarTiposCuentas(tipoCuentas).subscribe(response => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-            msgDetalles: JSON.stringify(response)
-          }
-        });
-        this.listarDominios();
-        this.initForm();
-      },
-        (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: JSON.stringify(err.error.response.description),
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-        });
-    }
+        }});
 
   }
   /**
@@ -177,6 +162,12 @@ export class AdministracionContabilidadComponent implements OnInit {
     this.idTipoCuenta = this.form.get('tipoCuenta').value;
     this.form.get('tipoCuenta').disable();
     this.esEdicion = true;
+  }
+
+  onCancel() {
+    this.mostrarFormulario = false;
+    this.esEdicion = false;
+    this.initForm(undefined);
   }
 
   showHelpField(field?: string) {

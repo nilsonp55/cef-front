@@ -115,54 +115,42 @@ export class AdministradorCuentasPucComponent implements OnInit {
       estado: Number(this.form.value['estado']),
     };
 
+    const serviceCall = this.esEdicion 
+      ? this.cuentasPucService.actualizarCuentaPuc(cuentaPuc) 
+      : this.cuentasPucService.guardarCuentaPuc(cuentaPuc);
+
     if (this.esEdicion) {
       cuentaPuc.idCuentasPuc = this.idCuentaPuc;
-      this.cuentasPucService.actualizarCuentaPuc(cuentaPuc).subscribe({
-        next: (response) => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        });
-        this.listarCuntasPuc()
-        this.initForm();
-      },
-      error:  (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-        }
-      });
-    } else {
-      this.cuentasPucService.guardarCuentaPuc(cuentaPuc).subscribe({
-        next: (response) => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-          }
-        });
-        this.listarCuntasPuc()
-        this.initForm();
-      },
-      error:  (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: err.error.response.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-        }
-      });
     }
+      serviceCall.subscribe({
+        next: (response) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE 
+              :GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response?.response)
+          }
+        });
+        this.listarCuntasPuc()
+        this.initForm();
+      },
+      error:  (err: any) => {
+          this.dialog.open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
+                : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+            msgDetalles: JSON.stringify(err?.error)
+            }
+          });
+        }
+      });
+    
    }
 
   /**
@@ -210,6 +198,12 @@ export class AdministradorCuentasPucComponent implements OnInit {
       this.bancos = response.data;
     });
 
+  }
+
+  onCancel() {
+    this.mostrarFormulario = false;
+    this.esEdicion = false;
+    this.initForm(undefined);
   }
 
 }
