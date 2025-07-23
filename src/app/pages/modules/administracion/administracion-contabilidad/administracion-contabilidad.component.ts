@@ -164,6 +164,12 @@ export class AdministracionContabilidadComponent implements OnInit {
     this.esEdicion = true;
   }
 
+  onCancel() {
+    this.mostrarFormulario = false;
+    this.esEdicion = false;
+    this.initForm(undefined);
+  }
+
   showHelpField(field?: string) {
     let ayudaHtml = '';
     switch (field) {
