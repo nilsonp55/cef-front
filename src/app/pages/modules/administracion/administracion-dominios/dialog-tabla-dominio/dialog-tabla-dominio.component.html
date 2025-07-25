@@ -7,8 +7,8 @@
         <h2>Nombre Dominio</h2>
     </div>
     <div class="example-container">
-        <mat-form-field appearance="fill">
-            <input matInput [(ngModel)]="nombreDominio" value={{nombreDominio}}>
+        <mat-form-field appearance="fill" >
+            <input matInput [(ngModel)]="nombreDominio" value={{nombreDominio}} [disabled]="esEdicion">
         </mat-form-field>
     </div>
 </div>

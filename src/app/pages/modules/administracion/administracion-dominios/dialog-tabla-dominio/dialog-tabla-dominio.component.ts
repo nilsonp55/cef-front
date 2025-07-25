@@ -16,6 +16,7 @@ export class DialogTablaDominioComponent implements OnInit {
   nombreBTN: string;
   nombreDominio: string = null;
   descripcion: string;
+  esEdicion: boolean;
 
   contenido: string;
   tipoContenidoList: any = [
@@ -44,17 +45,19 @@ export class DialogTablaDominioComponent implements OnInit {
   asignandoValores(){
     if(this.data.titulo == "Crear ") {
       this.titulo = this.data.titulo;
-      this.nombreBTN = "Guardar"
-      this.nombreDominio = null
-      this.descripcion = null
+      this.nombreBTN = "Guardar";
+      this.nombreDominio = null;
+      this.descripcion = null;
+      this.esEdicion = false;
     } 
     if(this.data.titulo == "Actualizar ") {
       this.titulo = this.data.titulo;
-      this.nombreBTN = "Actualizar"
+      this.nombreBTN = "Actualizar";
       this.nombreDominio = this.data.data.dominio;
       this.descripcion = this.data.data.descripcion;
       this.contenido = this.data.data.tipoContenido;
       this.estado = this.data.data.estado;
+      this.esEdicion = true;
     }
   }
 
@@ -78,8 +81,10 @@ export class DialogTablaDominioComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + " - " + page.response?.description,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(page?.response)
           }
         });
       },
@@ -87,12 +92,15 @@ export class DialogTablaDominioComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE + " - " + err.error?.response?.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err?.error.response)
           }
         });
       }
-    })
+    });
+    this.esEdicion = true;
   }
 
   actualizarDominio() {
@@ -106,8 +114,10 @@ export class DialogTablaDominioComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE + " - " + page.response?.description,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(page?.response)
           }
         });
       },
@@ -115,8 +125,10 @@ export class DialogTablaDominioComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE + " - " + err.error?.response?.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err?.error.response)
           }
         });
       }

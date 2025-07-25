@@ -2,80 +2,93 @@
     <h1>Crear nuevo identificador para el dominio</h1>
 </div>
 
-<div class="div-division">
-    <div class="ubica">
-        <h2>Identificador</h2>
+<div [formGroup]="form" >
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Dominio</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input matInput #input formControlName="dominio">
+            </mat-form-field>
+        </div>
     </div>
-    <div class="example-container">
-        <mat-form-field appearance="fill">
-            <input matInput #input>
-        </mat-form-field>
-    </div>
-</div>
 
-<div class="div-division">
-    <div class="ubica">
-        <h2>Descripción</h2>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Codigo</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input matInput #input formControlName="codigo">
+            </mat-form-field>
+        </div>
     </div>
-    <div class="example-container">
-        <mat-form-field appearance="fill">
-            <input matInput #input>
-        </mat-form-field>
-    </div>
-</div>
 
-<div class="div-division">
-    <div class="ubica">
-        <h2>Contenido Texto</h2>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Descripción</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input matInput #input formControlName="descripcion">
+            </mat-form-field>
+        </div>
     </div>
-    <div class="example-container">
-        <mat-form-field appearance="fill">
-            <input matInput #input>
-        </mat-form-field>
-    </div>
-</div>
 
-<div class="div-division">
-    <div class="ubica">
-        <h2>Númerico</h2>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Contenido Texto</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input matInput #input formControlName="valorTexto">
+            </mat-form-field>
+        </div>
     </div>
-    <div class="example-container">
-        <mat-form-field appearance="fill">
-            <input matInput #input>
-        </mat-form-field>
-    </div>
-</div>
 
-<div class="div-division">
-    <div class="ubica">
-        <h2>Fecha</h2>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Númerico</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input matInput #input formControlName="valorNumero">
+            </mat-form-field>
+        </div>
     </div>
-    <div class="example-container">
-        <mat-form-field appearance="fill">
-            <input matInput #input>
-        </mat-form-field>
-    </div>
-</div>
 
-<div class="div-division">
-    <div class="ubica">
-        <h2>Estado</h2>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Fecha</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input matInput #input formControlName="valorFecha">
+            </mat-form-field>
+        </div>
     </div>
-    <div>
-        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-            [(ngModel)]="estado">
-            <mat-radio-button class="example-radio-button" *ngFor="let season of tipoEstado" [value]="season">
-                {{season}}
-            </mat-radio-button>
-        </mat-radio-group>
-    </div>
-</div>
 
-<div class="division-btn-ident">
-    <div>
-        <button mat-raised-button color="primary">Guardar</button>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Estado</h2>
+        </div>
+        <div>
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                [(ngModel)]="estado">
+                <mat-radio-button class="example-radio-button" *ngFor="let season of tipoEstado" [value]="season">
+                    {{season}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
     </div>
-    <div>
-        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+
+    <div class="division-btn-ident">
+        <div>
+            <button mat-raised-button color="primary" (click)="persistir()">Guardar</button>
+        </div>
+        <div>
+            <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+        </div>
     </div>
 </div>
