@@ -22,4 +22,11 @@ export class DominioFuncionalService extends HttpBaseService {
         return this.get<any>(`${URLs.DOMINIO}${URLs.CONSULTAR_DOMINIO}`, params);
     }
 
+    guardarDominioFuncional(param: any): Observable<any> {
+        return this.post<any>(`${URLs.DOMINIO}${URLs.DOMINIO_CREAR}`, param);
+    }
+
+    actualizarDominioFuncional(param: any): Observable<any> {
+        return this.put<any>(`${URLs.DOMINIO}${URLs.DOMINIO_ACTUALIZAR}`, param);  
+    }
 }

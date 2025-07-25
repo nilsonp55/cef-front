@@ -36,7 +36,7 @@ export class AdministracionDominiosComponent implements OnInit {
   displayedColumns: string[] = ['name'];
   clickedRows = new Set<any>();
 
-  displayedColumnsIdent: string[] = ['identificador', 'descripcion'];
+  displayedColumnsIdent: string[] = ['codigo', 'descripcion', 'tipo', 'valorTexto', 'valorNumero', 'valorFecha', 'estado', 'acciones'];
 
   constructor(
     private readonly dominioMaestroService: DominioMaestroService,
@@ -52,7 +52,7 @@ export class AdministracionDominiosComponent implements OnInit {
   dataSourceCodigos: MatTableDataSource<any>;
 
   dataSourceDominios: MatTableDataSource<any>;
-  displayedColumnsDominios: string[] = ['name'];
+  displayedColumnsDominios: string[] = ['dominio', 'descripcion', 'tipoContenido', 'estado', 'acciones'];
 
   define() {
     this.listarDominios();
@@ -82,8 +82,10 @@ export class AdministracionDominiosComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err?.error.response)
           }
         });
       }
@@ -107,8 +109,10 @@ export class AdministracionDominiosComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err?.error.response)
           }
         });
       }
@@ -129,8 +133,10 @@ export class AdministracionDominiosComponent implements OnInit {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
+              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+              codigo: GENERALES.CODE_EMERGENT.ERROR,
+              showResume: true,
+              msgDetalles: JSON.stringify(err?.error.response)
             }
           });
         }
@@ -151,8 +157,10 @@ export class AdministracionDominiosComponent implements OnInit {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE + " - " + err.error?.response?.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err?.error.response)
           }
         });
       }
@@ -191,10 +199,10 @@ export class AdministracionDominiosComponent implements OnInit {
  * Evento que levanta un openDialog para actualizar una tabla de dominio
  * @JuanMazo
  */
-  actualizarTablaDominio() {
+  actualizarTablaDominio(element: any) {
     const _dialogRef = this.dialog.open(DialogTablaDominioComponent, {
       width: '700PX',
-      data: { data: this.elementoDominioActualizar, titulo: "Actualizar " }
+      data: { data: element, titulo: "Actualizar " }
     })
     _dialogRef.afterClosed().subscribe(result => {
       this.listarDominios();
@@ -205,9 +213,11 @@ export class AdministracionDominiosComponent implements OnInit {
 * Evento que levanta un openDialog para crear un identificador segun el id de un dominio
 * @JuanMazo
 */
-  mostrarCodigo() {
+  mostrarCodigo(action: string, element: any) {
     this.dialog.open(DialogIdentificadorDominioComponent, {
-      width: '700PX'
+      width: GENERALES.DIALOG_FORM.SIZE_FORM,
+      height: GENERALES.DIALOG_FORM.SIZE_FORM,
+      data: { flag: action, row: element },
     })
   }
 
