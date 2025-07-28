@@ -9,85 +9,93 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 @Component({
   selector: 'app-dialog-identificador-dominio',
   templateUrl: './dialog-identificador-dominio.component.html',
-  styleUrls: ['./dialog-identificador-dominio.component.css']
+  styleUrls: ['./dialog-identificador-dominio.component.css'],
 })
 export class DialogIdentificadorDominioComponent implements OnInit {
-
   form: FormGroup;
   estado: string;
-  tipoEstado: string[] = ['Identificador en uso', 'Identificador no esta en uso'];
   esEdicion: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly dominioService: DominioFuncionalService,
     private readonly dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken();
-    this.esEdicion = this.data.action === 'edit';
+    this.esEdicion = this.data.flag === 'edit';
     this.initForm(this.data.row);
   }
 
   initForm(param?: any) {
+    this.estado = param ? param.estado : null;
     this.form = new FormGroup({
-      'dominio': new FormControl(param?? param.id.dominio),
-      'codigo': new FormControl(param?? param.id.codigo),
-      'descripcion': new FormControl(param?? param.descripcion),
-      'tipo': new FormControl(param?? param.tipo),
-      'valorTexto': new FormControl(param?? param.valorTexto),
-      'valorNumero': new FormControl(param?? param.valorNumero),
-      'valorFecha': new FormControl(param?? param.valorFecha),
-      'estado': new FormControl(param?? param.estado)
-    });    
+      dominio: new FormControl(param ? param.id.dominio : null),
+      codigo: new FormControl(param ? param.id.codigo : null),
+      descripcion: new FormControl(param ? param.descripcion : null),
+      tipo: new FormControl(param ? param.tipo : null),
+      valorTexto: new FormControl(param ? param.valorTexto : null),
+      valorNumero: new FormControl(param ? param.valorNumero : null),
+      valorFecha: new FormControl(param ? param.valorFecha : null),
+      estado: new FormControl(this.estado),
+    });
+    this.form.controls['dominio'].disable();
+    this.form.controls['tipo'].disable();
+    if (this.esEdicion) {
+      this.form.controls['codigo'].disable();
+    }
   }
 
   persistir() {
-
     const dominioFuncional = {
-      'id': {
-        'dominio': this.form.value['dominio'],
-        'codigo': this.form.value['codigo']
+      id: {
+        dominio:
+          this.form.value['dominio'] ?? this.form.controls['dominio'].value,
+        codigo: this.form.value['codigo'] ?? this.form.controls['codigo'].value,
       },
-      'descripcion': this.form.value['descripcion'],
-      'tipo': this.form.value['tipo'],
-      'valorTexto': this.form.value['valorTexto'],
-      'valorNumero': this.form.value['valorNumero'],
-      'valorFecha': this.form.value['valorFecha'],
-      'estado': this.form.value['estado']
-    };
+      descripcion: this.form.value['descripcion'],
+      tipo: this.form.value['tipo'] ?? this.form.controls['tipo'].value,
+      valorTexto: this.form.value['valorTexto'],
+      valorNumero: this.form.value['valorNumero'],
+      valorFecha: this.form.value['valorFecha'],
+      estado: this.form.value['estado'] ? '1' : '0',
+    }; 
 
-    const serviceCall = this.esEdicion 
-            ? this.dominioService.actualizarDominioFuncional(dominioFuncional)
-            : this.dominioService.guardarDominioFuncional(dominioFuncional);
-    
-          
-          serviceCall.subscribe({next: response => {
-            this.dialog.open(VentanaEmergenteResponseComponent, {
-              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-              data: {
-                msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE 
-                  : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
-                codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-                showResume: true,
-                msgDetalles: JSON.stringify(response?.response)
-              }
-            });
-            this.initForm();
+    const serviceCall = this.esEdicion
+      ? this.dominioService.actualizarDominioFuncional(dominioFuncional)
+      : this.dominioService.guardarDominioFuncional(dominioFuncional);
+
+    serviceCall.subscribe({
+      next: (response) => {
+        const dialogref = this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: this.esEdicion
+              ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE
+              : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(response?.response),
           },
-          error: (err: any) => {
-              this.dialog.open(VentanaEmergenteResponseComponent, {
-                width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                data: {
-                  msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
-                    : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-                  codigo: GENERALES.CODE_EMERGENT.ERROR,
-                  showResume: true,
-                  msgDetalles: JSON.stringify(err.error)
-                }
-              });
-            }});
-
+        });
+        dialogref.afterClosed().subscribe((result) => {
+          this.dialog.closeAll();
+        });
+      },
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: this.esEdicion
+              ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
+              : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error),
+          },
+        });
+      },
+    });
   }
 }

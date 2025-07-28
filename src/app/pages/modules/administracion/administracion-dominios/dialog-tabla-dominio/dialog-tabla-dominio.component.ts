@@ -26,11 +26,7 @@ export class DialogTablaDominioComponent implements OnInit {
   ];
 
   estado: string;
-  tipoEstadoList: any = [
-    {value: "true", label: "Dominio en uso"}, 
-    {value: "false", label: "Dominio no esta en uso"}
-  ];
-
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly dominioMaestroService: DominioMaestroService,
@@ -75,7 +71,7 @@ export class DialogTablaDominioComponent implements OnInit {
       'dominio': this.nombreDominio.toUpperCase(),
       'descripcion': this.descripcion,
       'tipoContenido': this.contenido,
-      'estado': this.estado
+      'estado': this.estado ? '1' : '0'
     }).subscribe({
       next: (page: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -108,7 +104,7 @@ export class DialogTablaDominioComponent implements OnInit {
       'dominio': this.nombreDominio.toUpperCase(),
       'descripcion': this.descripcion,
       'tipoContenido': this.contenido,
-      'estado': this.estado
+      'estado': this.estado ? '1' : '0'
     }).subscribe({
       next: (page: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
