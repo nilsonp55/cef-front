@@ -100,10 +100,8 @@ export class FormCodigoTdvComponent implements OnInit {
                 ciudad = this.ciudades.find((value) => value.codigoDANE == param.ciudadFondo);
             }
 
-            if (this.puntos.length > 0) {
-                puntoValueForm = this.puntos.find((value) => value.codigoPunto == param.puntosDTO.codigoPunto);
-            }
-            if (this.clientes.length > 0) {
+            if (param.puntosDTO !== null) {
+                puntoValueForm = param.puntosDTO;
                 clienteValueForm = param.puntosDTO.sitiosClientes?.codigoCliente;
             }
             if (this.bancos.length > 0) {
@@ -136,62 +134,18 @@ export class FormCodigoTdvComponent implements OnInit {
         }
     }
 
-    async loadInitialDropDowns() {
+    loadInitialDropDowns() {
         if (!this.initialData) return;
 
-        this.spinnerActive = true;
-        try {
-            const param = this.initialData;
-            this.selectedTipoPunto = param.puntosDTO.tipoPunto; 
+        this.selectedTipoPunto = this.initialData.puntosDTO.tipoPunto;
 
-            let initialParams: any = {
-                tipoPunto: this.selectedTipoPunto,
-                page: 0,
-                size: 5000 
-            };
+        this.form.controls['banco'].setValidators(Validators.required);
 
-            this.form.controls['banco'].setValidators(Validators.required);
-
-            if (this.selectedTipoPunto === "FONDO") {
-                initialParams['fondos.bancoAVAL'] = Number(param.bancosDTO.codigoPunto);
-            } else if (this.selectedTipoPunto === "OFICINA") {
-                initialParams['oficinas.bancoAVAL'] = Number(param.bancosDTO.codigoPunto);
-            } else if (this.selectedTipoPunto === "CAJERO") {
-                initialParams['cajeroATM.bancoAval'] = Number(param.bancosDTO.codigoPunto);
-            } else if (this.selectedTipoPunto === "CLIENTE") {
-                let clienteParams = {
-                    'codigoBancoAVAL': Number(param.bancosDTO.codigoPunto),
-                    'codigoCliente': Number(param.puntosDTO.sitiosClientes.codigoCliente.codigoCliente),
-                    page: 0,
-                    size: 5000
-                };
-                // se espera retorne 1 unico cliente
-                await this.listarClientes(clienteParams);
-                
-                if (param.puntosDTO.sitiosClientes?.codigoCliente && this.clientes.length > 0) {
-                    const clienteValue = this.clientes.find(c => c.codigoCliente === param.puntosDTO.sitiosClientes.codigoCliente);
-                    this.form.get('cliente').setValue(clienteValue);
-                }
-                initialParams['cliente'] = param.puntosDTO.sitiosClientes?.codigoCliente;
-            }
-
-            if (this.selectedTipoPunto === "BAN_REP" || this.selectedTipoPunto === "BANCO") {
-                this.form.controls['banco'].removeValidators(Validators.required);
-            }
-
-            this.form.controls['banco'].updateValueAndValidity();
-
-            if (this.selectedTipoPunto) { 
-                await this.listarPuntos(initialParams);
-            }
-
-            //this.initForm(this.initialData);
-
-        } catch (error) {
-            console.error("Error loading initial dropdowns: ", error);
-        } finally {
-            this.spinnerActive = false;
+        if (this.selectedTipoPunto === "BAN_REP" || this.selectedTipoPunto === "BANCO") {
+            this.form.controls['banco'].removeValidators(Validators.required);
         }
+
+        this.form.controls['banco'].updateValueAndValidity();
     }
 
     async onSubmit() {

@@ -123,6 +123,8 @@ export class CrearPuntoComponent implements OnInit {
 
     if(param?.tipoPunto === 'CAJERO') {
       valBancoAval = param?.cajeroATM?.bancoAval;
+      valTarifaRuteo = param.cajeroATM?.tarifaRuteo;
+      valTarifaVerificacion = param.cajeroATM?.tarifaVerificacion;
     }
 
     this.ciudadControl = new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null);
