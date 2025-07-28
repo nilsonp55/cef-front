@@ -8,7 +8,7 @@
             <h2>Dominio</h2>
         </div>
         <div class="example-container">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" disabled="true">
                 <input matInput #input formControlName="dominio">
             </mat-form-field>
         </div>
@@ -27,6 +27,17 @@
 
     <div class="div-division">
         <div class="ubica">
+            <h2>Tipo Contenido</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input matInput #input formControlName="tipo">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="div-division">
+        <div class="ubica">
             <h2>Descripción</h2>
         </div>
         <div class="example-container">
@@ -38,7 +49,7 @@
 
     <div class="div-division">
         <div class="ubica">
-            <h2>Contenido Texto</h2>
+            <h2>Valor Texto</h2>
         </div>
         <div class="example-container">
             <mat-form-field appearance="fill">
@@ -49,7 +60,7 @@
 
     <div class="div-division">
         <div class="ubica">
-            <h2>Númerico</h2>
+            <h2>Valor Númerico</h2>
         </div>
         <div class="example-container">
             <mat-form-field appearance="fill">
@@ -60,7 +71,7 @@
 
     <div class="div-division">
         <div class="ubica">
-            <h2>Fecha</h2>
+            <h2>Valor Fecha</h2>
         </div>
         <div class="example-container">
             <mat-form-field appearance="fill">
@@ -70,17 +81,12 @@
     </div>
 
     <div class="div-division">
-        <div class="ubica">
-            <h2>Estado</h2>
-        </div>
-        <div>
-            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-                [(ngModel)]="estado">
-                <mat-radio-button class="example-radio-button" *ngFor="let season of tipoEstado" [value]="season">
-                    {{season}}
-                </mat-radio-button>
-            </mat-radio-group>
-        </div>
+        <h3>Estado</h3>
+        <label class="switch">
+            <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+            <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+            <span class="switch-handle"></span>
+        </label>
     </div>
 
     <div class="division-btn-ident">

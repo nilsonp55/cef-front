@@ -39,17 +39,12 @@
 </div>
 
 <div class="div-division">
-    <div class="ubica">
-        <h2>Estado</h2>
-    </div>
-    <div>
-        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-            [(ngModel)]="estado">
-            <mat-radio-button class="example-radio-button" *ngFor="let estado of tipoEstadoList" [value]="estado.value">
-                {{estado.label}}
-            </mat-radio-button>
-        </mat-radio-group>
-    </div>
+    <h3>Estado</h3>
+    <label class="switch">
+        <input class="switch-input" type="checkbox" [(ngModel)]="estado" id="estado" />
+        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+        <span class="switch-handle"></span>
+    </label>
 </div>
 
 <div class="division-btn-ident">
