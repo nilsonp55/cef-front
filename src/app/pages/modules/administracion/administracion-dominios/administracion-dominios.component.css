@@ -4,9 +4,7 @@
 }
 
 .margen-checkbox {
-  margin: 0 12px;
-  margin-top: 2%;
-  margin-left: 5%;
+  margin-left: auto;
 }
 
 .limit-select {
@@ -36,16 +34,6 @@
 
 .ubicacion-btn-dominio {
     margin-left: 50%;
-}
-
-.mat-row .mat-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
-  cursor: pointer;
-}
-
-.mat-row:hover .mat-cell {
-  border-color: currentColor;
 }
 
 .demo-row-is-clicked {
@@ -87,5 +75,4 @@
 .dimension-dominio {
   width: 30%;
 }
-
 

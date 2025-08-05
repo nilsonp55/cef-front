@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
@@ -46,6 +46,17 @@ export class AdministracionDominiosComponent implements OnInit {
     'acciones',
   ];
 
+  DIALOG_CONFIG = {
+      width: '90vw',
+      maxWidth:'780px',
+      height: 'auto',
+      maxHeight: '80vh',
+      autoFocus: false,
+      disableClose: false,
+  } as MatDialogConfig
+
+  spinnerActive: boolean = false;
+
   constructor(
     private readonly dominioMaestroService: DominioMaestroService,
     private readonly generalesService: GeneralesService,
@@ -53,6 +64,7 @@ export class AdministracionDominiosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken();
     this.listarDominios();
   }
@@ -64,9 +76,8 @@ export class AdministracionDominiosComponent implements OnInit {
     'dominio',
     'descripcion',
     'tipoContenido',
-    'estado',
     'acciones',
-  ];
+  ];//agregar campo estado si es requerido
 
   define() {
     this.listarDominios();
@@ -112,6 +123,7 @@ export class AdministracionDominiosComponent implements OnInit {
    * @JuanMazo
    */
   listarDominiosMaestroTrue() {
+    this.spinnerActive = true;
     this.dominioMaestroService
       .listarDominiosTrue({
         estado: true,
@@ -121,6 +133,7 @@ export class AdministracionDominiosComponent implements OnInit {
           this.dataSourceDominios = new MatTableDataSource(page.data);
           this.dataSourceDominios.sort = this.sort;
           this.cantidadRegistros = page.data.totalElements;
+          this.spinnerActive = false;
         },
         error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -132,6 +145,7 @@ export class AdministracionDominiosComponent implements OnInit {
               msgDetalles: JSON.stringify(err?.error.response),
             },
           });
+          this.spinnerActive = false;
         },
       });
   }
@@ -140,11 +154,13 @@ export class AdministracionDominiosComponent implements OnInit {
     if (this.isDominioChecked) {
       this.listarDominiosMaestroTrue();
     } else {
+      
       this.dominioMaestroService.listarDominios().subscribe({
         next: (page: any) => {
           this.dataSourceDominios = new MatTableDataSource(page.data);
           this.dataSourceDominios.sort = this.sort;
           this.cantidadRegistros = page.data.totalElements;
+          this.spinnerActive = false;
         },
         error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -156,6 +172,7 @@ export class AdministracionDominiosComponent implements OnInit {
               msgDetalles: JSON.stringify(err?.error.response),
             },
           });
+          this.spinnerActive = false;
         },
       });
     }
@@ -192,8 +209,7 @@ export class AdministracionDominiosComponent implements OnInit {
    */
   crearTablaDominio() {
     const _dialogRef = this.dialog.open(DialogTablaDominioComponent, {
-      width: GENERALES.DIALOG_FORM.SIZE_FORM,
-      height: GENERALES.DIALOG_FORM.SIZE_FORM,
+      ...this.DIALOG_CONFIG,
       data: { titulo: 'Crear ' },
     });
     _dialogRef.afterClosed().subscribe((result) => {
@@ -221,8 +237,7 @@ export class AdministracionDominiosComponent implements OnInit {
    */
   actualizarTablaDominio(element: any) {
     const _dialogRef = this.dialog.open(DialogTablaDominioComponent, {
-      width: GENERALES.DIALOG_FORM.SIZE_FORM,
-      height: GENERALES.DIALOG_FORM.SIZE_FORM,
+      ...this.DIALOG_CONFIG,
       data: { data: element, titulo: 'Actualizar ' },
     });
     _dialogRef.afterClosed().subscribe((result) => {
@@ -243,8 +258,7 @@ export class AdministracionDominiosComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(DialogIdentificadorDominioComponent, {
-      width: GENERALES.DIALOG_FORM.SIZE_FORM,
-      height: GENERALES.DIALOG_FORM.SIZE_FORM,
+      ...this.DIALOG_CONFIG,
       data: { flag: action, row: element },
     });
     dialogRef.afterClosed().subscribe((result) => {

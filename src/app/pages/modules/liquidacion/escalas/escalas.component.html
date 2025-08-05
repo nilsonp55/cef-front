@@ -1,190 +1,194 @@
-<div *ngIf="spinnerActive" class="disenio-spinner">
-  <mat-spinner></mat-spinner>
+<div class="tittle-section">
+    <h2>Escalas</h2>
 </div>
-  <div *ngIf="mostrarTabla" class="divTablaCerti">
-    <div class="filtro">
-        <mat-form-field >
+
+<div *ngIf="mostrarTabla" class="mat-table-custom">
+    <div class="table-filter-container">
+        <mat-form-field appearance="fill">
             <mat-label>Bancos</mat-label>
             <mat-select [(ngModel)]="filtroBancoSelect" (selectionChange)="filtrar($event)">
-              <mat-option>Ninguno</mat-option>
+                <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let item of bancos" [value]="item">
                     {{item.nombreBanco}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="fill">
             <mat-label>Transporta Orige</mat-label>
             <mat-select [(ngModel)]="filtroTransportaOrigSelect" (selectionChange)="filtrar($event)">
-              <mat-option>Ninguno</mat-option>
+                <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let item of transportadoras" [value]="item">
                     {{item.nombreTransportadora}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field >
+        <mat-form-field appearance="fill">
             <mat-label>Ciudad Origen</mat-label>
             <mat-select [(ngModel)]="filtroCiudadOrigSelect" (selectionChange)="filtrar($event)">
-              <mat-option>Ninguno</mat-option>
+                <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let item of ciudades" [value]="item">
                     {{item.nombreCiudad}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>Ciudad Destino</mat-label>
-          <mat-select [(ngModel)]="filtroCiudadDestSelect" (selectionChange)="filtrar($event)">
-            <mat-option>Ninguno</mat-option>
-              <mat-option *ngFor="let ite of ciudades" [value]="ite">
-                  {{ite.nombreCiudad}}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Ciudad Destino</mat-label>
+            <mat-select [(ngModel)]="filtroCiudadDestSelect" (selectionChange)="filtrar($event)">
+                <mat-option>Ninguno</mat-option>
+                <mat-option *ngFor="let ite of ciudades" [value]="ite">
+                    {{ite.nombreCiudad}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 
-    <div class="row division-btn">
-      <div class="col-2">
-        <button *ngIf="habilitarBTN" mat-raised-button color="primary"
-          (click)="crearEscala()">Nuevo</button>
-      </div>
-      <div class="col-2">
-        <button *ngIf="habilitarBTN" mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'escalas'})">Exportar</button>
-      </div>
-      <div class="col-8">
-        <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
-                  (page)="mostrarMas($event)" showFirstLastButtons>
-        </mat-paginator>
-      </div>
-    </div>
 
-        <div class="configScroll">
-            <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort matSortDirection="desc" matSortActive="idEscala" #exporter="matTableExporter" class="mat-elevation-z8" aria-label="Escalas">
-                <tr>
-                    <ng-container matColumnDef="idEscala" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID ESCALA</th>
-                        <td mat-cell *matCellDef="let element"> {{element.idEscala}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="banco" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO</th>
-                        <td mat-cell *matCellDef="let element"> {{element.bancosDTO.nombreBanco}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="transportadoraOrigen" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP ORIGEN</th>
-                        <td mat-cell *matCellDef="let element"> {{element.transportadoraOrigenDTO.nombreTransportadora}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="transportadoraDestino" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP DESTI</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.transportadoraDestinoDTO.nombreTransportadora}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="ciudadOrigen" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CIUDAD ORIGEN</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.ciudadOrigenDTO.nombreCiudad}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="ciudadDestino" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CIUDAD DESTINO</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.ciudadDestinoDTO.nombreCiudad}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="escala" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ESCALA</th>
-                        <td mat-cell *matCellDef="let element"> {{element.escala}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="estado" class="mat-column-nombreCampo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
-                        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="acciones">
-                        <th mat-header-cell *matHeaderCellDef> Acciones</th>
-                        <td mat-cell *matCellDef="let element">
-                            <button mat-button (click)="actualizarEscala(element)">
-                                <mat-icon style="color: green">edit</mat-icon>
-                            </button>
-                        </td>
-                    </ng-container>
-                </tr>
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsEscalas"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsEscalas;"></tr>
-            </table>
+
+    <div class="controls-container">
+        <button *ngIf="habilitarBTN" class="button-custom" mat-raised-button color="primary"
+            (click)="crearEscala()">Nuevo</button>
+        <button *ngIf="habilitarBTN" class="button-custom" mat-raised-button color="primary"
+            (click)="exporterTable()">Exportar</button>
+        <div class="paginator-area">
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
+                (page)="mostrarMas($event)" showFirstLastButtons>
+            </mat-paginator>
         </div>
     </div>
+    <div *ngIf="spinnerActive" class="disenio-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
 
-    <div class="ubicacionTablaCrear">
-      <div *ngIf="mostrarTabla == false">
-        <div class="division-btn">
-            <button class="division-btn1" mat-raised-button class="ubicacion-btn-dominio" color="primary"
-                (click)="irAtras()">Atras</button>
-        </div>
-      </div>
-        <div [formGroup]="form" *ngIf="mostrarFormulario">
-                <mat-form-field appearance="fill">
-                    <input type="number" matInput placeholder="Id Escala" formControlName="idEscala">
-                </mat-form-field>
+    <div *ngIf="!spinnerActive">
+        <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort matSortDirection="desc"
+            matSortActive="idEscala" #exporter="matTableExporter" class="mat-elevation-z8" aria-label="Escalas">
+            <tr>
+                <ng-container matColumnDef="idEscala" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID ESCALA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.idEscala}} </td>
+                </ng-container>
+                <ng-container matColumnDef="banco" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.bancosDTO.nombreBanco}} </td>
+                </ng-container>
+                <ng-container matColumnDef="transportadoraOrigen" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP ORIGEN</th>
+                    <td mat-cell *matCellDef="let element"> {{element.transportadoraOrigenDTO.nombreTransportadora}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="transportadoraDestino" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TRANSP DESTI</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.transportadoraDestinoDTO.nombreTransportadora}} </td>
+                </ng-container>
+                <ng-container matColumnDef="ciudadOrigen" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CIUDAD ORIGEN</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.ciudadOrigenDTO.nombreCiudad}} </td>
+                </ng-container>
+                <ng-container matColumnDef="ciudadDestino" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CIUDAD DESTINO</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.ciudadDestinoDTO.nombreCiudad}} </td>
+                </ng-container>
+                <ng-container matColumnDef="escala" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ESCALA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.escala}} </td>
+                </ng-container>
+                <!--<ng-container matColumnDef="estado" class="mat-column-nombreCampo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                </ng-container> -->
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef> EDITAR</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-button (click)="actualizarEscala(element)">
+                            <mat-icon style="color: green">edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsEscalas"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsEscalas;"></tr>
+        </table>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Banco</mat-label>
-                    <mat-select required formControlName="banco">
-                        <mat-option *ngFor="let item of bancos" [value]="item">
-                            {{item.nombreBanco}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+    </div>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Transportadora Origen</mat-label>
-                    <mat-select required formControlName="transportadoraOrigen">
-                        <mat-option *ngFor="let item of transportadoras" [value]="item">
-                            {{item.nombreTransportadora}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+</div>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Transportadora Destino</mat-label>
-                    <mat-select required formControlName="transportadoraDestino">
-                        <mat-option *ngFor="let item of transportadoras" [value]="item">
-                            {{item.nombreTransportadora}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+<div class="form-containter" *ngIf="mostrarFormulario">
+    <div [formGroup]="form" class="form-fields">
+        <mat-form-field appearance="fill">
+            <mat-label>Id Escala</mat-label>
+            <input type="number" matInput placeholder="Id Escala" formControlName="idEscala">
+        </mat-form-field>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Ciudad Origen</mat-label>
-                    <mat-select required formControlName="ciudadOrigen">
-                        <mat-option *ngFor="let item of ciudades" [value]="item">
-                            {{item.nombreCiudad}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Banco</mat-label>
+            <mat-select required formControlName="banco">
+                <mat-option *ngFor="let item of bancos" [value]="item">
+                    {{item.nombreBanco}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Ciudad Destino</mat-label>
-                    <mat-select required formControlName="ciudadDestino">
-                        <mat-option *ngFor="let item of ciudades" [value]="item">
-                            {{item.nombreCiudad}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Transportadora Origen</mat-label>
+            <mat-select required formControlName="transportadoraOrigen">
+                <mat-option *ngFor="let item of transportadoras" [value]="item">
+                    {{item.nombreTransportadora}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Escala</mat-label>
-                    <mat-select required formControlName="escala">
-                        <mat-option *ngFor="let item of escalas" [value]="item">
-                            {{item}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Transportadora Destino</mat-label>
+            <mat-select required formControlName="transportadoraDestino">
+                <mat-option *ngFor="let item of transportadoras" [value]="item">
+                    {{item.nombreTransportadora}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-                <div class="division-estado">
-                    <label class="switch" >
-                        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
-                        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
-                        <span class="switch-handle"></span>
-                    </label>
-                    <p>ESTADO</p>
-                </div>
-            <button mat-raised-button type="button" (click)="persistir()" color="primary"
-                [disabled]="form.invalid">Aceptar</button>
+        <mat-form-field appearance="fill">
+            <mat-label>Ciudad Origen</mat-label>
+            <mat-select required formControlName="ciudadOrigen">
+                <mat-option *ngFor="let item of ciudades" [value]="item">
+                    {{item.nombreCiudad}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Ciudad Destino</mat-label>
+            <mat-select required formControlName="ciudadDestino">
+                <mat-option *ngFor="let item of ciudades" [value]="item">
+                    {{item.nombreCiudad}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Escala</mat-label>
+            <mat-select required formControlName="escala">
+                <mat-option *ngFor="let item of escalas" [value]="item">
+                    {{item}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="container-estado">
+            <p>Estado:</p>
+            <label class="switch">
+                <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                <span class="switch-handle"></span>
+            </label>
         </div>
     </div>
+    <div class="button-container">
+        <button mat-raised-button type="button" (click)="persistir()" color="primary" class="button-custom"
+            [disabled]="form.invalid">Aceptar</button>
+        <button class="button-custom" mat-raised-button color="warn" (click)="irAtras()">Cancelar</button>
+    </div>
+</div>

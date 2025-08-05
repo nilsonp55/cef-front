@@ -193,3 +193,289 @@ mat-form-field {
     color: #61b6e4 !important; /* Note: You could also use a custom theme */
     background-color: rgb(255, 255, 255);
   }
+
+
+
+.sesion-item {
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.menu-container .mat-drawer{
+    width: 20% !important;
+}
+.menu-container .mat-menu-item {
+    line-height: 36px;
+    height: 36px;
+}
+
+
+/* Estilos globales componentes y tablas */
+.tittle-section{
+    padding-left: 0.75rem;
+    background-color: white;
+}
+
+.tittle-section > h2{
+    margin: 0px;
+}
+
+/*Estilos tablas*/
+.mat-table-custom .mat-cell, .mat-table-custom .mat-footer-cell {
+    font-size: 12px;
+	padding-top: 3px;
+    padding-right: 8px;
+}
+
+:host ::ng-deep .mat-elevation-z8 {
+    box-shadow: none !important;
+}
+
+.mat-table-custom .mat-table{
+    border-top: 2px solid #ddd !important;
+    box-shadow: 0px 8px 8px -0px rgba(0, 0, 0, 0.4) !important;
+}
+ 
+
+
+.mat-table-custom .mat-header-cell {
+    padding-top: 3px;
+}
+
+.mat-table-custom .mat-header-cell {
+    font-size: 12px;
+    font-weight: 600;
+	color: black;
+}
+
+.mat-table-custom tr.mat-row .mat-button{
+	line-height: 0px;
+}
+
+.mat-table-custom .mat-icon{
+	height: 1rem;
+    width: 1rem;
+	font-size: 16px;
+}
+
+.mat-table-custom .mat-icon.material-icons{
+	font-size: 16px;
+}
+
+.mat-table-custom tr.mat-row, 
+tr.mat-footer-row,
+.mat-table-custom tr.mat-header-row {
+    height: 32px;
+}
+
+/*Estilos botón*/
+.controls-container {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background-color: white;
+  min-height: 58px;
+  flex-wrap: wrap;
+}
+
+/* Área del paginador - tamaño fijo */
+.paginator-area {
+  flex-grow: 0; /* NO crece */
+  align-self: center; /* Se centra verticalmente */
+  min-width: fit-content; /* Mantiene su tamaño mínimo */
+  margin-left: auto;
+  margin-right: -1rem;
+}
+
+
+.mat-table-custom .button-custom,
+.modal-dialog-custom .button-custom {
+  margin-right: 24px;
+  color: white;
+  font-weight: 500;
+  padding: 0 16px;
+  min-width: 90px;
+  max-width: 90px;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* No se contrae */
+}
+
+.mat-table-custom .mat-raised-button {
+	line-height: 28px;
+}
+
+.mat-table-custom .mat-table{
+    margin-bottom: 32px;
+}
+
+.button-customn:hover {
+  transform: translateY(-2px);
+}
+
+.table-filter-container{
+	display: grid;
+    width: auto;
+	background: white;
+    grid-template-columns: repeat(auto-fit,minmax(220px, 1fr));
+    justify-content: center;
+    padding-bottom: 0.75rem;
+	margin: 0 0 0 0.75rem;
+}
+
+.mat-table-custom .disenio-spinner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    height: 70vh;
+
+}
+
+.table-filter-container .mat-form-field {
+	font-size: 12px;
+	margin-top: 0.75rem;
+    margin-right: 0.75rem;
+}
+
+.table-filter-container .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding-top: 4px;
+}
+
+.table-filter-container .mat-form-field .mat-form-field-underline {
+    bottom: 0px;
+}
+
+.table-filter-container .mat-form-field .mat-form-field-wrapper {
+    padding-bottom: 0rem;
+}
+
+
+
+::ng-deep .form-containter .mat-form-field-wrapper {
+	padding-bottom: 13px;
+    border-color: #07680f;
+}
+
+::ng-deep .form-containter .mat-form-field-infix{
+	padding: 5px 0px;
+    border-color: #ca0fca;
+}
+
+::ng-deep .form-containter .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
+	color: rgba(0, 0, 0, 0.6);
+    border-color: #cf130c;
+}
+
+.form-containter {
+    margin: 0.5rem;
+    background-color: #FFFFFF;
+    padding: 0 0 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    flex-direction: column;
+    text-align: center;
+	max-width: 860px;
+}
+
+.form-fields {
+    display: grid;
+    width: auto;
+    grid-template-columns: repeat(auto-fit,minmax(220px, 1fr));
+    justify-content: center;
+    margin: 0px;
+}
+
+.form-containter .mat-form-field {
+	font-size: 12px;
+	margin-top: 0px;
+}
+
+.form-containter .mat-form-field {
+	font-size: 12px;
+	margin-top: 24px;
+    margin-right: 20px;
+}
+
+.form-containter .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding-top: 4px;
+}
+
+.form-containter .mat-form-field .mat-form-field-underline {
+    bottom: 0px;
+}
+
+.form-containter .mat-form-field .mat-form-field-wrapper {
+    padding-bottom: 0rem;
+}
+
+.mat-form-field {
+    margin-left: 0%; 
+}
+
+
+
+.container-estado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 12px;
+    padding: 0px;
+    min-width: 220px;
+    margin-top: 20px;
+}
+
+.container-estado > p {
+    margin-bottom: 0px;
+}
+
+.container-estado .switch {
+    position: relative;
+    display: block;
+    width: 100px;
+    height: 30px;
+    padding: 3px;
+    margin: 0;
+    background: linear-gradient(to bottom, #eeeeee, #FFFFFF 25px);
+    background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF 25px);
+    border-radius: 18px;
+    box-shadow: inset 0 -1px white, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    box-sizing: content-box;
+}
+
+.form-containter .button-container {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.form-containter .button-custom {
+  color: white;
+  font-weight: 500;
+  padding: 0 16px;
+  min-width: 90px;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* No se contrae */
+  margin-left: 4%;
+  margin-right: 4%;
+
+}
+
+.mat-raised-button {
+	line-height: 28px !important;
+}
+
+.form-containter .button-custom:hover {
+  transform: translateY(-2px);
+}
+
+.form-containter.button-custom:hover .mat-raised-button.mat-button-disabled{
+	transform: translateY(0px);
+}
+
+.form-fields .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
+	color: rgba(0, 0, 0, 0.6);
+}

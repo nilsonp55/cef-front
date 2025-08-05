@@ -75,9 +75,7 @@
     </div>
   </div>
 
-<div class="ubicacionTablas">
-  <div class="div-tabla-dominio">
-    <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll" aria-label="cuentasPuc">
+    <table mat-table [dataSource]="dataSourceTiposCuentas" matSort aria-label="cuentasPuc">
       <tr>
         <ng-container matColumnDef="idCuentasPuc" class="mat-column-nombreCampo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Cuentas PUC</th>
@@ -123,5 +121,4 @@
       <tr *matHeaderRowDef="displayedColumnsTiposCuentas" mat-header-row></tr>
       <tr *matRowDef="let row; columns: displayedColumnsTiposCuentas;" mat-row></tr>
     </table>
-  </div>
-</div>
+

@@ -1,30 +1,53 @@
-.div-division {
+.modal-dialog-custom .div-division {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: auto;
+    grid-template-columns: 1fr 3fr;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 0px;
     text-align: left;
   }
 
-  .ubica {
-      margin-top: 8%;
+  .modal-dialog-custom .ubica > h2 {
+    font-size: 16px;
+    margin-top: 8%;
+  }
+
+  .modal-dialog-custom  .mat-form-field{
+    margin-right: 0px;
+  }
+
+  ::ng-deep .modal-dialog-custom .mat-form-field{
+    margin-top: 0px;
+  }
+
+  .modal-dialog-custom  .example-radio-group{
+    margin-top: 0px;
+   }
+
+  ::ng-deep .modal-dialog-custom .mat-form-field-flex  {
+    padding-top: 0px !important;
+  }
+
+  .modal-dialog-custom .mat-input-element:disabled{
+    color: rgba(0, 0, 0, .6);
   }
 
   .example-container .mat-form-field + .mat-form-field {
     margin-left: 8px;
   }
 
-  .division-btn-ident {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  .modal-dialog-custom  .division-btn-ident {
+    display: flex;
     height: auto;
-    margin-top: 3%;
-    text-align: center;
-  }
+    margin-top: 36px;
+    justify-content: center;
+    gap: 64px;
+}
 
   .example-radio-group {
     display: flex;
     flex-direction: column;
-    margin: 15px 0;
+    margin: 0px 0 8px 0;
     align-items: flex-start;
   }
   
@@ -32,7 +55,7 @@
     margin: 5px;
   }
 
-  .titulo-tabla {
+  .modal-dialog-custom .titulo-tabla {
     text-align: center;
   }
 

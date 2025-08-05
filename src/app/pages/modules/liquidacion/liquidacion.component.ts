@@ -5,9 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-liquidacion',
-  templateUrl: './liquidacion.component.html'
+  templateUrl: './liquidacion.component.html',
+  styleUrls: ['./liquidacion.component.css']
 })
 export class LiquidacionComponent implements OnInit {
+
+  checkMenuLateral: boolean;
 
   menusLiquidacion: any[] = [];
 
@@ -34,6 +37,17 @@ export class LiquidacionComponent implements OnInit {
         });
       });
     })
+  }
+
+    /**
+   * Metodo encargado de obtener el valor del check del Baner-Superior 
+   * para cerrar o abrir  la barra lateral izquierda
+   */
+   onCheckMenuLateral($event: any) {
+    if ($event !== undefined) {
+      this.checkMenuLateral = $event;
+    }
+
   }
 
   gotToRouteLiq(menu: any) {

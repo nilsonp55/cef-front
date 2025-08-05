@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatTableExporterModule } from 'mat-table-exporter';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { EscalasService } from 'src/app/_service/liquidacion-service/escalas.service';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -17,10 +18,11 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 export class EscalasComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('exporter', {static: false}) exporter: any;
 
   form: FormGroup;
   dataSourceEscalas: MatTableDataSource<any>
-  displayedColumnsEscalas: string[] = ['idEscala', 'banco', 'transportadoraOrigen', 'transportadoraDestino', 'ciudadOrigen', 'ciudadDestino', 'escala', 'estado', 'acciones'];
+  displayedColumnsEscalas: string[] = ['idEscala', 'banco', 'transportadoraOrigen', 'transportadoraDestino', 'ciudadOrigen', 'ciudadDestino', 'escala', 'acciones']; //agregar campo estado si es requerido
   isDominioChecked = false;
   mostrarFormulario = false;
   mostrarTabla = true;
@@ -325,6 +327,12 @@ export class EscalasComponent implements OnInit {
     this.filtroTransportaOrigSelect = null;
     this.filtroCiudadOrigSelect = null;
     this.filtroCiudadDestSelect = null;
+  }
+
+  exporterTable(){
+    if(this.exporter && !this.spinnerActive){
+      this.exporter.exportTable('xlsx', {fileName:'escalas'});
+    }
   }
 
 }

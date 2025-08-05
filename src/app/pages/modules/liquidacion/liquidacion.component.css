@@ -1,0 +1,9 @@
+.menu-container button {
+    display: flex;
+    align-items: center;
+}
+.menu-container .mat-menu-item {
+    font-size: 14px;
+}
+
+
