@@ -25,6 +25,8 @@ export class AdministracionTasasCambioComponent implements OnInit {
   esEdicion: boolean;
   idCuentaPuc: any;
   monedas: any[] = [];
+  spinnerActive: boolean = false;
+  mostrarTabla: boolean = true;
 
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -37,6 +39,8 @@ export class AdministracionTasasCambioComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.spinnerActive = true;
+    this.visualizarTabla()
     ManejoFechaToken.manejoFechaToken()
     await this.iniciarDesplegables();
     this.listarTasasCambio();
@@ -65,6 +69,7 @@ export class AdministracionTasasCambioComponent implements OnInit {
    * @BayronPerez
    */
   listarTasasCambio(pagina = 0, tamanio = 100) {
+    this.spinnerActive = true;
     this.tasasCostoService.listarTasasCosto({
       page: pagina,
       size: tamanio,
@@ -73,6 +78,7 @@ export class AdministracionTasasCambioComponent implements OnInit {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.spinnerActive = false;
     },
     error:  (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -82,6 +88,7 @@ export class AdministracionTasasCambioComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
+        this.spinnerActive = false;
       }
     });
   }
@@ -117,6 +124,7 @@ export class AdministracionTasasCambioComponent implements OnInit {
         }); 
         this.listarTasasCambio()
         this.initForm();
+        this.visualizarTabla()
       },
       error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -127,7 +135,8 @@ export class AdministracionTasasCambioComponent implements OnInit {
               showResume: true,
               msgDetalles: JSON.stringify(err.error.response)
             }
-          }); 
+          });
+          this.visualizarTabla()
         }
       });
    }
@@ -137,7 +146,7 @@ export class AdministracionTasasCambioComponent implements OnInit {
     * @BayronPerez
     */
   crearTasasCambio() {
-    this.mostrarFormulario = true;
+    this.visualizarFormulario()
     this.esEdicion = false;
   }
 
@@ -153,6 +162,7 @@ export class AdministracionTasasCambioComponent implements OnInit {
     this.mostrarFormulario = true;
     this.esEdicion = true;
     this.initForm(registro);
+    this.visualizarFormulario()
   }
 
   async iniciarDesplegables() {
@@ -162,8 +172,18 @@ export class AdministracionTasasCambioComponent implements OnInit {
     this.monedas = _moneda.data;
   }
 
-  onCancel() {
+    visualizarTabla(){
     this.mostrarFormulario = false;
+    this.mostrarTabla = true;
+  }
+
+  visualizarFormulario(){
+    this.mostrarFormulario = true;
+    this.mostrarTabla = false;
+  }
+
+  onCancel() {
+    this.visualizarTabla()
     this.esEdicion = false;
     this.initForm(undefined);
   }

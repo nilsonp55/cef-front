@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CrearPuntoComponent } from './crear-punto/crear-punto.component';
@@ -19,6 +19,7 @@ import { ClientesCorporativosService } from 'src/app/_service/administracion-ser
 })
 export class GestionPuntosComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('exporter', {static: false}) exporter: any;
 
   tipoPuntoSeleccionado: string;
   puntoSeleccionado: string = '';
@@ -42,7 +43,7 @@ export class GestionPuntosComponent implements OnInit {
     'banco_aval',
     'nombrePunto',
     'codigoCiudad',
-    'estado',
+    // 'estado',
     'detalle',
   ];
 
@@ -55,6 +56,15 @@ export class GestionPuntosComponent implements OnInit {
   cajerosATMBancoAvalSeleccionado: number;
   clienteBancoAvalSeleccionado: number;
   clientes: any[] = [];
+
+  DIALOG_CONFIG = {
+      width: '90vw',
+      maxWidth:'780px',
+      height: 'auto',
+      maxHeight: '80vh',
+      autoFocus: false,
+      disableClose: false,
+  } as MatDialogConfig
 
   constructor(
     private readonly dialog: MatDialog,
@@ -249,8 +259,7 @@ export class GestionPuntosComponent implements OnInit {
    */
   async abrirDialogPunto(action: string, element: any) {
     this.dialog.open(CrearPuntoComponent, {
-      width: GENERALES.DIALOG_FORM.SIZE_FORM,
-      height: GENERALES.DIALOG_FORM.SIZE_FORM,
+      ...this.DIALOG_CONFIG,
       data: {
         flag: action,
         listPuntos: this.listPuntosSelect,
@@ -285,5 +294,11 @@ export class GestionPuntosComponent implements OnInit {
    */
   resolverEstado(estado: string): string {
     return estado === "1" ? "Activo" : "Inactivo";
-  }  
+  }
+
+  exporterTable(){
+    if(this.exporter && !this.spinnerActive){
+      this.exporter.exportTable('xlsx', {fileName:'gestion-puntos'});
+    }
+  }
 }

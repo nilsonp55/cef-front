@@ -87,7 +87,6 @@ export class TdvDenominacionCantidadComponent implements OnInit {
    */
   listarDenominacion(pagina = 0, tamanio = 5) {
     this.spinnerActive = true;
-    debugger
     this.denominacionCantidadService.obtenerDenominacionCantidad({
       page: pagina,
       size: tamanio,
@@ -97,7 +96,6 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       this.dataSourceDenominacion.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
       this.habilitarBTN = true;
-      debugger
       this.spinnerActive = false;
     },
       (err: any) => {

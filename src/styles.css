@@ -218,6 +218,7 @@ mat-form-field {
 
 .tittle-section > h2{
     margin: 0px;
+    padding-top: 6px;
 }
 
 /*Estilos tablas*/
@@ -313,28 +314,19 @@ tr.mat-footer-row,
 }
 
 .table-filter-container{
-	display: grid;
+    display: grid;
     width: auto;
-	background: white;
+    background: white;
     grid-template-columns: repeat(auto-fit,minmax(220px, 1fr));
     justify-content: center;
-    padding-bottom: 0.75rem;
-	margin: 0 0 0 0.75rem;
-}
-
-.mat-table-custom .disenio-spinner {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    height: 70vh;
-
+    padding: 12px;
+    margin: 0;
+    gap: 12px;
 }
 
 .table-filter-container .mat-form-field {
 	font-size: 12px;
-	margin-top: 0.75rem;
-    margin-right: 0.75rem;
+	margin: 0px;
 }
 
 .table-filter-container .mat-form-field-appearance-fill .mat-form-field-flex {
@@ -349,25 +341,25 @@ tr.mat-footer-row,
     padding-bottom: 0rem;
 }
 
+.mat-table-custom tr.mat-row:hover {
+    background-color: rgba(238, 236, 236, 0.315);
+}
 
-
+/*TODO: REVISAR ESTOS ESTILOS*/
 ::ng-deep .form-containter .mat-form-field-wrapper {
 	padding-bottom: 13px;
-    border-color: #07680f;
 }
 
 ::ng-deep .form-containter .mat-form-field-infix{
 	padding: 5px 0px;
-    border-color: #ca0fca;
 }
 
 ::ng-deep .form-containter .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
 	color: rgba(0, 0, 0, 0.6);
-    border-color: #cf130c;
 }
 
 .form-containter {
-    margin: 0.5rem;
+    margin: 12px;
     background-color: #FFFFFF;
     padding: 0 0 16px 20px;
     border-radius: 8px;
@@ -412,6 +404,10 @@ tr.mat-footer-row,
     margin-left: 0%; 
 }
 
+.form-containter .mat-form-field  .mat-form-field-subscript-wrapper {
+    margin-top: 20px;
+}
+
 
 
 .container-estado {
@@ -445,12 +441,11 @@ tr.mat-footer-row,
     box-sizing: content-box;
 }
 
-.form-containter .button-container {
+.button-container {
     margin-top: 32px;
     display: flex;
     justify-content: center;
 }
-
 
 .form-containter .button-custom {
   color: white;
@@ -459,9 +454,6 @@ tr.mat-footer-row,
   min-width: 90px;
   transition: all 0.3s ease;
   flex-shrink: 0; /* No se contrae */
-  margin-left: 4%;
-  margin-right: 4%;
-
 }
 
 .mat-raised-button {
@@ -476,6 +468,98 @@ tr.mat-footer-row,
 	transform: translateY(0px);
 }
 
-.form-fields .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
+/* .form-fields .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
 	color: rgba(0, 0, 0, 0.6);
+} */
+
+.mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+    color: rgba(0, 0, 0, .20);
+}
+
+/************************************************************************************************************************
+Estilo para modal dialog custom
+*************************************************************************************************************************/
+
+.modal-dialog-custom .form-fields {
+    display: grid;
+    width: auto;
+    grid-template-columns: repeat(auto-fit,minmax(320px, 1fr));
+    justify-content: center;
+    margin: 0px;
+    gap: 20px;
+}
+
+.modal-dialog-custom .mat-form-field {
+    font-size: 12px;
+    margin-top: 0px;
+    margin-right: 0px;
+}
+
+.modal-dialog-custom .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding-top: 4px;
+}
+
+.modal-dialog-custom .mat-form-field .mat-form-field-underline {
+    bottom: 0px;
+}
+
+.modal-dialog-custom .mat-form-field .mat-form-field-wrapper {
+    padding-bottom: 0rem;
+}
+
+.modal-dialog-custom .mat-form-field {
+    margin-left: 0%; 
+}
+
+.modal-dialog-custom .checkbox-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 12px;
+}
+
+.modal-dialog-custom .container-estado {
+    margin-top: 0px;
+}
+
+.modal-dialog-custom .mat-form-field  .mat-form-field-subscript-wrapper {
+    margin-top: 20px;
+}
+
+
+/*TODO: ajustar estilo solo para la clase*/
+.mat-option {
+    height: 20px !important;  
+}
+/*TODO: ajustar estilo solo para la clase*/
+.mat-option-text {
+    font-size: 12px;
+    line-height: 12px;
+}
+
+
+/************************************************************************************************************************
+Estilos compartidos
+*************************************************************************************************************************/
+
+.form-containter .button-custom, 
+.modal-dialog-custom .button-custom {
+  margin-left: 4%;
+  margin-right: 4%;
+}
+
+.mat-table-custom .disenio-spinner{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    height: 70vh;
+}
+
+.modal-dialog-custom .disenio-spinner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    height: 30vh;
 }
