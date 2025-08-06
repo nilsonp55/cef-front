@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClientesCorporativosService } from 'src/app/_service/administracion-service/clientes-corporativos.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
@@ -22,6 +22,7 @@ import { MatSort } from '@angular/material/sort';
 export class ClientesCorporativosComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('exporter', {static: false}) exporter: any;
 
   totalRegistros: number;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -42,6 +43,15 @@ export class ClientesCorporativosComponent implements OnInit {
   bancos: any[] = [];
   pCodigoBanco: string;
   pBusqueda: string;
+
+  DIALOG_CONFIG = {
+      width: '90vw',
+      maxWidth:'780px',
+      height: 'auto',
+      maxHeight: '80vh',
+      autoFocus: false,
+      disableClose: false,
+  } as MatDialogConfig
 
   constructor(
     private readonly dialog: MatDialog,
@@ -168,8 +178,7 @@ export class ClientesCorporativosComponent implements OnInit {
     // abrir dialog para crear o editar cliente
     this.dialog
       .open(FormClientesCorpComponent, {
-        width: GENERALES.DIALOG_FORM.SIZE_FORM,
-        height: GENERALES.DIALOG_FORM.SIZE_FORM,
+        ...this.DIALOG_CONFIG,
         data: { flag: action, row: element, bancos: this.bancos },
       }).afterClosed()
       .subscribe((result) => {
@@ -231,5 +240,11 @@ export class ClientesCorporativosComponent implements OnInit {
           this.spinnerActive = false;
         },
       });
+  }
+
+  exporterTable(){
+    if(this.exporter && !this.spinnerActive){
+      this.exporter.exportTable('xlsx', {fileName:'clientes_corporativos'});
+    }
   }
 }

@@ -56,7 +56,7 @@
     </div>
     <div class="form-containter" *ngIf="mostrarFormulario">
         <div class="form-fields" [formGroup]="form" *ngIf="mostrarFormulario">
-            <mat-form-field class="example-full-width">
+            <mat-form-field  appearance="fill">
                 <mat-label>Fecha tasa</mat-label>
                 <input required matInput [matDatepicker]="picker1" readonly="true" formControlName="fechaTasa"
                     value="now">
@@ -74,7 +74,7 @@
                 </mat-select>
                 <mat-error *ngIf="form.get('codigoMoneda').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>
-            <mat-form-field class="example-full-width">
+            <mat-form-field  appearance="fill">
                 <input matInput placeholder="Tasa Cambio" required formControlName="tasaCambio">
                 <mat-error *ngIf="form.get('tasaCambio').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>

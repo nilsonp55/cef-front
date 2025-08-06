@@ -1,86 +1,89 @@
-<div class="division-busqueda">
-  <mat-form-field appearance="fill">
-    <mat-label>Bancos</mat-label>
-    <mat-select (selectionChange)="selectBanco($event)">
-      <mat-option>Ninguno</mat-option>
-      <mat-option *ngFor="let item of bancos" [value]="item">
-        {{item.nombreBanco}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Busqueda</mat-label>
-    <input type="search" matInput #busqueda placeholder="Búsqueda por identificación y nombre"
-      (change)="busquedaClientes(busqueda)">
-  </mat-form-field>
+<div class="tittle-section">
+  <h2>Clientes Corporativos</h2>
 </div>
-<div class="row botonesClientes">
-  <div class="col-2">
-    <button title="Crear punto" mat-raised-button color="primary"
+<div class="mat-table-custom">
+  <div class="table-filter-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Bancos</mat-label>
+      <mat-select (selectionChange)="selectBanco($event)">
+        <mat-option>Ninguno</mat-option>
+        <mat-option *ngFor="let item of bancos" [value]="item">
+          {{item.nombreBanco}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Busqueda</mat-label>
+      <input type="search" matInput #busqueda placeholder="Búsqueda por identificación y nombre"
+        (change)="busquedaClientes(busqueda)">
+    </mat-form-field>
+  </div>
+
+  <div class="controls-container">
+    <button title="Nuevo" class="button-custom" mat-raised-button color="primary"
       (click)="openFormClienteCorporativo(null, 'create')">Nuevo</button>
+    <button mat-raised-button color="primary" (click)="exporterTable()"
+      class="button-custom">Exportar</button>
+    <div class="paginator-area">
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="totalRegistros" showFirstLastButtons
+        (page)="mostrarMas($event)">
+      </mat-paginator>
+    </div>
   </div>
-  <div class="col-2">
-    <button mat-raised-button color="primary"
-      (click)="exporter.exportTable('xlsx', {fileName:'clientes_corporativos'})">Exportar</button>
-  </div>
-  <div class="col-8">
-  <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="totalRegistros" showFirstLastButtons
-      (page)="mostrarMas($event)">
-  </mat-paginator>
-  </div>
-</div>
-
-<div>
   <div *ngIf="spinnerActive" class="disenio-spinner">
     <mat-spinner></mat-spinner>
   </div>
-  <table mat-table [dataSource]="dsClientesCorporativos" matSort class="mat-elevation-z8" matTableExporter
-    #exporter="matTableExporter" aria-label="clientesCorporativos">
-    <tr>
-      <ng-container matColumnDef="codigoCliente">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Código Cliente</th>
-        <td mat-cell *matCellDef="let element"> {{element.codigoCliente}} </td>
-      </ng-container>
-      <ng-container matColumnDef="codigoBancoAval">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Banco</th>
-        <td mat-cell *matCellDef="let element"> {{getNombreBanco(element.codigoBancoAval)}} </td>
-      </ng-container>
-      <ng-container matColumnDef="nombreCliente">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Nombre Cliente</th>
-        <td mat-cell *matCellDef="let element"> {{element.nombreCliente}} </td>
-      </ng-container>
-      <ng-container matColumnDef="tipoId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Tipo ID</th>
-        <td mat-cell *matCellDef="let element"> {{element.tipoId}} </td>
-      </ng-container>
-      <ng-container matColumnDef="identificacion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Identificación</th>
-        <td mat-cell *matCellDef="let element"> {{element.identificacion}} </td>
-      </ng-container>
-      <ng-container matColumnDef="tarifaSeparacion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Tarifa Separación</th>
-        <td mat-cell *matCellDef="let element"> {{element.tarifaSeparacion | number: '1.2-2'}} </td>
-      </ng-container>
-      <ng-container matColumnDef="amparado">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">Amparado</th>
-        <td mat-cell *matCellDef="let element"> {{element.amparado ? 'Si' : 'No'}} </td>
-      </ng-container>
-      <ng-container matColumnDef="acciones">
-        <th mat-header-cell *matHeaderCellDef class="text-bg-light">Acciones</th>
-        <td mat-cell *matCellDef="let element">
-          <div class="botonesClientes">
-            <button mat-button class="col-6" (click)="openFormClienteCorporativo(element, 'edit')">
-              <mat-icon style="color: green">edit</mat-icon>
-            </button>
-            <button mat-button class="col-6" (click)="confirmEliminarClienteCorporativo(element)">
-              <mat-icon style="color: red">delete</mat-icon>
-            </button>
-          </div>
-        </td>
-      </ng-container>
-    </tr>
-    <tr mat-header-row *matHeaderRowDef="displayColumnsClientes"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumnsClientes;"></tr>
-  </table>
+
+  <div *ngIf="!spinnerActive">
+    <table mat-table [dataSource]="dsClientesCorporativos" matSort class="mat-elevation-z8" matTableExporter
+      #exporter="matTableExporter" aria-label="clientesCorporativos">
+      <tr>
+        <ng-container matColumnDef="codigoCliente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">CÓDIGO CLIENTE</th>
+          <td mat-cell *matCellDef="let element"> {{element.codigoCliente}} </td>
+        </ng-container>
+        <ng-container matColumnDef="codigoBancoAval">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">BANCO</th>
+          <td mat-cell *matCellDef="let element"> {{getNombreBanco(element.codigoBancoAval)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="nombreCliente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">NOMBRE CLIENTE</th>
+          <td mat-cell *matCellDef="let element"> {{element.nombreCliente}} </td>
+        </ng-container>
+        <ng-container matColumnDef="tipoId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">TIPO ID</th>
+          <td mat-cell *matCellDef="let element"> {{element.tipoId}} </td>
+        </ng-container>
+        <ng-container matColumnDef="identificacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">IDENTIFICACIÓN</th>
+          <td mat-cell *matCellDef="let element"> {{element.identificacion}} </td>
+        </ng-container>
+        <ng-container matColumnDef="tarifaSeparacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">TARIFA SEPARACIÓN</th>
+          <td mat-cell *matCellDef="let element"> {{element.tarifaSeparacion | number: '1.2-2'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="amparado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-bg-light">AMPARADO</th>
+          <td mat-cell *matCellDef="let element"> {{element.amparado ? 'Si' : 'No'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef class="text-bg-light text-center">ACCIONES</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="botonesClientes">
+              <button mat-button class="col-6" (click)="openFormClienteCorporativo(element, 'edit')">
+                <mat-icon style="color: green">edit</mat-icon>
+              </button>
+              <button mat-button class="col-6" (click)="confirmEliminarClienteCorporativo(element)">
+                <mat-icon style="color: red">delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumnsClientes"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumnsClientes;"></tr>
+    </table>
+  </div>
+
 </div>
