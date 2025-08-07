@@ -341,7 +341,7 @@ export class CrearPuntoComponent implements OnInit {
    */
   private _filterCliente(value: string): Observable<any[]> {
     
-    if (value.length < 3) return of([]);
+    if (value.length < 1) return of([]);
 
     this.spinnerActive = true;
     const param = {

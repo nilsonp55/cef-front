@@ -1,25 +1,22 @@
 <div *ngIf="load">
-  <div class="content-center">
-      <mat-spinner class="disenio-spinner"></mat-spinner>
-  </div>
+    <div class="content-center">
+        <mat-spinner class="disenio-spinner"></mat-spinner>
+    </div>
 </div>
 <div *ngIf="!load">
-    <mat-grid-list cols="2" rowHeight="100px">
-        <mat-grid-tile colspan="1">
-            <div class="botones-tabla">
-                <button mat-raised-button color="primary"
-                    (click)="exporter.exportTable('xlsx', {fileName: datosTabla.nombreArchivoExportar})">Exportar
-                    tabla</button>
-                <button *ngFor="let boton of datosTabla.botones; let i=index" mat-raised-button color="primary"
-                    (click)="emitirEvento($event)">{{boton}}</button>
-            </div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="1">
-            <mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeList"
-                [length]="datosTabla.totalRegistros"></mat-paginator>
-        </mat-grid-tile>
-    </mat-grid-list>
-    <div class="divTabla">
+    <div class="controls-container">
+        <button mat-raised-button color="primary" class="button-custom" class="button-custom"
+            *ngFor="let boton of datosTabla.botones; let i=index" (click)="emitirEvento($event)">
+            {{boton}}
+        </button>
+        <button mat-raised-button class="button-custom" color="primary"
+            (click)="exporter.exportTable('xlsx', {fileName: datosTabla.nombreArchivoExportar})">
+            Exportar
+        </button>
+        <div class="paginator-area"><mat-paginator [length]="datosTabla.totalRegistros" [pageSizeOptions]="pageSizeList"
+                [pageSize]="5"></mat-paginator></div>
+    </div>
+    <div class="table-container">
         <table mat-table matTableExporter [dataSource]="dataSource" matSort #exporter="matTableExporter"
             aria-label="tablaIdenConDif">
             <tr>
@@ -84,173 +81,227 @@
 
                 <ng-container matColumnDef="aplicativoTipoPedido">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.tipo_pedido,element.tipo_pedido_tdv)"> {{element.tipo_pedido}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.tipo_pedido,element.tipo_pedido_tdv)"> {{element.tipo_pedido}}
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdTipoPedido">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.tipo_pedido,element.tipo_pedido_tdv)"> {{element.tipo_pedido_tdv}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.tipo_pedido,element.tipo_pedido_tdv)">
+                        {{element.tipo_pedido_tdv}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoEscala">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.escala,element.escala_tdv)"> {{element.escala}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.escala,element.escala_tdv)"> {{element.escala}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdEscala">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.escala,element.escala_tdv)"> {{element.escala_tdv}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.escala,element.escala_tdv)"> {{element.escala_tdv}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoTransportadoBilletePesos">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_transportado_billetes,element.valor_transportado_billetes_tdv)"> {{element.valor_transportado_billetes | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.valor_transportado_billetes,element.valor_transportado_billetes_tdv)">
+                        {{element.valor_transportado_billetes | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdTransportadoBilletePesos">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_transportado_billetes,element.valor_transportado_billetes_tdv)"> {{element.valor_transportado_billetes_tdv | currency}}
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.valor_transportado_billetes,element.valor_transportado_billetes_tdv)">
+                        {{element.valor_transportado_billetes_tdv | currency}}
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoTransportadoMonedaPesos">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_transportado_monedas,element.valor_transportado_monedas_tdv)"> {{element.valor_transportado_monedas | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.valor_transportado_monedas,element.valor_transportado_monedas_tdv)">
+                        {{element.valor_transportado_monedas | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdTransportadoMonedaPesos">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_transportado_monedas,element.valor_transportado_monedas_tdv)"> {{element.valor_transportado_monedas_tdv | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.valor_transportado_monedas,element.valor_transportado_monedas_tdv)">
+                        {{element.valor_transportado_monedas_tdv | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoTotalTransportado">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_total_transportado,element.valor_total_transportado_tdv)"> {{element.valor_total_transportado | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.valor_total_transportado,element.valor_total_transportado_tdv)">
+                        {{element.valor_total_transportado | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdTotalTransportado">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.valor_total_transportado,element.valor_total_transportado_tdv)"> {{element.valor_total_transportado_tdv | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.valor_total_transportado,element.valor_total_transportado_tdv)">
+                        {{element.valor_total_transportado_tdv | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoNumeroFajos">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.numero_fajos,element.numero_fajos_tdv)"> {{element.numero_fajos}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.numero_fajos,element.numero_fajos_tdv)">
+                        {{element.numero_fajos}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdNumeroFajos">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.numero_fajos,element.numero_fajos_tdv)"> {{element.numero_fajos_tdv}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.numero_fajos,element.numero_fajos_tdv)">
+                        {{element.numero_fajos_tdv}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoNumeroBolsasMoneda">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.numero_bolsas,element.numero_bolsas_tdv)"> {{element.numero_bolsas}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.numero_bolsas,element.numero_bolsas_tdv)">
+                        {{element.numero_bolsas}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdNumeroBolsasMoneda">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.numero_bolsas,element.numero_bolsas_tdv)"> {{element.numero_bolsas_tdv}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.numero_bolsas,element.numero_bolsas_tdv)">
+                        {{element.numero_bolsas_tdv}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoCostoFijo">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_fijo,element.costo_fijo_tdv)"> {{element.costo_fijo | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.costo_fijo,element.costo_fijo_tdv)"> {{element.costo_fijo |
+                        currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdCostoFijo">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_fijo,element.costo_fijo_tdv)"> {{element.costo_fijo_tdv | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.costo_fijo,element.costo_fijo_tdv)"> {{element.costo_fijo_tdv
+                        | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoCostoMilaje">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_milaje,element.costo_milaje_tdv)"> {{element.costo_milaje | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.costo_milaje,element.costo_milaje_tdv)">
+                        {{element.costo_milaje | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdCostoMilaje">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_milaje,element.costo_milaje_tdv)"> {{element.costo_milaje_tdv | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.costo_milaje,element.costo_milaje_tdv)">
+                        {{element.costo_milaje_tdv | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoCostoBolsa">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_bolsa,element.costo_bolsa_tdv)"> {{element.costo_bolsa | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.costo_bolsa,element.costo_bolsa_tdv)"> {{element.costo_bolsa |
+                        currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdCostoBolsa">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_bolsa,element.costo_bolsa_tdv)"> {{element.costo_bolsa_tdv | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.costo_bolsa,element.costo_bolsa_tdv)">
+                        {{element.costo_bolsa_tdv | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoCostoFletes">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_flete,element.costo_flete_tdv)"> {{element.costo_flete | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.costo_flete,element.costo_flete_tdv)"> {{element.costo_flete |
+                        currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdCostoFletes">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(element.costo_flete,element.costo_flete_tdv)"> {{element.costo_flete_tdv | currency}} </td>
+                    <td mat-cell *matCellDef="let element"
+                        [ngClass]="validateEquity(element.costo_flete,element.costo_flete_tdv)">
+                        {{element.costo_flete_tdv | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoOtros1">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_1)">{{0 | currency}}</td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_1)">{{0 |
+                        currency}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdOtros1">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_1)"> {{element.otros_1 | currency}} </td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_1)">
+                        {{element.otros_1 | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoOtros2">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_2)">{{0 | currency}}</td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_2)">{{0 |
+                        currency}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdOtros2">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_2)"> {{element.otros_2 | currency}} </td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_2)">
+                        {{element.otros_2 | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoOtros3">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_3)">{{0 | currency}}</td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_3)">{{0 |
+                        currency}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdOtros3">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_3)"> {{element.otros_3 | currency}} </td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_3)">
+                        {{element.otros_3 | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoOtros4">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_4)"> {{0 | currency}}</td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_4)"> {{0 |
+                        currency}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdOtros4">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_4)">{{element.otros_4 | currency}}</td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_4)">
+                        {{element.otros_4 | currency}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoOtros5">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_5)">{{0 | currency}}</td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_5)">{{0 |
+                        currency}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdOtros5">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_5)"> {{element.otros_5 | currency}} </td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.otros_5)">
+                        {{element.otros_5 | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoSubTotal">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.subtotal)"> {{0 | currency}}</td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.subtotal)"> {{0 |
+                        currency}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdSubTotal">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.subtotal)"> {{element.subtotal | currency}} </td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.subtotal)">
+                        {{element.subtotal | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoIva">
@@ -260,17 +311,20 @@
 
                 <ng-container matColumnDef="tvdIva">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.iva)"> {{element.iva}} </td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.iva)"> {{element.iva}}
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="aplicativoValorTotal">
                     <th mat-header-cell *matHeaderCellDef> APLICATIVO</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.valor_total)">{{ 0 | currency}}</td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.valor_total)">{{ 0 |
+                        currency}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="tvdValorTotal">
                     <th mat-header-cell *matHeaderCellDef> TVD</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.valor_total)"> {{element.valor_total | currency}} </td>
+                    <td mat-cell *matCellDef="let element" [ngClass]="validateEquity(0,element.valor_total)">
+                        {{element.valor_total | currency}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="estado">

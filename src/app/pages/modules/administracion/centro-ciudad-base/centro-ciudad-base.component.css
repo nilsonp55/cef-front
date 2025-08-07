@@ -21,3 +21,11 @@
     width: auto !important;
     text-align: center;
 }
+
+::ng-deep .custom-column-center .mat-sort-header-container {
+    justify-content: center;
+}
+
+::ng-deep .mat-cell.custom-column-center  {
+    text-align: center;
+}

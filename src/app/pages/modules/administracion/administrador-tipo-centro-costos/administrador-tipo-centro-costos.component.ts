@@ -26,6 +26,9 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
   bancos: any[] = [];
   esEdicion: boolean;
   idTipoCentro: any;
+  mostrarTabla = true;
+  spinnerActive: boolean = false;
+
 
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -38,7 +41,9 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken()
+    this.visualizarTabla();
     this.datosDesplegables();
     this.listarCentroCostos();
   }
@@ -92,6 +97,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.spinnerActive = false;
     },
     error: (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -101,9 +107,16 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
+        this.spinnerActive = false;
       }
     });
   }
+
+  visualizarTabla(){
+    this.mostrarFormulario = false;
+    this.mostrarTabla = true;
+  }
+
 
   /**
     * Se realiza persistencia del formulario de cuentas puc
@@ -142,6 +155,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
         });
         this.listarCentroCostos()
         this.initForm();
+        this.visualizarTabla()
       },
       error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -154,9 +168,15 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
               msgDetalles: JSON.stringify(err.error)
             }
           });
+          this.visualizarTabla()
         }
       });
     
+  }
+
+  visualizarFormulario(){
+    this.mostrarFormulario = true;
+    this.mostrarTabla = false;
   }
 
   /**
@@ -165,29 +185,20 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
     */
   crearCentroCostos() {
     this.initForm();
-    this.mostrarFormulario = true;
+    this.visualizarFormulario();
     this.esEdicion = false;
-  }
-
-  /**
-    * Se muestra el formulario para actualizar CentroCostos
-    * @BayronPerez
-    */
-  actualizarCentroCostos() {
-    this.initForm();
-    this.mostrarFormulario = true;
   }
 
   editar(registro: any) {
     this.initForm(registro);
-    this.mostrarFormulario = true;
+    this.visualizarFormulario();
     this.idTipoCentro = this.form.get('tipoCentro').value;
     this.form.get('tipoCentro').disable();
     this.esEdicion = true;
   }
 
   onCancel() {
-    this.mostrarFormulario = false;
+    this.visualizarTabla()
     this.esEdicion = false;
     this.initForm(undefined);
   }

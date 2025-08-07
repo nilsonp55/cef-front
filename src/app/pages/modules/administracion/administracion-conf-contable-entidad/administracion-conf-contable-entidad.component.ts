@@ -43,6 +43,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   cantidadRegistros: number;
   registros: any[] =[];
   mostrarTabla: boolean = true;
+  isLoading: boolean = false;
 
   constructor(
     private readonly generalesService: GeneralesService,
@@ -51,6 +52,8 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.isLoading = true;
+    this.visualizarTabla()
     ManejoFechaToken.manejoFechaToken()
     await this.iniciarDesplegables();
     this.listarConfEntitis();
@@ -78,6 +81,11 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
         'codigoComision': new FormControl(param? this.codigosComiciones.find((c) => c === String(param.codigoComision)) : null),
         'tipoImpuesto': new FormControl(param? this.tiposImpuestos.find((i) => i === String(param.tipoImpuesto)) : null),
       });
+  }
+
+  visualizarTabla(){
+    this.mostrarFormulario = false;
+    this.mostrarTabla = true;
   }
 
   selectBancoAval(param: any): any {
@@ -142,8 +150,8 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
-      this.mostrarTabla = true;
-      this.mostrarFormulario = false;
+      this.visualizarTabla();
+      this.isLoading = false;
     },
     error: (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -153,6 +161,8 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
+        this.isLoading = false;
+        this.visualizarTabla();
       }
     });
   }
@@ -211,6 +221,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
         });
         this.listarConfEntitis()
         this.initForm();
+        this.visualizarTabla();
       },
       error:  (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -223,7 +234,9 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
               msgDetalles: JSON.stringify(err?.error.response)
             }
           });
-        }});
+          this.visualizarTabla();
+        }
+      });
 
     this.ngOnInit();
    }
@@ -270,9 +283,13 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
 
   }
 
-  crearConfEntity() {
-    this.mostrarTabla = false;
+  visualizarFormulario(){
     this.mostrarFormulario = true;
+    this.mostrarTabla = false;
+  }
+
+  crearConfEntity() {
+    this.visualizarFormulario()
     this.esEdicion = false;
     this.form.get('consecutivo').disable();
   }
@@ -283,7 +300,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
 
   editar(registro: any) {
     this.initForm(registro);
-    this.mostrarFormulario = true;
+    this.visualizarFormulario()
     this.idConfEntity = this.form.get('consecutivo').value;
     this.form.get('consecutivo').disable();
     this.esEdicion = true;
@@ -307,7 +324,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
   }
 
   onCancel() {
-    this.mostrarFormulario = false;
+    this.visualizarTabla();
     this.esEdicion = false;
     this.mostrarTabla = true;
     this.initForm(undefined);

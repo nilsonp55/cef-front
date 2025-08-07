@@ -37,7 +37,8 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <input type="text" matInput placeholder="Código Propio" [(ngModel)]="filtroCodigoPropio"
+      <mat-label>Código Propio</mat-label>
+      <input type="text" matInput [(ngModel)]="filtroCodigoPropio"
         (blur)="onFilterChange()">
     </mat-form-field>
   </div>

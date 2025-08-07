@@ -1,116 +1,53 @@
-<div class="mat-cell">
+<div class="tittle-section">
   <h2>Gestión Cuentas Contables</h2>
-  <div class="division-btn">
-    <button mat-raised-button color="primary" (click)="crearCuentasPuc()">Crear</button>
-  </div>
 </div>
-
-  <div [formGroup]="form" *ngIf="mostrarFormulario">
-    <div>
-      <mat-form-field appearance="fill">
-        <input matInput placeholder="Id Cuenta Puc" formControlName="idCuentasPuc">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <input matInput placeholder="Cuenta Contable" formControlName="cuentaContable">
-        <mat-error *ngIf="form.get('cuentaContable').hasError('required')">Este campo es requerido</mat-error>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Bancos</mat-label>
-        <mat-select formControlName="bancoAval">
-          <mat-option *ngFor="let item of bancos" [value]="item">
-            {{item.nombreBanco}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <input matInput placeholder="Nombre Cuenta" formControlName="nombreCuenta">
-        <mat-error *ngIf="form.get('nombreCuenta').hasError('required')">Este campo es requerido</mat-error>
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field appearance="fill">
-        <input matInput placeholder="Identificador" formControlName="identificador">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Tipos Centros Costos</mat-label>
-        <mat-select formControlName="tiposCentrosCostos">
-          <mat-option *ngFor="let item of tiposCostosCuentas" [value]="item">
-            {{item.tipoCentro}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('tiposCentrosCostos').hasError('required')">Este campo es requerido</mat-error>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Tipo Cuenta</mat-label>
-        <mat-select formControlName="tiposCuentas">
-          <mat-option *ngFor="let cuenta of tipoCuentas" [value]="cuenta">
-            {{cuenta.tipoCuenta}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('tiposCuentas').hasError('required')">Este campo es requerido</mat-error>
-      </mat-form-field>
-      <div class="fill">
-        <label class="switch" appearance="outline">
-          <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
-          <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
-          <span class="switch-handle"></span>
-        </label>
-      </div>
-
-    </div>
-    <div>
-      <button mat-raised-button color="primary" (click)="persistir()" [disabled]="form.invalid">
-        Aceptar
-      </button>
-      <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
-    </div>
+<div class="mat-table-custom" *ngIf="mostrarTabla">
+  <div class="controls-container">
+    <button mat-raised-button color="primary" class="button-custom" (click)="crearCuentasPuc()">
+      Nuevo
+    </button>
+  </div>
+  <div *ngIf="spinnerActive" class="disenio-spinner">
+    <mat-spinner></mat-spinner>
   </div>
 
+  <div *ngIf="!spinnerActive">
     <table mat-table [dataSource]="dataSourceTiposCuentas" matSort aria-label="cuentasPuc">
       <tr>
         <ng-container matColumnDef="idCuentasPuc" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Cuentas PUC</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID CUENTAS PUC</th>
           <td mat-cell *matCellDef="let element"> {{element.idCuentasPuc}} </td>
         </ng-container>
         <ng-container matColumnDef="cuentaContable" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Contable</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>CUENTA CONTABLE</th>
           <td mat-cell *matCellDef="let element"> {{element.cuentaContable}} </td>
         </ng-container>
         <ng-container matColumnDef="bancoAval" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO</th>
           <td mat-cell *matCellDef="let element"> {{element.bancoAval.abreviatura}} </td>
         </ng-container>
         <ng-container matColumnDef="nombreCuenta" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Cuenta</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE CUENTA</th>
           <td mat-cell *matCellDef="let element"> {{element.nombreCuenta}} </td>
         </ng-container>
         <ng-container matColumnDef="identificador" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Identificador</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>IDENTIFICADOR</th>
           <td mat-cell *matCellDef="let element"> {{element.identificador}} </td>
         </ng-container>
         <ng-container matColumnDef="tipoCentro" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Centros Costos</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO CENTROS COSTOS</th>
           <td mat-cell *matCellDef="let element"> {{element.tipoCentro}} </td>
         </ng-container>
         <ng-container matColumnDef="tipoCuenta" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo cuenta</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO CUENTA</th>
           <td mat-cell *matCellDef="let element"> {{element.tiposCuentas.tipoCuenta}} </td>
         </ng-container>
-        <ng-container matColumnDef="estado" class="mat-column-nombreCampo">
+        <!-- <ng-container matColumnDef="estado" class="mat-column-nombreCampo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
           <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
-        </ng-container>
+        </ng-container> -->
         <ng-container class="mat-column-nombreCampo" matColumnDef="acciones">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>Acciones</th>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>EDITAR</th>
           <td *matCellDef="let element" mat-cell>
             <button (click)="editar(element)" mat-button>
               <mat-icon style="color: green">edit</mat-icon>
@@ -121,4 +58,72 @@
       <tr *matHeaderRowDef="displayedColumnsTiposCuentas" mat-header-row></tr>
       <tr *matRowDef="let row; columns: displayedColumnsTiposCuentas;" mat-row></tr>
     </table>
+  </div>
+</div>
 
+
+<div [formGroup]="form" *ngIf="mostrarFormulario" class="form-containter">
+  <div class="form-fields" [formGroup]="form">
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Id Cuenta Puc" formControlName="idCuentasPuc">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Cuenta Contable" formControlName="cuentaContable">
+      <mat-error *ngIf="form.get('cuentaContable').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Bancos</mat-label>
+      <mat-select formControlName="bancoAval">
+        <mat-option *ngFor="let item of bancos" [value]="item">
+          {{item.nombreBanco}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Nombre Cuenta" formControlName="nombreCuenta">
+      <mat-error *ngIf="form.get('nombreCuenta').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Identificador" formControlName="identificador">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipos Centros Costos</mat-label>
+      <mat-select formControlName="tiposCentrosCostos">
+        <mat-option *ngFor="let item of tiposCostosCuentas" [value]="item">
+          {{item.tipoCentro}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('tiposCentrosCostos').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo Cuenta</mat-label>
+      <mat-select formControlName="tiposCuentas">
+        <mat-option *ngFor="let cuenta of tipoCuentas" [value]="cuenta">
+          {{cuenta.tipoCuenta}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('tiposCuentas').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <div class="container-estado">
+      <p>Estado:</p>
+      <label class="switch">
+        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+        <span class="switch-handle"></span>
+      </label>
+    </div>
+  </div>
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="button-custom" (click)="persistir()" [disabled]="form.invalid">
+      Aceptar
+    </button>
+    <button mat-raised-button color="warn" class="button-custom" (click)="onCancel()">Cancelar</button>
+  </div>
+</div>

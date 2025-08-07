@@ -1,8 +1,15 @@
 <!--Tabla Descripción de archivos cargados-->
-<div class="divTabla">
-    <div class="divTituloTablas">
-        <h1 class="tituloTabla">Histórico de carga</h1>
-        <span class="line-spacer"></span>
+<div class="mat-table-custom">
+    <div class="controls-container">
+        <div class="divTituloTablas">
+            <h3 class="tituloTabla">HISTÓRICO DE CARGA</h3>
+            <span class="line-spacer"></span>
+        </div>
+        <div class="paginator-area">
+            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+                (page)="mostrarMas($event)">
+            </mat-paginator>
+        </div>
     </div>
     <table mat-table [dataSource]="dataSourceInfoArchivo" matSort class="mat-elevation-z8">
         <caption></caption>
@@ -38,8 +45,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoArchivo"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoArchivo;"></tr>
     </table>
-    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
-        (page)="mostrarMas($event)">
-    </mat-paginator>
+
 
 </div>

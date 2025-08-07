@@ -22,14 +22,25 @@ export class AdministradorCuentasPucComponent implements OnInit {
 
   form: FormGroup;
   dataSourceTiposCuentas: MatTableDataSource<any>
-  displayedColumnsTiposCuentas: string[] = ['idCuentasPuc','cuentaContable','bancoAval','nombreCuenta','identificador','tipoCentro','tipoCuenta','estado','acciones'];
+  displayedColumnsTiposCuentas: string[] = [
+    'idCuentasPuc',
+    'cuentaContable',
+    'bancoAval',
+    'nombreCuenta',
+    'identificador',
+    'tipoCentro',
+    'tipoCuenta',
+    //'estado',
+    'acciones'];
   isDominioChecked = false;
   mostrarFormulario = false;
   esEdicion: boolean;
+  mostrarTabla: boolean = true;
   idCuentaPuc: any;
   bancos: any[] = [];
   tiposCostosCuentas: any[] = [];
   tipoCuentas: any[] = [];
+  spinnerActive: boolean = false;
 
   //Registros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -44,7 +55,9 @@ export class AdministradorCuentasPucComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken()
+    this.visualizarTabla()
     await this.iniciarDesplegables();
     this.listarCuntasPuc();
     this.initForm();
@@ -72,6 +85,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
    * @BayronPerez
    */
   listarCuntasPuc(pagina = 0, tamanio = 5) {
+    this.spinnerActive = true;
     this.cuentasPucService.obtenerCuentasPuc({
       page: pagina,
       size: tamanio,
@@ -80,6 +94,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.spinnerActive = false;
       },
       error:  (err: ErrorService) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -89,8 +104,13 @@ export class AdministradorCuentasPucComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
+          this.spinnerActive = false;
         }
     });
+  }
+   visualizarTabla(){
+    this.mostrarFormulario = false;
+    this.mostrarTabla = true;
   }
 
   /**
@@ -136,6 +156,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
         });
         this.listarCuntasPuc()
         this.initForm();
+        this.visualizarTabla()
       },
       error:  (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -148,6 +169,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
             msgDetalles: JSON.stringify(err?.error)
             }
           });
+          this.visualizarTabla()
         }
       });
     
@@ -158,7 +180,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
     * @BayronPerez
     */
   crearCuentasPuc() {
-    this.mostrarFormulario = true;
+    this.visualizarFormulario()
     this.esEdicion = false;
   }
 
@@ -172,7 +194,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
 
   editar(registro: any) {
     this.initForm(registro);
-    this.mostrarFormulario = true;
+    this.visualizarFormulario()
     this.idCuentaPuc = this.form.get('idCuentasPuc').value;
     this.form.get('idCuentasPuc').disable();
     this.esEdicion = true;
@@ -201,9 +223,14 @@ export class AdministradorCuentasPucComponent implements OnInit {
   }
 
   onCancel() {
-    this.mostrarFormulario = false;
+    this.visualizarTabla()
     this.esEdicion = false;
     this.initForm(undefined);
+  }
+  
+  visualizarFormulario(){
+    this.mostrarFormulario = true;
+    this.mostrarTabla = false;
   }
 
 }
