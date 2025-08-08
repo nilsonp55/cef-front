@@ -239,7 +239,7 @@ export class AdministracionContabilidadComponent implements OnInit {
 
       confirmButtonText: 'Cerrar',
 
-      customClass: 'custom-alert-swal mat-primary'
+      customClass: { popup: "custom-alert-swal custom-alert-swal-title mat-primary" }
     });
   }
 
