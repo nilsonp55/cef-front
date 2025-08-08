@@ -28,6 +28,9 @@ export class AdministracionContabilidadComponent implements OnInit {
   mostrarFormulario = false;
   esEdicion: boolean;
   idTipoCuenta: any;
+  mostrarTabla = true;
+
+  spinnerActive: boolean = false;
 
   //Registros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -39,6 +42,8 @@ export class AdministracionContabilidadComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.spinnerActive = true;
+    this.visualizarTabla()
     ManejoFechaToken.manejoFechaToken()
     this.listarDominios();
     this.initForm();
@@ -73,6 +78,7 @@ export class AdministracionContabilidadComponent implements OnInit {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
       this.dataSourceTiposCuentas.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.spinnerActive = false;
     },
     error:  (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -84,6 +90,7 @@ export class AdministracionContabilidadComponent implements OnInit {
             msgDetalles: JSON.stringify(err)
           }
         });
+        this.spinnerActive = false;
       }
     });
   }
@@ -124,6 +131,7 @@ export class AdministracionContabilidadComponent implements OnInit {
         });
         this.listarDominios();
         this.initForm();
+        this.visualizarTabla();
       },
       error: (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -136,6 +144,7 @@ export class AdministracionContabilidadComponent implements OnInit {
               msgDetalles: JSON.stringify(err.error)
             }
           });
+          this.visualizarTabla();
         }});
 
   }
@@ -144,7 +153,7 @@ export class AdministracionContabilidadComponent implements OnInit {
     * @BayronPerez
     */
   crearTiposCuentas() {
-    this.mostrarFormulario = true;
+    this.visualizarFormulario()
     this.esEdicion = false;
   }
 
@@ -158,59 +167,64 @@ export class AdministracionContabilidadComponent implements OnInit {
 
   editar(registro: any) {
     this.initForm(registro);
-    this.mostrarFormulario = true;
+    this.visualizarFormulario()
     this.idTipoCuenta = this.form.get('tipoCuenta').value;
     this.form.get('tipoCuenta').disable();
     this.esEdicion = true;
   }
 
   onCancel() {
-    this.mostrarFormulario = false;
+    this.visualizarTabla()
     this.esEdicion = false;
     this.initForm(undefined);
+  }
+
+  visualizarTabla(){
+    this.mostrarFormulario = false;
+    this.mostrarTabla = true;
   }
 
   showHelpField(field?: string) {
     let ayudaHtml = '';
     switch (field) {
       case 'Tipo Id':
-        ayudaHtml = "<p style='text-align: left;'> <b>BCOEX:</b> significa que se debe colocar el tipo de id, la identificación y el nombre (en el campo tercero) del banco "+
+        ayudaHtml = "<p style='text-align: left; font-size: 14px'> <b>BCOEX:</b> significa que se debe colocar el tipo de id, la identificación y el nombre (en el campo tercero) del banco "+
 		                "del código punto banco externo de la transacción interna.<br>" +
                     "<br><b>MISMO:</b> significa que en el campo nobre tercero se debe colocar el nombre del Banco Aval de la operación.<br>"+
                     "<br><b>MISoBEX:</b>  significa que si existe Banco externo en la transación interna se lleva tipoid, id tercero y nombre tercero del Banco externo,"+
 			              "si no existe o existe y BanRep se llevan los datos del mismo Banco dueño del fondo. </p>";
         break;
       case 'Cuenta Auxiliar':
-        ayudaHtml = "<p style='text-align: left; font-size: 0.75em'>"+
+        ayudaHtml = "<p style='text-align: left; font-size: 14px'>"+
         "Numero de cuenta auxiliar, o la etiqueta "+
         "<b>{NOBR-00129}</b> si es un egreso diferente a la comisión Banco República lleva el valor 00129."+
         "</p>";
         break;
       case 'Identificador':
-        ayudaHtml = "<p style='text-align: left;'> <b>{Consec1}</b> Consecutivo que inicia en 1 y va aumentando de a 1  por cada nueva operación id que lleve este consecutivo.<br>" +
+        ayudaHtml = "<p style='text-align: left; font-size: 14px'> <b>{Consec1}</b> Consecutivo que inicia en 1 y va aumentando de a 1  por cada nueva operación id que lleve este consecutivo.<br>" +
                     "<br><b>{CENTROCIUDAD}</b> Ciudad del centro contable.<br>"+
                     "<br><b>{YYYYMMDD}</b> fecha del día de la operación, en este formato.</p>";
         break;
       case 'Descripción':
-        ayudaHtml = "<p style='text-align: left; font-size: 0.75em'>"+
-        "<b>{Comision} :</b> si el campo código comisión de la transacción interna es diferente de nulo colocar palabra COMISION."+
-        "<br><b>{Impuesto} :</b> si el campo código impuesto de la transacción es diferente de nulo colocar palabra IVA."+
-        "<br><b>{TipoOp} :</b> colocar tipo operación de la transacción interna."+
-        "<br><b>{Ciudad} :</b> colocar nombre de la ciudad del campo código ciudad de la transacción interna "+
-        "<br><b>{Tasa} :</b> Colocar valor del campo tasa negociación de la transacción interna, si es diferente de nulo o cero."+
-        "<br><b>{BancoExt} :</b> si el campo código punto banco externo de la transacción interna es diferente de nulo colocar nombre del Banco"+
-        "<br><b>{TDV} :</b> nombre de la transportadora del campo código_tdv en la transacción interna si no es nulo"+
-        "<br><b>{TDVTr} :</b> nombre de la transportadora del campo código_tdv en la transacción interna si no es nulo y solo para TRASLADOS"+
-        "<br><b>{DDMMYYYY} :</b> fecha del día de la operación, en este formato."+
+        ayudaHtml = "<p style='text-align: left; font-size: 14px'>"+
+        "<b>{Comision} :</b> si el campo código comisión de la transacción interna es diferente de nulo colocar palabra COMISION.<br>"+
+        "<br><b>{Impuesto} :</b> si el campo código impuesto de la transacción es diferente de nulo colocar palabra IVA.<br>"+
+        "<br><b>{TipoOp} :</b> colocar tipo operación de la transacción interna.<br>"+
+        "<br><b>{Ciudad} :</b> colocar nombre de la ciudad del campo código ciudad de la transacción interna.<br>"+
+        "<br><b>{Tasa} :</b> Colocar valor del campo tasa negociación de la transacción interna, si es diferente de nulo o cero.<br>"+
+        "<br><b>{BancoExt} :</b> si el campo código punto banco externo de la transacción interna es diferente de nulo colocar nombre del Banco.<br>"+
+        "<br><b>{TDV} :</b> nombre de la transportadora del campo código_tdv en la transacción interna si no es nulo.<br>"+
+        "<br><b>{TDVTr} :</b> nombre de la transportadora del campo código_tdv en la transacción interna si no es nulo y solo para TRASLADOS.<br>"+
+        "<br><b>{DDMMYYYY} :</b> fecha del día de la operación, en este formato.<br>"+
         "<br><b>{ComFondo} :</b> configuracion particular para TRASLADOS e INTERCAMBIOS. que consta de "+
-        "    VR COMP FONDOS {TDV1} {Ciudad1} {DDMMYYYY} {TipoOp} NO REALIZADO"+
-        "<br><b>  {TDV1} :</b> Nombre transportadora origen para entradas (crédito) y trasportadora destino en salidas (débito)"+
-        "<br><b>  {Ciudad1] :</b> Ciudad origen para entradas (crédito) y ciudad destino en salidas (débito)"+
+        "    VR COMP FONDOS {TDV1} {Ciudad1} {DDMMYYYY} {TipoOp} NO REALIZADO. <br>"+
+        "<br><b>  {TDV1} :</b> Nombre transportadora origen para entradas (crédito) y trasportadora destino en salidas (débito). <br>"+
+        "<br><b>  {Ciudad1] :</b> Ciudad origen para entradas (crédito) y ciudad destino en salidas (débito).<br>"+
         "  Este rótulo solo puede ir al final d ela cadena de configuración e implica que reemplaza la definición "+
-        "  que está antes de este rótulo"+
-        "<br><b>{NomComision} :</b> Nombre de la comisión correspondiente al campo código comisión"+
+        "  que está antes de este rótulo.<br>"+
+        "<br><b>{NomComision} :</b> Nombre de la comisión correspondiente al campo código comisión.<br>"+
         "<br><b>{EoS} :</b>  Cuando corresponde a una tipo de Operación intercambio lleva la palabra ENTRADA si es un débito y "+
-        "      la palabra SALIDA si es un crédito a la cuenta.   "+
+        "      la palabra SALIDA si es un crédito a la cuenta.<br>"+
         "</p>";
         break;
       default:
@@ -222,7 +236,15 @@ export class AdministracionContabilidadComponent implements OnInit {
       width: '80%',
       
       html: ayudaHtml,
+
+      confirmButtonText: 'Cerrar',
+
+      customClass: 'custom-alert-swal mat-primary'
     });
   }
 
+  visualizarFormulario(){
+    this.mostrarFormulario = true;
+    this.mostrarTabla = false;
+  }
 }

@@ -1,25 +1,24 @@
-<app-filtro-archivos (filterData)="filter($event)" [showFechaProceso]="true">
-</app-filtro-archivos>
-<div class="divTituloTablas">
-    <h1 class="tituloTabla"><strong>ARCHIVOS PENDIENTES DE CARGA</strong></h1>
-    <span class="line-spacer"></span>
+<div class="tittle-section">
+    <h2>Archivos Pendientes de Carga</h2>
 </div>
 
-<mat-grid-list cols="2" rowHeight="100px">
-  <mat-grid-tile colspan="1">
-    <div class="botones-tabla">
-      <button mat-raised-button color="primary" (click)="procesarArchivos()">Procesar archivos</button>
-      <button mat-raised-button color="primary" (click)="eliminarArchivo()">Eliminar archivos</button>
-      <button mat-raised-button color="primary" (click)="exporter.exportTable('xlsx', {fileName:'archivos_pendiente_carga'})">Exportar tabla</button>
+<div class="mat-table-custom">
+    <app-filtro-archivos (filterData)="filter($event)" [showFechaProceso]="true">
+    </app-filtro-archivos>
+
+    <div class="controls-container">
+        <button class="button-custom" mat-raised-button color="primary" (click)="procesarArchivos()">Procesar
+            archivos</button>
+        <button class="button-custom" mat-raised-button color="primary" (click)="eliminarArchivo()">Eliminar
+            archivos</button>
+        <button class="button-custom" mat-raised-button color="primary"
+            (click)="exporter.exportTable('xlsx', {fileName:'archivos_pendiente_carga'})">Exportar
+        </button>
+        <div class="paginator-area">
+            <mat-paginator *ngIf="cantidadRegistros > 0" [pageSize]="5" [pageSizeOptions]="pageSizeList"
+                [length]="cantidadRegistros"></mat-paginator>
+        </div>
     </div>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1">
-    <mat-paginator *ngIf="cantidadRegistros > 0" [pageSize]="5" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros"></mat-paginator>
-  </mat-grid-tile>
-</mat-grid-list>
-
-
-<div class="divTabla">
     <table mat-table matTableExporter [hiddenColumns]="[0,8]" [dataSource]="dataSourceConciliadas" matSort
         #exporter="matTableExporter" aria-label="archivosCarga">
         <tr>

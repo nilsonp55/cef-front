@@ -15,8 +15,19 @@
 
   .botonesClientes {
     display: flex;
-    padding-left: 2%;
+    padding-left: 0%;
     flex-wrap: nowrap;
+    justify-content: center;
   }
 
+  .mat-table-custom .table-filter-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, max-content));
+    justify-content: start;
+  }
 
+  .mat-table-custom .botonesClientes .mat-button {
+    padding: 0px;
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+  }

@@ -1,137 +1,32 @@
-<div class="mat-cell">
+<div class="tittle-section">
   <h2>Configuración contable entidad</h2>
-  <div class="division-btn">
-    <button mat-raised-button color="primary" (click)="crearConfEntity()">Crear</button>
-  </div>
 </div>
-
-  <div [formGroup]="form" *ngIf="mostrarFormulario">
-      <mat-form-field appearance="fill">
-        <input matInput placeholder="ID" formControlName="consecutivo">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <input matInput required placeholder="Cuenta Contable" formControlName="cuentaContable">
-        <mat-error *ngIf="form.get('cuentaContable').hasError('required')">Este campo es requerido</mat-error>
-        <mat-error *ngIf="form.get('cuentaContable').hasError('pattern')">Ingresar únicamente valores numéricos</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Medio de pago</mat-label>
-        <mat-select formControlName="medioPago">
-          <mat-option *ngFor="let item of mediosPago" [value]="item">
-            {{item}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Tipo operaciones</mat-label>
-        <mat-select formControlName="tipoOperacion">
-          <mat-option *ngFor="let item of tipoOperaciones" [value]="item">
-            {{item}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Banco</mat-label>
-        <mat-select formControlName="bancoAval">
-          <mat-option *ngFor="let item of bancos" [value]="item">
-            {{item.nombreBanco}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Banco externo</mat-label>
-        <mat-select formControlName="bancoExterno">
-          <mat-option *ngFor="let item of bancosExternos" [value]="item">
-            {{item.nombreBanco}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Transportadoras</mat-label>
-        <mat-select formControlName="transportadora">
-          <mat-option *ngFor="let item of transportadoras" [value]="item">
-            {{item.nombreTransportadora}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Tipo transaccion</mat-label>
-        <mat-select formControlName="tipoTransaccion">
-          <mat-option *ngFor="let item of tipoTransaccion" [value]="item">
-            {{item}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('tipoTransaccion').hasError('required')">Este campo es requerido</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Codigo comisión</mat-label>
-        <mat-select formControlName="codigoComision">
-          <mat-option *ngFor="let item of codigosComiciones" [value]="item">
-            {{item}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Tipo impuestos</mat-label>
-        <mat-select formControlName="tipoImpuesto">
-          <mat-option *ngFor="let item of tiposImpuestos" [value]="item">
-            {{item}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <div>
-        <mat-label>Naturaleza:</mat-label>
-        <mat-radio-group formControlName="naturaleza" [(ngModel)]="selectNaturaleza">
-          <mat-radio-button class="example-margin" value="C">Credito</mat-radio-button>
-          <mat-radio-button class="example-margin" value="D">Debito</mat-radio-button>
-        </mat-radio-group>
-        <mat-error *ngIf="form.get('naturaleza').hasError('required')">Este campo es requerido</mat-error>
-      </div>
-      <div>
-        <mat-label>Es Cambio:</mat-label>
-        <mat-radio-group formControlName="esCambio" [(ngModel)]="selectEsCambio">
-          <mat-radio-button class="example-margin" value="true">Si</mat-radio-button>
-          <mat-radio-button class="example-margin" value="false">No</mat-radio-button>
-        </mat-radio-group>
-      
-    </div>
-    <div >
-      <button mat-raised-button color="primary" (click)="persistir()" [disabled]="form.invalid">
-        Aceptar
-      </button>
-      <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
-    </div>
+<div class="mat-table-custom" *ngIf="mostrarTabla">
+  <div class="table-filter-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Filtro Bancos</mat-label>
+      <mat-select [(ngModel)]="filtroBancoSelect">
+        <mat-option *ngFor="let item of bancos" [value]="item">
+          {{item.nombreBanco}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button title="Visualizar" mat-button (click)="filtrar($event)">
+      <mat-icon style="color: green">search</mat-icon>
+    </button>
+    <button title="Limpiar" mat-button (click)="limpiar()">
+      <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
+    </button>
+  </div>
+  <div class="controls-container">
+    <button *ngIf="!isLoading" title="Nuevo" mat-raised-button class="button-custom" color="primary"
+      (click)="crearConfEntity()">Nuevo</button>
+  </div>
+  <div *ngIf="isLoading" class="disenio-spinner">
+    <mat-spinner></mat-spinner>
   </div>
 
-<div class="ubicacionTablas">
-  <div *ngIf="mostrarTabla">
-    <div class="filtro">
-      <mat-form-field appearance="fill">
-        <mat-label>Filtro Bancos</mat-label>
-        <mat-select [(ngModel)]="filtroBancoSelect">
-          <mat-option *ngFor="let item of bancos" [value]="item">
-            {{item.nombreBanco}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button title="Visualizar" mat-button (click)="filtrar($event)">
-        <mat-icon style="color: green">search</mat-icon>
-      </button>
-      <button title="Limpiar" mat-button (click)="limpiar()">
-        <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
-      </button>
-    </div>
+  <div *ngIf="!isLoading">
     <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll"
       aria-label="confContableEntidad">
       <tr>
@@ -141,7 +36,7 @@
         </ng-container>
 
         <ng-container matColumnDef="cuenta" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Contable</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>CUENTA CONTABLE</th>
           <td mat-cell *matCellDef="let element"> {{element.cuentaContable}} </td>
         </ng-container>
 
@@ -151,57 +46,57 @@
         </ng-container>
 
         <ng-container matColumnDef="medioPago" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Medio Pago</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>MEDIO PAGO</th>
           <td mat-cell *matCellDef="let element"> {{element.medioPago}} </td>
         </ng-container>
 
         <ng-container matColumnDef="cuentaContable" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Contable</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>CUENTA CONTABLE</th>
           <td mat-cell *matCellDef="let element"> {{element.cuentaContable}} </td>
         </ng-container>
 
         <ng-container matColumnDef="naturaleza" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Naturaleza</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>NATURALEZA</th>
           <td mat-cell *matCellDef="let element"> {{element.naturaleza}} </td>
         </ng-container>
 
         <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Operacion</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO OPERACIÓN</th>
           <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
         </ng-container>
 
         <ng-container matColumnDef="bancoAval" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>BANCO</th>
           <td mat-cell *matCellDef="let element"> {{element.bancoAval.abreviatura}} </td>
         </ng-container>
 
         <ng-container matColumnDef="codigoPuntoBancoExt" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo Punto Banco Ext</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>CÓDIGO PUNTO BANCTO EXT</th>
           <td mat-cell *matCellDef="let element"> {{element.codigoPuntoBancoExt?.nombrePunto}} </td>
         </ng-container>
 
         <ng-container matColumnDef="codigoTdv" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo TDV</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>CÓDIGO TDV</th>
           <td mat-cell *matCellDef="let element"> {{element.codigoTdv}} </td>
         </ng-container>
 
         <ng-container matColumnDef="tipoTransaccion" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Transaccion</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO TRANSACCIÓN</th>
           <td mat-cell *matCellDef="let element"> {{element.tipoTransaccion}} </td>
         </ng-container>
 
         <ng-container matColumnDef="codigoComision" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo Comision</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>CÓDIGO COMISIÓN</th>
           <td mat-cell *matCellDef="let element"> {{element.codigoComision}} </td>
         </ng-container>
 
         <ng-container matColumnDef="tipoImpuesto" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Impuesto</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO IMPUESTO</th>
           <td mat-cell *matCellDef="let element"> {{element.tipoImpuesto}} </td>
         </ng-container>
 
         <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>EDITAR</th>
           <td mat-cell *matCellDef="let element">
             <button mat-button (click)="editar(element)">
               <mat-icon style="color: green">edit</mat-icon>
@@ -213,4 +108,117 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumnsTiposCuentas;"></tr>
     </table>
   </div>
+
+</div>
+
+<div *ngIf="mostrarFormulario" class="form-containter">
+  <div [formGroup]="form" class="form-fields">
+    <mat-form-field appearance="fill">
+      <mat-label>ID</mat-label>
+      <input matInput formControlName="consecutivo">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Cuenta Contable</mat-label>
+      <input matInput required formControlName="cuentaContable">
+      <mat-error *ngIf="form.get('cuentaContable').hasError('required')">Este campo es requerido</mat-error>
+      <mat-error *ngIf="form.get('cuentaContable').hasError('pattern')">Ingresar únicamente valores
+        numéricos</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Medio de pago</mat-label>
+      <mat-select formControlName="medioPago">
+        <mat-option *ngFor="let item of mediosPago" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo operaciones</mat-label>
+      <mat-select formControlName="tipoOperacion">
+        <mat-option *ngFor="let item of tipoOperaciones" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Banco</mat-label>
+      <mat-select formControlName="bancoAval">
+        <mat-option *ngFor="let item of bancos" [value]="item">
+          {{item.nombreBanco}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Banco externo</mat-label>
+      <mat-select formControlName="bancoExterno">
+        <mat-option *ngFor="let item of bancosExternos" [value]="item">
+          {{item.nombreBanco}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Transportadoras</mat-label>
+      <mat-select formControlName="transportadora">
+        <mat-option *ngFor="let item of transportadoras" [value]="item">
+          {{item.nombreTransportadora}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo transaccion</mat-label>
+      <mat-select formControlName="tipoTransaccion">
+        <mat-option *ngFor="let item of tipoTransaccion" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('tipoTransaccion').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Codigo comisión</mat-label>
+      <mat-select formControlName="codigoComision">
+        <mat-option *ngFor="let item of codigosComiciones" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo impuestos</mat-label>
+      <mat-select formControlName="tipoImpuesto">
+        <mat-option *ngFor="let item of tiposImpuestos" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="radio-container">
+      <mat-label>Naturaleza: *</mat-label>
+      <mat-radio-group formControlName="naturaleza" [(ngModel)]="selectNaturaleza">
+        <mat-radio-button class="example-margin" value="C">Credito</mat-radio-button>
+        <mat-radio-button class="example-margin" value="D">Debito</mat-radio-button>
+      </mat-radio-group>
+      <mat-error *ngIf="form.get('naturaleza').hasError('required')">Este campo es requerido</mat-error>
+    </div>
+    <div class="radio-container">
+      <mat-label>Es Cambio:</mat-label>
+      <mat-radio-group formControlName="esCambio" [(ngModel)]="selectEsCambio">
+        <mat-radio-button class="example-margin" value="true">Si</mat-radio-button>
+        <mat-radio-button class="example-margin" value="false">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  
+    <div class="button-container">
+      <button mat-raised-button color="primary" class="button-custom" (click)="persistir()" [disabled]="form.invalid">
+        Aceptar
+      </button>
+      <button mat-raised-button class="button-custom" color="warn" (click)="onCancel()">Cancelar</button>
+    </div>
 </div>

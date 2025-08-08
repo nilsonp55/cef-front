@@ -1,11 +1,11 @@
 <div class="menu-container">
     <!--Banner superior-->
-    <app-banner-superior></app-banner-superior>
+    <app-banner-superior (checkMenuLateral)="onCheckMenuLateral($event)"></app-banner-superior>
 
     <!--Componente barra lateral y area de ejecución-->
     <mat-sidenav-container class="sidenav-container">
         <!--Barra izquierda de opciones (Apodo id = sidenav)-->
-        <mat-sidenav #sidenav opened="true" style="width: 17%" mode="side">
+        <mat-sidenav #sidenav opened={{checkMenuLateral}} style="width: 17%" mode="side">
             <!--opciones de menu-->
             <mat-divider></mat-divider>
             <div *ngFor="let item of menusLiquidacion">

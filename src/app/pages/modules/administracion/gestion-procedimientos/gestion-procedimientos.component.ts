@@ -28,7 +28,12 @@ export class GestionProcedimientosComponent implements OnInit {
   //DataSource para pintar tabla de los procesos a ejecutar
   fechaSistemaSelect: any;
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['nombreFuncion', 'descripcionFuncion', 'cantidadParametros', 'estado', 'acciones'];
+  displayedColumnsInfoProcesos: string[] = ['nombreFuncion', 
+    'descripcionFuncion', 
+    'cantidadParametros', 
+    //'estado', 
+    'acciones'
+  ];
 
   constructor(
     private readonly dialog: MatDialog,
@@ -36,6 +41,7 @@ export class GestionProcedimientosComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.spinnerActive = true
     ManejoFechaToken.manejoFechaToken()
     this.listarProcesos();
   }
@@ -52,6 +58,7 @@ export class GestionProcedimientosComponent implements OnInit {
       this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
       this.dataSourceInfoProcesos.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.spinnerActive = false
     },
     error:  (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -61,6 +68,7 @@ export class GestionProcedimientosComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
+        this.spinnerActive = false
       }
     });
   }

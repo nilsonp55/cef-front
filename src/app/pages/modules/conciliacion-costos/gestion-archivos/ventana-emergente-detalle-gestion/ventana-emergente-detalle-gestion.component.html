@@ -9,7 +9,7 @@
     <p style="width: 320%;">{{contenidoNoPendiente}}</p>
 </div>
 </div>
-<mat-dialog-actions align="end">
-    <button color="secondary" mat-raised-button mat-dialog-close>Cerrar</button>
-    <button color="primary" mat-raised-button (click)="descargarArchivo()">Descargar</button>
+<mat-dialog-actions align="center">
+    <button color="primary" mat-raised-button class="button-custom" (click)="descargarArchivo()">Descargar</button>
+    <button color="warn" class="button-custom" mat-raised-button mat-dialog-close>Cerrar</button>
 </mat-dialog-actions>

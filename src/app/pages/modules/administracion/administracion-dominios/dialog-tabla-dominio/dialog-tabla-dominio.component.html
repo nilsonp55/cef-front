@@ -1,57 +1,60 @@
-<div class="titulo-tabla">
-    <h1>{{titulo+ 'tabla de dominio'}}</h1>
-</div>
+<div class="modal-dialog-custom">
+    <div class="titulo-tabla">
+        <h1>{{'Dominio'}}</h1>
+    </div>
 
-<div class="div-division">
-    <div class="ubica">
-        <h2>Nombre Dominio</h2>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Nombre Dominio</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <input matInput [(ngModel)]="nombreDominio" value={{nombreDominio}} [disabled]="esEdicion">
+            </mat-form-field>
+        </div>
     </div>
-    <div class="example-container">
-        <mat-form-field appearance="fill" >
-            <input matInput [(ngModel)]="nombreDominio" value={{nombreDominio}} [disabled]="esEdicion">
-        </mat-form-field>
-    </div>
-</div>
 
-<div class="div-division">
-    <div class="ubica">
-        <h2>Descripción</h2>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Descripción</h2>
+        </div>
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <textarea matInput [(ngModel)]="descripcion"></textarea>
+            </mat-form-field>
+        </div>
     </div>
-    <div class="example-container">
-        <mat-form-field appearance="fill">
-            <input matInput [(ngModel)]="descripcion" >
-        </mat-form-field>
-    </div>
-</div>
 
-<div class="div-division">
-    <div class="ubica">
-        <h2>Tipo de contenido</h2>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Tipo de contenido</h2>
+        </div>
+        <div>
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                [(ngModel)]="contenido">
+                <mat-radio-button class="example-radio-button" *ngFor="let contenido of tipoContenidoList"
+                    [value]="contenido.value">
+                    {{contenido.label}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
     </div>
-    <div>
-        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-            [(ngModel)]="contenido">
-            <mat-radio-button class="example-radio-button" *ngFor="let contenido of tipoContenidoList" [value]="contenido.value">
-                {{contenido.label}}
-            </mat-radio-button>
-        </mat-radio-group>
-    </div>
-</div>
 
-<div class="div-division">
-    <h3>Estado</h3>
-    <label class="switch">
-        <input class="switch-input" type="checkbox" [(ngModel)]="estado" id="estado" />
-        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
-        <span class="switch-handle"></span>
-    </label>
-</div>
+    <div class="div-division">
+        <div class="ubica">
+            <h2>Estado</h2>
+        </div>
+        <label class="switch">
+            <input class="switch-input" type="checkbox" [(ngModel)]="estado" id="estado" />
+            <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+            <span class="switch-handle"></span>
+        </label>
+    </div>
 
-<div class="division-btn-ident">
-    <div>
-        <button mat-raised-button color="primary" (click)="persistirDatos()">{{nombreBTN}}</button>
+    <div class="division-btn-ident">
+        <button mat-raised-button color="primary" (click)="persistirDatos()" class="button-custom">{{nombreBTN}}</button>
+        <button mat-raised-button color="warn" mat-dialog-close class="button-custom">Cancelar</button>
+
     </div>
-    <div>
-        <button mat-raised-button color="warn" mat-dialog-close>Cerrar</button>
-    </div>
+
 </div>

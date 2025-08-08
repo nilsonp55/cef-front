@@ -1,5 +1,5 @@
 <div mat-dialog-content>
-  <mat-icon mat-dialog-close class="botonCerrarDialog">close</mat-icon>
+  <mat-icon mat-dialog-close class="botonCerrarDialog" (click)="onCancel()">close</mat-icon>
   <div style="border: 1px solid rgb(234, 234, 234)">
     <div style="text-align: center; margin-top: 5%;">
       <div [ngSwitch]="data.codigo">
@@ -8,7 +8,7 @@
         <img *ngSwitchCase="3" [src]="imgExistoso" width="150" alt="imgExistoso">
         <img *ngSwitchCase="4" [src]="imgEsperar" width="150" alt="imgEsperar">
       </div>
-      <p style="font-size: 20px; margin-top: 2%;"> {{ data.msn }} </p>
+      <p style="font-size: 16px; margin-top: 2%;"> {{ data.msn }} </p>
 
       <mat-accordion *ngIf="data.showResume">
         <mat-expansion-panel hideToggle>
@@ -23,7 +23,7 @@
   </div>
 </div>
 <div mat-dialog-actions *ngIf="data.showActions">
-  <button class="division-btn1" mat-raised-button color="primary" cdkFocusInitial
+  <button class="division-btn1" class="button-custom" mat-raised-button color="primary" cdkFocusInitial
     [mat-dialog-close]="data">Aceptar</button>
-  <button mat-raised-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="warn" class="button-custom" (click)="onCancel()">Cancelar</button>
 </div>

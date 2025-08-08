@@ -4,22 +4,19 @@
   </div>
 </div>
 <div *ngIf="!load">
-    <mat-grid-list rowHeight="100px" cols="2">
-        <mat-grid-tile colspan="1">
-            <div class="botones-tabla">
-                <button color="primary" mat-raised-button (click)="exporter.exportTable('xlsx', {fileName: datosTabla.nombreArchivoExportar})">
-                  Exportar tabla
-                </button>
-                <button color="primary" mat-raised-button *ngFor="let boton of datosTabla.botones; let i=index" (click)="emitirEvento($event)">
-                  {{boton}}
-                </button>
-            </div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="1">
-            <mat-paginator [length]="datosTabla.totalRegistros" [pageSize]="5" [pageSizeOptions]="pageSizeList"></mat-paginator>
-        </mat-grid-tile>
-    </mat-grid-list>
-    <div class="divTabla">
+    <div class="controls-container">
+        <button mat-raised-button color="primary" class="button-custom" class="button-custom"
+            *ngFor="let boton of datosTabla.botones; let i=index" (click)="emitirEvento($event)">
+            {{boton}}
+        </button>
+        <button mat-raised-button class="button-custom" color="primary"
+            (click)="exporter.exportTable('xlsx', {fileName: datosTabla.nombreArchivoExportar})">
+            Exportar
+        </button>
+        <div class="paginator-area"><mat-paginator [length]="datosTabla.totalRegistros" [pageSizeOptions]="pageSizeList"
+                [pageSize]="5"></mat-paginator></div>
+    </div>
+    <div class="table-container">
         <table mat-table [dataSource]="dataSource" matTableExporter matSort #exporter="matTableExporter" aria-label="tablaIdenConDif">
             <tr>
                 <ng-container matColumnDef="select">

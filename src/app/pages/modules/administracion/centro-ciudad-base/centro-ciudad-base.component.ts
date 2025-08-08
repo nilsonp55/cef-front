@@ -29,6 +29,7 @@ export class CentroCiudadBaseComponent implements OnInit {
     ciudades: any[] = [];
     idCentroCiudad: any;
     esEdicion: boolean;
+    mostrarTabla = true;
     spinnerActive: boolean = false;
 
     //Registros paginados
@@ -43,6 +44,8 @@ export class CentroCiudadBaseComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.spinnerActive = true;
+        this.visualizarTabla();
         ManejoFechaToken.manejoFechaToken()
         this.datosDesplegables();
         this.listarCentrosCiudades();
@@ -94,7 +97,7 @@ export class CentroCiudadBaseComponent implements OnInit {
             serviceCall = this.centroCiudadesService.obtenerCentrosCiudades({
                 page: pagina,
                 size: tamanio,
-            });            
+            });
         }
         serviceCall.subscribe({
             next: (page: any) => {
@@ -102,6 +105,7 @@ export class CentroCiudadBaseComponent implements OnInit {
                 this.dataSourceTiposCuentas.sort = this.sort;
                 this.cantidadRegistros = page.data.totalElements;
                 this.spinnerActive = false;
+                this.visualizarTabla();
             },
             error: (err: any) => {
                 this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -114,6 +118,7 @@ export class CentroCiudadBaseComponent implements OnInit {
                     }
                 });
                 this.spinnerActive = false;
+                this.visualizarTabla();
             }
         });
     }
@@ -142,13 +147,13 @@ export class CentroCiudadBaseComponent implements OnInit {
             centrociudad.idCentroCiudad = this.idCentroCiudad;
             msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE;
             msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE;
-            serviceCall = this.centroCiudadesService.actualizarCentroCiudade(centrociudad, 
+            serviceCall = this.centroCiudadesService.actualizarCentroCiudade(centrociudad,
                 this.tipoCentroCiudad.includes('Principal')
             );
         } else {
             msgCrudSuccessfull = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
             msgCrudError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
-            serviceCall = this.centroCiudadesService.guardarCentroCiudade(centrociudad, 
+            serviceCall = this.centroCiudadesService.guardarCentroCiudade(centrociudad,
                 this.tipoCentroCiudad.includes('Principal')
             );
         }
@@ -167,6 +172,7 @@ export class CentroCiudadBaseComponent implements OnInit {
                 this.listarCentrosCiudades()
                 this.initForm();
                 this.spinnerActive = false;
+                this.visualizarTabla();
             },
             error: (err: any) => {
                 this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -179,9 +185,15 @@ export class CentroCiudadBaseComponent implements OnInit {
                     }
                 });
                 this.spinnerActive = false;
+                this.visualizarTabla();
             }
         });
 
+    }
+
+    visualizarTabla() {
+        this.mostrarFormulario = false;
+        this.mostrarTabla = true;
     }
 
     /**
@@ -191,22 +203,18 @@ export class CentroCiudadBaseComponent implements OnInit {
     crearCentroCiudad() {
         this.initForm();
         this.form.get('idCentroCiudad').disable();
-        this.mostrarFormulario = true;
+        this.visualizarFormulario()
         this.esEdicion = false;
     }
 
-    /**
-      * Se muestra el formulario para actualizar dentros ciudad
-      * @BayronPerez
-      */
-    actualizarCentroCiudad() {
-        this.initForm();
+    visualizarFormulario() {
         this.mostrarFormulario = true;
+        this.mostrarTabla = false;
     }
 
     editar(registro: any) {
         this.initForm(registro);
-        this.mostrarFormulario = true;
+        this.visualizarFormulario()
         this.idCentroCiudad = this.form.get('idCentroCiudad').value;
         this.form.get('idCentroCiudad').disable();
         this.esEdicion = true;
@@ -226,8 +234,8 @@ export class CentroCiudadBaseComponent implements OnInit {
                 showActions: true
             }
         }).afterClosed().subscribe(result => {
-            if(result !== undefined) {
-              this.eliminar(element);
+            if (result !== undefined) {
+                this.eliminar(element);
             };
         });
 
@@ -241,7 +249,7 @@ export class CentroCiudadBaseComponent implements OnInit {
     eliminar(registro: any) {
         let serviceCall: Observable<any>;
         this.spinnerActive = false;
-        if(this.tipoCentroCiudad === 'Principal') {
+        if (this.tipoCentroCiudad === 'Principal') {
             serviceCall = this.centroCiudadesService.eliminarCentroCiudadePpal(registro.idCentroCiudad);
         } else {
             serviceCall = this.centroCiudadesService.eliminarCentroCiudad(registro.idCentroCiudad);
@@ -278,7 +286,7 @@ export class CentroCiudadBaseComponent implements OnInit {
     }
 
     onCancel() {
-        this.mostrarFormulario = false;
+        this.visualizarTabla();
         this.esEdicion = false;
         this.initForm(undefined);
     }

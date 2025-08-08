@@ -52,11 +52,6 @@
 	justify-content: center !important;
 }
 
-.mat-form-field {
-	margin-right: 2%;
-	margin-left: 0%;
-}
-
 .form-grid {
 	display: flex;
 	flex-wrap: wrap;

@@ -18,7 +18,17 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   @ViewChild(TableCodigoTdvComponent) dotsCodeTable!: TableCodigoTdvComponent;
 
-  displayedColumnsPuntosCodigo: string[] = ['idPuntoCodigoTdv', 'codigoPunto', 'tipoPunto', 'codigoTdv', 'codigoPropioTdv', 'nombrePunto', 'nombreBanco', 'codigoCiudad', 'estado', 'acciones'];
+  displayedColumnsPuntosCodigo: string[] = [
+    'idPuntoCodigoTdv', 
+    'codigoPunto', 
+    'tipoPunto', 
+    'codigoTdv', 
+    'codigoPropioTdv', 
+    'nombrePunto', 
+    'nombreBanco', 
+    'codigoCiudad', 
+    //'estado', 
+    'acciones'];
   mostrarFormulario = false;
   mostrarTabla = true;
   // Properties for <app-form-codigo-tdv>

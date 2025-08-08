@@ -2,3 +2,19 @@
     float: right;
     margin-left: auto
 }
+
+.button-custom {
+  margin-right: 24px;
+  color: white;
+  font-weight: 500;
+  padding: 0 16px;
+  min-width: 90px;
+  max-width: 90px;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* No se contrae */
+}
+
+.mat-dialog-actions {
+    justify-content: center;
+    gap: 48px;
+}

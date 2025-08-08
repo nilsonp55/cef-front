@@ -1,146 +1,134 @@
-<div class="titulo-tabla">
-    <h2>{{titulo}} punto</h2>
-</div>
-<div *ngIf="spinnerActive" class="disenio-spinner">
-  <mat-spinner></mat-spinner>
-</div>
-<div [formGroup]="form" >
-    <div class="flex">      
-        <mat-form-field appearance="outline">
-          <mat-label>Tipo Punto</mat-label>
-            <mat-select formControlName="tipoPunto" (selectionChange)="changeTipoPunto($event)">
-                <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto.valorTexto">
-                    {{tipoPunto.valorTexto}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="form.get('tipoPunto').hasError('required')">Este campo es requerido</mat-error>
-        </mat-form-field>
+<div class="modal-dialog-custom">
+  <div class="titulo-tabla">
+    <h2>Punto</h2>
+  </div>
+  <!-- <div *ngIf="spinnerActive" class="disenio-spinner">
+    <mat-spinner></mat-spinner>
+  </div> -->
+  <div [formGroup]="form" class="form-fields">
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo Punto</mat-label>
+      <mat-select formControlName="tipoPunto" (selectionChange)="changeTipoPunto($event)">
+        <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto.valorTexto">
+          {{tipoPunto.valorTexto}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('tipoPunto').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
 
-      <mat-form-field appearance="outline" >
-        <mat-label>Banco Aval</mat-label>
-        <mat-select formControlName="bancoAval" (selectionChange)="changeBancoTrans($event)" 
-          [disabled]="puntoSeleccionado=='BAN_REP' || puntoSeleccionado=='BANCO'">
-          <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval" >
-            {{bancoAval.nombreBanco}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
-      </mat-form-field>
-    </div>  
-    <div class="flex">  
-        <mat-form-field appearance="outline">
-            <mat-label>Ciudad</mat-label>
-            <input type="text" matInput formControlName="ciudad" [matAutocomplete]="auto" (blur)="changeCiudad($event)">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCiudad">
-                <mat-option *ngFor="let ciudad of ciudadesFiltradas | async" [value]="ciudad">
-                    {{ciudad.codigoDANE + " - " + ciudad.nombreCiudad}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Banco Aval</mat-label>
+      <mat-select formControlName="bancoAval" (selectionChange)="changeBancoTrans($event)"
+        [disabled]="puntoSeleccionado=='BAN_REP' || puntoSeleccionado=='BANCO'">
+        <mat-option *ngFor="let bancoAval of bancosAval" [value]="bancoAval">
+          {{bancoAval.nombreBanco}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('bancoAval').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Ciudad</mat-label>
+      <input type="text" matInput formControlName="ciudad" [matAutocomplete]="auto" (blur)="changeCiudad($event)">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCiudad">
+        <mat-option *ngFor="let ciudad of ciudadesFiltradas | async" [value]="ciudad">
+          {{ciudad.codigoDANE + " - " + ciudad.nombreCiudad}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
 
-        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'OFICINA'">
-          <mat-label>Código oficina</mat-label>
-            <input formControlName="codigoOficina" matInput #input>
-            <mat-error *ngIf="form.get('codigoOficina').hasError('required')">Este campo es requerido</mat-error>
-        </mat-form-field>
-      
-        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'CAJERO'">
-          <mat-label>Código cajero</mat-label>
-            <input formControlName="codigoCajero" matInput #input>
-            <mat-error *ngIf="form.get('codigoCajero').hasError('required')">Este campo es requerido</mat-error>
-        </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'OFICINA'">
+      <mat-label>Código oficina</mat-label>
+      <input formControlName="codigoOficina" matInput #input>
+      <mat-error *ngIf="form.get('codigoOficina').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
 
-        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'BANCO'">
-          <mat-label>Abreviatura</mat-label>
-            <input formControlName="abreviatura" matInput #input>
-        </mat-form-field> 
-    
-        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'CLIENTE'">
-            <mat-label>Cliente</mat-label>
-            <input type="text" matInput formControlName="cliente" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                <mat-option *ngFor="let cliente of clientesFiltrados | async" [value]="cliente">
-                    {{cliente.identificacion + " : " + cliente.nombreCliente}}
-                </mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="form.get('cliente').hasError('required')">Este campo es requerido</mat-error>
-        </mat-form-field>
-      </div>
-      <div class="flex">  
-        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'CLIENTE'">
-          <mat-label>Identificador Cliente</mat-label>
-          <input formControlName="identificadorCliente" matInput #input >
-          <mat-error *ngIf="form.get('identificadorCliente').hasError('maxlength')">Longitud maxima es de 50 caracteres.</mat-error>
-      </mat-form-field>
-    
-        <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'FONDO'">
-            <mat-label>Transportadora</mat-label>
-            <mat-select formControlName="transportadora" (selectionChange)="changeBancoTrans($event)">
-                <mat-option *ngFor="let transportadora of tdvs" [value]="transportadora">
-                    {{transportadora.nombreTransportadora}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="form.get('transportadora').hasError('required')">Este campo es requerido</mat-error>
-        </mat-form-field>
-    
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'OFICINA' || puntoSeleccionado === 'CAJERO'">
-        <mat-label>Tarifa ruteo</mat-label>
-          <input type="number" formControlName="tarifaRuteo" matInput #input>
-      </mat-form-field>
-    
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'OFICINA' || puntoSeleccionado === 'CAJERO'">
-        <mat-label>Tarifa Verificación</mat-label>
-          <input type="number" formControlName="tarifaVerificacion" matInput #input>
-      </mat-form-field>
-    </div>
-    <div class="flex">  
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'BANCO'">
-        <mat-label>Codigo de compensación</mat-label>
-          <input formControlName="codigoCompensacion" matInput #input>
-      </mat-form-field>
-    
-      <mat-form-field appearance="outline" *ngIf="puntoSeleccionado === 'BANCO'">
-        <mat-label>Identificación (NIT)</mat-label>
-          <input formControlName="identificacion" matInput #input>
-      </mat-form-field>
-    </div>
-    <div class="flex">  
-      <mat-form-field appearance="outline">
-        <mat-label>Nombre Punto</mat-label>
-          <input formControlName="nombrePunto" matInput #input [readonly]="puntoSeleccionado === 'FONDO' || puntoSeleccionado === 'BAN_REP'">
-          <mat-error *ngIf="form.get('nombrePunto').hasError('required')">Este campo es requerido</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="flex">  
-      <div *ngIf="puntoSeleccionado === 'BANCO'">
-        <label id="esaval-label">Es del Grupo Aval</label>
-        <mat-checkbox formControlName="esAval" color="primary" aria-labelledby="esaval-label"></mat-checkbox>
-      </div> 
-      <div *ngIf="puntoSeleccionado === 'CLIENTE' || puntoSeleccionado === 'OFICINA'">
-        <label id="fajado-label">Fajado</label>
-        <mat-checkbox formControlName="fajado" color="primary" aria-labelledby="fajado-label"></mat-checkbox>
-      </div>
-      <div *ngIf="puntoSeleccionado === 'OFICINA'">
-        <label id="refajillado-label">Refajillado</label>
-        <mat-checkbox formControlName="refajillado" color="primary" aria-labelledby="refajillado-label"></mat-checkbox>
-      </div>
-      <div class="div-division">
-        <h3>Estado</h3>
-        <label class="switch" appearance="outline">
-          <input class="switch-input" type="checkbox" formControlName="estado" id="estado"/>
-          <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
-          <span class="switch-handle"></span>
-        </label>
-      </div>
-    </div>
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'CAJERO'">
+      <mat-label>Código cajero</mat-label>
+      <input formControlName="codigoCajero" matInput #input>
+      <mat-error *ngIf="form.get('codigoCajero').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
 
-    <div class="division-btn-ident flex">
-        <div>
-            <button mat-raised-button color="primary"
-                (click)="persistir()" [disabled]="form.invalid">Guardar</button>
-        </div>
-        <div>
-            <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
-        </div>
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'BANCO'">
+      <mat-label>Abreviatura</mat-label>
+      <input formControlName="abreviatura" matInput #input>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'CLIENTE'">
+      <mat-label>Cliente</mat-label>
+      <input type="text" matInput formControlName="cliente" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
+        <mat-option *ngFor="let cliente of clientesFiltrados | async" [value]="cliente">
+          {{cliente.identificacion + " : " + cliente.nombreCliente}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="form.get('cliente').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'CLIENTE'">
+      <mat-label>Identificador Cliente</mat-label>
+      <input formControlName="identificadorCliente" matInput #input>
+      <mat-error *ngIf="form.get('identificadorCliente').hasError('maxlength')">Longitud maxima es de 50
+        caracteres.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'FONDO'">
+      <mat-label>Transportadora</mat-label>
+      <mat-select formControlName="transportadora" (selectionChange)="changeBancoTrans($event)">
+        <mat-option *ngFor="let transportadora of tdvs" [value]="transportadora">
+          {{transportadora.nombreTransportadora}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('transportadora').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'OFICINA' || puntoSeleccionado === 'CAJERO'">
+      <mat-label>Tarifa ruteo</mat-label>
+      <input type="number" formControlName="tarifaRuteo" matInput #input>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'OFICINA' || puntoSeleccionado === 'CAJERO'">
+      <mat-label>Tarifa Verificación</mat-label>
+      <input type="number" formControlName="tarifaVerificacion" matInput #input>
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'BANCO'">
+      <mat-label>Codigo de compensación</mat-label>
+      <input formControlName="codigoCompensacion" matInput #input>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'BANCO'">
+      <mat-label>Identificación (NIT)</mat-label>
+      <input formControlName="identificacion" matInput #input>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre Punto</mat-label>
+      <input formControlName="nombrePunto" matInput #input
+        [readonly]="puntoSeleccionado === 'FONDO' || puntoSeleccionado === 'BAN_REP'">
+      <mat-error *ngIf="form.get('nombrePunto').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <div *ngIf="puntoSeleccionado === 'BANCO'" class="checkbox-container">
+      <label id="esaval-label">Es del Grupo Aval</label>
+      <mat-checkbox formControlName="esAval" color="primary" aria-labelledby="esaval-label"></mat-checkbox>
     </div>
+    <div *ngIf="puntoSeleccionado === 'CLIENTE' || puntoSeleccionado === 'OFICINA'" class="checkbox-container">
+      <label id="fajado-label">Fajado</label>
+      <mat-checkbox formControlName="fajado" color="primary" aria-labelledby="fajado-label"></mat-checkbox>
+    </div>
+    <div *ngIf="puntoSeleccionado === 'OFICINA'" class="checkbox-container">
+      <label id="refajillado-label">Refajillado</label>
+      <mat-checkbox formControlName="refajillado" color="primary" aria-labelledby="refajillado-label"></mat-checkbox>
+    </div>
+    <div class="container-estado">
+      <p>Estado:</p>
+      <label class="switch">
+        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+        <span class="switch-handle"></span>
+      </label>
+    </div>
+  </div>
+  <div *ngIf="!spinnerActive" class="button-container">
+    <button class="button-custom" type="button" mat-raised-button color="primary" (click)="persistir()"
+      [disabled]="form.invalid">Aceptar</button>
+    <button class="button-custom" mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+  </div>
+
 </div>

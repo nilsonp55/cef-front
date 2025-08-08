@@ -1,7 +1,9 @@
-<app-filtro-conciliacion-transporte (filterData)="filter($event)" [pantalla]="Pantalla">
-</app-filtro-conciliacion-transporte>
-
-<div class="container-fluid pt-2">
+<div class="tittle-section">
+    <h2>Conciliación Transporte</h2>
+</div>
+<div class="mat-table-custom">
+    <app-filtro-conciliacion-transporte (filterData)="filter($event)" [pantalla]="Pantalla">
+    </app-filtro-conciliacion-transporte>
     <div class="col-12">
         <mat-tab-group (selectedIndexChange)="cambioTab($event)">
             <mat-tab label="CONCILIADAS">
@@ -21,4 +23,5 @@
             </mat-tab>
         </mat-tab-group>
     </div>
+
 </div>

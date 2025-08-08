@@ -20,9 +20,12 @@ export class GestionUsuariosComponent implements OnInit {
   dataSourceUsuarios: MatTableDataSource<any>
   displayedColumnsUsuarios: string[] = ['idUsuario', 'nombres', 'apellidos', 'tipoUsuario' ,'rol', 'estado', 'acciones'];
   mostrarFormulario = false;
+  mostrarTabla = true;
   esEdicion: boolean;
   idUsuario: any;
   roles: any[] = [];
+
+  spinnerActive: boolean = false;
 
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -34,6 +37,8 @@ export class GestionUsuariosComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.visualizarTabla()
+    this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken()
     await this.iniciarDesplegables();
     this.listarUsuarios();
@@ -45,14 +50,14 @@ export class GestionUsuariosComponent implements OnInit {
    * @BayronPerez
    */
   initForm(param?: any) {
-      this.form = new FormGroup({
-        'idUsuario': new FormControl(param? param.idUsuario : null, [Validators.email, Validators.required]),
-        'nombres': new FormControl(param? param.nombres : null, [Validators.required]),
-        'apellidos': new FormControl(param? param.apellidos : null, [Validators.required]),
-        'tipoUsuario': new FormControl(param? param.tipoUsuario : null, [Validators.required]),
-        'rol': new FormControl(param? this.selectRol(param) : null, [Validators.required]),
-        'estado': new FormControl(param?.estado === "1"),
-      });
+    this.form = new FormGroup({
+      'idUsuario': new FormControl(param? param.idUsuario : null, [Validators.email, Validators.required]),
+      'nombres': new FormControl(param? param.nombres : null, [Validators.required]),
+      'apellidos': new FormControl(param? param.apellidos : null, [Validators.required]),
+      'tipoUsuario': new FormControl(param? param.tipoUsuario : null, [Validators.required]),
+      'rol': new FormControl(param? this.selectRol(param) : null, [Validators.required]),
+      'estado': new FormControl(param?.estado === "1"),
+    });
   }
 
   selectRol(param: any): any {
@@ -73,6 +78,7 @@ export class GestionUsuariosComponent implements OnInit {
       this.dataSourceUsuarios = new MatTableDataSource(page.data);
       this.dataSourceUsuarios.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.spinnerActive = false;
     },
       (err: ErrorService) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -82,6 +88,7 @@ export class GestionUsuariosComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
+        this.spinnerActive = false;
       });
   }
 
@@ -119,7 +126,7 @@ export class GestionUsuariosComponent implements OnInit {
         });
         this.listarUsuarios()
         this.initForm();
-        this.mostrarFormulario = false;
+        this.visualizarTabla()
       },
       error:  (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -131,6 +138,7 @@ export class GestionUsuariosComponent implements OnInit {
               msgDetalles: JSON.stringify(err.response)
             }
           });
+          this.visualizarTabla()
         }});
     } else {
       this.rolMenuService.guardarUsuario(usuarioDTO).subscribe({next: response => {
@@ -145,7 +153,7 @@ export class GestionUsuariosComponent implements OnInit {
         }); 
         this.listarUsuarios()
         this.initForm();
-        this.mostrarFormulario = false;
+        this.visualizarTabla()
       },
       error:  (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -156,7 +164,8 @@ export class GestionUsuariosComponent implements OnInit {
               showResume: true,
               msgDetalles: JSON.stringify(err.response)
             }
-          }); 
+          });
+          this.visualizarTabla()
         }});
     }
    }
@@ -166,21 +175,23 @@ export class GestionUsuariosComponent implements OnInit {
     * @BayronPerez
     */
   crearUsuario() {
-    this.mostrarFormulario = true;
+    this.visualizarFormulario()
     this.esEdicion = false;
   }
 
-  /**
-    * Se muestra el formulario para actualizar usuario
-    * @BayronPerez
-    */
-  actualizarUsuario(){
+  visualizarTabla(){
+    this.mostrarFormulario = false;
+    this.mostrarTabla = true;
+  }
+
+  visualizarFormulario(){
     this.mostrarFormulario = true;
+    this.mostrarTabla = false;
   }
 
   editar(registro: any) {
+    this.visualizarFormulario()
     this.initForm(registro);
-    this.mostrarFormulario = true;
     this.idUsuario = this.form.get('idUsuario').value;
     this.form.get('idUsuario').disable();
     this.esEdicion = true;
@@ -191,4 +202,8 @@ export class GestionUsuariosComponent implements OnInit {
     this.roles = _roles.data;
   }
 
+   irAtras() {
+    this.mostrarFormulario = false;
+    this.ngOnInit()
+  }
 }

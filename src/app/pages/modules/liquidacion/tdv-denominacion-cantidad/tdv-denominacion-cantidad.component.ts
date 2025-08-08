@@ -19,7 +19,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
 
   form: FormGroup;
   dataSourceDenominacion: MatTableDataSource<any>
-  displayedColumnsDenominacion: string[] = ['idTdvDenCant', 'transportadora', 'moneda', 'denominacion', 'familia', 'cantidadPorDenom', 'estado', 'acciones'];
+  displayedColumnsDenominacion: string[] = ['idTdvDenCant', 'transportadora', 'moneda', 'denominacion', 'familia', 'cantidadPorDenom', 'acciones']; //agregar campo estado si es requerido
   isDominioChecked = false;
   mostrarFormulario = false;
   mostrarTabla = true;
@@ -32,6 +32,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   denominaciones: any[] = [];
   familias: any[] = [];
   habilitarBTN: boolean;
+  spinnerActive: boolean = false;
 
   //Rgistros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -47,6 +48,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.spinnerActive = true;
     ManejoFechaToken.manejoFechaToken()
     this.habilitarBTN = false;
     this.iniciarDesplegables();
@@ -84,6 +86,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
    * @BayronPerez
    */
   listarDenominacion(pagina = 0, tamanio = 5) {
+    this.spinnerActive = true;
     this.denominacionCantidadService.obtenerDenominacionCantidad({
       page: pagina,
       size: tamanio,
@@ -93,6 +96,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       this.dataSourceDenominacion.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
       this.habilitarBTN = true;
+      this.spinnerActive = false;
     },
       (err: any) => {
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -101,7 +105,9 @@ export class TdvDenominacionCantidadComponent implements OnInit {
             msn: err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
-        }); setTimeout(() => { alert.close() }, 3000);
+        }); 
+        setTimeout(() => { alert.close() }, 3000);
+        this.spinnerActive = false;
       });
   }
 
@@ -110,6 +116,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
     * @BayronPerez
     */
   persistir(param?: any) {
+    this.spinnerActive = true;
     let denominacionCantidad = {
       idTdvDenCant: 0,
       transportadoraDTO: {
@@ -139,6 +146,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
         });
         this.listarDenominacion();
         this.initForm();
+        this.spinnerActive = false;
       },
       error:  (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -153,7 +161,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
         }});
         this.mostrarFormulario = false;
         this.mostrarTabla = true;
-        
+        this.spinnerActive = false;
   }
 
   /**
@@ -181,6 +189,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   }
 
   async iniciarDesplegables() {
+    this.spinnerActive = true;
     const _bancos = await this.generalesService.listarBancosAval().toPromise();
     this.bancos = _bancos.data;
 
@@ -204,7 +213,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       'dominio':"FAMILIAS"
     }).toPromise();
     this.familias = _familias.data;
-
+    this.spinnerActive = false;
   }
 
   irAtras() {

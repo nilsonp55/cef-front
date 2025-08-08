@@ -159,7 +159,7 @@ mat-form-field {
 * Esilos para Stepper
 *************************************************************************************************************************/
 .mat-stepper-horizontal {
-    margin-top: 2%;
+    padding-top: 3%;
 }
   
 .mat-form-field {
@@ -193,3 +193,507 @@ mat-form-field {
     color: #61b6e4 !important; /* Note: You could also use a custom theme */
     background-color: rgb(255, 255, 255);
   }
+
+
+
+.sesion-item {
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.menu-container .mat-drawer{
+    width: 20% !important;
+}
+.menu-container .mat-menu-item {
+    line-height: 36px;
+    height: 36px;
+}
+
+
+/* Estilos globales componentes y tablas */
+.tittle-section{
+    padding-left: 0.75rem;
+    background-color: white;
+}
+
+.tittle-section > h2{
+    margin: 0px;
+    padding-top: 6px;
+}
+
+/*Estilos tablas*/
+.mat-table-custom .mat-cell, .mat-table-custom .mat-footer-cell {
+    font-size: 12px;
+	padding-top: 3px;
+    padding-right: 8px;
+}
+
+:host ::ng-deep .mat-elevation-z8 {
+    box-shadow: none !important;
+}
+
+.mat-table-custom .mat-table{
+    border-top: 2px solid #ddd !important;
+    box-shadow: 0px 8px 8px -0px rgba(0, 0, 0, 0.4) !important;
+}
+ 
+
+
+.mat-table-custom .mat-header-cell {
+    padding-top: 3px;
+}
+
+.mat-table-custom .mat-header-cell {
+    font-size: 12px;
+    font-weight: 600;
+	color: black;
+}
+
+.mat-table-custom tr.mat-row .mat-button{
+	line-height: 0px;
+}
+
+.mat-table-custom .mat-icon{
+	height: 1rem;
+    width: 1rem;
+	font-size: 16px;
+}
+
+.mat-table-custom .mat-icon.material-icons{
+	font-size: 16px;
+}
+
+.mat-table-custom .table-filter-container button .mat-icon.material-icons{
+	font-size: 24px;
+}
+
+.mat-table-custom tr.mat-row, 
+tr.mat-footer-row,
+.mat-table-custom tr.mat-header-row {
+    height: 32px;
+}
+
+/*Estilos botón*/
+.controls-container {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background-color: white;
+  min-height: 58px;
+  flex-wrap: wrap;
+}
+
+.mat-table-custom .controls-container .button-custom {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-right: 24px;
+}
+
+/* Área del paginador - tamaño fijo */
+.paginator-area {
+  flex-grow: 0; /* NO crece */
+  align-self: center; /* Se centra verticalmente */
+  min-width: fit-content; /* Mantiene su tamaño mínimo */
+  margin-left: auto;
+  margin-right: -1rem;
+}
+
+.mat-dialog-actions .button-custom,
+.mat-table-custom .button-custom,
+.modal-dialog-custom .button-custom {
+  margin-right: 12px;
+  color: white;
+  font-weight: 500;
+  padding: 0 16px;
+  min-width: 100px;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* No se contrae */
+}
+
+.mat-table-custom .mat-raised-button {
+	line-height: 28px;
+}
+
+.mat-table-custom .mat-table{
+    margin-bottom: 32px;
+}
+
+.button-customn:hover {
+  transform: translateY(-2px);
+}
+
+.table-filter-container{
+    display: grid;
+    width: auto;
+    background: white;
+    grid-template-columns: repeat(auto-fit,minmax(220px, 1fr));
+    justify-content: center;
+    padding: 18px 12px 12px 12px;
+    margin: 0;
+    gap: 12px;
+}
+
+.table-filter-container .mat-form-field {
+	font-size: 12px;
+	margin: 0px;
+}
+
+.table-filter-container .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding-top: 4px;
+}
+
+.table-filter-container .mat-form-field .mat-form-field-underline {
+    bottom: 0px;
+}
+
+.table-filter-container .mat-form-field .mat-form-field-wrapper {
+    padding-bottom: 0rem;
+}
+
+.mat-table-custom tr.mat-row:hover {
+    background-color: rgba(238, 236, 236, 0.315);
+}
+
+/*TODO: REVISAR ESTOS ESTILOS*/
+::ng-deep .form-containter .mat-form-field-wrapper {
+	padding-bottom: 13px;
+}
+
+::ng-deep .form-containter .mat-form-field-infix{
+	padding: 5px 0px;
+}
+
+::ng-deep .form-containter .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
+	color: rgba(0, 0, 0, 0.6);
+}
+
+.form-containter {
+    margin: 12px;
+    background-color: #FFFFFF;
+    padding: 0 0 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    flex-direction: column;
+    text-align: center;
+	max-width: 860px;
+}
+
+.form-fields {
+    display: grid;
+    width: auto;
+    grid-template-columns: repeat(auto-fit,minmax(220px, 1fr));
+    justify-content: center;
+    margin: 0px;
+}
+
+.form-containter .mat-form-field {
+	font-size: 12px;
+	margin-top: 0px;
+}
+
+.form-containter .mat-form-field {
+	font-size: 12px;
+	margin-top: 24px;
+    margin-right: 20px;
+}
+
+.form-containter .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding-top: 4px;
+}
+
+.form-containter .mat-form-field .mat-form-field-underline {
+    bottom: 0px;
+}
+
+.form-containter .mat-form-field .mat-form-field-wrapper {
+    padding-bottom: 0rem;
+}
+
+.mat-form-field {
+    margin-left: 0%; 
+}
+
+.form-containter .mat-form-field  .mat-form-field-subscript-wrapper {
+    margin-top: 20px;
+}
+
+
+
+.container-estado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 12px;
+    padding: 0px;
+    min-width: 220px;
+    margin-top: 20px;
+}
+
+.container-estado > p {
+    margin-bottom: 0px;
+}
+
+.container-estado .switch {
+    position: relative;
+    display: block;
+    width: 100px;
+    height: 30px;
+    padding: 3px;
+    margin: 0;
+    background: linear-gradient(to bottom, #eeeeee, #FFFFFF 25px);
+    background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF 25px);
+    border-radius: 18px;
+    box-shadow: inset 0 -1px white, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    box-sizing: content-box;
+}
+
+.button-container {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.form-containter .button-custom {
+  color: white;
+  font-weight: 500;
+  padding: 0 16px;
+  min-width: 100px;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* No se contrae */
+}
+
+.mat-raised-button {
+	line-height: 28px !important;
+}
+
+.form-containter .button-custom:hover {
+  transform: translateY(-2px);
+}
+
+.form-containter.button-custom:hover .mat-raised-button.mat-button-disabled{
+	transform: translateY(0px);
+}
+
+/* .form-fields .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
+	color: rgba(0, 0, 0, 0.6);
+} */
+
+.mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+    color: rgba(0, 0, 0, .20);
+}
+
+.form-containter .mat-form-field-suffix .mat-icon {
+    height: 12px;
+    width: 12px;
+    font-size: 12px;
+}
+
+/************************************************************************************************************************
+Estilo para modal dialog custom
+*************************************************************************************************************************/
+
+.modal-dialog-custom .form-fields {
+    display: grid;
+    width: auto;
+    grid-template-columns: repeat(auto-fit,minmax(320px, 1fr));
+    justify-content: center;
+    margin: 0px;
+    gap: 20px;
+}
+
+.modal-dialog-custom .mat-form-field {
+    font-size: 12px;
+    margin-top: 0px;
+    margin-right: 0px;
+}
+
+.modal-dialog-custom .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding-top: 4px;
+}
+
+.modal-dialog-custom .mat-form-field .mat-form-field-underline {
+    bottom: 0px;
+}
+
+.modal-dialog-custom .mat-form-field .mat-form-field-wrapper {
+    padding-bottom: 0rem;
+}
+
+.modal-dialog-custom .mat-form-field {
+    margin-left: 0%; 
+}
+
+.modal-dialog-custom .checkbox-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 12px;
+}
+
+.modal-dialog-custom .container-estado {
+    margin-top: 0px;
+}
+
+.modal-dialog-custom .mat-form-field  .mat-form-field-subscript-wrapper {
+    margin-top: 20px;
+}
+
+
+/*TODO: ajustar estilo solo para la clase*/
+.mat-option {
+    height: 20px !important;  
+}
+/*TODO: ajustar estilo solo para la clase*/
+.mat-option-text {
+    font-size: 12px;
+    line-height: 12px;
+}
+
+
+/************************************************************************************************************************
+Estilos compartidos
+*************************************************************************************************************************/
+
+.form-containter .button-custom, 
+.modal-dialog-custom .button-custom {
+  margin-left: 4%;
+  margin-right: 4%;
+}
+
+.mat-table-custom .disenio-spinner{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    height: 70vh;
+}
+
+.modal-dialog-custom .disenio-spinner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    height: 30vh;
+}
+
+/************************************************************************************************************************
+Estilos alert-swal + clases custom
+*************************************************************************************************************************/
+.custom-alert-swal  {
+    width: 50% !important;
+}
+
+.custom-alert-swal .swal2-title {
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+
+
+/************************************************************************************************************************
+Estilos compartidos
+*************************************************************************************************************************/
+.custom-alert-swal button {
+  line-height: 28px;
+  font-weight: 500;
+  padding: 0 16px;
+  min-width: 90px;
+  max-width: 90px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  background-color: #3f51b5 !important;
+}
+
+
+.procesos-custom-container .mat-step-header{
+    height: 28px  !important;
+    background-color: #3f51b5 !important;
+    border-radius: 4px;
+    margin-right: 8%;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.procesos-custom-container .mat-horizontal-stepper-header .mat-step-icon{
+    display: none;
+}
+
+.procesos-custom-container .mat-step-header .mat-step-text-label{
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.procesos-custom-container .mat-stepper-horizontal-line {
+    display: none;
+}
+
+.procesos-custom-container .mat-horizontal-content-container {
+    padding: 0px;
+}
+
+.procesos-custom-container .mat-table-custom .divTituloTablas {
+    background-color: white;
+}
+
+.procesos-custom-container .mat-table-custom .tituloTabla{
+    font-size: 15px;
+    font-weight: 500;
+    padding: 0px !important;
+    margin: 0px;
+}
+
+.procesos-custom-container .mat-table-custom .controls-container {
+    padding-top: 20px;
+}
+
+.table-filter-container .conditional-filter .mat-form-field {
+    width: 100%;
+}
+
+.mat-table-custom  .table-container {
+    padding: 10;
+    margin: 0;
+    overflow-x: auto;
+}
+
+.mat-table-custom .mat-tab-body-content {
+    overflow: hidden;
+}
+
+.mat-table-custom .mat-icon {
+    height: 24px;
+    width: 24px;
+}
+
+.mat-table-custom .mat-tab-label-container{
+    padding-left: 12px;
+}
+
+.mat-table-custom .mat-button {
+    line-height: 0px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.mat-table-custom  .mat-tab-label{
+    color: rgba(0, 0, 0);
+    opacity: 1;
+}
+
+.mat-tab-label-active{
+    background-color: rgba(99, 98, 98, 0.1);
+}
+
+.radio-container {
+    margin-top: 24px;
+    margin-right: 20px;
+    align-content: center;
+    font-size: 12px;
+    text-align: left;
+}
+
+.radio-container > mat-label {
+    font-weight: 500;
+}

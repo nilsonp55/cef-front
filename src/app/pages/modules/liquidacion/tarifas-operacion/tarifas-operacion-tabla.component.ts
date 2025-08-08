@@ -14,6 +14,8 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 })
 export class TarifasOperacionTablaComponent implements OnInit {
 
+  @ViewChild('exporter', {static: false}) exporter: any;
+
   @Input() bancos: any[] = [];
   @Input() transportadoras: any[] = [];
   @Input() tipoOperaciones: any[] = [];
@@ -97,5 +99,11 @@ export class TarifasOperacionTablaComponent implements OnInit {
     this.filtroTipOperacionSelect = null;
     this.filtroEscalaSelect = null;
     this.filtroTipoServicioSelect = null;
+  }
+
+  exporterTable(){
+    if(this.exporter && !this.spinnerActive){
+      this.exporter.exportTable('xlsx', {fileName:'tarifas-operaciones'});
+    }
   }
 }

@@ -2,10 +2,10 @@
     <mat-spinner></mat-spinner>
 </div>
 <!-- Content mostrarFormulario-->
-<div [formGroup]="form">
-    <div class="flex">
+<div class="form-containter">
+    <div [formGroup]="form" class="form-fields">
         <!--Tipo Punto-->
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="fill">
             <mat-label>Tipo Punto</mat-label>
             <mat-select formControlName="tipoPunto" (selectionChange)="changeTipoPunto($event)">
                 <mat-option *ngFor="let item of tiposPunto" [value]="item.valorTexto">
@@ -15,7 +15,7 @@
             <mat-error *ngIf="form.get('tipoPunto').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
         <!--Banco-->
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="fill">
             <mat-label>Banco</mat-label>
             <mat-select required formControlName="banco" (selectionChange)="changeBanco($event)">
                 <mat-option *ngFor="let item of bancos" [value]="item">
@@ -24,11 +24,9 @@
             </mat-select>
             <mat-error *ngIf="form.get('banco').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
-    </div>
 
-    <div class="flex">
         <!--Transportadora-->
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="fill">
             <mat-label>Transportadora</mat-label>
             <mat-select required formControlName="codigoTdv">
                 <mat-option *ngFor="let item of transportadoras" [value]="item">
@@ -38,7 +36,7 @@
             <mat-error *ngIf="form.get('codigoTdv').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
         <!--Ciudad-->
-        <mat-form-field appearance="outline" *ngIf="selectedTipoPunto==='BAN_REP'">
+        <mat-form-field appearance="fill" *ngIf="selectedTipoPunto==='BAN_REP'">
             <mat-label>Ciudad Fondo</mat-label>
             <mat-select required formControlName="codigoDANE">
                 <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
@@ -47,25 +45,19 @@
             </mat-select>
             <mat-error *ngIf="form.get('codigoDANE').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
-    </div>
-
-    <div class="flex">
         <!--Cliente-->
-        <mat-form-field appearance="outline" *ngIf="selectedTipoPunto==='CLIENTE'">
+        <mat-form-field appearance="fill" *ngIf="selectedTipoPunto==='CLIENTE'">
             <mat-label>Cliente</mat-label>
             <input type="text" matInput formControlName="cliente" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
                 <mat-option *ngFor="let item of clientesFiltrados | async" [value]="item">
                     {{item.identificacion +" - "+ item.nombreCliente}}
-                </mat-option>                
+                </mat-option>
             </mat-autocomplete>
             <mat-error *ngIf="form.get('cliente').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
-    </div>
-
-    <div class="flex">
         <!--Punto-->
-        <mat-form-field appearance="outline" *ngIf="selectedTipoPunto || esEdicion">
+        <mat-form-field appearance="fill" *ngIf="selectedTipoPunto || esEdicion">
             <mat-label>Punto</mat-label>
             <input type="text" matInput formControlName="punto" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayPunto">
@@ -75,49 +67,41 @@
             </mat-autocomplete>
             <mat-error *ngIf="form.get('punto').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
-    </div>
-
-    <div class="flex">
         <!--Codigo Propio TDV-->
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="fill">
             <mat-label>Código Propio TDV</mat-label>
             <input matInput placeholder="Código Propio TDV" formControlName="codigoPropioTDV">
             <mat-error *ngIf="form.get('codigoPropioTDV').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
-    </div>
 
-    <!--Estado-->
-    <div class="flex">
-        <div class="division-estado">
-            <h3>Estado</h3>
+        <!--Estado-->
+        <div class="container-estado">
+            <p>Estado</p>
             <label class="switch">
                 <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
                 <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
                 <span class="switch-handle"></span>
             </label>
         </div>
+
+        <!--Id Punto Codigo TDV-->
+        <mat-form-field appearance="fill" hidden>
+            <mat-label>Id Punto Código TDV</mat-label>
+            <input matInput placeholder="Id Punto Código TDV" formControlName="idPuntoCodigo" readonly>
+        </mat-form-field>
+
+        <!--Codigo Punto-->
+        <mat-form-field appearance="fill" hidden>
+            <mat-label>Código Punto</mat-label>
+            <input type="number" matInput placeholder="Código Punto" formControlName="codigoPunto" readonly>
+        </mat-form-field>
     </div>
-
-    <!--Id Punto Codigo TDV-->
-    <mat-form-field appearance="outline" hidden>
-        <mat-label>Id Punto Código TDV</mat-label>
-        <input matInput placeholder="Id Punto Código TDV" formControlName="idPuntoCodigo" readonly>
-    </mat-form-field>
-
-    <!--Codigo Punto-->
-    <mat-form-field appearance="outline" hidden>
-        <mat-label>Código Punto</mat-label>
-        <input type="number" matInput placeholder="Código Punto" formControlName="codigoPunto" readonly>
-    </mat-form-field>
-
-    <div class="division-btn-ident flex">
-        <div>
-            <button mat-raised-button type="button" (click)="onSubmit()" color="primary"
-                [disabled]="form.invalid">Guardar</button>
-        </div>
-        <div>
-            <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
-        </div>
+    <div class="button-container">
+        <button class="button-custom" mat-raised-button type="button" (click)="onSubmit()" color="primary"
+            [disabled]="form.invalid">Aceptar</button>
+        <button mat-raised-button color="warn" type="button" (click)="onCancel()"
+            class="button-custom">Cancelar</button>
     </div>
 </div>
+
 <!--Fin content mostrarFormulario -->

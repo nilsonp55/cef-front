@@ -41,14 +41,14 @@ export class DialogTablaDominioComponent implements OnInit {
   asignandoValores(){
     if(this.data.titulo == "Crear ") {
       this.titulo = this.data.titulo;
-      this.nombreBTN = "Guardar";
+      this.nombreBTN = "Aceptar";
       this.nombreDominio = null;
       this.descripcion = null;
       this.esEdicion = false;
     } 
     if(this.data.titulo == "Actualizar ") {
       this.titulo = this.data.titulo;
-      this.nombreBTN = "Actualizar";
+      this.nombreBTN = "Aceptar";
       this.nombreDominio = this.data.data.dominio;
       this.descripcion = this.data.data.descripcion;
       this.contenido = this.data.data.tipoContenido;
