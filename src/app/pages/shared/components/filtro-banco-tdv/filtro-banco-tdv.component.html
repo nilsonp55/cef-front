@@ -1,43 +1,37 @@
-<div class="division-busqueda">
-  <div class="ubicacionBanco">
-    <mat-form-field appearance="fill">
-      <mat-label>Bancos grupo aval</mat-label>
-      <mat-select (selectionChange)="selectBanco($event)">
-        <mat-option>Ninguno</mat-option>
-        <mat-option *ngFor="let bancoOption of bancoOptions" [value]="bancoOption.nombreBanco">
-          {{bancoOption.nombreBanco}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="ubicacionTdV">
-    <mat-form-field appearance="fill">
-      <mat-label>Transportadoras</mat-label>
-      <mat-select (selectionChange)="selectTrasportadora($event)">
-        <mat-option>Ninguno</mat-option>
-        <mat-option *ngFor="let tranportadoraOption of tranportadoraOptions"
-          [value]="tranportadoraOption.nombreTransportadora">
-          {{tranportadoraOption.nombreTransportadora}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Tipo Punto</mat-label>
-      <mat-select [(value)]="selectedOrigen" multiple (closed)="filter()">
-        <mat-option value="BAN_REP">BAN_REP</mat-option>
-        <mat-option value="CAJERO">CAJERO</mat-option>
-        <mat-option value="BANCO">BANCO</mat-option>
-        <mat-option value="OFICINA">OFICINA</mat-option>
-        <mat-option value="FONDO">FONDO</mat-option>
-        <mat-option value="CLIENTE">CLIENTE</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+<div class="table-filter-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Bancos grupo aval</mat-label>
+    <mat-select (selectionChange)="selectBanco($event)">
+      <mat-option>Ninguno</mat-option>
+      <mat-option *ngFor="let bancoOption of bancoOptions" [value]="bancoOption.nombreBanco">
+        {{bancoOption.nombreBanco}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Transportadoras</mat-label>
+    <mat-select (selectionChange)="selectTrasportadora($event)">
+      <mat-option>Ninguno</mat-option>
+      <mat-option *ngFor="let tranportadoraOption of tranportadoraOptions"
+        [value]="tranportadoraOption.nombreTransportadora">
+        {{tranportadoraOption.nombreTransportadora}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Tipo Punto</mat-label>
+    <mat-select [(value)]="selectedOrigen" multiple (closed)="filter()">
+      <mat-option value="BAN_REP">BAN_REP</mat-option>
+      <mat-option value="CAJERO">CAJERO</mat-option>
+      <mat-option value="BANCO">BANCO</mat-option>
+      <mat-option value="OFICINA">OFICINA</mat-option>
+      <mat-option value="FONDO">FONDO</mat-option>
+      <mat-option value="CLIENTE">CLIENTE</mat-option>
+    </mat-select>
+  </mat-form-field>
 
   <div *ngIf="showFilterEstado">
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Estado Conciliacion</mat-label>
       <mat-select [(value)]="estadoConciliacion" multiple (closed)="filter()">
         <mat-option *ngFor="let item of estadosConciliacionOptions" [value]="item">{{item}}</mat-option>
@@ -46,7 +40,7 @@
   </div>
 
   <div *ngIf="showFechaProceso">
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Fecha Proceso</mat-label>
       <input matInput [matDatepicker]="picker1" [formControl]="fechaOrigen" [(ngModel)]="fechaProceso"
         (dateChange)="selectFechaOrigen($event)">
@@ -54,4 +48,5 @@
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
   </div>
+
 </div>

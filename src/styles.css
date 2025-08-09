@@ -334,6 +334,7 @@ tr.mat-footer-row,
 }
 
 .table-filter-container .mat-form-field {
+    width: 100%;
 	font-size: 12px;
 	margin: 0px;
 }
@@ -583,18 +584,23 @@ Estilos compartidos
 Estilos alert-swal + clases custom
 *************************************************************************************************************************/
 .custom-alert-swal  {
-    width: 50% !important;
+    width: 60% !important;
 }
 
-.custom-alert-swal .swal2-title {
+.custom-alert-swal-title .swal2-title {
     font-size: 18px;
     margin-bottom: 0px;
 }
 
+.custom-alert-swal-text .swal2-title {
+    font-size: 15px;
+    font-weight: 500;
+}
 
 /************************************************************************************************************************
 Estilos compartidos
 *************************************************************************************************************************/
+.custom-alert-swal-text .swal2-confirm,
 .custom-alert-swal button {
   line-height: 28px;
   font-weight: 500;
@@ -606,46 +612,8 @@ Estilos compartidos
   background-color: #3f51b5 !important;
 }
 
-
-.procesos-custom-container .mat-step-header{
-    height: 28px  !important;
-    background-color: #3f51b5 !important;
-    border-radius: 4px;
-    margin-right: 8%;
-    margin-left: 12px;
-    margin-right: 12px;
-}
-
-.procesos-custom-container .mat-horizontal-stepper-header .mat-step-icon{
-    display: none;
-}
-
-.procesos-custom-container .mat-step-header .mat-step-text-label{
-    color: #ffffff;
-    font-weight: 500;
-}
-
-.procesos-custom-container .mat-stepper-horizontal-line {
-    display: none;
-}
-
-.procesos-custom-container .mat-horizontal-content-container {
-    padding: 0px;
-}
-
-.procesos-custom-container .mat-table-custom .divTituloTablas {
-    background-color: white;
-}
-
-.procesos-custom-container .mat-table-custom .tituloTabla{
-    font-size: 15px;
-    font-weight: 500;
-    padding: 0px !important;
-    margin: 0px;
-}
-
-.procesos-custom-container .mat-table-custom .controls-container {
-    padding-top: 20px;
+.custom-alert-swal-text .swal2-confirm:focus {
+    box-shadow: none;
 }
 
 .table-filter-container .conditional-filter .mat-form-field {
@@ -696,4 +664,77 @@ Estilos compartidos
 
 .radio-container > mat-label {
     font-weight: 500;
+}
+
+.custom-detail-dialog {
+    font-size: 12px;
+}
+
+/************************************************************************************************************************
+Estilos Procesos
+*************************************************************************************************************************/
+
+.procesos-custom-container .tittle-section {
+    background-color: white;
+    padding-bottom: 12px;
+}
+
+.procesos-custom-container .mat-tab-body-content {
+    overflow: hidden;
+}
+
+.procesos-custom-container .mat-step-header{
+    height: 28px  !important;
+    background-color: #3f51b5 !important;
+    border-radius: 4px;
+    margin-right: 8%;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.procesos-custom-container .mat-horizontal-stepper-header .mat-step-icon{
+    display: none;
+}
+
+.procesos-custom-container .mat-stepper-horizontal {
+    padding-top: 0;
+}
+.procesos-custom-container .mat-step-header .mat-step-text-label{
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.procesos-custom-container .mat-stepper-horizontal-line {
+    display: none;
+}
+
+.procesos-custom-container .mat-horizontal-content-container {
+    padding: 0px;
+}
+
+.procesos-custom-container .mat-table-custom .divTituloTablas {
+    background-color: white;
+}
+
+.procesos-custom-container .mat-table-custom .tituloTabla{
+    font-size: 15px;
+    font-weight: 500;
+    padding: 0px !important;
+    margin: 0px;
+}
+
+.procesos-custom-container .mat-table-custom .controls-container {
+    padding-top: 20px;
+}
+
+.spacer-content {
+    width: 100%;
+    background-color: white;
+    padding-top: 20px;
+}
+
+
+.division .tittle-section > h2 {
+    text-align: center;
+    font-size: 16px;
 }

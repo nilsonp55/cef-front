@@ -39,3 +39,7 @@ table {
   .mat-column-codigoFondoTDV {
     text-align: center;
   }
+
+.mat-table-custom .mat-table{
+    width: auto;
+}

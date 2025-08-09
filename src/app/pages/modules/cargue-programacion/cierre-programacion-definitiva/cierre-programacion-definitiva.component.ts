@@ -10,6 +10,7 @@ import { OperacionesProgramadasService } from 'src/app/_service/operaciones-prog
 import { CargueProgramacionPreliminarService } from 'src/app/_service/programacion-preliminar-service/cargue-programacion-preliminar.service';
 import { ValidacionEstadoProcesosService } from 'src/app/_service/valida-estado-proceso.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cierre-programacion-definitiva',
@@ -57,15 +58,18 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
   * @BaironPerez
   */
   listarProcesos(pagina = 0, tamanio = 5) {
+    this.spinnerActive = true;
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
       size: tamanio,
-    }).subscribe({next: (page: any) => {
-      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
-      this.dataSourceInfoProcesos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-    error:  (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
+        this.dataSourceInfoProcesos.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+        this.spinnerActive = false;
+      },
+      error: (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -75,11 +79,24 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
             msgDetalles: JSON.stringify(err.error),
           }
         });
-      }});
+        this.spinnerActive = false;
+      }
+    });
+  }
+
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
   }
 
   intervalCierreDefinitivo() {
-    this.spinnerActive = true;
     this.ejecutar();
     setInterval(() => {
       this.validacionEstadoProceso();
@@ -98,7 +115,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
       'codigoProceso': "CARG_DEFINITIVO",
       "fechaSIstema": fecha2
     }).subscribe((data: any) => {
-      if(data.estado == "PROCESADO"){
+      if (data.estado == "PROCESADO") {
         this.spinnerActive = false;
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -108,7 +125,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
           }
         });
       }
-      if(data.estado == "ERROR"){
+      if (data.estado == "ERROR") {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -117,7 +134,7 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
           }
         });
       }
-      if(data.estado == "PENDIENTE"){
+      if (data.estado == "PENDIENTE") {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -135,24 +152,25 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar() {
-    this.spinnerActive = true;
+    this.modalProcesoEjecucion() 
     this.operacionesProgramadasService.procesar({
       'agrupador': GENERALES.CARGUE_DEFINITIVO_PROGRAMACION_SERVICIOS
-    }).subscribe({next: data => {
-      this.spinnerActive = false;
-      this.listarProcesos();
-      this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.SUCCESFULL_CIERRE_DEFINITIVA,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-          showResume: true,
-          msgDetalles: JSON.stringify(data)
-        }
-      });
-    },
-    error:  (err: any) => {
-        this.spinnerActive = false;
+    }).subscribe({
+      next: data => {
+        Swal.close();
+        this.listarProcesos();
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.SUCCESFULL_CIERRE_DEFINITIVA,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(data)
+          }
+        });
+      },
+      error: (err: any) => {
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -162,39 +180,42 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
             msgDetalles: JSON.stringify(err.error),
           }
         });
-      }});
+      }
+    });
   }
 
   /**
   * Metodo para reabrir un registro de archivo previamente cargado
   * @BaironPerez
   */
- reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
-  this.cargueProgramacionPreliminarService.reabrirArchivo({
-    'agrupador': "DEFIN",
-  }).subscribe({next: item => {
-    this.listarProcesos();
-    this.dialog.open(VentanaEmergenteResponseComponent, {
-      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-      data: {
-        msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
-        codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-        showResume: true,
-        msgDetalles: JSON.stringify(item.data),
+  reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
+    this.cargueProgramacionPreliminarService.reabrirArchivo({
+      'agrupador': "DEFIN",
+    }).subscribe({
+      next: item => {
+        this.listarProcesos();
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            showResume: true,
+            msgDetalles: JSON.stringify(item.data),
+          }
+        });
+      },
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_REABRIR_CIERRE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error),
+          }
+        });
       }
-    });
-  },
-  error: (err: any) => {
-    this.dialog.open(VentanaEmergenteResponseComponent, {
-      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-      data: {
-        msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_REABRIR_CIERRE,
-        codigo: GENERALES.CODE_EMERGENT.ERROR,
-        showResume: true,
-        msgDetalles: JSON.stringify(err.error),
-      }
-    });
-  }})
-}
+    })
+  }
 
 }

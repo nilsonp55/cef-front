@@ -112,7 +112,8 @@ export class ConciliadasProcesamientoComponent implements OnInit {
         imageHeight: 80,
         confirmButtonText: "Aceptar",
         showConfirmButton: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        customClass: { popup: "custom-alert-swal-text" }
       }).then((result) => {
         Swal.close();
       });

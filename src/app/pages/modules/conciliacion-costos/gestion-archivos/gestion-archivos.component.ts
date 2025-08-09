@@ -169,7 +169,7 @@ export class GestionArchivosComponent implements OnInit {
 
   verDetalle(event) {
     const alert = this.dialog.open(VentanaEmergenteDetalleGestionComponent, {
-      width: "800px",
+      width: "1000px",
       data: {
         msn: event
       }
@@ -186,7 +186,8 @@ export class GestionArchivosComponent implements OnInit {
         imageHeight: 80,
         confirmButtonText: "Aceptar",
         showConfirmButton: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        customClass: { popup: "custom-alert-swal-text" }
       }).then((result) => {
         Swal.close();
       });
@@ -263,7 +264,8 @@ export class GestionArchivosComponent implements OnInit {
         imageHeight: 80,
         confirmButtonText: "Aceptar",
         showConfirmButton: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        customClass: { popup: "custom-alert-swal-text" }
       }).then((result) => {
         Swal.close();
       });

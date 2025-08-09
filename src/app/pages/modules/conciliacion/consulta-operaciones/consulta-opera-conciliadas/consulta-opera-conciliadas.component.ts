@@ -20,6 +20,8 @@ import { MatSort } from '@angular/material/sort';
  */
 export class ConsultaOperaConciliadasComponent implements OnInit {
 
+  @ViewChild('exporter', {static: false}) exporter: any;
+
   //Rgistros paginados
   cantidadRegistros: number;
   pageSizeList: number[] = [5, 10, 25, 100];
@@ -71,6 +73,12 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
         setTimeout(() => { alert.close() }, 3000);
         this.load = false;
       });
+  }
+
+    exporterTable(){
+    if(this.exporter && !this.load){
+      this.exporter.exportTable('xlsx', {fileName:'operaciones_conciliadas'});
+    }
   }
 
    /**

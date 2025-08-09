@@ -13,10 +13,15 @@ export class CarguePreliminarComponent implements OnInit {
 
   //Stepper
   isLinear = false;
+  idTabSeleccionda:number = 0;
   tipoCargue= "IPP"
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  changeTab(event: number){
+    this.idTabSeleccionda = event;
   }
 }

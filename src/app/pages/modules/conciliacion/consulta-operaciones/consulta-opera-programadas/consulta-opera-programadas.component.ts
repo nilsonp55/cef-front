@@ -27,6 +27,7 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('exporter', {static: false}) exporter: any;
 
   //matTableExporter: any;
 
@@ -109,6 +110,12 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
         this.load = false;
       }
     });
+  }
+
+  exporterTable(){
+    if(this.exporter && !this.load){
+      this.exporter.exportTable('xlsx', {fileName:'operaciones_programadas_no_conciliadas'});
+    }
   }
 
   filter(event) {

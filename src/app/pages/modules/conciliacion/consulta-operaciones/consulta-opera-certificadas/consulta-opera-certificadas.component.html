@@ -1,22 +1,22 @@
-<app-filtro-banco-tdv (filterData)="filter($event)"></app-filtro-banco-tdv>
-
-<div class="divTituloTablas">
-    <h1 class="tituloTabla">Operaciones certificadas no conciliadas </h1>
-    <span class="line-spacer"></span>
-</div>
-<div>
-    <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros" (page)="mostrarMas($event)">
-    </mat-paginator>
-    <button mat-raised-button color="primary"
-        (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_no_conciliadas'})">Exportar
-        tabla</button>
+<div class="tittle-section">
+    <h2>Operaciones certificadas no conciliadas</h2>
 </div>
 
-<div class="divTablaCerti">
+<div class="mat-table-custom">
+    <app-filtro-banco-tdv (filterData)="filter($event)"></app-filtro-banco-tdv>
+    <div class="controls-container">
+        <button mat-raised-button color="primary" class="button-custom"
+            (click)="exporterTable()">Exportar</button>
+        <div class="paginator-area">
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros"
+                (page)="mostrarMas($event)">
+            </mat-paginator>
+        </div>
+    </div>
     <div *ngIf="load" class="disenio-spinner">
         <mat-spinner></mat-spinner>
     </div>
-    <div class="configScroll">
+    <div *ngIf="!load">
         <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort
             #exporter="matTableExporter">
             <caption></caption>
@@ -103,6 +103,6 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumnsOperacionesCertificadas"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesCertificadas;"></tr>
         </table>
-    </div>
 
+    </div>
 </div>

@@ -8,6 +8,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { OperacionesProgramadasService } from 'src/app/_service/operaciones-programadas.service';
 import { CargueProgramacionPreliminarService } from 'src/app/_service/programacion-preliminar-service/cargue-programacion-preliminar.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cierre-programacion-preliminar',
@@ -45,6 +46,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
    * @BaironPerez
    */
   listarProcesos(pagina = 0, tamanio = 10) {
+    this.spinnerActive = true;
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
       size: tamanio,
@@ -52,6 +54,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
         this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
         this.dataSourceInfoProcesos.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
+        this.spinnerActive = false;
       },
       error: (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -63,8 +66,21 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
             msgDetalles: JSON.stringify(err.error),
           }
         });
+        this.spinnerActive = false;
       }});
   }
+
+  modalProcesoEjecucion() {
+      Swal.fire({
+        title: "Proceso en ejecución",
+        imageUrl: "assets/img/loading.gif",
+        imageWidth: 80,
+        imageHeight: 80,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        customClass: { popup: "custom-alert-swal-text" }
+      });
+    }
 
 
   /**
@@ -73,11 +89,11 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar() {
-    this.spinnerActive = true;
+    this.modalProcesoEjecucion()
     this.operacionesProgramadasService.procesar({
       'agrupador': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP
     }).subscribe({ next: data => {
-        this.spinnerActive = false;
+        Swal.close();
         this.listarProcesos();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -90,7 +106,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
         });
       },
       error: (err: any) => {
-        this.spinnerActive = false;
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {

@@ -22,7 +22,7 @@ import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/cons
  * Clease que muestra las operaciones certificadas no conciliadas
  */
 export class ConsultaOperaCertificadasComponent implements OnInit {
-
+  @ViewChild('exporter', {static: false}) exporter: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -124,5 +124,12 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
       this.tipoPuntoOrigen ?? [""]
     );
   }
+
+  exporterTable(){
+    if(this.exporter && !this.load){
+      this.exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_no_conciliadas'});
+    }
+  }
+
 
 }
