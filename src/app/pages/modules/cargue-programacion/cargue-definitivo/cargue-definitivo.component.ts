@@ -9,10 +9,13 @@ export class CargueDefinitivoComponent implements OnInit {
   //Stepper
   isLinear = false;
   tipoCargue= "DEFIN"
+  idTabSeleccionda:number = 0;
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  changeTab(event: number){
+    this.idTabSeleccionda = event;
+  }
 }

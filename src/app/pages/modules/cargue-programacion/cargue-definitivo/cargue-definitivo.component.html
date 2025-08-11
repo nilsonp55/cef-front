@@ -1,10 +1,15 @@
-<mat-stepper [linear]="isLinear" #stepper>
-    <mat-step>
-        <ng-template matStepLabel>CARGUE DEFINITIVO</ng-template>
-        <app-archivos-cargados-definitivo></app-archivos-cargados-definitivo>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>HISTORIAL DE CARGUE</ng-template>
-        <app-historico-archivos-cargados-definitivo></app-historico-archivos-cargados-definitivo>
-    </mat-step>
-</mat-stepper>
+<div class="procesos-custom-container">
+    <div class="tittle-section">
+        <h2>Gestión Cargue Definitivo</h2>
+    </div>
+    <div class="mat-table-custom">
+        <mat-tab-group (selectedIndexChange)="changeTab($event)">
+            <mat-tab label="CARGUE DEFINITIVO">
+                <app-archivos-cargados-definitivo></app-archivos-cargados-definitivo>
+            </mat-tab>
+            <mat-tab label="HISTORIAL DE CARGUE">
+                <app-historico-archivos-cargados-definitivo></app-historico-archivos-cargados-definitivo>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

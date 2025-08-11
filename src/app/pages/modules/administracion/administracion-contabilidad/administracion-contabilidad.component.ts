@@ -8,7 +8,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { ErrorService } from 'src/app/_model/error.model';
 import { TiposCuentasService } from 'src/app/_service/contabilidad-service/tipos-cuentas.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertCustomClass } from 'sweetalert2';
 
 @Component({
   selector: 'app-administracion-contabilidad',
@@ -238,7 +238,6 @@ export class AdministracionContabilidadComponent implements OnInit {
       html: ayudaHtml,
 
       confirmButtonText: 'Cerrar',
-
       customClass: { popup: "custom-alert-swal custom-alert-swal-title mat-primary" }
     });
   }

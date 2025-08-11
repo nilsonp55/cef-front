@@ -1,68 +1,73 @@
-<div class="divTituloTablas">
-    <h1 class="tituloTabla">OPERACIONES CONCILIADAS</h1>
-    <span class="line-spacer"></span>
+<div class="tittle-section">
+    <h2>OPERACIONES CONCILIADAS</h2>
 </div>
-<div>
-    <mat-paginator [pageSize]="5" [pageSizeOptions]=pageSizeList [length]="cantidadRegistros"
-        (page)="mostrarMas($event)">
-    </mat-paginator>
 
-    <button mat-raised-button color="primary"
-        (click)="exporter.exportTable('xlsx', {fileName:'operaciones_conciliadas'})">Exportar tabla</button>
-</div>
-<div class="divTabla">
+<div class="mat-table-custom">
+    <div class="controls-container">
+        <button mat-raised-button  class="button-custom" color="primary"
+            (click)="exporterTable()">Exportar</button>
+        <div class="paginator-area">
+            <mat-paginator [pageSize]="5" [pageSizeOptions]=pageSizeList [length]="cantidadRegistros"
+                (page)="mostrarMas($event)">
+            </mat-paginator>
+        </div>
+    </div>
     <div *ngIf="load" class="disenio-spinner">
         <mat-spinner></mat-spinner>
     </div>
-    <table mat-table matTableExporter [dataSource]="dataSourceConciliadas" matSort #exporter="matTableExporter">
-        <caption></caption>
-        <ng-container matColumnDef="banco" class="mat-column-nombreCampo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> BANCO</th>
-            <td mat-cell *matCellDef="let element"> {{element.Banco}} </td>
-        </ng-container>
+    <div *ngIf="!load">
+        <table mat-table matTableExporter [dataSource]="dataSourceConciliadas" matSort #exporter="matTableExporter">
+            <caption></caption>
+            <ng-container matColumnDef="banco" class="mat-column-nombreCampo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> BANCO</th>
+                <td mat-cell *matCellDef="let element"> {{element.Banco}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="transPortadora" class="mat-column-nombreCampo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> TRANSPORTADORA</th>
-            <td mat-cell *matCellDef="let element"> {{element.Transportadora}} </td>
-        </ng-container>
+            <ng-container matColumnDef="transPortadora" class="mat-column-nombreCampo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> TRANSPORTADORA</th>
+                <td mat-cell *matCellDef="let element"> {{element.Transportadora}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="nombreFondo" class="mat-column-nombreCampo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE FONDO</th>
-            <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
-        </ng-container>
+            <ng-container matColumnDef="nombreFondo" class="mat-column-nombreCampo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE FONDO</th>
+                <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="entradaSalida">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA-SALIDA</th>
-            <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
-        </ng-container>
+            <ng-container matColumnDef="entradaSalida">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA-SALIDA</th>
+                <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="nombrePuntoOrigen">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE PUNTO ORIGEN</th>
-            <td mat-cell *matCellDef="let element"> {{element.puntoOrigen}} </td>
-        </ng-container>
+            <ng-container matColumnDef="nombrePuntoOrigen">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE PUNTO ORIGEN</th>
+                <td mat-cell *matCellDef="let element"> {{element.puntoOrigen}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="nombrePuntoDestino">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE PUNTO DESTINO</th>
-            <td mat-cell *matCellDef="let element"> {{element.puntoDestino}} </td>
-        </ng-container>
+            <ng-container matColumnDef="nombrePuntoDestino">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE PUNTO DESTINO</th>
+                <td mat-cell *matCellDef="let element"> {{element.puntoDestino}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="valor">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> VALOR</th>
-            <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency }} </td>
-        </ng-container>
+            <ng-container matColumnDef="valor">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> VALOR</th>
+                <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency }} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="tipoConciliacion">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE CONCILIACION</th>
-            <td mat-cell *matCellDef="let element"> {{element.tipoConciliacion}} </td>
-        </ng-container>
+            <ng-container matColumnDef="tipoConciliacion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE CONCILIACION</th>
+                <td mat-cell *matCellDef="let element"> {{element.tipoConciliacion}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="fechaEjecucion">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DE EJECUCION</th>
-            <td mat-cell *matCellDef="let element"> {{element.fechaEjecucion | date: 'dd/MM/YYYY' : '+00'}} </td>
-        </ng-container>
+            <ng-container matColumnDef="fechaEjecucion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA DE EJECUCION</th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaEjecucion | date: 'dd/MM/YYYY' : '+00'}} </td>
+            </ng-container>
 
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsConciliadas"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsConciliadas;"></tr>
-    </table>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsConciliadas"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsConciliadas;"></tr>
+        </table>
+
+    </div>
+
 </div>

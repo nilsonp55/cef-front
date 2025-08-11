@@ -221,7 +221,6 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
         });
         this.listarConfEntitis()
         this.initForm();
-        this.visualizarTabla();
       },
       error:  (err: any) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -234,10 +233,8 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
               msgDetalles: JSON.stringify(err?.error.response)
             }
           });
-          this.visualizarTabla();
         }
       });
-
     this.ngOnInit();
    }
 

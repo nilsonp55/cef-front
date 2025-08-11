@@ -59,12 +59,10 @@ export class CentroCiudadBaseComponent implements OnInit {
         this.spinnerActive = true;
         await lastValueFrom(this.generalServices.listarBancosAval()).then((response) => {
             this.bancos = response.data;
-            this.spinnerActive = false;
         });
 
         lastValueFrom(this.generalServices.listarCiudades()).then((response) => {
             this.ciudades = response.data;
-            this.spinnerActive = false;
         });
     }
 
@@ -104,8 +102,9 @@ export class CentroCiudadBaseComponent implements OnInit {
                 this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
                 this.dataSourceTiposCuentas.sort = this.sort;
                 this.cantidadRegistros = page.data.totalElements;
-                this.spinnerActive = false;
                 this.visualizarTabla();
+                this.spinnerActive = false;
+                
             },
             error: (err: any) => {
                 this.dialog.open(VentanaEmergenteResponseComponent, {

@@ -1,10 +1,15 @@
-<mat-stepper [linear]="isLinear" #stepper>
-    <mat-step>
-        <ng-template matStepLabel>CARGUE CERTIFICACIÓN</ng-template>
-        <app-archi-carga-certificacion></app-archi-carga-certificacion>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>HISTORIAL DE CARGUE</ng-template>
-        <app-histori-archi-carga-certifi></app-histori-archi-carga-certifi>
-    </mat-step>
-</mat-stepper>
+<div class="procesos-custom-container">
+    <div class="tittle-section">
+        <h2>Gestión Cargue Certificación</h2>
+    </div>
+    <div class="mat-table-custom">
+        <mat-tab-group (selectedIndexChange)="changeTab($event)">
+            <mat-tab label="CARGUE CERTIFICACIÓN">
+                <app-archi-carga-certificacion></app-archi-carga-certificacion>
+            </mat-tab>
+            <mat-tab label="HISTORIAL DE CARGUE">
+                <app-histori-archi-carga-certifi></app-histori-archi-carga-certifi>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

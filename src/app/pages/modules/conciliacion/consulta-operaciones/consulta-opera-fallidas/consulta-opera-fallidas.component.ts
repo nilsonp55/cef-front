@@ -30,6 +30,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('sort1') sort1 = new MatSort();
   @ViewChild('sort2') sort2 = new MatSort();
+  @ViewChild('exporter', {static: false}) exporter: any;
 
   //Rgistros paginados
   cantidadRegistrosProgram: number;
@@ -235,8 +236,12 @@ export class ConsultaOperaFallidasComponent implements OnInit {
       this.estadoConciliacionInicial ?? [""],
       this.numPaginaOpCer, this.cantPaginaOpCer
     );
+  }
 
-
+    exporterTable(tableName: string){
+    if(this.exporter && !this.loadProg){
+      this.exporter.exportTable('xlsx', {fileName: tableName});
+    }
   }
 
 }

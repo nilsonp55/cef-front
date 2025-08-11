@@ -1,11 +1,11 @@
-<h2 mat-dialog-title>{{data.msn.nombreArchivo}}</h2>
+<h3 mat-dialog-title>{{data.msn.nombreArchivo}}</h3>
 <div *ngIf="data.msn.estado === 'PENDIENTE'" style="overflow-x: scroll; overflow-y: scroll; height: 500px;">
-    <div *ngFor="let contenido of data.msn.contenidoArchivo">
+    <div *ngFor="let contenido of data.msn.contenidoArchivo" class="custom-detail-dialog">
         <p style="width: 320%;">{{contenido}}</p>
     </div>
 </div>
 <div *ngIf="data.msn.estado !== 'PENDIENTE'" style="overflow-x: scroll; overflow-y: scroll; height: 500px;">
-<div *ngFor="let contenidoNoPendiente of dataNoPendiente">
+<div *ngFor="let contenidoNoPendiente of dataNoPendiente"  class="custom-detail-dialog">
     <p style="width: 320%;">{{contenidoNoPendiente}}</p>
 </div>
 </div>

@@ -10,6 +10,7 @@ import { CargueProgramacionCertificadaService } from 'src/app/_service/programac
 import { CargueProgramacionPreliminarService } from 'src/app/_service/programacion-preliminar-service/cargue-programacion-preliminar.service';
 import { ValidacionEstadoProcesosService } from 'src/app/_service/valida-estado-proceso.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cierre-certificacion',
@@ -63,6 +64,7 @@ export class CierreCertificacionComponent implements OnInit {
   * @BaironPerez
   */
   listarProcesos(pagina = 0, tamanio = 5) {
+    this.spinnerActive = true;
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
       size: tamanio,
@@ -70,6 +72,7 @@ export class CierreCertificacionComponent implements OnInit {
       this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
       this.dataSourceInfoProcesos.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
+      this.spinnerActive = false;
     },
     error: (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -79,12 +82,24 @@ export class CierreCertificacionComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
+        this.spinnerActive = false;
       }
     });
   }
 
+  modalProcesoEjecucion() {
+      Swal.fire({
+        title: "Proceso en ejecución",
+        imageUrl: "assets/img/loading.gif",
+        imageWidth: 80,
+        imageHeight: 80,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        customClass: { popup: "custom-alert-swal-text" }
+      });
+    }
+
   intervacierreCertificacion(idArchivo: any) {
-    this.spinnerActive = true;
     this.ejecutar(idArchivo);
     this.idInterval = setInterval(() => {
       this.validacionEstadoProceso("CARG_CERTIFICACION");
@@ -95,11 +110,13 @@ export class CierreCertificacionComponent implements OnInit {
    * Metodo encargado de validar el estado de un proceso en particular
    */
   validacionEstadoProceso(codigoProceso: any) {
+    this.modalProcesoEjecucion()
     this.validacionEstadoProcesosService.validarEstadoProceso({
       'codigoProceso': codigoProceso,
       "fechaSistema": this.fechaSistemaSelect
     }).subscribe({
       next: (response: any) => {
+        Swal.close();
         let estadoProceso = GENERALES.CODE_EMERGENT.WARNING;
         if (response.data.estadoProceso == 'PROCESADO')
           estadoProceso = GENERALES.CODE_EMERGENT.SUCCESFULL;
@@ -119,7 +136,7 @@ export class CierreCertificacionComponent implements OnInit {
           clearInterval(this.idInterval);
       },
       error: (err: any) => {
-        this.spinnerActive = false;
+        Swal.close();
         clearInterval(this.idInterval);
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -138,11 +155,11 @@ export class CierreCertificacionComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar(idArchivo) {
-    this.spinnerActive = true;
+    this.modalProcesoEjecucion()
     this.cargueProgramacionCertificadaService.procesar({
       'agrupador': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS
     }).subscribe({ next: data => {
-      this.spinnerActive = false;
+      Swal.close();
       this.listarProcesos();
       this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -153,7 +170,7 @@ export class CierreCertificacionComponent implements OnInit {
       });
     },
     error: (err: any) => {
-        this.spinnerActive = false;
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {

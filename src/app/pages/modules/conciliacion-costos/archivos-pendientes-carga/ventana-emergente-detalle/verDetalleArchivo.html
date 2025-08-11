@@ -1,11 +1,11 @@
-<h2 mat-dialog-title>{{data.msn.nombreArchivo}}</h2>
-<div style="overflow-x: scroll; overflow-y: scroll; height: 500px;" *ngIf="data.msn.estado === 'PENDIENTE'">
-    <div *ngFor="let cont of data.msn.contenidoArchivo; let i=index">
+<h3 mat-dialog-title>{{data.msn.nombreArchivo}}</h3>
+<div style="overflow-x: scroll; overflow-y: scroll; height: 500px;" class="" *ngIf="data.msn.estado === 'PENDIENTE'">
+    <div *ngFor="let cont of data.msn.contenidoArchivo; let i=index" class="custom-detail-dialog">
         <p style="width: 320%;">{{cont}}</p>
     </div>
 </div>
 <div style="overflow-x: scroll; overflow-y: scroll; height: 500px;" *ngIf="data.msn.estado !== 'PENDIENTE'" >
-<div *ngFor="let contNo of dataNoPendiente; let i=index">
+<div *ngFor="let contNo of dataNoPendiente; let i=index"  class="custom-detail-dialog">
     <p style="width: 320%;">{{contNo}}</p>
 </div>
 </div>

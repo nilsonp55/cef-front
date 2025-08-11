@@ -1,46 +1,52 @@
-<!--Sprinner-->
-<app-spinner *ngIf="spinnerActive"></app-spinner>
-<!--Tabla Descripción de archivos cargados-->
-<div class="divTabla">
-  <div class="divTituloTablas">
-    <h1 class="tituloTabla">Cierre programación preliminar</h1>
-    <span class="line-spacer"></span>
+<div class="tittle-section">
+  <h2>Cierre programación preliminar</h2>
+</div>
+<div class="mat-table-custom">
+  <div class="spacer-content"></div>
+  <!--Tabla Descripción de archivos cargados-->
+  <div *ngIf="spinnerActive" class="disenio-spinner">
+    <app-spinner></app-spinner>
   </div>
-  <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
-    <caption></caption>
-    <ng-container matColumnDef="idLogProceso">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header id="idLogProceso">ID PROCESO</th>
-      <td mat-cell *matCellDef="let element"> {{element.idLogProceso }} </td>
-    </ng-container>
+  <div *ngIf="!spinnerActive">
+    <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
+      <caption></caption>
+      <ng-container matColumnDef="idLogProceso">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header id="idLogProceso">ID PROCESO</th>
+        <td mat-cell *matCellDef="let element"> {{element.idLogProceso }} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="fechaCreacion">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header id="fechaCreacion">FECHA PROCESO</th>
-      <td mat-cell *matCellDef="let element"> {{element.fechaCreacion | date: 'dd/MM/YYYY' : '+00'}} </td>
-    </ng-container>
+      <ng-container matColumnDef="fechaCreacion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header id="fechaCreacion">FECHA PROCESO</th>
+        <td mat-cell *matCellDef="let element"> {{element.fechaCreacion | date: 'dd/MM/YYYY' : '+00'}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="codigoProceso">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header id="codigoProceso">ACTIVIDAD</th>
-      <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
-    </ng-container>
+      <ng-container matColumnDef="codigoProceso">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header id="codigoProceso">ACTIVIDAD</th>
+        <td mat-cell *matCellDef="let element"> {{element.codigoProceso}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="estadoProceso">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header id="estadoProceso">ESTADO</th>
-      <td mat-cell style="color: rgb(36, 162, 51);" *matCellDef="let element"> {{element.estadoProceso}} </td>
-    </ng-container>
+      <ng-container matColumnDef="estadoProceso">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header id="estadoProceso">ESTADO</th>
+        <td mat-cell style="color: rgb(36, 162, 51);" *matCellDef="let element"> {{element.estadoProceso}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="acciones">
-      <th mat-header-cell *matHeaderCellDef id="acciones">Acciones</th>
-      <td mat-cell *matCellDef="let element">
-        <button title="Ejecutar" *ngIf="element.codigoProceso == 'CARG_PRELIMINAR' && element.estadoProceso !== 'CERRADO'" mat-button color="primary" (click)="ejecutar()">
-          <mat-icon style="color: rgb(29, 39, 170)">play_circle_outline</mat-icon>
-        </button>
-        <button title="Reabrir" *ngIf="element.codigoProceso == 'CARG_PRELIMINAR' && element.estadoProceso === 'CERRADO'" mat-button (click)="reabrirCargue(element.nombreArchivo, element.idModeloArchivo)">
-          <mat-icon style="color: rgb(255, 217, 0)">cached icon</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
-  </table>
-
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef id="acciones">ACCIONES</th>
+        <td mat-cell *matCellDef="let element">
+          <button title="Ejecutar"
+            *ngIf="element.codigoProceso == 'CARG_PRELIMINAR' && element.estadoProceso !== 'CERRADO'" mat-button
+            color="primary" (click)="ejecutar()">
+            <mat-icon style="color: rgb(29, 39, 170)">play_circle_outline</mat-icon>
+          </button>
+          <button title="Reabrir"
+            *ngIf="element.codigoProceso == 'CARG_PRELIMINAR' && element.estadoProceso === 'CERRADO'" mat-button
+            (click)="reabrirCargue(element.nombreArchivo, element.idModeloArchivo)">
+            <mat-icon style="color: rgb(255, 217, 0)">cached icon</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
+    </table>
+  </div>
 </div>
