@@ -127,7 +127,7 @@ export class CrearPuntoComponent implements OnInit {
       valTarifaVerificacion = param.cajeroATM?.tarifaVerificacion;
     }
 
-    this.ciudadControl = new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null);
+    this.ciudadControl = new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null, [Validators.required]);
     this.clientesControl = new FormControl(param?.sitiosClientes?.codigoCliente, [Validators.required]);
     this.form = new FormGroup({
       'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param}, [Validators.required]),
