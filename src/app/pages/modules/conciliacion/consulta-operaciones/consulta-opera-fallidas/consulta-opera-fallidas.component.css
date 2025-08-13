@@ -23,13 +23,6 @@
   scroll-snap-type: proximity;
 }
 
-.division {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: auto;
-  gap: 8px;
-}
-
 .division-busqueda {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -65,9 +58,4 @@
 .ubicacionBotonFiltrar {
   margin-top: 12%;
   margin-left: 5%;
-}
-
-tr.mat-header-row,
-.division .mat-table-custom tr.mat-row {
-  height: 44px;
 }

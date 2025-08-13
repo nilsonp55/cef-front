@@ -1,20 +1,3 @@
-* {
-  background: #fff;
-}
-
-::ng-deep .divTabla {
-  padding: 1%;
-  margin: 1% 0 0 1%;
-  background-color: transparent;
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-.botones-tabla {
-  display: table-cell;
-  width: 100%;
-}
-
 .botones-tabla .mat-button-base {
   margin: 8px 8px 8px 0;
 }
@@ -28,12 +11,12 @@ table {
   padding: 0 5px;
 }
 
-[class*='mat-column-aplicativo'] {
-  background: lightblue;
+.mat-column-aplicativo {
+  background: #d4d6d7;
 }
 
-[class*='mat-column-tvd'] {
-  background: lightskyblue;
+.mat-column-tvd {
+  background: #d4d6d7;
 }
 
 
@@ -55,7 +38,7 @@ table {
 .mat-column-moneda_residuo,
 .mat-column-moneda_residuo_tdv,
 .mat-column-iva_tdv {
-  background: lightblue;
+  background: #dfe1e2;
 }
 
 .mat-column-header-row-group-2,
@@ -73,9 +56,60 @@ table {
 .mat-column-billete_residuo,
 .mat-column-billete_residuo_tdv,
 .mat-column-valor_total_tdv {
-  background: lightgoldenrodyellow;
+  background: rgb(255, 255, 255);
 }
 
 .text-no-equity {
   color: red;
+}
+
+.mat-column-nombre_punto_cargo_procesamiento,
+.mat-column-razon_social_procesamiento {
+  min-width: 275px;
+}
+
+
+.mat-column-nombre_tipo_servicio_procesamiento {
+  min-width: 150px;
+}
+
+.mat-column-clasificacionNoFajado,
+.mat-column-clasificacionFajado,
+.mat-column-valorTotal,
+.mat-column-subTotal,
+.mat-column-valorTotalProcesado,
+.mat-column-valorProcesadoMonedas,
+.mat-column-valorProcesadoBilletes {
+  min-width: 130px;
+}
+
+.mat-column-iva{
+  min-width: 90px;
+}
+
+.mat-column-billeteResiduo,
+.mat-column-monedaResiduo,
+.mat-column-costoPaqueteo{
+  min-width: 100px;
+}
+
+.mat-column-header-row-group-1,
+.mat-column-header-row-group-2,
+.mat-column-header-row-group-3,
+.mat-column-header-row-group-4,
+.mat-column-header-row-group-6,
+.mat-column-header-row-group-7,
+.mat-column-header-row-group-8 {
+  min-width: 270px;
+}
+
+.mat-column-header-row-group-9,
+.mat-column-header-row-group-10,
+.mat-column-header-row-group-11 {
+  min-width: 200px;
+}
+
+.mat-column-iva_tdv,
+.mat-column-iva_p{
+  min-width: 90px;
 }

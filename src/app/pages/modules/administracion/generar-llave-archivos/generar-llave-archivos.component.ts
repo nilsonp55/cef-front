@@ -7,16 +7,14 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { DesencriptarLlavesService } from 'src/app/_service/administracion-service/generar-llaves.service';
 import { DialogConfirmLlavesComponent } from './dialog-confirm-llaves/dialog-confirm-llaves.component';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-generar-llave-archivos',
-  templateUrl: './generar-llave-archivos.component.html',
-  styleUrls: ['./generar-llave-archivos.component.css']
+  templateUrl: './generar-llave-archivos.component.html'
 })
 export class GenerarLlaveArchivosComponent implements OnInit {
 
-  //Variable para activar spinner
-  spinnerActive: boolean = false;
   fechaSistema: any = "19/AGO/2022";
   selected: Date | null;
 
@@ -52,9 +50,9 @@ export class GenerarLlaveArchivosComponent implements OnInit {
     validateArchivo.afterClosed().subscribe(result => {
       //Si presiona click en aceptar
       if (result.data.check) {
-        this.spinnerActive = true;
+        this.modalProcesoEjecucion();
         this.desencriptarLlavesService.generarLlaves().subscribe(data => {
-          this.spinnerActive = false;
+          Swal.close();
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -64,7 +62,7 @@ export class GenerarLlaveArchivosComponent implements OnInit {
           });
         },
           (err: any) => {
-            this.spinnerActive = false;
+            Swal.close();
             this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {
@@ -76,5 +74,16 @@ export class GenerarLlaveArchivosComponent implements OnInit {
       }
     })
   }
-    
+
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
+  }
 }

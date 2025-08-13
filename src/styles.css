@@ -5,8 +5,16 @@
 You can add global styles to this file, and also import other style files 
 *************************************************************************************************************************/
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 /*Estilo para la linea objetos de esquina a esquina */
 .line-spacer {
     flex: 1 1 auto;
@@ -19,9 +27,9 @@ Estilo para botones en el aplicativo
     color: #fff;
     background-color: #3e67ee;
     border-color: #f8f8f1;
-    display:block; 
-    margin:auto;
-    padding:2%;
+    display: block;
+    margin: auto;
+    padding: 2%;
     border-radius: 0.25rem;
     line-height: 0.7;
     font-size: 20px;
@@ -31,9 +39,9 @@ Estilo para botones en el aplicativo
     color: rgb(26, 23, 23);
     background-color: #d1cbc9;
     border-color: #d1cbc9;
-    display:block; 
-    margin:auto;
-    padding:2%;
+    display: block;
+    margin: auto;
+    padding: 2%;
     border-radius: 0.25rem;
     line-height: 0.7;
     font-size: 20px;
@@ -43,9 +51,9 @@ Estilo para botones en el aplicativo
     color: #fff;
     background-color: #0b9416;
     border-color: #07680f;
-    display:block; 
-    margin:auto;
-    padding:2%;
+    display: block;
+    margin: auto;
+    padding: 2%;
     border-radius: 0.25rem;
     line-height: 0.7;
     font-size: 20px;
@@ -57,8 +65,8 @@ Estilo para botones en el aplicativo
     color: #fff;
     background-color: #da5b34;
     border-color: #da5b34;
-    margin:auto;
-    padding:2%;
+    margin: auto;
+    padding: 2%;
     border-radius: 0.25rem;
     line-height: 2.7;
     width: 25%;
@@ -80,6 +88,7 @@ Estilo para botones en el aplicativo
     left: 0;
     right: 0;
 }
+
 .sidenav-container {
     flex: 1;
 }
@@ -102,6 +111,7 @@ table.mat-table {
     margin-left: 4%;
     margin-right: 5%
 }
+
 .divTituloTablas {
     background-color: #f0f0f0;
 }
@@ -117,6 +127,7 @@ table.mat-table {
     background-color: #332c52;
     color: #f0f0f0;
 }
+
 .example-container {
     display: flex;
     flex-direction: column;
@@ -161,12 +172,12 @@ mat-form-field {
 .mat-stepper-horizontal {
     padding-top: 3%;
 }
-  
+
 .mat-form-field {
     margin-top: 2%;
 }
 
-.mat-step-header {  
+.mat-step-header {
     overflow: hidden;
     outline: none;
     cursor: pointer;
@@ -182,7 +193,7 @@ mat-form-field {
     height: 72px;
     overflow: hidden;
     align-items: center;
-    padding: 0 14px; 
+    padding: 0 14px;
 }
 
 
@@ -190,9 +201,10 @@ mat-form-field {
 * Estilos para color de la pestaña seleccionada
 *************************************************************************************************************************/
 .seleccion-activa {
-    color: #61b6e4 !important; /* Note: You could also use a custom theme */
+    color: #61b6e4 !important;
+    /* Note: You could also use a custom theme */
     background-color: rgb(255, 255, 255);
-  }
+}
 
 
 
@@ -201,9 +213,10 @@ mat-form-field {
     line-height: 14px;
 }
 
-.menu-container .mat-drawer{
+.menu-container .mat-drawer {
     width: 20% !important;
 }
+
 .menu-container .mat-menu-item {
     line-height: 36px;
     height: 36px;
@@ -211,63 +224,68 @@ mat-form-field {
 
 
 /* Estilos globales componentes y tablas */
-.tittle-section{
+.mat-drawer-content {
+    background-color: white;
+}
+.tittle-section {
     padding-left: 0.75rem;
     background-color: white;
 }
 
-.tittle-section > h2{
+.tittle-section>h2 {
     margin: 0px;
     padding-top: 6px;
 }
 
 /*Estilos tablas*/
-.mat-table-custom .mat-cell, .mat-table-custom .mat-footer-cell {
+.mat-table-custom .mat-cell,
+.mat-table-custom .mat-footer-cell {
     font-size: 12px;
-	padding-top: 3px;
+    padding-top: 3px;
     padding-right: 8px;
+}
+
+.mat-table-custom .mat-header-cell {
+    font-size: 12px;
+    font-weight: 600;
+    color: black;
 }
 
 :host ::ng-deep .mat-elevation-z8 {
     box-shadow: none !important;
 }
 
-.mat-table-custom .mat-table{
+.mat-table-custom .mat-table {
     border-top: 2px solid #ddd !important;
     box-shadow: 0px 8px 8px -0px rgba(0, 0, 0, 0.4) !important;
 }
- 
+
 
 
 .mat-table-custom .mat-header-cell {
     padding-top: 3px;
 }
 
-.mat-table-custom .mat-header-cell {
-    font-size: 12px;
-    font-weight: 600;
-	color: black;
+
+.mat-table-custom tr.mat-row .mat-button {
+    line-height: 0px;
 }
 
-.mat-table-custom tr.mat-row .mat-button{
-	line-height: 0px;
-}
-
-.mat-table-custom .mat-icon{
-	height: 1rem;
+.mat-table-custom .mat-icon {
+    height: 1rem;
     width: 1rem;
-	font-size: 16px;
+    font-size: 16px;
 }
 
-.mat-table-custom .mat-icon.material-icons{
-	font-size: 16px;
+.mat-table-custom .mat-icon.material-icons {
+    font-size: 18px;
 }
 
-.mat-table-custom .table-filter-container button .mat-icon.material-icons{
-	font-size: 24px;
+.mat-table-custom .table-filter-container button .mat-icon.material-icons {
+    font-size: 24px;
 }
 
-.mat-table-custom tr.mat-row, 
+.mat-table-custom tr.mat-row,
 tr.mat-footer-row,
 .mat-table-custom tr.mat-header-row {
     height: 32px;
@@ -275,12 +293,12 @@ tr.mat-footer-row,
 
 /*Estilos botón*/
 .controls-container {
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  background-color: white;
-  min-height: 58px;
-  flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    background-color: white;
+    min-height: 58px;
+    flex-wrap: wrap;
 }
 
 .mat-table-custom .controls-container .button-custom {
@@ -291,42 +309,46 @@ tr.mat-footer-row,
 
 /* Área del paginador - tamaño fijo */
 .paginator-area {
-  flex-grow: 0; /* NO crece */
-  align-self: center; /* Se centra verticalmente */
-  min-width: fit-content; /* Mantiene su tamaño mínimo */
-  margin-left: auto;
-  margin-right: -1rem;
+    flex-grow: 0;
+    /* NO crece */
+    align-self: center;
+    /* Se centra verticalmente */
+    min-width: fit-content;
+    /* Mantiene su tamaño mínimo */
+    margin-left: auto;
+    margin-right: -1rem;
 }
 
 .mat-dialog-actions .button-custom,
 .mat-table-custom .button-custom,
 .modal-dialog-custom .button-custom {
-  margin-right: 12px;
-  color: white;
-  font-weight: 500;
-  padding: 0 16px;
-  min-width: 100px;
-  transition: all 0.3s ease;
-  flex-shrink: 0; /* No se contrae */
+    margin-right: 12px;
+    color: white;
+    font-weight: 500;
+    padding: 0 16px;
+    min-width: 100px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    /* No se contrae */
 }
 
 .mat-table-custom .mat-raised-button {
-	line-height: 28px;
+    line-height: 28px;
 }
 
-.mat-table-custom .mat-table{
+.mat-table-custom .mat-table {
     margin-bottom: 32px;
 }
 
 .button-customn:hover {
-  transform: translateY(-2px);
+    transform: translateY(-2px);
 }
 
-.table-filter-container{
+.table-filter-container {
     display: grid;
     width: auto;
     background: white;
-    grid-template-columns: repeat(auto-fit,minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     justify-content: center;
     padding: 18px 12px 12px 12px;
     margin: 0;
@@ -335,8 +357,8 @@ tr.mat-footer-row,
 
 .table-filter-container .mat-form-field {
     width: 100%;
-	font-size: 12px;
-	margin: 0px;
+    font-size: 12px;
+    margin: 0px;
 }
 
 .table-filter-container .mat-form-field-appearance-fill .mat-form-field-flex {
@@ -357,15 +379,15 @@ tr.mat-footer-row,
 
 /*TODO: REVISAR ESTOS ESTILOS*/
 ::ng-deep .form-containter .mat-form-field-wrapper {
-	padding-bottom: 13px;
+    padding-bottom: 13px;
 }
 
-::ng-deep .form-containter .mat-form-field-infix{
-	padding: 5px 0px;
+::ng-deep .form-containter .mat-form-field-infix {
+    padding: 5px 0px;
 }
 
-::ng-deep .form-containter .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
-	color: rgba(0, 0, 0, 0.6);
+::ng-deep .form-containter .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label {
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .form-containter {
@@ -376,25 +398,25 @@ tr.mat-footer-row,
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     flex-direction: column;
     text-align: center;
-	max-width: 860px;
+    max-width: 860px;
 }
 
 .form-fields {
     display: grid;
     width: auto;
-    grid-template-columns: repeat(auto-fit,minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     justify-content: center;
     margin: 0px;
 }
 
 .form-containter .mat-form-field {
-	font-size: 12px;
-	margin-top: 0px;
+    font-size: 12px;
+    margin-top: 0px;
 }
 
 .form-containter .mat-form-field {
-	font-size: 12px;
-	margin-top: 24px;
+    font-size: 12px;
+    margin-top: 24px;
     margin-right: 20px;
 }
 
@@ -411,10 +433,10 @@ tr.mat-footer-row,
 }
 
 .mat-form-field {
-    margin-left: 0%; 
+    margin-left: 0%;
 }
 
-.form-containter .mat-form-field  .mat-form-field-subscript-wrapper {
+.form-containter .mat-form-field .mat-form-field-subscript-wrapper {
     margin-top: 20px;
 }
 
@@ -432,7 +454,7 @@ tr.mat-footer-row,
     margin-top: 20px;
 }
 
-.container-estado > p {
+.container-estado>p {
     margin-bottom: 0px;
 }
 
@@ -458,24 +480,25 @@ tr.mat-footer-row,
 }
 
 .form-containter .button-custom {
-  color: white;
-  font-weight: 500;
-  padding: 0 16px;
-  min-width: 100px;
-  transition: all 0.3s ease;
-  flex-shrink: 0; /* No se contrae */
+    color: white;
+    font-weight: 500;
+    padding: 0 16px;
+    min-width: 100px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    /* No se contrae */
 }
 
 .mat-raised-button {
-	line-height: 28px !important;
+    line-height: 28px !important;
 }
 
 .form-containter .button-custom:hover {
-  transform: translateY(-2px);
+    transform: translateY(-2px);
 }
 
-.form-containter.button-custom:hover .mat-raised-button.mat-button-disabled{
-	transform: translateY(0px);
+.form-containter.button-custom:hover .mat-raised-button.mat-button-disabled {
+    transform: translateY(0px);
 }
 
 /* .form-fields .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
@@ -499,7 +522,7 @@ Estilo para modal dialog custom
 .modal-dialog-custom .form-fields {
     display: grid;
     width: auto;
-    grid-template-columns: repeat(auto-fit,minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     justify-content: center;
     margin: 0px;
     gap: 20px;
@@ -524,7 +547,7 @@ Estilo para modal dialog custom
 }
 
 .modal-dialog-custom .mat-form-field {
-    margin-left: 0%; 
+    margin-left: 0%;
 }
 
 .modal-dialog-custom .checkbox-container {
@@ -538,15 +561,36 @@ Estilo para modal dialog custom
     margin-top: 0px;
 }
 
-.modal-dialog-custom .mat-form-field  .mat-form-field-subscript-wrapper {
+.modal-dialog-custom .mat-form-field .mat-form-field-subscript-wrapper {
     margin-top: 20px;
+}
+
+.modal-dialog-custom  .tittle-section > h2 {
+    text-align: center;
+    font-size: 18px;
+}
+
+
+.modal-dialog-custom .form-container-custom{
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.modal-dialog-custom .container-icon-alert {
+    margin-top: 24px;
+}
+
+.modal-dialog-custom .form-container-custom div h3 {
+  font-weight: 500;
 }
 
 
 /*TODO: ajustar estilo solo para la clase*/
 .mat-option {
-    height: 20px !important;  
+    height: 20px !important;
 }
+
 /*TODO: ajustar estilo solo para la clase*/
 .mat-option-text {
     font-size: 12px;
@@ -558,13 +602,13 @@ Estilo para modal dialog custom
 Estilos compartidos
 *************************************************************************************************************************/
 
-.form-containter .button-custom, 
+.form-containter .button-custom,
 .modal-dialog-custom .button-custom {
-  margin-left: 4%;
-  margin-right: 4%;
+    margin-left: 4%;
+    margin-right: 4%;
 }
 
-.mat-table-custom .disenio-spinner{
+.mat-table-custom .disenio-spinner {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -580,10 +624,36 @@ Estilos compartidos
     height: 30vh;
 }
 
+.column-clear {
+  background: #dfe1e2;
+}
+.column-dark {
+  background: #d4d6d7;
+}
+
+.mat-table-custom .fecha{
+    align-items: center;
+    vertical-align: middle;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+    padding-top: 20px;
+    padding-bottom: 16px;
+    text-align: center;
+}
+
+.container-icon-alert {
+    text-align: center;
+    margin-top: 0%;
+}
+
+
 /************************************************************************************************************************
 Estilos alert-swal + clases custom
 *************************************************************************************************************************/
-.custom-alert-swal  {
+.custom-alert-swal {
     width: 60% !important;
 }
 
@@ -594,24 +664,38 @@ Estilos alert-swal + clases custom
 
 .custom-alert-swal-text .swal2-title {
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 400;
+    color: black;
 }
 
 /************************************************************************************************************************
 Estilos compartidos
 *************************************************************************************************************************/
-.custom-alert-swal-text .swal2-confirm,
-.custom-alert-swal button {
-  line-height: 28px;
-  font-weight: 500;
-  padding: 0 16px;
-  min-width: 90px;
-  max-width: 90px;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-  background-color: #3f51b5 !important;
+.custom-alert-swal-text .swal2-actions {
+    gap:32px;
 }
 
+.custom-alert-swal-text .swal2-cancel,
+.custom-alert-swal-text .swal2-confirm,
+.custom-alert-swal button {
+    line-height: 28px;
+    font-weight: 500;
+    padding: 0 16px;
+    min-width: 90px;
+    max-width: 90px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.custom-alert-swal-text .swal2-confirm,
+.custom-alert-swal button  {
+    background-color: #3f51b5 !important;
+}
+
+.custom-alert-swal-text .swal2-cancel {
+    background-color: #f44336 !important;
+}
+.custom-alert-swal-text .swal2-cancel:focus, 
 .custom-alert-swal-text .swal2-confirm:focus {
     box-shadow: none;
 }
@@ -620,8 +704,7 @@ Estilos compartidos
     width: 100%;
 }
 
-.mat-table-custom  .table-container {
-    padding: 10;
+.mat-table-custom .table-container {
     margin: 0;
     overflow-x: auto;
 }
@@ -635,7 +718,7 @@ Estilos compartidos
     width: 24px;
 }
 
-.mat-table-custom .mat-tab-label-container{
+.mat-table-custom .mat-tab-label-container {
     padding-left: 12px;
 }
 
@@ -645,12 +728,12 @@ Estilos compartidos
     padding-bottom: 6px;
 }
 
-.mat-table-custom  .mat-tab-label{
+.mat-table-custom .mat-tab-label {
     color: rgba(0, 0, 0);
     opacity: 1;
 }
 
-.mat-tab-label-active{
+.mat-tab-label-active {
     background-color: rgba(99, 98, 98, 0.1);
 }
 
@@ -662,12 +745,20 @@ Estilos compartidos
     text-align: left;
 }
 
-.radio-container > mat-label {
+.radio-container>mat-label {
     font-weight: 500;
 }
 
 .custom-detail-dialog {
     font-size: 12px;
+}
+
+.double-table-container .config-scroll-custom {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 70vh;
+  max-width: 1040px;
+  flex: 1;
 }
 
 /************************************************************************************************************************
@@ -683,8 +774,8 @@ Estilos Procesos
     overflow: hidden;
 }
 
-.procesos-custom-container .mat-step-header{
-    height: 28px  !important;
+.procesos-custom-container .mat-step-header {
+    height: 28px !important;
     background-color: #3f51b5 !important;
     border-radius: 4px;
     margin-right: 8%;
@@ -692,14 +783,15 @@ Estilos Procesos
     margin-right: 12px;
 }
 
-.procesos-custom-container .mat-horizontal-stepper-header .mat-step-icon{
+.procesos-custom-container .mat-horizontal-stepper-header .mat-step-icon {
     display: none;
 }
 
 .procesos-custom-container .mat-stepper-horizontal {
     padding-top: 0;
 }
-.procesos-custom-container .mat-step-header .mat-step-text-label{
+
+.procesos-custom-container .mat-step-header .mat-step-text-label {
     color: #ffffff;
     font-weight: 500;
 }
@@ -716,7 +808,7 @@ Estilos Procesos
     background-color: white;
 }
 
-.procesos-custom-container .mat-table-custom .tituloTabla{
+.procesos-custom-container .mat-table-custom .tituloTabla {
     font-size: 15px;
     font-weight: 500;
     padding: 0px !important;
@@ -733,8 +825,95 @@ Estilos Procesos
     padding-top: 20px;
 }
 
+.double-table-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  min-height: 0;
+}
 
-.division .tittle-section > h2 {
+.double-table-container > div {
+  overflow: hidden;
+}
+
+
+
+.division .tittle-section>h2 {
     text-align: center;
     font-size: 16px;
+}
+
+/* Estilos para tabla de información en dialogo en Operaciones sin Conciliar*/
+.mat-dialog-container .mat-table-custom .mat-header-cell {
+    padding-right: 6px;
+}
+
+.mat-dialog-container .mat-table-custom .mat-table {
+    border-right: 1px solid #ddd !important;
+    border-left: 1px solid #ddd !important;
+}
+
+
+/* Estilos para componentes que muestran dos tablas en la misma ventana */
+.division.double-table-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: auto;
+    gap: 8px;
+}
+
+.division.double-table-container tr.mat-header-row,
+.division.double-table-container tr.mat-row{
+    height: 44px;
+}
+
+
+.division.double-table-container .mat-cell:first-of-type {
+    padding-left: 8px;
+}
+.division.double-table-container .mat-header-cell:last-of-type,
+.division.double-table-container .mat-cell:last-of-type {
+    padding-right: 8px;
+}
+
+/* .division.double-table-container .mat-table-custom .mat-cell,
+.division.double-table-container .mat-table-custom .mat-footer-cell {
+    font-size: 11px;
+}
+
+.division.double-table-container .mat-table-custom .mat-header-cell {
+    font-size: 11px;
+}
+ */
+
+ .modal-dialog-custom .mat-table-custom {
+    width: auto;
+ }
+
+
+
+
+
+/************************************************************************************************************************
+alineación de columnas por tipo
+*************************************************************************************************************************/
+.mat-table-custom .mat-sort-header-container{
+    padding-left: 18px;
+    /* justify-content: center; */
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.text-align-right {
+    text-align: right;
+}
+.mat-table-custom th.mat-header-cell{
+    text-align: center;
+}
+
+.dialog-action-custom{
+    gap: 32px;
 }

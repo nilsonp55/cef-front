@@ -15,7 +15,7 @@
             (click)="exporter.exportTable('xlsx', {fileName:'archivos_pendiente_carga'})">Exportar
         </button>
         <div class="paginator-area">
-            <mat-paginator *ngIf="cantidadRegistros > 0" [pageSize]="5" [pageSizeOptions]="pageSizeList"
+            <mat-paginator *ngIf="cantidadRegistros > 0" [pageSize]="5" showFirstLastButtons [pageSizeOptions]="pageSizeList"
                 [length]="cantidadRegistros"></mat-paginator>
         </div>
     </div>

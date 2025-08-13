@@ -1,22 +1,3 @@
-table {
-  width: 2300px;
-}
-
-.tituloTabla {
-  padding-top: 2%;
-  text-align: center;
-  margin-left: 30%;
-}
-
-.divTablaProg {
-  background-color: rgb(226, 229, 229);
-  padding: 1%;
-  margin-top: 2%;
-  margin-left: 4%;
-  margin-right: 2%;
-  margin-bottom: auto;
-}
-
 .configScroll {
   height: auto;
   overflow-x: scroll;
@@ -24,26 +5,3 @@ table {
   scroll-snap-type: proximity;
 }
 
-.ubicacionBtn {
-  margin-top: 15%;
-  margin-left: 5%;
-  text-align: left;
-}
-
-.division {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  height: auto;
-}
-
-.divX2 {
-  text-align: center;
-  margin: 4%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.divForm {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}

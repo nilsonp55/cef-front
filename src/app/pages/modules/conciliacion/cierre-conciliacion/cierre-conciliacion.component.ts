@@ -6,6 +6,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cierre-conciliacion',
@@ -71,9 +72,10 @@ export class CierreConciliacionComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar() {
-    this.spinnerActive = true;
-    this.opConciliadasService.procesar().subscribe({ next: data => {
-        this.spinnerActive = false;
+    this.modalProcesoEjecucion()
+    this.opConciliadasService.procesar().subscribe({
+      next: data => {
+        Swal.close();
         this.listarProcesos();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -86,7 +88,7 @@ export class CierreConciliacionComponent implements OnInit {
         });
       },
       error: (err: any) => {
-        this.spinnerActive = false;
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -100,6 +102,17 @@ export class CierreConciliacionComponent implements OnInit {
     });
   }
 
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
+  }
 
   /**
    * Metodo para reabrir un registro de archivo previamente cargado
@@ -108,7 +121,8 @@ export class CierreConciliacionComponent implements OnInit {
   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
     this.opConciliadasService.reabrirArchivo({
       'agrupador': "CONCI",
-    }).subscribe({ next: item => {
+    }).subscribe({
+      next: item => {
         this.listarProcesos();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

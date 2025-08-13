@@ -1,21 +1,27 @@
-<div class="divTabla">
-    <div class="divTituloTablas">
-        <h1 class="tituloTabla">Liquidación de Costos</h1>
-        <span class="line-spacer"></span>
+<div class="tittle-container">
+    <div class="tittle-section">
+        <h2>Liquidación de Costos</h2>
     </div>
-    <div style="text-align: center; margin-top: 0%;">
-        <div class="fecha">
-            <p>{{fechaSistemaSelect}}</p>
+</div>
+<div class="mat-table-custom">
+    <div class="fecha">
+        Fecha de Proceso: {{fechaSistemaSelect}}
+    </div>
+    <div class="controls-container">
+        <button class="button-custom" mat-raised-button color="primary" (click)="intervalGeneralContabilidad()">Generar
+            Costos</button>
+        <button class="button-custom" mat-raised-button color="primary" (click)="consultarCostos()">Consultar
+            Costos</button>
+        <div *ngIf="estadoTabla">
+            <button class="button-custom" mat-raised-button color="primary" (click)="verValoresLiquidados()">Ver
+                Detalles Liquidación</button>
+            <button class="button-custom" mat-raised-button color="primary" (click)="verErrores()">Ver Errores</button>
         </div>
     </div>
-    <div *ngIf="estadoBTN" class="ub-boton">
-        <button style="margin-right: 10%;" mat-raised-button color="primary" (click)="intervalGeneralContabilidad()">Generar costos</button>
-        <button style="margin-left: 10%;" mat-raised-button color="primary" (click)="consultarCostos()">Consultar costos</button>
+    <div *ngIf="spinnerActive" class="disenio-spinner">
+        <mat-spinner></mat-spinner>
     </div>
-    <!--Sprinner-->
-    <app-spinner *ngIf="spinnerActive"></app-spinner>
-    
-    <table mat-table *ngIf="estadoTabla" [dataSource]="dataSourceInfoProcesos"  matSort class="mat-elevation-z8">
+    <table mat-table *ngIf="estadoTabla && !spinnerActive" [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
         <caption></caption>
         <ng-container matColumnDef="subactividad">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBACTIVIDAD</th>
@@ -34,14 +40,7 @@
                 <mat-icon *ngIf="tieneErrores == true" style="color: rgb(39, 218, 3)">check</mat-icon>
             </td>
         </ng-container>
-
         <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
     </table>
-
-
-    <div *ngIf="estadoTabla" style="text-align: center; margin-top: 0%; margin-top: 1%">
-        <button style="display:inline; margin: 2%;" class="botton1" (click)="verValoresLiquidados()">Ver detalles liquidación</button>
-        <button style="display:inline; margin: 2%;" class="botton2" (click)="verErrores()">Ver Errores</button>
-    </div>
 </div>

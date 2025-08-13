@@ -32,6 +32,7 @@ export class OperacionesFallidasComponent implements OnInit {
 
   @ViewChild('sort1') sort1 = new MatSort();
   @ViewChild('sort2') sort2 = new MatSort();
+  @ViewChild('exporter', { static: false }) exporter: any;
 
   //Registros paginados
   cantidadRegistrosOpProgramadasFallidas: number;
@@ -290,8 +291,8 @@ export class OperacionesFallidasComponent implements OnInit {
     this.seleccionarProgramadasTodo()
       ? this.selectionProgramadas.clear()
       : this.dataSourceOperacionesProgramadas.data.forEach((row) =>
-          this.selectionProgramadas.select(row)
-        );
+        this.selectionProgramadas.select(row)
+      );
     this.seleccionadosProgramadasTabla = this.selectionProgramadas.selected;
   }
 
@@ -320,6 +321,12 @@ export class OperacionesFallidasComponent implements OnInit {
     return numSelected === numRows;
   }
 
+  exporterTable(tableName: string) {
+    if (this.exporter && !this.loadProg) {
+      this.exporter.exportTable('xlsx', { fileName: tableName });
+    }
+  }
+
   /**
    * Logica para marcar registros de Certificadas como seleccionados
    * @author prv_nparra
@@ -328,8 +335,8 @@ export class OperacionesFallidasComponent implements OnInit {
     this.seleccionarCertificadasTodo()
       ? this.selectionCertificadas.clear()
       : this.dataSourceOperacionesCertificadas.data.forEach((row) =>
-          this.selectionCertificadas.select(row)
-        );
+        this.selectionCertificadas.select(row)
+      );
     this.seleccionadosCertificadasTabla = this.selectionCertificadas.selected;
   }
 
@@ -356,6 +363,8 @@ export class OperacionesFallidasComponent implements OnInit {
    */
   openDialogUpdateEstadoOperaciones(operacion: string) {
     this.dialog.open(DialogUpdateEstadoOperacionesComponent, {
+      width: '480px',
+      height: '280px',
       data: {
         listOperaciones: operacion === 'P' ? this.seleccionadosProgramadasTabla : this.seleccionadosCertificadasTabla,
         operacion: operacion

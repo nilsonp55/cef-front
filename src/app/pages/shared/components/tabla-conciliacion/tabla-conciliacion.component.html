@@ -27,35 +27,35 @@
                     </mat-checkbox>
                 </td>
             </ng-container>
-            <ng-container matColumnDef="entidad">
+            <ng-container matColumnDef="entidad" >
                 <th *matHeaderCellDef mat-header-cell mat-sort-header> ENTIDAD</th>
                 <td *matCellDef="let element" mat-cell> {{element.entidad}} </td>
             </ng-container>
 
             <ng-container matColumnDef="fecha_servicio_transporte" class="mat-column-nombreCampo">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header> FECHA SERVICIO TRANSPORTE</th>
-                <td *matCellDef="let element" mat-cell> {{element.fecha_servicio_transporte | date: 'dd/MM/YYYY' :
+                <th *matHeaderCellDef mat-header-cell mat-sort-header class="column-clear"> FECHA SERVICIO TRANSPORTE</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-center"> {{element.fecha_servicio_transporte | date: 'dd/MM/YYYY' :
                     '+00'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="identificacion_cliente">
                 <th *matHeaderCellDef mat-header-cell mat-sort-header> IDENTIFICACIÓN CLIENTE</th>
-                <td *matCellDef="let element" mat-cell> {{element.identificacion_cliente}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-center"> {{element.identificacion_cliente}} </td>
             </ng-container>
 
             <ng-container matColumnDef="razon_social">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header> RAZÓN SOCIAL</th>
-                <td *matCellDef="let element" mat-cell> {{element.razon_social}} </td>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header class="column-clear"> RAZÓN SOCIAL</th>
+                <td *matCellDef="let element" mat-cell class="column-clear"> {{element.razon_social}} </td>
             </ng-container>
 
             <ng-container matColumnDef="codigo_punto_cargo">
                 <th *matHeaderCellDef mat-header-cell mat-sort-header> CODIGO PUNTO CARGO</th>
-                <td *matCellDef="let element" mat-cell> {{element.codigo_punto_cargo}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-center"> {{element.codigo_punto_cargo}} </td>
             </ng-container>
 
             <ng-container matColumnDef="nombre_punto_cargo">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header> NOMBRE PUNTO CARGO</th>
-                <td *matCellDef="let element" mat-cell> {{element.nombre_punto_cargo}} </td>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header class="column-clear"> NOMBRE PUNTO CARGO</th>
+                <td *matCellDef="let element" mat-cell class="column-clear"> {{element.nombre_punto_cargo}} </td>
             </ng-container>
 
             <ng-container matColumnDef="ciudad_fondo">
@@ -64,23 +64,23 @@
             </ng-container>
 
             <ng-container matColumnDef="nombre_tipo_servicio">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header> NOMBRE TIPO SERVICIO</th>
-                <td *matCellDef="let element" mat-cell> {{element.nombre_tipo_servicio}} </td>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header class="column-clear"> NOMBRE TIPO SERVICIO</th>
+                <td *matCellDef="let element" mat-cell class="column-clear"> {{element.nombre_tipo_servicio}} </td>
             </ng-container>
 
             <ng-container matColumnDef="moneda_divisa">
                 <th *matHeaderCellDef mat-header-cell mat-sort-header> MONEDA DIVISA</th>
-                <td *matCellDef="let element" mat-cell> {{element.moneda_divisa}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-center"> {{element.moneda_divisa}} </td>
             </ng-container>
 
             <ng-container matColumnDef="aplicativo">
                 <th *matHeaderCellDef mat-header-cell> APLICATIVO</th>
-                <td *matCellDef="let element" mat-cell> {{element.aplicativo === 1 ? "X" : " " }} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-center"> {{element.aplicativo === 1 ? "X" : " " }} </td>
             </ng-container>
 
             <ng-container matColumnDef="tvd">
                 <th *matHeaderCellDef mat-header-cell> TDV</th>
-                <td *matCellDef="let element" mat-cell> {{element.tdv === 1 ? "X" : " " }} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-center"> {{element.tdv === 1 ? "X" : " " }} </td>
             </ng-container>
 
             <ng-container matColumnDef="tipoPedido">
@@ -89,98 +89,98 @@
             </ng-container>
 
             <ng-container matColumnDef="escala">
-                <th *matHeaderCellDef mat-header-cell> ESCALA</th>
-                <td *matCellDef="let element" mat-cell> {{element.escala}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> ESCALA</th>
+                <td *matCellDef="let element" mat-cell class="column-clear"> {{element.escala}} </td>
             </ng-container>
 
             <ng-container matColumnDef="valorTransportadoBilletes">
                 <th *matHeaderCellDef mat-header-cell> VALOR TRANSPORTADO BILLETES</th>
-                <td *matCellDef="let element" mat-cell> {{element.valor_transportado_billetes | currency}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-right"> {{element.valor_transportado_billetes | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="valorTransportadoMonedas">
-                <th *matHeaderCellDef mat-header-cell> VALOR TRANSPORTADO MONEDA</th>
-                <td *matCellDef="let element" mat-cell> {{element.valor_transportado_monedas | currency}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> VALOR TRANSPORTADO MONEDA</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-right"> {{element.valor_transportado_monedas | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="valorTotalTransportado">
                 <th *matHeaderCellDef mat-header-cell> VALOR TOTAL TRANSPORTADO</th>
-                <td *matCellDef="let element" mat-cell> {{element.valor_total | currency}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-right"> {{element.valor_total | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="numeroFajos">
-                <th *matHeaderCellDef mat-header-cell> NÚMERO FAJOS</th>
-                <td *matCellDef="let element" mat-cell> {{element.numero_fajos}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> NÚMERO FAJOS</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-right"> {{element.numero_fajos}} </td>
             </ng-container>
 
             <ng-container matColumnDef="numeroBolsas">
                 <th *matHeaderCellDef mat-header-cell> NÚMERO BOLSAS MONEDA</th>
-                <td *matCellDef="let element" mat-cell> {{element.numero_bolsas}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-right"> {{element.numero_bolsas}} </td>
             </ng-container>
 
             <ng-container matColumnDef="costoFijo">
-                <th *matHeaderCellDef mat-header-cell> COSTO FIJO</th>
-                <td *matCellDef="let element" mat-cell> {{element.costo_fijo | currency}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> COSTO FIJO</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-right"> {{element.costo_fijo | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="costoPorMilaje">
                 <th *matHeaderCellDef mat-header-cell> COSTO POR MILAJE</th>
-                <td *matCellDef="let element" mat-cell> {{element.costo_milaje | currency}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-right"> {{element.costo_milaje | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="costoPorBolsa">
-                <th *matHeaderCellDef mat-header-cell> COSTO POR BOLSA</th>
-                <td *matCellDef="let element" mat-cell> {{element.costo_bolsa | currency}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> COSTO POR BOLSA</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-right"> {{element.costo_bolsa | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="costoFletes">
                 <th *matHeaderCellDef mat-header-cell> COSTO FLETES</th>
-                <td *matCellDef="let element" mat-cell> {{element.costo_flete | currency}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-right"> {{element.costo_flete | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="costoEmisarios">
-                <th *matHeaderCellDef mat-header-cell> COSTO EMISARIOS</th>
-                <td *matCellDef="let element" mat-cell> {{element.costo_emisario | currency}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> COSTO EMISARIOS</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-right"> {{element.costo_emisario | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="otros_1">
                 <th *matHeaderCellDef mat-header-cell> OTORS_1</th>
-                <td *matCellDef="let element" mat-cell> {{element.otros_1}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-right"> {{element.otros_1}} </td>
             </ng-container>
 
             <ng-container matColumnDef="otros_2">
-                <th *matHeaderCellDef mat-header-cell> OTROS_2</th>
-                <td *matCellDef="let element" mat-cell> {{element.otros_2}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> OTROS_2</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-right"> {{element.otros_2}} </td>
             </ng-container>
 
             <ng-container matColumnDef="otros_3">
                 <th *matHeaderCellDef mat-header-cell> OTROS_3</th>
-                <td *matCellDef="let element" mat-cell> {{element.otros_3}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-right"> {{element.otros_3}} </td>
             </ng-container>
 
             <ng-container matColumnDef="otros_4">
-                <th *matHeaderCellDef mat-header-cell> OTROS_4</th>
-                <td *matCellDef="let element" mat-cell> {{element.otros_4}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> OTROS_4</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-right"> {{element.otros_4}} </td>
             </ng-container>
 
             <ng-container matColumnDef="otros_5">
                 <th *matHeaderCellDef mat-header-cell> OTROS_5</th>
-                <td *matCellDef="let element" mat-cell> {{element.otros_5}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-right"> {{element.otros_5}} </td>
             </ng-container>
 
             <ng-container matColumnDef="subTotal">
-                <th *matHeaderCellDef mat-header-cell> SUBTOTAL</th>
-                <td *matCellDef="let element" mat-cell> {{element.subtotal | currency}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> SUBTOTAL</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-right"> {{element.subtotal | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="iva">
                 <th *matHeaderCellDef mat-header-cell> IVA</th>
-                <td *matCellDef="let element" mat-cell> {{element.iva}} </td>
+                <td *matCellDef="let element" mat-cell class="text-align-right"> {{element.iva}} </td>
             </ng-container>
 
             <ng-container matColumnDef="valorTotal">
-                <th *matHeaderCellDef mat-header-cell> VALOR TOTAL</th>
-                <td *matCellDef="let element" mat-cell> {{element.valor_total | currency}} </td>
+                <th *matHeaderCellDef mat-header-cell class="column-clear"> VALOR TOTAL</th>
+                <td *matCellDef="let element" mat-cell class="column-clear text-align-right"> {{element.valor_total | currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="estado">

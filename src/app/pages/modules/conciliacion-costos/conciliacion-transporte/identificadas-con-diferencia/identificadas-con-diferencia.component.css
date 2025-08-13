@@ -1,7 +1,3 @@
-* {
-    background: #fff;
-}
-
 ::ng-deep .divTabla {
     padding: 1%;
     margin: 1% 0 0 1%;
@@ -78,7 +74,7 @@ table {
 .mat-column-tvdValorTotal,
 .mat-column-aplicativoNumeroBolsasMoneda,
 .mat-column-tvdNumeroBolsasMoneda {
-    background: lightblue;
+    background: #dfe1e2;
 }
 
 .mat-column-aplicativoEscala,
@@ -108,9 +104,53 @@ table {
 .mat-column-header-row-15,
 .mat-column-header-row-17,
 .mat-column-header-row-19 {
-    background: lightgoldenrodyellow;
+    background: rgb(255, 255, 255);
 }
 
 .text-no-equity {
     color: red;
+}
+
+.mat-column-nombre_punto_cargo,
+.mat-column-razon_social{
+    min-width: 275px;
+}
+
+.mat-column-header-row-2,
+.mat-column-header-row-3
+ {
+  min-width: 250px;
+}
+
+.mat-column-header-row-4,
+.mat-column-header-row-5,
+.mat-column-header-row-6
+ {
+  min-width: 270px;
+}
+
+.mat-column-header-row-7,
+.mat-column-header-row-8,
+.mat-column-header-row-9,
+.mat-column-header-row-10,
+.mat-column-header-row-11,
+.mat-column-header-row-12,
+.mat-column-header-row-13,
+.mat-column-header-row-14,
+.mat-column-header-row-15,
+.mat-column-header-row-16,
+.mat-column-header-row-17,
+.mat-column-header-row-18,
+.mat-column-header-row-19,
+.mat-column-header-row-20 {
+  min-width: 220px;
+}
+
+.mat-column-aplicativoNumeroFajos,
+.mat-column-tvdNumeroFajos,
+.mat-column-aplicativoNumeroBolsasMoneda,
+.mat-column-tvdNumeroBolsasMoneda {
+    min-width: 80px;
+
+
 }

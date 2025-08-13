@@ -13,6 +13,7 @@ import { DialogResultValidacionCertificacionComponent } from './result-validacio
 import { CargueProgramacionCertificadaService } from 'src/app/_service/programacion-certificada.service/programacion-certificada-service';
 import { DialogVerArchivoComponent } from 'src/app/pages/shared/components/program-preliminar/archivos-cargados/dialog-ver-archivo/dialog-ver-archivo.component';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-archi-carga-certificacion',
@@ -26,7 +27,7 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
  */
 export class ArchiCargaCertificacionComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   //Registros paginados
@@ -37,6 +38,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
 
   //DataSource para pintar tabla de archivos cargados
   dataSourceInfoArchivo: MatTableDataSource<ArchivoCargadoModel>;
+  pageSizeOptions: number[] = [5, 10, 25, 100, 500];
   displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaInicioCargue', 'estado', 'acciones'];
 
 
@@ -66,6 +68,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
       size: tamanio,
     }).subscribe({next: (page: any) => {
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
+      this.dataSourceInfoArchivo.paginator = this.paginator
       this.dataSourceInfoArchivo.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },
@@ -130,14 +133,14 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   * @BaironPerez
   */
   procesarArchivo(archivo: any) {
-    this.spinnerActive = true;
+    this.modalProcesoEjecucion()
     this.spinnerComponent.dateToString(true);
     this.cargueProgramacionCertificadaService.procesarArchivo({
       'idMaestroDefinicion': archivo.idModeloArchivo,
       'nombreArchivo': archivo.nombreArchivo
     }).subscribe({ next: (data: any) => {
+      Swal.close()
       this.listarArchivosCargados();
-      this.spinnerActive = false;
       this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
@@ -149,7 +152,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
       });
     },
     error: (err: any) => {
-        this.spinnerActive = false;
+        Swal.close()
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -163,6 +166,17 @@ export class ArchiCargaCertificacionComponent implements OnInit {
     })
   }
 
+  modalProcesoEjecucion() {
+        Swal.fire({
+          title: "Proceso en ejecución",
+          imageUrl: "assets/img/loading.gif",
+          imageWidth: 80,
+          imageHeight: 80,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          customClass: { popup: "custom-alert-swal-text" }
+        });
+      }
 
   /**
   * Metodo para gestionar la paginación de la tabla

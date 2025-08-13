@@ -27,13 +27,15 @@ import { DialogVerArchivoComponent } from './dialog-ver-archivo/dialog-ver-archi
 */
 export class ArchivosCargadosComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   //Registros paginados
   cantidadRegistros: number;
 
   fechaDatoIni: Date;
+
+  pageSizeOptions: number[] = [5, 10, 25, 100, 500];
 
   //Variable para activar spinner
   spinnerActive: boolean = false;
@@ -67,6 +69,7 @@ export class ArchivosCargadosComponent implements OnInit {
       'estado': GENERALES.ESTADO_PENDIENTE
     }).subscribe({next: (page: any) => {
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
+      this.dataSourceInfoArchivo.paginator = this.paginator
       this.dataSourceInfoArchivo.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },

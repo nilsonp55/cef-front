@@ -32,7 +32,8 @@ export class VentanaEmergenteDesconciliarComponent implements OnInit {
         imageHeight: 80,
         confirmButtonText: "Aceptar",
         showConfirmButton: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        customClass: { popup: "custom-alert-swal-text" }
       }).then((result) => {
         Swal.close();
       });
@@ -59,7 +60,8 @@ export class VentanaEmergenteDesconciliarComponent implements OnInit {
               imageHeight: 80,
               confirmButtonText: "Aceptar",
               showConfirmButton: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              customClass: { popup: "custom-alert-swal-text" }
             }).then((result) => {
               Swal.close();
               this.dialogRef.close(response.data);
@@ -87,7 +89,8 @@ export class VentanaEmergenteDesconciliarComponent implements OnInit {
       imageWidth: 80,
       imageHeight: 80,
       showConfirmButton: false,
-      allowOutsideClick: false
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
     });
   }
 

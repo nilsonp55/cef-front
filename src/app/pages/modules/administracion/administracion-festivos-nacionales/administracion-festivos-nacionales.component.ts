@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -25,6 +26,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
   idFecha: any;
   roles: any[] = [];
   spinnerActive: boolean = false;
+  mostrarTabla: boolean = true;
 
   //Registros paginados
   @ViewChild(MatSort) sort: MatSort;
@@ -64,6 +66,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
         this.dataSourceUsuarios.sort = this.sort;
         this.cantidadRegistros = page.data.totalElements;
         this.spinnerActive = false;
+        this.visualizarTabla()
       },
       error: (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -74,16 +77,27 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
           }
         });
         this.spinnerActive = false;
+        this.visualizarTabla()
       }
     });
+  }
+
+  visualizarTabla() {
+    this.mostrarTabla = true;
+    this.mostrarFormulario = false;
+  }
+
+  visualizarFormulario() {
+    this.mostrarTabla = false;
+    this.mostrarFormulario = true
   }
 
   /**
     * Se muestra el formulario para crear Usuario
     * @BayronPerez
     */
-   crearUsuario() {
-    this.mostrarFormulario = true;
+  crearFestivo() {
+    this.visualizarFormulario()
   }
 
   /**
@@ -98,24 +112,25 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
     };
 
     this.festivosNacionalesService.guardarFestivosNacionales(festivosNacionales).subscribe({
-    next: (page: any) => {
-      this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + page?.response?.description,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      });
-      this.listarFestivosNacionales()
-      this.initForm();
-      this.mostrarFormulario = false;
-      this.spinnerActive = false;
-    },
-    error: (err: any) => {
+      next: (page: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE + page?.response?.description,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        });
+        this.listarFestivosNacionales()
+        this.initForm();
+        this.visualizarTabla()
+        this.spinnerActive = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        debugger
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: err.error.mensaje,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
@@ -136,7 +151,7 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
 
   eliminar(param: any) {
     this.spinnerActive = true;
-    this.festivosNacionalesService.eliminarFestivosNacionales({'idFecha': param.fecha}).subscribe({
+    this.festivosNacionalesService.eliminarFestivosNacionales({ 'idFecha': param.fecha }).subscribe({
       next: (page: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -163,4 +178,8 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
     });
   }
 
+  onCancel() {
+    this.form.reset()
+    this.visualizarTabla()
+  }
 }

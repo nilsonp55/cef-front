@@ -1,25 +1,10 @@
-table {
-    width: 2300px;
-}
-
-.tituloTabla {
-    padding-top: 2%;
-    text-align: center;
-    margin-left: 30%;
-}
-
-.divTablaProg {
-    background-color: rgb(226, 229, 229);
-    padding: 1%;
-    margin-top: 2%;
-    margin-left: 4%;
-    margin-right: 2%;
-    margin-bottom: auto;
-}
-
 .configScroll {
     height: auto;
     overflow-x: scroll;
     overscroll-behavior-x: contain;
     scroll-snap-type: proximity;
+}
+
+.mat-table-custom .mat-table{
+    width: auto;
 }

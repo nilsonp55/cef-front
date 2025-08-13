@@ -136,3 +136,9 @@
 	-moz-transition: All 0.3s ease;
 	-o-transition: All 0.3s ease;
 }
+
+
+.mat-table-custom .mat-table {
+	max-width: 720px;
+	margin-left: 12px;
+}

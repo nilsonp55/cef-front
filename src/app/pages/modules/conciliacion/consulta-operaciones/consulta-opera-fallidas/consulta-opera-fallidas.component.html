@@ -1,11 +1,11 @@
 <div class="tittle-section">
-    <h2>Operaciones Sin Conciliar</h2>
+    <h2>Operaciones sin Conciliar</h2>
 </div>
 <div class="mat-table-custom">
     <app-filtro-banco-tdv (filterData)="filter($event)" [showFilterEstado]="true"></app-filtro-banco-tdv>
 </div>
 
-<div class="division">
+<div class="division double-table-container">
     <div>
         <div class="tittle-section">
             <h2>OPERACIONES PROGRAMADAS SIN CONCILIAR</h2>
@@ -25,7 +25,7 @@
             <div *ngIf="loadProg" class="disenio-spinner">
                 <mat-spinner></mat-spinner>
             </div>
-            <div *ngIf="!loadProg">
+            <div *ngIf="!loadProg" class="config-scroll-custom">
                 <table mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort
                     #sort1="matSort" #exporterProg="matTableExporter">
                     <caption></caption>
@@ -94,7 +94,7 @@
             <div *ngIf="loadCert" class="disenio-spinner">
                 <mat-spinner></mat-spinner>
             </div>
-            <div *ngIf="!loadCert">
+            <div *ngIf="!loadCert"  class="config-scroll-custom">
                 <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort
                     #sort2="matSort" #exporter="matTableExporter">
                     <caption></caption>

@@ -1,9 +1,9 @@
-<div class="divTablaProg">
-    <div class="divTituloTablas">
-        <h1 class="tituloTabla">Información de operación programada</h1>
-        <span class="line-spacer"></span>
+<div class="modal-dialog-custom">
+    <div class="tittle-section">
+        <h2>Información de Operación Programada</h2>
     </div>
-    <div class="configScroll">
+    <div class="spacer-content"></div>
+    <div class="mat-table-custom configScroll">
         <table mat-table [dataSource]="dataSourceInfoOpProgramadasFallidas" matSort>
             <caption></caption>
             <tr>
@@ -110,34 +110,30 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoOpProgramadas;"></tr>
         </table>
     </div>
-</div>
-
-<div class="divForm">
-    <div class="example-container" [formGroup]="form">
-        <div class="divX2">
-            <div>
-                <h1>Modificar estado de conciliación</h1>
-                <mat-form-field appearance="fill">
-                    <mat-label>Estado conciliación</mat-label>
-                    <mat-select formControlName="estadoConciliacion">
-                        <mat-option *ngFor="let estado of estados" [value]="estado">
-                            {{estado.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div>
-                <h1>Modificar valor total</h1>
-                <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Nuevo valor total</mat-label>
-                    <input formControlName="valorTotal" matInput type="number">
-                </mat-form-field>
-            </div>
+    <div class="form-container-custom" [formGroup]="form">
+        <div>
+            <h3>Modificar estado de conciliación</h3>
+            <mat-form-field appearance="fill">
+                <mat-label>Estado conciliación</mat-label>
+                <mat-select formControlName="estadoConciliacion">
+                    <mat-option *ngFor="let estado of estados" [value]="estado">
+                        {{estado.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div>
+            <h3>Modificar valor total</h3>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Nuevo valor total</mat-label>
+                <input formControlName="valorTotal" matInput type="number">
+            </mat-form-field>
         </div>
     </div>
-    <div>
-        <div class="ubicacionBtn">
-            <button mat-raised-button mat-button color="primary" (click)="persistir()">Modificar</button>
-        </div>
+    <div class="button-container">
+        <button class="button-custom" mat-raised-button mat-button color="primary"
+            (click)="persistir()">Modificar</button>
+        <button class="button-custom" mat-raised-button class="button-custom" mat-button mat-dialog-close
+            color="warn">Cancelar</button>
     </div>
 </div>

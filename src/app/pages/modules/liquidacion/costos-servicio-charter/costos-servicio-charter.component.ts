@@ -57,6 +57,7 @@ export class CostosServicioCharterComponent implements OnInit {
    * @BaironPerez
    */
   listarCostosFleteCharter(fecha_inicial, fecha_final) {
+    this.spinnerActive = true;
     this.costosFleteCharterService
       .obtenerCostosFleteCharter({
         fechaInicial: fecha_inicial,
@@ -67,6 +68,7 @@ export class CostosServicioCharterComponent implements OnInit {
           this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
           this.dataSourceInfoProcesos.sort = this.sort;
           this.cantidadRegistros = page.data.totalElements;
+          this.spinnerActive = false;
           this.mostrarTabla = true;
         },
         error: (err: ErrorService) => {
@@ -80,6 +82,7 @@ export class CostosServicioCharterComponent implements OnInit {
           setTimeout(() => {
             alert.close();
           }, 3000);
+          this.spinnerActive = false;
         },
       });
   }
