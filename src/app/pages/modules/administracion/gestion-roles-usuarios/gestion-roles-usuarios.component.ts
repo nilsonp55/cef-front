@@ -8,6 +8,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { ErrorService } from 'src/app/_model/error.model';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-gestion-roles-usuarios',
@@ -72,10 +73,13 @@ export class GestionRolesUsuariosComponent implements OnInit {
   * @BaironPerez
   */
   listarRoles() {
-    this.rolMenuService.obtenerRoles().subscribe({ next: data => {
-      this.listaRoles = data.data;
-    },
-    error: (err: ErrorService) => {
+    this.spinnerActive = true;
+    this.rolMenuService.obtenerRoles().subscribe({
+      next: data => {
+        this.listaRoles = data.data;
+        this.spinnerActive = false;
+      },
+      error: (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -83,6 +87,7 @@ export class GestionRolesUsuariosComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
+        this.spinnerActive = false;
       }
     })
   }
@@ -93,74 +98,77 @@ export class GestionRolesUsuariosComponent implements OnInit {
   * @BaironPerez
   */
   listarMenusRolUsuario() {
-    this.rolMenuService.obtenerMenuRol({'rol.idRol': this.rolSelect.idRol })
-      .subscribe({ next: (page: any) => {
+    this.spinnerActive = true;
+    this.rolMenuService.obtenerMenuRol({ 'rol.idRol': this.rolSelect.idRol })
+      .subscribe({
+        next: (page: any) => {
 
-        const listPreliminar: any[] = [];
-        const listCertificacion: any[] = [];
-        const listConciliacion: any[] = [];
-        const listContabilidad: any[] = [];
-        const listLiquidacion: any[] = [];
-        const listAdministracion: any[] = [];
-        const listAdministracionContabilidad: any[] = [];
+          const listPreliminar: any[] = [];
+          const listCertificacion: any[] = [];
+          const listConciliacion: any[] = [];
+          const listContabilidad: any[] = [];
+          const listLiquidacion: any[] = [];
+          const listAdministracion: any[] = [];
+          const listAdministracionContabilidad: any[] = [];
 
 
-        page.data.forEach(element => {
-          if (element.menu.idMenuPadre == "carguePreliminar") {
-            this.validarEstado(element);
-            listPreliminar.push(element);
-          }
-          if (element.menu.idMenuPadre == "cargueCertificacion") {
-            this.validarEstado(element);
-            listCertificacion.push(element);
-          }
-          if (element.menu.idMenuPadre == "conciliacion") {
-            this.validarEstado(element);
-            listConciliacion.push(element);
-          }
-          if (element.menu.idMenuPadre == "contabilidad") {
-            this.validarEstado(element);
-            listContabilidad.push(element);
-          }
-          if (element.menu.idMenuPadre == "liquidacion") {
-            this.validarEstado(element);
-            listLiquidacion.push(element);
-          }
-          if (element.menu.idMenuPadre == "administracion") {
-            this.validarEstado(element);
-            listAdministracion.push(element);
-          }
-          if (element.menu.idMenuPadre == "administracionTabContables") {
-            this.validarEstado(element);
-            listAdministracionContabilidad.push(element);
-          }
-        });
+          page.data.forEach(element => {
+            if (element.menu.idMenuPadre == "carguePreliminar") {
+              this.validarEstado(element);
+              listPreliminar.push(element);
+            }
+            if (element.menu.idMenuPadre == "cargueCertificacion") {
+              this.validarEstado(element);
+              listCertificacion.push(element);
+            }
+            if (element.menu.idMenuPadre == "conciliacion") {
+              this.validarEstado(element);
+              listConciliacion.push(element);
+            }
+            if (element.menu.idMenuPadre == "contabilidad") {
+              this.validarEstado(element);
+              listContabilidad.push(element);
+            }
+            if (element.menu.idMenuPadre == "liquidacion") {
+              this.validarEstado(element);
+              listLiquidacion.push(element);
+            }
+            if (element.menu.idMenuPadre == "administracion") {
+              this.validarEstado(element);
+              listAdministracion.push(element);
+            }
+            if (element.menu.idMenuPadre == "administracionTabContables") {
+              this.validarEstado(element);
+              listAdministracionContabilidad.push(element);
+            }
+          });
 
-        this.dataSourcePreliminar = new MatTableDataSource(listPreliminar);
-        this.dataSourcePreliminar.sort = this.sort;
+          this.dataSourcePreliminar = new MatTableDataSource(listPreliminar);
+          this.dataSourcePreliminar.sort = this.sort;
 
-        this.dataSourceCertificacion = new MatTableDataSource(listCertificacion);
-        this.dataSourceCertificacion.sort = this.sort;
+          this.dataSourceCertificacion = new MatTableDataSource(listCertificacion);
+          this.dataSourceCertificacion.sort = this.sort;
 
-        this.dataSourceConciliacion = new MatTableDataSource(listConciliacion);
-        this.dataSourceConciliacion.sort = this.sort;
+          this.dataSourceConciliacion = new MatTableDataSource(listConciliacion);
+          this.dataSourceConciliacion.sort = this.sort;
 
-        this.dataSourceContabilidad = new MatTableDataSource(listContabilidad);
-        this.dataSourceContabilidad.sort = this.sort;
+          this.dataSourceContabilidad = new MatTableDataSource(listContabilidad);
+          this.dataSourceContabilidad.sort = this.sort;
 
-        this.dataSourceLiquidar = new MatTableDataSource(listLiquidacion);
-        this.dataSourceLiquidar.sort = this.sort;
+          this.dataSourceLiquidar = new MatTableDataSource(listLiquidacion);
+          this.dataSourceLiquidar.sort = this.sort;
 
-        this.dataSourceAdministracion = new MatTableDataSource(listAdministracion);
-        this.dataSourceAdministracion.sort = this.sort;
+          this.dataSourceAdministracion = new MatTableDataSource(listAdministracion);
+          this.dataSourceAdministracion.sort = this.sort;
 
-        this.dataSourceAdministracionContable = new MatTableDataSource(listAdministracionContabilidad);
-        this.dataSourceAdministracionContable.sort = this.sort;
+          this.dataSourceAdministracionContable = new MatTableDataSource(listAdministracionContabilidad);
+          this.dataSourceAdministracionContable.sort = this.sort;
 
-        //Mostramos la vista de tablas
-        this.mostrarTablasRoles = true;
-      },
-      error: (err: ErrorService) => {
+          //Mostramos la vista de tablas
+          this.spinnerActive = false;
+          this.mostrarTablasRoles = true;
+        },
+        error: (err: ErrorService) => {
           this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -168,6 +176,7 @@ export class GestionRolesUsuariosComponent implements OnInit {
               codigo: GENERALES.CODE_EMERGENT.ERROR
             }
           });
+          this.spinnerActive = false;
         }
       });
   }
@@ -214,26 +223,41 @@ export class GestionRolesUsuariosComponent implements OnInit {
       fechaModificacion: new Date(),
       usuarioModificacion: "baironperez12"
     }
-    this.rolMenuService.actualizarMenuRol(menuRol).subscribe({ next: data => {
-      this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: 'Se actualizó el registro correctamente',
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      });
-      this.listarMenusRolUsuario();
-    }, 
-    error: (err: ErrorService) => {
-      this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: 'Error al actualizar el registro',
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      });
-    }
+    this.modalProcesoEjecucion()
+    this.rolMenuService.actualizarMenuRol(menuRol).subscribe({
+      next: data => {
+        Swal.close();
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: 'Se actualizó el registro correctamente',
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        });
+        this.listarMenusRolUsuario();
+      },
+      error: (err: ErrorService) => {
+        Swal.close();
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: 'Error al actualizar el registro',
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+      }
     });
   }
 
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
+  }
 }

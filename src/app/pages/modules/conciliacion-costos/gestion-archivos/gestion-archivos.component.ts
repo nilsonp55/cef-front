@@ -226,7 +226,8 @@ export class GestionArchivosComponent implements OnInit {
       imageWidth: 80,
       imageHeight: 80,
       showConfirmButton: false,
-      allowOutsideClick: false
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
     });
   }
 
@@ -285,7 +286,8 @@ export class GestionArchivosComponent implements OnInit {
       showConfirmButton: true,
       showCancelButton: true,
       cancelButtonText: "Cancelar",
-      allowOutsideClick: false
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
     }).then((result) => {
       if (result.isConfirmed) {
         this.opConciliacionCostosService.cerrarGestionArchivos({ validacionArchivo }).

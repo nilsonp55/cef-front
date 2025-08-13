@@ -82,7 +82,6 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
       });
     }
 
-
   /**
    * Metodo encargado de ejecutar el servicio de contabilidad para los
    * procesos activos

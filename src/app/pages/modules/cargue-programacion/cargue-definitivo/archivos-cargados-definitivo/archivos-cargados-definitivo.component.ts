@@ -20,7 +20,7 @@ import { DialogResultValidacionComponent } from 'src/app/pages/shared/components
 })
 export class ArchivosCargadosDefinitivoComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   //Registros paginados
@@ -33,6 +33,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   dataSourceInfoArchivo: MatTableDataSource<ArchivoCargadoModel>;
   displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaArchivo', 'estado', 'acciones'];
 
+  pageSizeOptions: number[] = [5, 10, 25, 100, 500];
 
   constructor(
     private readonly dialog: MatDialog,
@@ -57,6 +58,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
       'idModeloArchivo': GENERALES.CARGUE_DEFINITIVO_PROGRAMACION_SERVICIOS,
     }).subscribe({next: (page: any) => {
       this.dataSourceInfoArchivo = new MatTableDataSource(page.data);
+      this.dataSourceInfoArchivo.paginator = this.paginator
       this.dataSourceInfoArchivo.sort = this.sort;
       this.cantidadRegistros = page.data.totalElements;
     },

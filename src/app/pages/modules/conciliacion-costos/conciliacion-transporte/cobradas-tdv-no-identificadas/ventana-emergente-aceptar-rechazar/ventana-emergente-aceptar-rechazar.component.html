@@ -1,8 +1,8 @@
 <div style="overflow-x: auto; overflow-y: auto; height: 300px;">
     <div class="col-12 row">
         <div class="col-12">
-            <h2>¿Desea {{accion}} estos {{data.msn.items.length}} registros que fueron remitidos por la TDV y no fueron
-                identificados?</h2>
+            <h3>¿Desea {{accion}} estos {{data.msn.items.length}} registros que fueron remitidos por la TDV y no fueron
+                identificados?</h3>
         </div>
         <div class="col-12">
             <textarea [(ngModel)]="observacion" cols="97" rows="10" placeholder="Observaciones"
@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-<mat-dialog-actions>
-    <button mat-raised-button color="secondary" (click)="closeModal()">Cancelar</button>
-    <button mat-raised-button color="primary" (click)="aceptarRechazar()">Aceptar</button>
+<mat-dialog-actions align="center" class="dialog-action-custom">
+    <button class="button-custom" mat-raised-button color="warn" (click)="closeModal()">Cancelar</button>
+    <button class="button-custom" mat-raised-button color="primary" (click)="aceptarRechazar()">Aceptar</button>
 </mat-dialog-actions>

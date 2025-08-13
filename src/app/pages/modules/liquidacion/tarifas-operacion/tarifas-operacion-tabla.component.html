@@ -53,7 +53,7 @@
         (click)="exporterTable()">Exportar</button>
         <div class="paginator-area">
             <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
-                (page)="mostrarMas($event)" showFirstLastButtons class="custom-paginator">
+                (page)="mostrarMas($event)" showFirstLastButtons>
             </mat-paginator>
         </div>
     </div>

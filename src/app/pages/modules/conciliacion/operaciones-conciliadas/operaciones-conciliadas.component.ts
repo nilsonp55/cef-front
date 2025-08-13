@@ -27,6 +27,8 @@ export class OperacionesConciliadasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('exporter', { static: false }) exporter: any;
+
 
   //Registros paginados
   cantidadRegistros: number;
@@ -107,6 +109,12 @@ export class OperacionesConciliadasComponent implements OnInit {
     });
   }
 
+  exporterTable() {
+    if (this.exporter && !this.load) {
+      this.exporter.exportTable('xlsx', { fileName: 'operaciones_conciliadas' });
+    }
+  }
+
   /**
   * Metodo para gestionar la paginación de la tabla
   * @BaironPerez
@@ -133,8 +141,11 @@ export class OperacionesConciliadasComponent implements OnInit {
         seleccionDescon: event
       }
     })
+    
 
     dialogRef.afterClosed().subscribe(result => {
+      if(result.event =="Cancel") return
+      console.log(result)
       this.listarConciliados(this.estadoConciliacion,
         this.bancoAVAL ?? [""],
         this.fechaOrigen == undefined ? "" : this.getFechaOrigen(this.fechaOrigen.value),

@@ -1,187 +1,185 @@
-<app-filtro-banco-tdv (filterData)="filter($event)" [showFilterEstado]="true"></app-filtro-banco-tdv>
-<div class="division">
+<div class="tittle-section">
+  <h2>Modificar Operaciones</h2>
+</div>
+<div class="mat-table-custom">
+  <app-filtro-banco-tdv (filterData)="filter($event)" [showFilterEstado]="true"></app-filtro-banco-tdv>
+</div>
+
+<div class="division double-table-container">
   <div>
-    <div class="divTituloTablas">
-      <h3 class="tituloTabla">Operaciones programadas sin conciliar1</h3>
+    <div class="tittle-section">
+      <h2>OPERACIONES PROGRAMADAS SIN CONCILIAR</h2>
     </div>
-    <div class="row">
-      <div class="col-2">
-      <button mat-raised-button color="primary"
-              (click)="exporterProg.exportTable('xlsx',
-              {fileName:'operaciones_programadas_sin_conciliar'})">
-        Exportar
-      </button>
+    <div class="mat-table-custom">
+      <div class="controls-container">
+        <button mat-raised-button class="button-custom" color="primary" 
+        (click)="exporterTable('operaciones_programadas_sin_conciliar')">
+          Exportar
+        </button>
+        <button class="button-custom" mat-raised-button color="primary" (click)="openDialogUpdateEstadoOperaciones('P')"
+          [disabled]="selectionProgramadas.selected.length === 0">
+          Cambiar Estado</button>
+        <div class="paginator-area">
+          <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListProg"
+            [length]="cantidadRegistrosOpProgramadasFallidas" (page)="mostrarMasOpProgramadasFallidas($event)">
+          </mat-paginator>
+        </div>
       </div>
-      <div class="col-2">
-      <button mat-raised-button color="primary" (click)="openDialogUpdateEstadoOperaciones('P')"
-        [disabled]="selectionProgramadas.selected.length === 0" >
-        Cambiar estado</button>
-      </div>
-      <div class="col-8">
-      <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListProg"
-                     [length]="cantidadRegistrosOpProgramadasFallidas" (page)="mostrarMasOpProgramadasFallidas($event)">
-      </mat-paginator>
-      </div>
-    </div>
-    <div class="divTablaProg">
       <div *ngIf="loadProg" class="disenio-spinner">
         <mat-spinner></mat-spinner>
       </div>
-      <table mat-table matTableExporter matSort #sort1="matSort"
-             #exporterProg="matTableExporter" [dataSource]="dataSourceOperacionesProgramadas"
-             aria-label="OperacionesProgramadas">
-        <tr>
-          <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>
+      <div *ngIf="!loadProg" class="config-scroll-custom">
+        <table mat-table matTableExporter matSort #sort1="matSort" #exporterProg="matTableExporter"
+          [dataSource]="dataSourceOperacionesProgramadas" aria-label="OperacionesProgramadas">
+          <tr>
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox color="primary" (change)="$event ? seleccionProgramadas() : null"
-                    [checked]="selectionProgramadas.hasValue() && seleccionarProgramadasTodo()"
-                    [indeterminate]="selectionProgramadas.hasValue() && !seleccionarProgramadasTodo()">
+                  [checked]="selectionProgramadas.hasValue() && seleccionarProgramadasTodo()"
+                  [indeterminate]="selectionProgramadas.hasValue() && !seleccionarProgramadasTodo()">
                 </mat-checkbox>
-            </th>
-            <td mat-cell *matCellDef="let row">
-                <mat-checkbox color="primary" 
-                    (change)="$event ? selectionProgramadas.toggle(row) : null; seleccionProgramadasRow($event, row)"
-                    [checked]="selectionProgramadas.isSelected(row)">
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox color="primary"
+                  (change)="$event ? selectionProgramadas.toggle(row) : null; seleccionProgramadasRow($event, row)"
+                  [checked]="selectionProgramadas.isSelected(row)">
                 </mat-checkbox>
-            </td>
-        </ng-container>
-          <ng-container matColumnDef="nombreFondoTDV" class="mat-column-nombreCampo">
-            <th id="nombreFondoTDV" mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Fondo</th>
-            <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
-          </ng-container>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="nombreFondoTDV" class="mat-column-nombreCampo">
+              <th id="nombreFondoTDV" mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE FONDO</th>
+              <td mat-cell *matCellDef="let element"> {{element.nombreFondoTDV}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
-            <th id="fechaOrigen" mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Origen</th>
-            <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}}
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
+              <th id="fechaOrigen" mat-header-cell *matHeaderCellDef mat-sort-header>FECHA ORIGEN</th>
+              <td mat-cell *matCellDef="let element"> {{element.fechaOrigen | date: 'dd/MM/YYYY' : '+00'}}
+              </td>
+            </ng-container>
 
-          <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">
-            <th id="tipoOperacion" mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Operacion</th>
-            <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
-          </ng-container>
+            <ng-container matColumnDef="tipoOperacion" class="mat-column-nombreCampo">
+              <th id="tipoOperacion" mat-header-cell *matHeaderCellDef mat-sort-header>TIPO OPERACIÓN</th>
+              <td mat-cell *matCellDef="let element"> {{element.tipoOperacion}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
-            <th id="entradaSalida" mat-header-cell *matHeaderCellDef mat-sort-header>Entrada Salida</th>
-            <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
-          </ng-container>
+            <ng-container matColumnDef="entradaSalida" class="mat-column-nombreCampo">
+              <th id="entradaSalida" mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA-SALIDA</th>
+              <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
-            <th id="estadoConciliacion" mat-header-cell *matHeaderCellDef mat-sort-header>Estado Conciliacion</th>
-            <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
-          </ng-container>
+            <ng-container matColumnDef="estadoConciliacion" class="mat-column-nombreCampo">
+              <th id="estadoConciliacion" mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO CONCILIACIÓN</th>
+              <td mat-cell *matCellDef="let element"> {{element.estadoConciliacion}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="valorTotal" class="mat-column-nombreCampo">
-            <th id="valorTotal" mat-header-cell *matHeaderCellDef mat-sort-header>Valor Total</th>
-            <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency}} </td>
-          </ng-container>
+            <ng-container matColumnDef="valorTotal" class="mat-column-nombreCampo">
+              <th id="valorTotal" mat-header-cell *matHeaderCellDef mat-sort-header>VALOR TOTAL</th>
+              <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
-            <th id="acciones" mat-header-cell *matHeaderCellDef>Acciones</th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-button (click)="infoOpProgramadas(element)">
-                <mat-icon style="color: yellowgreen">edit</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsOperacionesProgramadas"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesProgramadas;"></tr>
-      </table>
+            <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
+              <th id="acciones" mat-header-cell *matHeaderCellDef>INFO</th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-button (click)="infoOpProgramadas(element)">
+                  <mat-icon style="color: yellowgreen">edit</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsOperacionesProgramadas"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesProgramadas;"></tr>
+        </table>
+      </div>
     </div>
   </div>
   <div>
-    <div class="divTituloTablas">
-      <h3 class="tituloTabla">Operaciones certificadas sin conciliar2</h3>
+    <div class="tittle-section">
+      <h2>OPERACIONES CERTIFICADAS SIN CONCILIAR</h2>
     </div>
-    <div class="row">
-      <div class="col-2">
-      <button (click)="exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_sin_conciliar'})"
-              mat-raised-button color="primary" >Exportar
-      </button>
+    <div class="mat-table-custom">
+      <div class="controls-container">
+        <button class="button-custom" (click)="exporterTable('operaciones_certificadas_sin_conciliar')"
+          mat-raised-button color="primary">Exportar
+        </button>
+        <button class="button-custom" mat-raised-button color="primary" (click)="openDialogUpdateEstadoOperaciones('C')"
+          [disabled]="selectionCertificadas.selected.length === 0">
+          Cambiar Estado</button>
+        <div class="paginator-area">
+          <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListCert"
+            [length]="cantidadRegistrosOpCertificadasFallidas" (page)="mostrarMasOpCertificadasFallidas($event)">
+          </mat-paginator>
+        </div>
       </div>
-      <div class="col-2">
-        <button mat-raised-button color="primary" (click)="openDialogUpdateEstadoOperaciones('C')"
-        [disabled]="selectionCertificadas.selected.length === 0">
-          Cambiar estado</button>
-      </div>
-      <div class="col-8">
-      <mat-paginator [pageSize]="10"
-                     [pageSizeOptions]="pageSizeListCert"
-                     [length]="cantidadRegistrosOpCertificadasFallidas"
-                     (page)="mostrarMasOpCertificadasFallidas($event)">
-      </mat-paginator>
-      </div>
-    </div>
-    <div class="divTablaCerti">
       <div *ngIf="loadCert" class="disenio-spinner">
         <mat-spinner></mat-spinner>
       </div>
-      <table id="operacionesCertificadas" mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas"
-        matSort #sort2="matSort" #exporter="matTableExporter" aria-label="OperacionesCertificadas">
-        <tr>
-          <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>
+      <div *ngIf="!loadCert" class="configScroll">
+        <table id="operacionesCertificadas" mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas"
+          matSort #sort2="matSort" #exporter="matTableExporter" aria-label="OperacionesCertificadas">
+          <tr>
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox color="primary" (change)="$event ? seleccionCertificadas() : null"
-                    [checked]="selectionCertificadas.hasValue() && seleccionarCertificadasTodo()"
-                    [indeterminate]="selectionCertificadas.hasValue() && !seleccionarCertificadasTodo()">
+                  [checked]="selectionCertificadas.hasValue() && seleccionarCertificadasTodo()"
+                  [indeterminate]="selectionCertificadas.hasValue() && !seleccionarCertificadasTodo()">
                 </mat-checkbox>
-            </th>
-            <td mat-cell *matCellDef="let row">
-                <mat-checkbox color="primary" 
-                    (change)="$event ? selectionCertificadas.toggle(row) : null; seleccionCertificadasRow($event, row)"
-                    [checked]="selectionCertificadas.isSelected(row)">
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox color="primary"
+                  (change)="$event ? selectionCertificadas.toggle(row) : null; seleccionCertificadasRow($event, row)"
+                  [checked]="selectionCertificadas.isSelected(row)">
                 </mat-checkbox>
-            </td>
-        </ng-container>
-          <ng-container class="mat-column-nombreCampo" matColumnDef="idCertificacion">
-            <th *matHeaderCellDef mat-sort-header id="idCertificacion" mat-header-cell>Id</th>
-            <td *matCellDef="let element" mat-cell> {{element.idCertificacion}} </td>
-          </ng-container>
+              </td>
+            </ng-container>
+            <ng-container class="mat-column-nombreCampo" matColumnDef="idCertificacion">
+              <th *matHeaderCellDef mat-sort-header id="idCertificacion" mat-header-cell>ID</th>
+              <td *matCellDef="let element" mat-cell> {{element.idCertificacion}} </td>
+            </ng-container>
 
-          <ng-container class="mat-column-nombreCampo" matColumnDef="nombreFondoTDV">
-            <th *matHeaderCellDef mat-sort-header id="nombreFondoTDV2" mat-header-cell>Nombre Fondo</th>
-            <td *matCellDef="let element" mat-cell> {{element.nombreFondoTDV}} </td>
-          </ng-container>
+            <ng-container class="mat-column-nombreCampo" matColumnDef="nombreFondoTDV">
+              <th *matHeaderCellDef mat-sort-header id="nombreFondoTDV2" mat-header-cell>NOMBRE FONDO</th>
+              <td *matCellDef="let element" mat-cell> {{element.nombreFondoTDV}} </td>
+            </ng-container>
 
-          <ng-container class="mat-column-nombreCampo" matColumnDef="fechaEjecucion">
-            <th *matHeaderCellDef mat-sort-header id="fechaEjecucion" mat-header-cell>Fecha Ejecucion</th>
-            <td *matCellDef="let element" mat-cell> {{element.fechaEjecucion | date: 'dd/MM/YYYY' : '+00'}}
-            </td>
-          </ng-container>
+            <ng-container class="mat-column-nombreCampo" matColumnDef="fechaEjecucion">
+              <th *matHeaderCellDef mat-sort-header id="fechaEjecucion" mat-header-cell>FECHA EJECUCIÓN</th>
+              <td *matCellDef="let element" mat-cell> {{element.fechaEjecucion | date: 'dd/MM/YYYY' : '+00'}}
+              </td>
+            </ng-container>
 
-          <ng-container class="mat-column-nombreCampo" matColumnDef="tipoOperacion">
-            <th *matHeaderCellDef mat-sort-header id="tipoOperacion2" mat-header-cell>Tipo Operacion</th>
-            <td *matCellDef="let element" mat-cell> {{element.tipoOperacion}} </td>
-          </ng-container>
+            <ng-container class="mat-column-nombreCampo" matColumnDef="tipoOperacion">
+              <th *matHeaderCellDef mat-sort-header id="tipoOperacion2" mat-header-cell>TIPO OPERACIÓN</th>
+              <td *matCellDef="let element" mat-cell> {{element.tipoOperacion}} </td>
+            </ng-container>
 
-          <ng-container class="mat-column-nombreCampo" matColumnDef="entradaSalida">
-            <th *matHeaderCellDef mat-sort-header id="entradaSalida2" mat-header-cell>Entrada Salida</th>
-            <td *matCellDef="let element" mat-cell> {{element.entradaSalida}} </td>
-          </ng-container>
+            <ng-container class="mat-column-nombreCampo" matColumnDef="entradaSalida">
+              <th *matHeaderCellDef mat-sort-header id="entradaSalida2" mat-header-cell>ENTRADA-SALIDA</th>
+              <td *matCellDef="let element" mat-cell> {{element.entradaSalida}} </td>
+            </ng-container>
 
-          <ng-container class="mat-column-nombreCampo" matColumnDef="estadoConciliacion">
-            <th *matHeaderCellDef mat-sort-header id="estadoConciliacion2" mat-header-cell>EstadoConciliacion</th>
-            <td *matCellDef="let element" mat-cell> {{element.estadoConciliacion}} </td>
-          </ng-container>
+            <ng-container class="mat-column-nombreCampo" matColumnDef="estadoConciliacion">
+              <th *matHeaderCellDef mat-sort-header id="estadoConciliacion2" mat-header-cell>ESTADO CONCILIACIÓN</th>
+              <td *matCellDef="let element" mat-cell> {{element.estadoConciliacion}} </td>
+            </ng-container>
 
-          <ng-container class="mat-column-nombreCampo" matColumnDef="valorTotal">
-            <th *matHeaderCellDef mat-sort-header id="valorTotal2" mat-header-cell>ValorTotal</th>
-            <td *matCellDef="let element" mat-cell> {{element.valorTotal | currency}} </td>
-          </ng-container>
+            <ng-container class="mat-column-nombreCampo" matColumnDef="valorTotal">
+              <th *matHeaderCellDef mat-sort-header id="valorTotal2" mat-header-cell>VALOR TOTAL</th>
+              <td *matCellDef="let element" mat-cell> {{element.valorTotal | currency}} </td>
+            </ng-container>
 
-          <ng-container class="mat-column-nombreCampo" matColumnDef="acciones">
-            <th *matHeaderCellDef id="acciones2" mat-header-cell>Acciones</th>
-            <td *matCellDef="let element" mat-cell>
-              <button mat-button (click)="infoOpCertificadas(element)">
-                <mat-icon style="color: yellowgreen">edit</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsOperacionesCertificadas"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesCertificadas;"></tr>
-      </table>
+            <ng-container class="mat-column-nombreCampo" matColumnDef="acciones">
+              <th *matHeaderCellDef id="acciones2" mat-header-cell>INFO</th>
+              <td *matCellDef="let element" mat-cell>
+                <button mat-button (click)="infoOpCertificadas(element)">
+                  <mat-icon style="color: yellowgreen">edit</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsOperacionesCertificadas"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsOperacionesCertificadas;"></tr>
+        </table>
+      </div>
     </div>
   </div>
 </div>

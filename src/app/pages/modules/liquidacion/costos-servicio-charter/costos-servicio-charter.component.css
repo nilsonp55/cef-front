@@ -1,9 +1,9 @@
-.tituloTabla {
-    padding: 2%;
-    padding-top: 2%;
-    text-align: center;
+.mat-table-custom .table-filter-container .mat-raised-button {
+  max-height: 28px;
+  min-width: 120px;
+  max-width: 120px;
 }
 
-.columnEdit {
-  text-align: right;
+.mat-table-custom .table-filter-container {
+  align-items: center;
 }

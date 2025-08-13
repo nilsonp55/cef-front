@@ -1,30 +1,27 @@
-<div class="divTabla">
-    <div class="divTituloTablas">
-        <h1 class="tituloTabla">Costos Servicios Aéreos</h1>
-        <span class="line-spacer"></span>
-    </div>
-
-    <div style="display: block;">
+<div class="tittle-section">
+    <h2>Costos Servicios Aéreos</h2>
+</div>
+<div class="mat-table-custom">
+    <div class="table-filter-container">
         <mat-form-field appearance="fill">
-            <mat-label></mat-label>
+            <mat-label>Fecha Inicial</mat-label>
             <input matInput [matDatepicker]="picker1" [formControl]="serializedDate" [(ngModel)]="fecha1">
-            <mat-hint>Fecha Inicial</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
         <mat-form-field appearance="fill">
-            <mat-label></mat-label>
+            <mat-label>Fecha final</mat-label>
             <input matInput [matDatepicker]="picker2" [formControl]="serializedDate" [(ngModel)]="fecha2">
-            <mat-hint>Fecha final</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
-
-        <button style="background-color: #C1DEAE" class="buttonsSaveOremove" mat-raised-button
-            (click)="buscar()">
-            <span>Buscar</span>
+        <button class="button-custom" mat-raised-button color="primary" (click)="buscar()">
+            Buscar
         </button>
-    </div><br><br>
+    </div>
+    <div *ngIf="spinnerActive" class="disenio-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
 
     <table mat-table *ngIf="mostrarTabla" [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
         <caption></caption>
@@ -54,7 +51,7 @@
         </ng-container>
 
         <ng-container matColumnDef="escala">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Escala</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ESCALA</th>
             <td mat-cell *matCellDef="let element"> {{element.escala}} </td>
         </ng-container>
 
@@ -64,14 +61,15 @@
         </ng-container>
 
         <ng-container matColumnDef="costoCharter">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>COSTO CHARTER Y OTROS</th>
-          <td mat-cell *matCellDef="let element" class="columnEdit">
-            <input matInput type="number" value="{{element.valoresLiquidadosDTO.costoCharter}}" (change)="changeValor($event)">
-          </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>COSTO CHARTER Y OTROS</th>
+            <td mat-cell *matCellDef="let element" class="columnEdit">
+                <input matInput type="number" value="{{element.valoresLiquidadosDTO.costoCharter}}"
+                    (change)="changeValor($event)">
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+            <th mat-header-cell *matHeaderCellDef> EDITAR</th>
             <td mat-cell *matCellDef="let element">
                 <button mat-button (click)="guardar(element)">
                     <mat-icon style="color: green">assignment_turned_in</mat-icon>
@@ -81,7 +79,5 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumnsInfoProcesos"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsInfoProcesos;"></tr>
-
     </table>
-
 </div>

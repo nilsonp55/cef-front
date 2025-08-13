@@ -91,7 +91,8 @@ export class RegistrosEliminadosComponent implements OnInit {
             imageHeight: 80,
             confirmButtonText: "Aceptar",
             showConfirmButton: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            customClass: { popup: "custom-alert-swal-text" }
           }).then((result) => {
             this.datosTabla.botones = ['Reintegrar Registros'];
             this.load = false;

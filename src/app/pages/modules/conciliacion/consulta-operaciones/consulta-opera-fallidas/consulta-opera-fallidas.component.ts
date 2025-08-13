@@ -238,7 +238,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     );
   }
 
-    exporterTable(tableName: string){
+  exporterTable(tableName: string){
     if(this.exporter && !this.loadProg){
       this.exporter.exportTable('xlsx', {fileName: tableName});
     }

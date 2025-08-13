@@ -1,21 +1,3 @@
-.divTablaProg {
-  background-color: rgb(226, 229, 229);
-  padding: 1%;
-  margin-top: 2%;
-  margin-left: 4%;
-  margin-right: 2%;
-  margin-bottom: auto;
-}
-
-.divTablaCerti {
-  background-color: rgb(226, 229, 229);
-  padding: 1%;
-  margin-top: 2%;
-  margin-left: 2%;
-  margin-right: 10%;
-  margin-bottom: auto;
-}
-
 .configScroll {
   height: auto;
   overflow-x: scroll;
@@ -29,37 +11,6 @@
   height: auto;
 }
 
-.division-busqueda {
-  display: inline-flex;
-}
-
-.tituloTabla {
-  padding-top: 2%;
-  text-align: center;
-  margin-left: 10%;
-}
-
-.example-form-field {
-  width: 30px;
-}
-
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-  margin-right: 10%;
-}
-
-.example-full-width {
-  width: 100%;
-}
-
-.ubicacionBoton {
-  margin-top: 1%;
-  text-align: center;
-}
-
-.ubicacionBotonFiltrar {
-  margin-top: 12%;
-  margin-left: 5%;
+.division.double-table-container .mat-header-cell:first-of-type {
+  padding-left: 8px !important;
 }

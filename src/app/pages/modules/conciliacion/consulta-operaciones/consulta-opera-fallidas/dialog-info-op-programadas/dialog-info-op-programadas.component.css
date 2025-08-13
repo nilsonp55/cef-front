@@ -21,7 +21,6 @@ table {
     height: auto;
     overflow-x: scroll;
     overscroll-behavior-x: contain;
-    scroll-snap-type: proximity;
 }
 
   .ubicacionBtn {

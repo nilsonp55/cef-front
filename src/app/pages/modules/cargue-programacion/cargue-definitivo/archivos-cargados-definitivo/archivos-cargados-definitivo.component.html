@@ -5,7 +5,7 @@
         <span class="line-spacer"></span>
     </div>
     <div class="paginator-area">
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros"
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros" showFirstLastButtons
             (page)="mostrarMas($event)">
         </mat-paginator>
     </div>

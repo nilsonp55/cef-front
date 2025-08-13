@@ -6,11 +6,11 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { GenerarPoliticaService } from 'src/app/_service/administracion-service/generar-politica.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-generar-politica-retencion',
-  templateUrl: './generar-politica-retencion.component.html',
-  styleUrls: ['./generar-politica-retencion.component.css']
+  templateUrl: './generar-politica-retencion.component.html'
 })
 export class GenerarPoliticaRetencionComponent implements OnInit {
 
@@ -20,12 +20,21 @@ export class GenerarPoliticaRetencionComponent implements OnInit {
     private readonly dialog: MatDialog,
   ) { }
 
-  spinnerActive: boolean = false;
-
-
   ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken();
   }
+
+  modalProcesoEjecucion() {
+      Swal.fire({
+        title: "Proceso en ejecución",
+        imageUrl: "assets/img/loading.gif",
+        imageWidth: 80,
+        imageHeight: 80,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        customClass: { popup: "custom-alert-swal-text" }
+      });
+    }
 
   generarPolitica() {
     //ventana de confirmacion
@@ -35,9 +44,9 @@ export class GenerarPoliticaRetencionComponent implements OnInit {
     validarPolitica.afterClosed().subscribe(result => {
       //Si presiona click en aceptar
       if (result.data.check) {
-        this.spinnerActive = true;
+        this.modalProcesoEjecucion();
         this.generarPoliticaService.generarPolitica().subscribe(data => {
-          this.spinnerActive = false;
+          Swal.close();
           const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
             width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
             data: {
@@ -47,7 +56,7 @@ export class GenerarPoliticaRetencionComponent implements OnInit {
           }); setTimeout(() => { alert.close() }, 3500);
         },
           (err: any) => {
-            this.spinnerActive = false;
+            Swal.close();
             const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
               width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
               data: {

@@ -33,6 +33,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('sort1') sort1 = new MatSort();
   @ViewChild('sort2') sort2 = new MatSort();
+  @ViewChild('exporter', {static: false}) exporter: any;
 
   //Registros paginados
   cantidadRegistrosOpProgramadasSinConciliar: number;
@@ -105,7 +106,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    */
   infoOpProgramadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
     this.dialog.open(DialogInfoProgramadasNoConciliadasComponent, {
-      width: '90%',
+      width: 'auto',
       data: element
     })
   }
@@ -116,7 +117,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
    */
   infoOpCertificadas(element: ConciliacionesInfoProgramadasNoConciliadasModel) {
     this.dialog.open(DialogInfoCertificadasNoConciliadasComponent, {
-      width: '90%',
+      width: 'auto',
       data: element
     })
   }
@@ -143,7 +144,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   conciliacionManual() {
     this.dialog.open(DialogConciliacionManualComponent, {
       width: '95%',
-      height: '90%',
+      height: 'auto',
       data: {
         programadas: this.selectionProgramadas.selected,
         certificadas: this.selectionCertificadas.selected
@@ -232,6 +233,12 @@ export class OperacionesNoConciliadasComponent implements OnInit {
         this.loadCert = false;
       }
     });
+  }
+
+  exporterTable(tableName: string){
+    if(this.exporter && !this.loadProg){
+      this.exporter.exportTable('xlsx', {fileName: tableName});
+    }
   }
 
   /**

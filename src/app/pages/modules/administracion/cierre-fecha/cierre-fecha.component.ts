@@ -7,6 +7,7 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 import { CierreFechaService } from 'src/app/_service/cierre-fecha.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { lastValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cierre-fecha',
@@ -48,9 +49,10 @@ export class CierreFechaComponent implements OnInit {
    * @BaironPerez
    */
   cierreFecha() {
-    this.spinnerActive = true;
+    this.modalProcesoEjecucion();
     this.cierreFechaService.realizarCierreFecha().subscribe({
       next: (data) => {
+        Swal.close();
         this.consultaDatos();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -59,9 +61,9 @@ export class CierreFechaComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         });
-        this.spinnerActive = false;
       },
       error: (err: any) => {
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -69,9 +71,19 @@ export class CierreFechaComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-        this.spinnerActive = false;
       }
     });
   }
 
+  modalProcesoEjecucion() {
+      Swal.fire({
+        title: "Proceso en ejecución",
+        imageUrl: "assets/img/loading.gif",
+        imageWidth: 80,
+        imageHeight: 80,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        customClass: { popup: "custom-alert-swal-text" }
+      });
+    }
 }

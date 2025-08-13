@@ -66,7 +66,8 @@ export class VentanaEmergenteEliminarGestionComponent implements OnInit {
       imageWidth: 80,
       imageHeight: 80,
       showConfirmButton: false,
-      allowOutsideClick: false
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
     });
   }
 
