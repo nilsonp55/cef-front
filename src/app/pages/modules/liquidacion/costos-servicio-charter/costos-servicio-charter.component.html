@@ -1,7 +1,7 @@
 <div class="tittle-section">
     <h2>Costos Servicios Aéreos</h2>
 </div>
-<div class="mat-table-custom">
+<div class="mat-table-custom simple-view">
     <div class="table-filter-container">
         <mat-form-field appearance="fill">
             <mat-label>Fecha Inicial</mat-label>
@@ -15,7 +15,7 @@
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
-        <button class="button-custom" mat-raised-button color="primary" (click)="buscar()">
+        <button class="button-custom buttons-filter" mat-raised-button color="primary" (click)="buscar()">
             Buscar
         </button>
     </div>

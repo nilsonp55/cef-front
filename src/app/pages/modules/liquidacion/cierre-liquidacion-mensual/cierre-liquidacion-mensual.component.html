@@ -1,16 +1,14 @@
-<div class="divTabla">
-    <div class="divTituloTablas">
-        <h1 class="tituloTabla">Cerrar liquidación mensual</h1>
-        <span class="line-spacer"></span>
+<div class="tittle-container">
+    <div class="tittle-section">
+        <h2>Cerrar liquidación mensual</h2>
     </div>
-    <div style="text-align: center; margin-top: 0%;">
-        <div class="fecha">
-            <p>{{fechaSistemaSelect}}</p>
-        </div>
+</div>
+<div class="mat-table-custom">
+    <div class="fecha">
+        Fecha de Proceso: {{fechaSistemaSelect}}
     </div>
-    <!--Sprinner-->
-    <app-spinner *ngIf="spinnerActive"></app-spinner>
-    <div style="text-align: center; margin-top: 0%; margin-top: 1%">
-        <button style="display:inline; margin: 2%;" class="botton1" (click)="generarCierreLiquidacionMensual()">Ejecutar Cierre</button>
+    <div class="controls-container">
+        <button class="button-custom" mat-raised-button color="primary" (click)="generarCierreLiquidacionMensual()">Ejecutar
+            Cierre</button>
     </div>
 </div>

@@ -9,6 +9,8 @@ import { GenerarContabilidadService } from 'src/app/_service/contabilidad-servic
 import { LiquidacionMensualService } from 'src/app/_service/liquidacion-service/liquidacion-mensual.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cierre-liquidacion-mensual',
@@ -27,9 +29,6 @@ export class CierreLiquidacionMensualComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
-
-  //Variable para activar spinner
-  spinnerActive: boolean = false;
 
   dataGenerateContabilidad: any;
   fechaSistemaSelect: any;
@@ -50,21 +49,21 @@ export class CierreLiquidacionMensualComponent implements OnInit {
  * Se cargan datos para el inicio de la pantalla
  * @BaironPerez
  */
-async cargarDatosDesplegables() {
-  const _fecha = await this.generalServices.listarParametroByFiltro({
-    codigo: "FECHA_DIA_PROCESO"
-  }).toPromise();
-  this.fechaSistemaSelect = _fecha.data[0].valor;
-}
+  async cargarDatosDesplegables() {
+    const _fecha = await this.generalServices.listarParametroByFiltro({
+      codigo: "FECHA_DIA_PROCESO"
+    }).toPromise();
+    this.fechaSistemaSelect = _fecha.data[0].valor;
+  }
 
   /**
   * Se realiza consumo de servicio para generar la contabilidad AM
   * @BaironPerez
   */
   generarCierreLiquidacionMensual() {
-    this.spinnerActive = true;
+    this.modalProcesoEjecucion()
     this.liquidacionMensualService.cerrarLiquidacionMensal().subscribe((data: any) => {
-      this.spinnerActive = false;
+      Swal.close();
       const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
         data: {
@@ -73,15 +72,29 @@ async cargarDatosDesplegables() {
         }
       }); setTimeout(() => { alert.close() }, 3000);
     },
-      (err: any) => {
+      (err: HttpErrorResponse) => {
+        debugger
+        Swal.close();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: err.error.response.description,
+            msn: err?.error?.response?.description == undefined ? err.error.error : err.error.response.description,
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         }); setTimeout(() => { alert.close() }, 3000);
       });
+  }
+
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
   }
 
 }

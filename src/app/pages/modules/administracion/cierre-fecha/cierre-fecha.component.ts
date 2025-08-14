@@ -34,7 +34,7 @@ export class CierreFechaComponent implements OnInit {
     this.consultaDatos();
   }
 
-  async consultaDatos(){
+  async consultaDatos() {
     this.spinnerActive = true;
     await lastValueFrom(this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
@@ -76,14 +76,14 @@ export class CierreFechaComponent implements OnInit {
   }
 
   modalProcesoEjecucion() {
-      Swal.fire({
-        title: "Proceso en ejecución",
-        imageUrl: "assets/img/loading.gif",
-        imageWidth: 80,
-        imageHeight: 80,
-        showConfirmButton: false,
-        allowOutsideClick: false,
-        customClass: { popup: "custom-alert-swal-text" }
-      });
-    }
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
+  }
 }

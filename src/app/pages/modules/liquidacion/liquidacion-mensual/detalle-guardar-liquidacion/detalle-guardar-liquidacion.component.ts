@@ -66,28 +66,29 @@ export class DetalleGuardarLiquidacionComponent implements OnInit {
   * @BaironPerez
   */
   consultaInfo() {
+    this.spinnerActive = true;
     this.liquidacionMensualService.obtenerLiquidacionMensal({
       'transportadora': this.transportadoraSelect,
     }).subscribe((data: any) => {
 
       this.dataLiquidacion = data.data;
-      this.spinnerActive = true;
+      
       let dataSourceOccidente;
       let dataSourcePopular;
       let dataSourceBogota;
       let dataSourceAvVillas;
 
       this.dataLiquidacion.forEach(item => {
-        if (item.nombreBanco == "BANCO AVVILLAS") {
+        if (item.nombreBanco == "BANCO AVVILLAS" || item.nombreBanco == "AV VILLAS") {
           dataSourceAvVillas = item;
         }
-        if (item.nombreBanco == "BANCO DE OCCIDENTE") {
+        if (item.nombreBanco == "BANCO DE OCCIDENTE" || item.nombreBanco == "OCCIDENTE") {
           dataSourceOccidente = item;
         }
-        if (item.nombreBanco == "BANCO POPULAR") {
+        if (item.nombreBanco == "BANCO POPULAR" || item.nombreBanco == "POPULAR") {
           dataSourcePopular = item;
         }
-        if (item.nombreBanco == "BANCO DE BOGOTA") {
+        if (item.nombreBanco == "BANCO DE BOGOTA" || item.nombreBanco == "BOGOTA") {
           dataSourceBogota = item;
         }
       });
@@ -117,9 +118,9 @@ export class DetalleGuardarLiquidacionComponent implements OnInit {
       this.dataSourceInfoPopular = new MatTableDataSource(tablaPopular);
       this.dataSourceInfoBogota = new MatTableDataSource(tablaBogota);
       this.spinnerActive = false;
-
     },
       (err: any) => {
+        this.spinnerActive = false;
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -186,22 +187,22 @@ export class DetalleGuardarLiquidacionComponent implements OnInit {
     this.spinnerActive = true;
     //Asignamos valores registrados
     this.dataLiquidacion.forEach(item => {
-      if (item.nombreBanco == "BANCO AVVILLAS") {
+      if (item.nombreBanco == "BANCO AVVILLAS" || item.nombreBanco == "AV VILLAS" ) {
         item.cantidadAsignadaFajos = this.cantidadCapturadaFaljosAvVillas;
         item.cantidadAsignadaRem = this.cantidadCapturadaRemAvVillas;
         item.cantidadAsignadaBolsas = this.cantidadCapturadaBolsasAvVillas;;
       }
-      if (item.nombreBanco == "BANCO DE OCCIDENTE") {
+      if (item.nombreBanco == "BANCO DE OCCIDENTE" || item.nombreBanco == "OCCIDENTE") {
         item.cantidadAsignadaFajos = this.cantidadCapturadaFaljosOccidente;
         item.cantidadAsignadaRem = this.cantidadCapturadaRemOccidente;
         item.cantidadAsignadaBolsas = this.cantidadCapturadaBolsasOccidente;
       }
-      if (item.nombreBanco == "BANCO POPULAR") {
+      if (item.nombreBanco == "BANCO POPULAR" || item.nombreBanco == "POPULAR") {
         item.cantidadAsignadaFajos = this.cantidadCapturadaFaljosPopular;
         item.cantidadAsignadaRem = this.cantidadCapturadaRemPopular;
         item.cantidadAsignadaBolsas = this.cantidadCapturadaBolsasPopular;
       }
-      if (item.nombreBanco == "BANCO DE BOGOTA") {
+      if (item.nombreBanco == "BANCO DE BOGOTA" || "BOGOTA") {
         item.cantidadAsignadaFajos = this.cantidadCapturadaFaljosBogota;
         item.cantidadAsignadaRem = this.cantidadCapturadaRemBogota;
         item.cantidadAsignadaBolsas = this.cantidadCapturadaBolsasBogota;
@@ -211,6 +212,7 @@ export class DetalleGuardarLiquidacionComponent implements OnInit {
     this.liquidacionMensualService.liquidarMensual(this.dataLiquidacion).subscribe(data => {
       this.spinnerActive = false;
       const respuesta = this.dialog.open(GuardarLiquidacionComponent, {
+        height: 'auto',
         width: '100%',
         data: {
           respuesta: data.data,

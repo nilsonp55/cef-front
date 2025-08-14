@@ -128,6 +128,9 @@ export const GENERALES = {
     MESSAGE_POLITICA_RETENCION: {
       SUCCESFULL_POLITICA_RETENCION: 'Se ejecuto la politica de retención exitosamente.',
     },
+    SEARCH_VALIDATION: {
+      EMPTY_FIELD_GENERAL: 'Se requiere ingresar un valor para consultar',
+    },
   },
 
   DIALOG_FORM: {
