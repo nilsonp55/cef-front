@@ -50,16 +50,16 @@ export class GuardarLiquidacionComponent implements OnInit {
     let dataSourcePopular;
     let dataSourceBogota;
     this.dataSource.forEach(item => {
-      if (item.nombreBanco == "BANCO AVVILLAS") {
+      if (item.nombreBanco == "BANCO AVVILLAS" || item.nombreBanco == "AV VILLAS") {
         dataSourceAvVillas = item;
       }
-      if (item.nombreBanco == "BANCO DE OCCIDENTE") {
+      if (item.nombreBanco == "BANCO DE OCCIDENTE" || item.nombreBanco == "OCCIDENTE") {
         dataSourceOccidente = item;
       }
-      if (item.nombreBanco == "BANCO POPULAR") {
+      if (item.nombreBanco == "BANCO POPULAR" || item.nombreBanco == "POPULAR") {
         dataSourcePopular = item;
       }
-      if (item.nombreBanco == "BANCO DE BOGOTA") {
+      if (item.nombreBanco == "BANCO DE BOGOTA" || item.nombreBanco == "BOGOTA") {
         dataSourceBogota = item;
       }
     });
@@ -126,7 +126,6 @@ export class GuardarLiquidacionComponent implements OnInit {
  * @BaironPerez
  */
    cancelar() {
-    this.router.navigate(['/liquidacion/liquidacion-mensual']);
     this.dialogRef.close();
   }
 

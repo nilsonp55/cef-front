@@ -1,44 +1,12 @@
-.configScroll {
-    max-height: 720px;
-}
-
-.tituloTabla {
-    text-align: center;
-}
-
-.divTablaProg {
-    background-color: rgb(226, 229, 229);
-    padding: 1%;
-    margin-top: 2%;
-    margin-left: 4%;
-    margin-right: 2%;
-    margin-bottom: auto;
-}
-
-.division {
-    display: flex;
-    text-align: center;
-    padding-left: 5%;
-}
-
-.ubicacionBotones {
-    text-align: right;
-    float:left;
-    margin-top: 1%;
-}
-
-.verticalScroll {
-  max-height: '100%';
-  overflow-y: scroll;
-  overscroll-behavior-y: contain;
-  scroll-snap-type: y mandatory;
-}
-
 .mat-table-custom {
+    max-height: 450px;
     height: auto;
-     max-height: 720px;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
+}
+::ng-deep .mat-dialog-container {
+    height: auto;
+
 }
 .mat-dialog-container .button-container{
     margin-top: 0px;
