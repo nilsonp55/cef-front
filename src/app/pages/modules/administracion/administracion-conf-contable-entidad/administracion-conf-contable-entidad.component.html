@@ -11,12 +11,14 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <button title="Visualizar" mat-button (click)="filtrar($event)">
-      <mat-icon style="color: green">search</mat-icon>
-    </button>
-    <button title="Limpiar" mat-button (click)="limpiar()">
-      <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
-    </button>
+    <div class="action-filter-container">
+      <button title="Visualizar" mat-button (click)="filtrar($event)">
+        <mat-icon style="color: green">search</mat-icon>
+      </button>
+      <button title="Limpiar" mat-button (click)="limpiar()">
+        <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
+      </button>
+    </div>
   </div>
   <div class="controls-container">
     <button *ngIf="!isLoading" title="Nuevo" mat-raised-button class="button-custom" color="primary"
@@ -214,11 +216,11 @@
       </mat-radio-group>
     </div>
   </div>
-  
-    <div class="button-container">
-      <button mat-raised-button color="primary" class="button-custom" (click)="persistir()" [disabled]="form.invalid">
-        Aceptar
-      </button>
-      <button mat-raised-button class="button-custom" color="warn" (click)="onCancel()">Cancelar</button>
-    </div>
+
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="button-custom" (click)="persistir()" [disabled]="form.invalid">
+      Aceptar
+    </button>
+    <button mat-raised-button class="button-custom" color="warn" (click)="onCancel()">Cancelar</button>
+  </div>
 </div>

@@ -153,6 +153,11 @@ export class CostosServicioCharterComponent implements OnInit {
     }
   }
 
+  limpiar(){
+    this.fecha1 = null;
+    this.fecha2 = null;
+  }
+
   changeValor(param: any) {
     this.costoEditar = param.target.value;
   }

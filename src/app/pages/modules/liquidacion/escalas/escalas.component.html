@@ -6,7 +6,7 @@
     <div class="table-filter-container">
         <mat-form-field appearance="fill">
             <mat-label>Bancos</mat-label>
-            <mat-select [(ngModel)]="filtroBancoSelect" (selectionChange)="filtrar($event)">
+            <mat-select [(ngModel)]="filtroBancoSelect">
                 <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let item of bancos" [value]="item">
                     {{item.nombreBanco}}
@@ -15,7 +15,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Transporta Orige</mat-label>
-            <mat-select [(ngModel)]="filtroTransportaOrigSelect" (selectionChange)="filtrar($event)">
+            <mat-select [(ngModel)]="filtroTransportaOrigSelect">
                 <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let item of transportadoras" [value]="item">
                     {{item.nombreTransportadora}}
@@ -24,7 +24,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Ciudad Origen</mat-label>
-            <mat-select [(ngModel)]="filtroCiudadOrigSelect" (selectionChange)="filtrar($event)">
+            <mat-select [(ngModel)]="filtroCiudadOrigSelect">
                 <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let item of ciudades" [value]="item">
                     {{item.nombreCiudad}}
@@ -33,13 +33,21 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Ciudad Destino</mat-label>
-            <mat-select [(ngModel)]="filtroCiudadDestSelect" (selectionChange)="filtrar($event)">
+            <mat-select [(ngModel)]="filtroCiudadDestSelect">
                 <mat-option>Ninguno</mat-option>
                 <mat-option *ngFor="let ite of ciudades" [value]="ite">
                     {{ite.nombreCiudad}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        <div class="action-filter-container">
+            <button title="Buscar y Visualizar" mat-button (click)="filtrar($event)">
+                <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+            </button>
+            <button title="Limpiar Filtros" mat-button (click)="limpiar()">
+                <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+            </button>
+        </div>
     </div>
     <div class="controls-container">
         <button *ngIf="habilitarBTN" class="button-custom" mat-raised-button color="primary"

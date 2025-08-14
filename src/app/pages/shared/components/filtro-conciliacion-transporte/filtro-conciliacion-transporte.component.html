@@ -105,11 +105,13 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-    <button title="Visualizar" mat-button (click)="filter()">
-      <mat-icon style="color: green; font-size: 2em">search</mat-icon>
-    </button>
-    <button title="Limpiar" mat-button (click)="limpiar()">
-      <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
-    </button>
+    <div class="action-filter-container">
+      <button title="Buscar y Visualizar" mat-button (click)="filter()">
+        <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+      </button>
+      <button title="Limpiar" mat-button (click)="limpiar()">
+        <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

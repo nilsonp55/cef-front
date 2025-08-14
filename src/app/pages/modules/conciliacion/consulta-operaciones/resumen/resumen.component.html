@@ -15,9 +15,14 @@
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
-        <button title="Visualizar" mat-button (click)="filtroResumenOperacionesPorFecha()" class="button-filter button-filter-short">
-            <mat-icon style="color: green; font-size: 2em">search</mat-icon>
-        </button>
+        <div class="action-filter-container">
+            <button title="Buscar y Visualizar" mat-button (click)="filtroResumenOperacionesPorFecha()">
+                <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+            </button>
+            <button title="Limpiar Filtros" mat-button (click)="limpiar()">
+                <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+            </button>
+        </div>
     </div>
     <div *ngIf="!load" class="disenio-spinner">
         <mat-spinner></mat-spinner>

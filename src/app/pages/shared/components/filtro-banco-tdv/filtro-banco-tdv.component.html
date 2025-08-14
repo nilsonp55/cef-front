@@ -1,7 +1,7 @@
 <div class="table-filter-container">
   <mat-form-field appearance="fill">
     <mat-label>Bancos grupo aval</mat-label>
-    <mat-select (selectionChange)="selectBanco($event)">
+    <mat-select [(ngModel)]="selectBancoFilter">
       <mat-option>Ninguno</mat-option>
       <mat-option *ngFor="let bancoOption of bancoOptions" [value]="bancoOption.nombreBanco">
         {{bancoOption.nombreBanco}}
@@ -10,7 +10,7 @@
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Transportadoras</mat-label>
-    <mat-select (selectionChange)="selectTrasportadora($event)">
+    <mat-select [(ngModel)]="selectTrasportadorafilter">
       <mat-option>Ninguno</mat-option>
       <mat-option *ngFor="let tranportadoraOption of tranportadoraOptions"
         [value]="tranportadoraOption.nombreTransportadora">
@@ -20,7 +20,7 @@
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Tipo Punto</mat-label>
-    <mat-select [(value)]="selectedOrigen" multiple (closed)="filter()">
+    <mat-select [(value)]="selectedOrigen" multiple>
       <mat-option value="BAN_REP">BAN_REP</mat-option>
       <mat-option value="CAJERO">CAJERO</mat-option>
       <mat-option value="BANCO">BANCO</mat-option>
@@ -33,7 +33,7 @@
   <div *ngIf="showFilterEstado">
     <mat-form-field appearance="fill">
       <mat-label>Estado Conciliacion</mat-label>
-      <mat-select [(value)]="estadoConciliacion" multiple (closed)="filter()">
+      <mat-select [(value)]="estadoConciliacion" multiple>
         <mat-option *ngFor="let item of estadosConciliacionOptions" [value]="item">{{item}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -42,11 +42,17 @@
   <div *ngIf="showFechaProceso">
     <mat-form-field appearance="fill">
       <mat-label>Fecha Proceso</mat-label>
-      <input matInput [matDatepicker]="picker1" [formControl]="fechaOrigen" [(ngModel)]="fechaProceso"
-        (dateChange)="selectFechaOrigen($event)">
+      <input matInput [matDatepicker]="picker1" [formControl]="fechaOrigen" [(ngModel)]="fechaProceso">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
   </div>
-
+  <div class="action-filter-container">
+      <button title="Buscar y Visualizar" mat-button (click)="filtrar()">
+        <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+      </button>
+      <button title="Limpiar Filtros" mat-button (click)="limpiar()">
+        <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+      </button>
+    </div>
 </div>

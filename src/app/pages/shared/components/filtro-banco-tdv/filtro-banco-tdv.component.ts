@@ -22,11 +22,14 @@ export class FiltroBancoTdvComponent implements OnInit {
   tranportadoraOptions: TransportadoraModel[]
   bancoOptions: BancoModel[]
   estadosConciliacionOptions: any[];
-  banco: string;
-  trasportadora: string;
   selectedOrigen = [];
   estadoConciliacion: any;
   fechaSelected: Date;
+
+  selectBancoFilter: any;
+  selectTrasportadorafilter: any;
+
+
 
   @Input()
   showFilterEstado: boolean = false;
@@ -92,29 +95,20 @@ export class FiltroBancoTdvComponent implements OnInit {
       });
   }
 
-  filter() {
-    this.filterData.emit({ 
-      banco: this.banco, 
-      trasportadora: this.trasportadora, 
-      tipoPuntoOrigen: this.selectedOrigen, 
+  filtrar() {
+    this.filterData.emit({
+      banco: this.selectBancoFilter,
+      trasportadora: this.selectTrasportadorafilter,
+      tipoPuntoOrigen: this.selectedOrigen,
       estadoConciliacion: this.estadoConciliacion,
-      fechaSelected: this.fechaSelected 
+      fechaSelected: new Date(this.fechaProceso)
     });
   }
-
-  selectBanco(event) {
-    this.banco = event.value;
-    this.filter();
+  limpiar() {
+    this.selectBancoFilter = null;
+    this.selectTrasportadorafilter = null;
+    this.selectedOrigen = null;
+    this.estadoConciliacion = null
+    this.fechaProceso = null
   }
-
-  selectTrasportadora(event) {
-    this.trasportadora = event.value;
-    this.filter();
-  }
-
-  selectFechaOrigen(event) {
-    this.fechaSelected = new Date(event.value);
-    this.filter();
-  }
-
 }
