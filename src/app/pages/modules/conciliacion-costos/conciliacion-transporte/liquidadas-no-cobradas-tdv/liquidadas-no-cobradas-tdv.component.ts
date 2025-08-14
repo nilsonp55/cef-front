@@ -70,7 +70,8 @@ export class LiquidadasNoCobradasTdvComponent implements OnInit {
             imageHeight: 80,
             confirmButtonText: "Aceptar",
             showConfirmButton: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            customClass: { popup: "custom-alert-swal-text" }
           }).then((result) => {
             this.datosTabla.fuenteDatosTabla = [];
             this.datosTabla.botones = ['Exportar tabla', 'Eliminar', 'Rechazar'];

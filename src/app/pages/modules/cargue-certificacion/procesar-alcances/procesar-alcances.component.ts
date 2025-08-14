@@ -6,6 +6,7 @@ import { CargueProgramacionCertificadaService } from 'src/app/_service/programac
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-procesar-alcances',
@@ -13,8 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ProcesarAlcancesComponent implements OnInit {
 
-  //Variable para activar spinner
-  spinnerActive: boolean = false;
   fechaSistemaSelect: string;
 
   constructor(
@@ -32,11 +31,23 @@ export class ProcesarAlcancesComponent implements OnInit {
     });
   }
 
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
+  }
+
   procesarAlcances() {
-    this.spinnerActive = true;
+    this.modalProcesoEjecucion()
     this.cargueProgramacionCertificadaService.procesarAlcances().subscribe({
       next: (response: any) => {
-        this.spinnerActive = false;
+        Swal.close()
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -46,7 +57,7 @@ export class ProcesarAlcancesComponent implements OnInit {
         });
       },
       error: (response: any) => {
-        this.spinnerActive = false;
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {

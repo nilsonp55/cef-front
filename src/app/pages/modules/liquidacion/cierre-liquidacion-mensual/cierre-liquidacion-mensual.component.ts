@@ -14,8 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cierre-liquidacion-mensual',
-  templateUrl: './cierre-liquidacion-mensual.component.html',
-  styleUrls: ['./cierre-liquidacion-mensual.component.css']
+  templateUrl: './cierre-liquidacion-mensual.component.html'
 })
 
 /**
@@ -73,7 +72,6 @@ export class CierreLiquidacionMensualComponent implements OnInit {
       }); setTimeout(() => { alert.close() }, 3000);
     },
       (err: HttpErrorResponse) => {
-        debugger
         Swal.close();
         const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

@@ -2,10 +2,10 @@
   <div class="titulo-tabla">
     <h2>Punto</h2>
   </div>
-  <!-- <div *ngIf="spinnerActive" class="disenio-spinner">
+  <div *ngIf="spinnerActive" class="disenio-spinner">
     <mat-spinner></mat-spinner>
-  </div> -->
-  <div [formGroup]="form" class="form-fields">
+  </div>
+  <div [formGroup]="form" class="form-fields" *ngIf="!spinnerActive">
     <mat-form-field appearance="fill">
       <mat-label>Tipo Punto</mat-label>
       <mat-select formControlName="tipoPunto" (selectionChange)="changeTipoPunto($event)">
@@ -128,6 +128,6 @@
   <div *ngIf="!spinnerActive" class="button-container">
     <button class="button-custom" type="button" mat-raised-button color="primary" (click)="persistir()"
       [disabled]="form.invalid">Aceptar</button>
-    <button class="button-custom" mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+    <button class="button-custom" mat-raised-button color="warn" mat-dialog-close (click)="onCancel()">Cancelar</button>
   </div>
 </div>

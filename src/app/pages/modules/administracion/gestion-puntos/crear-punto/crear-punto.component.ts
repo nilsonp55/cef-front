@@ -343,7 +343,6 @@ export class CrearPuntoComponent implements OnInit {
     
     if (value.length < 1) return of([]);
 
-    this.spinnerActive = true;
     const param = {
       busqueda: value,
       codigoBancoAval: this.form.get('bancoAval').value.codigoPunto,
@@ -365,8 +364,7 @@ export class CrearPuntoComponent implements OnInit {
           },
         });
         return of([]);
-      }),
-      finalize(() => this.spinnerActive = false)
+      })
     );
   }
 
@@ -404,5 +402,9 @@ export class CrearPuntoComponent implements OnInit {
   concatenarNombreBanrep() {
     const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? ''; 
     this.form.controls['nombrePunto'].setValue(GENERALES.NOMBRE_TIPO_BANREP + nombreCiudad);
+  }
+
+  onCancel(): void {
+    this.dialogRef.close({event:'Cancel'})
   }
 }
