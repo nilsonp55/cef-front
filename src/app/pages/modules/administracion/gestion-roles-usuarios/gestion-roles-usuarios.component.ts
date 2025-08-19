@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -9,6 +9,7 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 import { ErrorService } from 'src/app/_model/error.model';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import Swal from 'sweetalert2';
+import { CrearRolComponent } from './crear-rol/crear-rol.component';
 
 @Component({
   selector: 'app-gestion-roles-usuarios',
@@ -60,6 +61,7 @@ export class GestionRolesUsuariosComponent implements OnInit {
   constructor(
     private readonly dialog: MatDialog,
     private readonly rolMenuService: RolMenuService,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -98,6 +100,10 @@ export class GestionRolesUsuariosComponent implements OnInit {
   * @BaironPerez
   */
   listarMenusRolUsuario() {
+    if(this.rolSelect === undefined){
+      this.mostrarAlertaSeleccion();
+      return
+    }
     this.spinnerActive = true;
     this.rolMenuService.obtenerMenuRol({ 'rol.idRol': this.rolSelect.idRol })
       .subscribe({
@@ -210,6 +216,47 @@ export class GestionRolesUsuariosComponent implements OnInit {
       this.persistirActualizar(element)
     }
   }
+
+  mostrarAlertaSeleccion() {
+    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: GENERALES.MESSAGE_ALERT.SEARCH_VALIDATION.EMPTY_FIELD_GENERAL,
+        codigo: GENERALES.CODE_EMERGENT.WARNING
+      }
+    });
+    setTimeout(() => { alert.close() }, 3000);
+  }
+
+  async abrirDialogRol(action: any) {
+    const esEdicion = action === "edit";
+    if(esEdicion && this.rolSelect === undefined){
+      this.mostrarAlertaSeleccion();
+      return
+    }
+    this.dialog.open(CrearRolComponent, {
+      ...GENERALES.DIALOG_CONFIG,
+      width: '450px',
+      data: {
+        flag: action,
+        element: esEdicion ? this.rolSelect : null,
+      },
+      disableClose: true
+    }).afterClosed()
+      .subscribe((result) => {
+        if (result?.data == undefined) {
+          return
+        }
+        this.listarRoles();
+        this.rolSelect = result?.data;
+        this.listarMenusRolUsuario()
+      });
+  }
+
+  compararRoles(rol1: any, rol2: any) {
+    return rol1 && rol2 ? rol1.idRol === rol2.idRol : rol1 === rol2
+  }
+
 
   persistirActualizar(element: any) {
     const rol = { idRol: element.idRol }

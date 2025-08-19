@@ -2,10 +2,33 @@
     margin-right: 20px;
 }
 
-
-
 div.table-filter-container{
     padding-top: 12px;
     padding-left: 0px;
 }
 
+.mat-column-acciones{
+    width: 20%;
+    min-width: 20%;
+}
+
+.mat-column-nombreMenu,
+.-column-menuPadre{
+    width: 25%;
+    min-width: 100px;
+}
+
+.mat-column-estado {
+    width: 10%;
+    min-width: 100px;
+}
+
+.mat-column-idRol {
+    width: 10%;
+    min-width: 120px;
+}
+
+.mat-column-codigo {
+    width: 10%;
+    min-width: 100px;
+}

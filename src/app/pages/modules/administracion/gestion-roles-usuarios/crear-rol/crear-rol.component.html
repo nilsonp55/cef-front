@@ -1,0 +1,38 @@
+<div class="modal-dialog-custom">
+  <div class="titulo-tabla">
+    <h2>Rol</h2>
+  </div>
+  <div *ngIf="spinnerActive" class="disenio-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div [formGroup]="form" class="form-fields" *ngIf="!spinnerActive">
+    <mat-form-field appearance="fill">
+      <mat-label>Id Rol</mat-label>
+      <input formControlName="idRol" matInput #input>
+      <mat-error *ngIf="form.get('idRol').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre</mat-label>
+      <input formControlName="nombre" matInput #input>
+      <mat-error *ngIf="form.get('nombre').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Descripción</mat-label>
+      <input formControlName="descripcion" matInput #input>
+      <mat-error *ngIf="form.get('descripcion').hasError('required')">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <div class="container-estado">
+      <p>Estado:</p>
+      <label class="switch">
+        <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+        <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+        <span class="switch-handle"></span>
+      </label>
+    </div>
+  </div>
+  <div *ngIf="!spinnerActive" class="button-container">
+    <button class="button-custom" type="button" mat-raised-button color="primary" (click)="persistir()"
+      [disabled]="form.invalid">Aceptar</button>
+    <button class="button-custom" mat-raised-button color="warn" mat-dialog-close (click)="onCancel()">Cancelar</button>
+  </div>
+</div>
