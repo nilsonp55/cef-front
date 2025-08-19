@@ -46,7 +46,6 @@ export class CrearPuntoComponent implements OnInit {
   clientes: any[] = [];
   titulo: string;
   dataElement: any = null;
-  isDisable: boolean;
   puntoSeleccionado: string = '';
   listPuntosSelect: any;
   bancosAval: any[] = [];
