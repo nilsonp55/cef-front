@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -60,8 +60,7 @@ export class GestionRolesUsuariosComponent implements OnInit {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly rolMenuService: RolMenuService,
-    private cd: ChangeDetectorRef
+    private readonly rolMenuService: RolMenuService
   ) { }
 
   ngOnInit(): void {
