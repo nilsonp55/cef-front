@@ -34,7 +34,6 @@ export class CrearRolComponent implements OnInit {
   }
 
   async initForm() {
-    this.data.element
     this.form = new FormGroup({
       'nombre': new FormControl(this.dataRol ? this.dataRol.nombre : '', [Validators.required]),
       'idRol': new FormControl(this.dataRol ? this.dataRol.idRol : '', [Validators.required]),
