@@ -14,15 +14,13 @@ import { ClientesCorporativosService } from 'src/app/_service/administracion-ser
 
 @Component({
   selector: 'app-gestion-puntos',
-  templateUrl: './gestion-puntos.component.html',
-  styleUrls: ['./gestion-puntos.component.css'],
+  templateUrl: './gestion-puntos.component.html'
 })
 export class GestionPuntosComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('exporter', {static: false}) exporter: any;
 
   tipoPuntoSeleccionado: string;
-  puntoSeleccionado: string = '';
   elementoPuntoActualizar: string;
   detallePuntoSeleccionado: any;
   nombrePuntoBusqueda: string;
@@ -227,11 +225,6 @@ export class GestionPuntosComponent implements OnInit {
     }
   }
 
-  eventoTipoPunto(element: any) {
-    this.tipoPuntoSeleccionado = element.value;
-    this.listarPuntosSeleccionado();
-  }
-
   eventoBanco(element: any) {
     this.fondosBancoAVALSeleccionado = undefined;
     this.oficinasBancoAVALSeleccionado = undefined;
@@ -250,7 +243,6 @@ export class GestionPuntosComponent implements OnInit {
     if (this.tipoPuntoSeleccionado == 'CLIENTE') {
       this.clienteBancoAvalSeleccionado = element.value;
     }
-    this.listarPuntosSeleccionado();
   }
 
   /**
@@ -267,26 +259,25 @@ export class GestionPuntosComponent implements OnInit {
       },
     }).afterClosed()
     .subscribe((result) => {
-      this.listarPuntosSeleccionado(this.paginaActual, this.tamanioActual);
+      if(result == undefined){
+        this.listarPuntosSeleccionado(this.paginaActual, this.tamanioActual);
+      }
     });
   }
 
-  /**
-   * Evento que valida la selecciond un punto
-   * @BayronPerez
-   */
-  selectedPunto(param: any) {
-    if (param != undefined) {
-      this.puntoSeleccionado = param;
-    }
-  }
 
   mostrarMas(e: any) {
     this.listarPuntosSeleccionado(e.pageIndex, e.pageSize);
   }
 
-  filtrar(event) {
-    this.listarPuntosSeleccionado();
+  filtrar(e: any) {
+    this.listarPuntosSeleccionado(e.pageIndex, e.pageSize);
+  }
+
+  limpiar(){
+    this.tipoPuntoSeleccionado = null;
+    this.bancoSeleccionado = null;
+    this.nombrePuntoBusqueda = null;
   }
 
   /**

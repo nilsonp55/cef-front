@@ -2,7 +2,7 @@
   <div class="table-filter-container">
     <mat-form-field appearance="fill">
       <mat-label>Tipo Punto</mat-label>
-      <mat-select [(ngModel)]="puntoSeleccionado" (selectionChange)="onFilterChange()">
+      <mat-select [(ngModel)]="puntoSeleccionado">
         <mat-option [value]="undefined">Ninguno</mat-option>
         <mat-option *ngFor="let tipoPunto of tiposPuntoOptions" [value]="tipoPunto">
           {{tipoPunto.valorTexto}}
@@ -11,7 +11,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill" id="field-bancos-list">
       <mat-label>Banco</mat-label>
-      <mat-select [(ngModel)]="filtroBancoSelect" (selectionChange)="onFilterChange()">
+      <mat-select [(ngModel)]="filtroBancoSelect">
         <mat-option [value]="undefined">Ninguno</mat-option>
         <mat-option *ngFor="let item of bancosOptions" [value]="item">
           {{item.nombreBanco}}
@@ -20,7 +20,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill" id="field-transportadoras-list">
       <mat-label>Transportadora</mat-label>
-      <mat-select [(ngModel)]="filtroTransportaSelect" (selectionChange)="onFilterChange()">
+      <mat-select [(ngModel)]="filtroTransportaSelect">
         <mat-option [value]="undefined">Ninguno</mat-option>
         <mat-option *ngFor="let item of transportadorasOptions" [value]="item">
           {{item.nombreTransportadora}}
@@ -29,7 +29,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Ciudad</mat-label>
-      <mat-select [(ngModel)]="listCiudadSelect" (selectionChange)="onFilterChange()">
+      <mat-select [(ngModel)]="listCiudadSelect">
         <mat-option [value]="undefined">Ninguno</mat-option>
         <mat-option *ngFor="let item of ciudadesOptions" [value]="item">
           {{item.nombreCiudad}}
@@ -38,9 +38,16 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Código Propio</mat-label>
-      <input type="text" matInput [(ngModel)]="filtroCodigoPropio"
-        (blur)="onFilterChange()">
+      <input type="text" matInput [(ngModel)]="filtroCodigoPropio">
     </mat-form-field>
+    <div class="action-filter-container">
+      <button title="Buscar y Visualizar" mat-button (click)="onFilterChange()">
+        <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+      </button>
+      <button title="Limpiar Filtros" mat-button (click)="limpiar()">
+        <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+      </button>
+    </div>
   </div>
   <div class="controls-container">
     <button mat-raised-button color="primary" class="button-custom" (click)="editItem.emit()">Nuevo</button>

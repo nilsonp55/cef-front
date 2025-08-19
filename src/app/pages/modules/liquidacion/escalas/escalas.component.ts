@@ -257,9 +257,18 @@ export class EscalasComponent implements OnInit {
     */
   crearEscala() {
     this.form.get('idEscala').disable();
-    this.mostrarFormulario = true;
+    this.visualizarFormulario()
     this.esEdicion = false;
+  }
+
+  visualizarFormulario(){
     this.mostrarTabla = false;
+    this.mostrarFormulario = true;
+  }
+
+  visualizarTabla(){
+    this.mostrarFormulario = false;
+    this.mostrarTabla = true;
   }
 
   /**
@@ -268,11 +277,10 @@ export class EscalasComponent implements OnInit {
     */
   actualizarEscala(element) {
     this.initForm(element)
-    this.mostrarFormulario = true;
+    this.visualizarFormulario()
     this.idEscala = this.form.get('idEscala').value;
     this.form.get('idEscala').disable();
     this.esEdicion = true;
-    this.mostrarTabla = false;
   }
 
   async iniciarDesplegables() {
@@ -315,12 +323,14 @@ export class EscalasComponent implements OnInit {
   }
 
   irAtras() {
-    window.location.reload();
+    this.form.reset();
+    this.visualizarTabla();
   }
 
   filtrar(e: any) {
     this.listarEscalas(e.pageIndex, e.pageSize);
   }
+  
 
   limpiar(){
     this.filtroBancoSelect = null;

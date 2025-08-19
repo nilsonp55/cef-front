@@ -45,12 +45,14 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <button title="Buscar" mat-button (click)="filtrar()">
-      <mat-icon style="color: green; font-size: 2em">search</mat-icon>
-    </button>
-    <button title="Limpiar Filtros" mat-button (click)="limpiar()">
-      <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
-    </button>
+    <div class="action-filter-container">
+      <button title="Buscar y Visualizar" mat-button (click)="filtrar()">
+        <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+      </button>
+      <button title="Limpiar Filtros" mat-button (click)="limpiar()">
+        <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+      </button>
+    </div>
   </div>
   <div class="controls-container">
     <button class="button-custom" *ngIf="habilitarBTN" mat-raised-button color="primary"

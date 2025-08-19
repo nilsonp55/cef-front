@@ -92,7 +92,8 @@ export class IdentificadasConDiferenciaComponent implements OnInit {
             imageHeight: 80,
             confirmButtonText: "Aceptar",
             showConfirmButton: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            customClass: { popup: "custom-alert-swal-text" }
           }).then((result) => {
             this.datosTabla.botones = ['Aceptar', 'Rechazar'];
             this.load = false;

@@ -163,6 +163,14 @@ export class TableCodigoTdvComponent implements OnInit, AfterViewInit {
         this.fetchData(); // Reload data with new filters
     }
 
+    limpiar(){
+        this.filtroBancoSelect = null;
+        this.filtroTransportaSelect = null;
+        this.puntoSeleccionado = null;
+        this.listCiudadSelect = null;
+        this.filtroCodigoPropio = null;
+    }
+
     onPageChange(event: PageEvent): void {
         this.numPagina = event.pageIndex;
         this.cantPagina = event.pageSize;

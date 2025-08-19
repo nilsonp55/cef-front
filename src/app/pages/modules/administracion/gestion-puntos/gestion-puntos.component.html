@@ -5,7 +5,7 @@
   <div class="table-filter-container">
     <mat-form-field appearance="fill">
       <mat-label>Tipo Punto</mat-label>
-      <mat-select [(ngModel)]="puntoSeleccionado" (selectionChange)="eventoTipoPunto($event)">
+      <mat-select [(ngModel)]="tipoPuntoSeleccionado">
         <mat-option>Ninguno</mat-option>
         <mat-option *ngFor="let tipoPunto of listPuntosSelect" [value]="tipoPunto.valorTexto">
           {{tipoPunto.valorTexto}}
@@ -15,7 +15,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Banco</mat-label>
       <mat-select [(ngModel)]="bancoSeleccionado" (selectionChange)="eventoBanco($event)"
-        [disabled]="puntoSeleccionado === 'BAN_REP' || puntoSeleccionado === 'BANCO'">
+        [disabled]="tipoPuntoSeleccionado === 'BAN_REP' || tipoPuntoSeleccionado === 'BANCO'">
         <mat-option>Ninguno</mat-option>
         <mat-option *ngFor="let item of bancosAval" [value]="item.codigoPunto">
           {{item.nombreBanco}}
@@ -24,14 +24,21 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Nombre punto</mat-label>
-      <input type="text" matInput [(ngModel)]="nombrePuntoBusqueda" (blur)="filtrar($event)">
+      <input type="text" matInput [(ngModel)]="nombrePuntoBusqueda">
     </mat-form-field>
+    <div class="action-filter-container">
+      <button title="Buscar y Visualizar" mat-button (click)="filtrar($event)">
+        <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+      </button>
+      <button title="Limpiar Filtros" mat-button (click)="limpiar()">
+        <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+      </button>
+    </div>
   </div>
   <div class="controls-container">
     <button title="Crear punto" mat-raised-button class="button-custom" color="primary"
       (click)="abrirDialogPunto('crear', null)">Nuevo</button>
-    <button mat-raised-button color="primary" class="button-custom"
-      (click)="exporterTable()">Exportar</button>
+    <button mat-raised-button color="primary" class="button-custom" (click)="exporterTable()">Exportar</button>
     <div class="paginator-area">
       <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
         (page)="mostrarMas($event)" showFirstLastButtons>

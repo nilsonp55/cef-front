@@ -15,8 +15,7 @@ import { ValidacionEstadoProcesosService } from 'src/app/_service/valida-estado-
 
 @Component({
   selector: 'app-liquida-costos',
-  templateUrl: './liquida-costos.component.html',
-  styleUrls: ['./liquida-costos.component.css']
+  templateUrl: './liquida-costos.component.html'
 })
 export class LiquidaCostosComponent implements OnInit {
 
