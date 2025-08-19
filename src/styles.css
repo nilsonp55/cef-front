@@ -953,3 +953,7 @@ Estilo para componentes con varias tablas debajo de cada una
 .table-container_several-tables .mat-table-custom th.mat-header-cell {
     text-align: left;
 }
+
+.mat-accordion  {
+    margin-bottom: 12px;
+}
