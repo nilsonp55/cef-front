@@ -127,7 +127,7 @@ export class CrearPuntoComponent implements OnInit {
       valTarifaVerificacion = param.cajeroATM?.tarifaVerificacion;
     }
 
-    this.ciudadControl = new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null);
+    this.ciudadControl = new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null, [Validators.required]);
     this.clientesControl = new FormControl(param?.sitiosClientes?.codigoCliente, [Validators.required]);
     this.form = new FormGroup({
       'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param}, [Validators.required]),
@@ -183,12 +183,16 @@ export class CrearPuntoComponent implements OnInit {
     let messagePersistirSuccesful = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
     let messagePersistirError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
 
-    if(this.data.flag == "modif") {
+    if(this.data.flag === "modif") {
       messagePersistirSuccesful = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE;
       messagePersistirError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE;
     }
 
-    this.gestionPuntosService.crearPunto(cliente).subscribe({
+    const serviceCall = this.data.flag === "modif" 
+      ? this.gestionPuntosService.actualizarPunto(cliente) 
+      : this.gestionPuntosService.crearPunto(cliente);
+
+    serviceCall.subscribe({
       next: (page) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

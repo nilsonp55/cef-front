@@ -34,6 +34,7 @@
           {{ciudad.codigoDANE + " - " + ciudad.nombreCiudad}}
         </mat-option>
       </mat-autocomplete>
+      <mat-error *ngIf="form.get('ciudad').hasError('required')">Este campo es requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" *ngIf="puntoSeleccionado === 'OFICINA'">
