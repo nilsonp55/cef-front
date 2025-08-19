@@ -7,7 +7,7 @@
         <div class="table-filter-container">
             <mat-form-field appearance="fill">
                 <mat-label>Seleccione el Rol</mat-label>
-                <mat-select [(ngModel)]="rolSelect">
+                <mat-select [(ngModel)]="rolSelect" [compareWith]="compararRoles">
                     <mat-option *ngFor="let item of listaRoles" [value]="item">
                         {{item.idRol}}
                     </mat-option>
@@ -18,7 +18,10 @@
         <button class="button-custom" mat-raised-button color="primary" (click)="listarMenusRolUsuario()">
             Gestionar Menús
         </button>
-        <button class="button-custom" mat-raised-button color="primary" (click)="listarMenusRolUsuario()">
+        <button class="button-custom" mat-raised-button color="primary" (click)="abrirDialogRol('edit')">
+            Editar Rol
+        </button>
+        <button class="button-custom" mat-raised-button color="primary" (click)="abrirDialogRol('create')">
             Nuevo Rol
         </button>
     </div>

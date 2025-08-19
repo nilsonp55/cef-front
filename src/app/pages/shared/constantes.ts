@@ -129,13 +129,23 @@ export const GENERALES = {
       SUCCESFULL_POLITICA_RETENCION: 'Se ejecuto la politica de retención exitosamente.',
     },
     SEARCH_VALIDATION: {
-      EMPTY_FIELD_GENERAL: 'Se requiere ingresar un valor para consultar',
+      EMPTY_FIELD_GENERAL: 'Se requiere seleccionar un valor',
     },
   },
 
   DIALOG_FORM: {
     SIZE_FORM: '90%',
   },
+
+  DIALOG_CONFIG: {
+    width: '90vw',
+    maxWidth: '780px',
+    height: 'auto',
+    maxHeight: '80vh',
+    autoFocus: false,
+    disableClose: false,
+  },
+
 
   //-----------------------------------------------------------------------------------------------------------------
   //Variables y constantes para parametrización
@@ -198,7 +208,7 @@ export const GENERALES = {
 
   NOMBRE_TIPO_BANREP: 'BANCO REPUBLICA-',
 
-  TIPO_IDENTIFICACION:  ['NIT', 'CC' ],
+  TIPO_IDENTIFICACION: ['NIT', 'CC'],
 
   //Gestion Archvio
   PARAMETRO_GESTION: 'LIQCO'

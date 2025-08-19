@@ -105,6 +105,7 @@ import { DialogVerArchDefiComponent } from './pages/modules/cargue-programacion/
 import { ErroresContabilidadComponent } from './pages/modules/contabilizacion/errores-contabilidad/errores-contabilidad.component';
 import { ResultadoValoresLiquidadosComponent } from './pages/modules/liquidacion/liquida-costos/resultado-valores-liquidados/resultado-valores-liquidados.component';
 import { GestionRolesUsuariosComponent } from './pages/modules/administracion/gestion-roles-usuarios/gestion-roles-usuarios.component';
+import { CrearRolComponent } from './pages/modules/administracion/gestion-roles-usuarios/crear-rol/crear-rol.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { LiquidaCostosComponent } from './pages/modules/liquidacion/liquida-costos/liquida-costos.component';
 import { CostosServicioCharterComponent } from './pages/modules/liquidacion/costos-servicio-charter/costos-servicio-charter.component';
@@ -255,6 +256,7 @@ import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarif
     LiquidacionComponent,
     ResultadoValoresLiquidadosComponent,
     GestionRolesUsuariosComponent,
+    CrearRolComponent,
     LiquidaCostosComponent,
     CostosServicioCharterComponent,
     ErroresCostosComponent,
