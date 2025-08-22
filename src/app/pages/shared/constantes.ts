@@ -391,7 +391,7 @@ export const URLs = {
   //Cierre Contabilidad
   CIERRE_CONTABILIDAD: '/cierre-contabilidad',
 
-  CIERRE_CONTABILIDAD_CERRAR: '/cierre',
+  CIERRE_CONTABILIDAD_CERRAR: '/cerrar',
 
   //AUTORIZACION_CONTABILIDAD
   AUTORIZACION_CIERRE_CONTABILIDAD: '/autorizacioncierre',

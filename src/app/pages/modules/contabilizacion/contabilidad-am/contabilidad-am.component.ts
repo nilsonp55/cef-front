@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { GenerarArchivoService } from 'src/app/_service/contabilidad-service/generar-archivo.service';
 import { ContabilidadBaseComponent } from '../contabilidad-base/contabilidad-base.component';
+import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 
 @Component({
   selector: 'app-contabilidad-am',
@@ -23,9 +23,9 @@ export class ContabilidadAmComponent extends ContabilidadBaseComponent {
     generalServices: GeneralesService,
     cierreContabilidadService: CierreContabilidadService,
     logProcesoDiarioService: LogProcesoDiarioService,
-    generarArchivoService: GenerarArchivoService
+    generarContabilidadService: GenerarContabilidadService
   ) {
-    super(dialog, generalServices, cierreContabilidadService, logProcesoDiarioService, generarArchivoService);
+    super(dialog, generalServices, cierreContabilidadService, logProcesoDiarioService, generarContabilidadService);
     this.tipoContabilidad = 'AM';
   }
 }
