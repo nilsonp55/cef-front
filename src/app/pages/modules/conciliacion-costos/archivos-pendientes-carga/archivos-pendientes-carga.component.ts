@@ -236,7 +236,8 @@ export class ArchivosPendienteCargaComponent implements OnInit {
             imageHeight: 80,
             confirmButtonText: "Aceptar",
             showConfirmButton: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            customClass: { popup: "custom-alert-swal-text" }
           }).then((result) => {
             this.selection.clear()
             this.seleccionadosTabla = []
@@ -250,7 +251,7 @@ export class ArchivosPendienteCargaComponent implements OnInit {
             data: {
               msn: "err.error.response.description",
               codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
+            },
           });
         }
       });
