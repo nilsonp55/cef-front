@@ -28,7 +28,7 @@ export class ResultadoContabilidadComponent implements OnInit {
 
   //Rgistros paginados
   cantidadRegistros: number;
-  nombreBTNCerrar: string = "CERRAR PROCESO";
+  nombreBTNCerrar: string = "Ejecutar Cierre";
   bandera: string;
   fechaSistemaSelect: any;
   codigoBanco: any;
