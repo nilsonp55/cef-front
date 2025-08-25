@@ -1,19 +1,22 @@
-<div style="margin-top: 3%; padding-left: 1% ;border: 1px solid rgb(196, 196, 196)">
-    <!--Ventana emergente de validación de archivo-->
-    <h1 *ngIf="tipoContabilidad == 'AM'" style="text-align: center; margin-top: 2%;">Generar Contabilidad AM</h1>
-    <h1 *ngIf="tipoContabilidad == 'PM'"style="text-align: center; margin-top: 2%;">Generar Contabilidad PM 1</h1>
-    <div style="text-align: center; margin-top: 0%;">
-        <img src="assets/img/waring.jpg" width="60">
+<div class="modal-dialog-custom">
+    <div class="tittle-section">
+        <h2>Generar Contabilidad {{tipoContabilidad}}</h2>
+    </div>
 
-        <div class="example-full-width">
-            <mat-form-field>
+    <div class="container-icon-alert">
+        <img src="assets/img/waring.jpg" width="60">
+    </div>
+     <div class="form-container-custom">
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha del sistema</mat-label>
                 <input matInput [(ngModel)]="fechaSistemaSelect" placeholder="Fecha del sistema" disabled required>
             </mat-form-field>
         </div>
 
-        <div style="margin-top: 3%;">
-            <button style="display:inline; margin: 2%;" class="bottonAceptarCenter" (click)="confirm()" cdkFocusInitial>Aceptar</button>
-            <button style="display:inline; margin: 2%;" class="bottonCancelarCenter" (click)="cancel()">Cancelar</button>
-        </div>
+    <div class="button-container">
+        <button class="button-custom" mat-raised-button color="primary" (click)="confirm()">Aceptar</button>
+        <button class="button-custom" mat-raised-button mat-button mat-dialog-close color="warn"
+            (click)="cancel()">Cancelar</button>
     </div>
+
 </div>
