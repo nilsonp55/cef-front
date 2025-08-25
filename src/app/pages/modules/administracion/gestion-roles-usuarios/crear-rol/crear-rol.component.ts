@@ -56,7 +56,7 @@ export class CrearRolComponent implements OnInit {
     serviceCall.subscribe({
       next: (page) => {
         this.spinnerActive = false;
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
@@ -65,7 +65,6 @@ export class CrearRolComponent implements OnInit {
             msgDetalles: JSON.stringify(page.response)
           },
         });
-        setTimeout(() => { alert.close() }, 3500);
         this.created = page.data;
         this.dialogRef.close({ data: esEdicion? formValues : this.created });
       },
