@@ -40,7 +40,7 @@ export class GestionPuntosService extends HttpBaseService{
     }
 
     actualizarPunto(param: any): Observable<any> {
-        return this.post<any>(`${URLs.GESTION_PUNTOS}${URLs.ACTUALIZAR_PUNTO}`, param );
+        return this.put<any>(`${URLs.GESTION_PUNTOS}${URLs.ACTUALIZAR_PUNTO}`, param );
     }
 
     /**
