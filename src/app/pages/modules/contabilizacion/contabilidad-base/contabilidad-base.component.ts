@@ -11,9 +11,9 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { DialogConfirmEjecutarComponentComponent } from '../dialog-confirm-ejecutar-component/dialog-confirm-ejecutar-component.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
 import { BancoModel } from 'src/app/_model/banco.model';
-import { GenerarArchivoService } from 'src/app/_service/contabilidad-service/generar-archivo.service';
 import { saveAs } from 'file-saver';
 import { lastValueFrom } from 'rxjs';
+import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 
 @Component({
   selector: 'app-contabilidad-base',
@@ -53,7 +53,7 @@ export class ContabilidadBaseComponent implements OnInit {
     public generalServices: GeneralesService,
     public cierreContabilidadService: CierreContabilidadService,
     public logProcesoDiarioService: LogProcesoDiarioService,
-    public generarArchivoService: GenerarArchivoService
+    public generarContabilidadService: GenerarContabilidadService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -166,7 +166,7 @@ export class ContabilidadBaseComponent implements OnInit {
     this.load = true;
     this.bancoOptions.forEach((codBanco) => {
       lastValueFrom(
-        this.generarArchivoService.generarArchivo({
+        this.generarContabilidadService.generarArchivo({
           fecha: this.fechaSistemaSelect,
           tipoContabilidad: this.tipoContabilidad,
           codBanco: codBanco.codigoPunto,

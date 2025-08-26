@@ -217,7 +217,7 @@ export class TdvDenominacionCantidadComponent implements OnInit {
   }
 
   irAtras() {
-    window.location.reload();
+    window.location.reload(); //TODO: ELIMINAR RECARGA DE PÁGINA
   }
 
   /**

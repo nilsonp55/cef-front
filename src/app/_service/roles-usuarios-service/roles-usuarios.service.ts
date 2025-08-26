@@ -22,6 +22,22 @@ export class RolMenuService {
 
 
     /** 
+     * Servicio para crear rol
+    */
+    guardarRol(params: any): Observable<any> {
+        return this.http.post<any>(`${this.urlRol}${URLs.ADMIN_ROL_GUARDAR}`, params);
+    }
+
+    /** 
+     * Servicio para actualizar rol
+    */
+    actualizarRol(rol: any, previousId: string): Observable<any> {
+        const params = {previousId: previousId}
+
+        return this.http.put<any>(`${this.urlRol}${URLs.ADMIN_ROL_ACTUALIZAR}`, rol, {params: params});
+    }
+
+    /** 
      * Servicio para listar menu rol
     */
     obtenerMenuRol(params: any): Observable<any> {

@@ -1,37 +1,4 @@
-
-.division-btn {
-    margin-left: 5%;
-    display: inline;
+.mat-table-custom .table-filter-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, max-content)) !important;
+    justify-content: start !important;
 }
-
-.division-btn2 {
-    margin-left: 2em;
-}
-.filtro {
-  display: flex;
-}
-.ubicacion-btn-dominio {
-    margin-left: 50%;
-}
-
-.ubicacionTablas {
-    text-align: left;
-    float:left;
-    margin-top: 1%;
-  }
-
-  .example-section {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    height: 60px;
-  }
-  
-  .example-margin {
-    margin: 0 10px;
-  }
-
-  .tamanio-btn {
-    width: auto !important;
-    text-align: center;
-  }

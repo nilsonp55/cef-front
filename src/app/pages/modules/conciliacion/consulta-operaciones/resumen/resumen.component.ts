@@ -113,6 +113,11 @@ export class ResumenComponent implements OnInit {
         }); setTimeout(() => { alert.close() }, 3000);
       });
   }
+
+  limpiar(){
+    this.fecha1 = null;
+    this.fecha2 = null;
+  }
   
     /**
   * Metodo para gestionar la paginaci�n de la tabla

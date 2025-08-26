@@ -1,7 +1,7 @@
 <div class="tittle-section">
     <h2>Costos Servicios Aéreos</h2>
 </div>
-<div class="mat-table-custom">
+<div class="mat-table-custom simple-view">
     <div class="table-filter-container">
         <mat-form-field appearance="fill">
             <mat-label>Fecha Inicial</mat-label>
@@ -15,9 +15,14 @@
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
-        <button class="button-custom" mat-raised-button color="primary" (click)="buscar()">
-            Buscar
-        </button>
+        <div class="action-filter-container">
+            <button title="Buscar y Visualizar" mat-button (click)="buscar()">
+                <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+            </button>
+            <button title="Limpiar Filtros" mat-button (click)="limpiar()">
+                <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+            </button>
+        </div>
     </div>
     <div *ngIf="spinnerActive" class="disenio-spinner">
         <mat-spinner></mat-spinner>

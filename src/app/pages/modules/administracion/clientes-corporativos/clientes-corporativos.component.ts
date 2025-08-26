@@ -22,7 +22,7 @@ import { MatSort } from '@angular/material/sort';
 export class ClientesCorporativosComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('exporter', {static: false}) exporter: any;
+  @ViewChild('exporter', { static: false }) exporter: any;
 
   totalRegistros: number;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -41,23 +41,23 @@ export class ClientesCorporativosComponent implements OnInit {
     'acciones',
   ];
   bancos: any[] = [];
-  pCodigoBanco: string;
+  pCodigoBanco: any;
   pBusqueda: string;
 
   DIALOG_CONFIG = {
-      width: '90vw',
-      maxWidth:'780px',
-      height: 'auto',
-      maxHeight: '80vh',
-      autoFocus: false,
-      disableClose: false,
+    width: '90vw',
+    maxWidth: '780px',
+    height: 'auto',
+    maxHeight: '80vh',
+    autoFocus: false,
+    disableClose: false,
   } as MatDialogConfig
 
   constructor(
     private readonly dialog: MatDialog,
     private readonly clientesCorporativosServices: ClientesCorporativosService,
     private readonly generalesService: GeneralesService
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.spinnerActive = true;
@@ -84,7 +84,7 @@ export class ClientesCorporativosComponent implements OnInit {
       .listarClientesCorporativos({
         page: pagina,
         size: tamanio,
-        codigoBancoAval: this.pCodigoBanco ?? '',
+        codigoBancoAval: this.pCodigoBanco?.codigoPunto ?? '',
         busqueda: this.pBusqueda ?? '',
       })
       .subscribe({
@@ -116,14 +116,6 @@ export class ClientesCorporativosComponent implements OnInit {
   /**
    * @author prv_nparra
    */
-  busquedaClientes(e: any) {
-    this.pBusqueda = e.value;
-    this.listarClientesCorporativos(e.pageIndex, e.pageSize);
-  }
-
-  /**
-   * @author prv_nparra
-   */
   async listarBancos() {
     await lastValueFrom(this.generalesService.listarBancosAval()).then(
       (response) => {
@@ -132,12 +124,13 @@ export class ClientesCorporativosComponent implements OnInit {
     );
   }
 
-  /**
-   * @author prv_nparra
-   */
-  selectBanco(e: any) {
-    this.pCodigoBanco = e.value?.codigoPunto;
+  filtrar(e: any) {
     this.listarClientesCorporativos(e.pageIndex, e.pageSize);
+  }
+
+  limpiar(){
+    this.pCodigoBanco = null
+    this.pBusqueda = null;
   }
 
   /**
@@ -154,7 +147,7 @@ export class ClientesCorporativosComponent implements OnInit {
    */
   openFormClienteCorporativo(element: any, action: string) {
     // consultar id registro en servicio backend
-    if(action === "edit"){
+    if (action === "edit") {
       this.spinnerActive = true;
       this.clientesCorporativosServices.obtenerClienteCorporativo(element.codigoCliente)
         .subscribe({
@@ -182,7 +175,7 @@ export class ClientesCorporativosComponent implements OnInit {
         data: { flag: action, row: element, bancos: this.bancos },
       }).afterClosed()
       .subscribe((result) => {
-        if(result !== undefined) {
+        if (result !== undefined) {
           this.listarClientesCorporativos(this.pIndex, this.pSize);
         }
       });
@@ -200,7 +193,7 @@ export class ClientesCorporativosComponent implements OnInit {
         showActions: true
       }
     }).afterClosed().subscribe(result => {
-      if(result !== undefined) {
+      if (result !== undefined) {
         this.eliminarClienteCorporativo(element);
       }
     });
@@ -242,9 +235,9 @@ export class ClientesCorporativosComponent implements OnInit {
       });
   }
 
-  exporterTable(){
-    if(this.exporter && !this.spinnerActive){
-      this.exporter.exportTable('xlsx', {fileName:'clientes_corporativos'});
+  exporterTable() {
+    if (this.exporter && !this.spinnerActive) {
+      this.exporter.exportTable('xlsx', { fileName: 'clientes_corporativos' });
     }
   }
 }

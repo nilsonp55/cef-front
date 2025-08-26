@@ -40,4 +40,11 @@ import { saveAs } from 'file-saver';
         );
     }
 
+    generarArchivo(param): Observable<any> {
+    return this.http.get(
+      `${this.url}${URLs.CONTABILIDAD_GENERAR_ARCHIVO}`, 
+      {params: param, observe: 'response', responseType: 'blob' }
+    );
+  }
+
 }

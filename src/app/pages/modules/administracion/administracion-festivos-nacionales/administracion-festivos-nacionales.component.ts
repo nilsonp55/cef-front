@@ -126,7 +126,6 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
         this.spinnerActive = false;
       },
       error: (err: HttpErrorResponse) => {
-        debugger
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {

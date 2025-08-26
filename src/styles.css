@@ -237,6 +237,12 @@ mat-form-field {
     padding-top: 6px;
 }
 
+.action-filter-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
 /*Estilos tablas*/
 .mat-table-custom .mat-cell,
 .mat-table-custom .mat-footer-cell {
@@ -516,9 +522,11 @@ tr.mat-footer-row,
 }
 
 /************************************************************************************************************************
-Estilo para modal dialog custom
+Estilo para modal 
 *************************************************************************************************************************/
-
+.mat-dialog-container{
+    height: auto !important;
+}
 .modal-dialog-custom .form-fields {
     display: grid;
     width: auto;
@@ -649,6 +657,17 @@ Estilos compartidos
     margin-top: 0%;
 }
 
+.simple-view .table-filter-container .buttons-filter {
+  max-height: 28px;
+  min-width: 120px;
+  max-width: 120px;
+}
+
+.simple-view .table-filter-container {
+  align-items: center;
+  padding-top: 0px;
+}
+
 
 /************************************************************************************************************************
 Estilos alert-swal + clases custom
@@ -759,6 +778,14 @@ Estilos compartidos
   max-height: 70vh;
   max-width: 1040px;
   flex: 1;
+}
+
+.large-table {
+    max-width: 920px;
+}
+
+.meddium-table {
+    max-width: 720px;
 }
 
 /************************************************************************************************************************
@@ -898,11 +925,6 @@ Estilos Procesos
 /************************************************************************************************************************
 alineación de columnas por tipo
 *************************************************************************************************************************/
-.mat-table-custom .mat-sort-header-container{
-    padding-left: 18px;
-    /* justify-content: center; */
-}
-
 .text-align-center {
     text-align: center;
 }
@@ -910,10 +932,28 @@ alineación de columnas por tipo
 .text-align-right {
     text-align: right;
 }
-.mat-table-custom th.mat-header-cell{
-    text-align: center;
-}
 
 .dialog-action-custom{
     gap: 32px;
+}
+
+/************************************************************************************************************************
+Estilo para componentes con varias tablas debajo de cada una
+*************************************************************************************************************************/
+
+.table-container_several-tables .mat-table-custom .tittle-section  h2 {
+    text-align: center;
+    font-size: 16px;
+}
+
+.table-container_several-tables .mat-table-custom .mat-table {
+    margin-bottom: 12px;
+}
+
+.table-container_several-tables .mat-table-custom th.mat-header-cell {
+    text-align: left;
+}
+
+.mat-accordion  {
+    margin-bottom: 12px;
 }

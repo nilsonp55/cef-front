@@ -1,28 +1,27 @@
-<div class="divTabla">
-    <div class="divTituloTablas">
-        <h1 class="tituloTabla">Costos Mensuales de Clasificación</h1>
-        <span class="line-spacer"></span>
+<div class="tittle-container">
+    <div class="tittle-section">
+        <h2>Costos Mensuales de Clasificación</h2>
     </div>
-    <div style="text-align: center; margin-top: 0%;">
-        <div class="fecha">
-            <p>{{fechaSistemaSelectHTML | date : 'MM/YYYY'}}</p>
-        </div>
-
-        <div class="fecha">
-            <p>{{mesSistemaSelect}}</p>
-        </div>
+</div>
+<div class="mat-table-custom simple-view">
+    <div class="fecha">
+        Mes Anterior: {{fechaSistemaSelectHTML | date : 'MM/YYYY'}}
+    </div>
+    <div>
+        <p>{{mesSistemaSelect}}</p>
+    </div>
+    <div class="table-filter-container">
         <mat-form-field appearance="fill">
-            <mat-label>Transportadora</mat-label>
+            <mat-label>Transportadora *</mat-label>
             <mat-select [(ngModel)]="selectedTransportadora" name="food">
-              <mat-option *ngFor="let item of transportadoras" [value]="item">
-                {{item.nombreTransportadora}}
-              </mat-option>
+                <mat-option *ngFor="let item of transportadoras" [value]="item">
+                    {{item.nombreTransportadora}}
+                </mat-option>
             </mat-select>
-          </mat-form-field>
-    </div>
-
-    <div style="text-align: center; margin-top: 0%; margin-top: 1%">
-        <button style="display:inline; margin: 2%;" 
-        class="botton1" (click)="consultar()">Consultar</button>
+        </mat-form-field>
+        <div class="controls-container buttons-filter">
+            <button class="button-custom" mat-raised-button color="primary" (click)="consultar()">Consultar
+            </button>
+        </div>
     </div>
 </div>

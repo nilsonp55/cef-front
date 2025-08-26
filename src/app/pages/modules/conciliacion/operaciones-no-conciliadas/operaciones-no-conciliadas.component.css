@@ -3,8 +3,13 @@
   grid-template-columns: 1fr 1fr;
   height: auto;
 }
+
 .mat-cell.cdk-column-nombrePuntoOrigen,
-.mat-cell.cdk-column-nombrePuntoDestino{
+.mat-cell.cdk-column-nombrePuntoDestino {
   font-size: 10px !important;
   min-width: 130px
+}
+
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
 }

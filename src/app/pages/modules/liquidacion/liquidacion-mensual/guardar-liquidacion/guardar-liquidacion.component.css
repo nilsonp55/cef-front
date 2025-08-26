@@ -1,74 +1,9 @@
-/*
-* ESTILOS PARA LA TABLA DE HISORICO DE CARGUE ARCHIVOS STEPER #3
-*/
-.tituloTabla {
-    padding-top: 2%;
-    text-align: center;
-    margin-left: 2%;
+.configScroll {
+  max-height: 600px;
+  height: auto;
+  overflow-y: auto;
+  overflow-x: auto;
 }
-
-.fecha{
-    padding: 4%; 
-    margin: 1%;
-    margin-top: 0%;
-    padding-left: 6%;
-    font-size: 39px;
-    color: rgb(26, 24, 66);
-}
-
-.botton1 {
-    color: #fff;
-    background-color: #eee23e;
-    border-color: #bbb231;
-    display:block; 
-    margin:auto;
-    padding:1%;
-    border-radius: 0.25rem;
-    line-height: 0.7;
-    font-size: 20px;
-}
-
-.botton2 {
-    color: #fff;
-    background-color: #da5b34;
-    border-color: #b44a2a;
-    display:block; 
-    margin:auto;
-    padding:1%;
-    border-radius: 0.25rem;
-    line-height: 0.7;
-    font-size: 20px;
-}
-
-/*Estilo para la pocicion de las tablas */
-.divTablaBancos {
-    background-color: rgb(226, 229, 229);
-    padding: 1%;
-    margin-top: 2%;
-    margin-left: 4%;
-    margin-right: 5%
-}
-
-.example-container {
-    height: 270px;
-    overflow: auto;
-  }
-  
-  table {
-    width: 100%;
-  }
-  
   tr.mat-footer-row {
     font-weight: bold;
-  }
-  
-  .mat-table-sticky {
-    border-top: 1px solid #e0e0e0;
-  }
-
-  .configScroll {
-    height: auto;
-    overflow-y: scroll;
-    overscroll-behavior-y: contain;
-    scroll-snap-type: proximity;
   }

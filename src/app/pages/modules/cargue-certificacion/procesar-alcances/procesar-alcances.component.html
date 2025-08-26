@@ -1,18 +1,14 @@
-<div class="divTabla">
-    <div class="divTituloTablas">
-        <h1 class="tituloTabla">Procesar Alcances</h1>
-        <span class="line-spacer"></span>
+<div class="tittle-container">
+    <div class="tittle-section">
+        <h2>Procesar Alcances</h2>
     </div>
-    <div style="text-align: center; margin-top: 0%;">
-        <div class="fecha">
-            <p>{{fechaSistemaSelect}}</p>
-        </div>
-    </div>
-    <div class="ub-boton">
-        <button style="margin-right: 10%;" mat-raised-button color="primary" (click)="procesarAlcances()">Procesar</button>
-    </div>
-    <!--Sprinner-->
-    <app-spinner *ngIf="spinnerActive"></app-spinner>
-    
-    
 </div>
+<div class="mat-table-custom">
+    <div class="fecha">
+        Fecha de Proceso: {{fechaSistemaSelect}}
+    </div>
+    <div class="controls-container justify-content-center">
+        <button class="button-custom" mat-raised-button color="primary" (click)="procesarAlcances()">Procesar</button>
+    </div>
+</div>
+

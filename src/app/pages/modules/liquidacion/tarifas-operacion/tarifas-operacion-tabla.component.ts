@@ -88,7 +88,7 @@ export class TarifasOperacionTablaComponent implements OnInit {
     this.listarTarifaOperacion(e.pageIndex, e.pageSize);
   }
 
-  filtrar(event) {
+  filtrar() {
     this.spinnerActive = true;
     this.listarTarifaOperacion();
   }

@@ -10,15 +10,16 @@
       </div>
       <p style="font-size: 15px; margin-top: 2%;"> {{ data.msn }} </p>
 
-      <mat-accordion *ngIf="data.showResume">
-        <mat-expansion-panel hideToggle>
-          <mat-expansion-panel-header>
-            <mat-panel-title>Detalles</mat-panel-title>
-          </mat-expansion-panel-header>
-          <p>{{data.msgDetalles}}</p>
-        </mat-expansion-panel>
-      </mat-accordion>
-
+      <div class="mb-1">
+        <mat-accordion *ngIf="data.showResume">
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Detalles</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>{{data.msgDetalles}}</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
     </div>
   </div>
 </div>

@@ -7,6 +7,9 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { formatDate } from '@angular/common';
 import { LiquidacionMensualService } from 'src/app/_service/liquidacion-service/liquidacion-mensual.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
+import { MatDialog } from '@angular/material/dialog';
+import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
+import { GENERALES } from 'src/app/pages/shared/constantes';
 
 @Component({
   selector: 'app-liquidacion-mensual',
@@ -38,6 +41,7 @@ export class LiquidacionMensualComponent implements OnInit {
   transportadoras: any[] = [];
 
   constructor(
+    private dialog: MatDialog,
     private generalServices: GeneralesService,
     private router: Router,
     @Inject(LOCALE_ID) private locale: string
@@ -49,21 +53,21 @@ export class LiquidacionMensualComponent implements OnInit {
 
   }
 
-    /**
- * Se cargan datos para el inicio de la pantalla
- * @BaironPerez
- */
+  /**
+* Se cargan datos para el inicio de la pantalla
+* @BaironPerez
+*/
   async cargarDatosDesplegables() {
     const _transportadoras = await this.generalServices.listarTransportadoras().toPromise();
     this.transportadoras = _transportadoras.data;
-    
+
     const _fecha = await this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
     }).toPromise();
-   // this.fechaSistemaSelect = _fecha.data[0].valor;
-   this.fechaSistemaSelect = _fecha.data[0].valor;
-   const [day, month, year] = this.fechaSistemaSelect.split('/');
-   this.fechaSistemaSelectHTML = new Date(+year, Number(month) - 1,null);
+    // this.fechaSistemaSelect = _fecha.data[0].valor;
+    this.fechaSistemaSelect = _fecha.data[0].valor;
+    const [day, month, year] = this.fechaSistemaSelect.split('/');
+    this.fechaSistemaSelectHTML = new Date(+year, Number(month) - 1, null);
   }
 
 
@@ -73,8 +77,20 @@ export class LiquidacionMensualComponent implements OnInit {
    * @BaironPerez
    */
   consultar() {
-    this.router.navigate(['/liquidacion/guardar-detalle-liquidacion',
-    this.fechaSistemaSelect, this.selectedTransportadora.codigo]);
+    if (this.selectedTransportadora != undefined) {
+      this.router.navigate(['/liquidacion/guardar-detalle-liquidacion',
+        this.fechaSistemaSelect, this.selectedTransportadora.codigo]);
+    } else {
+      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+        data: {
+          msn: GENERALES.MESSAGE_ALERT.SEARCH_VALIDATION.EMPTY_FIELD_GENERAL,
+          codigo: GENERALES.CODE_EMERGENT.WARNING
+        }
+      });
+      setTimeout(() => { alert.close() }, 3000);
+    }
+
   }
 
 }
