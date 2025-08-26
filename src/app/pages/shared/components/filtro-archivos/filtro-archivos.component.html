@@ -1,8 +1,8 @@
 <div class="table-filter-container">
     <mat-form-field appearance="fill">
         <mat-label>Bancos Transportadora Aval</mat-label>
-        <mat-select (selectionChange)="selectBanco($event)">
-            <mat-option>Ninguno</mat-option>
+        <mat-select [(value)]="banco" (selectionChange)="selectBanco($event)">
+            <mat-option [value]="undefined">Ninguno</mat-option>
             <mat-option *ngFor="let bancoOption of bancoOptions" [value]="bancoOption.nombreBanco">
                 {{bancoOption.nombreBanco}}
             </mat-option>
@@ -10,8 +10,8 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Transportadoras</mat-label>
-        <mat-select (selectionChange)=" selectTrasportadora($event)">
-            <mat-option>Ninguno</mat-option>
+        <mat-select [(value)]="transportadora" (selectionChange)=" selectTrasportadora($event)">
+            <mat-option [value]="undefined">Ninguno</mat-option>
             <mat-option *ngFor="let tranportadoraOption of tranportadoraOptions"
                 [value]="tranportadoraOption.nombreTransportadora">
                 {{tranportadoraOption.nombreTransportadora}}
@@ -44,8 +44,8 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Estado</mat-label>
-        <mat-select (selectionChange)="selectEstado($event)">
-            <mat-option>Ninguno</mat-option>
+        <mat-select [(value)]="estado" (selectionChange)="selectEstado($event)">
+            <mat-option [value]="undefined">Ninguno</mat-option>
             <mat-option *ngFor="let estadosArchivoOptions of estadosArchivoOptions" [value]="estadosArchivoOptions">
                 {{estadosArchivoOptions}}
             </mat-option>
@@ -54,8 +54,11 @@
     <mat-form-field appearance="fill">
         <mat-label>Tipo de Archivo</mat-label>
         <mat-select [(value)]="tipoArchivo" (selectionChange)="selectTipoArchivo($event)">
-            <mat-option>Ninguno</mat-option>
+            <mat-option [value]="undefined">Ninguno</mat-option>
             <mat-option *ngFor="let item of tipoArchivoOptions" [value]="item">{{item}}</mat-option>
         </mat-select>
     </mat-form-field>
+    <button title="Limpiar" mat-button (click)="limpiar()">
+        <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
+    </button>
 </div>

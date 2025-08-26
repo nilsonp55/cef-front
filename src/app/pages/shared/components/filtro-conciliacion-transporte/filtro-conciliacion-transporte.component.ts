@@ -95,14 +95,32 @@ export class FiltroConciliacionTransporteComponent implements OnInit {
       startWith(''),
       debounceTime(400),
       switchMap(value => this.filtrarCodigoPuntoCargo(value, 'codigoPunto')),
-      map(value => value.sort((a, b) => this.ordenarListado(a, b, 'codigoPunto'))),
+      map(lista => {
+        const unique = new Map();
+        lista.forEach(item => {
+          if (!unique.has(item.codigoPunto)) {
+            unique.set(item.codigoPunto, item);
+          }
+        });
+        return Array.from(unique.values());
+      }),
+      map(value => value.sort((a, b) => this.ordenarListado(a, b, 'codigoPunto')))
     );
 
     this.nombrePuntoCargoOptions = this.filtrosFormGroup.controls['nombrePuntoCargo'].valueChanges.pipe(
       startWith(''),
       debounceTime(400),
       switchMap(value => this.filtrarNombrePuntoCargo(value, 'codigoPropioTDV')),
-      map(value => value.sort((a, b) => this.ordenarListado(a, b, 'codigoPropioTDV'))),
+      map(lista => {
+        const unique = new Map();
+        lista.forEach(item => {
+          if (!unique.has(item.codigoPropioTDV)) {
+            unique.set(item.codigoPropioTDV, item);
+          }
+        });
+        return Array.from(unique.values());
+      }),
+      map(value => value.sort((a, b) => this.ordenarListado(a, b, 'codigoPropioTDV')))
     );
 
     this.ciudadFondoOptions = this.filtrosFormGroup.controls['ciudadFondo'].valueChanges.pipe(
