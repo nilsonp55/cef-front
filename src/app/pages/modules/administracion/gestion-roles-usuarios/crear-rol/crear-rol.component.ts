@@ -47,7 +47,6 @@ export class CrearRolComponent implements OnInit {
 
     this.numericValue = this.form.value.estado === true ? "1" : "2";
     const formValues = { ...this.form.value, estado: this.numericValue };
-    debugger
     const esEdicion = this.data.flag === "edit";
     const serviceCall = esEdicion ?
       this.rolMenuService.actualizarRol(formValues, this.dataRol.idRol) :
