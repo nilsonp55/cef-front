@@ -100,6 +100,7 @@ export class CrearPuntoComponent implements OnInit {
     let valTarifaVerificacion: any;
     let valBancoAval: any;
     let valFajado: any;
+    let refajillado: any;
 
     this.puntoSeleccionado = param ? param?.tipoPunto : null;
 
@@ -114,6 +115,7 @@ export class CrearPuntoComponent implements OnInit {
       valTarifaRuteo = param.oficinas?.tarifaRuteo;
       valTarifaVerificacion = param.oficinas?.tarifaVerificacion;
       valFajado = param.oficinas?.fajado;
+      refajillado = param.oficinas?.refajillado;
     }
 
     if(param?.tipoPunto === 'FONDO') {
@@ -144,8 +146,8 @@ export class CrearPuntoComponent implements OnInit {
       'identificacion': new FormControl(param ? param.bancos?.numeroNit : null),
       'abreviatura': new FormControl(param ? param.bancos?.abreviatura : null),
       'fajado': new FormControl(param ? valFajado : null),
-      'refajillado': new FormControl(param ? param.refajillado : null),
-      'esAval': new FormControl(param ? param.esAVAL : null),
+      'refajillado': new FormControl(param ? refajillado : null),
+      'esAval': new FormControl(param ? param.bancos?.esAVAL : null),
       'estado': new FormControl(param? param.estado === "1" : true),
     });
 
@@ -177,7 +179,7 @@ export class CrearPuntoComponent implements OnInit {
       estado: Number(this.form.value['estado'] ? 1 : 0),
       fajado: (this.form.value['fajado']),
       refagillado: (this.form.value['refajillado']),
-      esAVAL: this.form.value['bancoAval']?.esAVAL,
+      esAVAL: this.puntoSeleccionado === 'BANCO' ? this.form.value['esAval'] : this.form.value['bancoAval']?.esAVAL,
     };
     let messagePersistirSuccesful = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
     let messagePersistirError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
