@@ -257,13 +257,17 @@ export class TarifasOperacionComponent implements OnInit {
   }
 
   comparaFechas(fInicial: any, fFinal: any): boolean {
-    debugger
-    if(fInicial  < fFinal){
-      return true;
+    return this.convertirADate(fInicial)  < this.convertirADate(fFinal);
+  }
+
+  convertirADate (fecha: any): any{
+    if (fecha instanceof Date) {
+      return fecha;
     }
-    else {
-      return false;
+    if (typeof fecha === 'string'){
+      return new Date(fecha)
     }
+    return fecha;
   }
 
   filtrar(event) {
