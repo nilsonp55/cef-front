@@ -159,8 +159,6 @@ export class FormCodigoTdvComponent implements OnInit {
             });
             return;
         }
-
-        this.spinnerActive = true;
         const formData = this.form.getRawValue();
 
         const puntoCodigoPayload = {
@@ -276,7 +274,6 @@ export class FormCodigoTdvComponent implements OnInit {
     }
     
     changePunto(event: any) {
-        this.spinnerActive = true; 
         if (event.value) {
             this.form.controls['codigoPunto'].setValue(event.value.codigoPunto);
             if (this.form.controls['tipoPunto'].value === 'BAN_REP') {
@@ -288,7 +285,6 @@ export class FormCodigoTdvComponent implements OnInit {
             this.form.controls['codigoPunto'].setValue(null);
             this.form.controls['codigoDANE'].setValue('0');
         }
-        this.spinnerActive = false;
     }
 
     /**

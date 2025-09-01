@@ -18,6 +18,7 @@ export class VentanaEmergenteResponseComponent implements OnInit {
       showActions?: boolean;
       msgDetalles?: string;
       showResume?: boolean;
+      elemento?: any;
     },
     public dialogRef: MatDialogRef<VentanaEmergenteResponseComponent>
   ) {}

@@ -34,7 +34,7 @@ export class LogArchivosCargadosComponent implements OnInit {
       'idArchivoCargado': this.data.id
     }).subscribe((data: ValidacionArchivo) => {
       this.dialog.open(DialogResultValidacionComponent, {
-        height:'90%', width: '950px', data: { idData: this.data.id, data }
+        height:'auto%', width: '950px', maxHeight: '90%', data: { idData: this.data.id, data }
       });
     },
     (err: any) => {

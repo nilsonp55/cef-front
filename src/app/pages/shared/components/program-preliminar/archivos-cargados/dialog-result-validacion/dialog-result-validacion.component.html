@@ -1,6 +1,6 @@
-<div style="padding-left: 1% ;border: 1px solid rgb(196, 196, 196)">
+<div class="modal-dialog-custom" style="padding-left: 1% ;border: 1px solid rgb(196, 196, 196)">
     <!--Ventana emergente de validación de archivo-->
-    <h1>Resultado de validación de archivo</h1>
+    <h2>Resultado de validación de archivo</h2>
     <div style="text-align: center; margin-top: 5%;">
         <p>{{data.data.nombreArchivo}}</p>
         <!--Input informativo de cargue-->
@@ -12,31 +12,37 @@
         <div style="text-align: center; margin-top: 2%;">
             <div class="row">
                 <input style="font-weight: bold" class="column-linea" value="Linea" disabled type="text">
-                <input style="font-weight: bold"class="column-linea" value="Campo" disabled type="text">
-                <input style="font-weight: bold"class="column-des-error" value="Descripción del error" disabled type="text">
-                <input style="font-weight: bold"class="form-group col-md-4" value="Contenido del error" disabled type="text">
+                <input style="font-weight: bold" class="column-linea" value="Campo" disabled type="text">
+                <input style="font-weight: bold" class="column-des-error" value="Descripción del error" disabled
+                    type="text">
+                <input style="font-weight: bold" class="form-group col-md-4" value="Contenido del error" disabled
+                    type="text">
             </div>
 
             <div *ngFor="let error of tablaValidacionError" class="row">
-                <input type="number" class="column-linea" value= "{{error.linea}}" disabled>
-                <input type="text" class="column-linea" value= "{{error.campo}}" disabled>
-                <input type="text" class="column-des-error" value= "{{error.descripcion}}" disabled>
-                <input type="text" class="form-group col-md-4" value= "{{error.contenido}}" disabled>
+                <input type="number" class="column-linea" value="{{error.linea}}" disabled>
+                <input type="text" class="column-linea" value="{{error.campo}}" disabled>
+                <input type="text" class="column-des-error" value="{{error.descripcion}}" disabled>
+                <input type="text" class="form-group col-md-4" value="{{error.contenido}}" disabled>
             </div>
         </div>
         <!--Conclución de resusltados-->
-        
+
         <div style="margin-right: 50%; margin-top: 2%;">
             <div class="row">
                 <label style="font-weight: bold" class="form-group col-md-3">Lineas</label>
-                <input class="form-group col-md-2" value="{{data.data.data.numeroRegistros}}" type="text"disabled type="text">
+                <input class="form-group col-md-2" value="{{data.data.data.numeroRegistros}}" type="text" disabled
+                    type="text">
                 <label style="font-weight: bold" class="form-group col-md-3">Errores</label>
-                <input style="color: rgb(255, 255, 255);background-color: rgb(255, 0, 0)" class="form-group col-md-2" value="{{data.data.data.numeroErrores}}" disabled type="text">
+                <input style="color: rgb(255, 255, 255);background-color: rgb(255, 0, 0)" class="form-group col-md-2"
+                    value="{{data.data.data.numeroErrores}}" disabled type="text">
             </div>
         </div>
-    </div>   
-        <div style="margin-top: 5%;">
-            <button mat-raised-button class="ubicacion-btn" color="primary" (click)="descargarArchivo()">Descargar</button>
-        </div>
-    
+    </div>
+    <div class="button-container mb-3">
+        <button mat-raised-button color="primary" (click)="descargarArchivo()">Descargar</button>
+
+        <button class="button-custom" mat-raised-button mat-button mat-dialog-close
+            color="warn">Cerrar</button>
+    </div>
 </div>

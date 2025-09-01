@@ -6,7 +6,7 @@
     <mat-spinner></mat-spinner>
   </div>
   <div class="spacer-content"></div>
-  <div *ngIf="!spinnerActive">
+  <div *ngIf="!load">
     <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
       <caption></caption>
       <ng-container class="text-bg-light" matColumnDef="fechaCreacion">

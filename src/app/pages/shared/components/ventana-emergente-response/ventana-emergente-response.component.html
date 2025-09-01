@@ -8,7 +8,7 @@
         <img *ngSwitchCase="3" [src]="imgExistoso" width="80" alt="imgExistoso">
         <img *ngSwitchCase="4" [src]="imgEsperar" width="80" alt="imgEsperar">
       </div>
-      <p style="font-size: 15px; margin-top: 2%;"> {{ data.msn }} </p>
+      <p style="font-size: 15px; margin-top: 2%; line-height: 23px;"> {{ data.msn }} </p>
 
       <div class="mb-1">
         <mat-accordion *ngIf="data.showResume">
@@ -24,7 +24,7 @@
   </div>
 </div>
 <div mat-dialog-actions *ngIf="data.showActions">
-  <button class="division-btn1" class="button-custom" mat-raised-button color="primary" cdkFocusInitial
+  <button class="division-btn1" class="button-custom" mat-raised-button color="primary"
     [mat-dialog-close]="data">Aceptar</button>
   <button mat-raised-button color="warn" class="button-custom" (click)="onCancel()">Cancelar</button>
 </div>

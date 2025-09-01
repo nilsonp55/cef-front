@@ -68,13 +68,14 @@ export class CierreCertificacionComponent implements OnInit {
     this.logProcesoDiarioService.obtenerProcesosDiarios({
       page: pagina,
       size: tamanio,
-    }).subscribe({ next: (page: any) => {
-      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
-      this.dataSourceInfoProcesos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      this.spinnerActive = false;
-    },
-    error: (err: any) => {
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
+        this.dataSourceInfoProcesos.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+        this.spinnerActive = false;
+      },
+      error: (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -88,16 +89,16 @@ export class CierreCertificacionComponent implements OnInit {
   }
 
   modalProcesoEjecucion() {
-      Swal.fire({
-        title: "Proceso en ejecución",
-        imageUrl: "assets/img/loading.gif",
-        imageWidth: 80,
-        imageHeight: 80,
-        showConfirmButton: false,
-        allowOutsideClick: false,
-        customClass: { popup: "custom-alert-swal-text" }
-      });
-    }
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
+  }
 
   intervacierreCertificacion(idArchivo: any) {
     this.ejecutar(idArchivo);
@@ -124,6 +125,7 @@ export class CierreCertificacionComponent implements OnInit {
           estadoProceso = GENERALES.CODE_EMERGENT.ERROR;
         if (response.data.estadoProceso == 'EN PROCESO')
           estadoProceso = GENERALES.CODE_EMERGENT.ESPERAR;
+        this.dialog?.closeAll();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -155,21 +157,22 @@ export class CierreCertificacionComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar(idArchivo) {
-    this.modalProcesoEjecucion()
+    this.modalProcesoEjecucion();
     this.cargueProgramacionCertificadaService.procesar({
       'agrupador': GENERALES.CARGUE_CERTIFICACION_PROGRAMACION_SERVICIOS
-    }).subscribe({ next: data => {
-      Swal.close();
-      this.listarProcesos();
-      this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_CERTIFICACION.SUCCESFULL_CIERRE_CERTIFICACION,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      });
-    },
-    error: (err: any) => {
+    }).subscribe({
+      next: data => {
+        Swal.close();
+        this.listarProcesos();
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_CERTIFICACION.SUCCESFULL_CIERRE_CERTIFICACION,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        });
+      },
+      error: (err: any) => {
         Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -187,19 +190,23 @@ export class CierreCertificacionComponent implements OnInit {
   * @BaironPerez
   */
   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
+    this.modalProcesoEjecucion();
     this.cargueProgramacionPreliminarService.reabrirArchivo({
       'agrupador': "CERTI",
-    }).subscribe({ next: item => {
-      this.listarProcesos();
-      this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      });
-    },
-    error: (err: any) => {
+    }).subscribe({
+      next: item => {
+        Swal.close();
+        this.listarProcesos();
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
+            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
+          }
+        });
+      },
+      error: (err: any) => {
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {

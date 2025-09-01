@@ -1,33 +1,37 @@
-<div class="divTabla">
-    <div class="divLogCargue">
-        <div class="formLogCargue">
-            <div class="row">
-                <label class="form-group col-md-3">Fecha de archivo</label>
-                <input class="form-group col-md-4" value="{{data.data.data.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}}" type="text" disabled>
-            </div><br>
-            <div class="row">
-                <label class="form-group col-md-3">Nombre de archivo</label>
-                <input class="form-group col-md-6" value="{{data.data.data.nombreArchivo}}" type="text" disabled>
-            </div><br>
-            <div class="row">
-                <label class="form-group col-md-3">Usuario</label>
-                <input class="form-group col-md-4" value="baironperez112" type="text" disabled>
-            </div><br>
-            <div class="row">
-                <label class="form-group col-md-3">Fecha/hora cargue</label>
-                <input class="form-group col-md-3" value="{{data.data.data.fechaInicioCargue | date: 'dd/MM/YYYY HH:mm' : '+00'}}" type="text" disabled>
-            </div><br>
-            <div class="row">
-                <label class="form-group col-md-3">Lineas del archivo</label>
-                <input class="form-group col-md-2" value="{{data.data.data.numeroRegistros}}" type="text" disabled>
-            </div><br>
-            <div class="row">
-                <label class="form-group col-md-3">Número de errores</label>
-                <input class="form-group col-md-2" value="{{data.data.data.numeroErrores}}" type="text" disabled>
-                <button class="form-group offset-md-1 col-md-1">
-                    <mat-icon style="color: red" (click)="validarError()">assignment_turned_in</mat-icon>
-                </button>
-            </div>
+<div class="modal-dialog-custom divLogCargue">
+    <div class="formLogCargue">
+        <div class="row">
+            <label class="form-group col-md-3">Fecha de archivo</label>
+            <input class="form-group col-md-4" value="{{data.data.data.fechaArchivo | date: 'dd/MM/YYYY' : '+00'}}"
+                type="text" disabled>
+        </div><br>
+        <div class="row">
+            <label class="form-group col-md-3">Nombre de archivo</label>
+            <input class="form-group col-md-6" value="{{data.data.data.nombreArchivo}}" type="text" disabled>
+        </div><br>
+        <div class="row">
+            <label class="form-group col-md-3">Usuario</label>
+            <input class="form-group col-md-4" value="baironperez112" type="text" disabled>
+        </div><br>
+        <div class="row">
+            <label class="form-group col-md-3">Fecha/hora cargue</label>
+            <input class="form-group col-md-3"
+                value="{{data.data.data.fechaInicioCargue | date: 'dd/MM/YYYY HH:mm' : '+00'}}" type="text" disabled>
+        </div><br>
+        <div class="row">
+            <label class="form-group col-md-3">Lineas del archivo</label>
+            <input class="form-group col-md-2" value="{{data.data.data.numeroRegistros}}" type="text" disabled>
+        </div><br>
+        <div class="row">
+            <label class="form-group col-md-3">Número de errores</label>
+            <input class="form-group col-md-2" value="{{data.data.data.numeroErrores}}" type="text" disabled>
+            <button class="form-group offset-md-1 col-md-1">
+                <mat-icon style="color: red" (click)="validarError()">assignment_turned_in</mat-icon>
+            </button>
+        </div>
+        <div class="button-container mb-3">
+            <button class="button-custom" mat-raised-button class="button-custom" mat-button mat-dialog-close
+                color="warn">Cerrar</button>
         </div>
     </div>
 </div>

@@ -80,7 +80,7 @@ export class HistoricoArchivosCargadosComponent implements OnInit {
     }).subscribe(data => {
       this.idArchivo = idArchivoCargado
       this.dialog.open(LogArchivosCargadosComponent, {
-        width: '950px', height: '400px', data: {id: this.idArchivo, data},
+        width: '720px', height: 'auto', data: {id: this.idArchivo, data},
       });
     });
   }

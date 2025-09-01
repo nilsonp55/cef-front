@@ -45,11 +45,8 @@
                 <mat-icon>assignment_returned</mat-icon>
             </button>
             <button title="Eliminar" mat-button
-                (click)="eliminarArchivo(element.nombreArchivo, element.idModeloArchivo)">
+                (click)="confirmEliminar(element.nombreArchivo, element.idModeloArchivo)">
                 <mat-icon style="color: red">delete</mat-icon>
-            </button>
-            <button mat-button (click)="reabrirCargue(element.nombreArchivo, element.idModeloArchivo)">
-                <mat-icon style="color: rgb(120, 6, 250)">cached icon</mat-icon>
             </button>
         </td>
     </ng-container>

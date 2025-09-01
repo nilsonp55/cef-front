@@ -5,13 +5,15 @@
         <span class="line-spacer"></span>
     </div>
     <div class="paginator-area">
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros" showFirstLastButtons
-            (page)="mostrarMas($event)">
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
+            showFirstLastButtons (page)="mostrarMas($event)">
         </mat-paginator>
     </div>
 </div>
-<app-spinner *ngIf="spinnerActive"></app-spinner>
-<table mat-table [dataSource]="dataSourceInfoArchivo" matSort class="mat-elevation-z8">
+<div *ngIf="spinnerActive" class="disenio-spinner">
+    <mat-spinner></mat-spinner>
+</div>
+<table *ngIf="!spinnerActive" mat-table [dataSource]="dataSourceInfoArchivo" matSort class="mat-elevation-z8">
     <caption></caption>
     <ng-container matColumnDef="nombreArchivo">
         <th mat-header-cell mat-sort-header *matHeaderCellDef>NOMBRE</th>
@@ -41,7 +43,7 @@
                 <mat-icon>assignment_returned</mat-icon>
             </button>
             <button mat-button title="Eliminar"
-                (click)="eliminarArchivo(element.nombreArchivo, element.idModeloArchivo)">
+                (click)="confirmEliminar(element.nombreArchivo, element.idModeloArchivo)">
                 <mat-icon style="color: red">delete</mat-icon>
             </button>
         </td>

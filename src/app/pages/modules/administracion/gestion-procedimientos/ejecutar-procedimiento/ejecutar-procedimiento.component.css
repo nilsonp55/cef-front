@@ -1,4 +1,16 @@
+.controls-container {
+    padding: 0 0px;
+}
 
-.listados-otros-full-width {
-    width: 60%;
+.modal-dialog-custom .button-custom {
+    margin-left: 0px;
+    margin-right: 12px;
+}
+
+.mat-form-field{
+    max-width: 540px;
+}
+
+.mat-table-custom .mat-table {
+    margin-bottom: 0px;
 }

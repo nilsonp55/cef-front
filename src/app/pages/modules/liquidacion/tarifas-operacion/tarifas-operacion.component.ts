@@ -257,6 +257,7 @@ export class TarifasOperacionComponent implements OnInit {
   }
 
   comparaFechas(fInicial: any, fFinal: any): boolean {
+    debugger
     if(fInicial  < fFinal){
       return true;
     }

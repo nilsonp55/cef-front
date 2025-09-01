@@ -177,6 +177,21 @@ export class AdministracionFestivosNacionalesComponent implements OnInit {
     });
   }
 
+  confirmEliminar(element: any) {
+    this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.MSG_DELETE_ROW,
+        codigo: GENERALES.CODE_EMERGENT.WARNING,
+        showActions: true
+      }
+    }).afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.eliminar(element);
+      }
+    });
+  }
+
   onCancel() {
     this.form.reset()
     this.visualizarTabla()

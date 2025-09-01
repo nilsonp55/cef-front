@@ -6,13 +6,13 @@
     <div class="container-icon-alert">
         <img src="assets/img/waring.jpg" width="60">
     </div>
-     <div class="form-container-custom">
-            <mat-form-field appearance="fill">
-                <mat-label>Fecha del sistema</mat-label>
-                <input matInput [(ngModel)]="fechaSistemaSelect" placeholder="Fecha del sistema" disabled required>
-            </mat-form-field>
-        </div>
-
+    <div *ngIf="spinnerActive" class="disenio-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div class="text-custom-container" *ngIf="!spinnerActive">
+        <div>Fecha del sistema:</div>
+        <div>{{fechaSistemaSelect}}</div>
+    </div>
     <div class="button-container">
         <button class="button-custom" mat-raised-button color="primary" (click)="confirm()">Aceptar</button>
         <button class="button-custom" mat-raised-button mat-button mat-dialog-close color="warn"

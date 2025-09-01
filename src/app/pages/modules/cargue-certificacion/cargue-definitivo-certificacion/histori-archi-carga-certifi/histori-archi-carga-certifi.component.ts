@@ -81,7 +81,7 @@ export class HistoriArchiCargaCertifiComponent implements OnInit {
     }).subscribe(data => {
       this.idArchivo = idArchivoCargado
       this.dialog.open(LogArchivosCargadosComponent, {
-        width: '80%', height: '80%', data: {id: this.idArchivo, data},
+        width: '80%', height: 'auto', maxHeight: '80%', data: {id: this.idArchivo, data},
       });
     });
   }//

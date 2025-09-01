@@ -18,3 +18,9 @@
     padding: 0.3em;
     margin-right: 60%;
 }
+
+
+.mat-dialog-actions {
+    justify-content: center;
+    gap: 12px;
+}
