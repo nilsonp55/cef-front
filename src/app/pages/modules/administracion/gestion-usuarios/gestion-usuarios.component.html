@@ -69,22 +69,27 @@
 <div class="form-containter" *ngIf="mostrarFormulario">
     <div class="form-fields" [formGroup]="form">
         <mat-form-field appearance="fill">
-            <input type="email" matInput placeholder="Cuenta" formControlName="idUsuario">
+            <mat-label>Cuenta</mat-label>
+            <input type="email" matInput formControlName="idUsuario">
             <mat-error *ngIf="form.get('idUsuario').hasError('required')">Este campo es requerido</mat-error>
+            <mat-error *ngIf="form.get('idUsuario').hasError('email')">Debe introducir un email o formato de correo válido</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-            <input matInput placeholder="Nombres" formControlName="nombres">
+            <mat-label>Nombres</mat-label>
+            <input matInput formControlName="nombres">
             <mat-error *ngIf="form.get('nombres').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-            <input matInput placeholder="Apellidos" formControlName="apellidos">
+            <mat-label>Apellidos</mat-label>
+            <input matInput formControlName="apellidos">
             <mat-error *ngIf="form.get('apellidos').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-            <input matInput placeholder="Tipo Usuario" formControlName="tipoUsuario">
+            <mat-label>Tipo Usuario</mat-label>
+            <input matInput formControlName="tipoUsuario">
             <mat-error *ngIf="form.get('tipoUsuario').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
 

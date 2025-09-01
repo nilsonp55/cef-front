@@ -1,0 +1,16 @@
+.modal-dialog-custom .disenio-spinner {
+  height: 15vh;
+}
+
+.modal-dialog-custom .container-icon-alert {
+  margin-bottom: 24px;
+}
+
+.text-custom-container {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 180px;
+  background-color: rgba(0, 0, 0, .02);
+  font-size: 12px;
+}

@@ -616,7 +616,8 @@ Estilos compartidos
     margin-right: 4%;
 }
 
-.mat-table-custom .disenio-spinner {
+.mat-table-custom .disenio-spinner,
+.container-spinner .disenio-spinner {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

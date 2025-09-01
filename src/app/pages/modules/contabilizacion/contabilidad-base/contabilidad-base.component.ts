@@ -14,11 +14,12 @@ import { BancoModel } from 'src/app/_model/banco.model';
 import { saveAs } from 'file-saver';
 import { lastValueFrom } from 'rxjs';
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contabilidad-base',
   templateUrl: './contabilidad-base.component.html',
-  styleUrls: ['./contabilidad-base.component.css' ]
+  styleUrls: ['./contabilidad-base.component.css']
 })
 
 /**
@@ -35,7 +36,6 @@ export class ContabilidadBaseComponent implements OnInit {
   cantidadRegistros: number;
 
   //Variable para activar spinner
-  spinnerActive: boolean = false;
   fechaSistemaSelect: any;
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
@@ -54,7 +54,7 @@ export class ContabilidadBaseComponent implements OnInit {
     public cierreContabilidadService: CierreContabilidadService,
     public logProcesoDiarioService: LogProcesoDiarioService,
     public generarContabilidadService: GenerarContabilidadService
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     ManejoFechaToken.manejoFechaToken();
@@ -117,10 +117,9 @@ export class ContabilidadBaseComponent implements OnInit {
       .subscribe((result) => {
         //Si presiona click en aceptar
         if (result.data.check) {
-          this.spinnerActive = true;
+          this.modalProcesoEjecucion();
           let tipoContabilida = this.tipoContabilidad;
           let codBanco = 0;
-
           this.cierreContabilidadService
             .cierreContabilidad({
               fechaSistema: result.data.fechaSistema,
@@ -130,6 +129,7 @@ export class ContabilidadBaseComponent implements OnInit {
             })
             .subscribe({
               next: (data) => {
+                Swal.close();
                 this.dialog.open(ResultadoContabilidadComponent, {
                   width: '100%',
                   data: {
@@ -139,18 +139,19 @@ export class ContabilidadBaseComponent implements OnInit {
                     flag: 'C',
                   },
                 });
+                this.ngOnInit();
               },
               error: (err: any) => {
-                this.spinnerActive = false;
+                Swal.close();
                 this.dialog.open(VentanaEmergenteResponseComponent, {
                   width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
                   data: {
                     msn:
                       this.tipoContabilidad === 'AM'
                         ? GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_AM
-                            .ERROR__GENERATE_AM
+                          .ERROR__GENERATE_AM
                         : GENERALES.MESSAGE_ALERT.MESSAGE_CONTABILIDAD_PM
-                            .ERROR__GENERATE_PM,
+                          .ERROR__GENERATE_PM,
                     codigo: GENERALES.CODE_EMERGENT.ERROR,
                     showResume: true,
                     msgDetalles: JSON.stringify(err.error),
@@ -199,11 +200,14 @@ export class ContabilidadBaseComponent implements OnInit {
   }
 
   listarBancos() {
+    this.load = true;
     this.generalServices.listarBancosAval().subscribe({
       next: (data) => {
         this.bancoOptions = data.data;
+        this.load = false;
       },
       error: (err: any) => {
+        this.load = false;
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -214,6 +218,18 @@ export class ContabilidadBaseComponent implements OnInit {
           },
         });
       },
+    });
+  }
+
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
     });
   }
 }

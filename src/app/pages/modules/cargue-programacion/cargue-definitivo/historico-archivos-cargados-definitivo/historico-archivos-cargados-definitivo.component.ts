@@ -80,7 +80,7 @@ export class HistoricoArchivosCargadosDefinitivoComponent implements OnInit {
       this.idArchivo = idArchivoCargado;
       this.idModeloArch = idModeloArchivo;
       this.dialog.open(LogArchivoCargadoDefinitivoComponent, {
-        width: '950px', height: '400px', data: {id: this.idArchivo, idModArch: this.idModeloArch, data}
+        width: '950px', height: 'auto', data: {id: this.idArchivo, idModArch: this.idModeloArch, data}
       });
     },
     error:  (err: any) => {

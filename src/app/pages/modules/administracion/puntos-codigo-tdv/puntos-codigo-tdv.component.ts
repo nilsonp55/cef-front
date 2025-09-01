@@ -8,6 +8,7 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 import { lastValueFrom } from 'rxjs';
 import { DominioFuncionalService } from 'src/app/_service/administracion-service/dominio-funcional.service';
 import { TableCodigoTdvComponent } from './table-codigo-tdv.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-puntos-codigo-tdv',
@@ -19,14 +20,14 @@ export class PuntosCodigoTdvComponent implements OnInit {
   @ViewChild(TableCodigoTdvComponent) dotsCodeTable!: TableCodigoTdvComponent;
 
   displayedColumnsPuntosCodigo: string[] = [
-    'idPuntoCodigoTdv', 
-    'codigoPunto', 
-    'tipoPunto', 
-    'codigoTdv', 
-    'codigoPropioTdv', 
-    'nombrePunto', 
-    'nombreBanco', 
-    'codigoCiudad', 
+    'idPuntoCodigoTdv',
+    'codigoPunto',
+    'tipoPunto',
+    'codigoTdv',
+    'codigoPropioTdv',
+    'nombrePunto',
+    'nombreBanco',
+    'codigoCiudad',
     //'estado', 
     'acciones'];
   mostrarFormulario = false;
@@ -40,7 +41,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
 
   // Properties for <app-table-codigo-tdv>
   // Filter options loaded by iniciarDesplegables and passed to table componentAdd commentMore actions
-  tiposPuntoParaFiltro: any[] = []; 
+  tiposPuntoParaFiltro: any[] = [];
 
   // Initial pagination values for the table, can be overridden if table component has its own defaults
   initialTablePageIndex: number = 0;
@@ -69,7 +70,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
    * @param puntoCodigo The form data from the child component.
    */
   handleFormSubmit(puntoCodigo: any) {
-    this.spinnerActive = true;
+    this.modalProcesoEjecucion()
     const serviceCall = this.esEdicion
       ? this.puntosCodigoService.actualizarPuntosCodigoTDV(puntoCodigo)
       : this.puntosCodigoService.guardarPuntosCodigoTDV(puntoCodigo);
@@ -91,7 +92,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         if (this.dotsCodeTable) { // Check if table instance is available
           this.dotsCodeTable.fetchData(); // Refresh table data
         }
-        this.spinnerActive = false;
+        Swal.close()
       },
       error: (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -103,7 +104,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
             msgDetalles: JSON.stringify(err.error)
           }
         });
-        this.spinnerActive = false;
+        Swal.close()
       }
     });
   }
@@ -123,7 +124,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
   }
 
   handleEditPuntoCodigo(element: any): void {
-    this.esEdicion = true;
+    this.esEdicion = !(element === undefined);
     this.currentPuntoCodigoData = element;
     this.mostrarFormulario = true;
     this.mostrarTabla = false;
@@ -137,7 +138,7 @@ export class PuntosCodigoTdvComponent implements OnInit {
         lastValueFrom(this.generalesService.listarCiudades()),
         lastValueFrom(this.generalesService.listarBancosAval()),
         lastValueFrom(this.generalesService.listarTransportadoras()),
-        lastValueFrom(this.dominioFuncionalService.listarTiposPuntos({'dominioPK.dominio': 'TIPOS_PUNTO'}))
+        lastValueFrom(this.dominioFuncionalService.listarTiposPuntos({ 'dominioPK.dominio': 'TIPOS_PUNTO' }))
       ]);
       this.ciudades = ciudadesRes.data; // For form and table's ciudad resolver + filter
       this.bancos = bancosRes.data;     // For form and table's filter
@@ -173,4 +174,17 @@ export class PuntosCodigoTdvComponent implements OnInit {
   // if parent needs to react to them beyond what the table component does internally.Add commentMore actions
   // handleTableFilterChange(filters: any) { ... }
   // handleTablePageChange(pageEvent: PageEvent) { ... }
+
+
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
+  }
 }
