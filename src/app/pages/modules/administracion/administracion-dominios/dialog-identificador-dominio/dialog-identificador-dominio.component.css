@@ -1,42 +1,39 @@
-.div-division {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: auto;
-    text-align: left;
-  }
+.ubica {
+  margin-top: 8%;
+}
 
-  .ubica {
-      margin-top: 8%;
-  }
+.ubica>h3 {
+  font-weight: 500;
+}
 
-  .example-container .mat-form-field + .mat-form-field {
-    margin-left: 8px;
-  }
+.example-container .mat-form-field+.mat-form-field {
+  margin-left: 8px;
+}
 
-  .division-btn-ident {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: auto;
-    margin-top: 3%;
-    text-align: center;
-  }
+.division-btn-ident {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: auto;
+  margin-top: 3%;
+  text-align: center;
+}
 
-  .example-radio-group {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-    align-items: flex-start;
-  }
-  
-  .example-radio-button {
-    margin: 5px;
-  }
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
 
-  .titulo-tabla {
-    text-align: center;
-  }
+.example-radio-button {
+  margin: 5px;
+}
 
-  .switch {
+.titulo-tabla {
+  text-align: center;
+}
+
+.switch {
   position: relative;
   display: block;
   width: 100px;
