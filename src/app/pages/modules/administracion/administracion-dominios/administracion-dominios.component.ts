@@ -118,47 +118,8 @@ export class AdministracionDominiosComponent implements OnInit {
       });
   }
 
-  /**
-   * Lista los dominios en estado true (Activos)
-   * @JuanMazo
-   */
-  listarDominiosMaestroTrue() {
-    this.spinnerActive = true;
-    this.dominioMaestroService
-      .listarDominiosTrue({
-        estado: true,
-      })
-      .subscribe({
-        next: (page: any) => {
-          this.dataSourceDominios = new MatTableDataSource(page.data);
-          this.dataSourceDominios.sort = this.sort;
-          this.cantidadRegistros = page.data.totalElements;
-          this.spinnerActive = false;
-        },
-        error: (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-              codigo: GENERALES.CODE_EMERGENT.ERROR,
-              showResume: true,
-              msgDetalles: JSON.stringify(err?.error.response),
-            },
-          });
-          this.spinnerActive = false;
-        },
-      });
-  }
 
-  listarDominios() {
-    if (this.isDominioChecked) {
-      this.listarTodosDominios();
-    } else {
-      this.listarDominiosMaestroTrue();
-    }
-  }
-
-  listarTodosDominios(){
+  listarDominios(){
     this.dominioMaestroService.listarDominios().subscribe({
         next: (page: any) => {
           this.dataSourceDominios = new MatTableDataSource(page.data);

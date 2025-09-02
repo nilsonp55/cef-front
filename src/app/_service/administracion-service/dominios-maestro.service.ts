@@ -12,12 +12,8 @@ export class DominioMaestroService {
 
   constructor(private readonly http: HttpClient) {}
 
-  listarDominiosTrue(params: any) {
-    return this.http.get<any>(`${this.url}${URLs.DOMINIO_OBTENER}`, { params: params });
-  }
-
   listarDominios() {
-    return this.http.get<any>(`${this.url}${URLs.DOMINIOS_TODOS}`);
+    return this.http.get<any>(`${this.url}${URLs.DOMINIO_OBTENER}`);
   }
 
   crearDominio(param: any): Observable<any> {
