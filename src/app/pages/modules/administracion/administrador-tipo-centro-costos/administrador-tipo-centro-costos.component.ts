@@ -52,7 +52,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
     * Se consumen servicios para desplegables
     * @BayronPerez
     */
-   async datosDesplegables() {
+  async datosDesplegables() {
     const _tablaCentros = await this.generalServices.listarDominioByDominio({
       'dominio':"TABLA_CENTRO"
     }).toPromise();
@@ -60,7 +60,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
 
     const _bancos = await this.generalServices.listarBancosAval().toPromise();
     this.bancos = _bancos.data;
-   }
+  }
 
   /**
     * Inicializaion formulario de creacion y edicion
@@ -94,12 +94,20 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
       page: pagina,
       size: tamanio,
     }).subscribe({ next: (page: any) => {
-      this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
-      this.dataSourceTiposCuentas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      this.spinnerActive = false;
-    },
-    error: (err: ErrorService) => {
+        this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
+        this.dataSourceTiposCuentas.sort = this.sort;
+        this.dataSourceTiposCuentas.sortingDataAccessor = (data, sortHeaderId) => {
+          switch (sortHeaderId) {
+            case 'bancoAval':
+              return data.bancoAval.abreviatura;
+            default:
+              return data[sortHeaderId];
+          }
+        }
+        this.cantidadRegistros = page.data.totalElements;
+        this.spinnerActive = false;
+      },
+      error: (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -133,7 +141,7 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
       tablaCentros: this.form.value['tablaCentros'],
     };
 
-    const serviceCall = this.esEdicion 
+    const serviceCall = this.esEdicion
       ? this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO)
       : this.centroCostosService.guardarCentroCostos(tiposCentrosCostosDTO);
 
@@ -141,12 +149,12 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
       tiposCentrosCostosDTO.tipoCentro = this.idTipoCentro;
     }
 
-      this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO).subscribe({
-        next: response => {
+    this.centroCostosService.actualizarCentroCostos(tiposCentrosCostosDTO).subscribe({
+      next: response => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE 
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE
               : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
             showResume: true,
@@ -158,20 +166,20 @@ export class AdministradorTipoCentroCostosComponent implements OnInit {
         this.visualizarTabla()
       },
       error: (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
-                : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-              codigo: GENERALES.CODE_EMERGENT.ERROR,
-              showResume: true,
-              msgDetalles: JSON.stringify(err.error)
-            }
-          });
-          this.visualizarTabla()
-        }
-      });
-    
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
+              : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error)
+          }
+        });
+        this.visualizarTabla()
+      }
+    });
+
   }
 
   visualizarFormulario(){

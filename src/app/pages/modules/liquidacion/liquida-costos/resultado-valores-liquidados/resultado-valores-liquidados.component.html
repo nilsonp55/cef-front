@@ -1,10 +1,10 @@
 <!--Tabla Descripción de archivos cargados-->
-<div class="divTabl">
-    <div class="divTituloTabl">
-        <h1 class="tituloTabla">{{titulo}}</h1>
-        <span class="line-spacer"></span>
+<div class="modal-dialog-custom">
+    <div class="titulo-tabla">
+        <h2>{{titulo}}</h2>
     </div>
-    <div class="mat-elevation-z8 disenio-tabla">
+    <div class="spacer-content"></div>
+    <div class="mat-table-custom">
         <table mat-table matTableExporter [dataSource]="dataSourceInfoProcesos" matSort #exporter="matTableExporter">
             <caption></caption>
             <ng-container matColumnDef="idLiquidacion">
@@ -59,11 +59,11 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo operacion</th>
                 <td mat-cell *matCellDef="let element"> {{element.tipoOperacion }} </td>
             </ng-container>
-			<ng-container matColumnDef="tipoServicio">
+            <ng-container matColumnDef="tipoServicio">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo servicio</th>
                 <td mat-cell *matCellDef="let element"> {{element.tipoServicio }} </td>
             </ng-container>
-			<ng-container matColumnDef="fajado">
+            <ng-container matColumnDef="fajado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Fajado</th>
                 <td mat-cell *matCellDef="let element"> {{element.fajado }} </td>
             </ng-container>
@@ -71,23 +71,23 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Número fajos</th>
                 <td mat-cell *matCellDef="let element"> {{element.numeroFajos }} </td>
             </ng-container>
-			<ng-container matColumnDef="numeroBolsas">
+            <ng-container matColumnDef="numeroBolsas">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Número bolsas</th>
                 <td mat-cell *matCellDef="let element"> {{element.numeroBolsas }} </td>
             </ng-container>
-			<ng-container matColumnDef="escala">
+            <ng-container matColumnDef="escala">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Escala</th>
                 <td mat-cell *matCellDef="let element"> {{element.escala }} </td>
             </ng-container>
-			<ng-container matColumnDef="moneda">
+            <ng-container matColumnDef="moneda">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Moneda</th>
                 <td mat-cell *matCellDef="let element"> {{element.moneda }} </td>
             </ng-container>
-			<ng-container matColumnDef="valorBilletes">
+            <ng-container matColumnDef="valorBilletes">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor billetes</th>
                 <td mat-cell *matCellDef="let element"> {{element.valorBilletes | currency}} </td>
             </ng-container>
-			<ng-container matColumnDef="valorMonedas">
+            <ng-container matColumnDef="valorMonedas">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor monedas</th>
                 <td mat-cell *matCellDef="let element"> {{element.valorMonedas | currency}} </td>
             </ng-container>
@@ -97,7 +97,8 @@
             </ng-container>
             <ng-container matColumnDef="costoFijoParado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Fijo Parada</th>
-                <td mat-cell *matCellDef="let element"> {{element.valoresLiquidadosDTO.costoFijoParada | currency}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.valoresLiquidadosDTO.costoFijoParada | currency}}
+                </td>
             </ng-container>
             <ng-container matColumnDef="milajePorRuteo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Milaje Ruteo</th>
@@ -105,11 +106,13 @@
             </ng-container>
             <ng-container matColumnDef="milajeVerificacion">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Milaje Verifi</th>
-                <td mat-cell *matCellDef="let element"> {{element.valoresLiquidadosDTO.milajeVerificacion | currency}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.valoresLiquidadosDTO.milajeVerificacion | currency}}
+                </td>
             </ng-container>
             <ng-container matColumnDef="milajeTotal">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Milaje Total</th>
-                <td mat-cell *matCellDef="let element"> {{(element.valoresLiquidadosDTO.milajePorRuteo + element.valoresLiquidadosDTO.milajeVerificacion) | currency}} </td>
+                <td mat-cell *matCellDef="let element"> {{(element.valoresLiquidadosDTO.milajePorRuteo +
+                    element.valoresLiquidadosDTO.milajeVerificacion) | currency}} </td>
             </ng-container>
             <ng-container matColumnDef="costoMoneda">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Moneda</th>
@@ -125,7 +128,8 @@
             </ng-container>
             <ng-container matColumnDef="clasificacionFajado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Clasif Fajado/ No Fajado</th>
-                <td mat-cell *matCellDef="let element"> {{element.valoresLiquidadosDTO.clasificacionFajado + element.valoresLiquidadosDTO.clasificacionNoFajado | currency}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.valoresLiquidadosDTO.clasificacionFajado +
+                    element.valoresLiquidadosDTO.clasificacionNoFajado | currency}} </td>
             </ng-container>
             <ng-container matColumnDef="costoPaqueteo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Paqueteo</th>
@@ -133,7 +137,8 @@
             </ng-container>
             <ng-container matColumnDef="tasaAeroportuaria">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tasa Aeroportuaria</th>
-                <td mat-cell *matCellDef="let element"> {{element.valoresLiquidadosDTO.tasaAeroportuaria | currency}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.valoresLiquidadosDTO.tasaAeroportuaria | currency}}
+                </td>
             </ng-container>
             <ng-container matColumnDef="modenaResiduo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Moneda Residuo</th>

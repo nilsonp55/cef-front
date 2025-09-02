@@ -24,7 +24,13 @@ import { CrearRolComponent } from './crear-rol/crear-rol.component';
 export class GestionRolesUsuariosComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('sortCarguePreliminar') sortCarguePreliminar: MatSort;
+  @ViewChild('sortCertificacion') sortCertificacion: MatSort;
+  @ViewChild('sortLiquidar') sortLiquidar: MatSort;
+  @ViewChild('sortConciliacion') sortConciliacion: MatSort;
+  @ViewChild('sortContabilidad') sortContabilidad: MatSort;
+  @ViewChild('sortAdministracion') sortAdministracion: MatSort;
+  @ViewChild('sortAdministracionContable') sortAdministracionContable: MatSort;
 
   listaRoles: any;
   rolSelect: any;
@@ -149,25 +155,32 @@ export class GestionRolesUsuariosComponent implements OnInit {
           });
 
           this.dataSourcePreliminar = new MatTableDataSource(listPreliminar);
-          this.dataSourcePreliminar.sort = this.sort;
+          this.dataSourcePreliminar.sort = this.sortCarguePreliminar;
+          this.dataSourcePreliminar.sortingDataAccessor = this.applyDataAccessor(this.dataSourcePreliminar);
 
           this.dataSourceCertificacion = new MatTableDataSource(listCertificacion);
-          this.dataSourceCertificacion.sort = this.sort;
+          this.dataSourceCertificacion.sort = this.sortCertificacion;
+          this.dataSourceCertificacion.sortingDataAccessor = this.applyDataAccessor(this.dataSourceCertificacion);
 
           this.dataSourceConciliacion = new MatTableDataSource(listConciliacion);
-          this.dataSourceConciliacion.sort = this.sort;
+          this.dataSourceConciliacion.sort = this.sortConciliacion;
+          this.dataSourceConciliacion.sortingDataAccessor = this.applyDataAccessor(this.dataSourceConciliacion);
 
           this.dataSourceContabilidad = new MatTableDataSource(listContabilidad);
-          this.dataSourceContabilidad.sort = this.sort;
+          this.dataSourceContabilidad.sort = this.sortContabilidad;
+          this.dataSourceContabilidad.sortingDataAccessor = this.applyDataAccessor(this.dataSourceContabilidad);
 
           this.dataSourceLiquidar = new MatTableDataSource(listLiquidacion);
-          this.dataSourceLiquidar.sort = this.sort;
+          this.dataSourceLiquidar.sort = this.sortLiquidar;
+          this.dataSourceLiquidar.sortingDataAccessor = this.applyDataAccessor(this.dataSourceLiquidar);
 
           this.dataSourceAdministracion = new MatTableDataSource(listAdministracion);
-          this.dataSourceAdministracion.sort = this.sort;
+          this.dataSourceAdministracion.sort = this.sortAdministracion;
+          this.dataSourceAdministracion.sortingDataAccessor = this.applyDataAccessor(this.dataSourceAdministracion);
 
           this.dataSourceAdministracionContable = new MatTableDataSource(listAdministracionContabilidad);
-          this.dataSourceAdministracionContable.sort = this.sort;
+          this.dataSourceAdministracionContable.sort = this.sortAdministracionContable;
+          this.dataSourceAdministracionContable.sortingDataAccessor = this.applyDataAccessor(this.dataSourceAdministracionContable);
 
           //Mostramos la vista de tablas
           this.spinnerActive = false;
@@ -184,6 +197,18 @@ export class GestionRolesUsuariosComponent implements OnInit {
           this.spinnerActive = false;
         }
       });
+  }
+
+  applyDataAccessor(dataSource: any) {
+    dataSource.sortingDataAccessor = (data, sortHeaderId) => {
+      switch (sortHeaderId) {
+        case 'nombreMenu':
+          return data.menu.nombre;
+        default:
+          return data[sortHeaderId];
+      }
+    }
+    return dataSource.sortingDataAccessor
   }
 
   /**

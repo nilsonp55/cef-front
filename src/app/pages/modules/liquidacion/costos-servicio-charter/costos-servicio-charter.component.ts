@@ -31,13 +31,13 @@ export class CostosServicioCharterComponent implements OnInit {
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
   displayedColumnsInfoProcesos: string[] = [
-    'bancoAval',
-    'tdv',
+    'nombreBanco',
+    'nombreTdv',
     'nombreFondo',
     'nombrePunto',
-    'tipoServicioProvision',
+    'tipoOperacion',
     'escala',
-    'valor',
+    'valorTotal',
     'costoCharter',
     'acciones',
   ];

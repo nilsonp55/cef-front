@@ -32,7 +32,7 @@ estadoBTN: boolean;
 idInterval: any;
 //DataSource para pintar tabla de los procesos a ejecutar
 dataSourceInfoProcesos: MatTableDataSource<any>;
-displayedColumnsInfoProcesos: string[] = ['subactividad', 'cantidad', 'estado'];
+displayedColumnsInfoProcesos: string[] = ['nombre', 'cantidad', 'estado'];
 
 dataLiquidacionCosots: any;
 fechaSistemaSelect: string;
@@ -154,6 +154,7 @@ consultarCostos() {
    //Se realizan validaciones
    this.tieneErrores = false;//conteoContabilidadDto.conteoContabilidadDto.conteoErroresContables > 0 ? true : false;
    this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
+   this.dataSourceInfoProcesos.sort = this.sort;
 
  },
    (err: any) => {
@@ -173,7 +174,7 @@ consultarCostos() {
  */
 verValoresLiquidados() {
   const respuesta = this.dialog.open(ResultadoValoresLiquidadosComponent, {
-    height:'90%', width: '90%',
+    height:'auto', maxHeight:'90%', width: '90%',
     data: {
       respuesta: this.dataLiquidacionCosots.respuestaLiquidarCostos,
       titulo: "Valores Liquidados",

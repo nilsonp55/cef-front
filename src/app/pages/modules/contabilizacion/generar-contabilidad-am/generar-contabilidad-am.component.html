@@ -15,10 +15,10 @@
     <div *ngIf="spinnerActive" class="disenio-spinner">
         <mat-spinner></mat-spinner>
     </div>
-    <div *ngIf="!spinnerActive">
-        <table *ngIf="spinnerActive == false" mat-table [dataSource]="dataSourceInfoProcesos" matSort
+    <div [hidden]="spinnerActive">
+        <table mat-table [dataSource]="dataSourceInfoProcesos" matSort
             class="mat-elevation-z8">
-            <ng-container matColumnDef="subactividad">
+            <ng-container matColumnDef="nombre">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBACTIVIDAD</th>
                 <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
             </ng-container>

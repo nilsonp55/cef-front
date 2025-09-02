@@ -13,8 +13,8 @@
         <mat-spinner></mat-spinner>
     </div>
 
-    <div *ngIf="!spinnerActive">
-        <table mat-table [dataSource]="dataSourceDominios" matSort aria-label="tabla-dominio-maestro">
+    <div [hidden]="spinnerActive">
+        <table mat-table [dataSource]="dataSourceDominios" matSort #sortDominios="matSort" aria-label="tabla-dominio-maestro">
             <tr>
                 <ng-container matColumnDef="dominio" class="mat-column-nombreCampo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>DOMINIO</th>
@@ -42,7 +42,7 @@
             </tr> -->
             <tr>
                 <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>EDITAR</th>
+                    <th mat-header-cell *matHeaderCellDef>EDITAR</th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-button class="col-6" (click)="actualizarTablaDominio(element)">
                             <mat-icon style="color: green">edit</mat-icon>
@@ -69,7 +69,7 @@
                 inactivos</mat-checkbox>
         </div>
 
-        <table mat-table [dataSource]="dataSourceCodigos" matSort aria-label="tabla-dominios">
+        <table mat-table [dataSource]="dataSourceCodigos" matSort #sortCodigos="matSort" aria-label="tabla-dominios">
             <tr>
                 <ng-container matColumnDef="codigo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>

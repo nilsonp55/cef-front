@@ -64,7 +64,7 @@
         <mat-spinner></mat-spinner>
     </div>
 
-    <div *ngIf="!spinnerActive">
+    <div [hidden]="spinnerActive">
         <table mat-table matTableExporter [dataSource]="dataSourceEscalas" matSort matSortDirection="desc"
             matSortActive="idEscala" #exporter="matTableExporter" class="mat-elevation-z8" aria-label="Escalas">
             <tr>

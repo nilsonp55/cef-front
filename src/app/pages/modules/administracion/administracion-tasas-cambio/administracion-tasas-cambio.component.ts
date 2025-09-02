@@ -77,6 +77,16 @@ export class AdministracionTasasCambioComponent implements OnInit {
     }).subscribe({ next: (page: any) => {
       this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
       this.dataSourceTiposCuentas.sort = this.sort;
+      this.dataSourceTiposCuentas.sortingDataAccessor = (data, sortHeaderId) => {
+            switch (sortHeaderId) {
+              case 'tasasCambioPK.fechaTasa':
+                return data.tasasCambioPK.fechaTasa;
+              case 'moneda':
+                return data.tasasCambioPK.codigoMoneda;
+              default:
+                  return data [sortHeaderId];
+            }
+          }
       this.cantidadRegistros = page.data.totalElements;
       this.spinnerActive = false;
     },

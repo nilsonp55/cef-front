@@ -14,7 +14,7 @@
     <div *ngIf="spinnerActive" class="disenio-spinner">
         <mat-spinner></mat-spinner>
     </div>
-    <div *ngIf="!spinnerActive">
+    <div [hidden]="spinnerActive">
         <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8"
             aria-label="procedimientos">
             <ng-container matColumnDef="nombreFuncion">

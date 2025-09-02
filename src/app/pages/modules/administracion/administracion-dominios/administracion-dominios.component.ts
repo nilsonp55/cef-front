@@ -27,7 +27,8 @@ export class AdministracionDominiosComponent implements OnInit {
   elementoDominioActualizar: any;
   elementoCodigo: any;
   valorEstado: any;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('sortDominios') sortDominios: MatSort;
+  @ViewChild('sortCodigos') sortCodigos: MatSort;
 
   //Registros paginados
   cantidadRegistros: number;
@@ -46,12 +47,12 @@ export class AdministracionDominiosComponent implements OnInit {
   ];
 
   DIALOG_CONFIG = {
-      width: '90vw',
+    width: '90vw',
       maxWidth:'780px',
-      height: 'auto',
-      maxHeight: '80vh',
-      autoFocus: false,
-      disableClose: false,
+    height: 'auto',
+    maxHeight: '80vh',
+    autoFocus: false,
+    disableClose: false,
   } as MatDialogConfig
 
   spinnerActive: boolean = false;
@@ -60,7 +61,7 @@ export class AdministracionDominiosComponent implements OnInit {
     private readonly dominioMaestroService: DominioMaestroService,
     private readonly generalesService: GeneralesService,
     private readonly dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.spinnerActive = true;
@@ -101,7 +102,7 @@ export class AdministracionDominiosComponent implements OnInit {
       .subscribe({
         next: (page: any) => {
           this.dataSourceCodigos = new MatTableDataSource(page.data);
-          this.dataSourceCodigos.sort = this.sort;
+          this.dataSourceCodigos.sort = this.sortCodigos;
           this.cantidadRegistros = page.data.totalElements;
         },
         error: (err: any) => {
@@ -121,25 +122,25 @@ export class AdministracionDominiosComponent implements OnInit {
 
   listarDominios(){
     this.dominioMaestroService.listarDominios().subscribe({
-        next: (page: any) => {
-          this.dataSourceDominios = new MatTableDataSource(page.data);
-          this.dataSourceDominios.sort = this.sort;
-          this.cantidadRegistros = page.data.totalElements;
-          this.spinnerActive = false;
-        },
-        error: (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
-              codigo: GENERALES.CODE_EMERGENT.ERROR,
-              showResume: true,
-              msgDetalles: JSON.stringify(err),
-            },
-          });
-          this.spinnerActive = false;
-        },
-      });
+      next: (page: any) => {
+        this.dataSourceDominios = new MatTableDataSource(page.data);
+        this.dataSourceDominios.sort = this.sortDominios;
+        this.cantidadRegistros = page.data.totalElements;
+        this.spinnerActive = false;
+      },
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err),
+          },
+        });
+        this.spinnerActive = false;
+      },
+    });
   }
 
   listarCodigoSeleccionado() {
@@ -150,7 +151,15 @@ export class AdministracionDominiosComponent implements OnInit {
       .subscribe({
         next: (page: any) => {
           this.dataSourceCodigos = new MatTableDataSource(page.data);
-          this.dataSourceCodigos.sort = this.sort;
+          this.dataSourceCodigos.sort = this.sortCodigos;
+          this.dataSourceCodigos.sortingDataAccessor = (data, sortHeaderId) => {
+            switch (sortHeaderId) {
+              case 'codigo':
+                return data.id.codigo;
+              default:
+                return data[sortHeaderId];
+            }
+          }
           this.cantidadRegistros = page.data.totalElements;
         },
         error: (err: any) => {

@@ -35,7 +35,7 @@ export class GenerarContabilidadPmComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['subactividad', 'cantidad', 'estado'];
+  displayedColumnsInfoProcesos: string[] = ['nombre', 'cantidad', 'estado'];
 
   dataGenerateContabilidad: any;
   fechaSistemaSelect: any;

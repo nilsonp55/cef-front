@@ -60,14 +60,14 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
     this.initForm();
   }
 
- /**
-   * Inicializaion formulario de creacion y edicion
-   * @BayronPerez
-   */
+  /**
+    * Inicializaion formulario de creacion y edicion
+    * @BayronPerez
+    */
   initForm(param?: any) {
     this.selectNaturaleza = param != undefined ? param.naturaleza: null;
     this.selectEsCambio = param != undefined ? String(param.esCambio): null;
-      this.form = new FormGroup({
+    this.form = new FormGroup({
         'consecutivo': new FormControl({value: param? param.consecutivo : null, disabled: true}),
         'cuentaContable': new FormControl(param? param.cuentaContable : null, [Validators.required, Validators.pattern('^[0-9]+$')]),
         'esCambio': new FormControl(param? String(param.esCambio) : null),
@@ -80,7 +80,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
         'tipoTransaccion': new FormControl(param? this.tipoTransaccion.find((t) => t === String(param.tipoTransaccion)) : null, [Validators.required]),
         'codigoComision': new FormControl(param? this.codigosComiciones.find((c) => c === String(param.codigoComision)) : null),
         'tipoImpuesto': new FormControl(param? this.tiposImpuestos.find((i) => i === String(param.tipoImpuesto)) : null),
-      });
+    });
   }
 
   visualizarTabla(){
@@ -141,19 +141,29 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
    * Lista los Cuentas puc
    * @BayronPerez
    */
-   listarConfEntitis(pagina = 0, tamanio = 5) {
+  listarConfEntitis(pagina = 0, tamanio = 5) {
     this.confContablesEntidadesService.obtenerConfContablesEntidades({
       page: pagina,
       size: tamanio,
     }).subscribe({ next: (page: any) => {
-      this.registros = page.data;
-      this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
-      this.dataSourceTiposCuentas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      this.visualizarTabla();
-      this.isLoading = false;
-    },
-    error: (err: ErrorService) => {
+        this.registros = page.data;
+        this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
+        this.dataSourceTiposCuentas.sort = this.sort;
+        this.dataSourceTiposCuentas.sortingDataAccessor = (data, sortHeaderId) => {
+          switch (sortHeaderId) {
+            case 'bancoAval':
+              return data.bancoAval.abreviatura
+            case 'codigoPuntoBancoExt':
+              return data.codigoPuntoBancoExt?.nombrePunto;
+            default:
+              return data[sortHeaderId];
+          }
+        }
+        this.cantidadRegistros = page.data.totalElements;
+        this.visualizarTabla();
+        this.isLoading = false;
+      },
+      error: (err: ErrorService) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -171,7 +181,7 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
     * Se realiza persistencia del formulario de cuentas puc
     * @BayronPerez
     */
-   persistir() {
+  persistir() {
     const confEntity = {
       consecutivo: this.form.value['consecutivo'],
       bancoAval: {
@@ -204,15 +214,15 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
       confEntity.consecutivo = this.idConfEntity;
     }
 
-    const serviceCall = this.esEdicion 
-      ? this.confContablesEntidadesService.actualizarConfContablesEntidades(confEntity) 
+    const serviceCall = this.esEdicion
+      ? this.confContablesEntidadesService.actualizarConfContablesEntidades(confEntity)
       : this.confContablesEntidadesService.guardarConfContablesEntidades(confEntity);
 
       serviceCall.subscribe({next: response => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE 
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE
               : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
             showResume: true,
@@ -223,20 +233,20 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
         this.initForm();
       },
       error:  (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE 
-                : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-              codigo: GENERALES.CODE_EMERGENT.ERROR,
-              showResume: true,
-              msgDetalles: JSON.stringify(err?.error.response)
-            }
-          });
-        }
-      });
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
+              : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err?.error.response)
+          }
+        });
+      }
+    });
     this.ngOnInit();
-   }
+  }
 
   async iniciarDesplegables() {
 
@@ -311,8 +321,8 @@ export class AdministracionConfContableEntidadComponent implements OnInit {
       }
     });
     this.dataSourceTiposCuentas = new MatTableDataSource(registrosFiltrados);
-      this.dataSourceTiposCuentas.sort = this.sort;
-      this.cantidadRegistros = registrosFiltrados.length;
+    this.dataSourceTiposCuentas.sort = this.sort;
+    this.cantidadRegistros = registrosFiltrados.length;
   }
 
   limpiar() {

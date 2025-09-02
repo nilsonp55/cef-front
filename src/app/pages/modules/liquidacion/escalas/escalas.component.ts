@@ -137,13 +137,29 @@ export class EscalasComponent implements OnInit {
       'ciudadDestino.codigoDANE': this.filtroCiudadDestSelect == undefined ? '': this.filtroCiudadDestSelect.codigoDANE,
       'ciudadOrigen.codigoDANE': this.filtroCiudadOrigSelect== undefined ? '': this.filtroCiudadOrigSelect.codigoDANE
     }).subscribe({next: (page: any) => {
-      this.dataSourceEscalas = new MatTableDataSource(page.data.content);
-      this.dataSourceEscalas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
-      this.habilitarBTN = true;
-      this.spinnerActive = false;
-    },
+        this.dataSourceEscalas = new MatTableDataSource(page.data.content);
+        this.dataSourceEscalas.sort = this.sort;
+        this.dataSourceEscalas.sortingDataAccessor = (data, sortHeaderId) => {
+          switch (sortHeaderId) {
+            case 'banco':
+              return data.bancosDTO.nombreBanco;
+            case 'transportadoraOrigen':
+              return data.transportadoraOrigenDTO.nombreTransportadora;
+            case 'transportadoraDestino':
+              return data.transportadoraDestinoDTO.nombreTransportadora;
+            case 'ciudadOrigen':
+              return data.ciudadOrigenDTO.nombreCiudad;            
+            case 'ciudadDestino':
+              return data.ciudadDestinoDTO.nombreCiudad;
+            default:
+              return data[sortHeaderId];
+          }
+        }
+        this.cantidadRegistros = page.data.totalElements;
+        this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
+        this.habilitarBTN = true;
+        this.spinnerActive = false;
+      },
     error:  (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,

@@ -13,7 +13,7 @@
         <app-spinner></app-spinner>
     </div>
 
-    <div *ngIf="!spinnerActive">
+    <div [hidden]="spinnerActive">
         <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll" aria-label="centrosCiudad">
             <tr>
                 <ng-container matColumnDef="idCentroCiudad">
