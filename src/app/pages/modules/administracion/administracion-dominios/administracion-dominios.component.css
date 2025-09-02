@@ -26,6 +26,10 @@
   text-align: center;
 }
 
+.mat-row:hover .mat-cell {
+  cursor: pointer;
+}
+
 .division-tablas {
   display: grid;
   grid-template-columns: 1fr 1fr;

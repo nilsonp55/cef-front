@@ -1,100 +1,98 @@
-<div class="titulo-tabla">
-    <h1>Crear nuevo identificador para el dominio</h1>
-</div>
-
-<div [formGroup]="form" >
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Dominio</h2>
-        </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill" disabled="true">
-                <input matInput #input formControlName="dominio">
-            </mat-form-field>
-        </div>
+<div class="modal-dialog-custom">
+    <div class="titulo-tabla">
+        <h2>Crear nuevo identificador para el dominio</h2>
     </div>
 
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Codigo</h2>
+    <div [formGroup]="form">
+        <div class="div-division">
+            <div class="ubica">
+                <h3>Dominio</h3>
+            </div>
+            <div class="example-container">
+                <mat-form-field appearance="fill" disabled="true">
+                    <input matInput #input formControlName="dominio">
+                </mat-form-field>
+            </div>
         </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input matInput #input formControlName="codigo">
-            </mat-form-field>
-        </div>
-    </div>
 
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Tipo Contenido</h2>
+        <div class="div-division">
+            <div class="ubica">
+                <h3>Codigo</h3>
+            </div>
+            <div class="example-container">
+                <mat-form-field appearance="fill">
+                    <input matInput #input formControlName="codigo">
+                </mat-form-field>
+            </div>
         </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input matInput #input formControlName="tipo">
-            </mat-form-field>
-        </div>
-    </div>
 
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Descripción</h2>
+        <div class="div-division">
+            <div class="ubica">
+                <h3>Tipo Contenido</h3>
+            </div>
+            <div class="example-container">
+                <mat-form-field appearance="fill">
+                    <input matInput #input formControlName="tipo">
+                </mat-form-field>
+            </div>
         </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input matInput #input formControlName="descripcion">
-            </mat-form-field>
-        </div>
-    </div>
 
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Valor Texto</h2>
+        <div class="div-division">
+            <div class="ubica">
+                <h3>Descripción</h3>
+            </div>
+            <div class="example-container">
+                <mat-form-field appearance="fill">
+                    <input matInput #input formControlName="descripcion">
+                </mat-form-field>
+            </div>
         </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input matInput #input formControlName="valorTexto">
-            </mat-form-field>
-        </div>
-    </div>
 
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Valor Númerico</h2>
+        <div class="div-division">
+            <div class="ubica">
+                <h3>Valor Texto</h3>
+            </div>
+            <div class="example-container">
+                <mat-form-field appearance="fill">
+                    <input matInput #input formControlName="valorTexto">
+                </mat-form-field>
+            </div>
         </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input matInput #input formControlName="valorNumero">
-            </mat-form-field>
-        </div>
-    </div>
 
-    <div class="div-division">
-        <div class="ubica">
-            <h2>Valor Fecha</h2>
+        <div class="div-division">
+            <div class="ubica">
+                <h3>Valor Númerico</h3>
+            </div>
+            <div class="example-container">
+                <mat-form-field appearance="fill">
+                    <input matInput #input formControlName="valorNumero">
+                </mat-form-field>
+            </div>
         </div>
-        <div class="example-container">
-            <mat-form-field appearance="fill">
-                <input matInput #input formControlName="valorFecha">
-            </mat-form-field>
-        </div>
-    </div>
 
-    <div class="div-division">
-        <h3>Estado</h3>
-        <label class="switch">
-            <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
-            <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
-            <span class="switch-handle"></span>
-        </label>
-    </div>
-
-    <div class="division-btn-ident">
-        <div>
-            <button mat-raised-button color="primary" (click)="persistir()">Guardar</button>
+        <div class="div-division">
+            <div class="ubica">
+                <h3>Valor Fecha</h3>
+            </div>
+            <div class="example-container">
+                <mat-form-field appearance="fill">
+                    <input matInput #input formControlName="valorFecha">
+                </mat-form-field>
+            </div>
         </div>
-        <div>
-            <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+
+        <div class="div-division">
+            <h3>Estado</h3>
+            <label class="switch">
+                <input class="switch-input" type="checkbox" formControlName="estado" id="estado" />
+                <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                <span class="switch-handle"></span>
+            </label>
+        </div>
+
+        <div class="button-container">
+            <button class="button-custom" mat-raised-button color="primary" (click)="persistir()">Guardar</button>
+            <button mat-raised-button class="button-custom" color="warn" mat-dialog-close>Cancelar</button>
         </div>
     </div>
 </div>

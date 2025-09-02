@@ -42,7 +42,6 @@ export class AdministracionDominiosComponent implements OnInit {
     'valorTexto',
     'valorNumero',
     'valorFecha',
-    'estado',
     'acciones',
   ];
 
@@ -80,6 +79,7 @@ export class AdministracionDominiosComponent implements OnInit {
   ];//agregar campo estado si es requerido
 
   define() {
+    this.isDominioChecked = !this.isDominioChecked;
     this.listarDominios();
   }
 
@@ -152,10 +152,14 @@ export class AdministracionDominiosComponent implements OnInit {
 
   listarDominios() {
     if (this.isDominioChecked) {
-      this.listarDominiosMaestroTrue();
+      this.listarTodosDominios();
     } else {
-      
-      this.dominioMaestroService.listarDominios().subscribe({
+      this.listarDominiosMaestroTrue();
+    }
+  }
+
+  listarTodosDominios(){
+    this.dominioMaestroService.listarDominios().subscribe({
         next: (page: any) => {
           this.dataSourceDominios = new MatTableDataSource(page.data);
           this.dataSourceDominios.sort = this.sort;
@@ -169,13 +173,12 @@ export class AdministracionDominiosComponent implements OnInit {
               msn: GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_DATA_FILE,
               codigo: GENERALES.CODE_EMERGENT.ERROR,
               showResume: true,
-              msgDetalles: JSON.stringify(err?.error.response),
+              msgDetalles: JSON.stringify(err),
             },
           });
           this.spinnerActive = false;
         },
       });
-    }
   }
 
   listarCodigoSeleccionado() {

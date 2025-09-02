@@ -29,7 +29,6 @@ export class DialogIdentificadorDominioComponent implements OnInit {
   }
 
   initForm(param?: any) {
-    this.estado = param ? param.estado : null;
     this.form = new FormGroup({
       dominio: new FormControl(param ? param.id.dominio : null),
       codigo: new FormControl(param ? param.id.codigo : null),
@@ -38,7 +37,7 @@ export class DialogIdentificadorDominioComponent implements OnInit {
       valorTexto: new FormControl(param ? param.valorTexto : null),
       valorNumero: new FormControl(param ? param.valorNumero : null),
       valorFecha: new FormControl(param ? param.valorFecha : null),
-      estado: new FormControl(this.estado),
+      estado: new FormControl(param?.estado == '1'),
     });
     this.form.controls['dominio'].disable();
     this.form.controls['tipo'].disable();
