@@ -101,6 +101,16 @@ export class CentroCiudadBaseComponent implements OnInit {
             next: (page: any) => {
                 this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
                 this.dataSourceTiposCuentas.sort = this.sort;
+                this.dataSourceTiposCuentas.sortingDataAccessor = (data, sortHeaderId) =>{
+                    switch (sortHeaderId) {
+                        case 'bancoAval':
+                            return data.bancoAval.nombreBanco;
+                        case 'ciudad':
+                            return data.ciudadDane.nombreCiudad;
+                        default:
+                            return data[sortHeaderId];
+                    }
+                }
                 this.cantidadRegistros = page.data.totalElements;
                 this.visualizarTabla();
                 this.spinnerActive = false;

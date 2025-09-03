@@ -14,7 +14,7 @@
         <div *ngIf="spinnerActive" class="disenio-spinner">
             <mat-spinner></mat-spinner>
         </div>
-        <div *ngIf="!spinnerActive">
+        <div [hidden]="spinnerActive">
             <table mat-table [dataSource]="dataSourceTiposCuentas" matSort class="configScroll"
                 aria-label="tasasCambio">
                 <tr>
@@ -41,7 +41,7 @@
                         <td mat-cell *matCellDef="let element"> {{element.tasaCambio}} </td>
                     </ng-container>
                     <ng-container class="mat-column-nombreCampo" matColumnDef="acciones">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef>EDITAR</th>
+                        <th mat-header-cell *matHeaderCellDef>EDITAR</th>
                         <td *matCellDef="let element" mat-cell>
                             <button mat-button (click)="editar(element)">
                                 <mat-icon style="color: green">edit</mat-icon>

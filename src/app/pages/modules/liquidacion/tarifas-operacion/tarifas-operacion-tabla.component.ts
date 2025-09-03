@@ -14,7 +14,7 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 })
 export class TarifasOperacionTablaComponent implements OnInit {
 
-  @ViewChild('exporter', {static: false}) exporter: any;
+  @ViewChild('exporter', { static: false }) exporter: any;
 
   @Input() bancos: any[] = [];
   @Input() transportadoras: any[] = [];
@@ -26,7 +26,7 @@ export class TarifasOperacionTablaComponent implements OnInit {
   @Output() editarRegistro = new EventEmitter<any>();
 
   dataSourceTiposCuentas: MatTableDataSource<any>;
-  displayedColumnsTiposCuentas: string[] = ['banco','tdv', 'tOperacion', 'tServicio', 'escala', 'tipoPunto', 'comisionAplicar', 'valorTarifa', 'fechaVigenciaFin', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['banco', 'tdv', 'tipoServicio', 'tipoServicio', 'escala', 'tipoPunto', 'comisionAplicar', 'valorTarifa', 'fechaVigenciaFin', 'acciones'];
   habilitarBTN: boolean = false;
   cantidadRegistros: number = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -64,15 +64,25 @@ export class TarifasOperacionTablaComponent implements OnInit {
       'escala': this.filtroEscalaSelect == undefined ? '': this.filtroEscalaSelect,
       'tipoServicio': this.filtroTipoServicioSelect == undefined ? '': this.filtroTipoServicioSelect
     }).subscribe({next: (page: any) => {
-      this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
-      this.dataSourceTiposCuentas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
-      this.habilitarBTN = true;
-      this.spinnerActive = false;
-    },
-    error:  (err: ErrorService) => {
-      this.spinnerActive = false;
+        this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
+        this.dataSourceTiposCuentas.sort = this.sort;
+        this.dataSourceTiposCuentas.sortingDataAccessor = (data, sortHeaderId) => {
+          switch (sortHeaderId) {
+            case 'banco':
+              return data.bancoDTO.nombreBanco;
+            case 'tdv':
+              return data.transportadoraDTO.nombreTransportadora;
+            default:
+              return data[sortHeaderId];
+          }
+        }
+        this.cantidadRegistros = page.data.totalElements;
+        this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
+        this.habilitarBTN = true;
+        this.spinnerActive = false;
+      },
+      error: (err: ErrorService) => {
+        this.spinnerActive = false;
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -80,7 +90,8 @@ export class TarifasOperacionTablaComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.ERROR
           }
         });
-      }});
+      }
+    });
   }
 
   mostrarMas(e: any) {

@@ -7,7 +7,7 @@
   <div *ngIf="spinnerActive" class="disenio-spinner">
     <app-spinner></app-spinner>
   </div>
-  <div *ngIf="!spinnerActive">
+  <div [hidden]="spinnerActive">
     <table mat-table [dataSource]="dataSourceInfoProcesos" matSort class="mat-elevation-z8">
       <caption></caption>
       <ng-container matColumnDef="idLogProceso">
@@ -16,7 +16,7 @@
       </ng-container>
 
       <ng-container matColumnDef="fechaCreacion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header id="fechaCreacion">FECHA PROCESO</th>
+        <th mat-header-cell *matHeaderCellDef id="fechaCreacion">FECHA PROCESO</th>
         <td mat-cell *matCellDef="let element"> {{element.fechaCreacion | date: 'dd/MM/YYYY' : '+00'}} </td>
       </ng-container>
 

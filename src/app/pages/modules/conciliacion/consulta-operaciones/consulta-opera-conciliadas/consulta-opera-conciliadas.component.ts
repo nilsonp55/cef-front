@@ -30,7 +30,7 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
 
   //DataSource para pintar tabla de conciliados
   dataSourceConciliadas: MatTableDataSource<any>;
-  displayedColumnsConciliadas: string[] = ['banco', 'transPortadora','nombreFondo', 'entradaSalida', 'nombrePuntoOrigen', 'nombrePuntoDestino', 'valor', 'tipoConciliacion', 'fechaEjecucion'];
+  displayedColumnsConciliadas: string[] = ['Banco', 'Transportadora','nombreFondoTDV', 'entradaSalida', 'puntoOrigen', 'puntoDestino', 'valorTotal', 'tipoConciliacion', 'fechaEjecucion'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

@@ -30,59 +30,61 @@
     </div>
 </div>
 
-<div class="table-container_several-tables" *ngIf="!spinnerActive">
-    <div class="mat-table-custom" *ngIf="mostrarTablasRoles">
+<div class="table-container_several-tables" [hidden]="spinnerActive">
+    <div class="mat-table-custom" [hidden]="!mostrarTablasRoles">
         <div class="tittle-section">
             <h2>CARGUE PROGRAMACIÓN</h2>
         </div>
-        <table mat-table [dataSource]="dataSourcePreliminar" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSourcePreliminar" matSort #sortCarguePreliminar="matSort" class="mat-elevation-z8">
             <caption></caption>
-            <ng-container matColumnDef="codigo">
+            <tr>
+                <ng-container matColumnDef="codigo">
                 <th id="codcarguepre" mat-header-cell mat-sort-header *matHeaderCellDef> CODIGO</th>
                 <td id="codcarguepre" mat-cell *matCellDef="let element"> {{element.codigo }} </td>
-            </ng-container>
+                </ng-container>
 
-            <ng-container matColumnDef="idRol">
+                <ng-container matColumnDef="idRol">
                 <th id="rolcarguepre" mat-header-cell mat-sort-header *matHeaderCellDef> ROL</th>
                 <td id="rolcarguepre" mat-cell *matCellDef="let element"> {{element.idRol}} </td>
-            </ng-container>
+                </ng-container>
 
-            <ng-container matColumnDef="menuPadre">
+                <ng-container matColumnDef="menuPadre">
                 <th id="padcarguepre" mat-header-cell mat-sort-header *matHeaderCellDef> MENU PADRE</th>
                 <td id="padcarguepre" mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
-            </ng-container>
+                </ng-container>
 
-            <ng-container matColumnDef="nombreMenu">
+                <ng-container matColumnDef="nombreMenu">
                 <th id="mencarguepre" mat-header-cell mat-sort-header *matHeaderCellDef> MENU</th>
                 <td id="mencarguepre" mat-cell *matCellDef="let element"> {{element.menu.nombre}} </td>
-            </ng-container>
+                </ng-container>
 
-            <ng-container matColumnDef="estado">
+                <ng-container matColumnDef="estado">
                 <th id="estcarguepre" mat-header-cell mat-sort-header *matHeaderCellDef>ESTADO</th>
                 <td id="estcarguepre" mat-cell *matCellDef="let element"> {{element._estado}} </td>
-            </ng-container>
+                </ng-container>
 
-            <ng-container matColumnDef="acciones">
+                <ng-container matColumnDef="acciones">
                 <th id="acccarguepre" mat-header-cell *matHeaderCellDef> ACTIVO/DESACTIVO</th>
                 <td id="acccarguepre" mat-cell disabled="codigoProceso" *matCellDef="let element">
-                    <button *ngIf="element.estado == '2'" mat-button (click)="accion(element, 'desactivar')">
-                        <mat-icon style="color: rgb(170, 41, 18)">block</mat-icon>
-                    </button>
-                    <button *ngIf="element.estado == '1'" mat-button (click)="accion(element, 'activar')">
-                        <mat-icon style="color: green">check_circle_outline</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                        <button *ngIf="element.estado == '2'" mat-button (click)="accion(element, 'desactivar')">
+                            <mat-icon style="color: rgb(170, 41, 18)">block</mat-icon>
+                        </button>
+                        <button *ngIf="element.estado == '1'" mat-button (click)="accion(element, 'activar')">
+                            <mat-icon style="color: green">check_circle_outline</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+            </tr>
             <tr mat-header-row *matHeaderRowDef="displayedColumnsPreliminar"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsPreliminar;"></tr>
         </table>
     </div>
     <!--Tabla para roles Certificación-->
-    <div class="mat-table-custom" *ngIf="mostrarTablasRoles">
+    <div class="mat-table-custom" [hidden]="!mostrarTablasRoles">
         <div class="tittle-section">
             <h2>CARGUE CERTIFICACIÓN</h2>
         </div>
-        <table mat-table [dataSource]="dataSourceCertificacion" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSourceCertificacion" matSort #sortCertificacion="matSort" class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
                 <th id="codcarguecert" *matHeaderCellDef mat-header-cell mat-sort-header>CODIGO</th>
@@ -90,12 +92,12 @@
             </ng-container>
 
             <ng-container matColumnDef="idRol">
-                <th id="rolcarguecert" *matHeaderCellDef mat-header-cell mat-sort-header> ROL</th>
+                <th id="rolcarguecert" *matHeaderCellDef mat-header-cell> ROL</th>
                 <td id="rolcarguecert" mat-cell *matCellDef="let element"> {{element.idRol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="menuPadre">
-                <th id="padcarguecert" *matHeaderCellDef mat-header-cell mat-sort-header> MENU PADRE</th>
+                <th id="padcarguecert" *matHeaderCellDef mat-header-cell> MENU PADRE</th>
                 <td id="padcarguecert" mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
             </ng-container>
 
@@ -125,11 +127,11 @@
         </table>
     </div>
     <!--Tabla para roles Conciliacion-->
-    <div *ngIf="mostrarTablasRoles" class="mat-table-custom">
+    <div [hidden]="!mostrarTablasRoles" class="mat-table-custom">
         <div class="tittle-section">
             <h2>CONCILIACIÓN</h2>
         </div>
-        <table mat-table [dataSource]="dataSourceConciliacion" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSourceConciliacion" matSort #sortConciliacion="matSort" class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
                 <th id="codconciliacion" mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO</th>
@@ -137,12 +139,12 @@
             </ng-container>
 
             <ng-container matColumnDef="idRol">
-                <th id="rolconciliacion" mat-header-cell *matHeaderCellDef mat-sort-header> ROL</th>
+                <th id="rolconciliacion" mat-header-cell *matHeaderCellDef> ROL</th>
                 <td id="rolconciliacion" *matCellDef="let element" mat-cell> {{element.idRol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="menuPadre">
-                <th id="padconciliacion" mat-header-cell *matHeaderCellDef mat-sort-header> MENU PADRE</th>
+                <th id="padconciliacion" mat-header-cell *matHeaderCellDef> MENU PADRE</th>
                 <td id="padconciliacion" *matCellDef="let element" mat-cell> {{element.menu.idMenuPadre}} </td>
             </ng-container>
 
@@ -172,11 +174,11 @@
         </table>
     </div>
     <!--Tabla para roles Contabilidad-->
-    <div *ngIf="mostrarTablasRoles" class="mat-table-custom">
+    <div [hidden]="!mostrarTablasRoles" class="mat-table-custom">
         <div class="tittle-section">
             <h2>CONTABILIDAD</h2>
         </div>
-        <table mat-table [dataSource]="dataSourceContabilidad" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSourceContabilidad" matSort #sortContabilidad="matSort" class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
                 <th id="codcontabilidad" mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO</th>
@@ -184,12 +186,12 @@
             </ng-container>
 
             <ng-container matColumnDef="idRol">
-                <th id="rolcontabilidad" mat-header-cell *matHeaderCellDef mat-sort-header> ROL</th>
+                <th id="rolcontabilidad" mat-header-cell *matHeaderCellDef> ROL</th>
                 <td id="rolcontabilidad" mat-cell *matCellDef="let element"> {{element.idRol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="menuPadre">
-                <th id="padcontabilidad" mat-header-cell *matHeaderCellDef mat-sort-header> MENU PADRE</th>
+                <th id="padcontabilidad" mat-header-cell *matHeaderCellDef> MENU PADRE</th>
                 <td id="padcontabilidad" mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
             </ng-container>
 
@@ -219,11 +221,11 @@
         </table>
     </div>
     <!--Tabla para roles Liquidacion-->
-    <div *ngIf="mostrarTablasRoles" class="mat-table-custom">
+    <div [hidden]="!mostrarTablasRoles" class="mat-table-custom">
         <div class="tittle-section">
             <h2>LIQUIDACIÓN</h2>
         </div>
-        <table mat-table [dataSource]="dataSourceLiquidar" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSourceLiquidar" matSort #sortLiquidar="matSort" class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
                 <th id="codliquidacion" *matHeaderCellDef mat-header-cell mat-sort-header>CODIGO</th>
@@ -231,12 +233,12 @@
             </ng-container>
 
             <ng-container matColumnDef="idRol">
-                <th id="rolliquidacion" *matHeaderCellDef mat-header-cell mat-sort-header>ROL</th>
+                <th id="rolliquidacion" *matHeaderCellDef mat-header-cell>ROL</th>
                 <td id="rolliquidacion" mat-cell *matCellDef="let element"> {{element.idRol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="menuPadre">
-                <th id="padliquidacion" *matHeaderCellDef mat-header-cell mat-sort-header>MENU PADRE</th>
+                <th id="padliquidacion" *matHeaderCellDef mat-header-cell>MENU PADRE</th>
                 <td id="padiquidacion" mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
             </ng-container>
 
@@ -266,11 +268,11 @@
         </table>
     </div>
     <!--Tabla para roles adminitracion-->
-    <div class="mat-table-custom" *ngIf="mostrarTablasRoles">
+    <div class="mat-table-custom" [hidden]="!mostrarTablasRoles">
         <div class="tittle-section">
             <h2>ADMINISTRACIÓN - PARAMETRIZACIÓN</h2>
         </div>
-        <table mat-table [dataSource]="dataSourceAdministracion" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSourceAdministracion" matSort #sortAdministracion="matSort" class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
                 <th id="codadministracion" mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO</th>
@@ -278,12 +280,12 @@
             </ng-container>
 
             <ng-container matColumnDef="idRol">
-                <th id="roladministracion" mat-header-cell *matHeaderCellDef mat-sort-header> ROL</th>
+                <th id="roladministracion" mat-header-cell *matHeaderCellDef> ROL</th>
                 <td id="roladministracion" mat-cell *matCellDef="let element"> {{element.idRol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="menuPadre">
-                <th id="padadministracion" mat-header-cell *matHeaderCellDef mat-sort-header> MENU PADRE</th>
+                <th id="padadministracion" mat-header-cell *matHeaderCellDef> MENU PADRE</th>
                 <td id="padadministracion" mat-cell *matCellDef="let element"> {{element.menu.idMenuPadre}} </td>
             </ng-container>
 
@@ -313,11 +315,11 @@
         </table>
     </div>
     <!--Tabla para roles adminitracion Contables-->
-    <div *ngIf="mostrarTablasRoles" class="mat-table-custom">
+    <div [hidden]="!mostrarTablasRoles" class="mat-table-custom">
         <div class="tittle-section">
             <h2>ADMINISTRACIÓN - TABLAS CONTABLES</h2>
         </div>
-        <table mat-table [dataSource]="dataSourceAdministracionContable" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSourceAdministracionContable" matSort #sortAdministracionContable="matSort" class="mat-elevation-z8">
             <caption></caption>
             <ng-container matColumnDef="codigo">
                 <th *matHeaderCellDef mat-sort-header mat-header-cell>CODIGO</th>

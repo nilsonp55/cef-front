@@ -63,12 +63,12 @@ export class AdministradorCuentasPucComponent implements OnInit {
     this.initForm();
   }
 
- /**
-   * Inicializacion formulario de creacion y edicion
-   * @BayronPerez
-   */
+  /**
+    * Inicializacion formulario de creacion y edicion
+    * @BayronPerez
+    */
   initForm(param?: any) {
-      this.form = new FormGroup({
+    this.form = new FormGroup({
         'idCuentasPuc': new FormControl({value: param? param.idCuentasPuc : null, disabled: true}),
         'cuentaContable': new FormControl(param? param.cuentaContable : null, [Validators.required]),
         'bancoAval': new FormControl(param? this.bancos.find((value) => value.codigoPunto === param.bancoAval.codigoPunto) : null, [Validators.required]),
@@ -77,7 +77,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
         'tiposCentrosCostos': new FormControl(param? this.tiposCostosCuentas.find((value) => value.tipoCentro === param.tiposCentrosCostos.tipoCentro) : null, [Validators.required]),
         'tiposCuentas': new FormControl(param? this.tipoCuentas.find((value) => value.tipoCuenta === param.tiposCuentas.tipoCuenta) : null, [Validators.required]),
         'estado': new FormControl(param? param.estado : null, [Validators.required])
-      });
+    });
   }
 
   /**
@@ -91,21 +91,31 @@ export class AdministradorCuentasPucComponent implements OnInit {
       size: tamanio,
     }).subscribe({
       next: (page: any) => {
-      this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
-      this.dataSourceTiposCuentas.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-      this.spinnerActive = false;
+        this.dataSourceTiposCuentas = new MatTableDataSource(page.data);
+        this.dataSourceTiposCuentas.sort = this.sort;
+        this.dataSourceTiposCuentas.sortingDataAccessor = (data, sortHeaderId) => {
+          switch (sortHeaderId) {
+            case 'bancoAval':
+              return data.bancoAval.abreviatura;
+            case 'tipoCuenta':
+              return data.tiposCuentas.tipoCuenta;
+            default:
+              return data[sortHeaderId];
+          }
+        }
+        this.cantidadRegistros = page.data.totalElements;
+        this.spinnerActive = false;
       },
       error:  (err: ErrorService) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
-              codigo: GENERALES.CODE_EMERGENT.ERROR
-            }
-          });
-          this.spinnerActive = false;
-        }
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
+            codigo: GENERALES.CODE_EMERGENT.ERROR
+          }
+        });
+        this.spinnerActive = false;
+      }
     });
   }
    visualizarTabla(){
@@ -117,7 +127,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
     * Se realiza persistencia del formulario de cuentas puc
     * @BayronPerez
     */
-   persistir() {
+  persistir() {
     const cuentaPuc = {
       idCuentasPuc: this.form.value['idCuentasPuc'],
       cuentaContable: this.form.value['cuentaContable'],
@@ -135,19 +145,19 @@ export class AdministradorCuentasPucComponent implements OnInit {
       estado: Number(this.form.value['estado']),
     };
 
-    const serviceCall = this.esEdicion 
-      ? this.cuentasPucService.actualizarCuentaPuc(cuentaPuc) 
+    const serviceCall = this.esEdicion
+      ? this.cuentasPucService.actualizarCuentaPuc(cuentaPuc)
       : this.cuentasPucService.guardarCuentaPuc(cuentaPuc);
 
     if (this.esEdicion) {
       cuentaPuc.idCuentasPuc = this.idCuentaPuc;
     }
-      serviceCall.subscribe({
-        next: (response) => {
+    serviceCall.subscribe({
+      next: (response) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE 
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE
               :GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
             showResume: true,
@@ -159,21 +169,21 @@ export class AdministradorCuentasPucComponent implements OnInit {
         this.visualizarTabla()
       },
       error:  (err: any) => {
-          this.dialog.open(VentanaEmergenteResponseComponent, {
-            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-            data: {
-              msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
-                : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
-              codigo: GENERALES.CODE_EMERGENT.ERROR,
-              showResume: true,
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: this.esEdicion ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE
+              : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
             msgDetalles: JSON.stringify(err?.error)
-            }
-          });
-          this.visualizarTabla()
-        }
-      });
-    
-   }
+          }
+        });
+        this.visualizarTabla()
+      }
+    });
+
+  }
 
   /**
     * Se muestra el formulario para crear cuetnas puc
@@ -227,7 +237,7 @@ export class AdministradorCuentasPucComponent implements OnInit {
     this.esEdicion = false;
     this.initForm(undefined);
   }
-  
+
   visualizarFormulario(){
     this.mostrarFormulario = true;
     this.mostrarTabla = false;

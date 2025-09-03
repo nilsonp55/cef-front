@@ -1,63 +1,6 @@
-.tmanioTabla {
-  width: 200% !important;
+.mat-table-custom {
+    max-height: 720px;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: auto;
 }
-
-.divTabl {
-  background-color: rgb(226, 229, 229);
-  padding: 1%;
-  margin-top: 2%;
-  margin-left: 4%;
-  margin-right: 2%;
-  margin-bottom: auto;
-}
-
-.divTituloTabl {
-  background-color: #f0f0f0;
-  width: 100%;
-  text-align: center;
-}
-
-.configScroll {
-  max-height: 500px;
-  max-width: 100%;
-  overflow: auto;
-}
-
-.tituloTabla {
-    padding-top: 1%;
-    text-align: center;
-}
-
-  .disenio-tabla{
-    width: 100%;
-  }
-
-  .disenio-spinner{
-    margin-top: 5%;
-    margin-left: 40%;
-  }
-
-  .bottonVerArchivo {
-    color: #fff;
-    background-color: #eee23e;
-    border-color: #bbb231;
-    display:block; 
-    margin:auto;
-    padding:0.7%;
-    border-radius: 0.25rem;
-    line-height: 0.7;
-    font-size: 17px;
-}
-
-.bottonSolicitar {
-    color: #fff;
-    background-color: #da5b34;
-    border-color: #b44a2a;
-    display:block; 
-    margin:auto;
-    padding:0.7%;
-    border-radius: 0.25rem;
-    line-height: 0.7;
-    font-size: 17px;
-}
-

@@ -61,7 +61,7 @@
   <div *ngIf="spinnerActive" class="disenio-spinner">
     <mat-spinner></mat-spinner>
   </div>
-  <div *ngIf="!spinnerActive">
+  <div [hidden]="spinnerActive">
     <table mat-table matTableExporter [dataSource]="dataSource" matSort #exporter="matTableExporter"
       class="mat-elevation-z8" aria-label="puntos-codigo-tdv">
       <tr>
@@ -77,11 +77,11 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO PUNTO</th>
           <td mat-cell *matCellDef="let element"> {{element.puntosDTO.tipoPunto}} </td>
         </ng-container>
-        <ng-container matColumnDef="codigoTdv">
+        <ng-container matColumnDef="codigoTDV">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>CÓDIGO TDV</th>
           <td mat-cell *matCellDef="let element"> {{element.codigoTDV}} </td>
         </ng-container>
-        <ng-container matColumnDef="codigoPropioTdv">
+        <ng-container matColumnDef="codigoPropioTDV">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>CÓDIGO PROPIO TDV</th>
           <td mat-cell *matCellDef="let element"> {{element.codigoPropioTDV}} </td>
         </ng-container>

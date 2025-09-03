@@ -43,7 +43,7 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <div *ngIf="!spinnerActive">
+  <div [hidden]="spinnerActive">
     <table mat-table [dataSource]="dsClientesCorporativos" matSort class="mat-elevation-z8" matTableExporter
       #exporter="matTableExporter" aria-label="clientesCorporativos">
       <tr>

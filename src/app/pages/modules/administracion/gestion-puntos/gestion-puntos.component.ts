@@ -163,6 +163,16 @@ export class GestionPuntosComponent implements OnInit {
             page.data.content
           );
           this.dataSourcePuntoSelect.sort = this.sort;
+          this.dataSourcePuntoSelect.sortingDataAccessor = (data, sortHeaderId) => {
+            switch (sortHeaderId) {
+              case 'codigoCiudad':
+                return this.getNombreCiudad(data.codigoCiudad);
+              case 'banco_aval':
+                return this.getNombreBanco(data);
+                default:
+                  return data [sortHeaderId];
+            }
+          }
           this.cantidadRegistros = page.data.totalElements;
           this.pageSizeOptions = [5, 10, 25, 100, page.data.totalElements];
           this.spinnerActive = false;

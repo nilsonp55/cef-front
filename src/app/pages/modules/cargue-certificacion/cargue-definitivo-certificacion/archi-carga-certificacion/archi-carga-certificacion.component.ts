@@ -39,7 +39,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
   //DataSource para pintar tabla de archivos cargados
   dataSourceInfoArchivo: MatTableDataSource<ArchivoCargadoModel>;
   pageSizeOptions: number[] = [5, 10, 25, 100, 500];
-  displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaInicioCargue', 'estado', 'acciones'];
+  displayedColumnsInfoArchivo: string[] = ['nombreArchivo', 'fechaArchivo', 'estadoCargue', 'acciones'];
 
 
   constructor(

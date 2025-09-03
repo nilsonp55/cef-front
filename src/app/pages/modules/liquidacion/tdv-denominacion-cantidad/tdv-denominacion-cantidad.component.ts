@@ -94,6 +94,14 @@ export class TdvDenominacionCantidadComponent implements OnInit {
       this.dataSourceDenominacion = new MatTableDataSource(page.data);
       this.dataSourceDenominacion.paginator = this.paginator;
       this.dataSourceDenominacion.sort = this.sort;
+      this.dataSourceDenominacion.sortingDataAccessor = (data, sortHeaderId) => {
+        switch (sortHeaderId) {
+          case 'transportadora':
+            return data.transportadoraDTO.nombreTransportadora;
+          default:
+            return data[sortHeaderId];
+        }
+      }
       this.cantidadRegistros = page.data.totalElements;
       this.habilitarBTN = true;
       this.spinnerActive = false;

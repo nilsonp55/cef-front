@@ -76,6 +76,20 @@ export class TableCodigoTdvComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         if (this.sort) {
             this.dataSource.sort = this.sort; // For client-side sorting by header click
+            this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
+                switch (sortHeaderId) {
+                    case 'tipoPunto':
+                        return data.puntosDTO.tipoPunto;
+                    case 'nombrePunto':
+                        return data.puntosDTO.nombrePunto;
+                    case 'codigoCiudad':
+                        return this.resolveCiudadNombre(data.ciudadFondo);
+                    case 'nombreBanco':
+                        return data.bancosDTO.nombreBanco;
+                    default:
+                        return data[sortHeaderId];
+                }
+            }
             this.sort.sortChange.subscribe((sortEvent: Sort) => {
                 this.sortChangeInternal.emit(sortEvent);
                 // If server-side sorting is implemented, fetchData would be called here.

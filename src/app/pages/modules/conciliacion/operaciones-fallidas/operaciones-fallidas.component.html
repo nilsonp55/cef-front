@@ -28,7 +28,7 @@
       <div *ngIf="loadProg" class="disenio-spinner">
         <mat-spinner></mat-spinner>
       </div>
-      <div *ngIf="!loadProg" class="config-scroll-custom">
+      <div [hidden]="loadProg" class="config-scroll-custom">
         <table mat-table matTableExporter matSort #sort1="matSort" #exporterProg="matTableExporter"
           [dataSource]="dataSourceOperacionesProgramadas" aria-label="OperacionesProgramadas">
           <tr>
@@ -113,7 +113,7 @@
       <div *ngIf="loadCert" class="disenio-spinner">
         <mat-spinner></mat-spinner>
       </div>
-      <div *ngIf="!loadCert" class="configScroll">
+      <div [hidden]="loadCert" class="configScroll">
         <table id="operacionesCertificadas" mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas"
           matSort #sort2="matSort" #exporter="matTableExporter" aria-label="OperacionesCertificadas">
           <tr>

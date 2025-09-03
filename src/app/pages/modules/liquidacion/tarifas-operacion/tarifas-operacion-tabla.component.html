@@ -68,7 +68,7 @@
   <div *ngIf="spinnerActive" class="disenio-spinner">
     <mat-spinner></mat-spinner>
   </div>
-  <div *ngIf="!spinnerActive">
+  <div [hidden]="spinnerActive">
     <table mat-table matTableExporter [dataSource]="dataSourceTiposCuentas" matSort class="mat-elevation-z8"
       #exporter="matTableExporter" aria-label="tarifasOperacion">
       <tr>
@@ -90,7 +90,7 @@
         </ng-container>
       </tr>
       <tr>
-        <ng-container matColumnDef="tServicio" class="mat-column-nombreCampo">
+        <ng-container matColumnDef="tipoServicio" class="mat-column-nombreCampo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO SERVICIO</th>
           <td mat-cell *matCellDef="let element"> {{element.tipoServicio}} </td>
         </ng-container>
@@ -127,7 +127,7 @@
       </tr>
       <tr>
         <ng-container matColumnDef="acciones" class="mat-column-nombreCampo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>EDITAR</th>
+          <th mat-header-cell *matHeaderCellDef>EDITAR</th>
           <td mat-cell *matCellDef="let element">
             <button mat-button (click)="editarRegistro.emit(element)">
               <mat-icon style="color: green">edit</mat-icon>
