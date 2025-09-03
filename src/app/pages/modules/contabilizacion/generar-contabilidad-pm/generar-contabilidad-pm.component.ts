@@ -110,7 +110,8 @@ export class GenerarContabilidadPmComponent implements OnInit {
   verTransactContables() {
     this.dialog.open(ResultadoContabilidadComponent, {//generar
       width: '100%',
-      height: '90%',
+      height: 'auto',
+      maxHeight: '90%',
       data: {
         respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
         titulo: "Generar Contabilidad PM - Resultado",
@@ -128,7 +129,8 @@ export class GenerarContabilidadPmComponent implements OnInit {
   verErrores() {
     this.dialog.open(ErroresContabilidadComponent, {
       width: '100%',
-      height: '90%',
+      height: 'auto',
+      maxHeight: '90%',
       data: {
         respuesta: this.dataGenerateContabilidad.erroresContablesDTO,
         titulo: "Generar Contabilidad PM - Errores",

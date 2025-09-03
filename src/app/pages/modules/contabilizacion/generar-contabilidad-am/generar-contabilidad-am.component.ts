@@ -115,6 +115,8 @@ export class GenerarContabilidadAmComponent implements OnInit {
   verTransactContables() {
     this.dialog.open(ResultadoContabilidadComponent, {
       width: '100%',
+      height: 'auto',
+      maxHeight: '90%',
       data: {
         respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
         titulo: "Generar Contabilidad AM - Resultado",
@@ -132,6 +134,8 @@ export class GenerarContabilidadAmComponent implements OnInit {
   verErrores() {
     this.dialog.open(ErroresContabilidadComponent, {
       width: '100%',
+      height: 'auto',
+      maxHeight: '90%',
       data: {
         respuesta: this.dataGenerateContabilidad.erroresContablesDTO,
         titulo: "Generar Contabilidad AM - Errores",
