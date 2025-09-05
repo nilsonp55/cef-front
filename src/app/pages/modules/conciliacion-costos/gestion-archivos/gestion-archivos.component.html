@@ -2,15 +2,17 @@
     <h2>Descargar Archivos</h2>
 </div>
 <div class="mat-table-custom">
-    <app-filtro-archivos (filterData)="filter($event)" [showFechaProceso]="true"></app-filtro-archivos>
+    <app-filtro-archivos (filterData)="filter($event)" (clearFilter)="onClearFilter()"
+        [showFechaProceso]="true"></app-filtro-archivos>
     <div class="controls-container">
         <button mat-raised-button color="primary" class="button-custom" (click)="descargarArchivos()">Descargar
             archivos</button>
         <button mat-raised-button color="primary" class="button-custom" (click)="cerrarArchivos()">Cerrar
             conciliación</button>
         <div class="paginator-area">
-            <mat-paginator [pageSize]="pageSizeList[0]" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros"
-                (page)="mostrarMasArchivosPendienteCarga($event)"></mat-paginator>
+            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100, cantidadRegistros]"
+                [length]="cantidadRegistros">
+            </mat-paginator>
         </div>
     </div>
     <table mat-table [dataSource]="dataSourceConciliadas" matSort aria-label="GestionArchivos">
