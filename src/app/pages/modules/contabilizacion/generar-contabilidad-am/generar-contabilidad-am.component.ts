@@ -31,6 +31,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
 
   //Variable para activar spinner
   spinnerActive: boolean = false;
+  mostrarTabla: boolean = false;
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
@@ -90,6 +91,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
       this.tieneErrores = conteoContabilidadDto.conteoErroresContables > 0 ? false : true;
       this.dataSourceInfoProcesos = new MatTableDataSource(tabla);
       this.spinnerActive = false;
+      this.mostrarTabla = true;
     },
     error: (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -102,6 +104,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
           }
         });
         this.spinnerActive = false;
+        this.mostrarTabla = false;
       }
     });
   }
@@ -118,7 +121,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
       height: 'auto',
       maxHeight: '90%',
       data: {
-        respuesta: this.dataGenerateContabilidad.respuestasContablesDTO,
+        respuesta: this.dataGenerateContabilidad?.respuestasContablesDTO,
         titulo: "Generar Contabilidad AM - Resultado",
         tipoContabilidad: "AM",
         flag: "G"
@@ -137,7 +140,7 @@ export class GenerarContabilidadAmComponent implements OnInit {
       height: 'auto',
       maxHeight: '90%',
       data: {
-        respuesta: this.dataGenerateContabilidad.erroresContablesDTO,
+        respuesta: this.dataGenerateContabilidad?.erroresContablesDTO,
         titulo: "Generar Contabilidad AM - Errores",
       }
     });
