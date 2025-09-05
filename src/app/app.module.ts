@@ -71,7 +71,7 @@ import { ArchiCargaCertificacionComponent } from './pages/modules/cargue-certifi
 import { AdministracionContabilidadComponent } from './pages/modules/administracion/administracion-contabilidad/administracion-contabilidad.component';
 import { AdministradorCuentasPucComponent } from './pages/modules/administracion/administrador-cuentas-puc/administrador-cuentas-puc.component';
 import { AdministradorTipoCentroCostosComponent } from './pages/modules/administracion/administrador-tipo-centro-costos/administrador-tipo-centro-costos.component';
-import { CentroCiudadBaseComponent } from './pages/modules/administracion/centro-ciudad-base/centro-ciudad-base.component'; 
+import { CentroCiudadBaseComponent } from './pages/modules/administracion/centro-ciudad-base/centro-ciudad-base.component';
 import { AdministracionCentroCiudadesComponent } from './pages/modules/administracion/administracion-centro-ciudades/administracion-centro-ciudades.component';
 import { CentroCiudadPrincipalComponent } from './pages/modules/administracion/centro-ciudad-principal/centro-ciudad-principal.component';
 import { AdministracionConfContableEntidadComponent } from './pages/modules/administracion/administracion-conf-contable-entidad/administracion-conf-contable-entidad.component';
@@ -146,7 +146,7 @@ import { ConciliadasComponent } from './pages/modules/conciliacion-costos/concil
 import { CobradasTdvNoIdentificadasComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/cobradas-tdv-no-identificadas/cobradas-tdv-no-identificadas.component';
 import { LiquidadasNoCobradasTdvComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/liquidadas-no-cobradas-tdv/liquidadas-no-cobradas-tdv.component';
 import { IdentificadasConDiferenciaComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/identificadas-con-diferencia/identificadas-con-diferencia.component';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { VentanaEmergenteDesconciliarComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/conciliadas/ventana-emergente-desconciliar/ventana-emergente-desconciliar.component';
 import { VentanaEmergenteAceptarRechazarComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/cobradas-tdv-no-identificadas/ventana-emergente-aceptar-rechazar/ventana-emergente-aceptar-rechazar.component';
 import { VentanaEmergenteAceptarRechazarIdentificadasConDifComponent } from './pages/modules/conciliacion-costos/conciliacion-transporte/identificadas-con-diferencia/ventana-emergente-aceptar-rechazar/ventana-emergente-aceptar-rechazar.component';
@@ -180,6 +180,10 @@ import { getSpanishPaginatorIntl } from './pages/shared/config/paginator.intl-co
 import { CustomCurrencyPipe } from './pages/shared/pipes/CustomCurrencyPipe';
 
 registerLocaleData(localeEsCo, )
+import { TarifasEspecialesComponent } from './pages/modules/liquidacion/tarifas-especiales/tarifas-especiales.component';
+import { AdicionarEditarTarifaEspecialComponent } from './pages/modules/liquidacion/tarifas-especiales/adicionar-editar-tarifa-especial/adicionar-editar-tarifa-especial.component';
+import { CargueMasivoTarifasEspecialesComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/cargue-masivo-tarifas-especiales.component';
+import { DetalleErrorModalComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/detalle-error-modal/detalle-error-modal.component';
 
 @NgModule({
   declarations: [
@@ -330,7 +334,11 @@ registerLocaleData(localeEsCo, )
     ListarPuntosNoConcialiablesComponent,
     ConciliarNuevosPuntosTdvComponent,
     DialogConfirmComponent,
-    CustomCurrencyPipe
+    CustomCurrencyPipe,
+    TarifasEspecialesComponent,
+    AdicionarEditarTarifaEspecialComponent,
+    CargueMasivoTarifasEspecialesComponent,
+    DetalleErrorModalComponent
   ],
 
   imports: [
@@ -395,4 +403,4 @@ registerLocaleData(localeEsCo, )
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

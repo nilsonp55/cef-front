@@ -2,7 +2,7 @@
 <app-banner-superior></app-banner-superior>
 
 <!--Botones de Menu-->
-<div >
+<div class="page-wrapper">
     <section class="cards-section text-center">
         <div>
             <div id="cards-wrapper" class="cards-wrapper row">
@@ -21,7 +21,7 @@
                 </div>
 
                 <!--Cargue certificacion-->
-                <div class="item item-pink col-lg-4 col-6" >
+                <div class="item item-pink item-2 col-lg-4 col-6">
                     <button class="item-inner" routerLink="/cargue-certificacion">
                         <div class="ubicacion-icon">
                             <input class="img-input" type="image" src="assets/img/icono--03.png"
@@ -43,9 +43,10 @@
                         <p class="intro">Conciliación de operaciones programadas versus operaciones certificadas</p>
                     </button>
                 </div>
-
+            </div>
+            <div class="cards-wrapperfour row">
                 <!--Contabilidad-->
-                <div class="item item-purple col-lg-4 col-6">
+                <div class="item item-purple col-lg-3 col-6">
                     <button class="item-inner" routerLink="/contabilidad">
                         <div class="ubicacion-icon">
                             <input class="img-input" type="image" src="assets/img/icono--06.png" alt="Contabilidad" />
@@ -56,7 +57,7 @@
                 </div>
 
                 <!--Cierre fecha-->
-                <div class="item item-primary col-lg-4 col-6">
+                <div class="item item-primary col-lg-3 col-6">
                     <button class="item-inner" routerLink="/liquidacion">
                         <div class="ubicacion-icon">
                             <input class="img-input" type="image" src="assets/img/icono--05.png" alt="Liquidación" />
@@ -66,7 +67,7 @@
                     </button>
                 </div>
 
-                <div class="item item-purple col-lg-4 col-6" *ngIf="ffConciliacionCostos">
+                <div class="item item-purple col-lg-3 col-6">
                     <button class="item-inner" routerLink="/conciliacion-costos">
                         <div class="ubicacion-icon">
                             <input class="img-input" type="image" src="assets/img/icono--02.png"
@@ -78,7 +79,7 @@
                 </div>
 
                 <!--Administracion-->
-                <div class="item item-purple col-lg-4 col-6">
+                <div class="item item-purple col-lg-3 col-6">
                     <button class="item-inner" routerLink="/administracion">
                         <div class="ubicacion-icon">
                             <input class="img-input" type="image" src="assets/img/icono--02.png" alt="Administración" />

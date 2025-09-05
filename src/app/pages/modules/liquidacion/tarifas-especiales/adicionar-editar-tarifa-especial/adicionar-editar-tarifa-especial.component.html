@@ -1,0 +1,224 @@
+<div mat-dialog-content>
+    <div class="form-row-display">
+        <div class="field-display">
+            <label>Banco:</label>
+            <div class="field-value">{{ data.banco.nombreBanco }}</div>
+        </div>
+
+        <div class="field-display">
+            <label>Tipo de documento cliente:</label>
+            <div class="field-value">{{ data.tipoDocumento }}</div>
+        </div>
+
+        <div class="field-display">
+            <label>Número de documento cliente:</label>
+            <div class="field-value">{{ data.numeroDocumento }}</div>
+        </div>
+    </div>
+    <br>
+    <div class="form-row-display">
+        <div class="field-display">
+            <label>Nombre cliente:</label>
+            <div class="field-value">{{ data.nombreCliente }}</div>
+        </div>
+    </div>
+    <br>
+
+    <span mat-dialog-title class="modal-title-banner">TARIFAS ESPECIALES DE COMISIÓN CLIENTES CORPORATIVOS -
+        {{txtEstado | uppercase}}</span>
+
+    <form [formGroup]="form" class="tarifa-form">
+
+        <div class="dates-row">
+            <div class="date-inline">
+                <label class="date-label">Fecha Inicio Vigencia:</label>
+                <mat-form-field appearance="outline">
+                    <mat-label>DD/MM/AAAA</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="fechaInicio" style="height: 10px;"
+                        [disabled]="form.get('fechaInicio')?.disabled">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error
+                        *ngIf="form.get('fechaInicio')?.hasError('required') && form.get('fechaInicio')?.touched">
+                        Campo Obligatorio
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="date-inline">
+                <label class="date-label">Fecha Fin Vigencia:</label>
+                <mat-form-field appearance="outline">
+                    <mat-label>DD/MM/AAAA</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="fechaFin"
+                        [disabled]="form.get('fechaFin')?.disabled" style="height: 10px;">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error *ngIf="form.get('fechaFin')?.hasError('required') && form.get('fechaFin')?.touched">
+                        Campo Obligatorio
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Sección de 3 columnas -->
+        <div class="form-grid-3">
+            <mat-form-field appearance="outline">
+                <mat-label>Transportadora</mat-label>
+                <mat-select formControlName="transportadora" [disabled]="form.get('transportadora')?.disabled">
+                    <mat-option *ngFor="let t of transportadorasList" [value]="t">
+                        {{ t.nombreTransportadora }}
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="form.get('transportadora')?.hasError('required') && form.get('transportadora')?.touched">
+                    Campo Obligatorio
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Ciudad</mat-label>
+                <mat-select formControlName="ciudad" [disabled]="form.get('ciudad')?.disabled"
+                    (selectionChange)="onCiudadChange($event.value)">
+                    <mat-option *ngFor="let c of ciudadesList" [value]="c">
+                        {{ c.codigoNombreCiudad }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('ciudad')?.hasError('required') && form.get('ciudad')?.touched">
+                    Campo Obligatorio
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Punto</mat-label>
+                <mat-select formControlName="punto" [disabled]="form.get('punto')?.disabled">
+                    <mat-option *ngFor="let p of puntosFiltrados" [value]="p">
+                        {{ p.nombrePunto }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('punto')?.hasError('required') && form.get('punto')?.touched">
+                    Campo Obligatorio
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo Operación</mat-label>
+                <mat-select formControlName="tipoOperacion" [disabled]="form.get('tipoOperacion')?.disabled">
+                    <mat-option *ngFor="let tO of tipoOperacionesList" [value]="tO">
+                        {{ tO }}
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="form.get('tipoOperacion')?.hasError('required') && form.get('tipoOperacion')?.touched">
+                    Campo Obligatorio
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo Comisión</mat-label>
+                <mat-select formControlName="tipoComision" [disabled]="form.get('tipoComision')?.disabled"
+                    (selectionChange)="onTipoComisionChange($event.value)">
+                    <mat-option *ngFor="let tC of tipoComisionList" [value]="tC">
+                        {{ tC }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('tipoComision')?.hasError('required') && form.get('tipoComision')?.touched">
+                    Campo Obligatorio
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Valor Tarifa</mat-label>
+                <input matInput type="text" style="height: 10px;" formControlName="valorTarifa"
+                    [disabled]="form.get('valorTarifa')?.disabled" (keydown)="validateDecimalInput($event, 10, 6)"
+                    (blur)="onDecimalBlur('valorTarifa', 10, 6)" placeholder="Máx. 10 enteros y 6 decimales">
+                <mat-error *ngIf="form.get('valorTarifa')?.hasError('required') && form.get('valorTarifa')?.touched">
+                    Campo Obligatorio
+                </mat-error>
+            </mat-form-field>
+
+
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo Servicio</mat-label>
+                <mat-select formControlName="tipoServicio" [disabled]="form.get('tipoServicio')?.disabled">
+                    <mat-option *ngFor="let tS of tipoServiciosList" [value]="tS">
+                        {{ tS }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('tipoServicio')?.hasError('required') && form.get('tipoServicio')?.touched">
+                    Campo Obligatorio
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Escala</mat-label>
+                <mat-select formControlName="escala" [disabled]="form.get('escala')?.disabled">
+                    <mat-option *ngFor="let e of escalaList" [value]="e">
+                        {{ e }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('escala')?.hasError('required') && form.get('escala')?.touched">
+                    Campo Obligatorio
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Unidad de Cobro</mat-label>
+                <input matInput type="text" style="height: 10px;" formControlName="unidadCobro">
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+                <mat-label>Límite Comisión Aplicar</mat-label>
+                <input matInput type="text" style="height: 10px;" formControlName="limiteComision"
+                    [disabled]="form.get('limiteComision')?.disabled">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Valor Comisión Adicional</mat-label>
+                <input matInput type="text" style="height: 10px;" formControlName="valorComisionAdicional"
+                    [disabled]="form.get('valorComisionAdicional')?.disabled"
+                    (keydown)="validateDecimalInput($event, 10, 6)" (blur)="onDecimalBlur('limiteComision', 10, 6)"
+                    placeholder="Máx. 10 enteros y 6 decimales">
+            </mat-form-field>
+
+            <div class="switch-row">
+                <span class="switch-text">Estado:</span>
+                <label class="switch">
+                    <input class="switch-input" type="checkbox" formControlName="estado"
+                        [disabled]="form.get('estado')?.disabled" id="estado" />
+                    <span class="switch-label" data-on="Activo" data-off="Inactivo"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+
+            <div class="checkbox-row">
+                <mat-checkbox formControlName="billetes" [disabled]="form.get('billetes')?.disabled">
+                    Billetes
+                </mat-checkbox>
+            </div>
+            <div class="checkbox-row">
+                <mat-checkbox formControlName="monedas" [disabled]="form.get('monedas')?.disabled">
+                    Monedas
+                </mat-checkbox>
+            </div>
+            <div class="checkbox-row">
+                <mat-checkbox formControlName="fajado" [disabled]="form.get('fajado')?.disabled">
+                    Fajado
+                </mat-checkbox>
+            </div>
+            <mat-error style="padding: 10px 10px 10px 25px;"
+                *ngIf="form.hasError('ningunoSeleccionado') && form.touched">
+                Campo Obligatorio
+            </mat-error>
+        </div>
+    </form>
+
+
+</div>
+<div mat-dialog-actions align="end">
+    <div class="btn-container">
+        <button mat-raised-button color="primary" (click)="guardarTarifaEspecial()">{{txtEstado}}</button>
+        <button mat-stroked-button (click)="closeModal()">Cancelar</button>
+    </div>
+</div>

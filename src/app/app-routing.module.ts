@@ -98,6 +98,8 @@ import { GenerarPoliticaRetencionComponent } from './pages/modules/administracio
 import { EstadoCargueCertificacionComponent } from './pages/modules/cargue-certificacion/estado-cargue-certificacion/estado-cargue-certificacion.component';
 import { ListarPuntosNoConcialiablesComponent } from './pages/modules/conciliacion/listar-no-conciliables/listar-puntos-no-conciliables.component';
 import { ConciliarNuevosPuntosTdvComponent } from './pages/modules/conciliacion/conciliar-nuevos-puntos-tdv/conciliar-nuevos-puntos-tdv.component';
+import { TarifasEspecialesComponent } from './pages/modules/liquidacion/tarifas-especiales/tarifas-especiales.component';
+import { CargueMasivoTarifasEspecialesComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/cargue-masivo-tarifas-especiales.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -152,6 +154,7 @@ const routes: Routes = [
       { path: 'guardar-detalle-liquidacion/:fechaSistema/:codTransportadora', component: DetalleGuardarLiquidacionComponent },
       { path: 'tdv-denominacion-cantidad', component: TdvDenominacionCantidadComponent, canActivate: [LiquidacionDenominacionCantidadGuard] },
       { path: 'cierre-liquidacion-mensual', component: CierreLiquidacionMensualComponent, canActivate: [LiquidacionCierreLiquidacionMensualGuard] },
+      { path: 'app-tarifas-especiales', component: TarifasEspecialesComponent },
     ]
   },
   {
@@ -174,21 +177,22 @@ const routes: Routes = [
       { path: 'administracion-cuentas-puc', component: AdministradorCuentasPucComponent, canActivate: [LiquidacionCuentasPucGuard] },
       { path: 'administracion-tipo-centro-costos', component: AdministradorTipoCentroCostosComponent, canActivate: [AdministracionTipoCentroCostosGuard] },
       { path: 'administracion-centro-ciudad', component: AdministracionCentroCiudadesComponent, canActivate: [AdministracionCentroCiudadGuard] },
-      { path: 'centro-ciudad-ppal', component: CentroCiudadPrincipalComponent, canActivate: [CentroCiudadPpalGuard]},
+      { path: 'centro-ciudad-ppal', component: CentroCiudadPrincipalComponent, canActivate: [CentroCiudadPpalGuard] },
       { path: 'administracion-conf-contable-entidad', component: AdministracionConfContableEntidadComponent, canActivate: [AdministracionConfEntiContablesGuard] },
       { path: 'administracion-roles', component: GestionRolesUsuariosComponent, canActivate: [AdministracionRolesGuard] },
       { path: 'administracion-usuarios', component: GestionUsuariosComponent, canActivate: [AdministracionUsuariosGuard] },
       { path: 'administracion-procedimientos', component: GestionProcedimientosComponent, canActivate: [AdministracionProcedimientosGuard] },
       { path: 'administracion-festivos-nacionales', component: AdministracionFestivosNacionalesComponent, canActivate: [AdministracionFestivosNacionalesGuard] },
-      { path: 'administracion-generar-llaves', component: GenerarLlaveArchivosComponent},
-      { path: 'administracion-tasas-cambio', component: AdministracionTasasCambioComponent},
-      { path: 'administracion-generar-politica', component: GenerarPoliticaRetencionComponent},
+      { path: 'administracion-generar-llaves', component: GenerarLlaveArchivosComponent },
+      { path: 'administracion-tasas-cambio', component: AdministracionTasasCambioComponent },
+      { path: 'administracion-generar-politica', component: GenerarPoliticaRetencionComponent },
       { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [AdministracionCodigoTdvGuard] },
       { path: 'clientes-corporativos', component: ClientesCorporativosComponent, canActivate: [ClientesCorporativosGuard] },
       {
         path: 'menu',
         loadChildren: () => import('src/app/pages/modules/administracion/menu/menu.module').then(m => m.MenuModule)
-      }
+      },
+      { path: 'administracion-cargue-masivo-tablas', component: CargueMasivoTarifasEspecialesComponent },
     ]
   }
 

@@ -1,0 +1,204 @@
+<div class="mat-table-custom" *ngIf="mostrarPrincipal">
+    <div class="table-filter-container">
+        <mat-form-field appearance="fill">
+            <mat-label>Bancos</mat-label>
+            <mat-select [(ngModel)]="filtroBancoSelect" (ngModelChange)="validarBuscar($event)">
+                <mat-option *ngFor="let item of bancos" [value]="item">
+                    {{item.nombreBanco}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Tipo de Documento Cliente</mat-label>
+            <mat-select [(ngModel)]="tipoDocumentoSelect" (ngModelChange)="validarBuscar($event)">
+                <mat-option *ngFor="let item of tipoDocumentos" [value]="item">
+                    {{item}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Número de Documento Cliente</mat-label>
+            <input matInput [(ngModel)]="numeroDocumento" maxlength="20" (ngModelChange)="validarBuscar($event)">
+        </mat-form-field>
+    </div>
+    <div class="table-filter-container">
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre Cliente</mat-label>
+            <input matInput [(ngModel)]="nombreCliente" readonly>
+        </mat-form-field>
+    </div>
+    <div class="table-filter-container">
+        <mat-checkbox [(ngModel)]="vigenciaActual" (change)="onVigenciaChange('ACTUAL')" required>
+            <span class="checkbox-label">Vigencias Actuales <span class="text-danger">*</span></span>
+        </mat-checkbox>
+
+        <mat-checkbox [(ngModel)]="vigenciaPasada" (change)="onVigenciaChange('PASADA')" required>
+            <span class="checkbox-label">Vigencias Pasadas <span class="text-danger">*</span></span>
+        </mat-checkbox>
+        <div class="d-flex gap-2">
+            <button title="Filtrar" mat-button (click)="buscarCliente()" [disabled]="!buscar">
+                <mat-icon style="color: green">search</mat-icon>
+            </button>
+            <button title="Limpiar" mat-button (click)="limpiar()">
+                <mat-icon style="color: rgb(0, 2, 128)">autorenew</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="controls-container">
+        <button class="button-custom" mat-raised-button color="primary" (click)="abrirModal(null, 0)"
+            [disabled]="!btnAdicionar">Adicionar</button>
+        <button class="button-custom" [disabled]="!btnEliminar" mat-raised-button color="primary"
+            (click)="eliminarTarifaEspecial()">Eliminar</button>
+        <button class="button-custom" [disabled]="!btnExportar" mat-raised-button color="primary"
+            (click)="exporter.exportTable('csv', { fileName: 'tarifas-especiales-cliente' })">Exportar</button>
+    </div>
+    <br>
+    <div class="divTabla">
+        <div class="divTituloTablas">
+            <h1 class="tituloTabla" style="padding: 1%; text-align: center;">Tarifas Especiales de Comisión Clientes
+                Corporativos</h1>
+            <span class=" line-spacer"></span>
+        </div>
+    </div>
+    <div class="table-filter-container">
+        <mat-form-field appearance="fill">
+            <mat-label>Ciudad</mat-label>
+            <mat-select [(ngModel)]="ciudadSelect" (ngModelChange)="filtrar('ciudad', $event)"
+                [disabled]="filtrosClientes">
+                <mat-option *ngFor="let item of ciudades" [value]="item">
+                    {{item.nombreCiudad}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Punto</mat-label>
+            <mat-select [(ngModel)]="nombrePuntoSelect" (ngModelChange)="filtrar('punto', $event)"
+                [disabled]="filtrosClientes">
+                <mat-option *ngFor="let item of nombrePuntos" [value]="item">
+                    {{item.nombrePunto}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Tipo Operación</mat-label>
+            <mat-select [(ngModel)]="tipoOperacionSelect" (selectionChange)="onOperacionChange($event.value)"
+                (ngModelChange)="filtrar('operacion', $event)" [disabled]="filtrosClientes">
+                <mat-option *ngFor="let item of tipoOperacion" [value]="item">
+                    {{ item }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Tipo Comisión</mat-label>
+            <mat-select [(ngModel)]="tipoComisionSelect" (ngModelChange)="filtrar('comision', $event)"
+                [disabled]="filtrosClientes">
+                <mat-option *ngFor="let item of opcionesTipoComision" [value]="item">
+                    {{ item }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="configScroll">
+        <div class="divTablaTarifas">
+            <table mat-table matTableExporter [dataSource]="dataSourceTarifasEspeciales" matSort
+                class="mat-elevation-z8" #exporter="matTableExporter"
+                [hiddenColumns]="[0, displayedColumnsTarifasEspeciales.length - 1]">
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="onRowToggle(row)"
+                            [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="nombreBanco">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco</th>
+                    <td mat-cell *matCellDef="let element">{{element.nombreBanco}}</td>
+                </ng-container>
+                <ng-container matColumnDef="nombreTransportadora">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Transportadora</th>
+                    <td mat-cell *matCellDef="let element">{{element.nombreTransportadora}}</td>
+                </ng-container>
+                <ng-container matColumnDef="nombreCiudad">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
+                    <td mat-cell *matCellDef="let element">{{element.nombreCiudad}}</td>
+                </ng-container>
+                <ng-container matColumnDef="tipoOperacion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Operación</th>
+                    <td mat-cell *matCellDef="let element">{{element.tipoOperacion}}</td>
+                </ng-container>
+                <ng-container matColumnDef="tipoServicio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Servicio</th>
+                    <td mat-cell *matCellDef="let element">{{element.tipoServicio}}</td>
+                </ng-container>
+                <ng-container matColumnDef="tipoComision">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Comisión</th>
+                    <td mat-cell *matCellDef="let element">{{element.tipoComision}}</td>
+                </ng-container>
+                <ng-container matColumnDef="escala">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Escala</th>
+                    <td mat-cell *matCellDef="let element">{{element.escala}}</td>
+                </ng-container>
+                <ng-container matColumnDef="nombrePunto">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Punto</th>
+                    <td mat-cell *matCellDef="let element">{{element.nombrePunto}}</td>
+                </ng-container>
+                <ng-container matColumnDef="billetes">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Billetes</th>
+                    <td mat-cell *matCellDef="let element">{{element.billetes}}</td>
+                </ng-container>
+                <ng-container matColumnDef="monedas">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Monedas</th>
+                    <td mat-cell *matCellDef="let element">{{element.monedas}}</td>
+                </ng-container>
+                <ng-container matColumnDef="fajado">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fajado</th>
+                    <td mat-cell *matCellDef="let element">{{element.fajado}}</td>
+                </ng-container>
+                <ng-container matColumnDef="valorTarifa">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarifa</th>
+                    <td mat-cell *matCellDef="let element">{{element.valorTarifa}}</td>
+                </ng-container>
+                <ng-container matColumnDef="codigoCliente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Cliente</th>
+                    <td mat-cell *matCellDef="let element">{{element.codigoCliente}}</td>
+                </ng-container>
+                <ng-container matColumnDef="limiteComisionAplicar">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Limite Comisión a Aplicar</th>
+                    <td mat-cell *matCellDef="let element">{{element.limiteComisionAplicar}}</td>
+                </ng-container>
+                <ng-container matColumnDef="valorComisionAdicional">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Comisión Adicional</th>
+                    <td mat-cell *matCellDef="let element">{{element.valorComisionAdicional}}</td>
+                </ng-container>
+                <ng-container matColumnDef="fechaInicioVigencia">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio Vigencia</th>
+                    <td mat-cell *matCellDef="let element">{{element.fechaInicioVigencia}}</td>
+                </ng-container>
+                <ng-container matColumnDef="fechaFinVigencia">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Fin Vigencia</th>
+                    <td mat-cell *matCellDef="let element">{{element.fechaFinVigencia}}</td>
+                </ng-container>
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                    <td mat-cell *matCellDef="let element">{{element.estado ? 'Activo' : 'Inactivo'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-button (click)="abrirModal(element, 1)">
+                            <mat-icon style="color: black">edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsTarifasEspeciales"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsTarifasEspeciales;"></tr>
+            </table>
+        </div>
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros">
+        </mat-paginator>
+        <br>
+
+    </div>
+</div>

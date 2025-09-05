@@ -1,0 +1,25 @@
+.card-tafiras {
+    margin: 2%;
+}
+
+.divTablaCerti {
+    background-color: rgb(226, 229, 229);
+}
+
+.filtro {
+    display: contents;
+}
+
+.filtros {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.divTablaTarifas {
+    overflow-x: auto;
+}
+
+.divTablaTarifas table {
+    min-width: max-content;
+}
+

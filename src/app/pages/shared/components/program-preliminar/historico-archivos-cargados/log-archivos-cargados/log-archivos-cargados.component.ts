@@ -31,7 +31,7 @@ export class LogArchivosCargadosComponent implements OnInit {
 
   validarError() {
     this.cargueProgramacionPreliminarService.verDetalleArchivo({
-      'idArchivoCargado': this.data.id
+      'idArchivoCargado': this.data.id ?? this.data?.data?.data?.idArchivo
     }).subscribe((data: ValidacionArchivo) => {
       this.dialog.open(DialogResultValidacionComponent, {
         height:'auto%', width: '950px', maxHeight: '90%', data: { idData: this.data.id, data }
