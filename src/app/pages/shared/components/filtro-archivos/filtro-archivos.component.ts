@@ -42,6 +42,8 @@ export class FiltroArchivosComponent implements OnInit {
 
   @Output()
   filterData = new EventEmitter<any>();
+  @Output()
+  clearFilter = new EventEmitter<any>();
   tipoArchivo: any;
 
 
@@ -179,5 +181,17 @@ export class FiltroArchivosComponent implements OnInit {
     this.fechaTransferenciaI = undefined;
     this.fechaTransferenciaF = undefined;
     this.filter();
+  }
+
+  limpiar() {
+    this.banco = undefined;
+    this.transportadora = undefined;
+    this.fechaSelectTranferI = undefined;
+    this.fechaSelectArchivoF = undefined;
+    this.fechaTransferenciaI = undefined;
+    this.fechaSelectTranferF = undefined;
+    this.estado = undefined;
+    this.tipoArchivo = undefined;
+    this.clearFilter.emit();
   }
 }

@@ -59,11 +59,11 @@ export class GestionArchivosComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.numPagina = 0;
-    this.cantPagina = 5;
+    this.cantPagina = 2147483647;
     this.listarArchivosPendienteCarga(this.numPagina, this.cantPagina);
   }
 
-  listarArchivosPendienteCarga(numPagina = 0, cantPagina = 5) {
+  listarArchivosPendienteCarga(numPagina = 0, cantPagina = 2147483647) {
     this.modalProcesoEjecucion()
     this.dataSourceConciliadas = new MatTableDataSource();
     this.opConciliacionCostosService.obtenerRegistrosGestionArchivos({
@@ -72,11 +72,16 @@ export class GestionArchivosComponent implements OnInit {
       size: cantPagina
     }).subscribe({
       next: (page: any) => {
-        this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
         this.datosServicio = page.data.content;
         this.cantidadRegistros = page.data.totalElements;
         this.pageSizeList = [5, 10, 25, 100, page.data.totalElements];
-        this.dataSourceConciliadas.sort = this.sort;
+        if (this.filtros) {
+          this.filter(this.filtros);
+        } else {
+          this.dataSourceConciliadas = new MatTableDataSource(page.data.content);
+          this.dataSourceConciliadas.sort = this.sort;
+          this.dataSourceConciliadas.paginator = this.paginator;
+        }
         Swal.close();
       },
       error: (err: any) => {
@@ -294,14 +299,20 @@ export class GestionArchivosComponent implements OnInit {
         this.opConciliacionCostosService.cerrarGestionArchivos({ validacionArchivo }).
           subscribe({
             next: (response: any) => {
-              if (response.response.description == "Success") {
-                let mensaje = 'Se proceso correctamente el cierre de conciliación.';
-                mensaje = registrosNoProcesados ? mensaje + '\n\n Los registros seleccionados error  automático no han sido procesados.' : mensaje;
-                registrosNoProcesados = response.data.content.some(reg => reg.estado == "NO CONCILIADO");
-                mensaje = registrosNoProcesados ? mensaje + '\n\n La operación solicitada no pudo completarse con algunos registros.' : mensaje;
+              if (response.response.description === "Success") {
+                const estados = response.data.content.map(reg => reg.estado);
+                const todosConciliados = estados.every(e => e === "CONCILIADO");
+                const todosNoConciliados = estados.every(e => e === "NO CONCILIADO");
+                let mensaje = '';
+                if (todosConciliados) {
+                  mensaje = "El cierre de la conciliación se realizó correctamente.";
+                } else if (todosNoConciliados) {
+                  mensaje = "No fue posible realizar el cierre de la conciliación porque existen registros pendientes por conciliar.";
+                } else {
+                  mensaje = "El cierre de la conciliación se realizó parcialmente: algunos archivos fueron cerrados correctamente, pero otros no pudieron cerrarse porque aún tienen registros pendientes por conciliar.";
+                }
                 this.procesoExitoso(mensaje);
               }
-
             },
             error: (err: any) => {
               Swal.close();
@@ -331,13 +342,20 @@ export class GestionArchivosComponent implements OnInit {
       allowOutsideClick: false
     }).then((result) => {
       Swal.close();
+      this.seleccionadosTabla = []
       this.listarArchivosPendienteCarga();
     });
   }
 
-  mostrarMasArchivosPendienteCarga(event: any){
+  mostrarMasArchivosPendienteCarga(event: any) {
     this.numPagina = event.pageIndex;
     this.cantPagina = event.pageSize;
     this.listarArchivosPendienteCarga(this.numPagina, this.cantPagina);
+  }
+
+  onClearFilter() {
+    this.filtros = null;
+    this.seleccionadosTabla = []
+    this.listarArchivosPendienteCarga(0, 2147483647);
   }
 }
