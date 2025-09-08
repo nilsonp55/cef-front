@@ -158,7 +158,7 @@
                 </ng-container>
                 <ng-container matColumnDef="valorTarifa">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarifa</th>
-                    <td mat-cell *matCellDef="let element">{{element.valorTarifa}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.valorTarifa | number:'1.6-6':'en-US'}}</td>
                 </ng-container>
                 <ng-container matColumnDef="codigoCliente">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Cliente</th>
@@ -166,11 +166,13 @@
                 </ng-container>
                 <ng-container matColumnDef="limiteComisionAplicar">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Limite Comisión a Aplicar</th>
-                    <td mat-cell *matCellDef="let element">{{element.limiteComisionAplicar}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.limiteComisionAplicar}}
+                    </td>
                 </ng-container>
                 <ng-container matColumnDef="valorComisionAdicional">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Comisión Adicional</th>
-                    <td mat-cell *matCellDef="let element">{{element.valorComisionAdicional}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.valorComisionAdicional | number:'1.6-6':'en-US'}}
+                    </td>
                 </ng-container>
                 <ng-container matColumnDef="fechaInicioVigencia">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio Vigencia</th>

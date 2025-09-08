@@ -155,8 +155,6 @@ export class TarifasEspecialesComponent implements OnInit {
   }
 
   filtrar(filtro: string, event: any) {
-    console.log(filtro)
-    console.log(event)
     const campos = {
       ciudad: 'nombreCiudad',
       punto: 'nombrePunto',
@@ -505,7 +503,7 @@ export class TarifasEspecialesComponent implements OnInit {
         numeroDocumento: this.numeroDocumento,
         nombreCliente: this.nombreCliente,
         idCliente: this.codigoCliente,
-        dataEditar: event,
+        dataEditar: { ...event, valorTarifa: event.valorTarifa.toFixed(6), valorComisionAdicional: event.valorComisionAdicional.toFixed(6) },
         flag: flag,
         codigoBanco: this.clientes[0].codigoBancoAval
       }
@@ -528,13 +526,11 @@ export class TarifasEspecialesComponent implements OnInit {
         'dominio': "COMISION_TARIFA_ESPECIAL_PROVISION"
       }).toPromise();
       this.opcionesTipoComision = ['Seleccione', ..._tipoComision.data];
-      console.log(this.opcionesTipoComision)
     } else if (operacion === 'RECOLECCION') {
       const _tipoComision = await this.generalesService.listarDominioByDominio({
         'dominio': "COMISION_TARIFA_ESPECIAL_RECOLECCION"
       }).toPromise();
       this.opcionesTipoComision = ['Seleccione', ..._tipoComision.data];
-      console.log(this.opcionesTipoComision)
     } else {
       this.opcionesTipoComision = [];
     }

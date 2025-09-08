@@ -67,7 +67,6 @@ export class CargueMasivoTarifasEspecialesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
-
         console.log('Guardó cambios', resultado);
       } else {
         console.log('Canceló');
@@ -227,7 +226,7 @@ export class CargueMasivoTarifasEspecialesComponent implements OnInit {
 
   verError(event) {
     this.cargueProgramacionPreliminarService.verDetalleArchivo({
-      'idArchivoCargado': event.idArchivo
+      'idArchivoCargado': event.idArchivodb
     }).subscribe(data => {
       this.dialog.open(LogArchivosCargadosComponent, {
         width: "1000px",

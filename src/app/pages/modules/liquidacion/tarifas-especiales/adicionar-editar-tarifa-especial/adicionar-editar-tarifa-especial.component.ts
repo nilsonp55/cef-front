@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { DateAdapter, NativeDateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { GestionPuntosService } from 'src/app/_service/gestion-puntos-service/gestionPuntos.service';
@@ -9,7 +10,17 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-adicionar-editar-tarifa-especial',
   templateUrl: './adicionar-editar-tarifa-especial.component.html',
-  styleUrls: ['./adicionar-editar-tarifa-especial.component.css']
+  styleUrls: ['./adicionar-editar-tarifa-especial.component.css'],
+  providers: [{
+    provide: DateAdapter, useClass: class extends NativeDateAdapter {
+      override format(date: Date, displayFormat: any): string {
+        const dia = String(date.getDate()).padStart(2, '0');
+        const mes = String(date.getMonth() + 1).padStart(2, '0');
+        const año = date.getFullYear();
+        return `${dia}/${mes}/${año}`;
+      }
+    }
+  }]
 })
 export class AdicionarEditarTarifaEspecialComponent implements OnInit {
 
@@ -53,7 +64,6 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log(this.data)
     if (this.data.flag === 1) {
       this.txtEstado = 'Editar'
       this.aplicarReglasEdicion(this.data.dataEditar.reglaEdicion)
@@ -78,7 +88,6 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
       'dominio': "TIPO_OPERACION_TARIFA_ESPECIAL"
     }).toPromise();
     this.tipoOperacionesList = _tipoOperaciones.data;
-    console.log(this.tipoComisionList)
 
     const _tipoServicio = await this.generalesService.listarDominioByDominio({
       'dominio': "TIPO_SERVICIO"
@@ -219,7 +228,7 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
       event.preventDefault();
     }
   }
-  
+
   onDecimalBlur(controlName: string, maxIntegers: number, maxDecimals: number) {
     const control = this.form.get(controlName);
     if (!control) return;
@@ -269,36 +278,36 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
       valorTarifa: 'El campo Valor Tarifa',
 
     };
+    const payload = this.form.getRawValue();
     const tarifaEspecial = {
       ...(this.data.flag === 1 && { idTarifaEspecial: this.data.dataEditar.idTarifaEspecial }),
       codigoBanco: this.data.flag === 1 ? this.data.dataEditar.codigoBanco : this.data.codigoBanco,
-      codigoTdv: this.data.flag === 1 ? this.data.dataEditar.codigoTdv : this.form.value.transportadora.codigo,
+      codigoTdv: this.data.flag === 1 ? this.data.dataEditar.codigoTdv : payload.transportadora.codigo,
       codigoCliente: this.data.flag === 1 ? this.data.dataEditar.codigoCliente : this.data.idCliente,
-      codigoDane: this.form.value.punto?.codigoDane ?? null,
-      codigoPunto: this.data.flag === 1 ? this.data.dataEditar.codigoPunto : this.form.value.punto.codigoPunto,
-      tipoOperacion: this.form.value.tipoOperacion,
-      tipoServicio: this.form.value.tipoServicio,
-      tipoComision: this.form.value.tipoComision,
-      unidadCobro: this.form.value.unidadCobro || '',
-      escala: this.form.value.escala,
-      billetes: this.form.value.billetes ? 'SI' : 'NO',
-      monedas: this.form.value.monedas ? 'SI' : 'NO',
-      fajado: this.form.value.fajado ? 'SI' : 'NO',
-      valorTarifa: Number(this.form.value.valorTarifa),
-      fechaInicioVigencia: new Date(this.form.value.fechaInicio).toISOString(),
-      fechaFinVigencia: new Date(this.form.value.fechaFin).toISOString(),
-      limiteComisionAplicar: this.form.value.limiteComision ? Number(this.form.value.limiteComision) : null,
-      valorComisionAdicional: this.form.value.valorComisionAdicional ? Number(this.form.value.valorComisionAdicional) : null,
+      codigoDane: payload.punto?.codigoDane ?? null,
+      codigoPunto: this.data.flag === 1 ? this.data.dataEditar.codigoPunto : payload.punto.codigoPunto,
+      tipoOperacion: payload.tipoOperacion,
+      tipoServicio: payload.tipoServicio,
+      tipoComision: payload.tipoComision,
+      unidadCobro: payload.unidadCobro || '',
+      escala: payload.escala,
+      billetes: payload.billetes ? 'SI' : 'NO',
+      monedas: payload.monedas ? 'SI' : 'NO',
+      fajado: payload.fajado ? 'SI' : 'NO',
+      valorTarifa: payload.valorTarifa,
+      fechaInicioVigencia: new Date(payload.fechaInicio).toISOString(),
+      fechaFinVigencia: new Date(payload.fechaFin).toISOString(),
+      limiteComisionAplicar: payload.limiteComision,
+      valorComisionAdicional: payload.valorComisionAdicional ? payload.valorComisionAdicional : null,
       usuarioCreacion: this.data.flag === 1 ? this.data.dataEditar.usuarioCreacion : atob(sessionStorage.getItem('user')),
       fechaCreacion: new Date().toISOString(),
       usuarioModificacion: atob(sessionStorage.getItem('user')),
       fechaModificacion: new Date().toISOString(),
-      estado: this.form.value.estado
+      estado: payload.estado
     };
-
     Swal.fire({
       icon: 'question',
-      title: '¿Esta seguro que desea guardar la tarifa especial para la ciudad ' + (this.data.flag === 1 ? this.data.dataEditar.nombreCiudad : this.form.value.ciudad.nombreCiudad ) + ' y el punto ' + (this.data.flag === 1 ? this.data.dataEditar.nombrePunto : this.form.value.punto.nombrePunto ),
+      title: '¿Esta seguro que desea guardar la tarifa especial para la ciudad ' + (this.data.flag === 1 ? this.data.dataEditar.nombreCiudad : this.form.value.ciudad.nombreCiudad) + ' y el punto ' + (this.data.flag === 1 ? this.data.dataEditar.nombrePunto : this.form.value.punto.nombrePunto),
       showCancelButton: true,
       confirmButtonText: 'GUARDAR',
       cancelButtonText: 'CANCELAR'
@@ -311,7 +320,7 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
                 icon: 'success',
                 text: 'Registro editado correctamente'
               }).then(result => {
-                this.closeModal();
+                this.dialogRef.close(this.form.value);
               });
             },
             error: (err) => {
@@ -342,7 +351,7 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
                 icon: 'success',
                 text: 'Tarifa creada exitosamente'
               }).then(result => {
-                this.closeModal();
+                this.dialogRef.close(this.form.value);
               });
             },
             error: (err) => {
@@ -372,7 +381,6 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
   }
 
   setDatosFormulario(data: any) {
-    console.log(data)
     this.form.patchValue({
       fechaInicio: this.parseLocalDate(data.fechaInicioVigencia),
       fechaFin: this.parseLocalDate(data.fechaFinVigencia),
@@ -393,7 +401,6 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
       monedas: data.monedas === 'SI',
       fajado: data.fajado === 'SI',
     });
-
   }
 
   closeModal(): void {
@@ -401,8 +408,8 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
   }
 
   parseLocalDate(dateStr: string): Date {
-    const [y, m, d] = dateStr.split('/').map(Number);
-    return new Date(y, m - 1, d); // año, mes (0-11), día
+    const [d, m, y] = dateStr.split('/').map(Number);
+    return new Date(y, m - 1, d); // mes 0-index
   }
 
   aplicarReglasEdicion(modo: 'EDICION_COMPLETA' | 'EDICION_PARCIAL' | 'NO_EDITABLE') {
@@ -431,5 +438,4 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
       }
     });
   }
-
 }

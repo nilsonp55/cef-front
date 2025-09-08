@@ -184,6 +184,8 @@ import { TarifasEspecialesComponent } from './pages/modules/liquidacion/tarifas-
 import { AdicionarEditarTarifaEspecialComponent } from './pages/modules/liquidacion/tarifas-especiales/adicionar-editar-tarifa-especial/adicionar-editar-tarifa-especial.component';
 import { CargueMasivoTarifasEspecialesComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/cargue-masivo-tarifas-especiales.component';
 import { DetalleErrorModalComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/detalle-error-modal/detalle-error-modal.component';
+import localeEs from '@angular/common/locales/es';
+registerLocaleData(localeEs);
 
 @NgModule({
   declarations: [
