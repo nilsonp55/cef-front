@@ -24,9 +24,11 @@ export class EjecutarProcedimientoComponent implements OnInit {
   dataSourceResponse: MatTableDataSource<any>;
   displayedColumnsInfoProcesos: string[] = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7', 'campo8', 'campo9', 'campo10', 'campo11', 'campo12'];
   mostrarTabla: boolean = false;
+  nameFuntion: string = '';
+  descriptionFuntion: string = '';
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {funcion:any, data: any},
+    @Inject(MAT_DIALOG_DATA) public data: {funcion:any, data: any, nameFuntion: any, descriptionFuntion: any},
     private readonly procedimientosAlmacenadosService: ProcedimientosAlmacenadosService,
     public dialogRef: MatDialogRef<EjecutarProcedimientoComponent>,
     private readonly dialog: MatDialog,
@@ -36,6 +38,8 @@ export class EjecutarProcedimientoComponent implements OnInit {
     ManejoFechaToken.manejoFechaToken();
     this.parametrosFuncionesDinamicasDTO = this.data.data.sort((a, b) => a.numeroParametro - b.numeroParametro);
     this.idFuncion = this.data.funcion;
+    this.nameFuntion = this.data.nameFuntion;
+    this.descriptionFuntion = this.data.descriptionFuntion;
   } 
 
   changeValor(param: any, item: any) {
