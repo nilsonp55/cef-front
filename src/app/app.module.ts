@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { NgModule, LOCALE_ID} from '@angular/core';
+import { CommonModule, CurrencyPipe, DatePipe, registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -171,6 +172,8 @@ import { GenerarPoliticaRetencionComponent } from './pages/modules/administracio
 import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/generar-politica-retencion/dialog-confirm-politica/dialog-confirm-politica.component';
 import { TarifasOperacionTablaComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-tabla.component';
 import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-form.component';
+
+registerLocaleData(localeEs)
 
 @NgModule({
   declarations: [
@@ -370,7 +373,10 @@ import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarif
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    },
+    }, 
+    { 
+      provide: LOCALE_ID, useValue: 'es'
+    }
   ],
   bootstrap: [AppComponent],
 })

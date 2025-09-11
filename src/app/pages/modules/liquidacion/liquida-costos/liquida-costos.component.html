@@ -5,7 +5,7 @@
 </div>
 <div class="mat-table-custom">
     <div class="fecha">
-        Fecha de Proceso: {{fechaSistemaSelect}}
+        Fecha de Proceso: {{fechaSistemaSelect | date:'dd-MMM-yyyy'}}
     </div>
     <div class="controls-container justify-content-center">
         <button class="button-custom" mat-raised-button color="primary" (click)="intervalGeneralContabilidad()">Generar
