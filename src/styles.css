@@ -967,3 +967,11 @@ Estilo para componentes con varias tablas debajo de cada una
 .mat-accordion  {
     margin-bottom: 12px;
 }
+
+.mat-raised-button.mat-primary{
+    background-color: #1c31a4;
+}
+
+.mat-raised-button.mat-warn{
+    background-color: #d6180a;
+}
