@@ -34,7 +34,6 @@ export class OperacionesConciliadasComponent implements OnInit {
   cantidadRegistros: number;
   estadoConciliacion: string[] = ['CONCILIADA'];
   bancoAVAL: string[];
-  fechaOrigen: any;
   transportadora: string;
   tipoPuntoOrigen: string[] = [];
   fechaProceso: Date;
@@ -62,12 +61,11 @@ export class OperacionesConciliadasComponent implements OnInit {
       const [day, month, year] = response.data[0].valor.split('/');
       fechaFormat = year + '/' + month + '/' + day
       this.fechaProceso = new Date(fechaFormat);
-      this.fechaOrigen = new FormControl(response.data[0].valor);
     });
     this.numPagina = 0;
     this.cantPagina = 10;
     this.listarConciliados(this.estadoConciliacion, [""],
-      this.fechaOrigen == undefined ? "" : fechaFormat,
+      fechaFormat ?? fechaFormat,
       "", [""], this.numPagina, this.cantPagina);
   }
 
@@ -124,7 +122,7 @@ export class OperacionesConciliadasComponent implements OnInit {
     this.cantPagina = e.pageSize;
     this.listarConciliados(this.estadoConciliacion,
       this.bancoAVAL ?? [],
-      this.getFechaOrigen(this.fechaOrigen.value),
+      this.getFechaOrigen(this.fechaProceso),
       this.transportadora ?? "",
       this.tipoPuntoOrigen ?? [""],
       e.pageIndex, e.pageSize);
@@ -148,7 +146,7 @@ export class OperacionesConciliadasComponent implements OnInit {
       console.log(result)
       this.listarConciliados(this.estadoConciliacion,
         this.bancoAVAL ?? [""],
-        this.fechaOrigen == undefined ? "" : this.getFechaOrigen(this.fechaOrigen.value),
+        this.fechaProceso == undefined ? "" : this.getFechaOrigen(this.fechaProceso),
         this.transportadora ?? "",
         this.tipoPuntoOrigen ?? [""],
         this.numPagina, this.cantPagina)
@@ -164,16 +162,16 @@ export class OperacionesConciliadasComponent implements OnInit {
     this.listarConciliados(
       this.estadoConciliacion,
       this.bancoAVAL ?? [""],
-      this.fechaOrigen == undefined ? "" : pipe.transform(this.fechaProceso, 'yyyy/MM/dd'),
+      this.fechaProceso == undefined ? "" : pipe.transform(this.fechaProceso, 'yyyy/MM/dd'),
       this.transportadora ?? "",
       this.tipoPuntoOrigen ?? [""],
       this.numPagina, this.cantPagina
     );
   }
 
-  getFechaOrigen(fecha: string): string {
+  getFechaOrigen(fecha: Date): string {
     const pipe = new DatePipe('en-US');
-    return pipe.transform(new Date(fecha), 'yyyy/MM/dd');
+    return pipe.transform(fecha, 'yyyy/MM/dd');
   }
 
 }

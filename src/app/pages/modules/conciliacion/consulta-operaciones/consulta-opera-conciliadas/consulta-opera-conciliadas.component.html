@@ -2,6 +2,9 @@
     <h2>Operaciones Conciliadas</h2>
 </div>
 
+    <app-filtro-banco-tdv (filterData)="filter($event)" [showFechaProceso]="true" [showFilterEstado]="true" [showPuntoOrigenDestino]="true" [fechaProceso]="fechaProceso">
+    </app-filtro-banco-tdv>
+
 <div class="mat-table-custom">
     <div class="controls-container">
         <button mat-raised-button  class="button-custom" color="primary"

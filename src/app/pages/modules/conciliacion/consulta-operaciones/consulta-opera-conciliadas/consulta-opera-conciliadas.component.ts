@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { MatSort } from '@angular/material/sort';
+import { DatePipe } from '@angular/common';
+import { GeneralesService } from 'src/app/_service/generales.service';
 
 @Component({
   selector: 'app-consulta-opera-conciliadas',
@@ -20,31 +22,48 @@ import { MatSort } from '@angular/material/sort';
  */
 export class ConsultaOperaConciliadasComponent implements OnInit {
 
-  @ViewChild('exporter', {static: false}) exporter: any;
+  @ViewChild('exporter', { static: false }) exporter: any;
 
   //Rgistros paginados
   cantidadRegistros: number;
   pageSizeList: number[] = [5, 10, 25, 100];
 
   public load: boolean = true;
+  transportadora: string = "";
+  bancoAVAL: string[] = [""];
+  tipoPuntoOrigen: string[] = [""];
+  tipoPuntoDestino: string[] = [""];
+  estadoConciliacion: string[] = [""];
+  fechaProceso: Date;
+  numPagina: any;
+  cantPagina: any
 
   //DataSource para pintar tabla de conciliados
   dataSourceConciliadas: MatTableDataSource<any>;
-  displayedColumnsConciliadas: string[] = ['Banco', 'Transportadora','nombreFondoTDV', 'entradaSalida', 'puntoOrigen', 'puntoDestino', 'valorTotal', 'tipoConciliacion', 'fechaEjecucion'];
+  displayedColumnsConciliadas: string[] = ['Banco', 'Transportadora', 'nombreFondoTDV', 'entradaSalida', 'puntoOrigen', 'puntoDestino', 'valorTotal', 'tipoConciliacion', 'fechaEjecucion'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
+
   constructor(
     private opConciliadasService: OpConciliadasService,
-    private dialog: MatDialog
-    ) { }
+    private dialog: MatDialog,
+    private readonly generalServices: GeneralesService
+  ) { }
 
-    
+
   ngOnInit(): void {
-    this.listarConciliados();
+    let fechaFormat: string;
+    this.generalServices.listarParametroByFiltro({
+          codigo: "FECHA_DIA_PROCESO"
+        }).subscribe(response=>{
+          const [day, month, year] = response.data[0].valor.split('/');
+          fechaFormat = year + '/' + month + '/' + day
+          this.fechaProceso = new Date(fechaFormat);
+          this.listarConciliados();
+        });
   }
-
+  
   /** 
  * Se realiza consumo de servicio para listar los conciliaciones
  * @JuanMazo
@@ -53,6 +72,12 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
     this.load = true;
     this.dataSourceConciliadas = new MatTableDataSource();
     this.opConciliadasService.obtenerConciliados({
+      estadoConciliacion: this.estadoConciliacion,
+      bancoAVAL: this.bancoAVAL,
+      fechaOrigen: this.fechaProceso == undefined ? "" : this.getFechaOrigen(this.fechaProceso),
+      tdv: this.transportadora,
+      tipoPuntoOrigen: this.tipoPuntoOrigen,
+      tipoPuntoDestino: this.tipoPuntoDestino,
       page: pagina,
       size: tamanio,
     }).subscribe((page: any) => {
@@ -75,18 +100,37 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
       });
   }
 
-    exporterTable(){
-    if(this.exporter && !this.load){
-      this.exporter.exportTable('xlsx', {fileName:'operaciones_conciliadas'});
+  exporterTable() {
+    if (this.exporter && !this.load) {
+      this.exporter.exportTable('xlsx', { fileName: 'operaciones_conciliadas' });
     }
   }
 
-   /**
-  * Metodo para gestionar la paginación de la tabla
-  * @BaironPerez
-  */
-    mostrarMas(e: any) {
-      this.listarConciliados(e.pageIndex, e.pageSize);
-    }
+  filter(event) {
+    const pipe = new DatePipe('en-US');
+    this.estadoConciliacion = event.estadoConciliacion ?? '';
+    this.transportadora = event.trasportadora ?? "";
+    this.tipoPuntoOrigen = event.tipoPuntoOrigen ?? [""];
+    this.tipoPuntoDestino = event.tipoPuntoDestino ?? [""];
+    this.bancoAVAL = event.banco ?? [""];
+    this.fechaProceso = event.fechaSelected;
+    this.listarConciliados();
+  }
+
+  /**
+ * Metodo para gestionar la paginación de la tabla
+ * @BaironPerez
+ */
+  mostrarMas(e: any) {
+    this.numPagina = e.pageIndex;
+    this.cantPagina = e.pageSize;
+    this.listarConciliados(this.numPagina, this.cantPagina);
+  }
+
+  
+  getFechaOrigen(fecha: Date): string {
+    const pipe = new DatePipe('en-US');
+    return pipe.transform(fecha, 'yyyy/MM/dd');
+  }
 
 }

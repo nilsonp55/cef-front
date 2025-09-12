@@ -6,6 +6,7 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { BancoModel } from 'src/app/_model/banco.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { TransportadoraModel } from 'src/app/_model/transportadora.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-filtro-banco-tdv',
@@ -23,8 +24,10 @@ export class FiltroBancoTdvComponent implements OnInit {
   bancoOptions: BancoModel[]
   estadosConciliacionOptions: any[];
   selectedOrigen = [];
+  selectedDestino = [];
   estadoConciliacion: any;
   fechaSelected: Date;
+  fechaProcesoInternal: Date;
 
   selectBancoFilter: any;
   selectTrasportadorafilter: any;
@@ -36,9 +39,15 @@ export class FiltroBancoTdvComponent implements OnInit {
   @Input()
   showFechaProceso: boolean = false;
   @Input()
-  fechaProceso: Date;
+  set fechaProceso (value: Date){
+    if (value != undefined  && value != null){
+      this.fechaProcesoInternal = value;
+    }
+  };
+  
   @Input()
   fechaOrigen: any;
+  @Input() showPuntoOrigenDestino: boolean = false;
 
   @Output()
   filterData = new EventEmitter<any>();
@@ -99,9 +108,10 @@ export class FiltroBancoTdvComponent implements OnInit {
     this.filterData.emit({
       banco: this.selectBancoFilter,
       trasportadora: this.selectTrasportadorafilter,
-      tipoPuntoOrigen: this.selectedOrigen,
+      tipoPuntoOrigen: this.selectedOrigen, 
+      tipoPuntoDestino: this.selectedDestino,
       estadoConciliacion: this.estadoConciliacion,
-      fechaSelected: new Date(this.fechaProceso)
+      fechaSelected: new Date(this.fechaProcesoInternal)
     });
   }
   limpiar() {
@@ -110,5 +120,6 @@ export class FiltroBancoTdvComponent implements OnInit {
     this.selectedOrigen = null;
     this.estadoConciliacion = null
     this.fechaProceso = null
+    this.fechaProcesoInternal  = null
   }
 }
