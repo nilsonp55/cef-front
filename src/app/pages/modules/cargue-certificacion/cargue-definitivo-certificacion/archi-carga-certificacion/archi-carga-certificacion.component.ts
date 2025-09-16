@@ -126,7 +126,7 @@ export class ArchiCargaCertificacionComponent implements OnInit {
           next: (data: ValidacionArchivo) => {
             Swal.close();
             this.dialog.open(DialogResultValidacionCertificacionComponent, {
-              width: '90%', height: '90%', data: { id: archivo.idModeloArchivo, data },
+                    maxHeight: '90%', width: '90%', height: 'auto', data: { id: archivo.idModeloArchivo, data },
             });
           },
           error: (err: any) => {
