@@ -14,3 +14,7 @@
 .division.double-table-container .mat-header-cell:first-of-type {
   padding-left: 8px !important;
 }
+
+.mat-column-nombreFondoTDV{
+  min-width: 109px;
+}

@@ -59,3 +59,7 @@
   margin-top: 12%;
   margin-left: 5%;
 }
+
+.mat-column-nombreFondoTDV .mat-column-codigoPropioTDV {
+  min-width: 109px;
+}
