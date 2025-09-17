@@ -1,12 +1,12 @@
-<div style="padding-left: 1% ;border: 1px solid rgb(196, 196, 196)">
+<div class="modal-dialog-custom">
     <!--Ventana emergente de validación de archivo-->
-    <h1>Resultado de validación de archivo</h1>
+    <h2>Resultado de validación de archivo</h2>
     <div style="text-align: center; margin-top: 5%;">
         <p>{{data.data.nombreArchivo}}</p>
         <!--Input informativo de cargue-->
         <div class="row">
-            <label class="form-group col-md-3">Contenido
-                <input class="form-group col-md-7" value="Cargue certificación servicios de TDV" disabled type="text">
+            <label class="form-group col-md-6">Contenido
+                <input class="form-group col-md-6" value="Cargue certificación servicios de TDV" disabled type="text">
             </label>
         </div><br>
         <!--Matríz de resusltados-->
@@ -37,8 +37,9 @@
             </div>
         </div>
         
-        <div style="margin-top: 5%;">
-            <button mat-raised-button class="ubicacion-btn" color="primary" (click)="descargarArchivo()">Descargar</button>
+        <div class="button-container">
+            <button mat-raised-button class="button-custom" color="primary" (click)="descargarArchivo()">Descargar</button>
+            <button mat-raised-button class="button-custom" color="warn" mat-dialog-close>Cancelar</button>
         </div>
     </div>
 </div>
