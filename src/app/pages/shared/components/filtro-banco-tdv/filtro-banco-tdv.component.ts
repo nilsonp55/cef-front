@@ -6,7 +6,6 @@ import { ErrorService } from 'src/app/_model/error.model';
 import { BancoModel } from 'src/app/_model/banco.model';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { TransportadoraModel } from 'src/app/_model/transportadora.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-filtro-banco-tdv',

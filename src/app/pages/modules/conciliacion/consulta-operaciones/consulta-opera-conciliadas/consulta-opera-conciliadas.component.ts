@@ -46,8 +46,8 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private opConciliadasService: OpConciliadasService,
-    private dialog: MatDialog,
+    private readonly opConciliadasService: OpConciliadasService,
+    private readonly dialog: MatDialog,
     private readonly generalServices: GeneralesService
   ) { }
 
@@ -107,7 +107,6 @@ export class ConsultaOperaConciliadasComponent implements OnInit {
   }
 
   filter(event) {
-    const pipe = new DatePipe('en-US');
     this.estadoConciliacion = event.estadoConciliacion ?? '';
     this.transportadora = event.trasportadora ?? "";
     this.tipoPuntoOrigen = event.tipoPuntoOrigen ?? [""];
