@@ -9,7 +9,6 @@ import { ConciliacionesModel } from 'src/app/_model/consiliacion-model/conciliac
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { DialogDesconciliarComponent } from './dialog-desconciliar/dialog-desconciliar.component';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { FormControl } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
