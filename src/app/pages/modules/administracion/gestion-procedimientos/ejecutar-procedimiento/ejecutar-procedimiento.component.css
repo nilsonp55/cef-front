@@ -7,8 +7,10 @@
     margin-right: 12px;
 }
 
-.mat-form-field{
-    max-width: 540px;
+.modal-dialog-custom .form-fields {
+    grid-template-columns: repeat(auto-fit, minmax(0, 32%));
+    justify-content: left;
+    gap: 2%;
 }
 
 .mat-table-custom .mat-table {
