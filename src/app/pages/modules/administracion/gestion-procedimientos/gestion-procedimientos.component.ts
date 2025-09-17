@@ -85,6 +85,8 @@ export class GestionProcedimientosComponent implements OnInit {
       data: {
         funcion: param.idFuncion,
         data: param.parametrosFuncionesDinamicasDTO,
+        nameFuntion: param.nombreFuncion,
+        descriptionFuntion: param.descripcionFuncion
       }
     });
 
