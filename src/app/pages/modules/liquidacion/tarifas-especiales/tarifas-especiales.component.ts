@@ -503,7 +503,7 @@ export class TarifasEspecialesComponent implements OnInit {
         numeroDocumento: this.numeroDocumento,
         nombreCliente: this.nombreCliente,
         idCliente: this.codigoCliente,
-        dataEditar: { ...event, valorTarifa: event?.valorTarifa.toFixed(6), valorComisionAdicional: event?.valorComisionAdicional.toFixed(6) },
+        dataEditar: { ...event, valorTarifa: event?.valorTarifa?.toFixed(6), valorComisionAdicional: event?.valorComisionAdicional?.toFixed(6) },
         flag: flag,
         codigoBanco: this.clientes[0].codigoBancoAval
       }
@@ -512,10 +512,7 @@ export class TarifasEspecialesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
         this.buscarCliente()
-        console.log('Guardó cambios', resultado);
-      } else {
-        console.log('Canceló');
-      }
+      } 
     });
   }
 

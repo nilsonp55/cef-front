@@ -307,7 +307,7 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
     };
     Swal.fire({
       icon: 'question',
-      title: '¿Esta seguro que desea guardar la tarifa especial para la ciudad ' + (this.data.flag === 1 ? this.data.dataEditar.nombreCiudad : this.form.value.ciudad.nombreCiudad) + ' y el punto ' + (this.data.flag === 1 ? this.data.dataEditar.nombrePunto : this.form.value.punto.nombrePunto),
+      title: '¿Esta seguro que desea guardar la tarifa especial para la ciudad ' + (this.data.flag === 1 ? this.data.dataEditar.nombreCiudad : payload.ciudad.nombreCiudad) + ' y el punto ' + (this.data.flag === 1 ? this.data.dataEditar.nombrePunto : payload.punto.nombrePunto),
       showCancelButton: true,
       confirmButtonText: 'GUARDAR',
       cancelButtonText: 'CANCELAR'
