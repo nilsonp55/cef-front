@@ -45,16 +45,15 @@ export class CargueMasivoTarifasEspecialesComponent implements OnInit {
   }
 
   async cargarArchivosCargueTarifas() {
-    if (this.cargueMasivoSelect === 'CARGUE MASIVO DE TARIFAS ESPECIALES CLIENTES') {
-      const _datosArchivos = await this.tarifasEspecialesService.consultarArchivosTarifasEspeciales({
-        star: 0,
-        end: 0
-      }).toPromise();
-      this.dataSourceCargueTarifas = new MatTableDataSource(_datosArchivos.data?.content);
-      this.dataSourceCargueTarifas.sort = this.sort;
-      this.dataSourceCargueTarifas.paginator = this.paginator;
-      this.cantidadRegistros = _datosArchivos.data?.content.length;
-    }
+    const _datosArchivos = await this.tarifasEspecialesService.consultarArchivosTarifasEspeciales({
+      star: 0,
+      end: 0,
+      idOption: this.cargueMasivoSelect === 'CARGUE MASIVO DE TARIFAS ESPECIALES CLIENTES' ? 1 : 2
+    }).toPromise();
+    this.dataSourceCargueTarifas = new MatTableDataSource(_datosArchivos.data?.content);
+    this.dataSourceCargueTarifas.sort = this.sort;
+    this.dataSourceCargueTarifas.paginator = this.paginator;
+    this.cantidadRegistros = _datosArchivos.data?.content.length;
   }
 
   visualizar(element: any) {

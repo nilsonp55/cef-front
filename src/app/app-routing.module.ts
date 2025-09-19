@@ -100,6 +100,7 @@ import { ListarPuntosNoConcialiablesComponent } from './pages/modules/conciliaci
 import { ConciliarNuevosPuntosTdvComponent } from './pages/modules/conciliacion/conciliar-nuevos-puntos-tdv/conciliar-nuevos-puntos-tdv.component';
 import { TarifasEspecialesComponent } from './pages/modules/liquidacion/tarifas-especiales/tarifas-especiales.component';
 import { CargueMasivoTarifasEspecialesComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/cargue-masivo-tarifas-especiales.component';
+import { ConsultaLogsAdministrativosComponent } from './pages/modules/administracion/consulta-logs-administrativos/consulta-logs-administrativos.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -193,6 +194,7 @@ const routes: Routes = [
         loadChildren: () => import('src/app/pages/modules/administracion/menu/menu.module').then(m => m.MenuModule)
       },
       { path: 'administracion-cargue-masivo-tablas', component: CargueMasivoTarifasEspecialesComponent },
+      { path: 'administracion-logs-administrativos', component: ConsultaLogsAdministrativosComponent },
     ]
   }
 

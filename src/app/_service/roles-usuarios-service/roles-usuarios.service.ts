@@ -32,9 +32,9 @@ export class RolMenuService {
      * Servicio para actualizar rol
     */
     actualizarRol(rol: any, previousId: string): Observable<any> {
-        const params = {previousId: previousId}
+        const params = { previousId: previousId }
 
-        return this.http.put<any>(`${this.urlRol}${URLs.ADMIN_ROL_ACTUALIZAR}`, rol, {params: params});
+        return this.http.put<any>(`${this.urlRol}${URLs.ADMIN_ROL_ACTUALIZAR}`, rol, { params: params });
     }
 
     /** 
@@ -42,6 +42,13 @@ export class RolMenuService {
     */
     obtenerMenuRol(params: any): Observable<any> {
         return this.http.get<any>(`${this.urlMenuRol}${URLs.ADMIN_MENU_ROL_CONSULTAR}`, { params: params });
+    }
+
+    /** 
+     * Servicio para listar menu rol
+    */
+    obtenerMenu(): Observable<any> {
+        return this.http.get<any>(`${environment.HOST}${URLs.STAGE + URLs.ADMIN_MENU}`);
     }
 
     /**

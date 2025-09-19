@@ -30,9 +30,10 @@
                 </ng-container>
                 <ng-container matColumnDef="estado">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="{'estado-error': element.estado === 'ERRADO'}"
-                        (click)="element.estado === 'ERRADO' ? verError(element) : null">
-                        {{element.estado}}
+                    <td mat-cell *matCellDef="let element" [ngClass]="{'estado-error': element.estado === 'ERRADO',
+      'estado-ok': element.estado === 'OK'
+    }" (click)="element.estado === 'ERRADO' || element.estado === 'OK' ? verError(element) : null">
+                        {{ element.estado }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="acciones">

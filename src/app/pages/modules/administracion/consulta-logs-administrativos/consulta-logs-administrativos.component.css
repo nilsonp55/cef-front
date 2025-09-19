@@ -1,0 +1,6 @@
+::ng-deep .mat-tooltip.json-tooltip {
+    white-space: pre-line;
+    font-size: 12px;
+    max-width: 400px;
+    background-color: rgb(60, 59, 59);
+}

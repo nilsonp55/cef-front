@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppComponent } from './app.component';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -185,6 +186,7 @@ import { AdicionarEditarTarifaEspecialComponent } from './pages/modules/liquidac
 import { CargueMasivoTarifasEspecialesComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/cargue-masivo-tarifas-especiales.component';
 import { DetalleErrorModalComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/detalle-error-modal/detalle-error-modal.component';
 import localeEs from '@angular/common/locales/es';
+import { ConsultaLogsAdministrativosComponent } from './pages/modules/administracion/consulta-logs-administrativos/consulta-logs-administrativos.component';
 registerLocaleData(localeEs);
 
 @NgModule({
@@ -340,7 +342,8 @@ registerLocaleData(localeEs);
     TarifasEspecialesComponent,
     AdicionarEditarTarifaEspecialComponent,
     CargueMasivoTarifasEspecialesComponent,
-    DetalleErrorModalComponent
+    DetalleErrorModalComponent,
+    ConsultaLogsAdministrativosComponent
   ],
 
   imports: [
@@ -383,6 +386,7 @@ registerLocaleData(localeEs);
     MatSlideToggleModule,
     MatTabsModule,
     MatExpansionModule,
+    MatTooltipModule
   ],
   providers: [
     DatePipe,
