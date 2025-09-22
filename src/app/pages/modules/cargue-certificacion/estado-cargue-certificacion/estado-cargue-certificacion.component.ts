@@ -1,13 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
-import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
-import { ErrorService } from 'src/app/_model/error.model';
-import { CostosFleteCharterService } from 'src/app/_service/liquidacion-service/costosFleteCharter.service';
 import { DatePipe } from '@angular/common';
 import { ProcedimientosAlmacenadosService } from 'src/app/_service/administracion-service/procedimientos-almacenados.service';
 import { DateUtil } from 'src/app/pages/shared/utils/date-utils';
@@ -16,8 +13,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 
 @Component({
   selector: 'app-estado-cargue-certificacion',
-  templateUrl: './estado-cargue-certificacion.component.html',
-  styleUrls: ['./estado-cargue-certificacion.component.css'],
+  templateUrl: './estado-cargue-certificacion.component.html'
 })
 export class EstadoCargueCertificacionComponent implements OnInit {
   @ViewChild('sortAceptados') sortAceptados: MatSort;
@@ -256,7 +252,7 @@ export class EstadoCargueCertificacionComponent implements OnInit {
     const pipe = new DatePipe('en-US');
     return pipe.transform(fecha, 'dd/MM/yyyy');
   }
-  
+
   getPageOptionPerTable(cantidadRegistros: number): number[] {
     return [...this.pageSizeOptions, cantidadRegistros]
   }
