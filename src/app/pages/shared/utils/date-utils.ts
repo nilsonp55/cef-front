@@ -41,7 +41,12 @@ export class DateUtil {
         return new Date(anio, mes, dia);
     }
 
- 
-
-    
+    public static getDiffDays(fechaAfter: Date, fechaBefore: Date) {
+        if (!fechaBefore || !fechaAfter) {
+            return undefined;
+        }
+        const diffMs = fechaAfter.getTime() - fechaBefore.getTime();
+        const diffDias = diffMs / (1000 * 60 * 60 * 24);
+        return diffDias;
+    }
 }
