@@ -172,6 +172,7 @@ import { GenerarPoliticaRetencionComponent } from './pages/modules/administracio
 import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/generar-politica-retencion/dialog-confirm-politica/dialog-confirm-politica.component';
 import { TarifasOperacionTablaComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-tabla.component';
 import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-form.component';
+import { EstadoCargueCertificacionComponent } from './pages/modules/cargue-certificacion/estado-cargue-certificacion/estado-cargue-certificacion.component';
 
 registerLocaleData(localeEs)
 
@@ -320,6 +321,7 @@ registerLocaleData(localeEs)
     DialogConfirmPoliticaComponent,
     TarifasOperacionTablaComponent,
     TarifasOperacionFormComponent,
+    EstadoCargueCertificacionComponent,
   ],
 
   imports: [

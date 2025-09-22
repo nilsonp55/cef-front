@@ -95,6 +95,7 @@ import { ConciliacionProcesamientoComponent } from './pages/modules/conciliacion
 import { GestionArchivosGuard } from './wards/gestion-archivos.guard';
 import { GestionArchivosComponent } from './pages/modules/conciliacion-costos/gestion-archivos/gestion-archivos.component';
 import { GenerarPoliticaRetencionComponent } from './pages/modules/administracion/generar-politica-retencion/generar-politica-retencion.component';
+import { EstadoCargueCertificacionComponent } from './pages/modules/cargue-certificacion/estado-cargue-certificacion/estado-cargue-certificacion.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -113,6 +114,7 @@ const routes: Routes = [
       { path: 'gestion-cargue-certificacion', component: CargueDefinitivoCertificacionComponent, canActivate: [CertificacionGestionCargueCertificacionGuard] },
       { path: 'administrador-cargue-certificacion', component: CierreCertificacionComponent, canActivate: [CertificacionCierreCertificacionGuard] },
       { path: 'procesar-alcances', component: ProcesarAlcancesComponent, canActivate: [CertificacionCierreCertificacionGuard] },
+      { path: 'estado-cargue-archivos', component: EstadoCargueCertificacionComponent, canActivate: [CertificacionCierreCertificacionGuard] },
     ]
   },
   {

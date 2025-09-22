@@ -154,6 +154,7 @@ export const GENERALES = {
   //General
   FECHA_PATTERN1: 'dd-MM-yyyy',
   FECHA_PATTERN2: 'yyyy-MM-dd',
+  FECHA_PATTERN3: 'dd/MM/yyyy',
   FECHA_HORA_PATTERN: 'dd-MM-yyyy hh:mm:ss a',
   FECHA_HORA_PATTERN_EXCEL: 'dd_MM_yyyy_hh:mm:ss',
   HORA_PATTERN: 'hh:mm:ss',
