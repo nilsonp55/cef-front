@@ -16,8 +16,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 
 @Component({
   selector: 'app-estado-cargue-certificacion',
-  templateUrl: './estado-cargue-certificacion.component.html',
-  styleUrls: ['./estado-cargue-certificacion.component.css'],
+  templateUrl: './estado-cargue-certificacion.component.html'
 })
 export class EstadoCargueCertificacionComponent implements OnInit {
   @ViewChild('sortAceptados') sortAceptados: MatSort;
@@ -256,7 +255,7 @@ export class EstadoCargueCertificacionComponent implements OnInit {
     const pipe = new DatePipe('en-US');
     return pipe.transform(fecha, 'dd/MM/yyyy');
   }
-  
+
   getPageOptionPerTable(cantidadRegistros: number): number[] {
     return [...this.pageSizeOptions, cantidadRegistros]
   }
