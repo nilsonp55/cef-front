@@ -42,12 +42,12 @@ export class ListarPuntosNoConcialiablesComponent implements OnInit {
   fechaProceso: Date;
 
   constructor(
-    private dialog: MatDialog,
+    private readonly dialog: MatDialog,
     private readonly procedimientosAlmacenadosService: ProcedimientosAlmacenadosService,
-    private generalServices: GeneralesService
+    private readonly generalServices: GeneralesService
   ) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.serializedDate = new FormControl(new Date().toISOString());
     this.getFechaSistema();
   }
@@ -78,7 +78,7 @@ export class ListarPuntosNoConcialiablesComponent implements OnInit {
   }
 
   onAlert(mensaje: string, codigo = GENERALES.CODE_EMERGENT.WARNING) {
-    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    this.dialog.open(VentanaEmergenteResponseComponent, {
       width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
       data: {
         msn: mensaje,
@@ -93,8 +93,6 @@ export class ListarPuntosNoConcialiablesComponent implements OnInit {
   }
 
   ejecutar() {
-    this.fecha1
-    this.fecha2
     const body = {
       "idFuncion": this.idFuncion,
       "parametros": DateUtil.dateToString(this.fecha1, GENERALES.FECHA_PATTERN3) + ',' + DateUtil.dateToString(this.fecha2, GENERALES.FECHA_PATTERN3)
@@ -117,27 +115,30 @@ export class ListarPuntosNoConcialiablesComponent implements OnInit {
 
   }
 
+  recrearTabla(resp: any) {
+    if (resp.length == 9) {
+      const object = {
+        fondo: resp[0],
+        punto: resp[1],
+        origen: resp[2],
+        codigoPropioTdv: resp[3],
+        entradaSalida: resp[4],
+        fechaEjec: resp[5],
+        tipoServicio: resp[6],
+        valor: resp[7],
+        codigoServicio: resp[8]
+      }
+      this.noConciliables.push(object);
+    }
+
+  }
+
   procesarRespuesta(data: any) {
     let i = 4;
-    let notPassNextBlob = true;
-    while (notPassNextBlob && data.data.length - 1 >= i) {
+    while (data.data.length - 1 >= i) {
       try {
         let resp = data.data[i].split(',');
-        if (notPassNextBlob && resp.length == 9) {
-          const object = {
-            fondo: resp[0],
-            punto: resp[1],
-            origen: resp[2],
-            codigoPropioTdv: resp[3],
-            entradaSalida: resp[4],
-            fechaEjec: resp[5],
-            tipoServicio: resp[6],
-            valor: resp[7],
-            codigoServicio: resp[8]
-          }
-          this.noConciliables.push(object);
-        }
-
+        this.recrearTabla(resp);
       } catch (error) {
         this.onAlert("Error procesando data de respuesta", GENERALES.CODE_EMERGENT.ERROR)
       }
