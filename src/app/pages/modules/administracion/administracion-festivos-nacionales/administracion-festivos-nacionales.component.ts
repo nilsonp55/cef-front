@@ -13,8 +13,7 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 
 @Component({
   selector: 'app-administracion-festivos-nacionales',
-  templateUrl: './administracion-festivos-nacionales.component.html',
-  styleUrls: ['./administracion-festivos-nacionales.component.css']
+  templateUrl: './administracion-festivos-nacionales.component.html'
 })
 export class AdministracionFestivosNacionalesComponent implements OnInit {
 

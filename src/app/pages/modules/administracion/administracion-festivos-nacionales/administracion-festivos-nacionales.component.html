@@ -9,7 +9,7 @@
     <div *ngIf="spinnerActive" class="disenio-spinner">
         <mat-spinner></mat-spinner>
     </div>
-    <div [hidden]="spinnerActive">
+    <div [hidden]="spinnerActive" class="custom-mr-table ">
         <table mat-table [dataSource]="dataSourceUsuarios" matSort class="configScroll">
             <caption></caption>
             <tr>
