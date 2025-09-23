@@ -26,7 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BannerSuperiorComponent } from './pages/shared/components/banner-superior/banner-superior.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
@@ -176,6 +176,7 @@ import { EstadoCargueCertificacionComponent } from './pages/modules/cargue-certi
 import { ListarPuntosNoConcialiablesComponent } from './pages/modules/conciliacion/listar-no-conciliables/listar-puntos-no-conciliables.component';
 import { ConciliarNuevosPuntosTdvComponent } from './pages/modules/conciliacion/conciliar-nuevos-puntos-tdv/conciliar-nuevos-puntos-tdv.component';
 import { DialogConfirmComponent } from './pages/shared/components/dialog-confirm/dialog-confirm.component';
+import { getSpanishPaginatorIntl } from './pages/shared/config/paginator.intl-config';
 
 registerLocaleData(localeEs)
 
@@ -384,6 +385,10 @@ registerLocaleData(localeEs)
     }, 
     { 
       provide: LOCALE_ID, useValue: 'es'
+    },
+    {
+      provide: MatPaginatorIntl,
+      useFactory: getSpanishPaginatorIntl
     }
   ],
   bootstrap: [AppComponent],

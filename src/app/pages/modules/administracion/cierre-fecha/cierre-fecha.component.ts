@@ -8,7 +8,8 @@ import { CierreFechaService } from 'src/app/_service/cierre-fecha.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { lastValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
-
+import { DateUtil } from 'src/app/pages/shared/utils/date-utils';
+//
 @Component({
   selector: 'app-cierre-fecha',
   templateUrl: './cierre-fecha.component.html',
@@ -18,7 +19,8 @@ export class CierreFechaComponent implements OnInit {
 
   //Variable para activar spinner
   spinnerActive: boolean = false;
-  fechaSistema: any = "19/AGO/2022";
+  fechaSistema: string;
+  fechaSistemaFormatted: Date;
   selected: Date | null;
 
   constructor(
@@ -40,6 +42,7 @@ export class CierreFechaComponent implements OnInit {
       codigo: "FECHA_DIA_PROCESO"
     })).then((response) => {
       this.fechaSistema = response.data[0].valor;
+      this.fechaSistemaFormatted = DateUtil.stringToDate(this.fechaSistema);
       this.spinnerActive = false;
     });
   }

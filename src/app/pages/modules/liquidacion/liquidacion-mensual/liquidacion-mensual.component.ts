@@ -10,6 +10,7 @@ import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token'
 import { MatDialog } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
+import { DateUtil } from 'src/app/pages/shared/utils/date-utils';
 
 @Component({
   selector: 'app-liquidacion-mensual',
@@ -35,6 +36,7 @@ export class LiquidacionMensualComponent implements OnInit {
 
   dataGenerateContabilidad: any;
   fechaSistemaSelect: any;
+  fechaSistemaFormatted: Date;
   mesSistemaSelect: any;
   selectedTransportadora: any;
   tieneErrores: any = false;
@@ -68,6 +70,7 @@ export class LiquidacionMensualComponent implements OnInit {
     this.fechaSistemaSelect = _fecha.data[0].valor;
     const [day, month, year] = this.fechaSistemaSelect.split('/');
     this.fechaSistemaSelectHTML = new Date(+year, Number(month) - 1, null);
+    this.fechaSistemaFormatted = DateUtil.stringToDate(this.fechaSistemaSelect);
   }
 
 

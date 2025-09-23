@@ -1,5 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DateUtil } from '../../utils/date-utils';
 
 @Component({
   selector: 'app-banner-superior',
@@ -11,6 +13,7 @@ export class BannerSuperiorComponent implements OnInit {
 
   userName: string = "";
   fechaActual : string = "";
+  fechaSistemaFormatted: Date;
 
   @Output() checkMenuLateral = new EventEmitter<boolean>();
   estadoMenu = true;
@@ -19,6 +22,7 @@ export class BannerSuperiorComponent implements OnInit {
     this.mostrarUsuario();
     const fechadata = atob(sessionStorage.getItem('fechasistema')) as string;
     this.fechaActual = this.sanitizer.sanitize(SecurityContext.HTML, fechadata) || '';
+    this.fechaSistemaFormatted = DateUtil.stringToDate(this.fechaActual)
   }
 
   /**

@@ -12,6 +12,7 @@ import { LiquidarCostosService } from 'src/app/_service/liquidacion-service/liqu
 import { ErroresCostosComponent } from './errores-costos/errores-costos.component';
 import { ResultadoValoresLiquidadosComponent } from './resultado-valores-liquidados/resultado-valores-liquidados.component';
 import { ValidacionEstadoProcesosService } from 'src/app/_service/valida-estado-proceso.service';
+import { DateUtil } from 'src/app/pages/shared/utils/date-utils';
 
 @Component({
   selector: 'app-liquida-costos',
@@ -36,6 +37,7 @@ displayedColumnsInfoProcesos: string[] = ['nombre', 'cantidad', 'estado'];
 
 dataLiquidacionCosots: any;
 fechaSistemaSelect: string;
+fechaSistemaFormatted: Date;
 tieneErrores: any = false;
 
 constructor(
@@ -62,6 +64,7 @@ async cargarDatosDesplegables() {
     codigo: "FECHA_DIA_PROCESO"
   }).toPromise();
   this.fechaSistemaSelect = _fecha.data[0].valor;
+  this.fechaSistemaFormatted = DateUtil.stringToDate(this.fechaSistemaSelect);
 }
 
 intervalGeneralContabilidad() {

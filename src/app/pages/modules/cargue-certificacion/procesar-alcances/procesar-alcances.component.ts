@@ -7,6 +7,7 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { DateUtil } from 'src/app/pages/shared/utils/date-utils';
 
 @Component({
   selector: 'app-procesar-alcances',
@@ -14,7 +15,8 @@ import Swal from 'sweetalert2';
 })
 export class ProcesarAlcancesComponent implements OnInit {
 
-  fechaSistemaSelect: string;
+  fechaSistema: string;
+  fechaSistemaFormatted: Date;
 
   constructor(
     private readonly dialog: MatDialog,
@@ -27,7 +29,8 @@ export class ProcesarAlcancesComponent implements OnInit {
     await lastValueFrom(this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
     })).then((response) => {
-      this.fechaSistemaSelect = response.data[0].valor;
+      this.fechaSistema = response.data[0].valor;
+      this.fechaSistemaFormatted = DateUtil.stringToDate(this.fechaSistema);
     });
   }
 

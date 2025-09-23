@@ -21,7 +21,7 @@
 
     <div class="sesion">
       <p class="sesion-item">{{ userName }}</p>
-      <p class="sesion-item">Fecha proceso: {{ fechaActual | date:'dd-MMM-yyyy'}}</p>
+      <p class="sesion-item">Fecha proceso: {{ fechaSistemaFormatted | date:'dd-MMM-yyyy'}}</p>
       <div class="sesion-item" routerLink="active"><a [routerLink]="['/final-session']">Cerrar sesión</a></div>
   </div>
 </mat-toolbar>
