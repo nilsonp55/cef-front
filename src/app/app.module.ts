@@ -174,6 +174,8 @@ import { TarifasOperacionTablaComponent } from './pages/modules/liquidacion/tari
 import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-form.component';
 import { EstadoCargueCertificacionComponent } from './pages/modules/cargue-certificacion/estado-cargue-certificacion/estado-cargue-certificacion.component';
 import { ListarPuntosNoConcialiablesComponent } from './pages/modules/conciliacion/listar-no-conciliables/listar-puntos-no-conciliables.component';
+import { ConciliarNuevosPuntosTdvComponent } from './pages/modules/conciliacion/conciliar-nuevos-puntos-tdv/conciliar-nuevos-puntos-tdv.component';
+import { DialogConfirmComponent } from './pages/shared/components/dialog-confirm/dialog-confirm.component';
 
 registerLocaleData(localeEs)
 
@@ -324,6 +326,8 @@ registerLocaleData(localeEs)
     TarifasOperacionFormComponent,
     EstadoCargueCertificacionComponent,
     ListarPuntosNoConcialiablesComponent,
+    ConciliarNuevosPuntosTdvComponent,
+    DialogConfirmComponent,
   ],
 
   imports: [

@@ -1,0 +1,24 @@
+<div class="tittle-section">
+    <h2>Conciliar Nuevos Puntos TDV</h2>
+    <h3 class="mb-0">Identificar y conciliar puntos TDV adicionados</h3>
+</div>
+<div class="mat-table-custom meddium-table">
+    <div class="controls-container">
+        <button class="button-custom" mat-raised-button color="primary" (click)="conciliar()">
+            Conciliar
+        </button>
+    </div>
+    <div class="custom-mr-table ">
+        <table mat-table [dataSource]="dataSourceLogProceso" matSort class="mat-elevation-z8"
+            aria-label="listar-log-proceso">
+            <tr>
+                <ng-container matColumnDef="logProceso">
+                    <th mat-header-cell *matHeaderCellDef>Log Proceso</th>
+                    <td mat-cell *matCellDef="let element"> {{element.logProceso}} </td>
+                </ng-container>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsLogProceso"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsLogProceso;"></tr>
+        </table>
+    </div>
+</div>

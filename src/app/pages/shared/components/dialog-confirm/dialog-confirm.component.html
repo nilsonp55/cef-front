@@ -1,0 +1,16 @@
+<div class="modal-dialog-custom">
+    <div class="tittle-section">
+        <h2>{{data.title ? data.title : title }}</h2>
+    </div>
+    <div class="container-icon-alert">
+        <img src="assets/img/waring.jpg" width="60">
+    </div>
+    <div *ngIf="data.menssage">
+        <p>data.menssage</p>
+    </div>
+    <div class="button-container">
+        <button class="button-custom" mat-raised-button color="primary" (click)="confirm()">Aceptar</button>
+        <button class="button-custom" mat-raised-button mat-button mat-dialog-close color="warn"
+            (click)="cancel()">Cancelar</button>
+    </div>
+</div>

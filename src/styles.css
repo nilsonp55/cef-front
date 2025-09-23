@@ -297,6 +297,10 @@ tr.mat-footer-row,
     height: 32px;
 }
 
+.meddium-table > .custom-mr-table {
+    margin-left: 12px;
+}
+
 /*Estilos botón*/
 .controls-container {
     display: flex;
