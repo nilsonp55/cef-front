@@ -63,12 +63,12 @@ export class EstadoCargueCertificacionComponent implements OnInit {
   fechaProceso: Date;
 
   constructor(
-    private dialog: MatDialog,
+    private readonly dialog: MatDialog,
     private readonly procedimientosAlmacenadosService: ProcedimientosAlmacenadosService,
-    private generalServices: GeneralesService
+    private readonly generalServices: GeneralesService
   ) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.serializedDate = new FormControl(new Date().toISOString());
     this.getFechaSistema();
   }
@@ -89,7 +89,7 @@ export class EstadoCargueCertificacionComponent implements OnInit {
       this.onAlert("El rango de fechas debe ser inferior a 8 días")
     } else if (datetest < 0) {
       this.onAlert("La fecha inicial debe ser inferior a la fecha final")
-    } else if (DateUtil.getDiffDays(this.fechaProceso, this.fecha2)<0){
+    } else if (DateUtil.getDiffDays(this.fechaProceso, this.fecha2) < 0) {
       this.onAlert("La fecha final debe ser inferior o igual a la fecha del sistema")
     }
     else {
@@ -99,7 +99,7 @@ export class EstadoCargueCertificacionComponent implements OnInit {
   }
 
   onAlert(mensaje: string) {
-    const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
+    this.dialog.open(VentanaEmergenteResponseComponent, {
       width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
       data: {
         msn: mensaje,
@@ -114,8 +114,6 @@ export class EstadoCargueCertificacionComponent implements OnInit {
   }
 
   ejecutar() {
-    this.fecha1
-    this.fecha2
     const body = {
       "idFuncion": this.idFuncion,
       "parametros": DateUtil.dateToString(this.fecha1, GENERALES.FECHA_PATTERN3) + ',' + DateUtil.dateToString(this.fecha2, GENERALES.FECHA_PATTERN3)
@@ -147,72 +145,95 @@ export class EstadoCargueCertificacionComponent implements OnInit {
 
   }
 
+  private recrearTablaResumen(resp: any, notPassNextBlob: boolean): boolean {
+
+    if (resp[0] == 'FONDO') {
+
+      notPassNextBlob = false;
+    }
+    if (notPassNextBlob && resp.length == 6) {
+      const object = {
+        transportadora: resp[0],
+        estado: resp[1],
+        bavv: resp[2],
+        bbog: resp[3],
+        bocc: resp[4],
+        bpop: resp[5]
+      }
+      this.resumenTransportadora.push(object);
+    }
+    return notPassNextBlob;
+  }
+
+
+  private recrearTablaArchivosAceptados(resp: any, notPassNextBlob: boolean): boolean {
+
+    if (resp[0] == 'Archivos que esán faltando después de cerrada la carga') {
+      debugger
+      notPassNextBlob = false;
+    }
+    if (notPassNextBlob && resp.length == 6) {
+      const object = {
+        fondo: resp[0],
+        ciudad: resp[1],
+        tdv: resp[2],
+        banco: resp[3],
+        estado: resp[4],
+        nomArch: resp[5]
+      }
+      this.archivosAceptados.push(object);
+    }
+    return notPassNextBlob;
+  }
+
+  private recrearTablaArchivosFaltantes(resp: any, notPassNextBlob: boolean): boolean {
+    if (resp[0] == 'Archivos que no se encuentran en fondos activos') {
+      notPassNextBlob = false;
+      this.archivosFaltantes.pop();
+    }
+    if (notPassNextBlob && resp.length == 1) {
+      const object = {
+        archivo: resp[0],
+      }
+      this.archivosFaltantes.push(object);
+    }
+    return notPassNextBlob;
+  }
+
+  private recrearTablaArchivosSinFondos(resp: any): void {
+    if (resp.length == 1) {
+      const object = {
+        archivo: resp[0],
+      }
+      this.archivosSinFondos.push(object);
+    }
+  }
+
   procesarRespuesta(data: any) {
     this.spinnerActive = false;
     let i = 4;
     let notPassNextBlob = true;
     while (notPassNextBlob) {
       let resp = data.data[i].split(',');
-      if (resp[0] == 'FONDO') {
-        notPassNextBlob = false;
-      }
-      if (notPassNextBlob && resp.length == 6) {
-        const object = {
-          transportadora: resp[0],
-          estado: resp[1],
-          bavv: resp[2],
-          bbog: resp[3],
-          bocc: resp[4],
-          bpop: resp[5]
-        }
-        this.resumenTransportadora.push(object);
-      }
-      i++;
-    }
-
-    notPassNextBlob = true;
-    while (notPassNextBlob) {
-      let resp = data.data[i].split(',');
-      if (resp[0] == 'Archivos que esán faltando después de cerrada la carga') {
-        notPassNextBlob = false;
-      }
-      if (notPassNextBlob && resp.length == 6) {
-        const object = {
-          fondo: resp[0],
-          ciudad: resp[1],
-          tdv: resp[2],
-          banco: resp[3],
-          estado: resp[4],
-          nomArch: resp[5]
-        }
-        this.archivosAceptados.push(object);
-      }
+      notPassNextBlob = this.recrearTablaResumen(resp, notPassNextBlob);
       i++;
     }
     notPassNextBlob = true;
     while (notPassNextBlob) {
       let resp = data.data[i].split(',');
-      if (resp[0] == 'Archivos que no se encuentran en fondos activos') {
-        notPassNextBlob = false;
-        this.archivosFaltantes.pop();
-      }
-      if (notPassNextBlob && resp.length == 1) {
-        const object = {
-          archivo: resp[0],
-        }
-        this.archivosFaltantes.push(object);
-      }
+      notPassNextBlob = this.recrearTablaArchivosAceptados(resp, notPassNextBlob);
       i++;
     }
     notPassNextBlob = true;
-    while (notPassNextBlob && data.data.length - 1 >= i) {
+    while (notPassNextBlob) {
       let resp = data.data[i].split(',');
-      if (notPassNextBlob && resp.length == 1) {
-        const object = {
-          archivo: resp[0],
-        }
-        this.archivosSinFondos.push(object);
-      }
+      notPassNextBlob = this.recrearTablaArchivosFaltantes(resp, notPassNextBlob);
+      i++;
+    }
+    notPassNextBlob = true;
+    while (data.data.length - 1 >= i) {
+      let resp = data.data[i].split(',');
+      this.recrearTablaArchivosSinFondos(resp);
       i++;
     }
     this.asignarDatosTablas();
