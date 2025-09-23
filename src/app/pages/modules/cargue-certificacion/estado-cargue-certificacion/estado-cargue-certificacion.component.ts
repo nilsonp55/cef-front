@@ -230,7 +230,7 @@ export class EstadoCargueCertificacionComponent implements OnInit {
       notPassNextBlob = this.recrearTablaArchivosFaltantes(resp, notPassNextBlob);
       i++;
     }
-    notPassNextBlob = true;
+    
     while (data.data.length - 1 >= i) {
       let resp = data.data[i].split(',');
       this.recrearTablaArchivosSinFondos(resp);
