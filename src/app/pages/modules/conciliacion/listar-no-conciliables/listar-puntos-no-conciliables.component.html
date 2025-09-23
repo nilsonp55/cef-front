@@ -1,0 +1,88 @@
+<div class="tittle-section mb-2">
+    <h2>Listar Puntos no Conciliables</h2>
+    <h3>Lista de Puntos TDV no identificados en un rango de fechas</h3>
+</div>
+<div class="mat-table-custom simple-view">
+    <div class="table-filter-container">
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha Inicial</mat-label>
+            <input matInput [matDatepicker]="picker1" [formControl]="serializedDate" [(ngModel)]="fecha1">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha final</mat-label>
+            <input matInput [matDatepicker]="picker2" [formControl]="serializedDate" [(ngModel)]="fecha2">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <div class="action-filter-container">
+            <button title="Buscar y Visualizar" mat-button (click)="buscar()">
+                <mat-icon style="color: green; font-size: 2em">search</mat-icon>
+            </button>
+            <button title="Limpiar Filtros" mat-button (click)="limpiar()">
+                <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div *ngIf="spinnerActive" class="disenio-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div class="mat-table-custom">
+        <div [hidden]="spinnerActive">
+            <div class="controls-container">
+                <button class="button-custom" mat-raised-button color="primary"
+                    (click)="exporterTable('no_conciliables')">Exportar</button>
+                <div class="paginator-area">
+                    <mat-paginator #paginatorAceptados [pageSize]="10"
+                        [pageSizeOptions]="getPageOptionPerTable(cantidadNoConciliables)"
+                        [length]="cantidadNoConciliables" showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+            <table mat-table matTableExporter [dataSource]="dataSourceNoConciliables" matSort
+                #exporter="matTableExporter" class="mat-elevation-z8" aria-label="listar-puntos-no-conciliables">
+                <tr>
+                    <ng-container matColumnDef="fondo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>FONDO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.fondo}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="punto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>PUNTO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.punto}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="origen">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen</th>
+                        <td mat-cell *matCellDef="let element"> {{element.origen}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="codigoPropioTdv">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo Propio TDV</th>
+                        <td mat-cell *matCellDef="let element"> {{element.codigoPropioTdv}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="entradaSalida">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Entrada Salida</th>
+                        <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fechaEjec">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Ejecución</th>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaEjec}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="tipoServicio">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Servicio</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipoServicio}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="valor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor</th>
+                        <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="codigoServicio">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Servicio</th>
+                        <td mat-cell *matCellDef="let element"> {{element.codigoServicio}} </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsNoConciliables"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsNoConciliables;"></tr>
+            </table>
+        </div>
+    </div>
+</div>

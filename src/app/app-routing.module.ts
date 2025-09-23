@@ -96,6 +96,7 @@ import { GestionArchivosGuard } from './wards/gestion-archivos.guard';
 import { GestionArchivosComponent } from './pages/modules/conciliacion-costos/gestion-archivos/gestion-archivos.component';
 import { GenerarPoliticaRetencionComponent } from './pages/modules/administracion/generar-politica-retencion/generar-politica-retencion.component';
 import { EstadoCargueCertificacionComponent } from './pages/modules/cargue-certificacion/estado-cargue-certificacion/estado-cargue-certificacion.component';
+import { ListarPuntosNoConcialiablesComponent } from './pages/modules/conciliacion/listar-no-conciliables/listar-puntos-no-conciliables.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -128,6 +129,7 @@ const routes: Routes = [
       { path: 'operaciones-sin-conciliar', component: OperacionesFallidasComponent },
       { path: 'resumen-operaciones', component: ResumenComponent },
       { path: 'administrador-cargue-conciliacion', component: CierreConciliacionComponent },
+      { path: 'listar-puntos-no-conciliables', component: ListarPuntosNoConcialiablesComponent },
     ]
   },
   {

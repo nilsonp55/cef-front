@@ -173,6 +173,7 @@ import { DialogConfirmPoliticaComponent } from './pages/modules/administracion/g
 import { TarifasOperacionTablaComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-tabla.component';
 import { TarifasOperacionFormComponent } from './pages/modules/liquidacion/tarifas-operacion/tarifas-operacion-form.component';
 import { EstadoCargueCertificacionComponent } from './pages/modules/cargue-certificacion/estado-cargue-certificacion/estado-cargue-certificacion.component';
+import { ListarPuntosNoConcialiablesComponent } from './pages/modules/conciliacion/listar-no-conciliables/listar-puntos-no-conciliables.component';
 
 registerLocaleData(localeEs)
 
@@ -322,6 +323,7 @@ registerLocaleData(localeEs)
     TarifasOperacionTablaComponent,
     TarifasOperacionFormComponent,
     EstadoCargueCertificacionComponent,
+    ListarPuntosNoConcialiablesComponent,
   ],
 
   imports: [
