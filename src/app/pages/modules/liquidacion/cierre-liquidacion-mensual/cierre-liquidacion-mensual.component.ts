@@ -11,6 +11,7 @@ import { GeneralesService } from 'src/app/_service/generales.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DateUtil } from 'src/app/pages/shared/utils/date-utils';
 
 @Component({
   selector: 'app-cierre-liquidacion-mensual',
@@ -31,6 +32,7 @@ export class CierreLiquidacionMensualComponent implements OnInit {
 
   dataGenerateContabilidad: any;
   fechaSistemaSelect: any;
+  fechaSistemaFormatted: Date;
   tieneErrores: any = false;
 
   constructor(
@@ -53,6 +55,7 @@ export class CierreLiquidacionMensualComponent implements OnInit {
       codigo: "FECHA_DIA_PROCESO"
     }).toPromise();
     this.fechaSistemaSelect = _fecha.data[0].valor;
+    this.fechaSistemaFormatted = DateUtil.stringToDate(this.fechaSistemaSelect);
   }
 
   /**

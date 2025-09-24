@@ -10,6 +10,7 @@ import { GenerarContabilidadService } from 'src/app/_service/contabilidad-servic
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { ErroresContabilidadComponent } from '../errores-contabilidad/errores-contabilidad.component';
 import { ResultadoContabilidadComponent } from '../resultado-contabilidad/resultado-contabilidad.component';
+import { DateUtil } from 'src/app/pages/shared/utils/date-utils';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class GenerarContabilidadPmComponent implements OnInit {
   displayedColumnsInfoProcesos: string[] = ['nombre', 'cantidad', 'estado'];
 
   dataGenerateContabilidad: any;
-  fechaSistemaSelect: any;
+  fechaSistema: string;
+  fechaSistemaFormatted: Date;
   tieneErrores: any = false;
 
   constructor(
@@ -62,7 +64,8 @@ export class GenerarContabilidadPmComponent implements OnInit {
     const _fecha = await this.generalServices.listarParametroByFiltro({
       codigo: "FECHA_DIA_PROCESO"
     }).toPromise();
-    this.fechaSistemaSelect = _fecha.data[0].valor;
+    this.fechaSistema = _fecha.data[0].valor;
+    this.fechaSistemaFormatted = DateUtil.stringToDate(this.fechaSistema);
   }
 
   /**
