@@ -125,14 +125,16 @@ export class DialogConciliacionManualComponent implements OnInit {
 
     this.opConciliadasService.conciliacionManual(this.paramsConciliacionManual).subscribe({
       next: (data: any) => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
+        const dialogRef = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.SUCCESFULL_CONCILIATION,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         });
-
+        dialogRef.afterClosed().subscribe(() => {
+          this.dialog.closeAll();
+        });
       },
       error: (data: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {

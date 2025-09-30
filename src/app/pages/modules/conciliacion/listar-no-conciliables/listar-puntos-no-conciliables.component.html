@@ -56,27 +56,27 @@
                         <td mat-cell *matCellDef="let element"> {{element.origen}} </td>
                     </ng-container>
                     <ng-container matColumnDef="codigoPropioTdv">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo Propio TDV</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CÓDIGO PROPIO TDV</th>
                         <td mat-cell *matCellDef="let element"> {{element.codigoPropioTdv}} </td>
                     </ng-container>
                     <ng-container matColumnDef="entradaSalida">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Entrada Salida</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ENTRADA SALIDA</th>
                         <td mat-cell *matCellDef="let element"> {{element.entradaSalida}} </td>
                     </ng-container>
                     <ng-container matColumnDef="fechaEjec">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Ejecución</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EJECUCIÓN</th>
                         <td mat-cell *matCellDef="let element"> {{element.fechaEjec}} </td>
                     </ng-container>
                     <ng-container matColumnDef="tipoServicio">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Servicio</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO SERVICIO</th>
                         <td mat-cell *matCellDef="let element"> {{element.tipoServicio}} </td>
                     </ng-container>
                     <ng-container matColumnDef="valor">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor</th>
-                        <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>VALOR</th>
+                        <td mat-cell *matCellDef="let element"> {{element.valor | currency}} </td>
                     </ng-container>
                     <ng-container matColumnDef="codigoServicio">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Servicio</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CÓDIGO SERVICIO</th>
                         <td mat-cell *matCellDef="let element"> {{element.codigoServicio}} </td>
                     </ng-container>
                 </tr>

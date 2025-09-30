@@ -169,7 +169,6 @@ export class EstadoCargueCertificacionComponent implements OnInit {
   private recrearTablaArchivosAceptados(resp: any, notPassNextBlob: boolean): boolean {
 
     if (resp[0] == 'Archivos que esán faltando después de cerrada la carga') {
-      debugger
       notPassNextBlob = false;
     }
     if (notPassNextBlob && resp.length == 6) {

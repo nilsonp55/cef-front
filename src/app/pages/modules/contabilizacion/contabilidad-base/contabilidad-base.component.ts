@@ -130,6 +130,7 @@ export class ContabilidadBaseComponent implements OnInit {
             .subscribe({
               next: (data) => {
                 Swal.close();
+                this.listarProcesos();
                 this.dialog.open(ResultadoContabilidadComponent, {
                   width: '100%',
                   data: {
@@ -139,10 +140,10 @@ export class ContabilidadBaseComponent implements OnInit {
                     flag: 'C',
                   },
                 });
-                this.ngOnInit();
               },
               error: (err: any) => {
                 Swal.close();
+                this.listarProcesos();
                 this.dialog.open(VentanaEmergenteResponseComponent, {
                   width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
                   data: {

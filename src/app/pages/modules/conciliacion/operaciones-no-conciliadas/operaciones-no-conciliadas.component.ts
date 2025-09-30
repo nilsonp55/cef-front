@@ -34,6 +34,7 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   @ViewChild('sort1') sort1 = new MatSort();
   @ViewChild('sort2') sort2 = new MatSort();
   @ViewChild('exporter', {static: false}) exporter: any;
+  @ViewChild('exporterProg', {static: false}) exporterProg: any;
 
   //Registros paginados
   cantidadRegistrosOpProgramadasSinConciliar: number;
@@ -236,7 +237,9 @@ export class OperacionesNoConciliadasComponent implements OnInit {
   }
 
   exporterTable(tableName: string){
-    if(this.exporter && !this.loadProg){
+    if(this.exporterProg && !this.loadProg && tableName =='operaciones_programadas_no_conciliadas'){
+      this.exporterProg.exportTable('xlsx', {fileName: tableName});
+    }else if(this.exporter && !this.loadCert && tableName =='operaciones_certificadas_no_conciliadas'){
       this.exporter.exportTable('xlsx', {fileName: tableName});
     }
   }
