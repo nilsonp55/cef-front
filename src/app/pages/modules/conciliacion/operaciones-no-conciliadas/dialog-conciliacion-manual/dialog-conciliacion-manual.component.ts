@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OpConciliadasService } from 'src/app/_service/conciliacion-service/op-conciliadas.service';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -36,6 +36,7 @@ export class DialogConciliacionManualComponent implements OnInit {
     private dialog: MatDialog,
     private currencyPipe: CurrencyPipe,
     private datePipe: DatePipe,
+    public dialogRef: MatDialogRef<DialogConciliacionManualComponent>
   ) {}
 
   ngOnInit(): void {
@@ -125,15 +126,15 @@ export class DialogConciliacionManualComponent implements OnInit {
 
     this.opConciliadasService.conciliacionManual(this.paramsConciliacionManual).subscribe({
       next: (data: any) => {
-        const dialogRef = this.dialog.open(VentanaEmergenteResponseComponent, {
+        const dialog = this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
             msn: GENERALES.MESSAGE_ALERT.MESSAGE_CONCILIATION.SUCCESFULL_CONCILIATION,
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         });
-        dialogRef.afterClosed().subscribe(() => {
-          this.dialog.closeAll();
+        dialog.afterClosed().subscribe(() => {
+          this.dialogRef.close();
         });
       },
       error: (data: any) => {
