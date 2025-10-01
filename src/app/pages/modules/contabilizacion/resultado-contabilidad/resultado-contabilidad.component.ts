@@ -11,6 +11,7 @@ import { CierreContabilidadService } from 'src/app/_service/contabilidad-service
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
 import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import Swal from 'sweetalert2';
 
 /**
  * Componente para gestionar el menu de contabilidad PM
@@ -77,30 +78,6 @@ export class ResultadoContabilidadComponent implements OnInit {
     this.fechaSistemaSelect = fecha.data[0].valor;
   }
 
-  /**
-  * Se realiza consumo de servicio para listr los resultados de contabilidad
-  * @BaironPerez
-
-  listarProcesos(pagina = 0, tamanio = 5) {
-    this.logProcesoDiarioService.obtenerProcesosDiarios({
-      page: pagina,
-      size: tamanio,
-    }).subscribe((page: any) => {
-      this.dataSourceInfoProcesos = new MatTableDataSource(page.data);
-      this.dataSourceInfoProcesos.sort = this.sort;
-      this.cantidadRegistros = page.data.totalElements;
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: 'Error al obtener los procesos de contabilidad a ejecutar',
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
-      });
-  }
-*/
 
   /**
    * Metodo encargado de ejecutar el servicio de visualizar archivo excel
@@ -109,21 +86,17 @@ export class ResultadoContabilidadComponent implements OnInit {
   verArchivoExcel() {
     this.spinnerActive = true;
     this.generarContabilidadService.generarArchivoContabilidad({
-       'fecha': this.fechaSistemaSelect,
-       'tipoContabilidad': this.data.tipoContabilidad,
-       'codBanco': this.codigoBanco
-       }).subscribe(data => {
-      //data.saveFile();
-      this.spinnerActive = false;
-    },
-      (err: ErrorService) => {
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: 'Error al generar el archivo',
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); setTimeout(() => { alert.close() }, 3000);
+      'fecha': this.fechaSistemaSelect,
+      'tipoContabilidad': this.data.tipoContabilidad,
+      'codBanco': this.codigoBanco
+    }).subscribe(
+      {
+        next: () => {
+          this.spinnerActive = false;
+        },
+        error: () => {
+          this.onAlert('Error al generar el archivo', GENERALES.CODE_EMERGENT.ERROR);
+        }
       });
   }
 
@@ -135,36 +108,53 @@ export class ResultadoContabilidadComponent implements OnInit {
       this.cerrarProceso();
     }
     if(this.bandera == "G"){
-
+      this.dialogRef.close();
     }
   }
 
-  cerrarProceso(){//LLEGA AQUI
+  cerrarProceso() {
+    this.modalProcesoEjecucion();
     this.cierreContabilidadService.cierreContabilidadAutorizacion({
       'fecha': this.fechaSistemaSelect,
       'tipoContabilidad': this.tipo,
-      'estado':'autorizacion1'
-    }).subscribe(data => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_CONTABILIDAD_PM.SUCCESFULL_GENERATE_PM,
-          codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
-        }
-      }); setTimeout(() => { alert.close() }, 4000);//
-    //this.dialogRef.close({event:'Cancel'})
-    },
-    (err: any) => {
-      const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-        width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-        data: {
-          msn: err.error.response.description,
-          codigo: GENERALES.CODE_EMERGENT.ERROR
-        }
-      }); setTimeout(() => { alert.close() }, 3000);
-    });
-
-
+      'estado': 'autorizacion1'
+    }).subscribe(
+      {
+        next: () => {
+          Swal.close();
+          this.onAlert(
+            GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_CONTABILIDAD_PM.SUCCESFULL_GENERATE_PM,
+            GENERALES.CODE_EMERGENT.SUCCESFULL)
+            .afterClosed().subscribe(() => {
+              this.dialogRef.close();
+            });
+        },
+        error: (err: any) => {
+          Swal.close();
+          this.onAlert(err.error.response.description, GENERALES.CODE_EMERGENT.ERROR);
+        },
+      });
   }
 
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      customClass: { popup: "custom-alert-swal-text" }
+    });
+  }
+
+  private onAlert(mensaje: string, codigo = GENERALES.CODE_EMERGENT.WARNING) {
+    return this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: mensaje,
+        codigo: codigo,
+      },
+    });
+  }
 }
