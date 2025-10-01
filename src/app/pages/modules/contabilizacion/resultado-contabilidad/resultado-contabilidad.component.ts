@@ -8,7 +8,6 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { CierreContabilidadService } from 'src/app/_service/contabilidad-service/cierre-contabilidad.service';
 import { GenerarContabilidadService } from 'src/app/_service/contabilidad-service/generar-contabilidad.service';
-import { LogProcesoDiarioService } from 'src/app/_service/contabilidad-service/log-proceso-diario.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import Swal from 'sweetalert2';
 
