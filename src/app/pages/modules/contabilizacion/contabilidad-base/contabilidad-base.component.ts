@@ -116,7 +116,7 @@ export class ContabilidadBaseComponent implements OnInit {
       .afterClosed()
       .subscribe((result) => {
         //Si presiona click en aceptar
-        if (result.data.check) {
+        if (result?.data?.check) {
           this.modalProcesoEjecucion();
           let tipoContabilida = this.tipoContabilidad;
           let codBanco = 0;
@@ -130,7 +130,6 @@ export class ContabilidadBaseComponent implements OnInit {
             .subscribe({
               next: (data) => {
                 Swal.close();
-                this.listarProcesos();
                 this.dialog.open(ResultadoContabilidadComponent, {
                   width: '100%',
                   data: {
@@ -139,6 +138,8 @@ export class ContabilidadBaseComponent implements OnInit {
                     tipoContabilidad: this.tipoContabilidad,
                     flag: 'C',
                   },
+                }).afterClosed().subscribe(()=>{
+                  this.listarProcesos();
                 });
               },
               error: (err: any) => {
