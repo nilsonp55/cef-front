@@ -75,7 +75,7 @@
                 <mat-error *ngIf="form.get('codigoMoneda').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>
             <mat-form-field  appearance="fill">
-                <input matInput placeholder="Tasa Cambio" required formControlName="tasaCambio">
+                <input matInput placeholder="Tasa Cambio" required formControlName="tasaCambio" type="number">
                 <mat-error *ngIf="form.get('tasaCambio').hasError('required')">Este campo es requerido</mat-error>
             </mat-form-field>
 
