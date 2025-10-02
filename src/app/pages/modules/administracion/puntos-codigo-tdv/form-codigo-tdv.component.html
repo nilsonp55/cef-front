@@ -1,5 +1,5 @@
 <!-- Content mostrarFormulario-->
-<div class="form-containter" >
+<div class="form-containter">
     <div [formGroup]="form" class="form-fields">
         <!--Tipo Punto-->
         <mat-form-field appearance="fill">
@@ -35,11 +35,12 @@
         <!--Ciudad-->
         <mat-form-field appearance="fill" *ngIf="selectedTipoPunto==='BAN_REP'">
             <mat-label>Ciudad Fondo</mat-label>
-            <mat-select required formControlName="codigoDANE">
-                <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
-                    {{ciudad.nombreCiudad}}
+            <input type="text" matInput formControlName="codigoDANE" required [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCiudad">
+                <mat-option *ngFor="let ciudad of ciudadesFiltradas | async" [value]="ciudad">
+                    {{ciudad.codigoDANE + " - " + ciudad.nombreCiudad}}
                 </mat-option>
-            </mat-select>
+            </mat-autocomplete>
             <mat-error *ngIf="form.get('codigoDANE').hasError('required')">Este campo es requerido</mat-error>
         </mat-form-field>
         <!--Cliente-->
