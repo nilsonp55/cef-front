@@ -447,6 +447,9 @@ export const URLs = {
   ADMIN_USUARIO_GUARDAR: '/guardar',
   ADMIN_USUARIO_ACTUALIZAR: '/actualizar',
 
+  //Administración menu
+  ADMIN_MENU: '/menu',
+
   //Administración rol
   ADMIN_ROL: '/rol',
   ADMIN_ROL_CONSULTAR: '/consultar',

@@ -1,0 +1,50 @@
+<div class="container">
+    <mat-toolbar>
+        <span>Menus</span>
+        <span class="fill-remaining-space"></span>
+        <button mat-raised-button color="primary" (click)="openForm()">Nuevo Menu</button>
+    </mat-toolbar>
+
+    <div class="mat-elevation-z8">
+        <mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.idMenu}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nombre">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.nombre}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="icono">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Icono </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.icono}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="url">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> URL </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.url}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+                <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button mat-icon-button color="primary" (click)="openForm(row)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="eliminarMenu(row.idMenu)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+</div>
