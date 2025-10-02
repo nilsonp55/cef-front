@@ -24,6 +24,8 @@ export class FormCodigoTdvComponent implements OnInit {
     @Output() formSubmit = new EventEmitter<any>();
     @Output() cancel = new EventEmitter<void>();
 
+    codigoDANEControl = new FormControl();
+
     form: FormGroup = new FormGroup({
         'idPuntoCodigo': new FormControl(),
         'punto': new FormControl(),
@@ -32,7 +34,7 @@ export class FormCodigoTdvComponent implements OnInit {
         'codigoPropioTDV': new FormControl(),
         'banco': new FormControl(),
         'estado': new FormControl(),
-        'codigoDANE': new FormControl(),
+        'codigoDANE': this.codigoDANEControl,
         'cliente': new FormControl(),
         'tipoPunto': new FormControl()
     });
@@ -49,6 +51,8 @@ export class FormCodigoTdvComponent implements OnInit {
     clientesControl = new FormControl();
 
     spinnerActive: boolean = false;
+
+    ciudadesFiltradas: Observable<any[]>;
 
     constructor(
         private readonly puntosService: GestionPuntosService,
@@ -85,10 +89,15 @@ export class FormCodigoTdvComponent implements OnInit {
                 return searchTerm ? this._filterPunto(searchTerm) : of([])
             })
         );
+        this.ciudadesFiltradas = this.codigoDANEControl.valueChanges.pipe(
+            startWith(''),
+            map(v => (typeof v === 'string' ? v : v.nombreCiudad)),
+            map(n => (n ? this._filterCiudad(n) : this.ciudades.slice()))
+        );
     }
 
     async initForm(param?: any) {
-        let ciudad = '';
+        let ciudad = null;
         let puntoValueForm: any;
         let clienteValueForm: any;
         let bancoValueForm: any;
@@ -111,8 +120,9 @@ export class FormCodigoTdvComponent implements OnInit {
                 tdvValueForm = this.transportadoras.find((value) => value.codigo == param.codigoTDV);
             }
         }
-        this.clientesControl = new FormControl(param ? clienteValueForm : null, [Validators.required]); 
+        this.clientesControl = new FormControl(param ? clienteValueForm : null, [Validators.required]);
         this.puntosControl = new FormControl(param ? puntoValueForm : null, [Validators.required]);
+        this.codigoDANEControl = new FormControl(ciudad ?? null, [Validators.required]);
         this.form = new FormGroup({
             'idPuntoCodigo': new FormControl(param ? param.idPuntoCodigoTdv : null),
             'punto': this.puntosControl,
@@ -121,7 +131,7 @@ export class FormCodigoTdvComponent implements OnInit {
             'codigoPropioTDV': new FormControl(param?.codigoPropioTDV ?? null, [Validators.required]),
             'banco': new FormControl(bancoValueForm ?? null, [Validators.required]),
             'estado': new FormControl(param ? param.estado === 1 : true),
-            'codigoDANE': new FormControl(ciudad ?? "0", [Validators.required]),
+            'codigoDANE': this.codigoDANEControl,
             'cliente': this.clientesControl,
             'tipoPunto': new FormControl(param ? param.puntosDTO.tipoPunto : null, [Validators.required])
         });
@@ -194,7 +204,7 @@ export class FormCodigoTdvComponent implements OnInit {
         this.form.get('banco').setValue(null);
         this.form.get('punto').setValue(null);
         this.form.get('cliente').setValue(null);
-        this.form.get('codigoDANE').setValue('0');
+        this.form.get('codigoDANE').setValue(this.selectedTipoPunto === 'BAN_REP'? null : '0');
 
         this.puntos = [];
         this.clientes = [];
@@ -361,5 +371,13 @@ export class FormCodigoTdvComponent implements OnInit {
         }
         
         return c?.codigoPunto ? codigo + '' + c.nombrePunto : '';
+    }
+
+    displayCiudad(c: any): string {
+        return c?.nombreCiudad ? c.nombreCiudad : '';
+    }
+
+    private _filterCiudad(name: string): any[] {
+        return this.ciudades.filter(c => c.nombreCiudad.toLowerCase().includes(name.toLowerCase()));
     }
 }
