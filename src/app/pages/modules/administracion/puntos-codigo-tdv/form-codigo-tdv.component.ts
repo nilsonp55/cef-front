@@ -374,7 +374,7 @@ export class FormCodigoTdvComponent implements OnInit {
     }
 
     displayCiudad(c: any): string {
-        return c?.nombreCiudad ? c.nombreCiudad : '';
+        return c?.nombreCiudad ?? '';
     }
 
     private _filterCiudad(name: string): any[] {
