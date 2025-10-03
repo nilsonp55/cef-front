@@ -16,8 +16,8 @@ export class FormMenuComponent implements OnInit {
     constructor(
         public dialogRef: MatDialogRef<FormMenuComponent>,
         @Inject(MAT_DIALOG_DATA) public data: Menu,
-        private fb: FormBuilder,
-        private menuService: MenuService
+        private readonly fb: FormBuilder,
+        private readonly menuService: MenuService
     ) { }
 
     ngOnInit(): void {
