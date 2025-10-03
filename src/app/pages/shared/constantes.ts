@@ -435,6 +435,9 @@ export const URLs = {
   ADMIN_MENU_ROL_GUARDAR: '/guardar',
   ADMIN_MENU_ROL_ACTUALIZAR: '/actualizar',
 
+  //Administracion Menu
+  ADMIN_MENU: '/menu',
+
   //Administración festivos-nacionles
   ADMIN_FESTIVOS_NACIONALES: '/festivos-nacionales',
   ADMIN_FESTIVOS_NACIONALES_CONSULTAR: '/consultar',

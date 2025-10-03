@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GeneralesService } from 'src/app/_service/generales.service';
-import { CentrosCiudadService } from 'src/app/_service/administracion-service/centros-ciudad.service ';
+import { CentrosCiudadService } from 'src/app/_service/administracion-service/centros-ciudad.service';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
 import { lastValueFrom, Observable } from 'rxjs';

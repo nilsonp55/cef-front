@@ -184,7 +184,11 @@ const routes: Routes = [
       { path: 'administracion-tasas-cambio', component: AdministracionTasasCambioComponent},
       { path: 'administracion-generar-politica', component: GenerarPoliticaRetencionComponent},
       { path: 'puntos-codigo-tdv', component: PuntosCodigoTdvComponent, canActivate: [AdministracionCodigoTdvGuard] },
-      { path: 'clientes-corporativos', component: ClientesCorporativosComponent, canActivate: [ClientesCorporativosGuard] }
+      { path: 'clientes-corporativos', component: ClientesCorporativosComponent, canActivate: [ClientesCorporativosGuard] },
+      {
+        path: 'menu',
+        loadChildren: () => import('src/app/pages/modules/administracion/menu/menu.module').then(m => m.MenuModule)
+      }
     ]
   }
 

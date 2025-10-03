@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CentroCiudadBaseComponent } from '../centro-ciudad-base/centro-ciudad-base.component';
-import { CentrosCiudadService } from 'src/app/_service/administracion-service/centros-ciudad.service ';
+import { CentrosCiudadService } from 'src/app/_service/administracion-service/centros-ciudad.service';
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
