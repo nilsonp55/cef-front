@@ -14,19 +14,19 @@ export class MenuService extends HttpBaseService {
     }
 
     listarMenus(params?: any): Observable<any> {
-        return this.http.get<any>(`${URLs.ADMIN_MENU}/`, params);
+        return this.get<any>(`${URLs.ADMIN_MENU}/`, params);
     }
 
     createMenu(param?: any): Observable<any> {
-        return this.http.post<any>(`${URLs.ADMIN_MENU}/`, param);
+        return this.post<any>(`${URLs.ADMIN_MENU}/`, param);
     }
 
     updateMenu(param?: any): Observable<any> {
-        return this.http.put<any>(`${URLs.ADMIN_MENU}/`, param);
+        return this.put<any>(`${URLs.ADMIN_MENU}/`, param);
     }
 
     deleteMenu(param?: any): Observable<any> {
-        return this.http.delete<any>(`${URLs.ADMIN_MENU}/${param}`);
+        return this.delete<any>(`${URLs.ADMIN_MENU}/${param}`);
     }
 
 }
