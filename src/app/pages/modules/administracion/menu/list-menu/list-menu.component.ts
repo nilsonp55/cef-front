@@ -20,7 +20,7 @@ export class ListMenuComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(
-        private menuService: MenuService,
+        private readonly menuService: MenuService,
         public dialog: MatDialog
     ) { }
 
