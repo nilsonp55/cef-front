@@ -109,6 +109,10 @@ export class FormCodigoTdvComponent implements OnInit {
                 ciudad = this.ciudades.find((value) => value.codigoDANE == param.ciudadFondo);
             }
 
+            if (param.ciudadFondo && this.ciudades.length > 0 && param.ciudadFondo == '0') {
+                ciudad = param.ciudadFondo;
+            }
+
             if (param.puntosDTO !== null) {
                 puntoValueForm = param.puntosDTO;
                 clienteValueForm = param.puntosDTO.sitiosClientes?.codigoCliente;
