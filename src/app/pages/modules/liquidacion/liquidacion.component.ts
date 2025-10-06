@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MenuStateService } from 'src/app/_service/menu-state-service.service';
 
 @Component({
   selector: 'app-liquidacion',
@@ -17,7 +18,8 @@ export class LiquidacionComponent implements OnInit {
   constructor(
     private rolMenuService: RolMenuService,
     private routeLiq: ActivatedRoute,
-    private routerLiq: Router
+    private routerLiq: Router,
+    private menuStateService: MenuStateService
   ) { }
 
   ngOnInit(): void {
@@ -39,11 +41,11 @@ export class LiquidacionComponent implements OnInit {
     })
   }
 
-    /**
-   * Metodo encargado de obtener el valor del check del Baner-Superior 
-   * para cerrar o abrir  la barra lateral izquierda
-   */
-   onCheckMenuLateral($event: any) {
+  /**
+ * Metodo encargado de obtener el valor del check del Baner-Superior 
+ * para cerrar o abrir  la barra lateral izquierda
+ */
+  onCheckMenuLateral($event: any) {
     if ($event !== undefined) {
       this.checkMenuLateral = $event;
     }
@@ -54,7 +56,8 @@ export class LiquidacionComponent implements OnInit {
     this.menusLiquidacion.forEach(element => {
       element.activo = element.idMenu === menu.idMenu ? 1 : 0;
     });
-    this.routerLiq.navigate([`${menu.url}`], {relativeTo: this.routeLiq});
+    this.menuStateService.setMenuActivo(menu.nombre);
+    this.routerLiq.navigate([`${menu.url}`], { relativeTo: this.routeLiq });
   }
 
 }

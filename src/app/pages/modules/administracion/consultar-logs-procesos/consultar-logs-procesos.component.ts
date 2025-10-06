@@ -9,11 +9,11 @@ import { GENERALES } from 'src/app/pages/shared/constantes';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-consulta-logs-administrativos',
-  templateUrl: './consulta-logs-administrativos.component.html',
-  styleUrls: ['./consulta-logs-administrativos.component.css']
+  selector: 'app-consultar-logs-procesos',
+  templateUrl: './consultar-logs-procesos.component.html',
+  styleUrls: ['./consultar-logs-procesos.component.css']
 })
-export class ConsultaLogsAdministrativosComponent implements OnInit {
+export class ConsultarLogsProcesosComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('exporter', { static: false }) exporter: any;
@@ -23,24 +23,27 @@ export class ConsultaLogsAdministrativosComponent implements OnInit {
   tamanioActual: number = 10;
   dataSourceLogs: MatTableDataSource<any>;
   displayedColumnsLogs: string[] = [
-    'ipOrigen',
-    'usuario',
-    'fechaHora',
-    'estadoHttp',
-    'opcionMenu',
-    'accionHttp',
-    'valorNuevo',
-    'valorAnterior'
+    'nombreProcesoProc',
+    'ipOrigenProc',
+    'fechaHoraProc',
+    'estadoHttpProc',
+    'usuarioProc',
+    'mensajeRespuestaProc',
+    'accionHttpProc',
+    'estadoOperacionProc',
+    'peticionProc'
   ];
   exportColumnsLogs: string[] = [
-    'ipOrigen',
-    'usuario',
-    'fechaHora',
-    'estadoHttp',
-    'opcionMenu',
-    'accionHttp',
-    'valorAnteriorExport',
-    'valorNuevoExport'
+    'nombreProcesoProc',
+    'ipOrigenProc',
+    'fechaHoraProc',
+    'estadoHttpProc',
+    'usuarioProc',
+    'mensajeRespuestaProc',
+    'accionHttpProc',
+    'estadoOperacionProc',
+    'peticionProc',
+    'peticionProcExport'
   ];
   spinnerActive: boolean = false;
   fechaInicio: any;
@@ -48,57 +51,50 @@ export class ConsultaLogsAdministrativosComponent implements OnInit {
   ipOrigen: any;
   usuario: any;
   opcionMenu: any;
-  opcionMenuSelect: any;
+  codigoProcesoSelect: any;
+  estadoSelect: any;
   menuList: any = [];
+  estadoList: any = [];
+  codigoProcesoList: any = [];
+  fullDataLogs: any[] = [];
 
   constructor(private LogsService: ConsultarLogsService, private readonly dialog: MatDialog, private menuService: RolMenuService) { }
 
   ngOnInit(): void {
-    this.consultarListaMenu();
+    this.consultarListaMenu()
   }
 
   mostrarMas(e: any) {
-    this.consultarLogs(e.pageIndex, e.pageSize);
+    this.consultarLogsProcesos(e.pageIndex, e.pageSize);
   }
 
-  exporterTable() {
-    const data = this.dataSourceLogs.data.map((row: any) => ({
-      ipOrigen: row.ipOrigen,
-      usuario: row.usuario,
-      fechaHora: row.fechaHora,
-      estadoHttp: row.estadoHttp,
-      opcionMenu: row.opcionMenu,
-      accionHttp: row.accionHttp,
-      valorAnterior: row.valorAnterior,
-      valorNuevo: row.valorNuevo
-    }));
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Logs');
-    XLSX.writeFile(wb, 'logs-administrativos.xlsx');
-  }
-
-  consultarLogs(pagina = 0, tamanio = 10) {
+  consultarLogsProcesos(pagina = 0, tamanio = 10) {
     this.spinnerActive = true;
+    console.log(this.codigoProcesoSelect)
     const params = {
-      $page: pagina,
+      page: pagina,
       size: tamanio,
       fechaInicial: this.fechaInicio ? this.formatDate(this.fechaInicio) : null,
       fechaFinal: this.fechaFinal ? this.formatDate(this.fechaFinal) : null,
       usuario: this.usuario,
       ipOrigen: this.ipOrigen,
-      opcionMenu: this.opcionMenuSelect?.nombre
+      nombreProceso: this.codigoProcesoSelect?.nombre,
+      estadoHttp: this.estadoSelect
     };
     const filteredParams = Object.fromEntries(
       Object.entries(params).filter(([_, v]) => v != null)
     );
 
-    this.LogsService.consultarLogsAuditoria(filteredParams)
+    this.LogsService.consultarLogsProcesos(filteredParams)
       .subscribe({
         next: (page: any) => {
           this.dataSourceLogs = new MatTableDataSource(
             page.content
           );
+          this.fullDataLogs = [...this.fullDataLogs, ...page.content];
+          this.estadoList = [
+            ...new Set(this.fullDataLogs.map((log: any) => log.estadoHttpProc))
+          ];
           this.dataSourceLogs.sort = this.sort;
           this.cantidadRegistros = page.totalElements;
           this.pageSizeOptions = [5, 10, 25, 100, page.totalElements];
@@ -120,38 +116,64 @@ export class ConsultaLogsAdministrativosComponent implements OnInit {
       });
   }
 
-  getTooltip(valorAnterior: string, valorNuevo: string): string {
+  exporterTable() {
+    const data = this.dataSourceLogs.data.map((row: any) => ({
+      nombreProceso: row.nombreProcesoProc,
+      ipOrigen: row.ipOrigenProc,
+      fechaHora: row.fechaHoraProc,
+      estadoHttp: row.estadoHttpProc,
+      usuario: row.usuarioProc,
+      mensajeRespuesta: row.mensajeRespuestaProc,
+      accionHttp: row.accionHttpProc,
+      estadoOperacion: row.estadoOperacionProc,
+      peticionProc: row.peticionProc
+    }));
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Logs');
+    XLSX.writeFile(wb, 'logs-procesos.xlsx');
+  }
+
+  limpiar() {
+    this.fechaInicio = null;
+    this.fechaFinal = null;
+    this.usuario = null;
+    this.ipOrigen = null;
+    this.codigoProcesoSelect = undefined;
+    this.estadoSelect = undefined;
+    this.consultarLogsProcesos()
+  }
+
+  clearDate() {
+    this.fechaInicio = null
+    this.fechaFinal = null
+    this.consultarLogsProcesos()
+  }
+
+  getTooltip(valor: string): string {
     try {
-      const objAnterior = JSON.parse(valorAnterior ?? '{}');
-      const objNuevo = JSON.parse(valorNuevo ?? '{}');
-
-      let diferencias: any = {};
-
-      Object.keys({ ...objAnterior, ...objNuevo }).forEach(key => {
-        if (objAnterior[key] !== objNuevo[key]) {
-          diferencias[key] = {
-            anterior: objAnterior[key],
-            nuevo: objNuevo[key]
-          };
-        }
-      });
-
-      // Si no hay diferencias, devolvemos el JSON completo (formateado bonito)
-      if (Object.keys(diferencias).length === 0) {
-        return JSON.stringify(objNuevo, null, 2);
-      }
-
-      return JSON.stringify(diferencias, null, 2);
+      const obj = JSON.parse(valor ?? '{}');
+      return JSON.stringify(obj, null, 2);
     } catch (e) {
-      return valorNuevo || valorAnterior || '';
+      return valor || '';
     }
   }
+
+
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // meses van de 0-11
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
 
   consultarListaMenu() {
     this.menuService.obtenerMenu().subscribe({
       next: (response: any) => {
-        this.menuList = response.data.sort((a: any, b: any) => a.nombre.localeCompare(b.nombre));
-        this.consultarLogs();
+        this.consultarLogsProcesos()
+        this.codigoProcesoList = response.data.filter((item: any) => item.esProceso === true).sort
+        ((a: any, b: any) => a.nombre.localeCompare(b.nombre)); 
       }, error: (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -166,28 +188,6 @@ export class ConsultaLogsAdministrativosComponent implements OnInit {
         this.spinnerActive = false;
       }
     })
-  }
-
-  formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // meses van de 0-11
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  limpiar() {
-    this.fechaInicio = null;
-    this.fechaFinal = null;
-    this.usuario = null;
-    this.ipOrigen = null;
-    this.opcionMenuSelect = undefined;
-    this.consultarLogs()
-  }
-
-  clearDate() {
-    this.fechaInicio = null
-    this.fechaFinal = null
-    this.consultarLogs()
   }
 
 }

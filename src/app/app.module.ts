@@ -180,14 +180,16 @@ import { DialogConfirmComponent } from './pages/shared/components/dialog-confirm
 import { getSpanishPaginatorIntl } from './pages/shared/config/paginator.intl-config';
 import { CustomCurrencyPipe } from './pages/shared/pipes/CustomCurrencyPipe';
 
-registerLocaleData(localeEsCo, )
 import { TarifasEspecialesComponent } from './pages/modules/liquidacion/tarifas-especiales/tarifas-especiales.component';
 import { AdicionarEditarTarifaEspecialComponent } from './pages/modules/liquidacion/tarifas-especiales/adicionar-editar-tarifa-especial/adicionar-editar-tarifa-especial.component';
 import { CargueMasivoTarifasEspecialesComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/cargue-masivo-tarifas-especiales.component';
 import { DetalleErrorModalComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/detalle-error-modal/detalle-error-modal.component';
 import localeEs from '@angular/common/locales/es';
 import { ConsultaLogsAdministrativosComponent } from './pages/modules/administracion/consulta-logs-administrativos/consulta-logs-administrativos.component';
-registerLocaleData(localeEs);
+import { ConsultarLogsProcesosComponent } from './pages/modules/administracion/consultar-logs-procesos/consultar-logs-procesos.component';
+import { MenuHeaderInterceptor } from './_service/menu-header-interceptor ';
+
+registerLocaleData(localeEsCo, )
 
 @NgModule({
   declarations: [
@@ -343,7 +345,8 @@ registerLocaleData(localeEs);
     AdicionarEditarTarifaEspecialComponent,
     CargueMasivoTarifasEspecialesComponent,
     DetalleErrorModalComponent,
-    ConsultaLogsAdministrativosComponent
+    ConsultaLogsAdministrativosComponent,
+    ConsultarLogsProcesosComponent
   ],
 
   imports: [
@@ -398,9 +401,12 @@ registerLocaleData(localeEs);
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }, 
-    { 
-      provide: LOCALE_ID, useValue: 'es-CO'
+    },
+    { provide: LOCALE_ID, useValue: 'es-CO' },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MenuHeaderInterceptor,
+      multi: true
     },
     {
       provide: MatPaginatorIntl,

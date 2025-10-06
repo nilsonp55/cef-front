@@ -1,0 +1,121 @@
+<div class="tittle-section">
+    <h2>Consultar Logs de Procesos</h2>
+</div>
+<div class="mat-table-custom">
+    <div class="table-filter-container">
+
+        <mat-form-field appearance="fill">
+            <mat-label>Periodo</mat-label>
+            <mat-date-range-input [rangePicker]="picker2">
+                <input matStartDate matInput placeholder="Fecha Inicio" [(ngModel)]="fechaInicio" name="fechaInicio" />
+                <input matEndDate matInput placeholder="Fecha Fin" [(ngModel)]="fechaFinal" name="fechaFinal" />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matPrefix [for]="picker2"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker2></mat-date-range-picker>
+            <mat-icon rangepickerToggleIcon matSuffix (click)="clearDate()">clear</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Codigo Proceso</mat-label>
+            <mat-select [(ngModel)]="codigoProcesoSelect">
+                <mat-option *ngFor="let item of codigoProcesoList" [value]="item">
+                    {{item.codigoProceso}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Usuario</mat-label>
+            <input type="text" matInput [(ngModel)]="usuario">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="estadoSelect">
+                <mat-option *ngFor="let item of estadoList" [value]="item">
+                    {{item}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>IP</mat-label>
+            <input type="text" matInput [(ngModel)]="ipOrigen">
+        </mat-form-field>
+        <div class="action-filter-container">
+            <button title="Buscar y Visualizar" mat-button>
+                <mat-icon style="color: green; font-size: 2em" (click)="consultarLogsProcesos()">search</mat-icon>
+            </button>
+            <button title="Limpiar Filtros" mat-button (click)="limpiar()">
+                <mat-icon style="color: rgb(0, 2, 128); font-size: 2em;">autorenew</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="controls-container">
+        <button mat-raised-button color="primary" class="button-custom" (click)="exporterTable()">Exportar</button>
+        <div class="paginator-area">
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [length]="cantidadRegistros"
+                (page)="mostrarMas($event)" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+    <div *ngIf="spinnerActive" class="disenio-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div [hidden]="spinnerActive">
+        <div class="table-container">
+            <table mat-table [dataSource]="dataSourceLogs" matSort matTableExporter #exporter="matTableExporter"
+                class="mat-elevation-z8" aria-label="consulta-logs">
+                <tr>
+                    <ng-container matColumnDef="nombreProcesoProc" class="mat-column-nombreProcesoProc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>CODIGO PROCESO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombreProcesoProc}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ipOrigenProc" class="mat-column-ipOrigenProc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>IP ORIGEN</th>
+                        <td mat-cell *matCellDef="let element"> {{element.ipOrigenProc}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fechaHoraProc" class="mat-column-fechaHoraProc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PROCESO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaHoraProc | date:'dd/MM/yyyy HH:mm:ss' }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="estadoHttpProc" class="mat-column-estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                        <td mat-cell *matCellDef="let element"> {{element.estadoHttpProc }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="usuarioProc" class="mat-column-usuarioProc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>USUARIO CREACIÓN</th>
+                        <td mat-cell *matCellDef="let element"> {{element.usuarioProc}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="mensajeRespuestaProc" class="mat-column-mensajeRespuestaProc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>MENSAJE</th>
+                        <td mat-cell *matCellDef="let element"> {{element.mensajeRespuestaProc}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="accionHttpProc" class="mat-column-accionHttpProc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ACCIÓN</th>
+                        <td mat-cell *matCellDef="let element"> {{element.accionHttpProc}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="estadoOperacionProc" class="mat-column-estadoOperacionProc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>RESPUESTA ACCIÓN</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.estadoOperacionProc }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="peticionProcExport" matTableExporterHidden>
+                        <th mat-header-cell *matHeaderCellDef>PARAMETROS EJECUCIÓN</th>
+                        <td mat-cell *matCellDef="let element">{{ element.peticionProc }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="peticionProc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>PARAMETROS EJECUCIÓN</th>
+                        <td mat-cell *matCellDef="let element">
+                            <span [matTooltip]="getTooltip(element.peticionProc)" matTooltipClass="json-tooltip">
+                                {{ element.peticionProc | slice:0:40 }}{{ element.peticionProc?.length > 40 ? '...' :
+                                ''
+                                }}
+                            </span>
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsLogs"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsLogs;"></tr>
+            </table>
+        </div>
+    </div>
+</div>

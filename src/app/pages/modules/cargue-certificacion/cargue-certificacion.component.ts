@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MenuStateService } from 'src/app/_service/menu-state-service.service';
 
 @Component({
   selector: 'app-cargue-certificacion',
@@ -15,7 +16,8 @@ export class CargueCertificacionComponent implements OnInit {
   constructor(
     private readonly rolMenuService: RolMenuService,
     private readonly routeCert: ActivatedRoute,
-    private readonly routerCert: Router
+    private readonly routerCert: Router,
+    private readonly menuStateService: MenuStateService
   ) { }
 
   ngOnInit(): void {
@@ -23,7 +25,7 @@ export class CargueCertificacionComponent implements OnInit {
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {
-      if(data.data[0].estado === "1"){
+      if (data.data[0].estado === "1") {
         //Logica para capturar los menus para cargueCertificacion
         let rol = data.data[0].rol.idRol;
         this.rolMenuService.obtenerMenuRol({
@@ -43,7 +45,9 @@ export class CargueCertificacionComponent implements OnInit {
     this.menusCargueCertificacion.forEach(element => {
       element.activo = element.idMenu === menu.idMenu ? 1 : 0;
     });
-    this.routerCert.navigate([`${menu.url}`], {relativeTo: this.routeCert});
+
+    this.menuStateService.setMenuActivo(menu.nombre);
+    this.routerCert.navigate([`${menu.url}`], { relativeTo: this.routeCert });
   }
 
 }

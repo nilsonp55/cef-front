@@ -101,6 +101,7 @@ import { ConciliarNuevosPuntosTdvComponent } from './pages/modules/conciliacion/
 import { TarifasEspecialesComponent } from './pages/modules/liquidacion/tarifas-especiales/tarifas-especiales.component';
 import { CargueMasivoTarifasEspecialesComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/cargue-masivo-tarifas-especiales.component';
 import { ConsultaLogsAdministrativosComponent } from './pages/modules/administracion/consulta-logs-administrativos/consulta-logs-administrativos.component';
+import { ConsultarLogsProcesosComponent } from './pages/modules/administracion/consultar-logs-procesos/consultar-logs-procesos.component';
 
 const routes: Routes = [
   { path: '', component: InitAppComponent },
@@ -195,6 +196,7 @@ const routes: Routes = [
       },
       { path: 'administracion-cargue-masivo-tablas', component: CargueMasivoTarifasEspecialesComponent },
       { path: 'administracion-logs-administrativos', component: ConsultaLogsAdministrativosComponent },
+      { path: 'administracion-logs-procesos', component: ConsultarLogsProcesosComponent },
     ]
   }
 

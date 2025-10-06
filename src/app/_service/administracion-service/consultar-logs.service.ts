@@ -17,4 +17,8 @@ export class ConsultarLogsService extends HttpBaseService {
     return this.get<any>(`${URLs.LOGS_AUDITORIA}${URLs.LOGS_AUDITORIA_CONSULTAR}`, params);
   }
 
+  consultarLogsProcesos(params?: any): Observable<any> {
+    return this.get<any>(`${URLs.LOGS_AUDITORIA}${URLs.LOGS_AUDITORIA_CONSULTAR_PROCESOS}`, params);
+  }
+
 }

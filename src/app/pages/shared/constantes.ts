@@ -447,7 +447,6 @@ export const URLs = {
   ADMIN_MENU_ROL_CONSULTAR: '/consultar',
   ADMIN_MENU_ROL_GUARDAR: '/guardar',
   ADMIN_MENU_ROL_ACTUALIZAR: '/actualizar',
-  ADMIN_MENU: '/menu/',
 
   //Administracion Menu
   ADMIN_MENU: '/menu',
@@ -560,7 +559,8 @@ export const URLs = {
 
   //Logs Auditoria
   LOGS_AUDITORIA: '/logs-auditoria',
-  LOGS_AUDITORIA_CONSULTAR: '/consultar-administrativos'
+  LOGS_AUDITORIA_CONSULTAR: '/consultar-administrativos',
+  LOGS_AUDITORIA_CONSULTAR_PROCESOS: '/consultar-procesos'
 };
 
 export const ROLES = [
