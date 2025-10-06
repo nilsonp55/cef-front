@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { ProcedimientosAlmacenadosService } from 'src/app/_service/administracio
 import { DateUtil } from 'src/app/pages/shared/utils/date-utils';
 import { MatPaginator } from '@angular/material/paginator';
 import { GeneralesService } from 'src/app/_service/generales.service';
+import { ExcelExportService } from 'src/app/_service/excel-export-service';
 
 @Component({
   selector: 'app-listar-puntos-no-conciliables',
@@ -19,6 +20,7 @@ export class ListarPuntosNoConcialiablesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('exporter', { static: false }) exporter: any;
+  @ViewChild(MatTable) table: MatTable<any>;
 
   spinnerActive: boolean = false;
 
@@ -44,7 +46,8 @@ export class ListarPuntosNoConcialiablesComponent implements OnInit {
   constructor(
     private readonly dialog: MatDialog,
     private readonly procedimientosAlmacenadosService: ProcedimientosAlmacenadosService,
-    private readonly generalServices: GeneralesService
+    private readonly generalServices: GeneralesService,
+    private readonly excelExportService: ExcelExportService
   ) { }
 
   ngOnInit(): void {
@@ -170,8 +173,19 @@ export class ListarPuntosNoConcialiablesComponent implements OnInit {
   }
 
   exporterTable(name: string) {
-    if (name == 'no_conciliables' && this.exporter && !this.spinnerActive) {
-      this.exporter.exportTable('xlsx', { fileName: name });
+    if (this.noConciliables.length === 0) {
+      this.onAlert(GENERALES.MESSAGE_ALERT.EXPORTER.NO_DATA);
+    }
+    else if (name == 'no_conciliables' && this.exporter && !this.spinnerActive) {
+      this.excelExportService.exportToExcel({
+        fileName: name,
+        sheetName: name,
+        data: this.table,
+        columns: this.displayedColumnsNoConciliables,
+        numericColumns: [
+          { columnName: 'valor', format: GENERALES.FORMATS_EXCEL.NUMBERS.FORMAT1 }
+        ]
+      });
     }
   }
 

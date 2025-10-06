@@ -134,6 +134,9 @@ export const GENERALES = {
     SEARCH_VALIDATION: {
       EMPTY_FIELD_GENERAL: 'Se requiere seleccionar un valor',
     },
+    EXPORTER:{
+      NO_DATA: "No hay datos para exportar"
+    }
   },
 
   DIALOG_FORM: {
@@ -165,6 +168,12 @@ export const GENERALES = {
   NO: 'NO',
   ESTADO_ACTIVO: 'ACT',
   ESTADO_PENDIENTE: 'PEND',
+
+  FORMATS_EXCEL: {
+    NUMBERS: {
+      FORMAT1: '#,##0.00'
+    }
+  },
 
   //Log procesos diarios
   LOG_PROCESOS_DIARIOS: {
