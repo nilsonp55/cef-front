@@ -1,4 +1,4 @@
-import { DEFAULT_CURRENCY_CODE, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { MatTable } from "@angular/material/table";
 import { DataExtractorService } from "mat-table-exporter";
 import * as XLSX from 'xlsx';
@@ -27,7 +27,7 @@ export interface ExcelExportOption {
 export class ExcelExportService {
 
     constructor(
-        private dataExtractor: DataExtractorService
+        private readonly dataExtractor: DataExtractorService
     ) { }
 
     exportToExcel(options: ExcelExportOption): void {
