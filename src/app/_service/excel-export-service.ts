@@ -78,7 +78,7 @@ export class ExcelExportService {
     private createExcelFile(mappedData: any, options: ExcelExportOption, columnsValueNumber: any[], columnsFormat: any[]) {
         const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(mappedData);
         if (columnsValueNumber.length > 0) {
-            const range = XLSX.utils.decode_range(ws['!ref']!);
+            const range = XLSX.utils.decode_range(ws['!ref']);
             for (let i = 0; i < columnsValueNumber.length; i++) {
                 const colmnLetter = this.getColumnLetter(columnsValueNumber[i]);
                 const format = columnsFormat[i]
