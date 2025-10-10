@@ -13,6 +13,7 @@ export interface NumericColumnConfig {
 
 export interface ExcelExportOption {
     fileName: string;
+    /** Sheet name with max  31 chars*/
     sheetName?: string;
     data: MatTable<any>;
     /** Columnas a Exportar (usar displayedColumns)*/
