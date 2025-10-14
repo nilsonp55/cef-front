@@ -7,7 +7,7 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class CustomCurrencyPipe implements PipeTransform {
   
-  constructor(private currencyPipe: CurrencyPipe) {}
+  constructor(private readonly currencyPipe: CurrencyPipe) {}
 
   transform(
     value: number | string | null | undefined,
