@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { TransportadoraModel } from 'src/app/_model/transportadora.model';
 import { BancoModel } from 'src/app/_model/banco.model';
 import { ConciliacionesCertificadaNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-certifi-no-conciliadas.model';
+import { ExcelExportService } from 'src/app/_service/excel-export-service';
 
 @Component({
   selector: 'app-consulta-opera-certificadas',
@@ -25,6 +26,9 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   @ViewChild('exporter', {static: false}) exporter: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('operacionesCertNoConciliadasTb') operacionesCertNoConciliadasTb: MatTable<any>;
+
+  xlsxOperacionesCertNoConciliadas = 'operaciones_cert_no_conciliadas';
 
   //Rgistros paginados
   cantidadRegistros: number;
@@ -50,6 +54,7 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
   constructor(
     private readonly dialog: MatDialog,
     private readonly opConciliadasService: OpConciliadasService,
+    private readonly excelExportService: ExcelExportService
     ) { }
 
   ngOnInit(): void {
@@ -102,13 +107,7 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        }); 
+        this.onAlert(err.error.response.description, GENERALES.CODE_EMERGENT.ERROR);
         this.load = false;
       }
     });
@@ -125,11 +124,31 @@ export class ConsultaOperaCertificadasComponent implements OnInit {
     );
   }
 
-  exporterTable(){
-    if(this.exporter && !this.load){
-      this.exporter.exportTable('xlsx', {fileName:'operaciones_certificadas_no_conciliadas'});
+  exporterTable(name: string) {
+    if (this.dataSourceOperacionesCertificadas.data.length === 0) {
+      this.onAlert(GENERALES.MESSAGE_ALERT.EXPORTER.NO_DATA);
+    }
+    else if (this.exporter && !this.load) {
+      this.excelExportService.exportToExcel({
+        fileName: name,
+        data: this.operacionesCertNoConciliadasTb,
+        columns: this.displayedColumnsOperacionesCertificadas,
+        numericColumns: [
+          { columnName: 'valorTotal', format: GENERALES.FORMATS_EXCEL.NUMBERS.FORMAT1 },
+          { columnName: 'valorFaltante', format: GENERALES.FORMATS_EXCEL.NUMBERS.FORMAT1 },
+          { columnName: 'valorSobrante', format: GENERALES.FORMATS_EXCEL.NUMBERS.FORMAT1 }
+        ]
+      });
     }
   }
 
-
+    onAlert(mensaje: string, codigo = GENERALES.CODE_EMERGENT.WARNING) {
+    this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: mensaje,
+        codigo: codigo,
+      },
+    });
+  }
 }

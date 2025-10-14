@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { BancoModel } from 'src/app/_model/banco.model';
 import { TransportadoraModel } from 'src/app/_model/transportadora.model';
 import { ConciliacionesProgramadasNoConciliadasModel } from 'src/app/_model/consiliacion-model/opera-program-no-conciliadas.model';
+import { ExcelExportService } from 'src/app/_service/excel-export-service';
 
 
 @Component({
@@ -27,7 +28,10 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('exporter', {static: false}) exporter: any;
+  @ViewChild('exporter', { static: false }) exporter: any;
+  @ViewChild('operacionesProgNoConciliadasTb') operacionesProgNoConciliadasTb: MatTable<any>;
+
+  xlsxOperacionesProgNoConciliadas = 'operaciones_prog_no_conciliadas';
 
   //matTableExporter: any;
 
@@ -55,7 +59,8 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly opConciliadasService: OpConciliadasService
+    private readonly opConciliadasService: OpConciliadasService,
+    private readonly excelExportService: ExcelExportService
   ) { }
 
   ngOnInit(): void {
@@ -100,21 +105,25 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceOperacionesProgramadas = new MatTableDataSource();
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
+        this.onAlert(err.error.response.description, GENERALES.CODE_EMERGENT.ERROR);
         this.load = false;
       }
     });
   }
 
-  exporterTable(){
-    if(this.exporter && !this.load){
-      this.exporter.exportTable('xlsx', {fileName:'operaciones_programadas_no_conciliadas'});
+  exporterTable(name: string) {
+    if (this.dataSourceOperacionesProgramadas.data.length === 0) {
+      this.onAlert(GENERALES.MESSAGE_ALERT.EXPORTER.NO_DATA);
+    }
+    else if (this.exporter && !this.load) {
+      this.excelExportService.exportToExcel({
+        fileName: name,
+        data: this.operacionesProgNoConciliadasTb,
+        columns: this.displayedColumnsOperacionesProgramadas,
+        numericColumns: [
+          { columnName: 'valorTotal', format: GENERALES.FORMATS_EXCEL.NUMBERS.FORMAT1 }
+        ]
+      });
     }
   }
 
@@ -129,4 +138,13 @@ export class ConsultaOperaProgramadasComponent implements OnInit {
     );
   }
 
+  onAlert(mensaje: string, codigo = GENERALES.CODE_EMERGENT.WARNING) {
+    this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: mensaje,
+        codigo: codigo,
+      },
+    });
+  }
 }

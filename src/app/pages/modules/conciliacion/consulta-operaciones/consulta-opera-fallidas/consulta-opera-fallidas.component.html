@@ -13,7 +13,7 @@
         <div class="mat-table-custom">
             <div class="controls-container">
                 <button mat-raised-button color="primary"
-                    (click)="exporterTable('operaciones_programadas_sin_conciliar')"
+                    (click)="exporterTable(xlsxOperacionesProgSinConciliar)"
                     class="button-custom">Exportar
                 </button>
                 <div class="paginator-area">
@@ -26,8 +26,8 @@
                 <mat-spinner></mat-spinner>
             </div>
             <div [hidden]="loadProg" class="config-scroll-custom">
-                <table mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort
-                    #sort1="matSort" #exporterProg="matTableExporter">
+                <table #operacionesProgSinConciliarTb mat-table matTableExporter [dataSource]="dataSourceOperacionesProgramadas" matSort
+                    #sort1="matSort" #exporterOpProgSinConciliar="matTableExporter">
                     <caption></caption>
                     <tr>
                         <ng-container matColumnDef="fechaOrigen" class="mat-column-nombreCampo">
@@ -83,7 +83,7 @@
         <div class="mat-table-custom">
             <div class="controls-container">
                 <button mat-raised-button class="button-custom" color="primary"
-                    (click)="exporterTable('operaciones_certificadas_sin_conciliar')">Exportar
+                    (click)="exporterTable(xlsxOperacionesCertSinConciliar)">Exportar
                 </button>
                 <div class="paginator-area">
                     <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeListCert"
@@ -95,8 +95,8 @@
                 <mat-spinner></mat-spinner>
             </div>
             <div [hidden]="loadCert"  class="config-scroll-custom">
-                <table mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort
-                    #sort2="matSort" #exporter="matTableExporter">
+                <table #operacionesCertSinConciliarTb mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas" matSort
+                    #sort2="matSort" #exporterOpCertSinConciliar="matTableExporter">
                     <caption></caption>
                     <tr>
                         <ng-container matColumnDef="ciudadFondo" class="mat-column-nombreCampo">

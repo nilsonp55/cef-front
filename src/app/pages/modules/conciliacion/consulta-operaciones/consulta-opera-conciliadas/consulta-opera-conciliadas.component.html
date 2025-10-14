@@ -1,5 +1,5 @@
 <div class="tittle-section">
-    <h2>Operaciones Conciliadas</h2>
+    <h2>Operaciones Conciliadas1</h2>
 </div>
 
     <app-filtro-banco-tdv (filterData)="filter($event)" [showFechaProceso]="true" [showFilterEstado]="true" [showPuntoOrigenDestino]="true" [fechaProceso]="fechaProceso">
@@ -8,7 +8,7 @@
 <div class="mat-table-custom">
     <div class="controls-container">
         <button mat-raised-button  class="button-custom" color="primary"
-            (click)="exporterTable()">Exportar</button>
+            (click)="exporterTable(xlsxOperaciones)">Exportar</button>
         <div class="paginator-area">
             <mat-paginator [pageSize]="5" [pageSizeOptions]=pageSizeList [length]="cantidadRegistros"
                 (page)="mostrarMas($event)">
@@ -19,7 +19,7 @@
         <mat-spinner></mat-spinner>
     </div>
     <div [hidden]="load">
-        <table mat-table matTableExporter [dataSource]="dataSourceConciliadas" matSort #exporter="matTableExporter">
+        <table #operacionesTb mat-table matTableExporter [dataSource]="dataSourceConciliadas" matSort #exporter="matTableExporter">
             <caption></caption>
             <ng-container matColumnDef="Banco" class="mat-column-nombreCampo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> BANCO</th>
