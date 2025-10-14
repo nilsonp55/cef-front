@@ -1,6 +1,6 @@
 import { NgModule, LOCALE_ID} from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe, registerLocaleData } from '@angular/common';
-import localeEs from '@angular/common/locales/es'
+import localeEsCo from '@angular/common/locales/es-CO'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -177,8 +177,9 @@ import { ListarPuntosNoConcialiablesComponent } from './pages/modules/conciliaci
 import { ConciliarNuevosPuntosTdvComponent } from './pages/modules/conciliacion/conciliar-nuevos-puntos-tdv/conciliar-nuevos-puntos-tdv.component';
 import { DialogConfirmComponent } from './pages/shared/components/dialog-confirm/dialog-confirm.component';
 import { getSpanishPaginatorIntl } from './pages/shared/config/paginator.intl-config';
+import { CustomCurrencyPipe } from './pages/shared/pipes/CustomCurrencyPipe';
 
-registerLocaleData(localeEs)
+registerLocaleData(localeEsCo, )
 
 @NgModule({
   declarations: [
@@ -329,6 +330,7 @@ registerLocaleData(localeEs)
     ListarPuntosNoConcialiablesComponent,
     ConciliarNuevosPuntosTdvComponent,
     DialogConfirmComponent,
+    CustomCurrencyPipe
   ],
 
   imports: [
@@ -384,7 +386,7 @@ registerLocaleData(localeEs)
       multi: true
     }, 
     { 
-      provide: LOCALE_ID, useValue: 'es'
+      provide: LOCALE_ID, useValue: 'es-CO'
     },
     {
       provide: MatPaginatorIntl,
