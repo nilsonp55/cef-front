@@ -13,7 +13,7 @@
     <div class="mat-table-custom">
       <div class="controls-container">
         <button mat-raised-button class="button-custom" color="primary" 
-        (click)="exporterTable('operaciones_programadas_sin_conciliar')">
+        (click)="exporterTable(nameXlsxProgramadas)">
           Exportar
         </button>
         <button class="button-custom" mat-raised-button color="primary" (click)="openDialogUpdateEstadoOperaciones('P')"
@@ -29,7 +29,7 @@
         <mat-spinner></mat-spinner>
       </div>
       <div [hidden]="loadProg" class="config-scroll-custom">
-        <table mat-table matTableExporter matSort #sort1="matSort" #exporterProg="matTableExporter"
+        <table #tableProgramadas mat-table matTableExporter matSort #sort1="matSort" #exporterProgramadas="matTableExporter"
           [dataSource]="dataSourceOperacionesProgramadas" aria-label="OperacionesProgramadas">
           <tr>
             <ng-container matColumnDef="select">
@@ -98,7 +98,7 @@
     </div>
     <div class="mat-table-custom">
       <div class="controls-container">
-        <button class="button-custom" (click)="exporterTable('operaciones_certificadas_sin_conciliar')"
+        <button class="button-custom" (click)="exporterTable(nameXlsxCertificadas)"
           mat-raised-button color="primary">Exportar
         </button>
         <button class="button-custom" mat-raised-button color="primary" (click)="openDialogUpdateEstadoOperaciones('C')"
@@ -114,8 +114,8 @@
         <mat-spinner></mat-spinner>
       </div>
       <div [hidden]="loadCert" class="configScroll">
-        <table id="operacionesCertificadas" mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas"
-          matSort #sort2="matSort" #exporter="matTableExporter" aria-label="OperacionesCertificadas">
+        <table #tableCertificadas id="operacionesCertificadas" mat-table matTableExporter [dataSource]="dataSourceOperacionesCertificadas"
+          matSort #sort2="matSort" #exporterCertificadas="matTableExporter" aria-label="OperacionesCertificadas">
           <tr>
             <ng-container matColumnDef="select">
               <th mat-header-cell *matHeaderCellDef>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
@@ -11,6 +11,7 @@ import { DialogDesconciliarComponent } from './dialog-desconciliar/dialog-descon
 import { GeneralesService } from 'src/app/_service/generales.service';
 import { lastValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { ExcelExportService } from 'src/app/_service/excel-export-service';
 
 @Component({
   selector: 'app-operaciones-conciliadas',
@@ -27,7 +28,9 @@ export class OperacionesConciliadasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('exporter', { static: false }) exporter: any;
+  @ViewChild('operacionesConciliadasTable') operacionesConciliadasTable: MatTable<any>;
 
+  nameXlsxOperacionesConciliadas = 'operaciones_conciliadas';
 
   //Registros paginados
   cantidadRegistros: number;
@@ -48,7 +51,8 @@ export class OperacionesConciliadasComponent implements OnInit {
   constructor(
     private readonly dialog: MatDialog,
     private readonly opConciliadasService: OpConciliadasService,
-    private readonly generalServices: GeneralesService) {
+    private readonly generalServices: GeneralesService,
+    private readonly excelExportService: ExcelExportService) {
 
   }
 
@@ -93,22 +97,35 @@ export class OperacionesConciliadasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceConciliadas = new MatTableDataSource();
-        const alert = this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
-        setTimeout(() => { alert.close() }, 3000);
+        this.onAlert(err.error.response.description, GENERALES.CODE_EMERGENT.ERROR);
         this.load = false;
       }
     });
   }
 
-  exporterTable() {
-    if (this.exporter && !this.load) {
-      this.exporter.exportTable('xlsx', { fileName: 'operaciones_conciliadas' });
+  onAlert(mensaje: string, codigo = GENERALES.CODE_EMERGENT.WARNING) {
+    this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: mensaje,
+        codigo: codigo,
+      },
+    });
+  }
+
+  exporterTable(name: string) {
+    if (this.dataSourceConciliadas.data.length === 0) {
+      this.onAlert(GENERALES.MESSAGE_ALERT.EXPORTER.NO_DATA);
+    }
+    else if (this.exporter && !this.load) {
+      this.excelExportService.exportToExcel({
+        fileName: name,
+        data: this.operacionesConciliadasTable,
+        columns: this.displayedColumnsConciliadas,
+        numericColumns: [
+          { columnName: 'valorTotal', format: GENERALES.FORMATS_EXCEL.NUMBERS.FORMAT1 }
+        ]
+      });
     }
   }
 

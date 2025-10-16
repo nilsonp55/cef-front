@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
@@ -13,6 +13,7 @@ import { DialogInfoCertificadasNoConciliadasComponent } from '../../operaciones-
 import * as moment from 'moment';
 import { DialogInfoOpProgramadasComponent } from './dialog-info-op-programadas/dialog-info-op-programadas.component';
 import { DialogConciliacionManualComponent } from '../../operaciones-no-conciliadas/dialog-conciliacion-manual/dialog-conciliacion-manual.component';
+import { ExcelExportService } from 'src/app/_service/excel-export-service';
 
 
 @Component({
@@ -30,7 +31,13 @@ export class ConsultaOperaFallidasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('sort1') sort1 = new MatSort();
   @ViewChild('sort2') sort2 = new MatSort();
-  @ViewChild('exporter', {static: false}) exporter: any;
+  @ViewChild('exporterOpProgSinConciliar', {static: false}) exporterOpProgSinConciliar: any;
+  @ViewChild('exporterOpCertSinConciliar', {static: false}) exporterOpCertSinConciliar: any;
+  @ViewChild('operacionesProgSinConciliarTb') operacionesProgSinConciliarTb: MatTable<any>;
+  @ViewChild('operacionesCertSinConciliarTb') operacionesCertSinConciliarTb: MatTable<any>;
+
+  xlsxOperacionesProgSinConciliar = 'operaciones_prog_sin_conciliar';
+  xlsxOperacionesCertSinConciliar = 'operaciones_cert_sin_conciliar';
 
   //Rgistros paginados
   cantidadRegistrosProgram: number;
@@ -60,7 +67,8 @@ export class ConsultaOperaFallidasComponent implements OnInit {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly opConciliadasService: OpConciliadasService) { }
+    private readonly opConciliadasService: OpConciliadasService,
+    private readonly excelExportService: ExcelExportService) { }
 
 
   ngOnInit(): void {
@@ -132,13 +140,7 @@ export class ConsultaOperaFallidasComponent implements OnInit {
         this.loadProg = false;
       },
       error: (err: any) => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
+        this.onAlert(err.error.response.description, GENERALES.CODE_EMERGENT.ERROR)
         this.loadProg = false;
       }
     });
@@ -171,15 +173,19 @@ export class ConsultaOperaFallidasComponent implements OnInit {
       },
       error: (err: any) => {
         this.dataSourceOperacionesCertificadas = new MatTableDataSource();
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: err.error.response.description,
-            codigo: GENERALES.CODE_EMERGENT.ERROR
-          }
-        });
+        this.onAlert(err.error.response.description, GENERALES.CODE_EMERGENT.ERROR);
         this.loadCert = false;
       }
+    });
+  }
+
+  onAlert(mensaje: string, codigo = GENERALES.CODE_EMERGENT.WARNING) {
+    this.dialog.open(VentanaEmergenteResponseComponent, {
+      width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+      data: {
+        msn: mensaje,
+        codigo: codigo,
+      },
     });
   }
 
@@ -238,10 +244,29 @@ export class ConsultaOperaFallidasComponent implements OnInit {
     );
   }
 
-  exporterTable(tableName: string){
-    if(this.exporter && !this.loadProg){
-      this.exporter.exportTable('xlsx', {fileName: tableName});
+  exporterTable(tableName: string) {
+    if (tableName === this.xlsxOperacionesProgSinConciliar
+      && this.exporterOpProgSinConciliar && !this.loadProg && this.dataSourceOperacionesProgramadas.data.length !== 0) {
+      this.callToServiceExport(tableName, this.operacionesProgSinConciliarTb, this.displayedColumnsOperacionesProgramadas);
     }
+    else if (tableName === this.xlsxOperacionesCertSinConciliar
+      && this.exporterOpCertSinConciliar && !this.loadCert && this.dataSourceOperacionesCertificadas.data.length !== 0) {
+      this.callToServiceExport(tableName, this.operacionesCertSinConciliarTb, this.displayedColumnsOperacionesCertificadas);
+    } 
+    else {
+      this.onAlert(GENERALES.MESSAGE_ALERT.EXPORTER.NO_DATA);
+    }
+  }
+
+  callToServiceExport(tableName: string, data: MatTable<any>, columns: string[]) {
+    this.excelExportService.exportToExcel({
+      fileName: tableName,
+      data: data,
+      columns: columns,
+      numericColumns: [
+        { columnName: 'valorTotal', format: GENERALES.FORMATS_EXCEL.NUMBERS.FORMAT1 }
+      ]
+    });
   }
 
 }

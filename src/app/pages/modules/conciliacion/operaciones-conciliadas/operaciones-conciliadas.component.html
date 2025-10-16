@@ -8,7 +8,7 @@
 
     <div class="controls-container">
         <button mat-raised-button class="button-custom" color="primary"
-            (click)="exporterTable()">Exportar</button>
+            (click)="exporterTable(nameXlsxOperacionesConciliadas)">Exportar</button>
         <div class="paginator-area">
             <mat-paginator [pageSize]="5" [pageSizeOptions]="pageSizeList" [length]="cantidadRegistros"
                 (page)="mostrarMas($event)">
@@ -19,7 +19,7 @@
         <mat-spinner></mat-spinner>
     </div>
     <div [hidden]="load">
-        <table mat-table matTableExporter [dataSource]="dataSourceConciliadas" matSort #exporter="matTableExporter">
+        <table #operacionesConciliadasTable mat-table matTableExporter [dataSource]="dataSourceConciliadas" matSort #exporter="matTableExporter">
             <caption></caption>
             <tr>
                 <ng-container matColumnDef="Banco" class="mat-column-nombreCampo">
