@@ -335,7 +335,7 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
                   }
                   return texto;
                 });
-                const listaHtml = `<ul style="text-align:left">${mensajes.map(m => `<li>${m}</li><br>`).join('')}</ul>`;
+                const listaHtml = `<ul style="text-align:left">${mensajes.map(m => `<li>${this.escapeHtml(m)}</li><br>`).join('')}</ul>`;
                 Swal.fire({
                   icon: 'error',
                   title: 'Errores de validación',
@@ -366,7 +366,7 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
                   }
                   return texto;
                 });
-                const listaHtml = `<ul style="text-align:left">${mensajes.map(m => `<li>${m}</li><br>`).join('')}</ul>`;
+                const listaHtml = `<ul style="text-align:left">${mensajes.map(m => `<li>${this.escapeHtml(m)}</li><br>`).join('')}</ul>`;
                 Swal.fire({
                   icon: 'error',
                   title: 'Errores de validación',
@@ -437,5 +437,11 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
         control.disable({ emitEvent: false });
       }
     });
+  }
+
+  escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.innerText = text;
+    return div.innerHTML;
   }
 }
