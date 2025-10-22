@@ -31,7 +31,7 @@ export class TarifasOperacionComponent implements OnInit {
   comisionesAplicar: any[] = [];
   tipoServicios: any[] = [];
   escalas: any[] = [];
-  transportadoras: any [] = [];
+  transportadoras: any[] = [];
   tiposPuntos: any;
 
   filtroTipOperacionSelect: any;
@@ -66,33 +66,33 @@ export class TarifasOperacionComponent implements OnInit {
    * Lista los Cuentas puc
    * @BayronPerez
    */
-   listarTarifaOperacion(pagina = 0, tamanio = 5) {
-     this.tarifasOperacionService.consultarTarifasOperacion({
-       page: pagina,
-       size: tamanio,
-       'banco.codigoPunto': this.filtroBancoSelect == undefined ? '' : this.filtroBancoSelect.codigoPunto,
-       'transportadora.codigo': this.filtroTransportaSelect == undefined ? '' : this.filtroTransportaSelect.codigo,
-       'tipoOperacion': this.filtroTipOperacionSelect == undefined ? '' : this.filtroTipOperacionSelect,
-       'escala': this.filtroEscalaSelect == undefined ? '' : this.filtroEscalaSelect,
-       'tipoServicio': this.filtroTipoServicioSelect == undefined ? '' : this.filtroTipoServicioSelect
-     }).subscribe({
-       next: (page: any) => {
-         this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
-         this.dataSourceTiposCuentas.sort = this.sort;
-         this.cantidadRegistros = page.data.totalElements;
-       },
-       error: (err: ErrorResponse) => {
-         this.dialog.open(VentanaEmergenteResponseComponent, {
-           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-           data: {
-             msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
-             codigo: GENERALES.CODE_EMERGENT.ERROR,
-             showResume: true,
-             msgDetalles: JSON.stringify(err.response)
-           }
-         });
-       }
-     });
+  listarTarifaOperacion(pagina = 0, tamanio = 5) {
+    this.tarifasOperacionService.consultarTarifasOperacion({
+      page: pagina,
+      size: tamanio,
+      'banco.codigoPunto': this.filtroBancoSelect == undefined ? '' : this.filtroBancoSelect.codigoPunto,
+      'transportadora.codigo': this.filtroTransportaSelect == undefined ? '' : this.filtroTransportaSelect.codigo,
+      'tipoOperacion': this.filtroTipOperacionSelect == undefined ? '' : this.filtroTipOperacionSelect,
+      'escala': this.filtroEscalaSelect == undefined ? '' : this.filtroEscalaSelect,
+      'tipoServicio': this.filtroTipoServicioSelect == undefined ? '' : this.filtroTipoServicioSelect
+    }).subscribe({
+      next: (page: any) => {
+        this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
+        this.dataSourceTiposCuentas.sort = this.sort;
+        this.cantidadRegistros = page.data.totalElements;
+      },
+      error: (err: ErrorResponse) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.response)
+          }
+        });
+      }
+    });
   }
 
   /**
@@ -116,6 +116,8 @@ export class TarifasOperacionComponent implements OnInit {
         codigo: form.value['transportadora'].codigo
       },
       valorTarifa: Number(form.value['valorTarifa']),
+      limiteComisionAplicar: Number(form.value['limiteComisionAplicar']),
+      valorComisionAdicional: Number(form.value['valorComisionAdicional']),
 
       estado: form.value['estado'].value ? 1 : 0,
       billetes: form.value['billetes'] == "null" ? null : form.value['billetes'],
@@ -128,6 +130,7 @@ export class TarifasOperacionComponent implements OnInit {
       fechaCreacion: new Date()
     };
     if (this.comparaFechas(form.value['fechaVigenciaIni'], form.value['fechaVigenciaFin'])) {
+      debugger
       if (this.esEdicion) {
         this.tarifasOperacionService.actualizarTarifasOperacion(tarifa).subscribe({
           next: response => {
@@ -140,6 +143,8 @@ export class TarifasOperacionComponent implements OnInit {
                 msgDetalles: JSON.stringify(response.response)
               }
             });
+            this.listarTarifaOperacion();
+            this.cerrarFormulario();
           },
           error: (err: any) => {
             console.debug(err);
@@ -166,6 +171,8 @@ export class TarifasOperacionComponent implements OnInit {
                 msgDetalles: JSON.stringify(response.response)
               }
             });
+            this.listarTarifaOperacion();
+            this.cerrarFormulario();
           },
           error: (err: ErrorResponse) => {
             this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -180,7 +187,6 @@ export class TarifasOperacionComponent implements OnInit {
           }
         });
       }
-      this.listarTarifaOperacion();
     } else {
       this.dialog.open(VentanaEmergenteResponseComponent, {
         width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
@@ -200,25 +206,25 @@ export class TarifasOperacionComponent implements OnInit {
     );
 
     await lastValueFrom(this.generalesService.listarDominioByDominio({
-      'dominio':"TIPO_OPERACION"
+      'dominio': "TIPO_OPERACION"
     })).then(
       response => this.tipoOperaciones = response.data
     );
 
     await lastValueFrom(this.generalesService.listarDominioByDominio({
-      'dominio':"TIPO_SERVICIO"
+      'dominio': "TIPO_SERVICIO"
     })).then(
       response => this.tipoServicios = response.data
     );
 
     await lastValueFrom(this.generalesService.listarDominioByDominio({
-      'dominio':"COMISION_APLICAR"
+      'dominio': "COMISION_APLICAR"
     })).then(
       response => this.comisionesAplicar = response.data
-    );    
+    );
 
     await lastValueFrom(this.generalesService.listarDominioByDominio({
-      'dominio':"ESCALA"
+      'dominio': "ESCALA"
     })).then(
       response => this.escalas = response.data
     );
@@ -227,8 +233,8 @@ export class TarifasOperacionComponent implements OnInit {
       response => this.transportadoras = response.data
     );
 
-    await lastValueFrom(this.generalesService.listarDominioByDominio({ 
-      'dominio': 'TIPOS_PUNTO' 
+    await lastValueFrom(this.generalesService.listarDominioByDominio({
+      'dominio': 'TIPOS_PUNTO'
     })).then(
       response => this.tiposPuntos = response.data
     );
@@ -294,7 +300,6 @@ export class TarifasOperacionComponent implements OnInit {
   onGuardar(form: FormGroup) {
     // Guardar o actualizar registro
     this.persistir(form);
-    this.cerrarFormulario();
     // Recargar tabla si es necesario
   }
 

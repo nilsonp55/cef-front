@@ -14,29 +14,33 @@ import { URLs } from 'src/app/pages/shared/constantes';
  */
 export class GestionPuntosService {
 
-    private readonly url: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS}`;
-    private readonly urlTDV: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS_TDV}`;
+    private url: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS}`;
+    private urlTDV: string = `${environment.HOST}${URLs.STAGE}${URLs.GESTION_PUNTOS_TDV}`;
+    private urlCliente: string = `${environment.HOST}${URLs.STAGE}`;
 
-    constructor(private readonly http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
     /**
     * Servicio para listar los puntos
     */
     listarPuntosCreados(params: any): Observable<any> {
+        const formData: FormData = new FormData();
         return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}`, { params: params });
     }
 
     /**
     * Servicio para listar los puntos
     */
-     consultarPuntoCreadoById(idPunto: any): Observable<any> {
+    consultarPuntoCreadoById(idPunto: any): Observable<any> {
+        const formData: FormData = new FormData();
         return this.http.get<any>(`${this.url}${URLs.CONSULTAR_PUNTOS}/${idPunto}`);
     }
 
     /**
     * Servicio para listar los puntos
     */
-     crearPunto(param: any): Observable<any> {
+    crearPunto(param: any): Observable<any> {
+        const formData: FormData = new FormData();
         return this.http.post<any>(`${this.url}${URLs.GUARDAR_PUNTO}`, { param });
     }
 
@@ -44,6 +48,11 @@ export class GestionPuntosService {
     * Servicio para listar los puntos tdv
     */
     listarPuntosCreadosTDV(params: any): Observable<any> {
-      return this.http.get<any>(`${this.urlTDV}${URLs.CONSULTAR_PUNTOS}`, { params: params });
-  }
+        const formData: FormData = new FormData();
+        return this.http.get<any>(`${this.urlTDV}${URLs.CONSULTAR_PUNTOS}`, { params: params });
+    }
+
+    listarPuntosAsociados(param) {
+        return this.http.get<any>(`${this.urlCliente}${URLs.SITIOS_CLIENTE}${URLs.SITIOS_CLIENTE_CONSULTAR}`,{params:param},);
+    }
 }

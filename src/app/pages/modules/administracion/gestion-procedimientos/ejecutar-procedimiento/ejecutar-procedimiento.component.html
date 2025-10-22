@@ -1,12 +1,11 @@
 <div class="modal-dialog-custom">
-    <h2>Generar listado y otros: {{this.nameFuntion}}</h2>
-    <h3>{{this.descriptionFuntion}}</h3>
+    <h2>Generar listado y otros</h2>
     <div class="form-fields">
         <mat-form-field *ngFor="let item of parametrosFuncionesDinamicasDTO" appearance="fill">
             <mat-label>{{item.nombreParametro}}</mat-label>
             <input matInput
                 placeholder="Tipo Parametro: {{item.tipoDatoParametro}} - Posibles Valores: {{item.posiblesValores}}"
-                id="{{item.nombreParametro}}" (change)="changeValor($event, item)">
+                id="{{item.nombreParametro}}" value="{{item.valorDefecto}}" (change)="changeValor($event, item)">
         </mat-form-field>
     </div>
     

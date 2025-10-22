@@ -22,7 +22,7 @@ export class FormClientesCorpComponent implements OnInit {
     public dialogRef: MatDialogRef<FormClientesCorpComponent>,
     private readonly clientesCorporativosServices: ClientesCorporativosService,
     private readonly dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     ManejoFechaToken.manejoFechaToken();
@@ -35,8 +35,8 @@ export class FormClientesCorpComponent implements OnInit {
       let banco =
         param.row?.codigoBancoAval != null
           ? this.bancos.find(
-              (value) => value.codigoPunto == param.row.codigoBancoAval
-            )
+            (value) => value.codigoPunto == param.row.codigoBancoAval
+          )
           : [];
       this.form = new FormGroup({
         codigoCliente: new FormControl({
@@ -58,12 +58,15 @@ export class FormClientesCorpComponent implements OnInit {
         amparado: new FormControl(
           param.row != null ? param.row.amparado : false
         ),
+        aplicaTarifaEspecial: new FormControl(
+          param.row != null ? param.row.aplicaTarifaEspecial : false
+        ),
       });
     }
   }
 
   async saveClienteCorporativo() {
-    if(this.form.invalid) {
+    if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
@@ -76,45 +79,46 @@ export class FormClientesCorpComponent implements OnInit {
       tipoId: this.form.controls['tipoId'].value,
       tarifaSeparacion: this.form.controls['tarifaSeparacion'].value,
       amparado: this.form.controls['amparado'].value,
+      aplicaTarifaEspecial: this.form.controls['aplicaTarifaEspecial'].value
     };
 
     const serviceCall = this.data.flag === 'create'
       ? this.clientesCorporativosServices.guardarClientesCorporativos(rowSave)
       : this.clientesCorporativosServices.actualizarClientesCorporativos(rowSave);
 
-      serviceCall.subscribe({
-          next: (page: any) => {
-            this.dialog
-              .open(VentanaEmergenteResponseComponent, {
-                width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-                data: {
-                  msn: this.data.flag === 'create' ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE 
-                    : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
-                  codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
-                  showResume: true,
-                  msgDetalles: JSON.stringify(page.response)
-                },
-              })
-              .afterClosed()
-              .subscribe((result) => {
-                this.dialogRef.close(rowSave);
-              });
-            this.spinnerActive = false;
-          },
-          error: (err: any) => {
-            this.dialog.open(VentanaEmergenteResponseComponent, {
-              width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-              data: {
-                msn: this.data.flag === 'create' ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE 
-                  : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE,
-                codigo: GENERALES.CODE_EMERGENT.ERROR,
-                showResume: true,
-                msgDetalles: JSON.stringify(err.error.response)
-              },
-            });
-            this.spinnerActive = false;
+    serviceCall.subscribe({
+      next: (page: any) => {
+        this.dialog
+          .open(VentanaEmergenteResponseComponent, {
+            width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+            data: {
+              msn: this.data.flag === 'create' ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE
+                : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE,
+              codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+              showResume: true,
+              msgDetalles: JSON.stringify(page.response)
+            },
+          })
+          .afterClosed()
+          .subscribe((result) => {
+            this.dialogRef.close(rowSave);
+          });
+        this.spinnerActive = false;
+      },
+      error: (err: any) => {
+        this.dialog.open(VentanaEmergenteResponseComponent, {
+          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
+          data: {
+            msn: this.data.flag === 'create' ? GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE
+              : GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE,
+            codigo: GENERALES.CODE_EMERGENT.ERROR,
+            showResume: true,
+            msgDetalles: JSON.stringify(err.error.response)
           },
         });
+        this.spinnerActive = false;
+      },
+    });
 
   }
 

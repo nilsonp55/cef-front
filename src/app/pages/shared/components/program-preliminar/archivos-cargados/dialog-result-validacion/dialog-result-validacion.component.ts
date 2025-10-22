@@ -46,6 +46,7 @@ export class DialogResultValidacionComponent implements OnInit {
   //Historico vioene el idData
 
   descargarArchivo() {
+    console.log(this.data)
     if (this.data.idData==undefined){
       this.cargueArchivosService.visializarArchivo3({
         'nombreArchivo': this.data.data.data.nombreArchivo,

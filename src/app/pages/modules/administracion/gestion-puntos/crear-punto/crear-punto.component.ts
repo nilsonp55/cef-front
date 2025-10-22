@@ -5,10 +5,11 @@ import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/componen
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { ManejoFechaToken } from 'src/app/pages/shared/utils/manejo-fecha-token';
 import { GestionPuntosService } from 'src/app/_service/administracion-service/gestionPuntos.service';
-import { GeneralesService }  from 'src/app/_service/generales.service';
+import { GeneralesService } from 'src/app/_service/generales.service';
 import { lastValueFrom, Observable, of } from 'rxjs';
 import { startWith, map, catchError, debounceTime, distinctUntilChanged, switchMap, finalize } from 'rxjs/operators';
 import { ClientesCorporativosService } from 'src/app/_service/administracion-service/clientes-corporativos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-crear-punto',
@@ -49,7 +50,7 @@ export class CrearPuntoComponent implements OnInit {
   puntoSeleccionado: string = '';
   listPuntosSelect: any;
   bancosAval: any[] = [];
-  tdvs: any[] = []; 
+  tdvs: any[] = [];
 
   constructor(
     private readonly dialog: MatDialog,
@@ -58,7 +59,7 @@ export class CrearPuntoComponent implements OnInit {
     private readonly generalServices: GeneralesService,
     private readonly gestionPuntosService: GestionPuntosService,
     private readonly clientesService: ClientesCorporativosService
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.spinnerActive = true;
@@ -95,6 +96,7 @@ export class CrearPuntoComponent implements OnInit {
   }
 
   async initForm(param?: any) {
+    console.log(param)
     let valCodigoOficina: any;
     let valTarifaRuteo: any;
     let valTarifaVerificacion: any;
@@ -109,7 +111,7 @@ export class CrearPuntoComponent implements OnInit {
       valFajado = param?.sitiosClientes?.fajado;
     }
 
-    if(param?.tipoPunto === 'OFICINA') {
+    if (param?.tipoPunto === 'OFICINA') {
       valCodigoOficina = param.oficinas?.codigoOficina;
       valBancoAval = param.oficinas?.bancoAVAL;
       valTarifaRuteo = param.oficinas?.tarifaRuteo;
@@ -118,11 +120,11 @@ export class CrearPuntoComponent implements OnInit {
       refajillado = param.oficinas?.refajillado;
     }
 
-    if(param?.tipoPunto === 'FONDO') {
+    if (param?.tipoPunto === 'FONDO') {
       valBancoAval = param?.fondos?.bancoAVAL;
     }
 
-    if(param?.tipoPunto === 'CAJERO') {
+    if (param?.tipoPunto === 'CAJERO') {
       valBancoAval = param?.cajeroATM?.bancoAval;
       valTarifaRuteo = param.cajeroATM?.tarifaRuteo;
       valTarifaVerificacion = param.cajeroATM?.tarifaVerificacion;
@@ -131,7 +133,7 @@ export class CrearPuntoComponent implements OnInit {
     this.ciudadControl = new FormControl(param ? this.ciudades.find(value => value.codigoDANE === param.codigoCiudad) : null, [Validators.required]);
     this.clientesControl = new FormControl(param?.sitiosClientes?.codigoCliente, [Validators.required]);
     this.form = new FormGroup({
-      'tipoPunto': new FormControl({value: param ? param?.tipoPunto : null, disabled: param}, [Validators.required]),
+      'tipoPunto': new FormControl({ value: param ? param?.tipoPunto : null, disabled: param }, [Validators.required]),
       'nombrePunto': new FormControl(param != null ? param.nombrePunto : null, [Validators.required]),
       'ciudad': this.ciudadControl,
       'cliente': this.clientesControl,
@@ -147,17 +149,21 @@ export class CrearPuntoComponent implements OnInit {
       'abreviatura': new FormControl(param ? param.bancos?.abreviatura : null),
       'fajado': new FormControl(param ? valFajado : null),
       'refajillado': new FormControl(param ? refajillado : null),
-      'esAval': new FormControl(param ? param.bancos?.esAVAL : null),
-      'estado': new FormControl(param? param.estado === "1" : true),
+      'esAval': new FormControl(param ? param.esAVAL : null),
+      'estado': new FormControl(param ? param.estado === "1" : true),
+      'programaTransporte': new FormControl(param ? param.oficinas.
+        programaTransporte : true),
     });
 
     if (param) {
-      this.changeTipoPunto({value: param?.tipoPunto});
+      this.changeTipoPunto({ value: param?.tipoPunto });
     }
   }
 
   persistir() {
     this.spinnerActive = true;
+    this.modalProcesoEjecucion();
+    console.log(this.form.value['programaTransporte'])
     let cliente = {
       codigoPunto: this.dataElement?.codigoPunto,
       tipoPunto: this.puntoSeleccionado,
@@ -180,17 +186,19 @@ export class CrearPuntoComponent implements OnInit {
       fajado: (this.form.value['fajado']),
       refagillado: (this.form.value['refajillado']),
       esAVAL: this.puntoSeleccionado === 'BANCO' ? this.form.value['esAval'] : this.form.value['bancoAval']?.esAVAL,
+      programaTransporte: this.form.get('programaTransporte')?.value,
     };
+    console.log(cliente)
     let messagePersistirSuccesful = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
     let messagePersistirError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
 
-    if(this.data.flag === "modif") {
+    if (this.data.flag === "modif") {
       messagePersistirSuccesful = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_UPDATE;
       messagePersistirError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_UPDATE;
     }
 
-    const serviceCall = this.data.flag === "modif" 
-      ? this.gestionPuntosService.actualizarPunto(cliente) 
+    const serviceCall = this.data.flag === "modif"
+      ? this.gestionPuntosService.actualizarPunto(cliente)
       : this.gestionPuntosService.crearPunto(cliente);
 
     serviceCall.subscribe({
@@ -204,10 +212,12 @@ export class CrearPuntoComponent implements OnInit {
             msgDetalles: JSON.stringify(page.response)
           },
         })
-        .afterClosed()
-        .subscribe((result) => {
-          this.dialogRef.close();
-        });
+          .afterClosed()
+          .subscribe((result) => {
+            this.dialogRef.close();
+          });
+
+        Swal.close();
       },
       error: (err: any) => {
         this.dialog.open(VentanaEmergenteResponseComponent, {
@@ -219,6 +229,8 @@ export class CrearPuntoComponent implements OnInit {
             msgDetalles: JSON.stringify(err.error)
           },
         });
+        Swal.close();
+
         this.spinnerActive = false;
       }
     });
@@ -278,23 +290,23 @@ export class CrearPuntoComponent implements OnInit {
 
     // Remover validadores de controles no requeridos
     config.noRequired.forEach(controlName => {
-        this.form.get(controlName)?.removeValidators(Validators.required);
-        this.form.get(controlName)?.updateValueAndValidity();
+      this.form.get(controlName)?.removeValidators(Validators.required);
+      this.form.get(controlName)?.updateValueAndValidity();
     });
 
     // Agregar validadores a controles requeridos
     config.required.forEach(controlName => {
-        this.form.get(controlName)?.addValidators(Validators.required);
-        this.form.get(controlName)?.updateValueAndValidity();
+      this.form.get(controlName)?.addValidators(Validators.required);
+      this.form.get(controlName)?.updateValueAndValidity();
     });
 
     if (['BAN_REP', 'BANCO'].includes(this.puntoSeleccionado)) {
-        this.form.get('bancoAval')?.removeValidators(Validators.required);
-        this.form.get('bancoAval')?.updateValueAndValidity();
+      this.form.get('bancoAval')?.removeValidators(Validators.required);
+      this.form.get('bancoAval')?.updateValueAndValidity();
     }
 
   }
-  
+
   /**
    * Realiza la peticion al servicio de Clientes Corporativos con 
    * parametros para filtrar resultados
@@ -317,12 +329,12 @@ export class CrearPuntoComponent implements OnInit {
    * @author prv_nparra
    */
   changeBancoTrans(element: any) {
-    
-    if(this.puntoSeleccionado === "FONDO") {
+
+    if (this.puntoSeleccionado === "FONDO") {
       this.concatenarNombrePuntoFondo();
     }
 
-    if(this.puntoSeleccionado == "CLIENTE") {
+    if (this.puntoSeleccionado == "CLIENTE") {
       this.form.get('cliente').setValue('');
     }
   }
@@ -345,7 +357,7 @@ export class CrearPuntoComponent implements OnInit {
    * @author prv_nparra
    */
   private _filterCliente(value: string): Observable<any[]> {
-    
+
     if (value.length < 1) return of([]);
 
     const param = {
@@ -388,26 +400,37 @@ export class CrearPuntoComponent implements OnInit {
   concatenarNombrePuntoFondo() {
 
     const bancoAbreviatura = this.form.controls['bancoAval'].value?.abreviatura ?? '';
-    const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? ''; 
+    const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? '';
     const codigoTdv = this.form.controls['transportadora'].value?.codigo ?? '';
 
     this.form.controls['nombrePunto'].setValue(bancoAbreviatura + '-' + nombreCiudad + '-' + codigoTdv);
   }
 
   changeCiudad(value: any) {
-    if(this.puntoSeleccionado === "FONDO") {
+    if (this.puntoSeleccionado === "FONDO") {
       this.concatenarNombrePuntoFondo();
     }
 
-    if(this.puntoSeleccionado === "BAN_REP") {
+    if (this.puntoSeleccionado === "BAN_REP") {
       this.concatenarNombreBanrep();
     }
   }
 
   concatenarNombreBanrep() {
-    const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? ''; 
+    const nombreCiudad = this.form.controls['ciudad'].value?.nombreCiudad ?? '';
     this.form.controls['nombrePunto'].setValue(GENERALES.NOMBRE_TIPO_BANREP + nombreCiudad);
   }
+  modalProcesoEjecucion() {
+    Swal.fire({
+      title: "Proceso en ejecución",
+      imageUrl: "assets/img/loading.gif",
+      imageWidth: 80,
+      imageHeight: 80,
+      showConfirmButton: false,
+      allowOutsideClick: false
+    });
+  }
+
 
   onCancel(): void {
     this.dialogRef.close({event:'Cancel'})

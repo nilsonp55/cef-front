@@ -326,6 +326,10 @@ export const URLs = {
   CLIENTE: '/clientes-corporativos',
   CLIENTE_CONSULTAR: '/consultar',
 
+  //Listar clientes corporativos
+  SITIOS_CLIENTE: '/sitios-clientes',
+  SITIOS_CLIENTE_CONSULTAR: '/consultar-puntos-asociados',
+
   //Generar Llaves
   LLAVES: '/encriptar',
   LLAVES_GENERAR: '/generar-llaves',
@@ -539,6 +543,24 @@ export const URLs = {
 
   //Generar Politica
   GENERAR_POLITICA: '/gestion-retencion-archivos/eliminar',
+
+  //Tarifas Especiales
+  TARIFAS_ESPECIALES: '/tarifas-especiales-cliente',
+  TARIFAS_ESPECIALES_ARCHIVOS: '/archivos-tarifas-especiales',
+  TARIFAS_ESPECIALES_CONSULTAR_CLIENTE: '/consultar-cliente',
+  TARIFAS_ESPECIALES_CONSULTAR: '/consultar',
+  TARIFAS_ESPECIALES_CONSULTAR_ARCHIVOS: '/consultar',
+  TARIFAS_ESPECIALES_CONSULTAR_DETALLE_ARCHIVO: '/consultar-contenido',
+  TARIFAS_ESPECIALES_PROCESAR_ARCHIVOS: '/procesar',
+  TARIFAS_ESPECIALES_ELIMINAR_ARCHIVOS: '/eliminar',
+  TARIFAS_ESPECIALES_ELIMINAR: '/eliminar',
+  TARIFAS_ESPECIALES_GUARDAR: '/guardar',
+  TARIFAS_ESPECIALES_ACTUALIZAR: '/actualizar',
+
+  //Logs Auditoria
+  LOGS_AUDITORIA: '/logs-auditoria',
+  LOGS_AUDITORIA_CONSULTAR: '/consultar-administrativos',
+  LOGS_AUDITORIA_CONSULTAR_PROCESOS: '/consultar-procesos'
 };
 
 export const ROLES = [

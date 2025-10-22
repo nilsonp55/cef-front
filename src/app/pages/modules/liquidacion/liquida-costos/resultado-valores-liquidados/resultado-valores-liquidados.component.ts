@@ -26,17 +26,17 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
 
   //DataSource para pintar tabla de los procesos a ejecutar
   dataSourceInfoProcesos: MatTableDataSource<any>;
-  displayedColumnsInfoProcesos: string[] = ['idLiquidacion', 'fechaEjecucion', 'nombreBanco', 'nombreTdv',  
-    'nombreCliente', 'nombreFondo', 'nombrePunto', 'nombreCiudadPunto', 'codigoOficina', 'codigoPropioTdv', 'entradaSalida', 
-    'tipoPunto', 'tipoOperacion','tipoServicio','fajado', 'numeroFajos','numeroBolsas','escala', 'moneda','valorBilletes',
-	'valorMonedas','valorTotal', 'costoFijoParado', 'milajePorRuteo', 'milajeVerificacion', 'milajeTotal', 'costoMoneda',
-    'costoEmisario','costoCharter', 'clasificacionFajado', 'costoPaqueteo', 'tasaAeroportuaria','modenaResiduo','totalLiquidado'];
+  displayedColumnsInfoProcesos: string[] = ['idLiquidacion', 'fechaEjecucion', 'nombreBanco', 'nombreTdv',
+    'nombreCliente', 'nombreFondo', 'nombrePunto', 'nombreCiudadPunto', 'codigoOficina', 'codigoPropioTdv', 'entradaSalida',
+    'tipoPunto', 'tipoOperacion', 'tipoServicio', 'fajado', 'numeroFajos', 'numeroBolsas', 'escala', 'moneda', 'valorBilletes',
+    'valorMonedas', 'valorTotal', 'costoFijoParado', 'milajePorRuteo', 'milajeVerificacion', 'milajeTotal', 'costoMoneda',
+    'costoEmisario', 'costoCharter', 'clasificacionFajado', 'costoPaqueteo', 'tasaAeroportuaria', 'modenaResiduo', 'totalLiquidado', 'observacionesLiquidacion'];
 
   constructor(
     private dialog: MatDialog,
     private logProcesoDiarioService: LogProcesoDiarioService,
     private dialogRef: MatDialogRef<ResultadoValoresLiquidadosComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {respuesta: any, titulo: any}
+    @Inject(MAT_DIALOG_DATA) public data: { respuesta: any, titulo: any }
   ) { }
 
   ngOnInit(): void {
@@ -46,8 +46,8 @@ export class ResultadoValoresLiquidadosComponent implements OnInit {
     this.dataSourceInfoProcesos.sort = this.sort;
   }
 
-  close(){
-    this.dialogRef.close({event:'Cancel'})
+  close() {
+    this.dialogRef.close({ event: 'Cancel' })
   }
 
 }

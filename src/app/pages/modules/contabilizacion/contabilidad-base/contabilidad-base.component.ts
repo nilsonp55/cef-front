@@ -141,6 +141,7 @@ export class ContabilidadBaseComponent implements OnInit {
                 }).afterClosed().subscribe(()=>{
                   this.listarProcesos();
                 });
+                this.ngOnInit();
               },
               error: (err: any) => {
                 Swal.close();

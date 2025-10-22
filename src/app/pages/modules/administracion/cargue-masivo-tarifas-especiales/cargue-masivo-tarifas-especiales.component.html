@@ -1,0 +1,66 @@
+<div class="mat-table-custom">
+    <div class="table-filter-container">
+        <mat-form-field appearance="fill">
+            <mat-label> Seleccione Opción de Cargue Masivo </mat-label>
+            <mat-select [(ngModel)]="cargueMasivoSelect" (ngModelChange)="validarBuscar($event)">
+                <mat-option *ngFor="let item of cargueMasivoList" [value]="item">
+                    {{item}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button class="button-custom" mat-raised-button color="primary" (click)="cargarArchivosCargueTarifas()"
+            [disabled]="!buscar">Mostrar
+            Archivos</button>
+    </div>
+    <div class="titulo-cabecera">
+        CARGUE MASIVO TARIFAS ESPECIALES DE COMISION CLIENTE AMPARADO
+    </div>
+    <br>
+    <div class="configScroll">
+        <div class="divTablaTarifas">
+            <table mat-table matTableExporter [dataSource]="dataSourceCargueTarifas" matSort class="mat-elevation-z8"
+                #exporter="matTableExporter">
+                <ng-container matColumnDef="nombreArchivo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre del Archivo</th>
+                    <td mat-cell *matCellDef="let element">{{element.nombreArchivo}}</td>
+                </ng-container>
+                <ng-container matColumnDef="fechaCargue">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Cargue</th>
+                    <td mat-cell *matCellDef="let element">{{element.fechaArchivo}}</td>
+                </ng-container>
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="{'estado-error': element.estado === 'ERRADO',
+      'estado-ok': element.estado === 'OK'
+    }" (click)="element.estado === 'ERRADO' || element.estado === 'OK' ? verError(element) : null">
+                        {{ element.estado }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button class="button-custom" mat-raised-button color="primary"
+                            (click)="procesar(element, false)" [disabled]="element.estado !== 'PENDIENTE'">
+                            Procesar
+                        </button>
+                        <button class="button-custom" mat-raised-button color="primary" (click)="visualizar(element)">
+                            Visualizar
+                        </button>
+                        <button class="button-custom" mat-raised-button color="primary"
+                            (click)=" eliminarArchivo(element)">
+                            Eliminar
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef=" displayedColumnsCargueTarifas"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsCargueTarifas;"></tr>
+            </table>
+        </div>
+        <div style="display:flex;justify-content:center;align-items:center" *ngIf=" cantidadRegistros===0">
+            <p>No existe archivo para procesar</p>
+        </div>
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidadRegistros">
+        </mat-paginator>
+        <br>
+    </div>
+</div>

@@ -2,6 +2,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { RolMenuService } from 'src/app/_service/roles-usuarios-service/roles-usuarios.service';
 import { ManejoFechaToken } from '../../shared/utils/manejo-fecha-token';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MenuStateService } from 'src/app/_service/menu-state-service.service';
 
 @Component({
   selector: 'app-conciliacion',
@@ -17,7 +18,8 @@ export class ConciliacionComponent implements OnInit {
   constructor(
     private readonly rolMenuService: RolMenuService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly menuStateService: MenuStateService
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -29,7 +31,7 @@ export class ConciliacionComponent implements OnInit {
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {
-      if(data.data[0].estado === "1"){
+      if (data.data[0].estado === "1") {
         //Logica para capturar los menus para cargueCertificacion
         let rol = data.data[0].rol.idRol;
         this.rolMenuService.obtenerMenuRol({
@@ -38,7 +40,7 @@ export class ConciliacionComponent implements OnInit {
           'menu.idMenuPadre': "conciliacion"
         }).subscribe(menusrol => {
           var menuOrdenado = menusrol.data
-          menuOrdenado.sort((a,b) => {
+          menuOrdenado.sort((a, b) => {
             return a.menu.idMenu - b.menu.idMenu
           })
           menusrol.data.forEach(itm => {
@@ -65,7 +67,8 @@ export class ConciliacionComponent implements OnInit {
     this.menusConciliacion.forEach(element => {
       element.activo = element.idMenu === menu.idMenu ? 1 : 0;
     });
-    this.router.navigate([`${menu.url}`], {relativeTo: this.route});
+    this.menuStateService.setMenuActivo(menu.nombre);
+    this.router.navigate([`${menu.url}`], { relativeTo: this.route });
   }
-  
+
 }

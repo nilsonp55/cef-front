@@ -5,6 +5,7 @@ import { GENERALES } from '../../shared/constantes';
 import { VentanaEmergenteResponseComponent } from '../../shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MenuStateService } from 'src/app/_service/menu-state-service.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class ConciliacionCostosComponent implements OnInit {
   checkMenuLateral: boolean;
   menusConciliacionCostos: any[] = [];
 
-  constructor(private rolMenuService: RolMenuService, private dialog: MatDialog, private router: Router) { }
+  constructor(private rolMenuService: RolMenuService, private dialog: MatDialog, private router: Router, private menuStateService: MenuStateService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     throw new Error('Method not implemented.');
@@ -29,7 +30,7 @@ export class ConciliacionCostosComponent implements OnInit {
     this.rolMenuService.obtenerUsuarios({
       'idUsuario': atob(sessionStorage.getItem('user'))
     }).subscribe(data => {
-      if(data.data[0].estado === "1"){
+      if (data.data[0].estado === "1") {
         //Logica para capturar los menus para conciliacion-costos
         let rol = data.data[0].rol.idRol;
         this.rolMenuService.obtenerMenuRol({
@@ -78,6 +79,7 @@ export class ConciliacionCostosComponent implements OnInit {
           element.activo = 0
         }
       });
+      this.menuStateService.setMenuActivo(menu.nombre);
       this.router.navigate(["/conciliacion-costos/" + menu.url])
     }
   }

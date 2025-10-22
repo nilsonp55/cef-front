@@ -1,0 +1,10 @@
+<h3 mat-dialog-title>{{data.element.nombreArchivo}}</h3>
+<div style="overflow-x: scroll; overflow-y: scroll;">
+    <div *ngFor="let contenido of datosArchivo" class="custom-detail-dialog">
+        <p style="width: 320%;">{{contenido}}</p>
+    </div>
+</div>
+<mat-dialog-actions align="center">
+    <button color="primary" mat-raised-button class="button-custom" (click)="descargarArchivoCSV()">Descargar</button>
+    <button color="warn" class="button-custom" mat-raised-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

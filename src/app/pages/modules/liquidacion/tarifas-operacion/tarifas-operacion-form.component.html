@@ -115,6 +115,20 @@
       </select>
     </mat-form-field>
 
+    <mat-form-field appearance="fill">
+      <mat-label>Límite en la comisión a aplicar</mat-label>
+      <input type="number" matInput placeholder="Límite en la comisión a aplicar"
+        formControlName="limiteComisionAplicar" (keydown)="validateDecimalInput($event, 10, 6)"
+        (blur)="onDecimalBlur('valorTarifa', 10, 6)" placeholder="Máx. 10 enteros y 6 decimales" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Valor comisión adicional</mat-label>
+      <input type="number" matInput placeholder="Valor comisión adicional" formControlName="valorComisionAdicional"
+        (keydown)="validateDecimalInput($event, 10, 6)" (blur)="onDecimalBlur('valorTarifa', 10, 6)"
+        placeholder="Máx. 10 enteros y 6 decimales" required>
+    </mat-form-field>
+
     <div class="container-estado">
       <p>Estado</p>
       <label class="switch">

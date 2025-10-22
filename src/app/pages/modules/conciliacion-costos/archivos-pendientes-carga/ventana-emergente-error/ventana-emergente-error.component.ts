@@ -33,7 +33,7 @@ export class VentanaEmergenteErrorComponent implements OnInit {
   consultarDetalleError() {
     this.modalProcesoEjecucion()
     this.opConciliacionCostosService.obtenerArchivoDetalleErrorProcesar({
-      idArchivoCargado: this.data.msn.idArchivoDB
+      idArchivoCargado: this.data?.msn?.idArchivoDB ?? this.data?.msn?.idArchivodb
     }).subscribe({
       next: (response: any) => {
         let campos = []
@@ -83,7 +83,7 @@ export class VentanaEmergenteErrorComponent implements OnInit {
   descargarArchivo() {
     this.modalProcesoEjecucion()
     this.opConciliacionCostosService.descargarArchivoError({
-      idArchivo: this.data.msn.idArchivoDB
+      idArchivo: this.data?.msn?.idArchivoDB ?? this.data?.msn?.idArchivodb
     }).subscribe({
       next: (response: any) => {
         const blob = new Blob([response.body], { type: 'application/octet-stream' });
