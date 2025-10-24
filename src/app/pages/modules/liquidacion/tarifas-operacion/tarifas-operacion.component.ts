@@ -22,6 +22,7 @@ export class TarifasOperacionComponent implements OnInit {
   displayedColumnsTiposCuentas: string[] = ['banco', 'tdv', 'tipoPunto', 'tOperacion', 'tServicio', 'escala', 'comisionAplicar', 'billetes', 'monedas', 'fajado', 'valorTarifa', 'estado', 'acciones'];
   mostrarFormulario = false;
   mostrarTabla = true;
+  isLoadingDesplegables = true;
   esEdicion: boolean;
   tipoServicio: any;
   bancos: any[] = [];
@@ -58,7 +59,9 @@ export class TarifasOperacionComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     ManejoFechaToken.manejoFechaToken();
-    await this.iniciarDesplegables();
+    await this.iniciarDesplegables().then(()=>{
+      this.isLoadingDesplegables = false;
+    });
     this.listarTarifaOperacion();
   }
 

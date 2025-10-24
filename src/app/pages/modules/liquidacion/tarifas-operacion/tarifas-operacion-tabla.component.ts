@@ -22,11 +22,12 @@ export class TarifasOperacionTablaComponent implements OnInit {
   @Input() tipoServicios: any[] = [];
   @Input() escalas: any[] = [];
   @Input() comisionesAplicar: any[] = [];
+  @Input() isLoadingDesplegables: Boolean = true;
 
   @Output() editarRegistro = new EventEmitter<any>();
 
   dataSourceTiposCuentas: MatTableDataSource<any>;
-  displayedColumnsTiposCuentas: string[] = ['banco', 'tdv', 'tipoServicio', 'tipoServicio', 'escala', 'tipoPunto', 'comisionAplicar', 'valorTarifa', 'fechaVigenciaFin', 'acciones'];
+  displayedColumnsTiposCuentas: string[] = ['banco', 'tdv', 'tipoServicio', 'escala', 'tipoPunto', 'comisionAplicar', 'valorTarifa', 'fechaVigenciaFin', 'acciones'];
   habilitarBTN: boolean = false;
   cantidadRegistros: number = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
