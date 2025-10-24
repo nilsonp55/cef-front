@@ -249,7 +249,7 @@ export const URLs = {
   CARGUE_ARCHIVO_ELIMINAR: '/eliminar',
   CARGUE_ARCHIVO_REABRIR: '/reabrir',
   CONSULTAR_X_AGRUPADOR: '/consultar-agrupador',
-  CARGUE_ID_ARCHIVO_DESCARGAR: '/descargar-idArchivo',
+  CARGUE_ID_ARCHIVO_DESCARGAR: '/descargar-idarchivo',
 
   //Programacion preliminar
   PROGRAMACION_PRELIMINAR: '/cargue-preliminar',

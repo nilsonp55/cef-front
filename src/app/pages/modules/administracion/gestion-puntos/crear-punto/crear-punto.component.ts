@@ -96,13 +96,13 @@ export class CrearPuntoComponent implements OnInit {
   }
 
   async initForm(param?: any) {
-    console.log(param)
     let valCodigoOficina: any;
     let valTarifaRuteo: any;
     let valTarifaVerificacion: any;
     let valBancoAval: any;
     let valFajado: any;
-    let refajillado: any;
+    let valRefajillado: any;
+    let valProgramaTransporte: any;
 
     this.puntoSeleccionado = param ? param?.tipoPunto : null;
 
@@ -117,7 +117,8 @@ export class CrearPuntoComponent implements OnInit {
       valTarifaRuteo = param.oficinas?.tarifaRuteo;
       valTarifaVerificacion = param.oficinas?.tarifaVerificacion;
       valFajado = param.oficinas?.fajado;
-      refajillado = param.oficinas?.refajillado;
+      valRefajillado = param.oficinas?.refajillado;
+      valProgramaTransporte = param.oficinas.programaTransporte;
     }
 
     if (param?.tipoPunto === 'FONDO') {
@@ -148,11 +149,10 @@ export class CrearPuntoComponent implements OnInit {
       'identificacion': new FormControl(param ? param.bancos?.numeroNit : null),
       'abreviatura': new FormControl(param ? param.bancos?.abreviatura : null),
       'fajado': new FormControl(param ? valFajado : null),
-      'refajillado': new FormControl(param ? refajillado : null),
-      'esAval': new FormControl(param ? param.esAVAL : null),
+      'refajillado': new FormControl(param ? valRefajillado : null),
       'estado': new FormControl(param ? param.estado === "1" : true),
-      'programaTransporte': new FormControl(param ? param.oficinas.
-        programaTransporte : true),
+      'programaTransporte': new FormControl(param ? valProgramaTransporte : true),
+      'esAval': new FormControl(param ? param.bancos?.esAVAL : null),
     });
 
     if (param) {
@@ -163,7 +163,6 @@ export class CrearPuntoComponent implements OnInit {
   persistir() {
     this.spinnerActive = true;
     this.modalProcesoEjecucion();
-    console.log(this.form.value['programaTransporte'])
     let cliente = {
       codigoPunto: this.dataElement?.codigoPunto,
       tipoPunto: this.puntoSeleccionado,
@@ -188,7 +187,6 @@ export class CrearPuntoComponent implements OnInit {
       esAVAL: this.puntoSeleccionado === 'BANCO' ? this.form.value['esAval'] : this.form.value['bancoAval']?.esAVAL,
       programaTransporte: this.form.get('programaTransporte')?.value,
     };
-    console.log(cliente)
     let messagePersistirSuccesful = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.SUCCESFULL_CREATE;
     let messagePersistirError = GENERALES.MESSAGE_ALERT.MESSAGE_CRUD.ERROR_CREATE;
 
@@ -370,7 +368,6 @@ export class CrearPuntoComponent implements OnInit {
     return this.clientesService.listarClientesCorporativos(param).pipe(
       map(response => response.data.content),
       catchError(error => {
-        console.error('Error filtrando clientes: ', error);
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {

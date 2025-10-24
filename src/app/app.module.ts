@@ -184,7 +184,7 @@ import { TarifasEspecialesComponent } from './pages/modules/liquidacion/tarifas-
 import { AdicionarEditarTarifaEspecialComponent } from './pages/modules/liquidacion/tarifas-especiales/adicionar-editar-tarifa-especial/adicionar-editar-tarifa-especial.component';
 import { CargueMasivoTarifasEspecialesComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/cargue-masivo-tarifas-especiales.component';
 import { DetalleErrorModalComponent } from './pages/modules/administracion/cargue-masivo-tarifas-especiales/detalle-error-modal/detalle-error-modal.component';
-import localeEs from '@angular/common/locales/es';
+
 import { ConsultaLogsAdministrativosComponent } from './pages/modules/administracion/consulta-logs-administrativos/consulta-logs-administrativos.component';
 import { ConsultarLogsProcesosComponent } from './pages/modules/administracion/consultar-logs-procesos/consultar-logs-procesos.component';
 import { MenuHeaderInterceptor } from './_service/menu-header-interceptor ';

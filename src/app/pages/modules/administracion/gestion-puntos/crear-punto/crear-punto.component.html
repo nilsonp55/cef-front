@@ -109,7 +109,10 @@
       <label id="esaval-label">Es del Grupo Aval</label>
       <mat-checkbox formControlName="esAval" color="primary" aria-labelledby="esaval-label"></mat-checkbox>
     </div>
-
+    <div *ngIf="puntoSeleccionado === 'CLIENTE' || puntoSeleccionado === 'OFICINA'" class="checkbox-container">
+      <label id="fajado-label">Fajado</label>
+      <mat-checkbox formControlName="fajado" color="primary" aria-labelledby="fajado-label"></mat-checkbox>
+    </div>
     <div class="container-estado" *ngIf="puntoSeleccionado=='OFICINA'">
       <p>Programa Transporte</p>
       <label class="switch">
@@ -119,16 +122,6 @@
       </label>
     </div>
 
-    <div class="div-division" *ngIf="puntoSeleccionado=='BANCO'">
-      <div class="ubica">
-        <h2>Codigo de compensación</h2>
-      </div>
-      <div class="example-container">
-        <mat-form-field appearance="fill">
-          <input formControlName="codigoCompensacion" matInput #input>
-        </mat-form-field>
-      </div>
-    </div>
     <div *ngIf="puntoSeleccionado === 'OFICINA'" class="checkbox-container">
       <label id="refajillado-label">Refajillado</label>
       <mat-checkbox formControlName="refajillado" color="primary" aria-labelledby="refajillado-label"></mat-checkbox>
