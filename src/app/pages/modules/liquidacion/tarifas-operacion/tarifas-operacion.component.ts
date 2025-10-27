@@ -61,40 +61,6 @@ export class TarifasOperacionComponent implements OnInit {
     ManejoFechaToken.manejoFechaToken();
     await this.iniciarDesplegables().then(()=>{
       this.isLoadingDesplegables = false;
-      this.listarTarifaOperacion();
-    });
-  }
-
-  /**
-   * Lista los Cuentas puc
-   * @BayronPerez
-   */
-  listarTarifaOperacion(pagina = 0, tamanio = 5) {
-    this.tarifasOperacionService.consultarTarifasOperacion({
-      page: pagina,
-      size: tamanio,
-      'banco.codigoPunto': this.filtroBancoSelect == undefined ? '' : this.filtroBancoSelect.codigoPunto,
-      'transportadora.codigo': this.filtroTransportaSelect == undefined ? '' : this.filtroTransportaSelect.codigo,
-      'tipoOperacion': this.filtroTipOperacionSelect == undefined ? '' : this.filtroTipOperacionSelect,
-      'escala': this.filtroEscalaSelect == undefined ? '' : this.filtroEscalaSelect,
-      'tipoServicio': this.filtroTipoServicioSelect == undefined ? '' : this.filtroTipoServicioSelect
-    }).subscribe({
-      next: (page: any) => {
-        this.dataSourceTiposCuentas = new MatTableDataSource(page.data.content);
-        this.dataSourceTiposCuentas.sort = this.sort;
-        this.cantidadRegistros = page.data.totalElements;
-      },
-      error: (err: ErrorResponse) => {
-        this.dialog.open(VentanaEmergenteResponseComponent, {
-          width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
-          data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_ADMIN_CUNTAS_PUC.ERROR_GET_TIPO_ADMIN_CUNTAS_PUC,
-            codigo: GENERALES.CODE_EMERGENT.ERROR,
-            showResume: true,
-            msgDetalles: JSON.stringify(err.response)
-          }
-        });
-      }
     });
   }
 
@@ -133,7 +99,6 @@ export class TarifasOperacionComponent implements OnInit {
       fechaCreacion: new Date()
     };
     if (this.comparaFechas(form.value['fechaVigenciaIni'], form.value['fechaVigenciaFin'])) {
-      debugger
       if (this.esEdicion) {
         this.tarifasOperacionService.actualizarTarifasOperacion(tarifa).subscribe({
           next: response => {
@@ -146,7 +111,6 @@ export class TarifasOperacionComponent implements OnInit {
                 msgDetalles: JSON.stringify(response.response)
               }
             });
-            this.listarTarifaOperacion();
             this.cerrarFormulario();
           },
           error: (err: any) => {
@@ -174,7 +138,6 @@ export class TarifasOperacionComponent implements OnInit {
                 msgDetalles: JSON.stringify(response.response)
               }
             });
-            this.listarTarifaOperacion();
             this.cerrarFormulario();
           },
           error: (err: ErrorResponse) => {
@@ -261,10 +224,6 @@ export class TarifasOperacionComponent implements OnInit {
     this.mostrarTabla = false;
   }
 
-  mostrarMas(e: any) {
-    this.listarTarifaOperacion(e.pageIndex, e.pageSize);
-  }
-
   comparaFechas(fInicial: any, fFinal: any): boolean {
     return this.convertirADate(fInicial)  < this.convertirADate(fFinal);
   }
@@ -277,13 +236,6 @@ export class TarifasOperacionComponent implements OnInit {
       return new Date(fecha)
     }
     return fecha;
-  }
-
-  filtrar(event) {
-    this.filtroBancoSelect;
-    this.filtroTransportaSelect;
-    this.filtroTipOperacionSelect;
-    this.listarTarifaOperacion();
   }
 
   abrirFormulario(registro) {

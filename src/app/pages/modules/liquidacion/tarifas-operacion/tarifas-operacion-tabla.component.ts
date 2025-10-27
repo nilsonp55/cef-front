@@ -49,11 +49,11 @@ export class TarifasOperacionTablaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.spinnerActive = true;
     this.listarTarifaOperacion();
   }
 
   listarTarifaOperacion(pagina = 0, tamanio = 10) {
+    this.spinnerActive = true;
     this.paginaActual = pagina;
     this.tamanoActual = tamanio;
     this.tarifasOperacionService.consultarTarifasOperacion({
