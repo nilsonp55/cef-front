@@ -61,8 +61,8 @@ export class TarifasOperacionComponent implements OnInit {
     ManejoFechaToken.manejoFechaToken();
     await this.iniciarDesplegables().then(()=>{
       this.isLoadingDesplegables = false;
+      this.listarTarifaOperacion();
     });
-    this.listarTarifaOperacion();
   }
 
   /**
