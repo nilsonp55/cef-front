@@ -22,7 +22,7 @@ export class TarifasOperacionTablaComponent implements OnInit {
   @Input() tipoServicios: any[] = [];
   @Input() escalas: any[] = [];
   @Input() comisionesAplicar: any[] = [];
-  @Input() isLoadingDesplegables: Boolean = true;
+  @Input() isLoadingDesplegables: boolean = true;
 
   @Output() editarRegistro = new EventEmitter<any>();
 
