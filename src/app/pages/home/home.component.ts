@@ -59,15 +59,15 @@ export class HomeComponent implements OnInit {
       usuario: _userName,
       fechaIngreso: new Date()
     }
-    lastValueFrom(this.auditoriaService.guardarAuditoria(auditoriaLoginDTO)).then((response) => {
-      console.debug("guardarAuditoria: " + response);
-    });
 
     sessionStorage.setItem('token', btoa(tokenOficial));
     sessionStorage.setItem('user', btoa(_userName));
     sessionStorage.setItem('time_token_exp', this.tokenExpira);
     ManejoFechaToken.manejoFechaToken();
 
+    lastValueFrom(this.auditoriaService.guardarAuditoria(auditoriaLoginDTO)).then((response) => {
+      console.debug("guardarAuditoria: " + response);
+    });
   }
 
   capturaTokenSinADD() {
