@@ -99,7 +99,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
             this.listarArchivosCargados();
             Swal.close();
             this.dialog.open(DialogResultValidacionComponent, {
-              width: '90%', height: '80%', data: { id: archivo.idModeloArchivo, data },
+              width: '90%', height: 'auto', maxHeight: '80%', data: { id: archivo.idModeloArchivo, data },
             });
           },
           error: (err: any) => {
