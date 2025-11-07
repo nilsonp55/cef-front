@@ -12,6 +12,6 @@ export const environment = {
 
   //feature-flag
   featureFlag: {
-    conciliacionCostos: false, // habilita modulo en menu principal
+    conciliacionCostos: true, // habilita modulo en menu principal
   }
 };
