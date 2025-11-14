@@ -28,38 +28,6 @@
         {{txtEstado | uppercase}}</span>
 
     <form [formGroup]="form" class="tarifa-form">
-
-        <div class="dates-row">
-            <div class="date-inline">
-                <label class="date-label">Fecha Inicio Vigencia:</label>
-                <mat-form-field appearance="outline">
-                    <mat-label>DD/MM/AAAA</mat-label>
-                    <input matInput [matDatepicker]="picker1" formControlName="fechaInicio" style="height: 10px;"
-                        [disabled]="form.get('fechaInicio')?.disabled">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                    <mat-error
-                        *ngIf="form.get('fechaInicio')?.hasError('required') && form.get('fechaInicio')?.touched">
-                        Campo Obligatorio
-                    </mat-error>
-                </mat-form-field>
-            </div>
-
-            <div class="date-inline">
-                <label class="date-label">Fecha Fin Vigencia:</label>
-                <mat-form-field appearance="outline">
-                    <mat-label>DD/MM/AAAA</mat-label>
-                    <input matInput [matDatepicker]="picker2" formControlName="fechaFin"
-                        [disabled]="form.get('fechaFin')?.disabled" style="height: 10px;">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                    <mat-error *ngIf="form.get('fechaFin')?.hasError('required') && form.get('fechaFin')?.touched">
-                        Campo Obligatorio
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-
         <!-- Sección de 3 columnas -->
         <div class="form-grid-3">
             <mat-form-field appearance="outline">
@@ -79,6 +47,7 @@
                 <mat-label>Ciudad</mat-label>
                 <mat-select formControlName="ciudad" [disabled]="form.get('ciudad')?.disabled"
                     (selectionChange)="onCiudadChange($event.value)">
+                    <mat-option [value]="null">Seleccionar</mat-option>
                     <mat-option *ngFor="let c of ciudadesList" [value]="c">
                         {{ c.codigoNombreCiudad }}
                     </mat-option>
@@ -91,6 +60,7 @@
             <mat-form-field appearance="outline">
                 <mat-label>Punto</mat-label>
                 <mat-select formControlName="punto" [disabled]="form.get('punto')?.disabled">
+                    <mat-option [value]="null">Seleccionar</mat-option>
                     <mat-option *ngFor="let p of puntosFiltrados" [value]="p">
                         {{ p.nombrePunto }}
                     </mat-option>
@@ -127,7 +97,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-                <mat-label>Valor Tarifa</mat-label>
+                <mat-label>Tarifa</mat-label>
                 <input matInput type="text" style="height: 10px;" formControlName="valorTarifa"
                     [disabled]="form.get('valorTarifa')?.disabled" (keydown)="validateDecimalInput($event, 10, 6)"
                     (blur)="onDecimalBlur('valorTarifa', 10, 6)" placeholder="Máx. 10 enteros y 6 decimales">
@@ -170,8 +140,9 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Límite Comisión Aplicar</mat-label>
-                <input matInput type="text" style="height: 10px;" formControlName="limiteComision"
-                    [disabled]="form.get('limiteComision')?.disabled">
+                <input matInput type="number" formControlName="limiteComision" min="0" step="any" style="height: 10px;"
+                    [disabled]="form.get('limiteComision')?.disabled"
+                    onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -194,17 +165,17 @@
 
             <div class="checkbox-row">
                 <mat-checkbox formControlName="billetes" [disabled]="form.get('billetes')?.disabled">
-                    Billetes
+                    Billetes <span style="color: red;">*</span>
                 </mat-checkbox>
             </div>
             <div class="checkbox-row">
                 <mat-checkbox formControlName="monedas" [disabled]="form.get('monedas')?.disabled">
-                    Monedas
+                    Monedas <span style="color: red;">*</span>
                 </mat-checkbox>
             </div>
             <div class="checkbox-row">
                 <mat-checkbox formControlName="fajado" [disabled]="form.get('fajado')?.disabled">
-                    Fajado
+                    Fajado <span style="color: red;">*</span>
                 </mat-checkbox>
             </div>
             <mat-error style="padding: 10px 10px 10px 25px;"
@@ -212,13 +183,44 @@
                 Campo Obligatorio
             </mat-error>
         </div>
+
+        <div class="dates-row">
+            <div class="date-inline">
+                <label class="date-label">Fecha Inicio Vigencia:</label>
+                <mat-form-field appearance="outline">
+                    <mat-label>DD/MM/AAAA</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="fechaInicio" style="height: 10px;"
+                        [disabled]="form.get('fechaInicio')?.disabled">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error
+                        *ngIf="form.get('fechaInicio')?.hasError('required') && form.get('fechaInicio')?.touched">
+                        Campo Obligatorio
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="date-inline">
+                <label class="date-label">Fecha Fin Vigencia:</label>
+                <mat-form-field appearance="outline">
+                    <mat-label>DD/MM/AAAA</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="fechaFin"
+                        [disabled]="form.get('fechaFin')?.disabled" style="height: 10px;">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error *ngIf="form.get('fechaFin')?.hasError('required') && form.get('fechaFin')?.touched">
+                        Campo Obligatorio
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
     </form>
 
 
 </div>
 <div mat-dialog-actions align="end">
     <div class="btn-container">
-        <button mat-raised-button color="primary" (click)="guardarTarifaEspecial()">{{txtEstado}}</button>
+        <button mat-raised-button color="primary" (click)="guardarTarifaEspecial()">Guardar</button>
         <button mat-stroked-button (click)="closeModal()">Cancelar</button>
     </div>
 </div>

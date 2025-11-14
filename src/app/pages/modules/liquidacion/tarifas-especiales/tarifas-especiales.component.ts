@@ -309,7 +309,9 @@ export class TarifasEspecialesComponent implements OnInit {
     this.tipoOperacionSelect = null;
     this.tipoComisionSelect = null;
     this.dataSourceTarifasEspeciales = new MatTableDataSource
-    this.buscar = false
+    this.buscar = false;
+    this.btnAdicionar = false;
+    this.btnExportar = false;
   }
 
   validarBuscar(event) {
@@ -512,7 +514,7 @@ export class TarifasEspecialesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
         this.buscarCliente()
-      } 
+      }
     });
   }
 

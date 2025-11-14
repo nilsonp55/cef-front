@@ -44,8 +44,8 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
       fechaInicio: [null, Validators.required],
       fechaFin: [null, Validators.required],
       transportadora: ['', Validators.required],
-      ciudad: ['', Validators.required],
-      punto: ['', Validators.required],
+      ciudad: [null, Validators.required],
+      punto: [null, Validators.required],
       tipoOperacion: ['', Validators.required],
       tipoComision: ['', Validators.required],
       valorTarifa: ['', [Validators.required, Validators.pattern(/^\d{1,10}(\.\d{1,6})?$/)]],
@@ -65,10 +65,7 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     if (this.data.flag === 1) {
-      this.txtEstado = 'Editar'
       this.aplicarReglasEdicion(this.data.dataEditar.reglaEdicion)
-    } else {
-      this.txtEstado = 'Adicionar'
     }
     this.form.get('tipoOperacion')?.valueChanges.subscribe(async (valor) => {
       await this.onTipoOperacionChange(valor);
@@ -146,35 +143,51 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
   }
 
   onCiudadChange(nombreCiudad: any) {
-    if (nombreCiudad.codigoNombreCiudad === 'TODAS') {
+    if (nombreCiudad?.codigoNombreCiudad === 'TODAS') {
       this.puntosFiltrados = [{ nombrePunto: 'TODOS' }];
       this.form.get('punto')?.setValue(this.puntosFiltrados[0]);
       this.form.get('punto')?.disable();
       return this.puntosFiltrados;
     } else {
-      this.puntosFiltrados = [
-        { nombrePunto: 'TODOS' },
-        ...this.puntosList.filter(
-          punto => punto.codigoNombreCiudad === nombreCiudad.codigoNombreCiudad
-        )
-      ];
-      this.puntosFiltrados = Array.from(
-        new Map(this.puntosFiltrados.map(item => [item.nombrePunto, item])).values()
-      );
-      if (this.data.flag === 1) {
-        this.form.get('punto')?.disable();
+      if (nombreCiudad) {
+        this.puntosFiltrados = [
+          { nombrePunto: 'TODOS' },
+          ...this.puntosList.filter(
+            punto => punto.codigoNombreCiudad === nombreCiudad.codigoNombreCiudad
+          )
+        ];
+        this.puntosFiltrados = Array.from(
+          new Map(this.puntosFiltrados.map(item => [item.nombrePunto, item])).values()
+        );
+        this.puntosFiltrados = this.puntosFiltrados.sort((a, b) => {
+          if (a.nombrePunto === 'TODOS') return -1;
+          if (b.nombrePunto === 'TODOS') return 1;
+          return a.nombrePunto.localeCompare(b.nombrePunto);
+        });
+        if (this.data.flag === 1) {
+          this.form.get('punto')?.disable();
+        } else {
+          this.form.get('punto')?.enable();
+        }
+        this.form.get('punto')?.reset();
+        return this.puntosFiltrados;
       } else {
-        this.form.get('punto')?.enable();
+        return this.puntosFiltrados = [];
       }
-      this.form.get('punto')?.reset();
-      return this.puntosFiltrados;
     }
   }
 
 
   onTipoComisionChange(tipoComision: any) {
-    this.form.get('unidadCobro')?.setValue(3200);
-    this.form.get('unidadCobro')?.disable();
+    this.tarifasEspecialesService.consultarUnidaCobro(tipoComision).subscribe({
+      next: (resp) => {
+        this.form.get('unidadCobro')?.setValue(resp?.data || '');
+        this.form.get('unidadCobro')?.disable();
+      },
+      error: (err) => {
+        console.error('Error al consultar unidad de cobro:', err);
+      }
+    });
   }
 
 
@@ -285,7 +298,7 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
       codigoTdv: this.data.flag === 1 ? this.data.dataEditar.codigoTdv : payload.transportadora.codigo,
       codigoCliente: this.data.flag === 1 ? this.data.dataEditar.codigoCliente : this.data.idCliente,
       codigoDane: payload.punto?.codigoDane ?? null,
-      codigoPunto: this.data.flag === 1 ? this.data.dataEditar.codigoPunto : payload.punto.codigoPunto,
+      codigoPunto: this.data.flag === 1 ? this.data.dataEditar.codigoPunto : payload.punto.codigoPunto ?? null,
       tipoOperacion: payload.tipoOperacion,
       tipoServicio: payload.tipoServicio,
       tipoComision: payload.tipoComision,
@@ -318,7 +331,8 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
             next: () => {
               Swal.fire({
                 icon: 'success',
-                text: 'Registro editado correctamente'
+                text: 'Registro editado correctamente',
+                confirmButtonText: 'Aceptar',
               }).then(result => {
                 this.dialogRef.close(this.form.value);
               });
@@ -349,7 +363,8 @@ export class AdicionarEditarTarifaEspecialComponent implements OnInit {
             next: () => {
               Swal.fire({
                 icon: 'success',
-                text: 'Tarifa creada exitosamente'
+                text: 'Tarifa creada exitosamente',
+                confirmButtonText: 'Aceptar',
               }).then(result => {
                 this.dialogRef.close(this.form.value);
               });
