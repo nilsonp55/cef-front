@@ -137,7 +137,7 @@ export class CargueMasivoTarifasEspecialesComponent implements OnInit {
           });
           lista += "</ul>";
 
-          errorMsg = `<p>${titulo}</p>${lista}<br><b>¿Desea permitir registros duplicados?</b>`;
+          errorMsg = `<p>${titulo}</p>${lista}<br><b>¿Desea reemplazar los registros duplicados?</b>`;
         }
 
         Swal.close();

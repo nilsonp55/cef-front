@@ -62,6 +62,18 @@ export class FormClientesCorpComponent implements OnInit {
           param.row != null ? param.row.aplicaTarifaEspecial : false
         ),
       });
+      if (!this.form.get('amparado')?.value) {
+        this.form.get('aplicaTarifaEspecial')?.disable();
+      }
+      
+      this.form.get('amparado')?.valueChanges.subscribe((value) => {
+        if (!value) {
+          this.form.get('aplicaTarifaEspecial')?.disable();
+          this.form.get('aplicaTarifaEspecial')?.setValue(false); // opcional
+        } else {
+          this.form.get('aplicaTarifaEspecial')?.enable();
+        }
+      });
     }
   }
 

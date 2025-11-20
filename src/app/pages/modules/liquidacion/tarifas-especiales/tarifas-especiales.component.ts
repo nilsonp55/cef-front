@@ -118,7 +118,9 @@ export class TarifasEspecialesComponent implements OnInit {
   async iniciarDesplegables() {
 
     const _bancos = await this.generalesService.listarBancosAval().toPromise();
-    this.bancos = _bancos.data;
+    this.bancos = _bancos.data.sort((a, b) =>
+      a.nombreBanco.localeCompare(b.nombreBanco)
+    );
 
     const _tipoDocumentos = await await this.generalesService.listarDominioByDominio({
       'dominio': "TIPO_DOCUMENTO"
