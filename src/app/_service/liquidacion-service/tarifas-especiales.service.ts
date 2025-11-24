@@ -83,4 +83,10 @@ export class TarifasEspecialesService {
         return this.http.put<any>(`${this.url}${URLs.TARIFAS_ESPECIALES_ACTUALIZAR}`, param, { headers });
     }
 
+
+    consultarUnidaCobro(param) {
+        const headers = { 'Authorization': 'Bearer ' + atob(sessionStorage.getItem('token')) }
+        return this.http.get<any>(`${this.url}/unidad-cobro?tipoComision=${param}`, { headers });
+    }
+
 }

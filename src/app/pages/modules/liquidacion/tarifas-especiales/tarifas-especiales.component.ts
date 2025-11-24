@@ -118,7 +118,9 @@ export class TarifasEspecialesComponent implements OnInit {
   async iniciarDesplegables() {
 
     const _bancos = await this.generalesService.listarBancosAval().toPromise();
-    this.bancos = _bancos.data;
+    this.bancos = _bancos.data.sort((a, b) =>
+      a.nombreBanco.localeCompare(b.nombreBanco)
+    );
 
     const _tipoDocumentos = await await this.generalesService.listarDominioByDominio({
       'dominio': "TIPO_DOCUMENTO"
@@ -309,7 +311,9 @@ export class TarifasEspecialesComponent implements OnInit {
     this.tipoOperacionSelect = null;
     this.tipoComisionSelect = null;
     this.dataSourceTarifasEspeciales = new MatTableDataSource
-    this.buscar = false
+    this.buscar = false;
+    this.btnAdicionar = false;
+    this.btnExportar = false;
   }
 
   validarBuscar(event) {
@@ -512,7 +516,7 @@ export class TarifasEspecialesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
         this.buscarCliente()
-      } 
+      }
     });
   }
 

@@ -38,6 +38,7 @@ export class ClientesCorporativosComponent implements OnInit {
     'identificacion',
     'tarifaSeparacion',
     'amparado',
+    'aplicaTarifaEspecial',
     'acciones',
   ];
   bancos: any[] = [];
@@ -128,7 +129,7 @@ export class ClientesCorporativosComponent implements OnInit {
     this.listarClientesCorporativos(e.pageIndex, e.pageSize);
   }
 
-  limpiar(){
+  limpiar() {
     this.pCodigoBanco = null
     this.pBusqueda = null;
   }

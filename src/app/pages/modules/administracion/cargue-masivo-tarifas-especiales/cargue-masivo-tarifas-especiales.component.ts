@@ -57,13 +57,21 @@ export class CargueMasivoTarifasEspecialesComponent implements OnInit {
   }
 
   visualizar(element: any) {
+
+    const elementModificado = { ...element };
+
+    if (elementModificado.fechaArchivo) {
+      elementModificado.fechaArchivo = this.convertirFecha(elementModificado.fechaArchivo);
+    }
+
     const dialogRef = this.dialog.open(DetalleErrorModalComponent, {
       width: '1000px',
       maxHeight: "90vh",
       data: {
-        element
+        element: elementModificado
       }
     });
+
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
         console.log('Guardó cambios', resultado);
@@ -72,6 +80,7 @@ export class CargueMasivoTarifasEspecialesComponent implements OnInit {
       }
     });
   }
+
 
   validarBuscar(event) {
     if (this.cargueMasivoSelect) {
@@ -128,7 +137,7 @@ export class CargueMasivoTarifasEspecialesComponent implements OnInit {
           });
           lista += "</ul>";
 
-          errorMsg = `<p>${titulo}</p>${lista}<br><b>¿Desea permitir registros duplicados?</b>`;
+          errorMsg = `<p>${titulo}</p>${lista}<br><b>¿Desea reemplazar los registros duplicados?</b>`;
         }
 
         Swal.close();
@@ -163,7 +172,7 @@ export class CargueMasivoTarifasEspecialesComponent implements OnInit {
           validacionArchivo: [
             {
               idArchivo: event.idArchivo,
-              fechaArchivo: event.fechaArchivo,
+              fechaArchivo: (([d, m, y]) => `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}T00:00:00.000+00:00`)(event.fechaArchivo.split('/')),
               estado: event.estado,
               fechaTransferencia: event.fechaTransferencia,
               url: event.url,
@@ -243,6 +252,12 @@ export class CargueMasivoTarifasEspecialesComponent implements OnInit {
           }
         }); setTimeout(() => { alert.close() }, 3500);
       })
+  }
+
+  private convertirFecha(fecha: string): string {
+    const [d, m, y] = fecha.split('/');
+
+    return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}T00:00:00.000+00:00`;
   }
 
 }
