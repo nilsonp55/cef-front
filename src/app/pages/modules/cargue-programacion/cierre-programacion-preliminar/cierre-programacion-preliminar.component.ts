@@ -88,7 +88,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
    * @BaironPerez
    */
   ejecutar() {
-    this.modalProcesoEjecucion()
+    this.modalProcesoEjecucion();
     this.operacionesProgramadasService.procesar({
       'agrupador': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS_IPP
     }).subscribe({ next: data => {
@@ -131,10 +131,12 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
    * @BaironPerez
    */
   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
+    this.modalProcesoEjecucion();
     this.cargueProgramacionPreliminarService.reabrirArchivo({
       'agrupador': "IPP",
     }).subscribe({next: item => {
         this.listarProcesos();
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
@@ -146,6 +148,7 @@ export class CierreProgramacionPreliminarComponent implements OnInit {
         });
       },
       error: (err: any) => {
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {

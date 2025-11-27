@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ArchivoCargadoModel } from 'src/app/_model/cargue-preliminar-model/archivo-cargado.model';
 import { ValidacionArchivo } from 'src/app/_model/cargue-preliminar-model/validacion-archivo.model';
-import { SpinnerComponent } from 'src/app/pages/shared/components/spinner/spinner.component';
 import { GENERALES } from 'src/app/pages/shared/constantes';
 import { VentanaEmergenteResponseComponent } from 'src/app/pages/shared/components/ventana-emergente-response/ventana-emergente-response.component';
 import { DialogValidarArchivoComponent } from 'src/app/pages/shared/components/program-preliminar/archivos-cargados/dialog-validar-archivo/dialog-validar-archivo.component';
@@ -24,6 +23,8 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  @Output() onArchivoProcesado = new EventEmitter<void>();
+
   //Registros paginados
   cantidadRegistros: number;
 
@@ -38,8 +39,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly cargueProgramacionDefinitivaService: CargueProgramacionDefinitivaService,
-    public spinnerComponent: SpinnerComponent
+    private readonly cargueProgramacionDefinitivaService: CargueProgramacionDefinitivaService
   ) { }
 
 
@@ -90,7 +90,6 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
     validateArchivo.afterClosed().subscribe(result => {
       if (result) {
         this.modalProcesoEjecucion();
-        this.spinnerComponent.dateToString(true);
         this.cargueProgramacionDefinitivaService.validarArchivo({
           'idMaestroDefinicion': archivo.idModeloArchivo,
           'nombreArchivo': archivo.nombreArchivo
@@ -99,7 +98,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
             this.listarArchivosCargados();
             Swal.close();
             this.dialog.open(DialogResultValidacionComponent, {
-              width: '90%', height: '80%', data: { id: archivo.idModeloArchivo, data },
+              width: '90%', height: 'auto', maxHeight: '80%', data: { id: archivo.idModeloArchivo, data },
             });
           },
           error: (err: any) => {
@@ -126,7 +125,6 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
   */
   procesarArchivo(archivo: any) {
     this.modalProcesoEjecucion();
-    this.spinnerComponent.dateToString(true);
     this.cargueProgramacionDefinitivaService.procesarArchivo({
       'idMaestroDefinicion': archivo.idModeloArchivo,
       'nombreArchivo': archivo.nombreArchivo
@@ -141,6 +139,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
             codigo: GENERALES.CODE_EMERGENT.SUCCESFULL
           }
         });
+        this.onArchivoProcesado.emit();
       },
       error: (err: any) => {
         Swal.close();
@@ -152,7 +151,7 @@ export class ArchivosCargadosDefinitivoComponent implements OnInit {
           }
         });
       }
-    })
+    });
   }
 
   confirmEliminar(nombreArchivo: string, idModeloArchivo: string) {
