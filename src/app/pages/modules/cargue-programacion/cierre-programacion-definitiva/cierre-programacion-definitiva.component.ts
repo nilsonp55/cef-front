@@ -189,22 +189,31 @@ export class CierreProgramacionDefinitivaComponent implements OnInit {
   * @BaironPerez
   */
   reabrirCargue(nombreArchivo: string, idModeloArchivo: string) {
+    this.modalProcesoEjecucion();
     this.cargueProgramacionPreliminarService.reabrirArchivo({
       'agrupador': "DEFIN",
     }).subscribe({
       next: item => {
         this.listarProcesos();
+        Swal.close();
+        let codigo = GENERALES.CODE_EMERGENT.SUCCESFULL;
+        let msn = GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE;
+        if(item?.data.includes("Error")){
+          codigo = GENERALES.CODE_EMERGENT.ERROR;
+          msn = GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.ERROR_REABRIR_CIERRE;
+        }
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {
-            msn: GENERALES.MESSAGE_ALERT.MESSAGE_CIERRE_PROG_DEFINITIVA.REABRIR_CIERRE,
-            codigo: GENERALES.CODE_EMERGENT.SUCCESFULL,
+            msn: msn,
+            codigo: codigo,
             showResume: true,
             msgDetalles: JSON.stringify(item.data),
           }
         });
       },
       error: (err: any) => {
+        Swal.close();
         this.dialog.open(VentanaEmergenteResponseComponent, {
           width: GENERALES.MESSAGE_ALERT.SIZE_WINDOWS_ALERT,
           data: {

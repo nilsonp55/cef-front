@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -11,7 +11,6 @@ import { ArchivoCargadoModel } from 'src/app/_model/cargue-preliminar-model/arch
 import { CargueProgramacionPreliminarService } from 'src/app/_service/programacion-preliminar-service/cargue-programacion-preliminar.service';
 import { ValidacionArchivo } from 'src/app/_model/cargue-preliminar-model/validacion-archivo.model';
 import { CargueArchivosService } from 'src/app/_service/cargue-archivos-service/cargue-archivo.service';
-import { SpinnerComponent } from '../../spinner/spinner.component';
 import { DialogVerArchivoComponent } from './dialog-ver-archivo/dialog-ver-archivo.component';
 import Swal from 'sweetalert2';
 
@@ -31,6 +30,8 @@ export class ArchivosCargadosComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  @Output() onArchivoProcesado = new EventEmitter<void>();
+
   //Registros paginados
   cantidadRegistros: number;
 
@@ -49,8 +50,7 @@ export class ArchivosCargadosComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
-    private cargueArchivosService: CargueArchivosService,
-    public spinnerComponent: SpinnerComponent
+    private cargueArchivosService: CargueArchivosService
   ) { }
 
 
@@ -103,7 +103,6 @@ export class ArchivosCargadosComponent implements OnInit {
     validateArchivo.afterClosed().subscribe(result => {
       if (result) {
         this.modalProcesoEjecucion();
-        this.spinnerComponent.dateToString(true);
         this.cargueProgramacionPreliminarService.validarArchivo({
           'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
           'nombreArchivo': archivo.nombreArchivo
@@ -139,7 +138,6 @@ export class ArchivosCargadosComponent implements OnInit {
   */
   procesarArchivo(archivo: any) {
     this.modalProcesoEjecucion();
-    this.spinnerComponent.dateToString(true);
     this.cargueProgramacionPreliminarService.procesarArchivo({
       'idMaestroDefinicion': GENERALES.CARGUE_PRELIMINAR_PROGRAMACION_SERVICIOS,
       'nombreArchivo': archivo.nombreArchivo
@@ -156,6 +154,7 @@ export class ArchivosCargadosComponent implements OnInit {
             msgDetalle: JSON.stringify(data.data)
           }
         });
+        this.onArchivoProcesado.emit();
       },
       error: (err: any) => {
         Swal.close();
@@ -169,7 +168,7 @@ export class ArchivosCargadosComponent implements OnInit {
           }
         });
       }
-    })
+    });
   }
 
   confirmEliminar(nombreArchivo: string, idModeloArchivo: string) {

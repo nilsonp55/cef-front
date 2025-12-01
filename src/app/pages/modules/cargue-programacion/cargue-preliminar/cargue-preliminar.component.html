@@ -5,10 +5,12 @@
     <div class="mat-table-custom">
         <mat-tab-group (selectedIndexChange)="changeTab($event)">
             <mat-tab label="CARGUE PRELIMINAR">
-                <app-archivos-cargados></app-archivos-cargados>
+                <app-archivos-cargados
+                    (onArchivoProcesado)="recargarHistorico()">
+                </app-archivos-cargados>
             </mat-tab>
             <mat-tab label="HISTORIAL DE CARGUE">
-                <app-historico-archivos-cargados></app-historico-archivos-cargados>
+                <app-historico-archivos-cargados #historico></app-historico-archivos-cargados>
             </mat-tab>
         </mat-tab-group>
     </div>

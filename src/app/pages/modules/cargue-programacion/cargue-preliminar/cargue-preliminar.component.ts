@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { HistoricoArchivosCargadosComponent } from 'src/app/pages/shared/components/program-preliminar/historico-archivos-cargados/historico-archivos-cargados.component';
 
 @Component({
   selector: 'app-cargue-preliminar',
@@ -10,6 +11,8 @@ import { Component, OnInit } from '@angular/core';
  * @BaironPerez
 */
 export class CarguePreliminarComponent implements OnInit {
+
+  @ViewChild('historico') historico: HistoricoArchivosCargadosComponent;
 
   //Stepper
   isLinear = false;
@@ -23,5 +26,11 @@ export class CarguePreliminarComponent implements OnInit {
 
   changeTab(event: number){
     this.idTabSeleccionda = event;
+  }
+
+  recargarHistorico(){
+    if(this.historico){
+      this.historico.listarArchivosCargados();
+    }
   }
 }
