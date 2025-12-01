@@ -48,9 +48,9 @@ export class ArchivosCargadosComponent implements OnInit {
 
 
   constructor(
-    private dialog: MatDialog,
-    private cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
-    private cargueArchivosService: CargueArchivosService
+    private readonly dialog: MatDialog,
+    private readonly cargueProgramacionPreliminarService: CargueProgramacionPreliminarService,
+    private readonly cargueArchivosService: CargueArchivosService
   ) { }
 
 
